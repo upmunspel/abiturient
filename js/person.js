@@ -214,7 +214,7 @@ PSN.addZno = function(obj, url){
 PSN.appendZno= function(obj, link){
     var btn = $(obj);
     btn.button('loading'); // call the loading function
-    var fdata = $("#benefit-form-modal").serialize(); 
+    var fdata = $("#zno-form-modal").serialize(); 
     $.ajax({
     'url': link,
     'data': fdata,
@@ -222,11 +222,11 @@ PSN.appendZno= function(obj, link){
             var obj = jQuery.parseJSON(data);
             if (obj.result === "success") {
           
-               $("#benefitModal").modal("hide");
-               $("#benefits").html(obj.data);
+               $("#znoModal").modal("hide");
+               $("#znos").html(obj.data);
                
             } else {
-              $("#new-benefit").html(obj.data);  
+               $("#new-zno").html(obj.data);  
             }
             btn.button('reset'); 
         }
