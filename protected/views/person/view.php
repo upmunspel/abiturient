@@ -33,6 +33,7 @@ $this->menu=array(
                 -moz-border-radius: 4px;
                 border-radius: 4px;
                 padding:10px;">
+    <!--Шапка встапу-->
     <div style="margin-bottom: 10px;">
         
     <?php $this->widget('bootstrap.widgets.TbButtonGroup', array(
@@ -47,14 +48,12 @@ $this->menu=array(
         ),
     )); ?>  
     </div>
-    
-    <?php $this->widget('bootstrap.widgets.TbTabs', array(
-        'type'=>'tabs', // 'tabs' or 'pills'
-
-        'tabs'=>array(
-            array('label'=>'Пільги', 'content'=>$this->renderPartial("_benefits",array("models"=>$model->benefits, 'personid'=>$model->idPerson),true), 'active'=>true, 'id'=>"benefits"),
-        ),
-    )); ?>
+    <!--/Шапка встапу-->
+    <!--Вкладки-->
+    <div id="tab-holder">
+       <?php $this->renderPartial("tabs/_tabs",  array('model'=>$model)); ?>
+    </div>
+    <!--/Вкладки-->
     <hr>
        <?php $this->widget('bootstrap.widgets.TbButton', array(
                 'buttonType'=>'button',
@@ -67,4 +66,5 @@ $this->menu=array(
             ?>
     
 </div>
-<?php $this->renderPartial("_benefitModal",array());?>
+<?php $this->renderPartial("modals/_benefitModal",array());?>
+<?php $this->renderPartial("modals/_znoModal",array());?>

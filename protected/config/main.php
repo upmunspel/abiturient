@@ -85,7 +85,7 @@ return array(
                        // описание пакета catalog
                        'bootstrap-switch' => array(
                           'basePath'=>'ext.bootstrap-switch.static',
-                          'js'=>array('js/jquery.switch.js'),
+                          'js'=>array('js/bootstrapSwitch.js'),
                           'css'=>array('stylesheets/bootstrap-switch.css'),
                        ),
                    ),
