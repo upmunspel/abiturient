@@ -993,11 +993,11 @@ class ReptController extends Controller {
               'to_select' => $to_select,
               'db_field' => 'coursedp.CourseDPName',
           );
-          $widget_column = array('name' => 'NAME', 
+          $widget_column = array('name' => 'CourseDPName', 
             'header' => $header,
             'value' => 
             function ($data){
-              echo $data->coursedp->CourseDPName;
+              echo (!$data->coursedp)? "":$data->coursedp->CourseDPName;
             }
           );
           $field_num_index = ($to_select)? $field_num_indexes[$i]:0;
