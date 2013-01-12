@@ -11024,3 +11024,48 @@ Stack trace:
 #3 {main}
 REQUEST_URI=/favicon.ico
 ---
+2013/01/12 06:18:09 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Неможливо обробити запит "assets/lib/bootstrap/less/mixins.less".' in D:\Sites\home\localhost\www\abiturient\framework\web\CWebApplication.php:287
+Stack trace:
+#0 D:\Sites\home\localhost\www\abiturient\framework\web\CWebApplication.php(142): CWebApplication->runController('assets/lib/boot...')
+#1 D:\Sites\home\localhost\www\abiturient\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 D:\Sites\home\localhost\www\abiturient\index.php(12): CApplication->run()
+#3 {main}
+REQUEST_URI=/abiturient/assets/lib/bootstrap/less/mixins.less
+HTTP_REFERER=http://localhost/abiturient/
+---
+2013/01/12 06:18:12 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Неможливо обробити запит "assets/lib/bootstrap/less/mixins.less".' in D:\Sites\home\localhost\www\abiturient\framework\web\CWebApplication.php:287
+Stack trace:
+#0 D:\Sites\home\localhost\www\abiturient\framework\web\CWebApplication.php(142): CWebApplication->runController('assets/lib/boot...')
+#1 D:\Sites\home\localhost\www\abiturient\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 D:\Sites\home\localhost\www\abiturient\index.php(12): CApplication->run()
+#3 {main}
+REQUEST_URI=/abiturient/assets/lib/bootstrap/less/mixins.less
+HTTP_REFERER=http://localhost/abiturient/site/login
+---
+2013/01/12 06:18:17 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Неможливо обробити запит "assets/lib/bootstrap/less/mixins.less".' in D:\Sites\home\localhost\www\abiturient\framework\web\CWebApplication.php:287
+Stack trace:
+#0 D:\Sites\home\localhost\www\abiturient\framework\web\CWebApplication.php(142): CWebApplication->runController('assets/lib/boot...')
+#1 D:\Sites\home\localhost\www\abiturient\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 D:\Sites\home\localhost\www\abiturient\index.php(12): CApplication->run()
+#3 {main}
+REQUEST_URI=/abiturient/assets/lib/bootstrap/less/mixins.less
+HTTP_REFERER=http://localhost/abiturient/site/index
+---
+2013/01/12 06:18:18 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Неможливо обробити запит "assets/lib/bootstrap/less/mixins.less".' in D:\Sites\home\localhost\www\abiturient\framework\web\CWebApplication.php:287
+Stack trace:
+#0 D:\Sites\home\localhost\www\abiturient\framework\web\CWebApplication.php(142): CWebApplication->runController('assets/lib/boot...')
+#1 D:\Sites\home\localhost\www\abiturient\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 D:\Sites\home\localhost\www\abiturient\index.php(12): CApplication->run()
+#3 {main}
+REQUEST_URI=/abiturient/assets/lib/bootstrap/less/mixins.less
+HTTP_REFERER=http://localhost/abiturient/site/contact
+---
+2013/01/12 06:18:21 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Неможливо обробити запит "assets/lib/bootstrap/less/mixins.less".' in D:\Sites\home\localhost\www\abiturient\framework\web\CWebApplication.php:287
+Stack trace:
+#0 D:\Sites\home\localhost\www\abiturient\framework\web\CWebApplication.php(142): CWebApplication->runController('assets/lib/boot...')
+#1 D:\Sites\home\localhost\www\abiturient\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 D:\Sites\home\localhost\www\abiturient\index.php(12): CApplication->run()
+#3 {main}
+REQUEST_URI=/abiturient/assets/lib/bootstrap/less/mixins.less
+HTTP_REFERER=http://localhost/abiturient/site/login
+---
