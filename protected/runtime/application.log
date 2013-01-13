@@ -232,3 +232,70 @@ Stack trace:
 REQUEST_URI=/abiturient/assets/lib/bootstrap/less/mixins.less
 HTTP_REFERER=http://localhost/abiturient/person/update/2
 ---
+2013/01/13 06:13:39 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Неможливо обробити запит "assets/lib/bootstrap/less/mixins.less".' in D:\Sites\home\localhost\www\abiturient\framework\web\CWebApplication.php:287
+Stack trace:
+#0 D:\Sites\home\localhost\www\abiturient\framework\web\CWebApplication.php(142): CWebApplication->runController('assets/lib/boot...')
+#1 D:\Sites\home\localhost\www\abiturient\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 D:\Sites\home\localhost\www\abiturient\index.php(12): CApplication->run()
+#3 {main}
+REQUEST_URI=/abiturient/assets/lib/bootstrap/less/mixins.less
+HTTP_REFERER=http://localhost/abiturient/person/update/2
+---
+2013/01/13 08:54:37 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The requested page does not exist.' in D:\Sites\home\localhost\www\abiturient\protected\controllers\PersonController.php:161
+Stack trace:
+#0 D:\Sites\home\localhost\www\abiturient\protected\controllers\PersonController.php(89): PersonController->loadModel('2')
+#1 [internal function]: PersonController->actionUpdate('2')
+#2 D:\Sites\home\localhost\www\abiturient\framework\web\actions\CAction.php(107): ReflectionMethod->invokeArgs(Object(PersonController), Array)
+#3 D:\Sites\home\localhost\www\abiturient\framework\web\actions\CInlineAction.php(48): CAction->runWithParamsInternal(Object(PersonController), Object(ReflectionMethod), Array)
+#4 D:\Sites\home\localhost\www\abiturient\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#5 D:\Sites\home\localhost\www\abiturient\framework\web\filters\CFilterChain.php(134): CController->runAction(Object(CInlineAction))
+#6 D:\Sites\home\localhost\www\abiturient\framework\web\filters\CFilter.php(41): CFilterChain->run()
+#7 D:\Sites\home\localhost\www\abiturient\framework\web\CController.php(1146): CFilter->filter(Object(CFilterChain))
+#8 D:\Sites\home\localhost\www\abiturient\framework\web\filters\CInlineFilter.php(59): CController->filterAccessControl(Object(CFilterChain))
+#9 D:\Sites\home\localhost\www\abiturient\framework\web\filters\CFilterChain.php(131): CInlineFilter->filter(Object(CFilterChain))
+#10 D:\Sites\home\localhost\www\abiturient\framework\web\CController.php(292): CFilterChain->run()
+#11 D:\Sites\home\localhost\www\abiturient\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#12 D:\Sites\home\localhost\www\abiturient\framework\web\CWebApplication.php(283): CController->run('update')
+#13 D:\Sites\home\localhost\www\abiturient\framework\web\CWebApplication.php(142): CWebApplication->runController('person/update')
+#14 D:\Sites\home\localhost\www\abiturient\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#15 D:\Sites\home\localhost\www\abiturient\index.php(12): CApplication->run()
+#16 {main}
+REQUEST_URI=/abiturient/person/update/2
+HTTP_REFERER=http://localhost/abiturient/person/admin
+---
+2013/01/13 08:54:38 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Неможливо обробити запит "assets/lib/bootstrap/less/mixins.less".' in D:\Sites\home\localhost\www\abiturient\framework\web\CWebApplication.php:287
+Stack trace:
+#0 D:\Sites\home\localhost\www\abiturient\framework\web\CWebApplication.php(142): CWebApplication->runController('assets/lib/boot...')
+#1 D:\Sites\home\localhost\www\abiturient\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 D:\Sites\home\localhost\www\abiturient\index.php(12): CApplication->run()
+#3 {main}
+REQUEST_URI=/abiturient/assets/lib/bootstrap/less/mixins.less
+HTTP_REFERER=http://localhost/abiturient/person/update/2
+---
+2013/01/13 08:54:43 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Неможливо обробити запит "assets/lib/bootstrap/less/mixins.less".' in D:\Sites\home\localhost\www\abiturient\framework\web\CWebApplication.php:287
+Stack trace:
+#0 D:\Sites\home\localhost\www\abiturient\framework\web\CWebApplication.php(142): CWebApplication->runController('assets/lib/boot...')
+#1 D:\Sites\home\localhost\www\abiturient\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 D:\Sites\home\localhost\www\abiturient\index.php(12): CApplication->run()
+#3 {main}
+REQUEST_URI=/abiturient/assets/lib/bootstrap/less/mixins.less
+HTTP_REFERER=http://localhost/abiturient/person/
+---
+2013/01/13 08:54:47 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Неможливо обробити запит "assets/lib/bootstrap/less/mixins.less".' in D:\Sites\home\localhost\www\abiturient\framework\web\CWebApplication.php:287
+Stack trace:
+#0 D:\Sites\home\localhost\www\abiturient\framework\web\CWebApplication.php(142): CWebApplication->runController('assets/lib/boot...')
+#1 D:\Sites\home\localhost\www\abiturient\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 D:\Sites\home\localhost\www\abiturient\index.php(12): CApplication->run()
+#3 {main}
+REQUEST_URI=/abiturient/assets/lib/bootstrap/less/mixins.less
+HTTP_REFERER=http://localhost/abiturient/person/create
+---
+2013/01/13 08:58:15 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Неможливо обробити запит "assets/lib/bootstrap/less/mixins.less".' in D:\Sites\home\localhost\www\abiturient\framework\web\CWebApplication.php:287
+Stack trace:
+#0 D:\Sites\home\localhost\www\abiturient\framework\web\CWebApplication.php(142): CWebApplication->runController('assets/lib/boot...')
+#1 D:\Sites\home\localhost\www\abiturient\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 D:\Sites\home\localhost\www\abiturient\index.php(12): CApplication->run()
+#3 {main}
+REQUEST_URI=/abiturient/assets/lib/bootstrap/less/mixins.less
+HTTP_REFERER=http://localhost/abiturient/person/create
+---
