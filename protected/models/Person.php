@@ -11,12 +11,13 @@
  * @property string $MiddleName
  * @property string $LastName
  * @property integer $IsResident
- * @property integer $KOATUUCode
+ * @property string $KOATUUCode
  * @property integer $PersonEducationTypeID
  * @property integer $StreetTypeID
  * @property string $Address
  * @property string $HomeNumber
  * @property string $PostIndex
+ * @property integer $idKOATUU
  */
 class Person extends CActiveRecord
 {
@@ -46,14 +47,14 @@ class Person extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('PersonSexID, IsResident, KOATUUCode, PersonEducationTypeID, StreetTypeID', 'numerical', 'integerOnly'=>true),
+			array('PersonSexID, IsResident, PersonEducationTypeID, StreetTypeID, idKOATUU', 'numerical', 'integerOnly'=>true),
 			array('FirstName, MiddleName, LastName', 'length', 'max'=>50),
+			array('KOATUUCode, HomeNumber, PostIndex', 'length', 'max'=>10),
 			array('Address', 'length', 'max'=>250),
-			array('HomeNumber, PostIndex', 'length', 'max'=>10),
 			array('Birthday', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('idPerson, Birthday, PersonSexID, FirstName, MiddleName, LastName, IsResident, KOATUUCode, PersonEducationTypeID, StreetTypeID, Address, HomeNumber, PostIndex', 'safe', 'on'=>'search'),
+			array('idPerson, Birthday, PersonSexID, FirstName, MiddleName, LastName, IsResident, KOATUUCode, PersonEducationTypeID, StreetTypeID, Address, HomeNumber, PostIndex, idKOATUU', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -87,6 +88,7 @@ class Person extends CActiveRecord
 			'Address' => 'Address',
 			'HomeNumber' => 'Home Number',
 			'PostIndex' => 'Post Index',
+			'idKOATUU' => 'Id Koatuu',
 		);
 	}
 
@@ -108,12 +110,13 @@ class Person extends CActiveRecord
 		$criteria->compare('MiddleName',$this->MiddleName,true);
 		$criteria->compare('LastName',$this->LastName,true);
 		$criteria->compare('IsResident',$this->IsResident);
-		$criteria->compare('KOATUUCode',$this->KOATUUCode);
+		$criteria->compare('KOATUUCode',$this->KOATUUCode,true);
 		$criteria->compare('PersonEducationTypeID',$this->PersonEducationTypeID);
 		$criteria->compare('StreetTypeID',$this->StreetTypeID);
 		$criteria->compare('Address',$this->Address,true);
 		$criteria->compare('HomeNumber',$this->HomeNumber,true);
 		$criteria->compare('PostIndex',$this->PostIndex,true);
+		$criteria->compare('idKOATUU',$this->idKOATUU);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

@@ -19,6 +19,13 @@ class PersonSexTypes extends CActiveRecord
 		return parent::model($className);
 	}
 
+        public static function DropDown(){
+           $res = array();
+           foreach(PersonSexTypes::model()->findAll()as $record) {
+                $res[$record->idPersonSexTypes] = $record->PersonSexTypesName;
+           }
+           return $res;
+        }
 	/**
 	 * @return string the associated database table name
 	 */

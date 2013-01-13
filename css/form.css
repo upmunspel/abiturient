@@ -185,3 +185,10 @@ div.wide.form .buttons, div.wide.form .hint, div.wide.form .errorMessage
 .form .form-signin label {
     display: inline;
 }
+#person-form  strong{
+    color:#08C;
+}
+#person-form  hr{
+    margin:0px 0px 10px 0px;
+    border-top: 1px solid #CCC;
+}

@@ -6,8 +6,12 @@
 	<meta name="language" content="en" />
         <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/styles.css" />
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/form.css" />
+        <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/datepicker.css" />
         <title><?php echo CHtml::encode($this->pageTitle); ?></title>
         <?php Yii::app()->bootstrap->register(); ?>
+        <script type ="text/javascript" src ="<?php echo Yii::app()->request->baseUrl; ?>/js/bootstrap-datepicker.js"></script>
+        <script type ="text/javascript" src ="<?php echo Yii::app()->request->baseUrl; ?>/js/person.js"></script>
+        
 </head>
 
 <body>
