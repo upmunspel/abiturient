@@ -121,7 +121,7 @@ $form=new TbActiveForm();?>
             </div>
             <div class ="span3">
             <?php echo $form->labelEx($model,'StreetTypeID'); ?>
-            <?php echo $form->dropDownList($model,'StreetTypeID', array("Ні", "Так"), array('class'=>'span12')); ?>
+            <?php echo $form->dropDownList($model,'StreetTypeID', StreetTypes::DropDown(), array('class'=>'span12')); ?>
             </div>
             <div class ="span5">
             <?php echo $form->label($model,'Address');//,array('class'=>'span3'));?>

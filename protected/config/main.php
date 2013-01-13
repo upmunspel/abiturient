@@ -99,7 +99,7 @@ return array(
 		// uncomment the following to use a MySQL database
 		
 		'db'=>array(
-			'connectionString' => 'mysql:host=localhost;dbname=edbo',
+			'connectionString' => 'mysql:host=localhost;dbname=abiturient',
 			'emulatePrepare' => true,
 			'username' => 'root',
 			'password' => '',
