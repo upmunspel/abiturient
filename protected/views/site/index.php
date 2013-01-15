@@ -16,6 +16,7 @@ $this->pageTitle=Yii::app()->name;
     'label'=>'Абітурієнти',
     'type'=>'primary', // null, 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
     'size'=>'large', // null, 'large', 'small' or 'mini'
+     'url'=>Yii::app()->createUrl("person"),
     )); ?>
   </div>
   <div class="span2">

@@ -6,10 +6,10 @@ PSN.KOATUUChange = function(obj, link, level){
     dataType : "json",
     data: "id="+id+"&level="+level,
     success: function (data) { 
-        var koatuu2 = $("#KOATUU2");
-        var koatuu3 = $("#KOATUU3");
-        $("#Person_KOATUUCode").val(data.Code);
-        $("#Person_idKOATUU").val(data.id);
+        var koatuu2 = $("#Person_KOATUUCodeL2ID");
+        var koatuu3 = $("#Person_KOATUUCodeL3ID");
+        //$("#Person_KOATUUCode").val(data.Code);
+        //$("#Person_idKOATUU").val(data.id);
         if (level == 3) return;
        
         if (!$.isEmptyObject(data.Level2)) {

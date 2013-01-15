@@ -28,31 +28,6 @@
 	<?php echo CHtml::encode($data->IsResident); ?>
 	<br />
 
-	<?php /*
-	<b><?php echo CHtml::encode($data->getAttributeLabel('KOATUUCode')); ?>:</b>
-	<?php echo CHtml::encode($data->KOATUUCode); ?>
-	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('PersonEducationTypeID')); ?>:</b>
-	<?php echo CHtml::encode($data->PersonEducationTypeID); ?>
-	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('StreetTypeID')); ?>:</b>
-	<?php echo CHtml::encode($data->StreetTypeID); ?>
-	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('Address')); ?>:</b>
-	<?php echo CHtml::encode($data->Address); ?>
-	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('HomeNumber')); ?>:</b>
-	<?php echo CHtml::encode($data->HomeNumber); ?>
-	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('PostIndex')); ?>:</b>
-	<?php echo CHtml::encode($data->PostIndex); ?>
-	<br />
-
-	*/ ?>
+	
 
 </div>

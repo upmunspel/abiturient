@@ -1,10 +1,4 @@
 <?php
-$this->breadcrumbs=array(
-	'people'=>array('index'),
-	$model->idPerson=>array('view','id'=>$model->idPerson),
-	'Update',
-);
-
 $this->menu=array(
 	array('label'=>'List Person','url'=>array('index')),
 	array('label'=>'Create Person','url'=>array('create')),
@@ -13,6 +7,6 @@ $this->menu=array(
 );
 ?>
 
-<h1>Update Person <?php echo $model->idPerson; ?></h1>
+<h1>Оновлення інформації про абітуріента (<?php echo $model->idPerson; ?>)</h1>
 
 <?php echo $this->renderPartial('_form',array('model'=>$model)); ?>

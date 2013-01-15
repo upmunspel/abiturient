@@ -13,23 +13,15 @@ $this->menu=array(
 );
 ?>
 
-<h1>View Person #<?php echo $model->idPerson; ?></h1>
+<h1>Інформація про абітурієнта (<?php echo $model->idPerson; ?>)</h1>
 
 <?php $this->widget('bootstrap.widgets.TbDetailView',array(
 	'data'=>$model,
+        'type'=>array('bordered', 'condensed','striped'),
 	'attributes'=>array(
 		'idPerson',
-		'Birthday',
-		'PersonSexID',
 		'FirstName',
 		'MiddleName',
 		'LastName',
-		'IsResident',
-		'KOATUUCode',
-		'PersonEducationTypeID',
-		'StreetTypeID',
-		'Address',
-		'HomeNumber',
-		'PostIndex',
 	),
 )); ?>

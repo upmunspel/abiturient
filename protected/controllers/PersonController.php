@@ -61,7 +61,10 @@ class PersonController extends Controller
 	 */
 	public function actionCreate()
 	{
+            
 		$model=new Person;
+               
+                $model->Birthday= date("d.m.Y",mktime(0, 0, 0, 1, 1, date('Y')-18));
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
@@ -73,7 +76,7 @@ class PersonController extends Controller
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->idPerson));
 		}
-
+                
 		$this->render('create',array(
 			'model'=>$model,
 		));
@@ -87,15 +90,16 @@ class PersonController extends Controller
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
-
+                //var_dump($_POST);
+                //var_dump($model);
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
 		if(isset($_POST['Person']))
 		{
 			$model->attributes=$_POST['Person'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->idPerson));
+			//if($model->save())
+			//	$this->redirect(array('view','id'=>$model->idPerson));
 		}
 
 		$this->render('update',array(

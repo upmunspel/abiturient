@@ -24,7 +24,7 @@ class KoatuuLevel3 extends CActiveRecord
 	}
        public static function DropDown($KOATUULevel2ID = 0){
            $res = array();
-           foreach(KoatuuLevel3::model()->findAll("KOATUULevel2ID = :KOATUULevel2ID and KOATUULevel3Type <> :KOATUULevel3Type ", array(":KOATUULevel2ID"=>$KOATUULevel2ID,":KOATUULevel3Type"=>"Р"))as $record) {
+           foreach(KoatuuLevel3::model()->findAll("KOATUULevel2ID = :KOATUULevel2ID", array(":KOATUULevel2ID"=>$KOATUULevel2ID))as $record) {
                  $res[$record->idKOATUULevel3] = $record->KOATUULevel3Name;
            }
            return $res;

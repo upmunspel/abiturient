@@ -17,7 +17,7 @@
 
 	<?php echo $form->textFieldRow($model,'IsResident',array('class'=>'span5')); ?>
 
-	<?php echo $form->textFieldRow($model,'KOATUUCode',array('class'=>'span5')); ?>
+	<?php //echo $form->textFieldRow($model,'KOATUUCode',array('class'=>'span5')); ?>
 
 	<?php echo $form->textFieldRow($model,'PersonEducationTypeID',array('class'=>'span5')); ?>
 

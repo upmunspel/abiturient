@@ -192,3 +192,10 @@ div.wide.form .buttons, div.wide.form .hint, div.wide.form .errorMessage
     margin:0px 0px 10px 0px;
     border-top: 1px solid #CCC;
 }
+.row-fluid .errorMessage {
+    color: #C00;
+    font-size: 11px;
+    top: -10px;
+    position: relative;
+    display: block;
+}
