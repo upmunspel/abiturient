@@ -4,7 +4,7 @@
  * @author Christoffer Niska <ChristofferNiska@gmail.com>
  * @copyright Copyright &copy; Christoffer Niska 2011-
  * @license http://www.opensource.org/licenses/bsd-license.php New BSD License
- * @version 2.0.2
+ * @version 2.0.3
  */
 
 /**
@@ -314,6 +314,6 @@ class Bootstrap extends CApplicationComponent
      */
     public function getVersion()
     {
-        return '2.0.2';
+        return '2.0.3';
     }
 }

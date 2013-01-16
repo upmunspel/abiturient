@@ -57,6 +57,12 @@ class DirectoryController extends Controller
 		);
 	}
 
+        public function actionSchools($code){
+           $result = array();
+           $result = Schools::DropDown($code);
+           echo CJSON::encode($result);
+           Yii::app()->end();
+        }
 	/**
 	 * This is the default 'index' action that is invoked
 	 * when an action is not explicitly requested by users.
@@ -139,7 +145,7 @@ class DirectoryController extends Controller
         
         public function actionTest()
 	{
-          $res = KoatuuLevel1::getKoatuuLevelID("2310100000");
+           $res = KoatuuLevel1::getKoatuuLevelID("2310100000");
            
            var_dump($res);
            

@@ -32,10 +32,10 @@ class Schools extends CActiveRecord
 	{
 		return parent::model($className);
 	}
-        public static function DropDown($KOATUUCode = 0){
+        public static function DropDown($KOATUUCode = '0000000000'){
            $res = array();
-           foreach(KoatuuLevel3::model()->findAll("KOATUULevel2ID = :KOATUULevel2ID", array(":KOATUULevel2ID"=>$KOATUULevel2ID))as $record) {
-                 $res[$record->idKOATUULevel3] = $record->KOATUULevel3Name;
+           foreach(Schools::model()->findAll("KOATUUCode = :KOATUUCode", array(":KOATUUCode"=>$KOATUUCode))as $record) {
+                 $res[$record->idSchool] = $record->SchoolName;
            }
            return $res;
         }
@@ -59,7 +59,7 @@ class Schools extends CActiveRecord
 			array('idSchool, EducationTypeID, StreetTypeID', 'numerical', 'integerOnly'=>true),
 			array('Kode_School', 'length', 'max'=>45),
 			array('SchoolName', 'length', 'max'=>250),
-			array('SchoolShortName', 'length', 'max'=>200),
+			
 			array('KOATUUCode', 'length', 'max'=>10),
 			array('KOATUUFullName, StreetName', 'length', 'max'=>150),
 			array('HouceNum', 'length', 'max'=>15),

@@ -84,7 +84,7 @@ $form=new TbActiveForm();?>
             <?php echo CHtml::label("Область або велике місто","KOATUUCodeL2ID");//,array('class'=>'span3'));?>
             <?php echo CHtml::activeDropDownList($model, "KOATUUCodeL1ID", KoatuuLevel1::DropDown(), 
                     array('class'=>'span12', 
-                            'onchange'=>"PSN.KOATUUChange(this,'".CController::createUrl('directory/koatuu')."',1)"));
+                            'onchange'=>"PSN.KOATUUChange(this,1)"));
                      ?>
             </div>
         </div>
@@ -93,7 +93,7 @@ $form=new TbActiveForm();?>
             <?php echo CHtml::label("Район / місто / район міста","KOATUUCodeL2ID");?>
             <?php echo CHtml::activeDropDownList($model, "KOATUUCodeL2ID",  KoatuuLevel2::DropDown($model->KOATUUCodeL1ID), 
                     array('class'=>'span12', 
-                            'onchange'=>"PSN.KOATUUChange(this,'".CController::createUrl('directory/koatuu')."',2)"));
+                            'onchange'=>"PSN.KOATUUChange(this,2)"));
                      ?>
             </div>
             
@@ -103,8 +103,7 @@ $form=new TbActiveForm();?>
             <div class ="span12" >
             <?php echo CHtml::label("Місто / ПГТ / Село / район міста","KOATUUCodeL3ID");//,array('class'=>'span3'));?>
             <?php echo CHtml::activeDropDownList($model, "KOATUUCodeL3ID",  KoatuuLevel3::DropDown($model->KOATUUCodeL2ID), 
-                    array('class'=>'span12', 
-                            'onchange'=>"PSN.KOATUUChange(this,'".CController::createUrl('directory/koatuu')."',3)"));
+                    array('class'=>'span12', 'onchange'=>"PSN.KOATUUChange(this,3)"));
                      ?>
             </div>
             
@@ -137,7 +136,9 @@ $form=new TbActiveForm();?>
             </div>
             <div class ="span1">
                  <div id="togle_sameschool">
-                    <?php echo CHtml::checkBox("sameschooladdr", true);//, array("Ні", "Так"), array('class'=>'span12')); ?>
+                    <?php 
+                    $is_samaschooladdr = true;
+                    echo CHtml::checkBox("sameschooladdr", $is_samaschooladdr);//, array("Ні", "Так"), array('class'=>'span12')); ?>
                  </div>
                  <script type="text/javascript">
                     $('#togle_sameschool').toggleButtons({
@@ -145,9 +146,65 @@ $form=new TbActiveForm();?>
                         label: {
                             enabled: "Так",
                             disabled: "Ні"
+                        },
+                        onChange: function ($el, status, e) {
+                            if (status){
+                                $("#scholladdr").hide()
+                                PSN.updateSchools(PSN.KOATUUCode);
+                            } else {
+                                $("#scholladdr").show();
+                                PSN.updateSchools(PSN.KOATUUSchoolCode);
+                            }
+                            
                         }
                     });
                  </script>      
+            </div>
+        </div>
+        <div id="scholladdr" <?php echo $is_samaschooladdr ? "style='display:none;'":"";?> >
+        <p class="help-block"><strong>Адреса школи</strong></p>
+        <hr>
+        <div class="row-fluid">
+          
+        <div class="row-fluid">
+            <div class ="span12">
+            <?php echo CHtml::label("Область або велике місто","KOATUUCodeL2ID");//,array('class'=>'span3'));?>
+            <?php echo CHtml::dropDownList("KOATUU1", $model->KOATUUCodeL1ID, KoatuuLevel1::DropDown(), 
+                    array('class'=>'span12', 
+                            'onchange'=>"PSN.KOATUUSchoolChange(this,1)"));
+                     ?>
+            </div>
+        </div>
+        <div class="row-fluid" <?php echo empty($model->KOATUUCodeL2ID) ? "style='display:none;'":""; ?>>
+            <div class ="span12"  > 
+            <?php echo CHtml::label("Район / місто / район міста","KOATUUCodeL2ID");?>
+            <?php echo CHtml::dropDownList("KOATUU2", $model->KOATUUCodeL2ID, KoatuuLevel2::DropDown($model->KOATUUCodeL1ID), 
+                    array('class'=>'span12', 
+                            'onchange'=>"PSN.KOATUUSchoolChange(this,2)"));
+                     ?>
+            </div>
+            
+        </div>
+        <div class="row-fluid" <?php echo empty($model->KOATUUCodeL3ID) ? "style='display:none;'":""; ?> >
+           
+            <div class ="span12" >
+            <?php echo CHtml::label("Місто / ПГТ / Село / район міста","KOATUUCodeL3ID");//,array('class'=>'span3'));?>
+            <?php echo CHtml::dropDownList("KOATUU3", $model->KOATUUCodeL3ID,  KoatuuLevel3::DropDown($model->KOATUUCodeL2ID), 
+                    array('class'=>'span12', 'onchange'=>"PSN.KOATUUSchoolChange(this,3)"));
+                     ?>
+            </div>
+        </div>
+        </div>
+        </div>
+        
+        <div class="row-fluid">
+        <div class ="span12">
+                <?php echo $form->labelEx($model,'SchoolID'); ?>
+               
+                <?php echo $form->dropDownList($model,'SchoolID', Schools::DropDown(KoatuuLevel2::getKoatuuLevel2Code($model->KOATUUCodeL2ID)), array('class'=>'span12')); ?>
+           
+               
+            
             </div>
         </div>
 	
@@ -160,4 +217,11 @@ $form=new TbActiveForm();?>
 			'label'=>$model->isNewRecord ? 'Create' : 'Save',
 		)); ?>
 	</div>
+         <script type="text/javascript">
+            var PSN = PSN || {};
+            PSN.schoolLink = "<?php echo CController::createUrl('directory/Schools'); ?>";
+            PSN.koatuuLink = "<?php echo CController::createUrl('directory/koatuu'); ?>";
+            PSN.KOATUUCode = "<?php echo $js_code =  KoatuuLevel2::getKoatuuLevel2Code($model->KOATUUCodeL2ID);?>";
+            PSN.KOATUUSchoolCode = "<?php echo $js_code; ?>";
+         </script>
 <?php $this->endWidget(); ?>
