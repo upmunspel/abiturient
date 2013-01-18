@@ -134,6 +134,7 @@ return array(
 				
 			//),
 		),*/
+            /* Это тестовое сохранение */
             'log' => array(
             'class' => 'CLogRouter',
             'routes' => array(
