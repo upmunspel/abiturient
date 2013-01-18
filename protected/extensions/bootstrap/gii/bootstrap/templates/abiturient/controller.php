@@ -1,6 +1,13 @@
 <?php
+/**
+ * This is the template for generating a controller class file for CRUD feature.
+ * The following variables are available in this template:
+ * - $this: the BootCrudCode object
+ */
+?>
+<?php echo "<?php\n"; ?>
 
-class PersonController extends Controller
+class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseControllerClass."\n"; ?>
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -26,7 +33,7 @@ class PersonController extends Controller
 	public function accessRules()
 	{
 		return array(
-			/*array('allow',  // allow all users to perform 'index' and 'view' actions
+			array('allow',  // allow all users to perform 'index' and 'view' actions
 				'actions'=>array('index','view'),
 				'users'=>array('*'),
 			),
@@ -36,18 +43,7 @@ class PersonController extends Controller
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
 				'actions'=>array('admin','delete'),
-				'users'=>array('@'),
-			),
-			array('deny',  // deny all users
-				'users'=>array('*'),
-			),
-                        array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('index','view','admin','create'),
-				'roles'=>array('Admins'),
-			),*/
-			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('index','view','admin','delete','create','update'),
-				'roles'=>array("Root","Admin"),
+				'users'=>array('admin'),
 			),
 			array('deny',  // deny all users
 				'users'=>array('*'),
@@ -72,22 +68,18 @@ class PersonController extends Controller
 	 */
 	public function actionCreate()
 	{
-            
-		$model=new Person;
-               
-                $model->Birthday= date("d.m.Y",mktime(0, 0, 0, 1, 1, date('Y')-18));
+		$model=new <?php echo $this->modelClass; ?>;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Person']))
+		if(isset($_POST['<?php echo $this->modelClass; ?>']))
 		{
-			$model->attributes=$_POST['Person'];
-                        
+			$model->attributes=$_POST['<?php echo $this->modelClass; ?>'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->idPerson));
+				$this->redirect(array('view','id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>));
 		}
-                
+
 		$this->render('create',array(
 			'model'=>$model,
 		));
@@ -101,20 +93,17 @@ class PersonController extends Controller
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
-                //var_dump($_POST);
-                //var_dump($model);
+
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Person']))
+		if(isset($_POST['<?php echo $this->modelClass; ?>']))
 		{
-			$model->attributes=$_POST['Person'];
-                        
-                        if ($model->validate()){
-                           if ($model->save())	$this->redirect(array('view','id'=>$model->idPerson));
-                        }
+			$model->attributes=$_POST['<?php echo $this->modelClass; ?>'];
+			if($model->save())
+				$this->redirect(array('view','id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>));
 		}
-                //debug(print_r($model,true));
+
 		$this->render('update',array(
 			'model'=>$model,
 		));
@@ -145,7 +134,7 @@ class PersonController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('Person');
+		$dataProvider=new CActiveDataProvider('<?php echo $this->modelClass; ?>');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
@@ -156,10 +145,10 @@ class PersonController extends Controller
 	 */
 	public function actionAdmin()
 	{
-		$model=new Person('search');
+		$model=new <?php echo $this->modelClass; ?>('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['Person']))
-			$model->attributes=$_GET['Person'];
+		if(isset($_GET['<?php echo $this->modelClass; ?>']))
+			$model->attributes=$_GET['<?php echo $this->modelClass; ?>'];
 
 		$this->render('admin',array(
 			'model'=>$model,
@@ -173,7 +162,7 @@ class PersonController extends Controller
 	 */
 	public function loadModel($id)
 	{
-		$model=Person::model()->findByPk($id);
+		$model=<?php echo $this->modelClass; ?>::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -185,7 +174,7 @@ class PersonController extends Controller
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='person-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='<?php echo $this->class2id($this->modelClass); ?>-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();

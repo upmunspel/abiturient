@@ -10,7 +10,7 @@ $this->pageTitle=Yii::app()->name." - Довідники";
     'type'=>'tabs', // '', 'tabs', 'pills' (or 'list')
     'stacked'=>true, // whether this is a stacked menu
     'items'=>array(
-        array('label'=>'Home', 'url'=>'#', 'active'=>true),
+        array('label'=>'Пользователи', 'url'=>Yii::app()->createUrl("user")),
         array('label'=>'Profile', 'url'=>'#'),
         array('label'=>'Messages', 'url'=>'#'),
     ),

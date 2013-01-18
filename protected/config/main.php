@@ -110,8 +110,17 @@ return array(
 			// use 'site/error' action to display errors
 			'errorAction'=>'site/error',
 		),
-		'log'=>array(
+          
+		/*'log'=>array(
 			'class'=>'CLogRouter',
+                    'routes' => array(
+                            array(
+                                'class' => 'ext.phpconsole.PhpConsoleYiiExtension',
+                                'handleErrors' => true,
+                                'handleExceptions' => true,
+                                'basePathToStrip' => dirname($_SERVER['DOCUMENT_ROOT'])
+                            )
+                        ),
 			'routes'=>array(
 				array(
 					'class'=>'CFileLogRoute',
@@ -121,11 +130,29 @@ return array(
 				
 				/*array(
 					'class'=>'CWebLogRoute',
-				),*/
+				),//
 				
-			),
-		),
-	),
+			//),
+		),*/
+            'log' => array(
+            'class' => 'CLogRouter',
+            'routes' => array(
+                array(
+                    'class' => 'ext.phpconsole.PhpConsoleYiiExtension',
+                    'handleErrors' => true,
+                    'handleExceptions' => true,
+                    'basePathToStrip' => dirname($_SERVER['DOCUMENT_ROOT']."/abiturient/")
+                ),
+                
+            // uncomment the following to show log messages on web pages
+           
+              /*array(
+              'class'=>'CWebLogRoute',
+              ),*/
+                         ),
+        ),
+        ),
+	
 
 	// application-level parameters that can be accessed
 	// using Yii::app()->params['paramName']
