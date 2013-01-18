@@ -34,7 +34,8 @@ class Schools extends CActiveRecord
 	}
         public static function DropDown($KOATUUCode = '0000000000'){
            $res = array();
-           foreach(Schools::model()->findAll("KOATUUCode = :KOATUUCode", array(":KOATUUCode"=>$KOATUUCode))as $record) {
+           $KOATUUCode = substr($KOATUUCode, 0, 4);
+           foreach(Schools::model()->findAll("KOATUUCode like :KOATUUCode ORDER BY SchoolName ASC", array(":KOATUUCode"=>$KOATUUCode."%"))as $record) {
                  $res[$record->idSchool] = $record->SchoolName;
            }
            return $res;

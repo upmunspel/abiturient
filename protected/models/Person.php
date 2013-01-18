@@ -53,7 +53,8 @@ class Person extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('PersonSexID, KOATUUCodeL1ID, KOATUUCodeL2ID, KOATUUCodeL3ID, IsResident, PersonEducationTypeID, StreetTypeID, SchoolID', 'numerical', 'integerOnly'=>true),
-			array('FirstName, MiddleName, LastName, FirstNameR, MiddleNameR, LastNameR', 'length', 'max'=>100),
+			array('FirstName, MiddleName, LastName, FirstNameR, MiddleNameR, LastNameR', 'required'),
+                        array('FirstName, MiddleName, LastName, FirstNameR, MiddleNameR, LastNameR', 'length',"min"=>1),
 			array('Address', 'length', 'max'=>250),
 			array('HomeNumber, PostIndex', 'length', 'max'=>10),
 			array('Birthday', 'safe'),

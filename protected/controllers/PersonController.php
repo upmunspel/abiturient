@@ -26,7 +26,7 @@ class PersonController extends Controller
 	public function accessRules()
 	{
 		return array(
-			array('allow',  // allow all users to perform 'index' and 'view' actions
+			/*array('allow',  // allow all users to perform 'index' and 'view' actions
 				'actions'=>array('index','view'),
 				'users'=>array('*'),
 			),
@@ -37,6 +37,17 @@ class PersonController extends Controller
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
 				'actions'=>array('admin','delete'),
 				'users'=>array('@'),
+			),
+			array('deny',  // deny all users
+				'users'=>array('*'),
+			),
+                        array('allow', // allow admin user to perform 'admin' and 'delete' actions
+				'actions'=>array('index','view','admin','create'),
+				'roles'=>array('Admins'),
+			),*/
+			array('allow', // allow admin user to perform 'admin' and 'delete' actions
+				'actions'=>array('index','view','admin','delete','create','update'),
+				'roles'=>array("Root","Admin"),
 			),
 			array('deny',  // deny all users
 				'users'=>array('*'),
@@ -98,8 +109,10 @@ class PersonController extends Controller
 		if(isset($_POST['Person']))
 		{
 			$model->attributes=$_POST['Person'];
-			//if($model->save())
-			//	$this->redirect(array('view','id'=>$model->idPerson));
+                        
+                        if ($model->validate()){
+                           if ($model->save())	$this->redirect(array('view','id'=>$model->idPerson));
+                        }
 		}
 
 		$this->render('update',array(
