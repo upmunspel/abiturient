@@ -10,72 +10,94 @@ $form=new TbActiveForm();?>
         <hr>
        
         <div class="row-fluid">
-            <div class ="span4">
-            <?php echo $form->label($model,'FirstName');//,array('class'=>'span3'));?>
-            <?php echo $form->textField($model,'FirstName',array('class'=>'span12','maxlength'=>50)); ?>
-            <?php echo $form->error($model,'FirstName'); ?>    
+            <div class ="span9">
+            <div class="row-fluid">
+                <div class ="span4">
+                <?php echo $form->labelEx($model,'FirstName');//,array('class'=>'span3'));?>
+                <?php echo $form->textField($model,'FirstName',array('class'=>'span12','maxlength'=>50)); ?>
+                <?php //echo $form->error($model,'FirstName'); ?>    
+                </div>
+                <div class ="span4">
+                <?php echo $form->labelEx($model,'LastName');//,array('class'=>'span3'));?>
+                <?php echo $form->textField($model,'LastName',array('class'=>'span12','maxlength'=>50)); ?>
+                <?php //echo $form->error($model,'LastName'); ?>        
+                </div>
+                <div class ="span4">
+                <?php echo $form->labelEx($model,'MiddleName');//,array('class'=>'span3'));?>
+                <?php echo $form->textField($model,'MiddleName',array('class'=>'span12','maxlength'=>50)); ?>
+                <?php //echo $form->error($model,'MiddleName'); ?>    
+                </div>
             </div>
-            <div class ="span4">
-            <?php echo $form->label($model,'LastName');//,array('class'=>'span3'));?>
-            <?php echo $form->textField($model,'LastName',array('class'=>'span12','maxlength'=>50)); ?>
-            <?php echo $form->error($model,'LastName'); ?>        
+            <div class="row-fluid">
+                <div class ="span4">
+                <?php echo $form->labelEx($model,'FirstNameR');//,array('class'=>'span3'));?>
+                <?php echo $form->textField($model,'FirstNameR',array('class'=>'span12','maxlength'=>50)); ?>
+                </div>
+                <div class ="span4">
+                <?php echo $form->labelEx($model,'LastNameR');//,array('class'=>'span3'));?>
+                <?php echo $form->textField($model,'LastNameR',array('class'=>'span12','maxlength'=>50)); ?>
+                </div>
+                <div class ="span4">
+                <?php echo $form->labelEx($model,'MiddleNameR');//,array('class'=>'span3'));?>
+                <?php echo $form->textField($model,'MiddleNameR',array('class'=>'span12','maxlength'=>50)); ?>
+                </div>
             </div>
-            <div class ="span4">
-            <?php echo $form->label($model,'MiddleName');//,array('class'=>'span3'));?>
-            <?php echo $form->textField($model,'MiddleName',array('class'=>'span12','maxlength'=>50)); ?>
-            <?php echo $form->error($model,'MiddleName'); ?>    
+                 
+            <div class="row-fluid">
+                <div class ="span4">
+                    <?php echo $form->labelEx($model,'Birthday'); ?>
+                    <?php echo $form->textField($model,'Birthday', array('class'=>'span12 datepicker')); ?>
+                    <script type="text/javascript">
+                        $(".datepicker").datepicker({'format':"dd.mm.yyyy"});
+                    </script>
+                </div>
+                <div class ="span4">
+                    <?php echo $form->labelEx($model,'PersonSexID'); ?>
+
+                    <?php echo $form->dropDownList($model,'PersonSexID', PersonSexTypes::DropDown(), array('class'=>'span12')); ?>
+                 
+                </div>
+
+                <div class ="span4">
+                    <?php echo $form->labelEx($model,'IsResident'); ?>
+                    <div id="togle_resident">
+                        <?php echo $form->checkBox($model,'IsResident');//, array("Ні", "Так"), array('class'=>'span12')); ?>
+                    </div>
+                    <script type="text/javascript">
+                        $('#togle_resident').toggleButtons({
+                            //width: 100,
+                            label: {
+                                enabled: "Так",
+                                disabled: "Ні"
+                            }
+                        });
+                    </script>      
+                </div>
             </div>
-        </div>
-       <div class="row-fluid">
-            <div class ="span4">
-            <?php echo $form->label($model,'FirstNameR');//,array('class'=>'span3'));?>
-            <?php echo $form->textField($model,'FirstNameR',array('class'=>'span12','maxlength'=>50)); ?>
-            </div>
-            <div class ="span4">
-            <?php echo $form->label($model,'MiddleNameR');//,array('class'=>'span3'));?>
-            <?php echo $form->textField($model,'MiddleNameR',array('class'=>'span12','maxlength'=>50)); ?>
-            </div>
-            <div class ="span4">
-            <?php echo $form->label($model,'FirstNameR');//,array('class'=>'span3'));?>
-            <?php echo $form->textField($model,'LastNameR',array('class'=>'span12','maxlength'=>50)); ?>
-            </div>
-        </div>
         
-        <div class="row-fluid">
-            <div class ="span3">
-                <?php echo $form->labelEx($model,'Birthday'); ?>
-                <?php echo $form->textField($model,'Birthday', array('class'=>'span12 datepicker')); ?>
-                <script type="text/javascript">
-                    $(".datepicker").datepicker({'format':"dd.mm.yyyy"});
-                </script>
+            <div class="row-fluid">
+                 <div class ="span4">
+                    <?php echo $form->labelEx($model,"CountryID"); ?>
+                    <?php echo $form->dropDownList($model,'CountryID', Country::DropDown(), array('class'=>'span12')); ?>
+                </div>
+                <div class ="span4">
+                    <?php echo $form->labelEx($model,'PersonEducationTypeID'); ?>
+                    <?php echo $form->dropDownList($model,'PersonEducationTypeID', PersonEducationTypes::DropDown(), array('class'=>'span12')); ?>
+                </div>
+
+                <div class ="span4">
+                    <?php echo $form->labelEx($model,'LanguageID'); ?>
+                    <?php echo $form->dropDownList($model,'LanguageID', Languages::DropDown(), array('class'=>'span12')); ?>
+                </div>
             </div>
-            <div class ="span3">
-                <?php echo $form->labelEx($model,'PersonSexID'); ?>
-               
-                <?php echo $form->dropDownList($model,'PersonSexID', PersonSexTypes::DropDown(), array('class'=>'span12')); ?>
-               
-                <?php echo $form->labelEx($model,'PersonSexID'); ?>
-                <script type="text/javascript">
-                    $('#togle_personsex').toggleButtons();
-                </script>
+        
+            </div>    
             
-            </div>
-         
-            <div class ="span3">
-                <?php echo $form->labelEx($model,'IsResident'); ?>
-                 <div id="togle_resident">
-                    <?php echo $form->checkBox($model,'IsResident');//, array("Ні", "Так"), array('class'=>'span12')); ?>
-                 </div>
-                 <script type="text/javascript">
-                    $('#togle_resident').toggleButtons({
-                        //width: 100,
-                        label: {
-                            enabled: "Так",
-                            disabled: "Ні"
-                        }
-                    });
-                 </script>      
-            </div>
+            <li class="span3">
+                <a href="#" class="thumbnail" rel="tooltip" data-title="Tooltip">
+                    <img src="http://placehold.it/180x240" alt="">
+                </a>
+            </li>
         </div>
         <p class="help-block"><strong>Адреса</strong></p>
         <hr>
@@ -111,7 +133,7 @@ $form=new TbActiveForm();?>
        
         <div class="row-fluid">
            <div class ="span2">
-            <?php echo $form->label($model,'PostIndex');//,array('class'=>'span3'));?>
+            <?php echo $form->labelEx($model,'PostIndex');//,array('class'=>'span3'));?>
             <?php echo $form->textField($model,'PostIndex',array('class'=>'span12','maxlength'=>50)); ?>
             </div>
             <div class ="span3">
@@ -119,11 +141,11 @@ $form=new TbActiveForm();?>
             <?php echo $form->dropDownList($model,'StreetTypeID', StreetTypes::DropDown(), array('class'=>'span12')); ?>
             </div>
             <div class ="span5">
-            <?php echo $form->label($model,'Address');//,array('class'=>'span3'));?>
+            <?php echo $form->labelEx($model,'Address');//,array('class'=>'span3'));?>
             <?php echo $form->textField($model,'Address',array('class'=>'span12','maxlength'=>50)); ?>
             </div>
              <div class ="span2">
-            <?php echo $form->label($model,'HomeNumber');//,array('class'=>'span3'));?>
+            <?php echo $form->labelEx($model,'HomeNumber');//,array('class'=>'span3'));?>
             <?php echo $form->textField($model,'HomeNumber',array('class'=>'span12','maxlength'=>50)); ?>
             </div>
         </div>

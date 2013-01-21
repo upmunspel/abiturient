@@ -27,8 +27,8 @@
  * @property integer $CountryID
  * @property integer $PersonDocumentID
  * @property integer $EntrantDocumentID
- */
-class Person extends CActiveRecord
+  */
+class Person1 extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -56,18 +56,13 @@ class Person extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('HomeNumber, PostIndex, Address,
-                                FirstName, LastName, FirstNameR, 
-                                LastNameR', 'required'),
-			array('PersonSexID, KOATUUCodeL1ID, KOATUUCodeL2ID, 
-                                KOATUUCodeL3ID, IsResident, PersonEducationTypeID, StreetTypeID, SchoolID, LanguageID, CountryID, PersonDocumentID, EntrantDocumentID', 'numerical', 'integerOnly'=>true),
-			array('FirstName, MiddleName, LastName, FirstNameR, MiddleNameR, LastNameR', 'length', 'max'=>100),
-			array('Address', 'length', 'max'=>250),
-			array('HomeNumber, PostIndex', 'length', 'max'=>10),
+			array('PersonSexID, KOATUUCodeL1ID, KOATUUCodeL2ID, KOATUUCodeL3ID, IsResident, PersonEducationTypeID, StreetTypeID, SchoolID, LanguageID, CountryID, PersonDocumentID, EntrantDocumentID, BasicEducationID', 'numerical', 'integerOnly'=>true),
 			array('Birthday', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('idPerson, Birthday, PersonSexID, FirstName, MiddleName, LastName, KOATUUCodeL1ID, KOATUUCodeL2ID, KOATUUCodeL3ID, IsResident, PersonEducationTypeID, StreetTypeID, Address, HomeNumber, PostIndex, SchoolID, FirstNameR, MiddleNameR, LastNameR, LanguageID, CountryID, PersonDocumentID, EntrantDocumentID', 'safe', 'on'=>'search'),
+			array('idPerson, Birthday, PersonSexID, MiddleName, KOATUUCodeL1ID, KOATUUCodeL2ID, KOATUUCodeL3ID, IsResident, PersonEducationTypeID, StreetTypeID, Address, HomeNumber, PostIndex, SchoolID, FirstNameR, MiddleNameR, LastNameR, LanguageID, CountryID, PersonDocumentID, EntrantDocumentID, BasicEducationID', 'safe', 'on'=>'search'),
+                        array('HomeNumber, PostIndex, Address, FirstName, LastName, LanguageID, CountryID, PersonDocumentID, EntrantDocumentID, BasicEducationID', 'required'),
+			
 		);
 	}
 
@@ -81,7 +76,6 @@ class Person extends CActiveRecord
 		return array(
 		);
 	}
-
 protected function beforeSave() {
              
             if ($this->KOATUUCodeL1ID == "0") $this->KOATUUCodeL1ID = NULL;
@@ -140,6 +134,11 @@ protected function beforeSave() {
                     
 		);
 	}
+
+	/**
+	 * Retrieves a list of models based on the current search/filter conditions.
+	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+	 */
 	public function search()
 	{
 		// Warning: Please modify the following code to remove attributes that
@@ -170,6 +169,7 @@ protected function beforeSave() {
 		$criteria->compare('CountryID',$this->CountryID);
 		$criteria->compare('PersonDocumentID',$this->PersonDocumentID);
 		$criteria->compare('EntrantDocumentID',$this->EntrantDocumentID);
+		
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

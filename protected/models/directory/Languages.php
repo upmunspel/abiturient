@@ -1,37 +1,38 @@
 <?php
 
 /**
- * This is the model class for table "personeducationtypes".
+ * This is the model class for table "languages".
  *
- * The followings are the available columns in table 'personeducationtypes':
- * @property integer $idPersonEducationTypes
- * @property string $PersonEducationTypesName
+ * The followings are the available columns in table 'languages':
+ * @property integer $idLanguages
+ * @property string $LanguagesCode
+ * @property string $LanguagesName
  */
-class PersonEducationTypes extends CActiveRecord
+class Languages extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
-	 * @return PersonEducationTypes the static model class
+	 * @return Languages the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
 	}
+        public static function DropDown(){
+           $res = array();
+           foreach(Languages::model()->findAll()as $record) {
+                $res[$record->idLanguages] = $record->LanguagesName;
+           }
+           return $res;
+        }
 
 	/**
 	 * @return string the associated database table name
 	 */
-        public static function DropDown(){
-           $res = array();
-           foreach(PersonEducationTypes::model()->findAll()as $record) {
-                $res[$record->idPersonEducationTypes] = $record->PersonEducationTypesName;
-           }
-           return $res;
-        }
 	public function tableName()
 	{
-		return 'personeducationtypes';
+		return 'languages';
 	}
 
 	/**
@@ -42,12 +43,13 @@ class PersonEducationTypes extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('idPersonEducationTypes', 'required'),
-			array('idPersonEducationTypes', 'numerical', 'integerOnly'=>true),
-			array('PersonEducationTypesName', 'length', 'max'=>20),
+			array('idLanguages', 'required'),
+			array('idLanguages', 'numerical', 'integerOnly'=>true),
+			array('LanguagesCode', 'length', 'max'=>4),
+			array('LanguagesName', 'length', 'max'=>20),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('idPersonEducationTypes, PersonEducationTypesName', 'safe', 'on'=>'search'),
+			array('idLanguages, LanguagesCode, LanguagesName', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -68,8 +70,9 @@ class PersonEducationTypes extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'idPersonEducationTypes' => 'Id Person Education Types',
-			'PersonEducationTypesName' => 'Person Education Types Name',
+			'idLanguages' => 'Id Languages',
+			'LanguagesCode' => 'Languages Code',
+			'LanguagesName' => 'Languages Name',
 		);
 	}
 
@@ -84,8 +87,9 @@ class PersonEducationTypes extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('idPersonEducationTypes',$this->idPersonEducationTypes);
-		$criteria->compare('PersonEducationTypesName',$this->PersonEducationTypesName,true);
+		$criteria->compare('idLanguages',$this->idLanguages);
+		$criteria->compare('LanguagesCode',$this->LanguagesCode,true);
+		$criteria->compare('LanguagesName',$this->LanguagesName,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
