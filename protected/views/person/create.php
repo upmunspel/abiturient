@@ -5,8 +5,9 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List Person','url'=>array('index')),
-	array('label'=>'Manage Person','url'=>array('admin')),
+    
+        array('label'=>'Перелік абітурієнтів','url'=>array('index'),'icon'=>"icon-list-alt"),
+	
 );
 ?>
 

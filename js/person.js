@@ -36,7 +36,18 @@ PSN.Init = function(){
                             }
                             
                         }
-                    });                 
+                    });  
+     $('#personSave').click(function() {
+        var btn = $(this);
+        btn.button('loading'); // call the loading function
+        $.ajax(
+        
+    
+        );
+        setTimeout(function() {
+            btn.button('reset'); // call the reset function
+        }, 3000);
+    });
 }
 PSN.KOATUUChange = function(obj, level){
     var id = $(obj," :selected").val();

@@ -1,5 +1,10 @@
 <?php 
-Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl."/js/person.js");
+$burl = Yii::app()->baseUrl;
+Yii::app()->getClientScript()->registerCoreScript('jquery');
+Yii::app()->clientScript->registerScriptFile($burl."/js/bootstrap-datepicker.js");
+Yii::app()->clientScript->registerScriptFile($burl."/js/jquery.toggle.buttons.js");
+Yii::app()->clientScript->registerScriptFile($burl."/js/person.js");
+
 $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
 	'id'=>'person-form',
     //'type'=>'horizontal',
@@ -211,14 +216,29 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
         
         <?php echo $this->renderPartial("_entrantdocform", array('model'=>$model->entrantdoc,'form'=>$form)); ?>
         
-        <p class="help-block">Fields with <span class="required">*</span> are required.</p>
+        <p class="help-block">Поля позначені <span class="required">*</span> заповняти обов'язково.</p>
          <?php echo $form->errorSummary($model); ?>
 	<div class="form-actions">
-		<?php $this->widget('bootstrap.widgets.TbButton', array(
+		<?php   
+                $url = $model->isNewRecord ? CController::createUrl('person/create') : CController::createUrl("/person/update/".$model->idPerson);
+                echo CHtml::ajaxSubmitButton($model->isNewRecord ? 'Створити' : 'Зберегти', $url,
+                            array('type'=>'POST', "update"=>"#content")
+                );
+                /*$this->widget("bootstrap.widgets.TbButton', array(
 			'buttonType'=>'submit',
 			'type'=>'primary',
-			'label'=>$model->isNewRecord ? 'Create' : 'Save',
-		)); ?>
+			'label'=>$model->isNewRecord ? 'Створити' : 'Зберегти',
+                        )); */
+                ?>
+            <?php /*$this->widget('bootstrap.widgets.TbButton', array(
+                'buttonType'=>'button',
+                'type'=>'primary',
+                'label'=>$model->isNewRecord ? 'Створити' : 'Зберегти',
+                'loadingText'=>'Збереження...',
+                'htmlOptions'=>array('id'=>'personSave'),
+                )); */
+            ?>
+            
 	</div>
          <script type="text/javascript">
             var PSN = PSN || {};

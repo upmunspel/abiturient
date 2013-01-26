@@ -1,9 +1,8 @@
 <?php
 $this->menu=array(
-	array('label'=>'List Person','url'=>array('index')),
-	array('label'=>'Create Person','url'=>array('create')),
-	array('label'=>'View Person','url'=>array('view','id'=>$model->idPerson)),
-	array('label'=>'Manage Person','url'=>array('admin')),
+	array('label'=>'Перелік абітурієнтів','url'=>array('index'),'icon'=>"icon-list-alt"),
+	array('label'=>'Додати  абітурієнта','url'=>array('create'),'icon'=>"icon-plus"),
+	
 );
 ?>
 

@@ -12,8 +12,7 @@
         
         <title><?php echo CHtml::encode($this->pageTitle); ?></title>
         <?php Yii::app()->bootstrap->register(); ?>
-        <script type ="text/javascript" src ="<?php echo Yii::app()->request->baseUrl; ?>/js/bootstrap-datepicker.js"></script>
-        <script type ="text/javascript" src ="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery.toggle.buttons.js"></script>
+        
        
 </head>
 
@@ -29,11 +28,18 @@
                 'class'=>'bootstrap.widgets.TbMenu',
                 'items'=>array(
                     array('label'=>'Головна', 'url'=>array('/site/index')),
-                    array('label'=>'Контакти', 'url'=>array('/site/contact')),
-                    //array('label'=>'Користувачі', 'url'=>array('/user'), 'visible'=>!Yii::app()->getA->),
-                    array('label'=>'Авторизуватися', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),
-                    array('label'=>'Вийти з системи ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest)
+                    array('label'=>'Контакти', 'url'=>array('/site/contact'), "icon"=>"icon-envelope"),
                 ),
+                
+            ),
+            array(
+                'class'=>'bootstrap.widgets.TbMenu',
+                'htmlOptions'=>array('class'=>'pull-right'),
+                'items'=>array(
+                    array('label'=>'Авторизуватися', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest, 'icon'=>"icon-user"),
+                    array('label'=>'Вийти з системи ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest, 'icon'=>"icon-user")
+                ),
+                
             ),
         ),
     )); 

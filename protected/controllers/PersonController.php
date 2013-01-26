@@ -46,7 +46,7 @@ class PersonController extends Controller
 				'roles'=>array('Admins'),
 			),*/
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('index','view','admin','delete','create','update'),
+				'actions'=>array('index','view','admin','delete','create','update', "ajaxcreate","ajaxupdate"),
 				'roles'=>array("Root","Admin"),
 			),
 			array('deny',  // deny all users
@@ -70,7 +70,7 @@ class PersonController extends Controller
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 */
-	public function actionCreate()
+        public function actionCreate()
 	{
             
 		$model=new Person;
@@ -80,9 +80,8 @@ class PersonController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Person']))
-		{
-			$model->attributes=$_POST['Person'];
+		if(isset($_POST['Person'])){
+                        $model->attributes=$_POST['Person'];
                          if(isset($_POST['Documents']['persondoc'])){
                             $model->persondoc->attributes=$_POST['Documents']['persondoc'];
                            
@@ -98,15 +97,23 @@ class PersonController extends Controller
                             $model->entrantdoc->PersonID = $model->idPerson;
                             $model->persondoc->save();
                             $model->entrantdoc->save();
-                                                      
-                            $this->redirect(array('view','id'=>$model->idPerson));
+                              
+                             if (!Yii::app()->request->isAjaxRequest){
+                                    $this->renderPartial('view',array('model'=>$model,),false, true);
+                                    Yii::app()->end();
+                             } else {
+                                $this->redirect(array('view','id'=>$model->idPerson));
+                             }
                         }
 		}
-                
-		$this->render('create',array(
-			'model'=>$model,
-		));
+               if (Yii::app()->request->isAjaxRequest){
+                    $this->renderPartial('_form',array('model'=>$model,),false, true);
+               } else {
+                   $this->render('create',array('model'=>$model,));
+               }
 	}
+
+	
 
 	/**
 	 * Updates a particular model.
@@ -140,15 +147,20 @@ class PersonController extends Controller
                                     $model->persondoc->save();
                                     $model->entrantdoc->save();
                                 }
-                               
-                               $this->redirect(array('view','id'=>$model->idPerson));
+                               if (Yii::app()->request->isAjaxRequest){
+                                    $this->renderPartial('view',array('model'=>$model,),false, true);
+                                    Yii::app()->end();
+                               } else {
+                                    $this->redirect(array('view','id'=>$model->idPerson));
+                               } 
                         }
                         
 		}
-                //debug(print_r($model,true));
-		$this->render('update',array(
-			'model'=>$model,
-		));
+                if (Yii::app()->request->isAjaxRequest){
+                     $this->renderPartial('_form',array('model'=>$model,),false, true);
+                } else {
+                     $this->render('update',array('model'=>$model,));
+                }
 	}
 
 	/**
