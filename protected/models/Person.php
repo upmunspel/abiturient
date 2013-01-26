@@ -27,6 +27,7 @@
  * @property integer $CountryID
  * @property integer $PersonDocumentID
  * @property integer $EntrantDocumentID
+ * @property string  $PhotoName
  */
 class Person extends CActiveRecord
 {
@@ -35,6 +36,37 @@ class Person extends CActiveRecord
 	 * @param string $className active record class name.
 	 * @return Person the static model class
 	 */
+      
+        private $persondoc = NULL;
+        private $entrantdoc = NULL;
+        public function getPersondoc(){
+            if (!empty($this->persondoc)) return $this->persondoc;
+            if (!$this->isNewRecord){
+                $sql = "select `documents`.* from `documents` left join  `persondocumenttypes`"; 
+                $sql = $sql." on `documents`.`TypeID` = persondocumenttypes.`idPersonDocumentTypes`"; 
+                $sql = $sql." where `persondocumenttypes`.`IsEntrantDocument` = 2 and `documents`.PersonID = :PersonID";
+                $this->persondoc = Documents::model()->findBySql($sql, array(":PersonID"=>$this->idPerson));
+                if (empty($this->persondoc))  $this->persondoc = new Documents();
+            } else {
+                $this->persondoc = new Documents();
+            }
+            
+            return $this->persondoc;
+        }
+        public function getEntrantdoc(){
+            if (!empty($this->entrantdoc)) return $this->entrantdoc;
+            if (!$this->isNewRecord){
+                $sql = "select `documents`.* from `documents` left join  `persondocumenttypes`"; 
+                $sql = $sql." on `documents`.`TypeID` = persondocumenttypes.`idPersonDocumentTypes`"; 
+                $sql = $sql." where `persondocumenttypes`.`IsEntrantDocument` = 1 and `documents`.PersonID = :PersonID";
+                $this->entrantdoc = Documents::model()->findBySql($sql, array(":PersonID"=>$this->idPerson));
+                if (empty($this->entrantdoc))  $this->entrantdoc = new Documents();
+            } else {
+                $this->entrantdoc = new Documents();
+            }
+            return $this->entrantdoc;
+        }
+        
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
@@ -62,7 +94,7 @@ class Person extends CActiveRecord
 			array('PersonSexID, KOATUUCodeL1ID, KOATUUCodeL2ID, 
                                 KOATUUCodeL3ID, IsResident, PersonEducationTypeID, StreetTypeID, SchoolID, LanguageID, CountryID, PersonDocumentID, EntrantDocumentID', 'numerical', 'integerOnly'=>true),
 			array('FirstName, MiddleName, LastName, FirstNameR, MiddleNameR, LastNameR', 'length', 'max'=>100),
-			array('Address', 'length', 'max'=>250),
+			array('Address,PhotoName', 'length', 'max'=>250),
 			array('HomeNumber, PostIndex', 'length', 'max'=>10),
 			array('Birthday', 'safe'),
 			// The following rule is used by search().
@@ -89,8 +121,8 @@ protected function beforeSave() {
             if ($this->KOATUUCodeL3ID == "0") $this->KOATUUCodeL3ID = NULL;
             if ($this->SchoolID == "0") $this->SchoolID = NULL;
             
-            $from=DateTime::createFromFormat('d.m.Y',$this->Birthday);
-            $this->Birthday=$from->format('Y-m-d');       
+           // $from=DateTime::createFromFormat('d.m.Y',$this->Birthday);
+            $this->Birthday=date('Y-m-d', strtotime($this->Birthday));       
             
             parent::beforeSave();
             return true;
@@ -108,6 +140,7 @@ protected function beforeSave() {
             return true;
         }
         protected function afterConstruct() {
+            if (empty($this->PhotoName))      $this->PhotoName = "images/180x240.gif";
             if (empty($this->KOATUUCodeL1ID)) $this->KOATUUCodeL1ID = 105572;
             if (empty($this->KOATUUCodeL2ID)) $this->KOATUUCodeL2ID = 105574;
             if (empty($this->KOATUUCodeL3ID)) $this->KOATUUCodeL3ID = 105576;
@@ -126,6 +159,9 @@ protected function beforeSave() {
 			'FirstName' => 'Прізвище',
 			'MiddleName' => 'Побатькові',
 			'LastName' => "Ім'я",
+                        'FirstNameR' => 'Прізвище (родовий)',
+			'MiddleNameR' => 'Побатькові (родовий)',
+			'LastNameR' => "Ім'я (родовий)",
 			'IsResident' => 'Українець',
 			'KOATUUCode' => 'Koatuucode',
 			'PersonEducationTypeID' => 'Person Education Type',
@@ -137,6 +173,7 @@ protected function beforeSave() {
                         'LanguageID' => 'Іноземна мова',
 			'CountryID' => 'Громадянство',
                         "PersonEducationTypeID"=>"Попередня освіта",
+                        "PhotoName"=>"Фото абітурієнта",
                     
 		);
 	}

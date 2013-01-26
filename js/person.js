@@ -4,6 +4,40 @@ PSN.koatuuLink = {};
 PSN.KOATUUCode = "0000000000";
 PSN.KOATUUSchoolCode = "0000000000";
 
+PSN.Init = function(){
+      $(".datepicker").datepicker({'format':"dd.mm.yyyy"});
+      $('.togle').toggleButtons({
+                        //width: 100,
+                        label: {
+                            enabled: "Так",
+                            disabled: "Ні"
+                        }
+                    });
+      $('#togle_resident').toggleButtons({
+                            //width: 100,
+                            label: {
+                                enabled: "Так",
+                                disabled: "Ні"
+                            }
+                        });
+      $('#togle_sameschool').toggleButtons({
+                        //width: 100,
+                        label: {
+                            enabled: "Так",
+                            disabled: "Ні"
+                        },
+                        onChange: function ($el, status, e) {
+                            if (status){
+                                $("#scholladdr").hide()
+                                PSN.updateSchools(PSN.KOATUUCode);
+                            } else {
+                                $("#scholladdr").show();
+                                PSN.updateSchools(PSN.KOATUUSchoolCode);
+                            }
+                            
+                        }
+                    });                 
+}
 PSN.KOATUUChange = function(obj, level){
     var id = $(obj," :selected").val();
     $.ajax({
@@ -116,3 +150,7 @@ PSN.updateSchools = function(code){
         }
     });
 }
+
+$(document).ready(function(){
+    PSN.Init();
+});

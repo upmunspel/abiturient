@@ -1,11 +1,12 @@
-<?php $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
+<?php 
+Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl."/js/person.js");
+$form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
 	'id'=>'person-form',
     //'type'=>'horizontal',
 	'enableAjaxValidation'=>false,
     'htmlOptions'=>array("class"=>"well"),
-)); 
-
-$form=new TbActiveForm();?>
+));
+?>
 <p class="help-block"><strong>Особисті дані</strong></p>
         <hr>
        
@@ -47,9 +48,7 @@ $form=new TbActiveForm();?>
                 <div class ="span4">
                     <?php echo $form->labelEx($model,'Birthday'); ?>
                     <?php echo $form->textField($model,'Birthday', array('class'=>'span12 datepicker')); ?>
-                    <script type="text/javascript">
-                        $(".datepicker").datepicker({'format':"dd.mm.yyyy"});
-                    </script>
+                    
                 </div>
                 <div class ="span4">
                     <?php echo $form->labelEx($model,'PersonSexID'); ?>
@@ -63,15 +62,7 @@ $form=new TbActiveForm();?>
                     <div id="togle_resident">
                         <?php echo $form->checkBox($model,'IsResident');//, array("Ні", "Так"), array('class'=>'span12')); ?>
                     </div>
-                    <script type="text/javascript">
-                        $('#togle_resident').toggleButtons({
-                            //width: 100,
-                            label: {
-                                enabled: "Так",
-                                disabled: "Ні"
-                            }
-                        });
-                    </script>      
+                   
                 </div>
             </div>
         
@@ -93,11 +84,11 @@ $form=new TbActiveForm();?>
         
             </div>    
             
-            <li class="span3">
-                <a href="#" class="thumbnail" rel="tooltip" data-title="Tooltip">
-                    <img src="http://placehold.it/180x240" alt="">
+            <div class="span3">
+                <a href="#" class="thumbnail" rel="tooltip" data-title="Фото абітурієнта">
+                    <img src="<?php echo Yii::app()->baseUrl."/".$model->PhotoName; ?>" alt="" />
                 </a>
-            </li>
+            </div>
         </div>
         <p class="help-block"><strong>Адреса</strong></p>
         <hr>
@@ -162,26 +153,7 @@ $form=new TbActiveForm();?>
                     $is_samaschooladdr = true;
                     echo CHtml::checkBox("sameschooladdr", $is_samaschooladdr);//, array("Ні", "Так"), array('class'=>'span12')); ?>
                  </div>
-                 <script type="text/javascript">
-                    $('#togle_sameschool').toggleButtons({
-                        //width: 100,
-                        label: {
-                            enabled: "Так",
-                            disabled: "Ні"
-                        },
-                        onChange: function ($el, status, e) {
-                            if (status){
-                                $("#scholladdr").hide()
-                                PSN.updateSchools(PSN.KOATUUCode);
-                            } else {
-                                $("#scholladdr").show();
-                                PSN.updateSchools(PSN.KOATUUSchoolCode);
-                            }
-                            
-                        }
-                    });
-                 </script>      
-            </div>
+             </div>
         </div>
         <div id="scholladdr" <?php echo $is_samaschooladdr ? "style='display:none;'":"";?> >
         <p class="help-block"><strong>Адреса школи</strong></p>
@@ -229,7 +201,16 @@ $form=new TbActiveForm();?>
             
             </div>
         </div>
-	
+        <p class="help-block"><strong>Документ, який посвідчує особу</strong></p>
+        <hr>
+        
+        <?php echo $this->renderPartial("_persondocform", array('model'=>$model->persondoc,'form'=>$form)); ?>
+        
+        <p class="help-block"><strong>Документ про освіту, на основі якого здійснюється вступ</strong></p>
+        <hr>
+        
+        <?php echo $this->renderPartial("_entrantdocform", array('model'=>$model->entrantdoc,'form'=>$form)); ?>
+        
         <p class="help-block">Fields with <span class="required">*</span> are required.</p>
          <?php echo $form->errorSummary($model); ?>
 	<div class="form-actions">

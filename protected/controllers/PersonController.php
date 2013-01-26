@@ -83,9 +83,24 @@ class PersonController extends Controller
 		if(isset($_POST['Person']))
 		{
 			$model->attributes=$_POST['Person'];
+                         if(isset($_POST['Documents']['persondoc'])){
+                            $model->persondoc->attributes=$_POST['Documents']['persondoc'];
+                           
+                        }
+                        if(isset($_POST['Documents']['entrantdoc'])){
+                            $model->entrantdoc->attributes=$_POST['Documents']['entrantdoc'];
+                            
+                        }
                         
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->idPerson));
+			if($model->save()&& $model->persondoc->validate() 
+                                && $model->entrantdoc->validate()){
+                            $model->persondoc->PersonID = $model->idPerson;
+                            $model->entrantdoc->PersonID = $model->idPerson;
+                            $model->persondoc->save();
+                            $model->entrantdoc->save();
+                                                      
+                            $this->redirect(array('view','id'=>$model->idPerson));
+                        }
 		}
                 
 		$this->render('create',array(
@@ -101,18 +116,34 @@ class PersonController extends Controller
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
+               
                 //var_dump($_POST);
                 //var_dump($model);
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Person']))
-		{
+		if(isset($_POST['Person'])){
 			$model->attributes=$_POST['Person'];
-                        
-                        if ($model->validate()){
-                           if ($model->save())	$this->redirect(array('view','id'=>$model->idPerson));
+                        if(isset($_POST['Documents']['persondoc'])){
+                            $model->persondoc->attributes=$_POST['Documents']['persondoc'];
+                            $model->persondoc->PersonID = $model->idPerson;
                         }
+                        if(isset($_POST['Documents']['entrantdoc'])){
+                            $model->entrantdoc->attributes=$_POST['Documents']['entrantdoc'];
+                            $model->entrantdoc->PersonID = $model->idPerson;
+                        }
+                        
+                        if ($model->validate()
+                                && $model->persondoc->validate() 
+                                && $model->entrantdoc->validate()){
+                           if ($model->save())	{
+                                    $model->persondoc->save();
+                                    $model->entrantdoc->save();
+                                }
+                               
+                               $this->redirect(array('view','id'=>$model->idPerson));
+                        }
+                        
 		}
                 //debug(print_r($model,true));
 		$this->render('update',array(
@@ -145,9 +176,17 @@ class PersonController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('Person');
+		/*$dataProvider=new CActiveDataProvider('Person');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
+		));*/
+            $model=new Person('search');
+		$model->unsetAttributes();  // clear any default values
+		if(isset($_GET['Person']))
+			$model->attributes=$_GET['Person'];
+
+		$this->render('admin',array(
+			'model'=>$model,
 		));
 	}
 

@@ -14,9 +14,7 @@
         <?php Yii::app()->bootstrap->register(); ?>
         <script type ="text/javascript" src ="<?php echo Yii::app()->request->baseUrl; ?>/js/bootstrap-datepicker.js"></script>
         <script type ="text/javascript" src ="<?php echo Yii::app()->request->baseUrl; ?>/js/jquery.toggle.buttons.js"></script>
-        
-        <script type ="text/javascript" src ="<?php echo Yii::app()->request->baseUrl; ?>/js/person.js"></script>
-        
+       
 </head>
 
 <body>

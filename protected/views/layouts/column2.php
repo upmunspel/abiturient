@@ -8,7 +8,7 @@
     </div>
     <div class="span3">
         <div id="sidebar">
-            <div class="well" style="padding: 8px 0;">
+            <div class="well" style="padding: 8px 0; position: fixed; width: 270px;">
            <?php
             //$this->beginWidget('zii.widgets.CPortlet', array(
                 //'title'=>'Доступні дії',

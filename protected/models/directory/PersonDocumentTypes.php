@@ -19,6 +19,14 @@ class PersonDocumentTypes extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+        public static function DropDown($IsEntrantDocument = 0 ){
+           $res = array();
+           foreach(PersonDocumentTypes::model()->findAll("IsEntrantDocument = :IsEntrantDocument", array(":IsEntrantDocument"=>$IsEntrantDocument))as $record) {
+                $res[$record->idPersonDocumentTypes] = $record->PersonDocumentTypesName;
+           }
+           return $res;
+        }
+
 
 	/**
 	 * @return string the associated database table name
