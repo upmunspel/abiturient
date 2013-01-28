@@ -10,7 +10,7 @@ $this->pageTitle=Yii::app()->name." - Довідники";
     'type'=>'tabs', // '', 'tabs', 'pills' (or 'list')
     'stacked'=>true, // whether this is a stacked menu
     'items'=>array(
-        array('label'=>'Пользователи', 'url'=>Yii::app()->createUrl("user")),
+        array('label'=>'Home', 'url'=>'#', 'active'=>true),
         array('label'=>'Profile', 'url'=>'#'),
         array('label'=>'Messages', 'url'=>'#'),
     ),
@@ -19,8 +19,16 @@ $this->pageTitle=Yii::app()->name." - Довідники";
     </div>
     <div class="span9">
         <div class="well">
-        <a href="#">Навчальні заклади</a>
-        <a href="#">Структурні підрозділи</a>
+        <?php $this->widget('bootstrap.widgets.TbMenu', array(
+    'type'=>'tabs', // '', 'tabs', 'pills' (or 'list')
+    'stacked'=>true, // whether this is a stacked menu
+    'items'=>array(
+        array('label'=>'Пільги', 'url'=>yii::app()->createUrl('Benefit/admin'), 'active'=>true),
+        array('label'=>'Школи', 'url'=>'#'),
+        array('label'=>'Типи вулиць', 'url'=>'#'),
+    ),
+)); ?>
+        
         </div>
         
     </div>
