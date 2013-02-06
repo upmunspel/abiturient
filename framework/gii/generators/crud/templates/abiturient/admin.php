@@ -53,7 +53,7 @@ echo TranslateModelName::getTranstalion($labname)
 )); ?>\n"; ?>
 </div><!-- search-form -->
 
-<?php echo "<?php"; ?> $this->widget('zii.widgets.grid.CGridView', array(
+<?php echo "<?php"; ?> $this->widget('bootstrap.widgets.TbDetailView', array(
 'id'=>'<?php echo $this->class2id($this->modelClass); ?>-grid',
 'dataProvider'=>$model->search(),
 'filter'=>$model,
@@ -77,7 +77,7 @@ if ($count >= 7)
     echo "\t\t*/\n";
 ?>
 array(
-'class'=>'CButtonColumn',
+'class'=>'bootstrap.widgets.TbButtonColumn',
 ),
 ),
 )); ?>

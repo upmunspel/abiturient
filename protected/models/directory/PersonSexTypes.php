@@ -68,8 +68,8 @@ class PersonSexTypes extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'idPersonSexTypes' => 'Id Person Sex Types',
-			'PersonSexTypesName' => 'Person Sex Types Name',
+			'idPersonSexTypes' => 'Код статі',
+			'PersonSexTypesName' => 'Назва статі',
 		);
 	}
 

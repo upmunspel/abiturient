@@ -28,7 +28,7 @@ $this->menu=array(
 
 <h1>Переглянути запис довідника <?php echo TranslateModelName::getTranstalion($this->modelClass)." #<?php echo \$model->{$this->tableSchema->primaryKey}; ?>"; ?></h1>
 
-<?php echo "<?php"; ?> $this->widget('zii.widgets.CDetailView', array(
+<?php echo "<?php"; ?> $this->widget('bootstrap.widgets.TbDetailView', array(
 	'data'=>$model,
 	'attributes'=>array(
 <?php

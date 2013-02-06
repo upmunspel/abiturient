@@ -40,8 +40,9 @@ return false;
 )); ?>
 </div><!-- search-form -->
 
-<?php $this->widget('zii.widgets.grid.CGridView', array(
+<?php $this->widget('bootstrap.widgets.TbGridView', array(
 'id'=>'benefit-grid',
+'type'=>'striped bordered condensed',
 'dataProvider'=>$model->search(),
 'filter'=>$model,
 'columns'=>array(
@@ -54,7 +55,7 @@ return false;
                     'filter'=>array('1'=>'так','0'=>'ні'),
                     'value'=>'($data->Visible=="1")?("так"):("ні")'),
 array(
-'class'=>'CButtonColumn',
+'class'=>'bootstrap.widgets.TbButtonColumn',
 ),
 ),
 )); ?>

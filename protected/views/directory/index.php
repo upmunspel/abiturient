@@ -24,8 +24,8 @@ $this->pageTitle=Yii::app()->name." - Довідники";
     'stacked'=>true, // whether this is a stacked menu
     'items'=>array(
         array('label'=>'Пільги', 'url'=>yii::app()->createUrl('Benefit/admin'), 'active'=>true),
-        array('label'=>'Школи', 'url'=>'#'),
-        array('label'=>'Типи вулиць', 'url'=>'#'),
+        array('label'=>'Країни', 'url'=>yii::app()->createUrl('Country/admin'), 'active'=>true),
+        array('label'=>'Статі', 'url'=>yii::app()->createUrl('PersonSexTypes/admin'), 'active'=>true),
     ),
 )); ?>
         

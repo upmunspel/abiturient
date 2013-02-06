@@ -14,13 +14,16 @@ class Country extends CActiveRecord
 	 * @param string $className active record class name.
 	 * @return Country the static model class
 	 */
+         
+    
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
 	}
         public static function DropDown(){
            $res = array();
-           foreach(Country::model()->findAll()as $record) {
+           foreach(Country::model()->findAll("visible = :visible", array(":visible"=>1))as $record) {
+                
                 $res[$record->idCountry] = $record->CountryName;
            }
            return $res;
@@ -41,12 +44,20 @@ class Country extends CActiveRecord
 	{
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
-		return array(
+		/*return array(
 			array('CountryName', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('CountryID, CountryName', 'safe', 'on'=>'search'),
-		);
+		);*/
+            	return array(
+			array('CountryName, Visible', 'required'),
+			array('Visible', 'numerical', 'integerOnly'=>true),
+			array('CountryName', 'length', 'max'=>255),
+			// The following rule is used by search().
+			// Please remove those attributes that should not be searched.
+			array('idCountry, CountryName, Visible', 'safe', 'on'=>'search'),
+                    );
 	}
 
 	/**
@@ -65,10 +76,15 @@ class Country extends CActiveRecord
 	 */
 	public function attributeLabels()
 	{
-		return array(
+		/*return array(
 			'CountryID' => 'Country',
 			'CountryName' => 'Country Name',
-		);
+		);*/
+            return array(
+            'idCountry' => 'Код країни',
+            'CountryName' => 'Назва країни',
+            'Visible' => 'Відображати при виборі',
+        );
 	}
 
 	/**
@@ -80,10 +96,19 @@ class Country extends CActiveRecord
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 
-		$criteria=new CDbCriteria;
+		/*$criteria=new CDbCriteria;
 
 		$criteria->compare('CountryID',$this->CountryID);
 		$criteria->compare('CountryName',$this->CountryName,true);
+
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+		));*/
+            	$criteria=new CDbCriteria;
+
+		$criteria->compare('idCountry',$this->idCountry);
+		$criteria->compare('CountryName',$this->CountryName,true);
+		$criteria->compare('Visible',$this->Visible);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
