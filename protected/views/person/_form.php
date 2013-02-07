@@ -216,19 +216,31 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
         
         <?php echo $this->renderPartial("_entrantdocform", array('model'=>$model->entrantdoc,'form'=>$form)); ?>
         
+        
+        
+        <p class="help-block"><strong>Додаткові документи</strong></p>
+        <hr>
+        <div class="row-fluid" <?php echo empty($model->KOATUUCodeL2ID) ? "style='display:none;'":""; ?>>
+            <div class ="span4"  >
+            <?php echo $this->renderPartial("_inndocumentform", array('model'=>$model->inndoc,'form'=>$form)); ?>
+            </div>
+            <div class ="span4"  >
+            <?php echo $this->renderPartial("_hospdocumentform", array('model'=>$model->hospdoc,'form'=>$form)); ?>
+            </div>
+        </div>
+        
+        
+        <p class="help-block"><strong>Контактна інформація</strong></p>
+        <hr>
+        
         <p class="help-block">Поля позначені <span class="required">*</span> заповняти обов'язково.</p>
          <?php echo $form->errorSummary($model); ?>
 	<div class="form-actions">
-		<?php   
-                $url = $model->isNewRecord ? CController::createUrl('person/create') : CController::createUrl("/person/update/".$model->idPerson);
-                echo CHtml::ajaxSubmitButton($model->isNewRecord ? 'Створити' : 'Зберегти', $url,
-                            array('type'=>'POST', "update"=>"#content")
-                );
-                /*$this->widget("bootstrap.widgets.TbButton', array(
+		<?php $this->widget("bootstrap.widgets.TbButton", array(
 			'buttonType'=>'submit',
 			'type'=>'primary',
 			'label'=>$model->isNewRecord ? 'Створити' : 'Зберегти',
-                        )); */
+                        )); 
                 ?>
             <?php /*$this->widget('bootstrap.widgets.TbButton', array(
                 'buttonType'=>'button',

@@ -21,14 +21,8 @@
     </div> 
 </div>
 <div class="row-fluid">
-    <div class ="span10">
+    <div class ="span12">
         <?php echo $form->labelEx($model,'[persondoc]Issued'); ?>
         <?php echo $form->textField($model,'[persondoc]Issued',array('class'=>'span12','maxlength'=>250)); ?>
     </div>    
-    <div class ="span2">
-        <?php echo $form->labelEx($model,'[persondoc]isCopy'); ?>
-        <div class ="togle">
-            <?php echo $form->checkBox($model,'[persondoc]isCopy'); ?>
-        </div>
-    </div>
 </div>
