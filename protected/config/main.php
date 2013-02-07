@@ -102,7 +102,7 @@ return array(
 			'connectionString' => 'mysql:host=localhost;dbname=abiturient',
 			'emulatePrepare' => true,
 			'username' => 'root',
-			'password' => 'root',
+			'password' => '',
 			'charset' => 'utf8',
 		),
 		
