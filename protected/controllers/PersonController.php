@@ -82,35 +82,43 @@ class PersonController extends Controller
 
 		if(isset($_POST['Person'])){
                         $model->attributes=$_POST['Person'];
-                         if(isset($_POST['Documents']['persondoc'])){
+                        if(isset($_POST['Documents']['persondoc'])){
                             $model->persondoc->attributes=$_POST['Documents']['persondoc'];
-                           
                         }
                         if(isset($_POST['Documents']['entrantdoc'])){
                             $model->entrantdoc->attributes=$_POST['Documents']['entrantdoc'];
-                            
+                        }
+                        if(isset($_POST['Documents']['inndoc'])){
+                            $model->inndoc->attributes=$_POST['Documents']['inndoc'];
+                           
+                        }
+                        if(isset($_POST['Documents']['hospdoc'])){
+                            $model->hospdoc->attributes=$_POST['Documents']['hospdoc'];
+                         
                         }
                         
-			if($model->save()&& $model->persondoc->validate() 
-                                && $model->entrantdoc->validate()){
+			if($model->save()
+                                && $model->persondoc->validate() 
+                                && $model->entrantdoc->validate()
+                                && $model->inndoc->validate() 
+                                && $model->hospdoc->validate()){
                             $model->persondoc->PersonID = $model->idPerson;
                             $model->entrantdoc->PersonID = $model->idPerson;
+                            $model->inndoc->PersonID = $model->idPerson;
+                            $model->hospdoc->PersonID = $model->idPerson;
+                            
                             $model->persondoc->save();
                             $model->entrantdoc->save();
+                            $model->inndoc->save();
+                            $model->hospdoc->save();
                               
-                             if (!Yii::app()->request->isAjaxRequest){
-                                    $this->renderPartial('view',array('model'=>$model,),false, true);
-                                    Yii::app()->end();
-                             } else {
+                             
                                 $this->redirect(array('view','id'=>$model->idPerson));
-                             }
+                             
                         }
 		}
-               if (Yii::app()->request->isAjaxRequest){
-                    $this->renderPartial('_form',array('model'=>$model,),false, true);
-               } else {
-                   $this->render('create',array('model'=>$model,));
-               }
+              
+                $this->render('create',array('model'=>$model,));
 	}
 
 	
@@ -139,28 +147,35 @@ class PersonController extends Controller
                             $model->entrantdoc->attributes=$_POST['Documents']['entrantdoc'];
                             $model->entrantdoc->PersonID = $model->idPerson;
                         }
+                         if(isset($_POST['Documents']['inndoc'])){
+                            $model->inndoc->attributes=$_POST['Documents']['inndoc'];
+                            $model->inndoc->PersonID = $model->idPerson;
+                        }
+                         if(isset($_POST['Documents']['hospdoc'])){
+                            $model->hospdoc->attributes=$_POST['Documents']['hospdoc'];
+                            $model->hospdoc->PersonID = $model->idPerson;
+                        }
                         
                         if ($model->validate()
                                 && $model->persondoc->validate() 
-                                && $model->entrantdoc->validate()){
+                                && $model->entrantdoc->validate()
+                                && $model->inndoc->validate() 
+                                && $model->hospdoc->validate()){
                            if ($model->save())	{
                                     $model->persondoc->save();
                                     $model->entrantdoc->save();
+                                    $model->inndoc->save();
+                                    $model->hospdoc->save();
                                 }
-                               if (Yii::app()->request->isAjaxRequest){
-                                    $this->renderPartial('view',array('model'=>$model,),false, true);
-                                    Yii::app()->end();
-                               } else {
-                                    $this->redirect(array('view','id'=>$model->idPerson));
-                               } 
+                               
+                            $this->redirect(array('view','id'=>$model->idPerson));
+                                
                         }
                         
 		}
-                if (Yii::app()->request->isAjaxRequest){
-                     $this->renderPartial('_form',array('model'=>$model,),false, true);
-                } else {
-                     $this->render('update',array('model'=>$model,));
-                }
+                
+                $this->render('update',array('model'=>$model,));
+                
 	}
 
 	/**
