@@ -25,8 +25,6 @@
  * @property string $LastNameR
  * @property integer $LanguageID
  * @property integer $CountryID
- * @property integer $PersonDocumentID
- * @property integer $EntrantDocumentID
  * @property string  $PhotoName
  */
 class Person extends CActiveRecord
@@ -39,6 +37,8 @@ class Person extends CActiveRecord
       
         private $persondoc = NULL;
         private $entrantdoc = NULL;
+        private $inndoc = NULL;
+        private $hospdoc = NULL;
         public function getPersondoc(){
             if (!empty($this->persondoc)) return $this->persondoc;
             if (!$this->isNewRecord){
@@ -66,7 +66,34 @@ class Person extends CActiveRecord
             }
             return $this->entrantdoc;
         }
-        
+        public function getInndoc(){
+            if (!empty($this->inndoc)) return $this->inndoc;
+            if (!$this->isNewRecord){
+                $sql = "select `documents`.* from `documents` left join  `persondocumenttypes`"; 
+                $sql = $sql." on `documents`.`TypeID` = persondocumenttypes.`idPersonDocumentTypes`"; 
+                $sql = $sql." where `persondocumenttypes`.`idPersonDocumentTypes` = 5 and `documents`.PersonID = :PersonID";
+                $this->inndoc = Documents::model()->findBySql($sql, array(":PersonID"=>$this->idPerson));
+                if (empty($this->inndoc))  $this->inndoc = new Documents();
+            } else {
+                $this->inndoc = new Documents();
+            }
+            $this->inndoc->TypeID = 5;
+            return $this->inndoc;
+        }
+        public function getHospdoc(){
+            if (!empty($this->hospdoc)) return $this->hospdoc;
+            if (!$this->isNewRecord){
+                $sql = "select `documents`.* from `documents` left join  `persondocumenttypes`"; 
+                $sql = $sql." on `documents`.`TypeID` = persondocumenttypes.`idPersonDocumentTypes`"; 
+                $sql = $sql." where `persondocumenttypes`.`idPersonDocumentTypes` = 6 and `documents`.PersonID = :PersonID";
+                $this->hospdoc = Documents::model()->findBySql($sql, array(":PersonID"=>$this->idPerson));
+                if (empty($this->hospdoc))  $this->hospdoc = new Documents();
+            } else {
+                $this->hospdoc = new Documents();
+            }
+            $this->hospdoc->TypeID = 6;
+            return $this->hospdoc;
+        }
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
@@ -92,7 +119,7 @@ class Person extends CActiveRecord
                                 FirstName, LastName, FirstNameR, 
                                 LastNameR', 'required'),
 			array('PersonSexID, KOATUUCodeL1ID, KOATUUCodeL2ID, 
-                                KOATUUCodeL3ID, IsResident, PersonEducationTypeID, StreetTypeID, SchoolID, LanguageID, CountryID, PersonDocumentID, EntrantDocumentID', 'numerical', 'integerOnly'=>true),
+                                KOATUUCodeL3ID, IsResident, PersonEducationTypeID, StreetTypeID, SchoolID, LanguageID, CountryID', 'numerical', 'integerOnly'=>true),
 			array('FirstName, MiddleName, LastName, FirstNameR, MiddleNameR, LastNameR', 'length', 'max'=>100),
 			array('Address,PhotoName', 'length', 'max'=>250),
 			array('HomeNumber, PostIndex', 'length', 'max'=>10),
@@ -174,6 +201,7 @@ protected function beforeSave() {
 			'CountryID' => 'Громадянство',
                         "PersonEducationTypeID"=>"Попередня освіта",
                         "PhotoName"=>"Фото абітурієнта",
+                        "SchoolID"=>"Назва школи",
                     
 		);
 	}
@@ -205,9 +233,6 @@ protected function beforeSave() {
 		$criteria->compare('LastNameR',$this->LastNameR,true);
 		$criteria->compare('LanguageID',$this->LanguageID);
 		$criteria->compare('CountryID',$this->CountryID);
-		$criteria->compare('PersonDocumentID',$this->PersonDocumentID);
-		$criteria->compare('EntrantDocumentID',$this->EntrantDocumentID);
-
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));

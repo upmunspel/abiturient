@@ -40,8 +40,6 @@ class Documents extends CActiveRecord
         protected function beforeSave() {
          
             $this->DateGet=date('Y-m-d',  strtotime($this->DateGet));      
-            
-      
             parent::beforeSave();
             return true;
         }
@@ -61,12 +59,13 @@ class Documents extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('PersonID, TypeID, ZNOPin, isCopy', 'numerical', 'integerOnly'=>true),
-			array('Series, AtestatValue', 'length', 'max'=>10),
+			array('PersonID, TypeID, ZNOPin, isCopy', 'numerical' , 'integerOnly'=>true),
+                        array('AtestatValue', 'numerical' , 'integerOnly'=>false),
+			array('Series', 'length', 'max'=>10),
 			array('Numbers', 'length', 'max'=>15),
 			array('Issued', 'length', 'max'=>250),
-			array('DateGet,idDocuments', 'safe'),
-                        array('Series, Numbers, DateGet', 'required'),
+			array('DateGet,idDocuments,Series, Numbers, ', 'safe'),
+                        // array('DateGet', 'required'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('idDocuments, PersonID, TypeID, Series, Numbers, DateGet, ZNOPin, AtestatValue, Issued, isCopy', 'safe', 'on'=>'search'),

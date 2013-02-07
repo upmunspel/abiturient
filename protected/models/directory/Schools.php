@@ -89,7 +89,7 @@ class Schools extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'idSchool' => 'Id School',
+			'idSchool' => 'Шазва школи',
 			'EducationTypeID' => 'Education Type',
 			'Kode_School' => 'Kode School',
 			'SchoolName' => 'School Name',
