@@ -89,22 +89,22 @@ class Schools extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'idSchool' => 'Шазва школи',
-			'EducationTypeID' => 'Education Type',
-			'Kode_School' => 'Kode School',
-			'SchoolName' => 'School Name',
-			'SchoolShortName' => 'School Short Name',
-			'KOATUUCode' => 'Koatuucode',
-			'KOATUUFullName' => 'Koatuufull Name',
-			'StreetTypeID' => 'Street Type',
-			'StreetName' => 'Street Name',
-			'HouceNum' => 'Houce Num',
-			'SchoolBossLastName' => 'School Boss Last Name',
-			'SchoolBossFirstName' => 'School Boss First Name',
-			'SchoolBossMiddleName' => 'School Boss Middle Name',
-			'SchoolPhone' => 'School Phone',
-			'SchoolMobile' => 'School Mobile',
-			'SchoolEMail' => 'School Email',
+			'idSchool' => 'Номер школи',
+			'EducationTypeID' => 'Тип освіти',
+			'Kode_School' => 'Код школи',
+			'SchoolName' => 'Назва школи',
+			'SchoolShortName' => 'Скорочена назва школи',
+			'KOATUUCode' => 'Koatuu код',
+			'KOATUUFullName' => 'Koatuufull назва',
+			'StreetTypeID' => 'Тип вулиці',
+			'StreetName' => 'Назва вулиці',
+			'HouceNum' => 'Номер будинку',
+			'SchoolBossLastName' => 'Прізвище директора',
+			'SchoolBossFirstName' => 'Ім"я директора',
+			'SchoolBossMiddleName' => 'По-батькові директора',
+			'SchoolPhone' => 'Телефон школи',
+			'SchoolMobile' => 'Мобільний телефон школи',
+			'SchoolEMail' => 'Email школи',
 		);
 	}
 

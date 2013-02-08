@@ -30,8 +30,11 @@
                     array('label'=>'Головна', 'url'=>array('/site/index')),
                     array('label'=>'Контакти', 'url'=>array('/site/contact'), "icon"=>"icon-envelope"),
                     array('label'=>'Довідники', 'url'=>'#', 'items'=>array(
-                        array('label'=>'Пільги', 'url'=>'#'),
-                        array('label'=>'Іноземні мови', 'url'=>'#'),
+                        array('label'=>'Пільги', 'url'=>yii::app()->createUrl('Benefit/admin')),
+                        array('label'=>'Країни громадянства', 'url'=>yii::app()->createUrl('Country/admin')),
+                        array('label'=>'Статі', 'url'=>yii::app()->createUrl('PersonSexTypes/admin')),
+                        array('label'=>'Школи', 'url'=>yii::app()->createUrl('Schools/admin')),
+                        array('label'=>'Типи документів особи', 'url'=>yii::app()->createUrl('PersonDocumentTypes/admin')),
                         array('label'=>'Національності', 'url'=>'#'),
                        
                     )),

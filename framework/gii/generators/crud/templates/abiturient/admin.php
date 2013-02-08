@@ -53,7 +53,7 @@ echo TranslateModelName::getTranstalion($labname)
 )); ?>\n"; ?>
 </div><!-- search-form -->
 
-<?php echo "<?php"; ?> $this->widget('bootstrap.widgets.TbDetailView', array(
+<?php echo "<?php"; ?> $this->widget('bootstrap.widgets.TbGridView', array(
 'id'=>'<?php echo $this->class2id($this->modelClass); ?>-grid',
 'dataProvider'=>$model->search(),
 'filter'=>$model,

@@ -20,7 +20,19 @@ class TranslateModelName{
                 break;
             case('PersonSexType'):
                 $rez = '"Статі"';
-                break;           
+                break;
+            case('Schools'):
+                $rez = '"Школи"';
+                break; 
+            case('School'):
+                $rez = '"Школи"';
+                break;
+            case('Person Document Types'):
+                $rez = '"Типи документів особи"';
+                break; 
+            case('Person Document Type'):
+                $rez = '"Типи документів особи"';
+                break;
             default:
                 $rez = $modname;
                 

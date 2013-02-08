@@ -70,9 +70,9 @@ class PersonDocumentTypes extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'idPersonDocumentTypes' => 'Id Person Document Types',
-			'PersonDocumentTypesName' => 'Person Document Types Name',
-			'IsEntrantDocument' => 'Is Entrant Document',
+			'idPersonDocumentTypes' => 'Код типу документа особи',
+			'PersonDocumentTypesName' => 'Назва типу документа особи',
+			'IsEntrantDocument' => '/1/ документ вступу, /2/ док. посв. особу',
 		);
 	}
 
