@@ -29,6 +29,12 @@
                 'items'=>array(
                     array('label'=>'Головна', 'url'=>array('/site/index')),
                     array('label'=>'Контакти', 'url'=>array('/site/contact'), "icon"=>"icon-envelope"),
+                    array('label'=>'Довідники', 'url'=>'#', 'items'=>array(
+                        array('label'=>'Пільги', 'url'=>'#'),
+                        array('label'=>'Іноземні мови', 'url'=>'#'),
+                        array('label'=>'Національності', 'url'=>'#'),
+                       
+                    )),
                 ),
                 
             ),
