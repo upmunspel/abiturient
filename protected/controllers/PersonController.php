@@ -65,7 +65,7 @@ class PersonController extends Controller
 			'model'=>$this->loadModel($id),
 		));
 	}
-
+        
 	/**
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
@@ -96,24 +96,39 @@ class PersonController extends Controller
                             $model->hospdoc->attributes=$_POST['Documents']['hospdoc'];
                          
                         }
+                        if(isset($_POST['PersonContacts']['homephone'])){
+                            $model->homephone->attributes=$_POST['PersonContacts']['homephone'];
+                           
+                        }
+                        if(isset($_POST['PersonContacts']['mobphone'])){
+                            $model->mobphone->attributes=$_POST['PersonContacts']['mobphone'];
+                         
+                        }
                         
 			if($model->save()
                                 && $model->persondoc->validate() 
                                 && $model->entrantdoc->validate()
                                 && $model->inndoc->validate() 
-                                && $model->hospdoc->validate()){
+                                && $model->hospdoc->validate()
+                                && $model->homephone->validate() 
+                                && $model->mobphone->validate()){
                             $model->persondoc->PersonID = $model->idPerson;
                             $model->entrantdoc->PersonID = $model->idPerson;
                             $model->inndoc->PersonID = $model->idPerson;
                             $model->hospdoc->PersonID = $model->idPerson;
+                            $model->homephone->PersonID = $model->idPerson;
+                            $model->mobphone->PersonID = $model->idPerson;
                             
                             $model->persondoc->save();
                             $model->entrantdoc->save();
                             $model->inndoc->save();
                             $model->hospdoc->save();
+                            $model->homephone->save();
+                            $model->mobphone->save();
+                              
                               
                              
-                                $this->redirect(array('view','id'=>$model->idPerson));
+                            $this->redirect(array('view','id'=>$model->idPerson));
                              
                         }
 		}
@@ -141,35 +156,52 @@ class PersonController extends Controller
 			$model->attributes=$_POST['Person'];
                         if(isset($_POST['Documents']['persondoc'])){
                             $model->persondoc->attributes=$_POST['Documents']['persondoc'];
-                            $model->persondoc->PersonID = $model->idPerson;
                         }
                         if(isset($_POST['Documents']['entrantdoc'])){
                             $model->entrantdoc->attributes=$_POST['Documents']['entrantdoc'];
-                            $model->entrantdoc->PersonID = $model->idPerson;
                         }
-                         if(isset($_POST['Documents']['inndoc'])){
+                        if(isset($_POST['Documents']['inndoc'])){
                             $model->inndoc->attributes=$_POST['Documents']['inndoc'];
-                            $model->inndoc->PersonID = $model->idPerson;
+                           
                         }
-                         if(isset($_POST['Documents']['hospdoc'])){
+                        if(isset($_POST['Documents']['hospdoc'])){
                             $model->hospdoc->attributes=$_POST['Documents']['hospdoc'];
-                            $model->hospdoc->PersonID = $model->idPerson;
+                         
+                        }
+                        if(isset($_POST['PersonContacts']['homephone'])){
+                            $model->homephone->attributes=$_POST['PersonContacts']['homephone'];
+                           
+                        }
+                        if(isset($_POST['PersonContacts']['mobphone'])){
+                            $model->mobphone->attributes=$_POST['PersonContacts']['mobphone'];
+                         
                         }
                         
-                        if ($model->validate()
+			if($model->save()
                                 && $model->persondoc->validate() 
                                 && $model->entrantdoc->validate()
                                 && $model->inndoc->validate() 
-                                && $model->hospdoc->validate()){
-                           if ($model->save())	{
-                                    $model->persondoc->save();
-                                    $model->entrantdoc->save();
-                                    $model->inndoc->save();
-                                    $model->hospdoc->save();
-                                }
-                               
+                                && $model->hospdoc->validate()
+                                && $model->homephone->validate() 
+                                && $model->mobphone->validate()){
+                            $model->persondoc->PersonID = $model->idPerson;
+                            $model->entrantdoc->PersonID = $model->idPerson;
+                            $model->inndoc->PersonID = $model->idPerson;
+                            $model->hospdoc->PersonID = $model->idPerson;
+                            $model->homephone->PersonID = $model->idPerson;
+                            $model->mobphone->PersonID = $model->idPerson;
+                            
+                            $model->persondoc->save();
+                            $model->entrantdoc->save();
+                            $model->inndoc->save();
+                            $model->hospdoc->save();
+                            $model->homephone->save();
+                            $model->mobphone->save();
+                              
+                              
+                             
                             $this->redirect(array('view','id'=>$model->idPerson));
-                                
+                             
                         }
                         
 		}

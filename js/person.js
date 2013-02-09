@@ -6,37 +6,19 @@ PSN.KOATUUSchoolCode = "0000000000";
 
 PSN.Init = function(){
       $(".datepicker").datepicker({'format':"dd.mm.yyyy"});
-      $('.togle').toggleButtons({
-                        //width: 100,
-                        label: {
-                            enabled: "Так",
-                            disabled: "Ні"
-                        }
-                    });
-      $('#togle_resident').toggleButtons({
-                            //width: 100,
-                            label: {
-                                enabled: "Так",
-                                disabled: "Ні"
-                            }
-                        });
-      $('#togle_sameschool').toggleButtons({
-                        //width: 100,
-                        label: {
-                            enabled: "Так",
-                            disabled: "Ні"
-                        },
-                        onChange: function ($el, status, e) {
-                            if (status){
-                                $("#scholladdr").hide()
-                                PSN.updateSchools(PSN.KOATUUCode);
-                            } else {
-                                $("#scholladdr").show();
-                                PSN.updateSchools(PSN.KOATUUSchoolCode);
-                            }
-                            
-                        }
-                    });  
+      $('#toggle_sameschool').on('switch-change', function (e, data) {
+           var status = data.value;
+           if (status){
+                $("#scholladdr").hide()
+                PSN.updateSchools(PSN.KOATUUCode);
+            } else {
+                $("#scholladdr").show();
+                PSN.updateSchools(PSN.KOATUUSchoolCode);
+            }
+      });
+          
+         
+                  
      $('#personSave').click(function() {
         var btn = $(this);
         btn.button('loading'); // call the loading function

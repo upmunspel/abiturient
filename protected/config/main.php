@@ -79,6 +79,18 @@ return array(
                 'bootstrap'=>array(
                     'class'=>'bootstrap.components.Bootstrap',
                 ),
+                
+                'clientScript'=>array(
+                    'packages'=>array(
+                       // описание пакета catalog
+                       'bootstrap-switch' => array(
+                          'basePath'=>'ext.bootstrap-switch.static',
+                          'js'=>array('js/jquery.switch.js'),
+                          'css'=>array('stylesheets/bootstrap-switch.css'),
+                       ),
+                   ),
+                 ),
+            
            
                 
 		// uncomment the following to enable URLs in path-format

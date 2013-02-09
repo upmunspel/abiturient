@@ -33,7 +33,7 @@
     </div>    
     <div class ="span2">
         <?php echo $form->labelEx($model,'[entrantdoc]isCopy'); ?>
-        <div class ="togle">
+        <div class="switch" data-on-label="Так" data-off-label="Ні">
             <?php echo $form->checkBox($model,'[entrantdoc]isCopy'); ?>
         </div>
     </div>

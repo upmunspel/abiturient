@@ -424,7 +424,7 @@
 		headTemplate: '<thead>'+
 							'<tr>'+
 								'<th class="prev">&lsaquo;</th>'+
-								'<th colspan="5" class="switch"></th>'+
+								'<th colspan="5" class="dp-switch"></th>'+
 								'<th class="next">&rsaquo;</th>'+
 							'</tr>'+
 						'</thead>',

@@ -7,11 +7,11 @@
         <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/styles.css" />
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/form.css" />
         <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/datepicker.css" />
-        <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/bootstrap-toggle-buttons.css" />
-   
+      
         
         <title><?php echo CHtml::encode($this->pageTitle); ?></title>
         <?php Yii::app()->bootstrap->register(); ?>
+        <?php Yii::app()->clientScript->registerPackage('bootstrap-switch'); ?>
         
        
 </head>

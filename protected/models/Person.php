@@ -26,6 +26,7 @@
  * @property integer $LanguageID
  * @property integer $CountryID
  * @property string  $PhotoName
+ * @property integer $isCampus
  */
 class Person extends CActiveRecord
 {
@@ -39,6 +40,34 @@ class Person extends CActiveRecord
         private $entrantdoc = NULL;
         private $inndoc = NULL;
         private $hospdoc = NULL;
+        private $homephone = NULL;
+        private $mobphone = NULL;
+        public function getHomephone(){
+            if (!empty($this->homephone)) return $this->homephone;
+            if (!$this->isNewRecord){
+                $sql = "select * from `personcontacts` where ";
+                $sql = $sql."`personcontacts`.`PersonID` = :PersonID and `personcontacts`.PersonContactTypeID = 1;"; 
+                $this->homephone = PersonContacts::model()->findBySql($sql, array(":PersonID"=>$this->idPerson));
+                if (empty($this->homephone))  $this->homephone = new PersonContacts();
+            } else {
+                $this->homephone = new PersonContacts();
+            }
+            $this->homephone->PersonContactTypeID = 1;
+            return $this->homephone;
+        }
+         public function getMobphone(){
+            if (!empty($this->mobphone)) return $this->mobphone;
+            if (!$this->isNewRecord){
+                $sql = "select * from `personcontacts` where ";
+                $sql = $sql."`personcontacts`.`PersonID` = :PersonID and `personcontacts`.PersonContactTypeID = 2;"; 
+                $this->mobphone = PersonContacts::model()->findBySql($sql, array(":PersonID"=>$this->idPerson));
+                if (empty($this->mobphone))  $this->mobphone = new PersonContacts();
+            } else {
+                $this->mobphone = new PersonContacts();
+            }
+            $this->mobphone->PersonContactTypeID = 1; 
+            return $this->mobphone;
+        }
         public function getPersondoc(){
             if (!empty($this->persondoc)) return $this->persondoc;
             if (!$this->isNewRecord){
@@ -123,7 +152,7 @@ class Person extends CActiveRecord
 			array('FirstName, MiddleName, LastName, FirstNameR, MiddleNameR, LastNameR', 'length', 'max'=>100),
 			array('Address,PhotoName', 'length', 'max'=>250),
 			array('HomeNumber, PostIndex', 'length', 'max'=>10),
-			array('Birthday', 'safe'),
+			array('Birthday, isCampus', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('idPerson, Birthday, PersonSexID, FirstName, MiddleName, LastName, KOATUUCodeL1ID, KOATUUCodeL2ID, KOATUUCodeL3ID, IsResident, PersonEducationTypeID, StreetTypeID, Address, HomeNumber, PostIndex, SchoolID, FirstNameR, MiddleNameR, LastNameR, LanguageID, CountryID, PersonDocumentID, EntrantDocumentID', 'safe', 'on'=>'search'),
@@ -192,7 +221,7 @@ protected function beforeSave() {
 			'IsResident' => 'Українець',
 			'KOATUUCode' => 'Koatuucode',
 			'PersonEducationTypeID' => 'Person Education Type',
-			'StreetTypeID' => "Тип міського об'єкуту",
+			'StreetTypeID' => "Тип об'єкуту",
 			'Address' => "Назва мыського об'єкуту",
 			'HomeNumber' => 'Номер',
 			'PostIndex' => 'Індекс',
@@ -202,6 +231,7 @@ protected function beforeSave() {
                         "PersonEducationTypeID"=>"Попередня освіта",
                         "PhotoName"=>"Фото абітурієнта",
                         "SchoolID"=>"Назва школи",
+                        "isCampus"=>"Гуртожиток",
                     
 		);
 	}

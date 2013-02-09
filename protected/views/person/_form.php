@@ -2,7 +2,6 @@
 $burl = Yii::app()->baseUrl;
 Yii::app()->getClientScript()->registerCoreScript('jquery');
 Yii::app()->clientScript->registerScriptFile($burl."/js/bootstrap-datepicker.js");
-Yii::app()->clientScript->registerScriptFile($burl."/js/jquery.toggle.buttons.js");
 Yii::app()->clientScript->registerScriptFile($burl."/js/person.js");
 
 $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
@@ -64,7 +63,7 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
 
                 <div class ="span4">
                     <?php echo $form->labelEx($model,'IsResident'); ?>
-                    <div id="togle_resident">
+                    <div class="switch" data-on-label="Так" data-off-label="Ні">
                         <?php echo $form->checkBox($model,'IsResident');//, array("Ні", "Так"), array('class'=>'span12')); ?>
                     </div>
                    
@@ -132,17 +131,23 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
             <?php echo $form->labelEx($model,'PostIndex');//,array('class'=>'span3'));?>
             <?php echo $form->textField($model,'PostIndex',array('class'=>'span12','maxlength'=>50)); ?>
             </div>
-            <div class ="span3">
+            <div class ="span2">
             <?php echo $form->labelEx($model,'StreetTypeID'); ?>
             <?php echo $form->dropDownList($model,'StreetTypeID', StreetTypes::DropDown(), array('class'=>'span12')); ?>
             </div>
-            <div class ="span5">
+            <div class ="span4">
             <?php echo $form->labelEx($model,'Address');//,array('class'=>'span3'));?>
             <?php echo $form->textField($model,'Address',array('class'=>'span12','maxlength'=>50)); ?>
             </div>
              <div class ="span2">
             <?php echo $form->labelEx($model,'HomeNumber');//,array('class'=>'span3'));?>
             <?php echo $form->textField($model,'HomeNumber',array('class'=>'span12','maxlength'=>50)); ?>
+            </div>
+            <div class ="span2">
+                    <?php echo $form->labelEx($model,'isCampus'); ?>
+                    <div class="switch" data-on-label="Так" data-off-label="Ні">
+                        <?php echo $form->checkBox($model,'isCampus'); ?>
+                    </div>
             </div>
         </div>
             
@@ -153,7 +158,7 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
                 <?php echo Chtml::label("Закінчив школу за місцем проживання", "sameschooladdr") ?>
             </div>
             <div class ="span1">
-                 <div id="togle_sameschool">
+                 <div id="toggle_sameschool" class="switch" data-on-label="Так" data-off-label="Ні">
                     <?php 
                     $is_samaschooladdr = true;
                     echo CHtml::checkBox("sameschooladdr", $is_samaschooladdr);//, array("Ні", "Так"), array('class'=>'span12')); ?>
@@ -197,13 +202,9 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
         </div>
         
         <div class="row-fluid">
-        <div class ="span12">
+            <div class ="span12">
                 <?php echo $form->labelEx($model,'SchoolID'); ?>
-               
                 <?php echo $form->dropDownList($model,'SchoolID', Schools::DropDown(KoatuuLevel2::getKoatuuLevel2Code($model->KOATUUCodeL2ID)), array('class'=>'span12')); ?>
-           
-               
-            
             </div>
         </div>
         <p class="help-block"><strong>Документ, який посвідчує особу</strong></p>
@@ -232,6 +233,14 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
         
         <p class="help-block"><strong>Контактна інформація</strong></p>
         <hr>
+         <div class="row-fluid" <?php echo empty($model->KOATUUCodeL2ID) ? "style='display:none;'":""; ?>>
+            <div class ="span4"  >
+                <?php echo $this->renderPartial("_contacts", array('model'=>$model->homephone,'form'=>$form)); ?>
+            </div>
+            <div class ="span4"  >
+                <?php echo $this->renderPartial("_contacts", array('model'=>$model->mobphone,'form'=>$form)); ?>
+            </div>
+        </div>
         
         <p class="help-block">Поля позначені <span class="required">*</span> заповняти обов'язково.</p>
          <?php echo $form->errorSummary($model); ?>
