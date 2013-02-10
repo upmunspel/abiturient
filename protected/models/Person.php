@@ -210,7 +210,7 @@ protected function beforeSave() {
 	public function attributeLabels()
 	{
 		return array(
-			'idPerson' => 'Id Person',
+			'idPerson' => 'Код',
 			'Birthday' => 'Дата народження',
 			'PersonSexID' => 'Стать',
 			'FirstName' => 'Прізвище',

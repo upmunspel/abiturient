@@ -1,8 +1,4 @@
 <?php
-$this->breadcrumbs=array(
-	'people'=>array('index'),
-	$model->idPerson,
-);
 
 $this->menu=array(
 	array('label'=>'Перелік абітурієнтів','url'=>array('index'),'icon'=>"icon-list-alt"),
@@ -13,7 +9,7 @@ $this->menu=array(
 );
 ?>
 
-<h1>Інформація про абітурієнта (<?php echo $model->idPerson; ?>)</h1>
+<h2>Загальна інформація про абітурієнта (<?php echo $model->idPerson; ?>)</h2>
 
 <?php $this->widget('bootstrap.widgets.TbDetailView',array(
 	'data'=>$model,
@@ -21,7 +17,38 @@ $this->menu=array(
 	'attributes'=>array(
 		'idPerson',
 		'FirstName',
-		'MiddleName',
 		'LastName',
+                'MiddleName',
+                "Birthday"
 	),
 )); ?>
+<h3>Параметри вступу та пільги що маэ абітуріент</h3> 
+<div  style="   background-color: #fff;
+                border: 1px solid #ddd;
+                -webkit-border-radius: 4px;
+                -moz-border-radius: 4px;
+                border-radius: 4px;
+                padding:10px;">
+    <div style="margin-bottom: 10px;">
+        
+    <?php $this->widget('bootstrap.widgets.TbButtonGroup', array(
+        'type'=>'primary', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
+        'buttons'=>array(
+            array('label'=>'Додати спеціальність', 'items'=>array(
+                array('label'=>'Прикладна математика', 'url'=>'#'),
+                array('label'=>'Філосовія', 'url'=>'#'),
+                array('label'=>'Програмна інженерія', 'url'=>'#'),
+                array('label'=>'...', 'url'=>'#'),
+            )),
+        ),
+    )); ?>  
+    </div>
+    
+    <?php $this->widget('bootstrap.widgets.TbTabs', array(
+        'type'=>'tabs', // 'tabs' or 'pills'
+
+        'tabs'=>array(
+            array('label'=>'Пільги', 'content'=>$this->renderPartial("_benefits",array(),true), 'active'=>true, 'id'=>"benefits"),
+        ),
+    )); ?>
+</div>
