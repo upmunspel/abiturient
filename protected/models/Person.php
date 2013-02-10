@@ -65,7 +65,7 @@ class Person extends CActiveRecord
             } else {
                 $this->mobphone = new PersonContacts();
             }
-            $this->mobphone->PersonContactTypeID = 1; 
+            $this->mobphone->PersonContactTypeID = 2; 
             return $this->mobphone;
         }
         public function getPersondoc(){
@@ -167,6 +167,7 @@ class Person extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+                    'benefits' => array(self::HAS_MANY, 'PersonBenefits', 'PersonID'),
 		);
 	}
 

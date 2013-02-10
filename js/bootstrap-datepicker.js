@@ -248,7 +248,7 @@
 				switch(target[0].nodeName.toLowerCase()) {
 					case 'th':
 						switch(target[0].className) {
-							case 'switch':
+							case 'dp-switch':
 								this.showMode(1);
 								break;
 							case 'prev':

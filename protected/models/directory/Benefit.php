@@ -29,6 +29,14 @@ class Benefit extends CActiveRecord
 	{
 		return 'benefit';
 	}
+        public static function DropDown(){
+           $res = array();
+           foreach(Benefit::model()->findAll("visible = :visible", array(":visible"=>1))as $record) {
+                
+                $res[$record->idBenefit] = $record->BenefitName;
+           }
+           return $res;
+        }
 
 	/**
 	 * @return array validation rules for model attributes.

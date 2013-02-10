@@ -16,9 +16,6 @@ PSN.Init = function(){
                 PSN.updateSchools(PSN.KOATUUSchoolCode);
             }
       });
-          
-         
-                  
      $('#personSave').click(function() {
         var btn = $(this);
         btn.button('loading'); // call the loading function
@@ -30,6 +27,7 @@ PSN.Init = function(){
             btn.button('reset'); // call the reset function
         }, 3000);
     });
+    
 }
 PSN.KOATUUChange = function(obj, level){
     var id = $(obj," :selected").val();
@@ -143,7 +141,11 @@ PSN.updateSchools = function(code){
         }
     });
 }
-
+PSN.addBenefit = function(obj, url){
+    var btn = $(obj);
+    btn.button('loading'); // call the loading function
+    $("#benefits").load(url,function() {btn.button('reset')});
+}
 $(document).ready(function(){
     PSN.Init();
 });

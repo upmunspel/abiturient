@@ -37,7 +37,7 @@ class PersonContacts extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('idPersonContacts', 'required'),
+			//array('idPersonContacts', 'required'),
 			array('idPersonContacts, PersonID, PersonContactTypeID', 'numerical', 'integerOnly'=>true),
 			array('Value', 'length', 'max'=>50),
 			// The following rule is used by search().
