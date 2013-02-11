@@ -144,7 +144,14 @@ PSN.updateSchools = function(code){
 PSN.addBenefit = function(obj, url){
     var btn = $(obj);
     btn.button('loading'); // call the loading function
-    $("#benefits").load(url,function() {btn.button('reset')});
+    var data = $("#benefit-form").serialize(); 
+    $("#benefits").load(url,data,function() {btn.button('reset')});
+}
+PSN.reloadBenefit = function(obj, url){
+    var btn = $(obj);
+    btn.button('loading'); // call the loading function
+    var data = "reload=1"
+    $("#benefits").load(url,data, function() {btn.button('reset')});
 }
 $(document).ready(function(){
     PSN.Init();

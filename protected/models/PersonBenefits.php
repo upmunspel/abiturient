@@ -39,7 +39,7 @@ class PersonBenefits extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('PersonID, BenefitID', 'numerical', 'integerOnly'=>true),
+			array('idPersonBenefits, PersonID, BenefitID', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('idPersonBenefits, PersonID, BenefitID', 'safe', 'on'=>'search'),

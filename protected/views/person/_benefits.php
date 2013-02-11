@@ -13,7 +13,7 @@ $form = new CActiveForm();
     <div class="row-fluid">
         <div class="span3">
                <?php 
-                $url = Yii::app()->createUrl("personbenefits/create");
+                $url = Yii::app()->createUrl("personbenefits/create",array('personid'=>$personid));
                     $this->widget('bootstrap.widgets.TbButton', array(
                     'label'=>'Додати пільгу',
                     'type'=>'primary', // null, 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
@@ -29,7 +29,9 @@ $form = new CActiveForm();
     <?php foreach($models as $i=>$model): ?>       
     <div class="row-fluid">    
          <div class="span12">
-            <?php echo $form->dropDownList($model,'[$i]BenefitID', Benefit::DropDown(), array('class'=>"span12")); ?>
+             
+            <?php echo $form->hiddenField($model,"[$i]idPersonBenefits"); ?>
+            <?php echo $form->dropDownList($model,"[$i]BenefitID", Benefit::DropDown(), array('class'=>"span12")); ?>
             <?php foreach($model->documents as $i=>$document): ?>
               <div class="row-fluid">
                   

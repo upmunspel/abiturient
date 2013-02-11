@@ -60,25 +60,40 @@ class PersonBenefitsController extends Controller
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 */
-	public function actionCreate()
-	{
-		$models =array();
-                $models[] =  new PersonBenefits();
-                $models[] =  new PersonBenefits();
+	public function actionCreate($personid)
+	{   
+            $models = array();
+        
+            if (!empty($personid)){
                 
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-
-		/*if(isset($_POST['PersonBenefits']))
-		{
-			$model->attributes=$_POST['PersonBenefits'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->idPersonBenefits));
-		}*/
-
-		$this->renderPartial('_form',array(
+                if (isset($_GET["PersonBenefits"])){
+                    foreach ($_GET["PersonBenefits"] as $i=>$obj){
+                        $id = $obj["idPersonBenefits"];
+                        if ($id > 0){
+                            $item = PersonBenefits::model()->findAllByPk($id);
+                        } else {
+                            $item = new PersonBenefits();
+                        }
+                        $item->attributes = $obj;
+                        $item->PersonID = $personid;
+                        $models[] = $item;
+                    }
+                
+                } else {
+                    
+                    $person = Person::model()->findByPk($personid);
+                    $res = $person->benefits;
+                    if (is_array($res)) $models = $res;
+                    if (is_object($res)) $models[] = $res;
+                    
+                }
+                if (empty($_GET["reload"])) $models[] = new PersonBenefits();
+            }
+            
+            $this->renderPartial('_form',array(
 			'models'=>$models,
-		));
+                        'personid'=>$personid,
+            ));
 	}
 
 	/**
