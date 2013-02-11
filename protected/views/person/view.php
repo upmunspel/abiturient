@@ -1,4 +1,8 @@
 <?php
+$burl = Yii::app()->baseUrl;
+Yii::app()->getClientScript()->registerCoreScript('jquery');
+Yii::app()->clientScript->registerScriptFile($burl."/js/bootstrap-datepicker.js");
+Yii::app()->clientScript->registerScriptFile($burl."/js/person.js");
 
 $this->menu=array(
 	array('label'=>'Перелік абітурієнтів','url'=>array('index'),'icon'=>"icon-list-alt"),
@@ -48,7 +52,18 @@ $this->menu=array(
         'type'=>'tabs', // 'tabs' or 'pills'
 
         'tabs'=>array(
-            array('label'=>'Пільги', 'content'=>$this->renderPartial("_benefits",array(),true), 'active'=>true, 'id'=>"benefits"),
+            array('label'=>'Пільги', 'content'=>$this->renderPartial("_benefits",array("models"=>array()),true), 'active'=>true, 'id'=>"benefits"),
         ),
     )); ?>
+    <hr>
+       <?php $this->widget('bootstrap.widgets.TbButton', array(
+                'buttonType'=>'button',
+                'type'=>'primary',
+                'label'=>'Зберегти всі зміни',
+                'size'=>"large",
+                'loadingText'=>'Збереження...',
+                'htmlOptions'=>array('id'=>'personSave'),
+                )); 
+            ?>
+    
 </div>

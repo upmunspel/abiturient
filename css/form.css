@@ -139,6 +139,11 @@ div.form .errorSummary ul
 	padding: 0 0 0 20px;
 }
 
+form hr{
+    margin:10px 0px 10px 0px;
+    border-top: 1px solid #CCC;
+}
+
 div.wide.form label
 {
 	float: left;
@@ -188,10 +193,7 @@ div.wide.form .buttons, div.wide.form .hint, div.wide.form .errorMessage
 #person-form  strong{
     color:#08C;
 }
-#person-form  hr{
-    margin:0px 0px 10px 0px;
-    border-top: 1px solid #CCC;
-}
+
 .row-fluid .errorMessage {
     color: #C00;
     font-size: 11px;

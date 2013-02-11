@@ -241,26 +241,6 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
                 <?php echo $this->renderPartial("_contacts", array('model'=>$model->mobphone,'form'=>$form)); ?>
             </div>
         </div>
-        <!--<p class="help-block"><strong>Контактна інформація</strong></p>
-        <hr>
-        <div class="row-fluid" >
-            <div class ="span10" id="benefits">
-            <?php echo $this->renderPartial("_benefits", array('model'=>$model->benefits,'form'=>$form)); ?>
-            </div>
-            <div class ="span2"  >
-                <?php 
-                $url = Yii::app()->createUrl("personbenefits/create");
-                    $this->widget('bootstrap.widgets.TbButton', array(
-                    'label'=>'Додати пільгу',
-                    'type'=>'primary', // null, 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
-                    'size' => null, // null, 'large', 'small' or 'mini'
-                    'loadingText'=>'Зачекайте...',
-                    'htmlOptions'=>array('id'=>'addBenefits',
-                        'onclick'=>"PSN.addBenefit(this,'$url');"),
-                )); ?>
-            </div>
-        </div>-->
-       
         <p class="help-block">Поля позначені <span class="required">*</span> заповняти обов'язково.</p>
          <?php echo $form->errorSummary($model); ?>
 	<div class="form-actions">

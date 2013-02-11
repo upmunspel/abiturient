@@ -15,6 +15,7 @@ class PersonBenefitsController extends Controller
 	{
 		return array(
 			'accessControl', // perform access control for CRUD operations
+                        'ajaxOnly + create',
 		);
 	}
 
@@ -63,9 +64,8 @@ class PersonBenefitsController extends Controller
 	{
 		$models =array();
                 $models[] =  new PersonBenefits();
-                 $models[] =  new PersonBenefits();
-                  $models[] =  new PersonBenefits();
-
+                $models[] =  new PersonBenefits();
+                
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
@@ -76,7 +76,7 @@ class PersonBenefitsController extends Controller
 				$this->redirect(array('view','id'=>$model->idPersonBenefits));
 		}*/
 
-		$this->renderPartial('_view',array(
+		$this->renderPartial('_form',array(
 			'models'=>$models,
 		));
 	}
