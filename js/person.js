@@ -118,7 +118,6 @@ PSN.KOATUUSchoolChange = function(obj, level){
     } 
     });
 }
-
 PSN.updateSchools = function(code){
        
     $.ajax({
