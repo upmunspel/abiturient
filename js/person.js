@@ -27,6 +27,9 @@ PSN.Init = function(){
             btn.button('reset'); // call the reset function
         }, 3000);
     });
+    $('#myModal').on('show', function () {
+       new_benefit
+    });
     
 }
 PSN.KOATUUChange = function(obj, level){
@@ -143,14 +146,31 @@ PSN.updateSchools = function(code){
 PSN.addBenefit = function(obj, url){
     var btn = $(obj);
     btn.button('loading'); // call the loading function
-    var data = $("#benefit-form").serialize(); 
-    $("#benefits").load(url,data,function() {btn.button('reset')});
+    //var data = $("#benefit-form").serialize(); 
+    $("#new-benefit").load(url,function() {
+        btn.button('reset');
+        $("#benefitModal").modal("show");
+    });
+   
+}
+PSN.addBenefitDoc = function(obj, url){
+    var btn = $(obj);
+    btn.button('loading'); // call the loading function
+    var data = $("#benefit-form-modal").serialize(); 
+    $("#new-benefit").load(url,data,function(){
+        btn.button('reset');
+        $("#benefitModal").modal("show");
+    });
+   
 }
 PSN.reloadBenefit = function(obj, url){
     var btn = $(obj);
     btn.button('loading'); // call the loading function
     var data = "reload=1"
     $("#benefits").load(url,data, function() {btn.button('reset')});
+}
+PSN.delBenefit = function(obj){
+    $(obj).parent().parent().parent().parent().remove();
 }
 $(document).ready(function(){
     PSN.Init();

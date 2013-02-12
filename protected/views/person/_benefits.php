@@ -13,7 +13,7 @@ $form = new CActiveForm();
     <div class="row-fluid">
         <div class="span3">
                <?php 
-                $url = Yii::app()->createUrl("personbenefits/create",array('personid'=>$personid));
+                $url = Yii::app()->createUrl("personbenefits/newbenefit",array('personid'=>$personid));
                     $this->widget('bootstrap.widgets.TbButton', array(
                     'label'=>'Додати пільгу',
                     'type'=>'primary', // null, 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'

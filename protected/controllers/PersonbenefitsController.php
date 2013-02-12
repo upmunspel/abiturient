@@ -15,7 +15,7 @@ class PersonbenefitsController extends Controller
 	{
 		return array(
 			'accessControl', // perform access control for CRUD operations
-                        'ajaxOnly + create',
+                        'ajaxOnly + create, newbenefit, newBenefitDoc',
 		);
 	}
 
@@ -32,7 +32,7 @@ class PersonbenefitsController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update'),
+				'actions'=>array('create','update','newBenefit',"newBenefitDoc"),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -60,6 +60,39 @@ class PersonbenefitsController extends Controller
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 */
+        public function actionNewBenefit($personid)
+	{   
+            $model = new PersonBenefits();
+        
+            if (!empty($personid)){
+                 $model->PersonID = $personid;
+            }
+            $this->renderPartial('_form',array(
+			'model'=>$model,
+                        'personid'=>$personid,
+            ));
+	}
+        public function actionNewBenefitDoc()
+	{   
+            $model = new PersonBenefits();
+            $documents = array();
+            if (isset($_GET["PersonBenefits"])){
+                $model->attributes = $_GET["PersonBenefits"];
+            }
+            if (isset($_GET["Documents"])){
+                    foreach ($_GET["Documents"] as $i=>$obj){
+                        $item = new Documents();
+                        $item->attributes = $obj;
+                        $documents[] = $item;
+                    }
+            } 
+            $documents[] = new Documents();
+            $this->renderPartial('_form',array(
+			'model'=>$model,
+                        'documents'=>$documents,
+            ));
+	}
+        
 	public function actionCreate($personid)
 	{   
             $models = array();
@@ -87,7 +120,11 @@ class PersonbenefitsController extends Controller
                     if (is_object($res)) $models[] = $res;
                     
                 }
-                if (empty($_GET["reload"])) $models[] = new PersonBenefits();
+                if (empty($_GET["reload"])) {
+                    
+                    $models[] = new PersonBenefits();
+                    
+                }
             }
             
             $this->renderPartial('_form',array(

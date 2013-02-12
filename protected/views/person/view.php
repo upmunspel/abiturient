@@ -67,3 +67,4 @@ $this->menu=array(
             ?>
     
 </div>
+<?php $this->renderPartial("_benefitModal",array());?>

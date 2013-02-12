@@ -97,7 +97,9 @@ return array(
 		
 		'urlManager'=>array(
 			'urlFormat'=>'path',
-                        'showScriptName'=>true,
+                        'caseSensitive'=>false,
+                        'showScriptName'=>false,
+                        
 			'rules'=>array(
 				'<controller:\w+>/<id:\d+>'=>'<controller>/view',
 				'<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
@@ -114,7 +116,7 @@ return array(
 			'connectionString' => 'mysql:host=localhost;dbname=abiturient',
 			'emulatePrepare' => true,
 			'username' => 'root',
-			'password' => 'root',
+			'password' => '',
 			'charset' => 'utf8',
 		),
 		
