@@ -65,7 +65,7 @@ class Documents extends CActiveRecord
 			array('Numbers', 'length', 'max'=>15),
 			array('Issued', 'length', 'max'=>250),
 			array('DateGet,idDocuments,Series, Numbers, ', 'safe'),
-                        // array('DateGet', 'required'),
+                        array('DateGet, Series, Numbers, Issued', 'required'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('idDocuments, PersonID, TypeID, Series, Numbers, DateGet, ZNOPin, AtestatValue, Issued, isCopy', 'safe', 'on'=>'search'),

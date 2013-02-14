@@ -76,23 +76,51 @@ class PersonbenefitsController extends Controller
 	{   
             $model = new PersonBenefits();
             $documents = array();
+            $valid = true;
             if (isset($_GET["PersonBenefits"])){
                 $model->attributes = $_GET["PersonBenefits"];
             }
+            
             if (isset($_GET["Documents"])){
                     foreach ($_GET["Documents"] as $i=>$obj){
                         $item = new Documents();
                         $item->attributes = $obj;
+                        $valid = $valid && $item->validate();
                         $documents[] = $item;
                     }
             } 
-            $documents[] = new Documents();
+            if ($valid ) $documents[] = new Documents();
             $this->renderPartial('_form',array(
 			'model'=>$model,
                         'documents'=>$documents,
             ));
 	}
-        
+        public function actionAppendBeneit(){
+            $model = new PersonBenefits();
+            $documents = array();
+            $valid = true;
+            if (isset($_GET["PersonBenefits"])){
+                $model->attributes = $_GET["PersonBenefits"];
+            }
+            
+            if (isset($_GET["Documents"])){
+                    foreach ($_GET["Documents"] as $i=>$obj){
+                        $item = new Documents();
+                        $item->attributes = $obj;
+                        $valid = $valid && $item->validate();
+                        $documents[] = $item;
+                    }
+            }
+            $result = array();
+            if (!$valid){ 
+          
+            $this->renderPartial('_form',array(
+			'model'=>$model,
+                        'documents'=>$documents,
+            ));
+            }
+            
+        } 
 	public function actionCreate($personid)
 	{   
             $models = array();

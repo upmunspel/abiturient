@@ -35,5 +35,12 @@ $model = new PersonBenefits();*/
          </div>
         </div>
     <?php endforeach; ?> 
+    <script>
+        
+        $('#benefit-form-modal .datepicker').datepicker({'format':'dd.mm.yyyy'});
+        $('.datepicker').css("z-index","9999");
+        
+       
+    </script>
 <?php $this->endWidget(); ?>
 </div><!-- form -->

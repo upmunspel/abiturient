@@ -238,6 +238,7 @@ class PersonController extends Controller
 		$this->render('admin',array(
 			'model'=>$model,
 		));
+               
 	}
 
 	/**
