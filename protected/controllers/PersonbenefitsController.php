@@ -15,7 +15,7 @@ class PersonbenefitsController extends Controller
 	{
 		return array(
 			'accessControl', // perform access control for CRUD operations
-                        'ajaxOnly + create, newbenefit, newBenefitDoc',
+                        'ajaxOnly + create, newbenefit, newBenefitDoc, delBenefitDoc, appendBenefit',
 		);
 	}
 
@@ -32,7 +32,10 @@ class PersonbenefitsController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update','newBenefit',"newBenefitDoc"),
+				'actions'=>array('create','update',
+                                                    'newBenefit',"newBenefitDoc","delBenefitDoc",
+                                                    "appendBenefit", "delBenefit",
+                                                ),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -95,30 +98,126 @@ class PersonbenefitsController extends Controller
                         'documents'=>$documents,
             ));
 	}
-        public function actionAppendBeneit(){
+        
+        public function actionDelBenefitDoc($num)
+	{   
             $model = new PersonBenefits();
             $documents = array();
-            $valid = true;
             if (isset($_GET["PersonBenefits"])){
                 $model->attributes = $_GET["PersonBenefits"];
             }
             
             if (isset($_GET["Documents"])){
+                    unset($_GET["Documents"][$num]); 
+                    foreach ($_GET["Documents"] as $i=>$obj){
+                        $item = new Documents();
+                        $item->attributes = $obj;
+                        $documents[] = $item;
+                    }
+            } 
+           
+            $this->renderPartial('_form',array(
+			'model'=>$model,
+                        'documents'=>$documents,
+            ));
+	}
+        
+        public function actionDelBenefit($benefitid, $personid)
+	{   
+            $flag = $transaction = Yii::app()->db->getCurrentTransaction();
+            if ($transaction === null)
+            {
+                $transaction = Yii::app()->db->beginTransaction();
+            }
+            try
+            {
+                $benefit = PersonBenefits::model()->findByPk($benefitid);
+                if (!empty($benefit)){
+                    if (!empty($benefit->items)){
+                        foreach ($benefit->items as $item){
+                            $tm = $item->document;
+                            if ($item->delete()){
+                                if (!empty($tm)) $tm->delete();
+                            } 
+                        }
+                    }
+                    $benefit->delete();
+                }
+                $transaction->commit();
+                $person = Person::model()->findByPk($personid);
+                $this->renderPartial("_benefits", array('models'=>$person->benefits,'personid'=>$personid));
+            } catch (Exception $e) {
+                    if ($flag !== null)
+                    {
+                        $transaction->rollback();
+                       
+                    }
+                    echo $e->getMessage();
+                   
+            }
+	}
+        
+        public function actionAppendBenefit(){
+            $model = new PersonBenefits();
+            $documents = array();
+            $valid = true;
+            if (isset($_GET["PersonBenefits"])){
+                $model->attributes = $_GET["PersonBenefits"];
+                if (isset($_GET["Documents"])){
                     foreach ($_GET["Documents"] as $i=>$obj){
                         $item = new Documents();
                         $item->attributes = $obj;
                         $valid = $valid && $item->validate();
                         $documents[] = $item;
                     }
+                }
             }
-            $result = array();
-            if (!$valid){ 
-          
-            $this->renderPartial('_form',array(
-			'model'=>$model,
-                        'documents'=>$documents,
-            ));
-            }
+            if (!$valid){
+                echo CJSON::encode(array("result"=>"suceess","data" =>
+                $this->renderPartial('_form', array('model'=>$model,'documents'=>$documents),true)));
+            } else {
+                /* save all new records */
+                $flag = $transaction = Yii::app()->db->getCurrentTransaction();
+                if ($transaction === null)
+                {
+                    $transaction = Yii::app()->db->beginTransaction();
+                }
+                try
+                {
+                    
+                   if ($model->save()){
+                       foreach ($documents as $doc){
+                           $doc->PersonID = $model->PersonID;
+                           if ($doc->save()){
+                                if (empty($doc->idDocuments)) throw new Exception("idDocuments is empty!");
+                                                           
+                               $rel = new PersonBenefitDocument();
+                               $rel->DocumentID = $doc->getPrimaryKey();
+                               $rel->PersonBenefitID = $model->idPersonBenefits;
+                               $rel->save();
+                           }
+                       }
+                   }
+                    
+                
+                
+                    $transaction->commit();
+                    $person = Person::model()->findByPk($model->PersonID);
+                    echo CJSON::encode(array("result"=>"success","data" =>
+                    $this->renderPartial("_benefits", array('models'=>$person->benefits,'personid'=>$model->PersonID), true)
+                    ));
+                } catch (Exception $e) {
+                    if ($flag !== null)
+                    {
+                        $transaction->rollback();
+                       
+                    }
+                    echo CJSON::encode(array("result"=>"suceess","data" =>$e->getMessage()));
+                   
+                }
+               
+                
+            };
             
         } 
 	public function actionCreate($personid)

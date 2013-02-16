@@ -1,7 +1,7 @@
 <?php
 /*$this BenefitController 
 $model = new PersonBenefits();*/
-$form = new CActiveForm();
+//$form = new CActiveForm();
 ?>
 <div class="form">
 
@@ -20,38 +20,58 @@ $form = new CActiveForm();
                     'size' => null, // null, 'large', 'small' or 'mini'
                     'loadingText'=>'Зачекайте...',
                     'htmlOptions'=>array('id'=>'addBenefits',
-                        'onclick'=>"PSN.addBenefit(this,'$url');"),
+                        'onclick'=>"PSN.addBenefit(this,'$url');",
+                        ),
                 )); ?>
            
         </div>
     </div>
     <hr>    
-    <?php foreach($models as $i=>$model): ?>       
+    <?php  $arr = PersonDocumentTypes::DropDown(1);
+    foreach($models as $i=>$model): ?>       
     <div class="row-fluid">    
-         <div class="span12">
+         <div class="span11">
              
             <?php echo $form->hiddenField($model,"[$i]idPersonBenefits"); ?>
-            <?php echo $form->dropDownList($model,"[$i]BenefitID", Benefit::DropDown(), array('class'=>"span12")); ?>
-            <?php foreach($model->documents as $i=>$document): ?>
+            <?php echo $form->dropDownList($model,"[$i]BenefitID", Benefit::DropDown(), array('class'=>"span12", 'disabled'=>"disabled")); ?>
+            <?php
+            
+            //var_dump($arr);
+            foreach($model->items as $j=>$item): ?>
               <div class="row-fluid">
-                  
+                  <div class="span1" align="right"><?php echo ($j+1).".";?></div>
+                  <div class="span11"><?php
+                        $doc = $item->document;
+                        //$doc = new Documents();
+                       echo $arr[$item->document->TypeID]." Серія:".$doc->Series." №".$doc->Numbers." Видана: ".$doc->Issued." від ".$doc->DateGet;
+                       ?>
+                  </div>
               </div>    
             <?php endforeach; ?> 
              
          </div>
+        <div class ="span1"align="right">
+            <?php 
+            $url = Yii::app()->createUrl("personbenefits/delbenefit",array('benefitid'=>$model->idPersonBenefits, "personid"=>$personid));
+            $this->widget("bootstrap.widgets.TbButton", array(
+			'type'=>'danger',
+                        'label'=>'',
+                        'size' => null,
+                        'icon'=>"icon-trash",
+                        'htmlOptions'=>array(
+                                "style"=>"margin-top: 2px;",
+                                'title'=>"Видалити пільгу",
+                                'class'=>"span12",
+                                'onclick'=>"PSN.deleteBenefit(this,'$url');"), 
+                        )); 
+             ?>
+        </div>
+        
     </div>
     <?php endforeach; 
     if  (count($models) > 0) :
     ?> 
-    <div class="row buttons">
-         <hr>      
-        <?php $this->widget("bootstrap.widgets.TbButton", array(
-			'buttonType'=>'submit',
-			'type'=>'primary',
-                        'label'=>'Зберегти',
-                        )); 
-                ?>
-    </div>
+   
     <?php else: ?>
     <strong>Пільги відсутні</strong>
     <?php endif; ?>

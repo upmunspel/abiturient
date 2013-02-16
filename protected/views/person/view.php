@@ -52,7 +52,7 @@ $this->menu=array(
         'type'=>'tabs', // 'tabs' or 'pills'
 
         'tabs'=>array(
-            array('label'=>'Пільги', 'content'=>$this->renderPartial("_benefits",array("models"=>array(), 'personid'=>$model->idPerson),true), 'active'=>true, 'id'=>"benefits"),
+            array('label'=>'Пільги', 'content'=>$this->renderPartial("_benefits",array("models"=>$model->benefits, 'personid'=>$model->idPerson),true), 'active'=>true, 'id'=>"benefits"),
         ),
     )); ?>
     <hr>

@@ -54,7 +54,7 @@ class PersonBenefits extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'documents' => array(self::HAS_MANY, 'PersonBenefitDocument', 'PersonBenefitID'),
+			'items' => array(self::HAS_MANY, 'PersonBenefitDocument', 'PersonBenefitID'),
 			
 		);
 	}

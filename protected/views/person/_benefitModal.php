@@ -32,8 +32,7 @@
       $this->widget('bootstrap.widgets.TbButton', array(
         'type'=>'primary',
         'label'=>'Зберегти',
-        'url'=>'#',
-        'htmlOptions'=>array('onclick'=>"PSN.appendBenefit(this, 'url')"),
+        'htmlOptions'=>array('onclick'=>"PSN.appendBenefit(this, '$url')"),
     )); ?>
     <?php $this->widget('bootstrap.widgets.TbButton', array(
         'label'=>'Скасувати',

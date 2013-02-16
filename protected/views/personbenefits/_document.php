@@ -1,7 +1,7 @@
 <?php //echo $form->errorSummary($model); ?>
 <div class="row-fluid">
     <div class ="span9">
-        <?php echo $form->hiddenField($model,"[$i]idDocuments"); ?>
+        <?php //echo $form->hiddenField($model,"[$i]idDocuments"); ?>
         <?php echo $form->labelEx($model,"[$i]TypeID"); ?>
         <?php echo $form->dropDownList($model,"[$i]TypeID",  PersonDocumentTypes::DropDown(1), array("class"=>"span12")); ?>
     </div>    
@@ -29,7 +29,9 @@
     </div>   
     <div class ="span2">
       <?php echo Chtml::label("Знищити", ""); ?>
-    <?php $this->widget("bootstrap.widgets.TbButton", array(
+    <?php 
+            $url = Yii::app()->createUrl("personbenefits/delbenefitdoc",array('num'=>$i));
+            $this->widget("bootstrap.widgets.TbButton", array(
 			'type'=>'danger',
                         'label'=>'',
                         'size' => null,
@@ -38,7 +40,7 @@
                                 "style"=>"margin-top: 2px;",
                                 'title'=>"Видалити пільгу",
                                 'class'=>"span7",
-                                'onclick'=>"PSN.delBenefit(this);"), 
+                                'onclick'=>"PSN.delBenefitDoc(this,'$url');"), 
                         )); 
                 ?>
     </div>

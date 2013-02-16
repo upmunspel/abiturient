@@ -37,6 +37,8 @@ class Documents extends CActiveRecord
             return true;
             
         }
+        
+
         protected function beforeSave() {
          
             $this->DateGet=date('Y-m-d',  strtotime($this->DateGet));      
@@ -50,7 +52,10 @@ class Documents extends CActiveRecord
 	{
 		return 'documents';
 	}
-
+        public function afterSave() {
+            debug("pr = ".$this->idDocuments);
+            parent::afterSave();
+        }
 	/**
 	 * @return array validation rules for model attributes.
 	 */
@@ -64,8 +69,8 @@ class Documents extends CActiveRecord
 			array('Series', 'length', 'max'=>10),
 			array('Numbers', 'length', 'max'=>15),
 			array('Issued', 'length', 'max'=>250),
-			array('DateGet,idDocuments,Series, Numbers, ', 'safe'),
-                        array('DateGet, Series, Numbers, Issued', 'required'),
+			array('DateGet, idDocuments, Series, Numbers, ', 'safe'),
+                       // array('DateGet, Series, Numbers, Issued', 'required'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('idDocuments, PersonID, TypeID, Series, Numbers, DateGet, ZNOPin, AtestatValue, Issued, isCopy', 'safe', 'on'=>'search'),

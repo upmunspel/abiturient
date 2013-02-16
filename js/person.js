@@ -87,7 +87,7 @@ PSN.KOATUUSchoolChange = function(obj, level){
     success: function (data) { 
         var koatuu2 = $("#KOATUU2");
         var koatuu3 = $("#KOATUU3");
-        if (level == 3) {
+        if (level === 3) {
             PSN.KOATUUSchoolCode = data.Code;    
             if (!$("#sameschooladdr").prop("checked")) PSN.updateSchools(PSN.KOATUUSchoolCode);    
             return;
@@ -120,7 +120,7 @@ PSN.KOATUUSchoolChange = function(obj, level){
         if (!$("#sameschooladdr").prop("checked")) PSN.updateSchools(PSN.KOATUUSchoolCode);    
     } 
     });
-}
+};
 PSN.updateSchools = function(code){
        
     $.ajax({
@@ -142,7 +142,7 @@ PSN.updateSchools = function(code){
             }
         }
     });
-}
+};
 PSN.addBenefit = function(obj, url){
     var btn = $(obj);
     btn.button('loading'); // call the loading function
@@ -151,27 +151,50 @@ PSN.addBenefit = function(obj, url){
         btn.button('reset');
         $("#benefitModal").modal("show");
     });
+ };
+ PSN.appendBenefit = function(obj, link){
+    var btn = $(obj);
+    btn.button('loading'); // call the loading function
+    var fdata = $("#benefit-form-modal").serialize(); 
+    $.ajax({
+    'url': link,
+    'data': fdata,
+    success: function (data) { 
+            var obj = jQuery.parseJSON(data);
+            if (obj.result === "success") {
+          
+               $("#benefitModal").modal("hide");
+               $("#benefits").html(obj.data);
+               
+            } else {
+              $("#new-benefit").html(obj.data);  
+            }
+            btn.button('reset'); 
+        }
+    });
    
-}
+ };
 PSN.addBenefitDoc = function(obj, url){
     var btn = $(obj);
     btn.button('loading'); // call the loading function
     var data = $("#benefit-form-modal").serialize(); 
-    $("#new-benefit").load(url,data,function(){
-        btn.button('reset');
-        $("#benefitModal").modal("show");
-    });
-   
-}
+    $("#new-benefit").load(url,data,function(){ btn.button('reset'); });
+};
+PSN.delBenefitDoc = function(obj, url){
+    var data = $("#benefit-form-modal").serialize(); 
+    $("#new-benefit").load(url,data,function(){});
+};
 PSN.reloadBenefit = function(obj, url){
     var btn = $(obj);
     btn.button('loading'); // call the loading function
-    var data = "reload=1"
-    $("#benefits").load(url,data, function() {btn.button('reset')});
-}
-PSN.delBenefit = function(obj){
-    $(obj).parent().parent().parent().parent().remove();
-}
+    var data = "reload=1";
+    $("#benefits").load(url,data, function() {btn.button('reset');});
+};
+PSN.deleteBenefit = function(obj, url){
+    $("#benefits").load(url);
+};
+
+
 $(document).ready(function(){
     PSN.Init();
 });
