@@ -52,10 +52,7 @@ class Documents extends CActiveRecord
 	{
 		return 'documents';
 	}
-        public function afterSave() {
-            debug("pr = ".$this->idDocuments);
-            parent::afterSave();
-        }
+        
 	/**
 	 * @return array validation rules for model attributes.
 	 */
