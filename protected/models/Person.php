@@ -93,6 +93,7 @@ class Person extends CActiveRecord
             } else {
                 $this->entrantdoc = new Documents();
             }
+            $this->entrantdoc->scenario = "ENTRANT";
             return $this->entrantdoc;
         }
         public function getInndoc(){
@@ -106,6 +107,7 @@ class Person extends CActiveRecord
             } else {
                 $this->inndoc = new Documents();
             }
+            $this->inndoc->scenario = "INN";
             $this->inndoc->TypeID = 5;
             return $this->inndoc;
         }
@@ -120,6 +122,7 @@ class Person extends CActiveRecord
             } else {
                 $this->hospdoc = new Documents();
             }
+            $this->hospdoc->scenario = "HOSP";
             $this->hospdoc->TypeID = 6;
             return $this->hospdoc;
         }

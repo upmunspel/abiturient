@@ -67,7 +67,11 @@ class Documents extends CActiveRecord
 			array('Numbers', 'length', 'max'=>15),
 			array('Issued', 'length', 'max'=>250),
 			array('DateGet, idDocuments, Series, Numbers, ', 'safe'),
-                       // array('DateGet, Series, Numbers, Issued', 'required'),
+                        array('DateGet, Series, Numbers, Issued', 'required', "except"=>"INN, HOSP"),
+                        array('Numbers', 'required', "on"=>"INN"),
+                        array('Numbers', 'numerical' , 'integerOnly'=>true, "on"=>"INN"),
+                        array('DateGet', 'required', "on"=>"HOSP"),
+                        array('AtestatValue', 'required', "on"=>"ENTRANT"),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('idDocuments, PersonID, TypeID, Series, Numbers, DateGet, ZNOPin, AtestatValue, Issued, isCopy', 'safe', 'on'=>'search'),
