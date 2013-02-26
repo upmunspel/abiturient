@@ -10,10 +10,11 @@
 	'enableAjaxValidation'=>false,
 )); 
 //$model = new Documents();
+//$form = new CActiveForm();
 ?>
     
-<?php //echo $form->hiddenField($model,"PersonID"); ?> 
-<?php //echo $form->hiddenField($model,"PersonID"); ?> 
+<?php echo $form->errorSummary($model); ?> 
+<?php echo $form->errorSummary(new Documentsubject()); ?> 
            
 <div class="row-fluid">
     <div class ="span6">

@@ -80,9 +80,9 @@ class Documentsubject extends CActiveRecord
 		return array(
     'idDocumentSubject' => 'Id Document Subject',
     'DocumentID' => 'Document',
-    'SubjectID' => 'Subject',
-    'SubjectValue' => 'Subject Value',
-    'DateGet' => 'Date Get',
+    'SubjectID' => 'Предмет',
+    'SubjectValue' => 'Бал',
+    'DateGet' => 'Дата складання',
 		);
 	}
 

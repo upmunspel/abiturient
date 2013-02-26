@@ -9,7 +9,7 @@ class DocumentsController extends Controller
 	{
 		return array(
 			'accessControl', // perform access control for CRUD operations
-                        'ajaxOnly + newZno, newZnoSubject',
+                        'ajaxOnly + newZno, newZnoSubject, appendZno',
 		);
 	}
 
@@ -26,7 +26,7 @@ class DocumentsController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('newZno','newZnoSubject'
+				'actions'=>array('newZno','newZnoSubject', 'appendZno'
                                                 ),
 				'users'=>array('@'),
 			),
@@ -48,6 +48,7 @@ class DocumentsController extends Controller
                             'personid'=>$personid,true,true
                 ));
             }
+            
         public function actionNewZnoSubject()
             {   
                 $model = new Documents('ZNO');
@@ -72,6 +73,64 @@ class DocumentsController extends Controller
                             'model'=>$model,
                             'subjects'=>$subjects, 
                 ));
+            } 
+       public function actionAppendZno(){
+            $model = new Documents('ZNO');
+            $subjects = array();
+            $valid = true;
+            if (isset($_GET["Documents"])){
+                $model->attributes = $_GET["Documents"];
+                $valid  = $model->validate() && $valid;
             }
+
+            if (isset($_GET["Documentsubject"])){
+                    foreach ($_GET["Documentsubject"] as $i=>$obj){
+                        $item = new Documentsubject();
+                        $item->attributes = $obj;
+                        $valid = $item->validate() && $valid;
+                        $subjects[] = $item;
+                    }
+            } 
+                
+            if (!$valid){
+                echo CJSON::encode(array("result"=>"error","data" =>
+                $this->renderPartial('_form', array('model'=>$model,'subjects'=>$subjects),true)));
+            } else {
+                /* save all new records */
+                $flag = $transaction = Yii::app()->db->getCurrentTransaction();
+                if ($transaction === null)
+                {
+                    $transaction = Yii::app()->db->beginTransaction();
+                }
+                try
+                {
+                   if ($model->save()){
+                       foreach ($subjects as $subject){
+                           $subject->DocumentID = $model->idDocuments;
+                           if (!$subject->save()){
+                               throw new Exception("Помилка збереження даних!");
+                           }
+                       }
+                   }
+                   $transaction->commit();
+                   $person = Person::model()->findByPk($model->PersonID);
+                   echo CJSON::encode(array("result"=>"success","data" =>
+                        $this->renderPartial("_form", array('models'=>$model,'personid'=>$model->PersonID), true)
+                        ));
+                } catch (Exception $e) {
+                    if ($flag !== null)
+                    {
+                        $transaction->rollback();
+                       
+                    }
+                    echo CJSON::encode(array("result"=>"error","data" =>$e->getMessage()));
+                   
+                }
+               
+                
+            };
+            
+        } 
+            
 
 }

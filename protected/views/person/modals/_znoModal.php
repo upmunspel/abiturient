@@ -32,7 +32,7 @@
       $this->widget('bootstrap.widgets.TbButton', array(
         'type'=>'primary',
         'label'=>'Зберегти',
-        'htmlOptions'=>array('onclick'=>"PSN.appendZnot(this, '$url')"),
+        'htmlOptions'=>array('onclick'=>"PSN.appendZno(this, '$url')"),
     )); ?>
     <?php $this->widget('bootstrap.widgets.TbButton', array(
         'label'=>'Скасувати',
