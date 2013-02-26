@@ -28,7 +28,7 @@ PSN.Init = function(){
         }, 3000);
     });
     $('#myModal').on('show', function () {
-       new_benefit
+       
     });
     
 }
@@ -143,6 +143,9 @@ PSN.updateSchools = function(code){
         }
     });
 };
+/**
+ * BENEFITS CODE
+ */
 PSN.addBenefit = function(obj, url){
     var btn = $(obj);
     btn.button('loading'); // call the loading function
@@ -152,7 +155,7 @@ PSN.addBenefit = function(obj, url){
         $("#benefitModal").modal("show");
     });
  };
- PSN.appendBenefit = function(obj, link){
+PSN.appendBenefit = function(obj, link){
     var btn = $(obj);
     btn.button('loading'); // call the loading function
     var fdata = $("#benefit-form-modal").serialize(); 
@@ -193,7 +196,52 @@ PSN.reloadBenefit = function(obj, url){
 PSN.deleteBenefit = function(obj, url){
     $("#benefits").load(url);
 };
+/**
+ * ZNO CODE
+ */
+PSN.addZno = function(obj, url){
+    var btn = $(obj);
+    btn.button('loading'); // call the loading function
+    //var data = $("#benefit-form").serialize(); 
+    $("#new-zno").load(url,function() {
+        btn.button('reset');
+        $("#znoModal").modal("show");
+      
+        
+    });
+ };
 
+PSN.appendZno= function(obj, link){
+    var btn = $(obj);
+    btn.button('loading'); // call the loading function
+    var fdata = $("#benefit-form-modal").serialize(); 
+    $.ajax({
+    'url': link,
+    'data': fdata,
+    success: function (data) { 
+            var obj = jQuery.parseJSON(data);
+            if (obj.result === "success") {
+          
+               $("#benefitModal").modal("hide");
+               $("#benefits").html(obj.data);
+               
+            } else {
+              $("#new-benefit").html(obj.data);  
+            }
+            btn.button('reset'); 
+        }
+    });
+   
+ };
+PSN.deleteZno= function(obj, url){
+    $("#znos").load(url);
+};
+ PSN.addZnoSubject = function(obj, url){
+    var btn = $(obj);
+    btn.button('loading'); // call the loading function
+    var data = $("#zno-form-modal").serialize(); 
+    $("#new-zno").load(url, data, function(){ btn.button('reset'); });
+};
 
 $(document).ready(function(){
     PSN.Init();

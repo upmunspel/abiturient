@@ -1,7 +1,15 @@
+/* ============================================================
+ * bootstrapSwitch v1.1 by Larentis Mattia @spiritualGuru
+ * http://www.larentis.eu/switch/
+ * ============================================================
+ * Licensed under the Apache License, Version 2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * ============================================================ */
+
 !function ($) {
   "use strict";
 
-  $.fn['switch'] = function (method) {
+  $.fn['bootstrapSwitch'] = function (method) {
     var methods = {
       init:function () {
         this.each(function () {
@@ -37,6 +45,7 @@
               .addClass(color)
               .html(onLabel);
 
+            color = '';  // reset value
             if ($element.data('off') !== undefined)
               color = "switch-" + $element.data('off');
 
@@ -170,6 +179,14 @@
       toggleActivation:function () {
         $(this).toggleClass('deactivate');
       },
+      isActive : function() {
+        return !$(this).hasClass('deactivate');
+      },
+      setActive: function (active) {
+        if(active)
+          $(this).removeClass('deactivate');
+        else $(this).addClass('deactivate');
+      },
       toggleState:function (skipOnChange) {
         var $input = $(this).find('input:checkbox');
         $input.prop('checked', !$input.is(':checked')).trigger('change', skipOnChange);
@@ -205,5 +222,5 @@
 }(jQuery);
 
 $(function () {
-  $('.switch')['switch']();
+  $('.switch')['bootstrapSwitch']();
 });
