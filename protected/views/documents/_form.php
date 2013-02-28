@@ -2,20 +2,22 @@
 /* @var $this DocumentsController 
  * @var $form CActiveForm
  */
-
+//$form = new CActiveForm();
 ?>
 <div class="form">
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'zno-form-modal',
 	'enableAjaxValidation'=>false,
 )); 
-//$model = new Documents();
-//$form = new CActiveForm();
-?>
-    
-<?php echo $form->errorSummary($model); ?> 
-<?php echo $form->errorSummary(new Documentsubject()); ?> 
-           
+echo $form->errorSummary($model); ?> 
+<?php
+   if (!empty($subjects)){
+        foreach($subjects as $i=>$subject){
+            echo $form->errorSummary($subject); 
+        }
+   }
+   echo $form->hiddenField($model, "PersonID");
+?> 
 <div class="row-fluid">
     <div class ="span6">
         <?php echo $form->labelEx($model,'Numbers'); ?>
@@ -25,14 +27,6 @@
         <?php echo $form->labelEx($model,'ZNOPin'); ?>
         <?php echo $form->textField($model,'ZNOPin',array('class'=>'span12')); ?>
     </div>    
-   <!--<div class ="span3">
-       <?php echo $form->labelEx($model,'isCopy'); ?>
-       <div id="swmodal" class="switch" data-on-label="Так" data-off-label="Ні">
-            <?php echo $form->checkbox($model,'isCopy'); ?>
-       </div>
-        
-    </div>-->
-   
 </div>
 <?php if (empty($subjects)) $subjects = array();
     foreach($subjects as $i=>$subject): ?>

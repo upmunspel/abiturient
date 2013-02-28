@@ -28,6 +28,21 @@ class Documentsubject extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+        protected function afterFind() {
+            $from=DateTime::createFromFormat('Y-m-d',$this->DateGet);
+            $this->DateGet=$from->format('d.m.Y');   
+            parent::afterFind();
+            return true;
+            
+        }
+        
+
+        protected function beforeSave() {
+         
+            $this->DateGet=date('Y-m-d',  strtotime($this->DateGet));      
+            parent::beforeSave();
+            return true;
+        }
 
 	/**
 	 * @return string the associated database table name

@@ -63,7 +63,7 @@ class DocumentsController extends Controller
                         foreach ($_GET["Documentsubject"] as $i=>$obj){
                             $item = new Documentsubject();
                             $item->attributes = $obj;
-                            $valid = $valid && $item->validate();
+                            $valid = $item->validate() && $valid ;
                             $subjects[] = $item;
                         }
                 } 
@@ -76,6 +76,7 @@ class DocumentsController extends Controller
             } 
        public function actionAppendZno(){
             $model = new Documents('ZNO');
+            $model->TypeID = 4;
             $subjects = array();
             $valid = true;
             if (isset($_GET["Documents"])){
@@ -115,7 +116,7 @@ class DocumentsController extends Controller
                    $transaction->commit();
                    $person = Person::model()->findByPk($model->PersonID);
                    echo CJSON::encode(array("result"=>"success","data" =>
-                        $this->renderPartial("_form", array('models'=>$model,'personid'=>$model->PersonID), true)
+                        $this->renderPartial("//person/tabs/_zno", array('models'=>$person->znos,'personid'=>$model->PersonID), true)
                         ));
                 } catch (Exception $e) {
                     if ($flag !== null)

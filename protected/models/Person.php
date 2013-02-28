@@ -171,6 +171,7 @@ class Person extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
                     'benefits' => array(self::HAS_MANY, 'PersonBenefits', 'PersonID'),
+                    'znos'=>array(self::HAS_MANY, 'Documents', 'PersonID', 'on'=>'znos.TypeID=4'),
 		);
 	}
 

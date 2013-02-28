@@ -7,7 +7,7 @@
                         'active'=>true, 
                         'id'=>"benefits"),
                 array(  'label'=>'Сертифікати ЗНО', 
-                        'content'=>$this->renderPartial("tabs/_zno",array("models"=>null, 'personid'=>$model->idPerson),true), 
+                        'content'=>$this->renderPartial("tabs/_zno",array("models"=>$model->znos, 'personid'=>$model->idPerson),true), 
                         'active'=>false, 
                         'id'=>"znos"),
     ),
