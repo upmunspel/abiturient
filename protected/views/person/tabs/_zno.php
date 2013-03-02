@@ -40,16 +40,16 @@ $model = new PersonBenefits();*/
                 </div>   
                 <div class ="span5">
                     <?php echo $form->labelEx($model,"[$i]Numbers"); ?>
-                    <?php echo $form->textField($model,"[$i]Numbers",array('class'=>'span12')); ?>
+                    <?php echo $form->textField($model,"[$i]Numbers",array('class'=>'span12','disabled'=>"disabled")); ?>
                 </div>    
                 <div class ="span4">
                     <?php echo $form->labelEx($model,"[$i]ZNOPin"); ?>
-                    <?php echo $form->textField($model,"[$i]ZNOPin",array('class'=>'span12')); ?>
+                    <?php echo $form->textField($model,"[$i]ZNOPin",array('class'=>'span12', 'disabled'=>"disabled")); ?>
                 </div>    
                 <div class ="span1">
                     <span >&nbsp;</span>
                    <?php 
-            //$url = Yii::app()->createUrl("personbenefits/delbenefit",array('benefitid'=>$model->idPersonBenefits, "personid"=>$personid));
+            $url = Yii::app()->createUrl("documents/delzno",array('documentid'=>$model->idDocuments));
             $this->widget("bootstrap.widgets.TbButton", array(
 			'type'=>'danger',
                         'label'=>'',
@@ -83,28 +83,25 @@ $model = new PersonBenefits();*/
             </div>
             
             <?php if (!empty($model->subjects)): ?>
+                    
                 <?php foreach($model->subjects as $j=>$subject): ?>
                     <div class="row-fluid">
                      <div class="span2" align="center">
-                        <div class="row-fluid">
-                             <div class="span12"></div>
-                        </div>   
-                        <div class="row-fluid" style="text-align: right;">
-                             <div class="span12" ><b><?php echo ($j+1)."."; ?></b></div>
-                        </div>    
+                       <!-- <?php echo  ($j==0) ? "<div class='span12' style='text-align: right;'><b>№</b></div>":"";?>
+                        <div class="span12" align="right"><b><?php echo ($j+1)."."; ?></b></div>-->
                      </div>
                      <div class ="span4">
                                 <?php //echo $form->hiddenField($model,"[$i]idDocuments"); ?>
-                                <?php echo $form->labelEx($subject,"[$j]SubjectID"); ?>
-                                <?php echo $form->dropDownList($subject,"[$j]SubjectID", Subjects::DropDown(), array("class"=>"span12")); ?>
+                                <?php echo  ($j==0) ? $form->labelEx($subject,"[$j]SubjectID"):""; ?>
+                                <?php echo $form->dropDownList($subject,"[$j]SubjectID", Subjects::DropDown(), array("class"=>"span12",'disabled'=>"disabled")); ?>
                      </div>    
                      <div class ="span2">
-                                <?php echo $form->labelEx($subject,"[$j]DateGet"); ?>
-                                <?php echo $form->textField($subject,"[$j]DateGet",array("class"=>"span12 datepicker","maxlength"=>10)); ?>
+                                <?php echo ($j==0) ? $form->labelEx($subject,"[$j]DateGet"):""; ?>
+                                <?php echo $form->textField($subject,"[$j]DateGet",array("class"=>"span12 datepicker","maxlength"=>10,'disabled'=>"disabled" )); ?>
                      </div>    
                      <div class ="span2">
-                                <?php echo $form->labelEx($subject,"[$j]SubjectValue"); ?>
-                                <?php echo $form->textField($subject,"[$j]SubjectValue",array("class"=>"span12","maxlength"=>15)); ?>
+                                <?php echo ($j==0) ? $form->labelEx($subject,"[$j]SubjectValue"):""; ?>
+                                <?php echo $form->textField($subject,"[$j]SubjectValue",array("class"=>"span12","maxlength"=>15, 'disabled'=>"disabled")); ?>
                      </div>    
                    </div>
                 <?php endforeach; ?>
