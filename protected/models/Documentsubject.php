@@ -62,7 +62,7 @@ class Documentsubject extends CActiveRecord
 		return array(
 			array('DateGet', 'required'),
 			array('DocumentID, SubjectID', 'numerical', 'integerOnly'=>true),
-			array('SubjectValue', 'numerical'),
+			array('SubjectValue', 'numerical', 'max'=>200, 'min'=>100, 'integerOnly'=>false),
                         array('SubjectValue', 'required'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.

@@ -21,29 +21,26 @@ echo $form->errorSummary($model); ?>
 <div class="row-fluid">
     <div class ="span6">
         <?php echo $form->labelEx($model,'Numbers'); ?>
-        <?php echo $form->textField($model,'Numbers',array('class'=>'span12')); ?>
+        <?php echo $form->textField($model,'Numbers',array('class'=>'span12', 'maxlength'=>7)); ?>
     </div>    
     <div class ="span6">
         <?php echo $form->labelEx($model,'ZNOPin'); ?>
-        <?php echo $form->textField($model,'ZNOPin',array('class'=>'span12')); ?>
+        <?php echo $form->textField($model,'ZNOPin',array('class'=>'span12','maxlength'=>4)); ?>
     </div>    
 </div>
-<?php if (empty($subjects)) $subjects = array();
-    foreach($subjects as $i=>$subject): ?>
+<?php if (!empty($subjects)): ?>
+  
+  <?php  foreach($subjects as $i=>$subject): ?>
         <div class="row-fluid">
          <div class="span1" align="center">
-            <div class="row-fluid">
-                 <div class="span12"></div>
-            </div>   
-            <div class="row-fluid">
-                 <div class="span12"><b><?php echo ($i+1)."."; ?></b></div>
-            </div>    
+            <!--<?php echo ($i==0) ? "<div class ='span12' ><b>№</b></div>":""; ?>
+            <div class="span12"><b><?php echo ($i+1)."."; ?></b></div>-->
          </div>
-         <div class="span11">
-            <?php  $this->renderPartial("_subject",array("model"=>$subject,'form'=>$form,'i'=>$i)); ?>
-         </div>
+         
+         <?php  $this->renderPartial("_subject",array("model"=>$subject,'form'=>$form,'i'=>$i)); ?>
+         
         </div>
-    <?php endforeach; ?> 
+    <?php endforeach; endif;?> 
 
     <script>
         

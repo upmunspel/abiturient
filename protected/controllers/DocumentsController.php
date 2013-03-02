@@ -9,7 +9,7 @@ class DocumentsController extends Controller
 	{
 		return array(
 			'accessControl', // perform access control for CRUD operations
-                        'ajaxOnly + newZno, newZnoSubject, appendZno',
+                        'ajaxOnly + newZno, newZnoSubject, appendZno, delZno, delZnoSubject',
 		);
 	}
 
@@ -26,7 +26,11 @@ class DocumentsController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('newZno','newZnoSubject', 'appendZno'
+				'actions'=>array(   'newZno',
+                                                    'newZnoSubject', 
+                                                    'appendZno',
+                                                    'delZno',
+                                                    'delZnoSubject',
                                                 ),
 				'users'=>array('@'),
 			),
@@ -58,8 +62,39 @@ class DocumentsController extends Controller
                     $model->attributes = $_GET["Documents"];
                     $model->validate();
                 }
+                $dateget = "";
+                if (isset($_GET["Documentsubject"])){
+                        foreach ($_GET["Documentsubject"] as $i=>$obj){
+                            $item = new Documentsubject();
+                            $item->attributes = $obj;
+                            $valid = $item->validate() && $valid ;
+                            $subjects[] = $item;
+                            $dateget = $item->DateGet;
+                        }
+                } 
+                if ($valid) {
+                    $tm = new Documentsubject();
+                    $tm->DateGet = $dateget;
+                    $subjects[] = $tm;
+                }
+                
+                $this->renderPartial('_form',array(
+                            'model'=>$model,
+                            'subjects'=>$subjects, 
+                ));
+            } 
+        public function actionDelZnoSubject($num)
+            {   
+                $model = new Documents('ZNO');
+                $subjects = array();
+                $valid = true;
+                if (isset($_GET["Documents"])){
+                    $model->attributes = $_GET["Documents"];
+                    $model->validate();
+                }
                 
                 if (isset($_GET["Documentsubject"])){
+                        unset($_GET["Documentsubject"][$num]); 
                         foreach ($_GET["Documentsubject"] as $i=>$obj){
                             $item = new Documentsubject();
                             $item->attributes = $obj;
@@ -67,14 +102,13 @@ class DocumentsController extends Controller
                             $subjects[] = $item;
                         }
                 } 
-                if ($valid) $subjects[] = new Documentsubject();
                 
                 $this->renderPartial('_form',array(
                             'model'=>$model,
                             'subjects'=>$subjects, 
                 ));
-            } 
-       public function actionAppendZno(){
+            }     
+        public function actionAppendZno(){
             $model = new Documents('ZNO');
             $model->TypeID = 4;
             $subjects = array();
@@ -132,6 +166,39 @@ class DocumentsController extends Controller
             };
             
         } 
-            
+        
+        public function actionDelZno($documentid)
+	{   
+            $flag = $transaction = Yii::app()->db->getCurrentTransaction();
+            if ($transaction === null)
+            {
+                $transaction = Yii::app()->db->beginTransaction();
+            }
+            try
+            {
+                $document = Documents::model()->findByPk($documentid);
+                
+                if (!empty($document)){
+                    $document->delete();
+                } else {
+                    throw new Exception("Документ (documentID = $documentid) не знайдено!");
+                }
+                $personid = $document->PersonID;
+                $transaction->commit();
+                $person = Person::model()->findByPk($personid);
+                $this->renderPartial("//person/tabs/_zno", array('models'=>$person->znos,'personid'=>$personid));
+            } catch (Exception $e) {
+                    if ($flag !== null)
+                    {
+                        $transaction->rollback();
+                        
+                    }
+                    echo $e->getMessage();
+                    if (defined('YII_DEBUG')){
+                        debug($e->getMessage());
+                    }
+            }
+	}
+        
 
 }

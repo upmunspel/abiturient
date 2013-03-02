@@ -194,7 +194,9 @@ PSN.reloadBenefit = function(obj, url){
     $("#benefits").load(url,data, function() {btn.button('reset');});
 };
 PSN.deleteBenefit = function(obj, url){
+    if (confirm("Ви впевнені, що бажаєте видалити пільгу?")){
     $("#benefits").load(url);
+    }
 };
 /**
  * ZNO CODE
@@ -234,13 +236,19 @@ PSN.appendZno= function(obj, link){
    
  };
 PSN.deleteZno= function(obj, url){
-    $("#znos").load(url);
+     if (confirm("Ви впевнені, що бажаєте видалити сертивікат ЗНО?")){
+         $("#znos").load(url);
+     }
 };
- PSN.addZnoSubject = function(obj, url){
+PSN.addZnoSubject = function(obj, url){
     var btn = $(obj);
     btn.button('loading'); // call the loading function
     var data = $("#zno-form-modal").serialize(); 
     $("#new-zno").load(url, data, function(){ btn.button('reset'); });
+};
+PSN.delZnoSubject = function(obj, url){
+    var data = $("#zno-form-modal").serialize(); 
+    $("#new-zno").load(url,data,function(){});
 };
 
 $(document).ready(function(){
