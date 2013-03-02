@@ -36,6 +36,23 @@ $this->pageTitle=Yii::app()->name;
     </div>
      <div class="span1"></div>
 </div>
+<div class="row">
+<?php 
+    $this->beginWidget('ext.prettyPhoto.PrettyPhoto', array(
+  'id'=>'pretty_photo',
+  // prettyPhoto options
+  'options'=>array(
+    'opacity'=>0.60,
+    'modal'=>true,
+    
+  ),
+));?>
+ 
+<a href="http://10.1.103.26:8080/JasperReports/?iframe=true&width=1024&height=450" title="Тестовий друк">Тестовий друк</a>
+ 
+<?php $this->endWidget('ext.prettyPhoto.PrettyPhoto'); ?>
+</div>
+
 
 
 <?php $this->endWidget(); ?>
