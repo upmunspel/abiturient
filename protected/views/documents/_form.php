@@ -17,6 +17,8 @@ echo $form->errorSummary($model); ?>
         }
    }
    echo $form->hiddenField($model, "PersonID");
+   echo $form->hiddenField($model, "idDocuments");
+   
 ?> 
 <div class="row-fluid">
     <div class ="span6">
@@ -29,12 +31,24 @@ echo $form->errorSummary($model); ?>
     </div>    
 </div>
 <?php if (!empty($subjects)): ?>
-  
+    
+    <div class="row-fluid" style ="font-weight: bold;">
+        <div class="span1" align="center">П/Н</div>
+    <div class ="span4">
+        <?php  echo Documentsubject::model()->getAttributeLabel("SubjectID"); ?>
+    </div>    
+    <div class ="span3">
+        <?php echo Documentsubject::model()->getAttributeLabel("DateGet"); ?>
+    </div>    
+    <div class ="span3">
+        <?php echo Documentsubject::model()->getAttributeLabel("SubjectValue"); ?>
+    </div>    
+    <div class ="span1"></div>
+    </div>  
   <?php  foreach($subjects as $i=>$subject): ?>
-        <div class="row-fluid">
-         <div class="span1" align="center">
-            <!--<?php echo ($i==0) ? "<div class ='span12' ><b>№</b></div>":""; ?>
-            <div class="span12"><b><?php echo ($i+1)."."; ?></b></div>-->
+        <div class="row-fluid" <?php echo ($subject->deleted == 1) ? "style='display:none'":"";?> >
+         <div class="span1" align="center" >
+             <span style="font-size: 14px; display:block; margin-top: 5px;"><?php echo ($i+1); ?></span>
          </div>
          
          <?php  $this->renderPartial("_subject",array("model"=>$subject,'form'=>$form,'i'=>$i)); ?>

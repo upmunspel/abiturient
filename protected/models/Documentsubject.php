@@ -24,6 +24,8 @@ class Documentsubject extends CActiveRecord
 	 * @param string $className active record class name.
 	 * @return Documentsubject the static model class
 	 */
+        public $deleted = 0;
+        
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
@@ -61,7 +63,7 @@ class Documentsubject extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('DateGet', 'required'),
-			array('DocumentID, SubjectID', 'numerical', 'integerOnly'=>true),
+			array('DocumentID, SubjectID, deleted, idDocumentSubject', 'numerical', 'integerOnly'=>true),
 			array('SubjectValue', 'numerical', 'max'=>200, 'min'=>100, 'integerOnly'=>false),
                         array('SubjectValue', 'required'),
 			// The following rule is used by search().

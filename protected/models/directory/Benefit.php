@@ -29,11 +29,18 @@ class Benefit extends CActiveRecord
 	{
 		return 'benefit';
 	}
-        public static function DropDown(){
+        public static function DropDown($groupid = 0){
            $res = array();
-           foreach(Benefit::model()->findAll("visible = :visible", array(":visible"=>1))as $record) {
-                
-                $res[$record->idBenefit] = $record->BenefitName;
+           if ($groupid == 0){
+                foreach(Benefit::model()->findAll("visible = :visible", array(":visible"=>1))as $record) {
+
+                     $res[$record->idBenefit] = $record->BenefitName;
+                }
+           } else {
+               foreach(Benefit::model()->findAll("visible = :visible and BenefitGroupID = $groupid", array(":visible"=>1,))as $record) {
+
+                     $res[$record->idBenefit] = $record->BenefitName;
+               }
            }
            return $res;
         }

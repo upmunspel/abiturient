@@ -9,7 +9,8 @@ class DocumentsController extends Controller
 	{
 		return array(
 			'accessControl', // perform access control for CRUD operations
-                        'ajaxOnly + newZno, newZnoSubject, appendZno, delZno, delZnoSubject',
+                        'ajaxOnly + newZno, newZnoSubject, appendZno, delZno, delZnoSubject,
+                                    editZno',
 		);
 	}
 
@@ -31,6 +32,7 @@ class DocumentsController extends Controller
                                                     'appendZno',
                                                     'delZno',
                                                     'delZnoSubject',
+                                                    'editZno'
                                                 ),
 				'users'=>array('@'),
 			),
@@ -43,18 +45,18 @@ class DocumentsController extends Controller
 			),
 		);
 	}
-        public function actionNewZno($personid)
-            {   
+        
+        public function actionNewZno($personid)  {   
                 $model = new Documents('ZNO');
                 $model->PersonID = $personid;
-                $this->renderPartial('_form',array(
+                $subjects=array();
+                $this->renderPartial('_znoModal',array(
                             'model'=>$model,
-                            'personid'=>$personid,true,true
+                            'subjects'=>$subjects,true,true
                 ));
             }
             
-        public function actionNewZnoSubject()
-            {   
+        public function actionNewZnoSubject()  {   
                 $model = new Documents('ZNO');
                 $subjects = array();
                 $valid = true;
@@ -65,11 +67,19 @@ class DocumentsController extends Controller
                 $dateget = "";
                 if (isset($_GET["Documentsubject"])){
                         foreach ($_GET["Documentsubject"] as $i=>$obj){
-                            $item = new Documentsubject();
+                            $subjectid = $obj["idDocumentSubject"];
+                            if (!empty($subjectid) && $subjectid > 0){
+                               $item = $this->loadSubjects($subjectid);
+                            } else {
+                               $item = new Documentsubject();  
+                            }
                             $item->attributes = $obj;
-                            $valid = $item->validate() && $valid ;
+                            if ($item->deleted == 0){
+                                $valid = $item->validate() && $valid ;
+                            }
                             $subjects[] = $item;
                             $dateget = $item->DateGet;
+                            
                         }
                 } 
                 if ($valid) {
@@ -83,8 +93,8 @@ class DocumentsController extends Controller
                             'subjects'=>$subjects, 
                 ));
             } 
-        public function actionDelZnoSubject($num)
-            {   
+       
+        public function actionDelZnoSubject($num)  {   
                 $model = new Documents('ZNO');
                 $subjects = array();
                 $valid = true;
@@ -98,8 +108,14 @@ class DocumentsController extends Controller
                         foreach ($_GET["Documentsubject"] as $i=>$obj){
                             $item = new Documentsubject();
                             $item->attributes = $obj;
-                            $valid = $item->validate() && $valid ;
+                            if ($i==$num){
+                                $item->deleted = 1;
+                            }
+                            if ($item->deleted == 0){
+                                $valid = $item->validate() && $valid ;
+                            }
                             $subjects[] = $item;
+                            
                         }
                 } 
                 
@@ -108,22 +124,55 @@ class DocumentsController extends Controller
                             'subjects'=>$subjects, 
                 ));
             }     
+        
+        protected function loadDocuments($documentid){
+                $model = Documents::model()->findByPk($documentid);
+                if (empty($model)){
+                    throw new Exception("Документ (id = $documentid) не знайдено!");
+                }
+                $model->scenario = "ZNO";
+                return $model;
+        }
+        protected function loadSubjects($subjectid){
+                $model = Documentsubject::model()->findByPk($subjectid);
+                if (empty($model)){
+                    throw new Exception("Предмет (id = $subjectid) не знайдено!");
+                }
+                return $model;
+        }
         public function actionAppendZno(){
+            
             $model = new Documents('ZNO');
             $model->TypeID = 4;
             $subjects = array();
             $valid = true;
             if (isset($_GET["Documents"])){
+                $documentid = $_GET["Documents"]['idDocuments'];
+                unset($_GET["Documents"]['idDocuments']);
+                if (!empty($documentid)) {
+                    $model=$this->loadDocuments($documentid);
+                }
                 $model->attributes = $_GET["Documents"];
                 $valid  = $model->validate() && $valid;
             }
 
             if (isset($_GET["Documentsubject"])){
                     foreach ($_GET["Documentsubject"] as $i=>$obj){
-                        $item = new Documentsubject();
+                        $subjectid = $obj["idDocumentSubject"];
+                        unset($obj["idDocumentSubject"]);
+                        if (!empty($subjectid) && $subjectid > 0){
+                           $item = $this->loadSubjects($subjectid);
+                        } else {
+                           $item = new Documentsubject();  
+                        }
                         $item->attributes = $obj;
-                        $valid = $item->validate() && $valid;
-                        $subjects[] = $item;
+                        if ($item->deleted == 0){
+                            $valid = $item->validate() && $valid ;
+                            $subjects[] = $item;
+                        } else {
+                            if (!$item->isNewRecord) $item->delete();
+                        }
+                       
                     }
             } 
                 
@@ -142,9 +191,15 @@ class DocumentsController extends Controller
                    if ($model->save()){
                        foreach ($subjects as $subject){
                            $subject->DocumentID = $model->idDocuments;
-                           if (!$subject->save()){
-                               throw new Exception("Помилка збереження даних!");
-                           }
+                           if ($subject->deleted == 0){
+                                if (!$subject->save()){
+                                    throw new Exception("Помилка збереження даних!");
+                                }
+                            } else {
+                                if (!$subject->delete()){
+                                    throw new Exception("Помилка видалення даних!");
+                                }
+                            }
                        }
                    }
                    $transaction->commit();
@@ -167,8 +222,7 @@ class DocumentsController extends Controller
             
         } 
         
-        public function actionDelZno($documentid)
-	{   
+        public function actionDelZno($documentid){   
             $flag = $transaction = Yii::app()->db->getCurrentTransaction();
             if ($transaction === null)
             {
@@ -200,5 +254,17 @@ class DocumentsController extends Controller
             }
 	}
         
-
+        public function actionEditZno($documentid)  {   
+                $model = Documents::model()->findByPk($documentid);
+                if (empty($model)) throw new Exception("Документ (id = $documentid) не знайдено!");
+                $model->scenario = "ZNO";
+                $personid = $model->PersonID;
+                
+                $this->renderPartial('_znoModal',array(
+                            'model'=>$model,
+                            'subjects'=>$model->subjects,
+                            'personid'=>$personid,true,true
+                ));
+            }
+        
 }

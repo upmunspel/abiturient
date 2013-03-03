@@ -33,7 +33,7 @@ $model = new PersonBenefits();*/
          <div class="span11">
              
             <?php echo $form->hiddenField($model,"[$i]idPersonBenefits"); ?>
-            <?php echo $form->dropDownList($model,"[$i]BenefitID", Benefit::DropDown(), array('class'=>"span12", 'disabled'=>"disabled")); ?>
+            <?php echo $form->dropDownList($model,"[$i]BenefitID", Benefit::DropDown(4), array('class'=>"span12", 'disabled'=>"disabled")); ?>
             <?php
             
             //var_dump($arr);
