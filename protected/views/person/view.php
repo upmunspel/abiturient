@@ -67,4 +67,6 @@ $this->menu=array(
     
 </div>
 <?php $this->renderPartial("modals/_benefitModal",array());?>
-<?php $this->renderPartial("modals/_znoModal",array());?>
+<div id="new-zno">
+<?php //$this->renderPartial("modals/_znoModal",array());?>
+</div>

@@ -228,7 +228,7 @@ PSN.appendZno= function(obj, link){
                $("#znos").html(obj.data);
                
             } else {
-               $("#new-zno").html(obj.data);  
+               $("#zno-modal-body").html(obj.data);  
             }
             btn.button('reset'); 
         }
@@ -244,12 +244,22 @@ PSN.addZnoSubject = function(obj, url){
     var btn = $(obj);
     btn.button('loading'); // call the loading function
     var data = $("#zno-form-modal").serialize(); 
-    $("#new-zno").load(url, data, function(){ btn.button('reset'); });
+    $("#zno-modal-body").load(url, data, function(){ btn.button('reset'); });
 };
 PSN.delZnoSubject = function(obj, url){
-    var data = $("#zno-form-modal").serialize(); 
-    $("#new-zno").load(url,data,function(){});
+    //var data = $("#zno-form-modal").serialize(); 
+    //$("#new-zno").load(url,data,function(){});
+    $(obj).parent().parent().parent().hide().find(".deleted").val(1);
 };
+PSN.editZno = function(obj, url){
+     var btn = $(obj);
+    $("#new-zno").load(url,function(){
+       // btn.button('reset');
+        $("#znoModal").modal("show");
+      
+    });
+};
+
 
 $(document).ready(function(){
     PSN.Init();

@@ -15,7 +15,7 @@ $model = new PersonBenefits();*/
              
             <?php //echo $form->hiddenField($model,"idPersonBenefits"); ?> 
             <?php echo $form->hiddenField($model,"PersonID"); ?> 
-            <?php echo $form->dropDownList($model,"BenefitID", Benefit::DropDown(), array('class'=>"span12")); ?>
+            <?php echo $form->dropDownList($model,"BenefitID", Benefit::DropDown(4), array('class'=>"span12")); ?>
          </div>
     </div>
     

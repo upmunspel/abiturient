@@ -1,17 +1,19 @@
 <?php $this->beginWidget('bootstrap.widgets.TbModal', array(
             'id'=>'znoModal',
-            'htmlOptions'=>array('style'=>'width: 600px; margin-left: -300px;'),
+            'htmlOptions'=>array('style'=>'width: 700px; margin-left: -350px;'),
             )
         ); ?>
  
 <div class="modal-header">
     <a class="close" data-dismiss="modal">&times;</a>
-    <h4>Новий сертифікат ЗНО</h4>
+    <h4>Cертифікат ЗНО</h4>
     Поля з <span class ="required">*</span> необхідно заповнити.
 </div>
  
-<div class="modal-body">
-     <div id="new-zno"></div>
+<div class="modal-body" id="zno-modal-body">
+  
+    <?php 
+         $this->renderPartial("_form",array('model'=>$model,'subjects'=>$subjects)); ?>
 </div>
  
 <div class="modal-footer">

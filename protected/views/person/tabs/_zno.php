@@ -66,7 +66,7 @@ $model = new PersonBenefits();*/
                 <div class ="span1">
                     <span >&nbsp;</span>
                    <?php 
-            //$url = Yii::app()->createUrl("personbenefits/delbenefit",array('benefitid'=>$model->idPersonBenefits, "personid"=>$personid));
+            $url = Yii::app()->createUrl("documents/editzno",array('documentid'=>$model->idDocuments));
             $this->widget("bootstrap.widgets.TbButton", array(
 			//'type'=>'primary',
                         'label'=>'',
