@@ -259,7 +259,24 @@ PSN.editZno = function(obj, url){
       
     });
 };
-
+/**
+ * SPEC CODE
+ */
+PSN.addSpec = function(obj, url){
+    var btn = $(obj);
+    btn.button('loading'); // call the loading function
+    //var data = $("#benefit-form").serialize(); 
+    $("#spec-modal-holder").load(url,function() {
+        //alert("ok");//
+        btn.button('reset');
+        $("#specModal").modal("show");
+    });
+ };
+ PSN.onFacChange = function(obj, id , url){
+    var fid = $(obj,":selected").val();
+    data = "idFacultet="+fid;
+    $(id).load(url,data);
+ };
 
 $(document).ready(function(){
     PSN.Init();
