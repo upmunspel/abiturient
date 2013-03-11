@@ -36,17 +36,17 @@ $this->menu=array(
     <!--Шапка встапу-->
     <div style="margin-bottom: 10px;">
         
-    <?php $this->widget('bootstrap.widgets.TbButtonGroup', array(
-        'type'=>'primary', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
-        'buttons'=>array(
-            array('label'=>'Додати спеціальність', 'items'=>array(
-                array('label'=>'Прикладна математика', 'url'=>'#'),
-                array('label'=>'Філосовія', 'url'=>'#'),
-                array('label'=>'Програмна інженерія', 'url'=>'#'),
-                array('label'=>'...', 'url'=>'#'),
-            )),
-        ),
-    )); ?>  
+    <?php 
+                $url = Yii::app()->createUrl("personspeciality/create",array('personid'=>$model->idPerson));
+                    $this->widget('bootstrap.widgets.TbButton', array(
+                    'label'=>'Додати спеціальність',
+                    'type'=>'primary', // null, 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
+                    'size' => null, // null, 'large', 'small' or 'mini'
+                    'loadingText'=>'Зачекайте...',
+                    'htmlOptions'=>array('id'=>'addSpec',
+                        'onclick'=>"PSN.addSpec(this,'$url');",
+                        ),
+                )); ?>
     </div>
     <!--/Шапка встапу-->
     <!--Вкладки-->
@@ -67,6 +67,5 @@ $this->menu=array(
     
 </div>
 <?php $this->renderPartial("modals/_benefitModal",array());?>
-<div id="new-zno">
-<?php //$this->renderPartial("modals/_znoModal",array());?>
-</div>
+<div id="new-zno"></div>
+<div id="spec-modal-holder"></div>

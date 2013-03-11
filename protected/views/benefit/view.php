@@ -20,11 +20,12 @@ $this->menu=array(
 
 <?php $this->widget('bootstrap.widgets.TbDetailView', array(
 	'data'=>$model,
+    'type'=>array('bordered', 'condensed','striped'),
 	'attributes'=>array(
 		'idBenefit',
 		'BenefitName',
 		'BenefitKey',
-		'BenefitGroupID',
+		'BenefitGroup',
 		'Visible',
 	),
 )); ?>

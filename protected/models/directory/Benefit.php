@@ -12,6 +12,16 @@
  */
 class Benefit extends CActiveRecord
 {
+    
+    
+        public function getBenefitGroup (){
+            $obj = Benefitsgroups::model()->findByPk($this->BenefitGroupID); 
+            $res = "";
+            if (!empty($obj)){
+                $res = $obj->BenefitsGroupsName;
+            }
+            return $res;
+        }
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -71,6 +81,7 @@ class Benefit extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+                    
 		);
 	}
         
@@ -81,11 +92,12 @@ class Benefit extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-    'idBenefit' => 'Код пільги',
-    'BenefitName' => 'Назва пільги',
-    'BenefitKey' => 'Ключ пільги',
-    'BenefitGroupID' => 'ID групи пільги',
-    'Visible' => 'Відображати при виборі',
+                    'idBenefit' => 'Код пільги',
+                    'BenefitName' => 'Назва пільги',
+                    'BenefitKey' => 'Ключ пільги',
+                    'BenefitGroupID' => 'Група пільги',
+                    'BenefitGroup'=>'Група пільги',
+                    'Visible' => 'Відображати при виборі',
 		);
 	}
 

@@ -17,7 +17,24 @@
  */
 class Documents extends CActiveRecord
 {
-	/**
+	
+        public static function ZNODropDown($PersonID, $SepcialityID = 0){
+            $res = array();
+            $model = Documents::model()->findAll("PersonID = :PersonID and TypeID = 4", array(":PersonID"=>$PersonID));
+            if (!empty($model)){
+                foreach ($model as $zno){
+                    //$res[$zno->idDocuments] = $zno->Numbers;
+                    if (!empty($zno->subjects)){
+                        foreach ($zno->subjects as $subject){
+                            $res[$subject->idDocumentSubject] = $subject->subject->SubjectName.": ".$subject->SubjectValue." (№".$zno->Numbers." от ".$subject->DateGet.", пин: ".$zno->ZNOPin.")";
+                        }
+                    }
+                }
+                
+            }
+            return $res;
+        } 
+        /**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
 	 * @return Documents the static model class

@@ -1,14 +1,14 @@
 <?php
-/* @var $this BenefitController */
-/* @var $model Benefit */
+/* @var $this BenefitsgroupsController */
+/* @var $model Benefitsgroups */
 
 $this->breadcrumbs=array(
-	'Benefits'=>array('index'),
+	'Benefitsgroups'=>array('index'),
 	'Довідник ',
 );
 
 $this->menu=array(
-/*array('label'=>'List Benefit', 'url'=>array('index')),*/
+/*array('label'=>'List Benefitsgroups', 'url'=>array('index')),*/
 array('label'=>'Додати запис', 'url'=>array('create')),
 );
 
@@ -18,7 +18,7 @@ $('.search-form').toggle();
 return false;
 });
 $('.search-form form').submit(function(){
-$.fn.yiiGridView.update('benefit-grid', {
+$.fn.yiiGridView.update('benefitsgroups-grid', {
 data: $(this).serialize()
 });
 return false;
@@ -26,7 +26,7 @@ return false;
 ");
 ?>
 
-<h1>Довідник "Пільги"</h1>
+<h1>Довідник Benefitsgroups</h1>
 
 <p>
     Можна додати оператор порівняння (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>
@@ -41,19 +41,12 @@ return false;
 </div><!-- search-form -->
 
 <?php $this->widget('bootstrap.widgets.TbGridView', array(
-'id'=>'benefit-grid',
-'type'=>'striped bordered condensed',
+'id'=>'benefitsgroups-grid',
 'dataProvider'=>$model->search(),
 'filter'=>$model,
 'columns'=>array(
-		'idBenefit',
-		'BenefitName',
-		//BenefitKey',
-		//'BenefitGroupID',
-		array('name'=>'Visible',
-                    'header'=>'Відображати при виборі',
-                    'filter'=>array('1'=>'так','0'=>'ні'),
-                    'value'=>'($data->Visible=="1")?("так"):("ні")'),
+		'idBenefitsGroups',
+		'BenefitsGroupsName',
 array(
 'class'=>'bootstrap.widgets.TbButtonColumn',
 ),
