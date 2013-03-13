@@ -12,22 +12,22 @@ $model = new PersonBenefits();*/
     <div class="well">
     <div class="row-fluid">
         <div class="span3">
-               <?php 
-                $url = Yii::app()->createUrl("documents/newzno",array('personid'=>$personid));
+                <?php
+                    $url = Yii::app()->createUrl("personspeciality/create",array('personid'=>$personid));
                     $this->widget('bootstrap.widgets.TbButton', array(
-                    'label'=>'Додати сертифікат',
+                    'label'=>'Додати спеціальність',
                     'type'=>'primary', // null, 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
                     'size' => null, // null, 'large', 'small' or 'mini'
                     'loadingText'=>'Зачекайте...',
-                    'htmlOptions'=>array('id'=>'addZno',
-                        'onclick'=>"PSN.addZno(this,'$url');",
+                    'htmlOptions'=>array('id'=>'addSpec',
+                        'onclick'=>"PSN.addSpec(this,'$url');",
                         ),
                 )); ?>
         </div>
     </div>
     <hr>  
     <?php  /* PRINT ZNOS LIST */ ?>
-    <?php if (!empty($models)): ?>   
+    <?php /*if (!empty($models)): ?>   
         <?php foreach($models as $i=>$model): ?>   
             <div class="row-fluid">
                 <div class ="span1">
@@ -108,7 +108,7 @@ $model = new PersonBenefits();*/
            <?php endif; ?> 
        <?php endforeach; ?>
 
-    <?php endif;?>   
+    <?php endif;*/?>   
     
     
     

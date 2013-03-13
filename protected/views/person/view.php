@@ -33,22 +33,7 @@ $this->menu=array(
                 -moz-border-radius: 4px;
                 border-radius: 4px;
                 padding:10px;">
-    <!--Шапка встапу-->
-    <div style="margin-bottom: 10px;">
-        
-    <?php 
-                $url = Yii::app()->createUrl("personspeciality/create",array('personid'=>$model->idPerson));
-                    $this->widget('bootstrap.widgets.TbButton', array(
-                    'label'=>'Додати спеціальність',
-                    'type'=>'primary', // null, 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
-                    'size' => null, // null, 'large', 'small' or 'mini'
-                    'loadingText'=>'Зачекайте...',
-                    'htmlOptions'=>array('id'=>'addSpec',
-                        'onclick'=>"PSN.addSpec(this,'$url');",
-                        ),
-                )); ?>
-    </div>
-    <!--/Шапка встапу-->
+   
     <!--Вкладки-->
     <div id="tab-holder">
        <?php $this->renderPartial("tabs/_tabs",  array('model'=>$model)); ?>
