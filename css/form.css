@@ -60,7 +60,9 @@ div.form label
 	display: block;
         margin-bottom: 0px;
 }
-
+div.form .switch label{
+    display: inline-block;
+}
 div.form .row
 {
 	margin: 5px 0;

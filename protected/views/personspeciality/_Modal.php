@@ -12,17 +12,17 @@
  
 <div class="modal-body" id="spec-modal-body">
   
-    <?php $this->renderPartial("_form",array('model'=>$model,)); ?>
+    <?php $this->renderPartial("_form",array('model'=>$model)); ?>
 </div>
  
 <div class="modal-footer">
        
     <?php 
-      $url = Yii::app()->createUrl("documents/appendzno");
+      $url = Yii::app()->createUrl("personspeciality/create");
       $this->widget('bootstrap.widgets.TbButton', array(
         'type'=>'primary',
         'label'=>'Зберегти',
-        'htmlOptions'=>array('onclick'=>"PSN.appendZno(this, '$url')"),
+        'htmlOptions'=>array('onclick'=>"PSN.appendSpec(this, '$url')"),
     )); ?>
     <?php $this->widget('bootstrap.widgets.TbButton', array(
         'label'=>'Скасувати',
