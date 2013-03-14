@@ -272,10 +272,32 @@ PSN.addSpec = function(obj, url){
         $("#specModal").modal("show");
     });
  };
- PSN.onFacChange = function(obj, id , url){
+PSN.onFacChange = function(obj, id , url){
     var fid = $(obj,":selected").val();
     data = "idFacultet="+fid;
     $(id).load(url,data);
+ };
+ PSN.appendSpec= function(obj, link){
+    var btn = $(obj);
+    btn.button('loading'); // call the loading function
+    var fdata = $("#spec-form-modal").serialize(); 
+    $.ajax({
+    'url': link,
+    'data': fdata,
+    success: function (data) { 
+            var obj = jQuery.parseJSON(data);
+            if (obj.result === "success") {
+          
+               $("#specModal").modal("hide");
+               $("#specModal").html(obj.data);
+               
+            } else {
+               $("#spec-modal-body").html(obj.data);  
+            }
+            btn.button('reset'); 
+        }
+    });
+   
  };
 
 $(document).ready(function(){

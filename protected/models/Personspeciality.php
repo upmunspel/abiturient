@@ -72,6 +72,11 @@ class Personspeciality extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('PersonID, SepcialityID, PaymentTypeID, EducationFormID, QualificationID, EntranceTypeID, CourseID, CausalityID, isTarget, isContact, isCopyEntrantDoc, DocumentSubject1, DocumentSubject2, DocumentSubject3, Exam1ID, Exam1Ball, Exam2ID, Exam2Ball, Exam3ID, Exam3Ball', 'numerical', 'integerOnly'=>true),
+                        array('PersonID, SepcialityID, PaymentTypeID, EducationFormID, 
+                               QualificationID, EntranceTypeID, CourseID, isTarget, isContact, 
+                               isCopyEntrantDoc', "required"),
+                              // DocumentSubject1, DocumentSubject2, DocumentSubject3, 
+                             //  Exam1ID, Exam1Ball, Exam2ID, Exam2Ball, Exam3ID, Exam3Ball', 'numerical', 'integerOnly'=>true),
 			array('AdditionalBall', 'numerical'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.

@@ -60,19 +60,27 @@ class PersonspecialityController extends Controller
 	{
 		$model=new Personspeciality;
                 $model->PersonID = (int)$personid;
-
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-
-		if(isset($_POST['Personspeciality']))
+                $valid = true;
+		if(isset($_GET['Personspeciality']))
 		{
-			$model->attributes=$_POST['Personspeciality'];
+			$model->attributes=$_GET['Personspeciality'];
+                        $valid  = $model->validate() && $valid;
+                        if (!$valid){
+                            echo CJSON::encode(array("result"=>"error","data" =>
+                            $this->renderPartial('_form', array('model'=>$model),true)));
+                             Yii::app()->end();
+                        } else {
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->idPersonSpeciality));
+                            $person = Person::model()->findByPk($model->PersonID);
+                            echo CJSON::encode(array("result"=>"success","data" =>
+                                 $this->renderPartial("//person/tabs/_spec", array('models'=>$person->znos,'personid'=>$model->PersonID), true)
+                            ));
+                            Yii::app()->end();
+                        }
 		}
 
-		$this->renderPartial('_Modal',array('model'=>$model,));
-	}
+		$this->renderPartial('_Modal', array('model'=>$model,'personid'=>$model->PersonID));
+        }
 
 	/**
 	 * Updates a particular model.
