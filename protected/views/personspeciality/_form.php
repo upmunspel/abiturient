@@ -33,13 +33,18 @@ $form=$this->beginWidget('CActiveForm', array(
                 ?>
             </div>
             <div class="span2">
-                <?php echo $form->labelEx($model,'SepcialityID'); ?>
-		<?php echo $form->dropDownList($model,'SepcialityID',  CHtml::listData(Specialities::model()->findAll(), 'idSpeciality', 'SpecialityName'),array( 'empty'=>'','class'=>"span12") ); ?>
+                <?php $url = Yii::app()->createUrl("personspeciality/znosubjects",array("personid"=>$personid,"specid"=>intval($model->idPersonSpeciality)));
+                      echo $form->labelEx($model,'SepcialityID'); ?>
+		<?php echo $form->dropDownList($model,'SepcialityID',  
+                        CHtml::listData(Specialities::model()->findAll(), 'idSpeciality', 'SpecialityName'),
+                        array( 'empty'=>'','class'=>"span12",
+                            'onchange'=>"PSN.changeSpeciality(this, '$url')") ); ?>
 		<?php //echo $form->error($model,'SepcialityID'); ?>
             </div>
              <div class="span2">
 		<?php echo $form->labelEx($model,'PaymentTypeID'); ?>
-		<?php echo $form->dropDownList($model,'PaymentTypeID', CHtml::listData(Personeducationpaymenttypes::model()->findAll(), 'idEducationPaymentTypes', 'EducationPaymentTypesName'),array( 'empty'=>'','class'=>"span12")); ?>
+		<?php echo $form->dropDownList($model,'PaymentTypeID', CHtml::listData(Personeducationpaymenttypes::model()->findAll(), 'idEducationPaymentTypes', 'EducationPaymentTypesName'),
+                                array( 'empty'=>'','class'=>"span12")); ?>
 		<?php //echo $form->error($model,'PaymentTypeID'); ?>
             </div>
             <div class="span2">
@@ -59,13 +64,14 @@ $form=$this->beginWidget('CActiveForm', array(
             
             <div class="span4">
                     <?php echo $form->labelEx($model,'EntranceTypeID'); ?>
-                    <?php echo $form->dropDownList($model,'EntranceTypeID',CHtml::listData(Personenterancetypes::model()->findAll(), 'idPersonEnteranceType', 'PersonEnteranceTypeName'),array('empty'=>'', 'class'=>"span12")); ?>
+                    <?php echo $form->dropDownList($model,'EntranceTypeID',CHtml::listData(Personenterancetypes::model()->findAll(), 'idPersonEnteranceType', 'PersonEnteranceTypeName'),
+                            array('empty'=>'', 'class'=>"span12",'onchange'=>"PSN.changeEntranceType(this)")); ?>
                     <?php //echo $form->error($model,'EntranceTypeID'); ?>
             </div>
             
             <div class="span6">
                     <?php echo $form->labelEx($model,'CausalityID'); ?>
-                    <?php echo $form->dropDownList($model,'CausalityID', CHtml::listData(Causality::model()->findAll(), 'idCausality', 'CausalityName'),array('empty'=>'', 'class'=>"span12")); ?>
+                    <?php echo $form->dropDownList($model,'CausalityID', CHtml::listData(Causality::model()->findAll(), 'idCausality', 'CausalityName'),array('empty'=>'', 'class'=>"span12 causality")); ?>
                     <?php //echo $form->error($model,'CausalityID'); ?>
             </div>
 
@@ -104,37 +110,11 @@ $form=$this->beginWidget('CActiveForm', array(
     <!-- ZNO -->	
     <div class="row-fluid">
         <!-- ZNO -->
-        <div class="span7">
-           <div class="row-fluid">
-               <div class="span12">
-		<?php echo $form->labelEx($model,'DocumentSubject1'); ?>
-               </div>
-           </div>
-           
-           <div class="row-fluid"> 
-            <div class="span12">
-		<?php //echo $form->labelEx($model,'DocumentSubject1');    ?>
-		<?php echo $form->dropDownList($model, 'DocumentSubject1',  Documents::ZNODropDown($model->PersonID), array('empty'=>'','class'=>"span12")); ?>
-		<?php //echo $form->error($model,'DocumentSubject1'); ?>
-            </div>
-           </div>
-            <div class="row-fluid">
-            <div class="span12">
-                    <?php //echo $form->labelEx($model,'DocumentSubject2'); ?>
-                    <?php echo $form->dropDownList($model, 'DocumentSubject2',  Documents::ZNODropDown($model->PersonID), array('empty'=>'', 'class'=>"span12")); ?>
-                    <?php //echo $form->error($model,'DocumentSubject2'); ?>
-            </div>
-            </div>
-            <div class="row-fluid">
-            <div class="span12">
-                    <?php //echo $form->labelEx($model,'DocumentSubject3'); ?>
-                   <?php echo $form->dropDownList($model, 'DocumentSubject3',  Documents::ZNODropDown($model->PersonID), array('empty'=>'','class'=>"span12")); ?>
-                    <?php //echo $form->error($model,'DocumentSubject3'); ?>
-            </div>
-            </div>
+        <div class="span7 znosubjects" id="znosubjects">
+           <?php $this->renderPartial("_znosubjects", array("model"=>$model,'specialityid'=>0)); ?>
         </div>
         <!--Exams -->
-        <div class="span5">
+        <div class="span5 examsujects">
            <div class="row-fluid">
                 <div class="span6">
                         <?php echo $form->labelEx($model,'Exam1ID'); ?>

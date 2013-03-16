@@ -8,7 +8,7 @@
                         'active'=>true, 
                         'id'=>"znos"),
                 array(  'label'=>'Спеціальності', 
-                        'content'=>$this->renderPartial("tabs/_spec",array("models"=>$model->znos, 'personid'=>$model->idPerson),true), 
+                        'content'=>$this->renderPartial("tabs/_spec",array("models"=>$model->specs, 'personid'=>$model->idPerson),true), 
                         'active'=>false, 
                         'id'=>"specs"),
                 array(  'label'=>'Пільги', 

@@ -299,7 +299,48 @@ PSN.onFacChange = function(obj, id , url){
     });
    
  };
-
+/**
+* EntranceType Change
+*/
+ PSN.changeEntranceType = function(obj){
+    var EntranceType =  parseInt($(obj,":selected").val());
+    switch (EntranceType) {
+        case 1:
+            
+           $(".examsujects input").val("").attr("disabled","disabled");
+           $(".znosubjects select").removeAttr('disabled');
+           $(".causality").attr("disabled","disabled");
+           $(".causality [value='']").attr("selected", "selected");
+          
+        break;
+        case 2:
+           
+           $(".znosubjects select").attr("disabled","disabled");
+           $(".examsujects input").removeAttr('disabled');
+           $(".causality :first").attr("selected","selected");
+           $(".causality").removeAttr('disabled');
+           $(".causality select [value='']").attr("selected", "selected");
+          
+        break;
+      
+        default:
+           
+           $(".znosubjects select").removeAttr('disabled');
+           $(".examsujects input").removeAttr('disabled');
+           $(".causality").removeAttr('disabled');
+           $(".causality [value='']").attr("selected", "selected");
+        
+        
+    }
+ }
+ /**
+  * Sepciality change
+  */
+ PSN.changeSpeciality = function(obj, url){
+     var Sepciality = $(obj,"selected").val();
+     var data = "specialityid="+Sepciality;
+     $("#znosubjects").load(url,data);
+ }
 $(document).ready(function(){
     PSN.Init();
 });

@@ -18,19 +18,42 @@
 class Documents extends CActiveRecord
 {
 	
-        public static function ZNODropDown($PersonID, $SepcialityID = 0){
+        public static function ZNODropDown($PersonID, $SepcialityID = 0, $Level = 0){
             $res = array();
             $model = Documents::model()->findAll("PersonID = :PersonID and TypeID = 4", array(":PersonID"=>$PersonID));
+            if ($SepcialityID != 0){
+                $ssubj = Specialitysubjects::model()->find("SpecialityID=:SpecialityID and LevelID = :LevelID", 
+                        array(":SpecialityID"=>$SepcialityID,":LevelID"=>$Level));
+                
+                if (!empty($model)){
+                foreach ($model as $zno){
+                    //$res[$zno->idDocuments] = $zno->Numbers;
+                    if (!empty($zno->subjects)){
+                        foreach ($zno->subjects as $subject){
+                            if (!empty($ssubj->subject)){
+                            if ($subject->subject->idSubjects==  $ssubj->subject->idSubjects){
+                                $res[$subject->idDocumentSubject] = $subject->subject->SubjectName.": ".$subject->SubjectValue." (№".$zno->Numbers." от ".$subject->DateGet.", пин: ".$zno->ZNOPin.")";
+                                }
+                            } else {
+                                $res[$subject->idDocumentSubject] = $subject->subject->SubjectName.": ".$subject->SubjectValue." (№".$zno->Numbers." от ".$subject->DateGet.", пин: ".$zno->ZNOPin.")";
+                            }
+                        }
+                        }
+                    }
+                }
+                
+            } else {
             if (!empty($model)){
                 foreach ($model as $zno){
                     //$res[$zno->idDocuments] = $zno->Numbers;
                     if (!empty($zno->subjects)){
                         foreach ($zno->subjects as $subject){
                             $res[$subject->idDocumentSubject] = $subject->subject->SubjectName.": ".$subject->SubjectValue." (№".$zno->Numbers." от ".$subject->DateGet.", пин: ".$zno->ZNOPin.")";
+                            }
                         }
                     }
                 }
-                
+            
             }
             return $res;
         } 

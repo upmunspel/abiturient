@@ -27,62 +27,15 @@ $model = new PersonBenefits();*/
     </div>
     <hr>  
     <?php  /* PRINT ZNOS LIST */ ?>
-    <?php /*if (!empty($models)): ?>   
+    <?php if (!empty($models)): ?>   
         <?php foreach($models as $i=>$model): ?>   
             <div class="row-fluid">
-                <div class ="span1">
-                        <div class="row-fluid">
-                             <div class="span12"></div>
-                        </div>   
-                        <div class="row-fluid" style="text-align: right;">
-                             <div class="span12"><b><?php echo ($i+1)."."; ?></b></div>
-                        </div>    
-                </div>   
-                <div class ="span5">
-                    <?php echo $form->labelEx($model,"[$i]Numbers"); ?>
-                    <?php echo $form->textField($model,"[$i]Numbers",array('class'=>'span12','disabled'=>"disabled")); ?>
-                </div>    
-                <div class ="span4">
-                    <?php echo $form->labelEx($model,"[$i]ZNOPin"); ?>
-                    <?php echo $form->textField($model,"[$i]ZNOPin",array('class'=>'span12', 'disabled'=>"disabled")); ?>
-                </div>    
-                <div class ="span1">
-                    <span >&nbsp;</span>
-                   <?php 
-            $url = Yii::app()->createUrl("documents/delzno",array('documentid'=>$model->idDocuments));
-            $this->widget("bootstrap.widgets.TbButton", array(
-			'type'=>'danger',
-                        'label'=>'',
-                        'size' => null,
-                        'icon'=>"icon-trash",
-                        'htmlOptions'=>array(
-                                "style"=>"margin-top: 2px;",
-                                'title'=>"Видалити сертифікат",
-                                'class'=>"span12",
-                                'onclick'=>"PSN.deleteZno(this,'$url');"), 
-                        )); 
-             ?>
+                <div class="span12">
+                  <?php echo $model->sepciality->SpecialityName; ?>
                 </div>
-                <div class ="span1">
-                    <span >&nbsp;</span>
-                   <?php 
-            $url = Yii::app()->createUrl("documents/editzno",array('documentid'=>$model->idDocuments));
-            $this->widget("bootstrap.widgets.TbButton", array(
-			//'type'=>'primary',
-                        'label'=>'',
-                        'size' => null,
-                        'icon'=>"icon-edit",
-                        'htmlOptions'=>array(
-                                "style"=>"margin-top: 2px;",
-                                'title'=>"Редагувати сертифікат",
-                                'class'=>"span12",
-                                'onclick'=>"PSN.editZno(this,'$url');"), 
-                        )); 
-             ?>
-                </div>    
-            </div>
-            
-            <?php if (!empty($model->subjects)): ?>
+                    
+            </div>  
+            <?php /*if (!empty($model->subjects)): ?>
                     
                 <?php foreach($model->subjects as $j=>$subject): ?>
                     <div class="row-fluid">
@@ -105,10 +58,10 @@ $model = new PersonBenefits();*/
                      </div>    
                    </div>
                 <?php endforeach; ?>
-           <?php endif; ?> 
+           <?php endif; */?> 
        <?php endforeach; ?>
 
-    <?php endif;*/?>   
+    <?php endif;?>   
     
     
     

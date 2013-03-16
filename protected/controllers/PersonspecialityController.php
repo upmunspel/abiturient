@@ -15,7 +15,7 @@ class PersonspecialityController extends Controller
 	public function filters()
 	{
 		return array(
-			'accessControl', // perform access control for CRUD operations
+			//'accessControl', // perform access control for CRUD operations
 			'postOnly + delete', // we only allow deletion via POST request
 		);
 	}
@@ -29,7 +29,16 @@ class PersonspecialityController extends Controller
 	{
 		return AccessToDictionaries::getAccessRulesToDictionaries();
 	}
-
+        public function actionZnosubjects($personid, $specid, $specialityid){
+            if ($specid == 0){
+                $model = new Personspeciality();
+                $model->PersonID = intval($personid);
+            } else {
+                $model = Personspeciality::model()->findByPk($specid);
+                $model->PersonID = $personid;  
+            }
+            $this->renderPartial("_znosubjects", array('model'=>$model, 'specialityid'=>$specialityid));
+        }
         public function actionSpeciality($idFacultet)
         {
             $data = Specialities::model()->findAll('FacultetID=:FacultetID',
