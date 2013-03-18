@@ -10,6 +10,10 @@ $model = new PersonBenefits();*/
 	'enableAjaxValidation'=>false,
 )); ?>
     <div class="well">
+         <?php if (Yii::app()->user->hasFlash("error")){
+            echo "<script> alert('".Yii::app()->user->getFlash("error")."')</script>";
+         };
+        ?>
     <div class="row-fluid">
         <div class="span3">
                <?php 
