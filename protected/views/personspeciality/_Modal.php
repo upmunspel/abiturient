@@ -18,7 +18,7 @@
 <div class="modal-footer">
        
     <?php 
-      $url = Yii::app()->createUrl("personspeciality/create");
+      $url = $model->isNewRecord ? Yii::app()->createUrl("personspeciality/create"): Yii::app()->createUrl("personspeciality/update",array("id"=>$model->idPersonSpeciality)) ;
       $this->widget('bootstrap.widgets.TbButton', array(
         'type'=>'primary',
         'label'=>'Зберегти',

@@ -25,8 +25,13 @@ $form=$this->beginWidget('CActiveForm', array(
 		<?php //echo $form->error($model,'CourseID'); ?>
             </div>
             <div class="span4">
-                <?php echo CHtml::label("Факультет", "idFacultet")?>
-                <?php echo CHtml::dropDownList('idFacultet', "", CHtml::listData(Facultets::model()->findAll(array('order'=>'FacultetFullName')),'idFacultet','FacultetFullName'),
+                <?php if ($model->isNewRecord || empty($model->sepciality)) {
+                        $idFacultet = "";
+                      } else {
+                         $idFacultet= $model->sepciality->FacultetID;
+                      }
+                      echo CHtml::label("Факультет", "idFacultet")?>
+                <?php echo CHtml::dropDownList('idFacultet', $idFacultet , CHtml::listData(Facultets::model()->findAll(array('order'=>'FacultetFullName')),'idFacultet','FacultetFullName'),
                         array('empty'=>'','onchange'=>"PSN.onFacChange(this, '#".CHtml::activeId($model, "SepcialityID")."','".CController::createUrl('personspeciality/speciality')."');",
                         'class'=>"span12")
                       );
@@ -115,56 +120,7 @@ $form=$this->beginWidget('CActiveForm', array(
         </div>
         <!--Exams -->
         <div class="span5 examsujects">
-           <div class="row-fluid">
-                <div class="span6">
-                        <?php echo $form->labelEx($model,'Exam1ID'); ?>
-                   
-                </div>
-               <div class="span6">
-                        <?php echo $form->labelEx($model,'Exam1Ball'); ?>
-                  
-                </div>
-           </div>
-            <div class="row-fluid">
-                <div class="span6">
-                        <?php //echo $form->labelEx($model,'Exam1ID'); ?>
-                        <?php echo $form->textField($model,'Exam1ID',array('class'=>"span12")); ?>
-                        <?php //echo $form->error($model,'Exam1ID'); ?>
-                </div>
-
-                <div class="span6">
-                        <?php //echo $form->labelEx($model,'Exam1Ball'); ?>
-                        <?php echo $form->textField($model,'Exam1Ball',array('class'=>"span12")); ?>
-                        <?php //echo $form->error($model,'Exam1Ball'); ?>
-                </div>
-            </div>
-            <div class="row-fluid">
-                <div class="span6">
-                        <?php //echo $form->labelEx($model,'Exam2ID'); ?>
-                        <?php echo $form->textField($model,'Exam2ID',array('class'=>"span12")); ?>
-                        <?php //echo $form->error($model,'Exam2ID'); ?>
-                </div>
-
-                <div class="span6">
-                        <?php //echo $form->labelEx($model,'Exam2Ball'); ?>
-                        <?php echo $form->textField($model,'Exam2Ball',array('class'=>"span12")); ?>
-                        <?php //echo $form->error($model,'Exam2Ball'); ?>
-                </div>
-            </div>
-            <div class="row-fluid">
-                <div class="span6">
-                        <?php //echo $form->labelEx($model,'Exam3ID'); ?>
-                        <?php echo $form->textField($model,'Exam3ID',array('class'=>"span12")); ?>
-                        <?php //echo $form->error($model,'Exam3ID'); ?>
-                </div>
-
-                <div class="span6">
-                        <?php //echo $form->labelEx($model,'Exam3Ball'); ?>
-                        <?php echo $form->textField($model,'Exam3Ball',array('class'=>"span12")); ?>
-                        <?php //echo $form->error($model,'Exam3Ball'); ?>
-                </div>
-            </div>
-
+           <?php $this->renderPartial("_examsubjects", array("model"=>$model,'specialityid'=>0)); ?>
         </div>
     
         

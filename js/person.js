@@ -289,7 +289,7 @@ PSN.onFacChange = function(obj, id , url){
             if (obj.result === "success") {
           
                $("#specModal").modal("hide");
-               $("#specModal").html(obj.data);
+               $("#specs").html(obj.data);
                
             } else {
                $("#spec-modal-body").html(obj.data);  
@@ -299,6 +299,19 @@ PSN.onFacChange = function(obj, id , url){
     });
    
  };
+ PSN.delSpec = function(obj, link){
+ if (confirm("Ви впевнені, що бажаєте видалити спеціальність?")){
+         $("#specs").load(link);
+     }
+ };
+ PSN.editSpec = function(obj, link){
+    var btn = $(obj);
+    btn.button('loading');
+    $("#spec-modal-holder").load(link,function() {
+        btn.button('reset');
+        $("#specModal").modal("show");
+    });
+ };
 /**
 * EntranceType Change
 */
@@ -306,7 +319,7 @@ PSN.onFacChange = function(obj, id , url){
     var EntranceType =  parseInt($(obj,":selected").val());
     switch (EntranceType) {
         case 1:
-            
+           $(".examsujects input :first").attr("selected","selected");
            $(".examsujects input").val("").attr("disabled","disabled");
            $(".znosubjects select").removeAttr('disabled');
            $(".causality").attr("disabled","disabled");
@@ -340,6 +353,7 @@ PSN.onFacChange = function(obj, id , url){
      var Sepciality = $(obj,"selected").val();
      var data = "specialityid="+Sepciality;
      $("#znosubjects").load(url,data);
+     
  }
 $(document).ready(function(){
     PSN.Init();

@@ -16,7 +16,7 @@ class PersonspecialityController extends Controller
 	{
 		return array(
 			//'accessControl', // perform access control for CRUD operations
-			'postOnly + delete', // we only allow deletion via POST request
+			//'postOnly', // we only allow deletion via POST request
 		);
 	}
 
@@ -45,9 +45,10 @@ class PersonspecialityController extends Controller
                           array(':FacultetID'=>(int) $idFacultet));
 
             $data=CHtml::listData($data,'idSpeciality','SpecialityName');
+            echo CHtml::tag('option', array('value'=>""), "", true);
             foreach($data as $value=>$name)
             {
-                echo CHtml::tag('option', array('value'=>$value), CHtml::encode($name),true);
+                echo CHtml::tag('option', array('value'=>$value), CHtml::encode($name), true);
             }
         }
 	/**
@@ -82,7 +83,7 @@ class PersonspecialityController extends Controller
 			if($model->save())
                             $person = Person::model()->findByPk($model->PersonID);
                             echo CJSON::encode(array("result"=>"success","data" =>
-                                 $this->renderPartial("//person/tabs/_spec", array('models'=>$person->znos,'personid'=>$model->PersonID), true)
+                                 $this->renderPartial("//person/tabs/_spec", array('models'=>$person->specs,'personid'=>$model->PersonID), true)
                             ));
                             Yii::app()->end();
                         }
@@ -99,20 +100,29 @@ class PersonspecialityController extends Controller
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
-
+                $valid = true;
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Personspeciality']))
+		if(isset($_GET['Personspeciality']))
 		{
-			$model->attributes=$_POST['Personspeciality'];
+			$model->attributes=$_GET['Personspeciality'];
+                        $valid  = $model->validate() && $valid;
+                        if (!$valid){
+                            echo CJSON::encode(array("result"=>"error","data" =>
+                            $this->renderPartial('_form', array('model'=>$model),true)));
+                             Yii::app()->end();
+                        } else {
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->idPersonSpeciality));
+                            $person = Person::model()->findByPk($model->PersonID);
+                            echo CJSON::encode(array("result"=>"success","data" =>
+                                 $this->renderPartial("//person/tabs/_spec", array('models'=>$person->specs,'personid'=>$model->PersonID), true)
+                            ));
+                            Yii::app()->end();
+                        }
 		}
 
-		$this->render('update',array(
-			'model'=>$model,
-		));
+		$this->renderPartial('_Modal', array('model'=>$model,'personid'=>$model->PersonID));
 	}
 
 	/**
@@ -121,12 +131,12 @@ class PersonspecialityController extends Controller
 	 * @param integer $id the ID of the model to be deleted
 	 */
 	public function actionDelete($id)
-	{
-		$this->loadModel($id)->delete();
-
-		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-		if(!isset($_GET['ajax']))
-			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+	{       
+                $model = $this->loadModel($id);
+                $personid = $model->PersonID;
+                $model->delete();    
+                $person = Person::model()->findByPk($personid);
+                $this->renderPartial("//person/tabs/_spec", array('models'=>$person->specs,'personid'=>$personid));
 	}
 
 	/**
