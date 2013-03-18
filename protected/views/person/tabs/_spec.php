@@ -10,7 +10,6 @@ $model = new PersonBenefits();*/
 	'enableAjaxValidation'=>false,
 )); ?>
     <div class="well">
-       
     <div class="row-fluid">
         <div class="span3">
                 <?php
@@ -35,7 +34,7 @@ $model = new PersonBenefits();*/
                     <?php $idFacultet= $model->sepciality->FacultetID;
                           echo CHtml::label("Факультет", "idFacultet")?>
                     <?php echo CHtml::dropDownList('idFacultet', $idFacultet , CHtml::listData(Facultets::model()->findAll(array('order'=>'FacultetFullName')),'idFacultet','FacultetFullName'),
-                            array("disabled"=>"disabled",
+                            array("disabled"=>"disabled", "id"=>"idFacultet",
                             'class'=>"span12")
                           );
                     ?>
@@ -45,17 +44,18 @@ $model = new PersonBenefits();*/
                           echo $form->label($model,'SepcialityID'); ?>
                     <?php echo $form->dropDownList($model,'SepcialityID',  
                             CHtml::listData(Specialities::model()->findAll(), 'idSpeciality', 'SpecialityName'),
-                            array('class'=>"span12",  "disabled"=>"disabled" )); ?>
+                            array('class'=>"span12",  "disabled"=>"disabled", "id"=>"SepcialityID" )); ?>
 
                 </div>
                 <div class="span2">
                     <?php echo $form->label($model,'PaymentTypeID'); ?>
                     <?php echo $form->dropDownList($model,'PaymentTypeID', CHtml::listData(Personeducationpaymenttypes::model()->findAll(), 'idEducationPaymentTypes', 'EducationPaymentTypesName'),
-                                    array( "disabled"=>"disabled",'class'=>"span12")); ?>
+                                    array( "disabled"=>"disabled",'class'=>"span12", "id"=>"PaymentTypeID")); ?>
                 </div>
                 <div class="span2">
                     <?php echo $form->label($model,'EducationFormID'); ?>
-                    <?php echo $form->dropDownList($model,'EducationFormID',CHtml::listData(Personeducationforms::model()->findAll(), 'idPersonEducationForm', 'PersonEducationFormName'),array("disabled"=>"disabled", "id"=>"",'class'=>"span12")); ?>
+                    <?php echo $form->dropDownList($model,'EducationFormID',CHtml::listData(Personeducationforms::model()->findAll(), 'idPersonEducationForm', 'PersonEducationFormName'),
+                            array("disabled"=>"disabled", "id"=>"EducationFormID",'class'=>"span12")); ?>
                 </div>
                   
                 <div class="span1"> 
