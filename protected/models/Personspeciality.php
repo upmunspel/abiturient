@@ -71,20 +71,40 @@ class Personspeciality extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('PersonID, SepcialityID, PaymentTypeID, EducationFormID, QualificationID, EntranceTypeID, CourseID, CausalityID, isTarget, isContact, isCopyEntrantDoc, DocumentSubject1, DocumentSubject2, DocumentSubject3, Exam1ID, Exam1Ball, Exam2ID, Exam2Ball, Exam3ID, Exam3Ball', 'numerical', 'integerOnly'=>true),
+			array('PersonID, SepcialityID, PaymentTypeID, EducationFormID, 
+                               QualificationID, EntranceTypeID, CourseID, CausalityID, 
+                               isTarget, isContact, isCopyEntrantDoc, DocumentSubject1, 
+                               DocumentSubject2, DocumentSubject3, 
+                               Exam1ID, Exam1Ball, Exam2ID, Exam2Ball,
+                               Exam3ID, Exam3Ball', 'numerical', 'integerOnly'=>true),
+                        
+                        array("Exam1Ball, Exam2Ball, Exam3Ball, AdditionalBall", 'numerical',
+                               "max"=>200, "min"=>100, "allowEmpty"=>true ),
                         array('PersonID, SepcialityID, PaymentTypeID, EducationFormID, 
                                QualificationID, EntranceTypeID, CourseID, isTarget, isContact, 
                                isCopyEntrantDoc', "required"),
+                    
+                        array("DocumentSubject1, DocumentSubject2, DocumentSubject3", "required", "on"=>"ZNO"),
+                        array("Exam1ID, Exam2ID, Exam3ID, Exam1Ball, Exam2Ball, Exam3Ball, CausalityID", "required", "on"=>"EXAM"),
+                        array("Exam1ID, Exam2ID, Exam3ID, Exam1Ball, Exam2Ball, Exam3Ball, CausalityID
+                               DocumentSubject1, DocumentSubject2, DocumentSubject3", "required","on"=>"ZNOEXAM" ),
                               // DocumentSubject1, DocumentSubject2, DocumentSubject3, 
-                             //  Exam1ID, Exam1Ball, Exam2ID, Exam2Ball, Exam3ID, Exam3Ball', 'numerical', 'integerOnly'=>true),
-			array('AdditionalBall', 'numerical'),
-			// The following rule is used by search().
-			// Please remove those attributes that should not be searched.
+                              //  Exam1ID, Exam1Ball, Exam2ID, Exam2Ball, Exam3ID, Exam3Ball', 'numerical', 'integerOnly'=>true),
+			//array('AdditionalBall', 'numerical'),
+                            // The following rule is used by search().
+                            // Please remove those attributes that should not be searched.
 			array('idPersonSpeciality, PersonID, SepcialityID, PaymentTypeID, EducationFormID, QualificationID, EntranceTypeID, CourseID, CausalityID, isTarget, isContact, AdditionalBall, isCopyEntrantDoc, DocumentSubject1, DocumentSubject2, DocumentSubject3, Exam1ID, Exam1Ball, Exam2ID, Exam2Ball, Exam3ID, Exam3Ball', 'safe', 'on'=>'search'),
 		);
 	}
+        public function validate($attributes = null, $clearErrors = true) {
+            if ($this->EntranceTypeID == 1) $this->scenario  = "ZNO";
+            if ($this->EntranceTypeID == 2) $this->scenario  = "EXAM";
+            if ($this->EntranceTypeID == 3) $this->scenario  = "ZNOEXAM";
+            
+            return parent::validate($attributes, $clearErrors);
+        }
 
-	/**
+        /**
 	 * @return array relational rules.
 	 */
 	public function relations()
@@ -130,14 +150,14 @@ class Personspeciality extends CActiveRecord
     'AdditionalBall' => 'Додатковий бал',
     'isCopyEntrantDoc' => 'Копія',
     'DocumentSubject1' => 'Предмет сертифікату',
-    'DocumentSubject2' => 'Document Subject2',
-    'DocumentSubject3' => 'Document Subject3',
+    'DocumentSubject2' => 'Предмет сертифікату',
+    'DocumentSubject3' => 'Предмет сертифікату',
     'Exam1ID' => 'Екзамен',
     'Exam1Ball' => 'Бал',
-    'Exam2ID' => 'Exam2',
-    'Exam2Ball' => 'Exam2 Ball',
-    'Exam3ID' => 'Exam3',
-    'Exam3Ball' => 'Exam3 Ball',
+    'Exam2ID' => 'Екзамен',
+    'Exam2Ball' => 'Бал',
+    'Exam3ID' => 'Екзамен',
+    'Exam3Ball' => 'Бал',
 		);
 	}
 

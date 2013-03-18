@@ -25,6 +25,13 @@ class Specialities extends CActiveRecord
 	 * @param string $className active record class name.
 	 * @return Specialities the static model class
 	 */
+        public static function DropDown($FacultetID = 0){
+             $res = array();
+              foreach(Specialities::model()->findAll("FacultetID = :FacultetID", array(":FacultetID"=>$FacultetID)) as $record) {
+                     $res[$record->idSpeciality] = $record->SpecialityName;
+              }
+          return $res;
+	}
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);

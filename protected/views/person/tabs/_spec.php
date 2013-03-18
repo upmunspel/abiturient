@@ -30,11 +30,35 @@ $model = new PersonBenefits();*/
     <?php if (!empty($models)): ?>   
         <?php foreach($models as $i=>$model): ?>   
             <div class="row-fluid">
-                <div class="span10">
-                  <?php echo $model->sepciality->facultet->FacultetFullName." ".$model->sepciality->SpecialityName; 
-                 ?>
+               <div class="span3">
+                    <?php $idFacultet= $model->sepciality->FacultetID;
+                          echo CHtml::label("Факультет", "idFacultet")?>
+                    <?php echo CHtml::dropDownList('idFacultet', $idFacultet , CHtml::listData(Facultets::model()->findAll(array('order'=>'FacultetFullName')),'idFacultet','FacultetFullName'),
+                            array("disabled"=>"disabled",
+                            'class'=>"span12")
+                          );
+                    ?>
                 </div>
+                <div class="span3">
+                    <?php $url = Yii::app()->createUrl("personspeciality/znosubjects",array("personid"=>$personid,"specid"=>intval($model->idPersonSpeciality)));
+                          echo $form->label($model,'SepcialityID'); ?>
+                    <?php echo $form->dropDownList($model,'SepcialityID',  
+                            CHtml::listData(Specialities::model()->findAll(), 'idSpeciality', 'SpecialityName'),
+                            array('class'=>"span12",  "disabled"=>"disabled" )); ?>
+
+                </div>
+                <div class="span2">
+                    <?php echo $form->label($model,'PaymentTypeID'); ?>
+                    <?php echo $form->dropDownList($model,'PaymentTypeID', CHtml::listData(Personeducationpaymenttypes::model()->findAll(), 'idEducationPaymentTypes', 'EducationPaymentTypesName'),
+                                    array( "disabled"=>"disabled",'class'=>"span12")); ?>
+                </div>
+                <div class="span2">
+                    <?php echo $form->label($model,'EducationFormID'); ?>
+                    <?php echo $form->dropDownList($model,'EducationFormID',CHtml::listData(Personeducationforms::model()->findAll(), 'idPersonEducationForm', 'PersonEducationFormName'),array("disabled"=>"disabled", "id"=>"",'class'=>"span12")); ?>
+                </div>
+                  
                 <div class="span1"> 
+                    <span>&nbsp;</span>
                   <?  $url = Yii::app()->createUrl("personspeciality/delete",array("id"=>$model->idPersonSpeciality));
                         $this->widget("bootstrap.widgets.TbButton", array(
 			'type'=>'danger',
@@ -50,9 +74,10 @@ $model = new PersonBenefits();*/
              ?>
                 </div>
                  <div class="span1"> 
+                     <span>&nbsp;</span>
                   <?  $url = Yii::app()->createUrl("personspeciality/update",array("id"=>$model->idPersonSpeciality));
                         $this->widget("bootstrap.widgets.TbButton", array(
-			'type'=>'danger',
+			//'type'=>'danger',
                         'label'=>'',
                         'size' => null,
                         'icon'=>"icon-edit",
