@@ -15,7 +15,7 @@ $form=$this->beginWidget('CActiveForm', array(
 //$form= new CActiveForm();
 ?>
 
-	<?php echo $form->errorSummary($model); ?>
+	<?php //echo $form->errorSummary($model); ?>
         <?php echo CHtml::hiddenField('personid', $personid); ?>
         <?php //echo !$model->isNewRecord ? $form->hiddenField($model,'idSpeciality') : "";?>
         <div class="row-fluid">
@@ -26,13 +26,13 @@ $form=$this->beginWidget('CActiveForm', array(
             </div>
             <div class="span4">
                 <?php if ($model->isNewRecord || empty($model->sepciality)) {
-                        $idFacultet = "";
+                        $idFacultet = 0;
                       } else {
                          $idFacultet= $model->sepciality->FacultetID;
                       }
                       echo CHtml::label("Факультет", "idFacultet")?>
                 <?php echo CHtml::dropDownList('idFacultet', $idFacultet , CHtml::listData(Facultets::model()->findAll(array('order'=>'FacultetFullName')),'idFacultet','FacultetFullName'),
-                        array('empty'=>'','onchange'=>"PSN.onFacChange(this, '#".CHtml::activeId($model, "SepcialityID")."','".CController::createUrl('personspeciality/speciality')."');",
+                        array('empty'=>'','onchange'=>"PSN.onFacChange(this, '#SepcialityID','".CController::createUrl('personspeciality/speciality')."');",
                         'class'=>"span12")
                       );
                 ?>
@@ -40,9 +40,8 @@ $form=$this->beginWidget('CActiveForm', array(
             <div class="span2">
                 <?php $url = Yii::app()->createUrl("personspeciality/znosubjects",array("personid"=>$personid,"specid"=>intval($model->idPersonSpeciality)));
                       echo $form->labelEx($model,'SepcialityID'); ?>
-		<?php echo $form->dropDownList($model,'SepcialityID',  
-                        CHtml::listData(Specialities::model()->findAll(), 'idSpeciality', 'SpecialityName'),
-                        array( 'empty'=>'','class'=>"span12",
+		<?php echo $form->dropDownList($model,'SepcialityID', Specialities::DropDown($idFacultet),
+                        array( 'empty'=>'','class'=>"span12", "id"=>"SepcialityID",
                             'onchange'=>"PSN.changeSpeciality(this, '$url')") ); ?>
 		<?php //echo $form->error($model,'SepcialityID'); ?>
             </div>
@@ -70,13 +69,15 @@ $form=$this->beginWidget('CActiveForm', array(
             <div class="span4">
                     <?php echo $form->labelEx($model,'EntranceTypeID'); ?>
                     <?php echo $form->dropDownList($model,'EntranceTypeID',CHtml::listData(Personenterancetypes::model()->findAll(), 'idPersonEnteranceType', 'PersonEnteranceTypeName'),
-                            array('empty'=>'', 'class'=>"span12",'onchange'=>"PSN.changeEntranceType(this)")); ?>
+                            array('empty'=>'', 'class'=>"span12",'onchange'=>"PSN.changeEntranceType(this)", )); ?>
                     <?php //echo $form->error($model,'EntranceTypeID'); ?>
             </div>
             
             <div class="span6">
                     <?php echo $form->labelEx($model,'CausalityID'); ?>
-                    <?php echo $form->dropDownList($model,'CausalityID', CHtml::listData(Causality::model()->findAll(), 'idCausality', 'CausalityName'),array('empty'=>'', 'class'=>"span12 causality")); ?>
+                    <?php echo $form->dropDownList($model,'CausalityID', CHtml::listData(Causality::model()->findAll(), 'idCausality', 'CausalityName'),
+                            array('empty'=>'', 'class'=>"span12 causality",
+                                "disabled"=>$model->EntranceTypeID == 1 ? "disabled":"")); ?>
                     <?php //echo $form->error($model,'CausalityID'); ?>
             </div>
 
@@ -113,17 +114,8 @@ $form=$this->beginWidget('CActiveForm', array(
             </div>
         </div>
     <!-- ZNO -->	
-    <div class="row-fluid">
-        <!-- ZNO -->
-        <div class="span7 znosubjects" id="znosubjects">
-           <?php $this->renderPartial("_znosubjects", array("model"=>$model,'specialityid'=>0)); ?>
-        </div>
-        <!--Exams -->
-        <div class="span5 examsujects">
-           <?php $this->renderPartial("_examsubjects", array("model"=>$model,'specialityid'=>0)); ?>
-        </div>
-    
-        
+    <div class="row-fluid" id="subjects-holder">
+       <?php $this->renderPartial("_subjects_holder", array("model"=>$model,'specialityid'=>$model->SepcialityID)); ?>
     </div>
 	
 <!--
@@ -133,9 +125,10 @@ $form=$this->beginWidget('CActiveForm', array(
 	</div>
    --> 
 
-<?php $this->endWidget(); ?>
+<?php $this->endWidget();?>
     <script>
         $("#spec-form-modal .switch").bootstrapSwitch();
+        //PSN.changeEntranceType($('#<?php echo CHtml::activeId($model, 'EntranceTypeID');?>').get(0));
     </script>
 
 </div><!-- form -->

@@ -273,11 +273,11 @@ PSN.addSpec = function(obj, url){
     });
  };
 PSN.onFacChange = function(obj, id , url){
-    var fid = $(obj,":selected").val();
+    var fid = $(obj," :selected").val();
     data = "idFacultet="+fid;
-    $(id).load(url,data);
+    $(id).load(url, data);
  };
- PSN.appendSpec= function(obj, link){
+PSN.appendSpec= function(obj, link){
     var btn = $(obj);
     btn.button('loading'); // call the loading function
     var fdata = $("#spec-form-modal").serialize(); 
@@ -306,9 +306,9 @@ PSN.onFacChange = function(obj, id , url){
  };
  PSN.editSpec = function(obj, link){
     var btn = $(obj);
-    btn.button('loading');
+    //btn.button('loading');
     $("#spec-modal-holder").load(link,function() {
-        btn.button('reset');
+        //btn.button('reset');
         $("#specModal").modal("show");
     });
  };
@@ -319,8 +319,9 @@ PSN.onFacChange = function(obj, id , url){
     var EntranceType =  parseInt($(obj,":selected").val());
     switch (EntranceType) {
         case 1:
-           $(".examsujects input :first").attr("selected","selected");
+           $(".examsujects select :first").attr("selected","selected");
            $(".examsujects input").val("").attr("disabled","disabled");
+           $(".examsujects select").val("").attr("disabled","disabled");
            $(".znosubjects select").removeAttr('disabled');
            $(".causality").attr("disabled","disabled");
            $(".causality [value='']").attr("selected", "selected");
@@ -329,7 +330,10 @@ PSN.onFacChange = function(obj, id , url){
         case 2:
            
            $(".znosubjects select").attr("disabled","disabled");
+           $(".znosubjects select :selected").removeAttr("selected", "");
+           $(".znosubjects select [value='']").attr("selected", "selected");
            $(".examsujects input").removeAttr('disabled');
+           $(".examsujects select").removeAttr('disabled');
            $(".causality :first").attr("selected","selected");
            $(".causality").removeAttr('disabled');
            $(".causality select [value='']").attr("selected", "selected");
@@ -340,6 +344,7 @@ PSN.onFacChange = function(obj, id , url){
            
            $(".znosubjects select").removeAttr('disabled');
            $(".examsujects input").removeAttr('disabled');
+           $(".examsujects select").removeAttr('disabled');
            $(".causality").removeAttr('disabled');
            $(".causality [value='']").attr("selected", "selected");
         
@@ -352,7 +357,7 @@ PSN.onFacChange = function(obj, id , url){
  PSN.changeSpeciality = function(obj, url){
      var Sepciality = $(obj,"selected").val();
      var data = "specialityid="+Sepciality;
-     $("#znosubjects").load(url,data);
+     $("#subjects-holder").load(url,data);
      
  }
 $(document).ready(function(){

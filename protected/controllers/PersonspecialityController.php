@@ -37,7 +37,7 @@ class PersonspecialityController extends Controller
                 $model = Personspeciality::model()->findByPk($specid);
                 $model->PersonID = $personid;  
             }
-            $this->renderPartial("_znosubjects", array('model'=>$model, 'specialityid'=>$specialityid));
+            $this->renderPartial("_subjects_holder", array('model'=>$model, 'specialityid'=>$specialityid));
         }
         public function actionSpeciality($idFacultet)
         {
@@ -74,6 +74,17 @@ class PersonspecialityController extends Controller
 		if(isset($_GET['Personspeciality']))
 		{
 			$model->attributes=$_GET['Personspeciality'];
+                        if (intval($model->EntranceTypeID) == 1){
+                            $model->Exam1ID = null; $model->Exam1Ball = null;
+                            $model->Exam2ID = null; $model->Exam2Ball = null;
+                            $model->Exam3ID = null; $model->Exam3Ball = null;
+                            $model->CausalityID = null;
+                        } elseif (intval($model->EntranceTypeID) == 2){
+                            $model->DocumentSubject1 = null;
+                            $model->DocumentSubject2 = null;
+                            $model->DocumentSubject3 = null;
+                        } 
+                        
                         $valid  = $model->validate() && $valid;
                         if (!$valid){
                             echo CJSON::encode(array("result"=>"error","data" =>
@@ -99,7 +110,9 @@ class PersonspecialityController extends Controller
 	 */
 	public function actionUpdate($id)
 	{
+             
 		$model=$this->loadModel($id);
+              
                 $valid = true;
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
@@ -107,17 +120,28 @@ class PersonspecialityController extends Controller
 		if(isset($_GET['Personspeciality']))
 		{
 			$model->attributes=$_GET['Personspeciality'];
+                        
+                        if (intval($model->EntranceTypeID) == 1){
+                            $model->Exam1ID = null; $model->Exam1Ball = null;
+                            $model->Exam2ID = null; $model->Exam2Ball = null;
+                            $model->Exam3ID = null; $model->Exam3Ball = null;
+                            $model->CausalityID = null;
+                        } elseif (intval($model->EntranceTypeID) == 2){
+                            $model->DocumentSubject1 = null;
+                            $model->DocumentSubject2 = null;
+                            $model->DocumentSubject3 = null;
+                        } 
                         $valid  = $model->validate() && $valid;
                         if (!$valid){
                             echo CJSON::encode(array("result"=>"error","data" =>
                             $this->renderPartial('_form', array('model'=>$model),true)));
-                             Yii::app()->end();
+                            Yii::app()->end();
                         } else {
-			if($model->save())
-                            $person = Person::model()->findByPk($model->PersonID);
-                            echo CJSON::encode(array("result"=>"success","data" =>
-                                 $this->renderPartial("//person/tabs/_spec", array('models'=>$person->specs,'personid'=>$model->PersonID), true)
-                            ));
+                            if($model->save())
+                                $person = Person::model()->findByPk($model->PersonID);
+                                echo CJSON::encode(array("result"=>"success","data" =>
+                                     $this->renderPartial("//person/tabs/_spec", array('models'=>$person->specs,'personid'=>$model->PersonID), true)
+                                ));
                             Yii::app()->end();
                         }
 		}
