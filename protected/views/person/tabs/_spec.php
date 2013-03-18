@@ -6,7 +6,7 @@ $model = new PersonBenefits();*/
 <div class="form">
 
 <?php $form=$this->beginWidget('CActiveForm', array(
-	'id'=>'znos-form',
+	'id'=>'specs-form',
 	'enableAjaxValidation'=>false,
 )); ?>
     <div class="well">
@@ -27,88 +27,48 @@ $model = new PersonBenefits();*/
     </div>
     <hr>  
     <?php  /* PRINT ZNOS LIST */ ?>
-    <?php /*if (!empty($models)): ?>   
+    <?php if (!empty($models)): ?>   
         <?php foreach($models as $i=>$model): ?>   
             <div class="row-fluid">
-                <div class ="span1">
-                        <div class="row-fluid">
-                             <div class="span12"></div>
-                        </div>   
-                        <div class="row-fluid" style="text-align: right;">
-                             <div class="span12"><b><?php echo ($i+1)."."; ?></b></div>
-                        </div>    
-                </div>   
-                <div class ="span5">
-                    <?php echo $form->labelEx($model,"[$i]Numbers"); ?>
-                    <?php echo $form->textField($model,"[$i]Numbers",array('class'=>'span12','disabled'=>"disabled")); ?>
-                </div>    
-                <div class ="span4">
-                    <?php echo $form->labelEx($model,"[$i]ZNOPin"); ?>
-                    <?php echo $form->textField($model,"[$i]ZNOPin",array('class'=>'span12', 'disabled'=>"disabled")); ?>
-                </div>    
-                <div class ="span1">
-                    <span >&nbsp;</span>
-                   <?php 
-            $url = Yii::app()->createUrl("documents/delzno",array('documentid'=>$model->idDocuments));
-            $this->widget("bootstrap.widgets.TbButton", array(
+                <div class="span10">
+                  <?php echo $model->sepciality->facultet->FacultetFullName." ".$model->sepciality->SpecialityName; 
+                 ?>
+                </div>
+                <div class="span1"> 
+                  <?  $url = Yii::app()->createUrl("personspeciality/delete",array("id"=>$model->idPersonSpeciality));
+                        $this->widget("bootstrap.widgets.TbButton", array(
 			'type'=>'danger',
                         'label'=>'',
                         'size' => null,
                         'icon'=>"icon-trash",
                         'htmlOptions'=>array(
                                 "style"=>"margin-top: 2px;",
-                                'title'=>"Видалити сертифікат",
+                                'title'=>"Видалити спеціальність",
                                 'class'=>"span12",
-                                'onclick'=>"PSN.deleteZno(this,'$url');"), 
+                                'onclick'=>"PSN.delSpec(this,'$url');"), 
                         )); 
              ?>
                 </div>
-                <div class ="span1">
-                    <span >&nbsp;</span>
-                   <?php 
-            $url = Yii::app()->createUrl("documents/editzno",array('documentid'=>$model->idDocuments));
-            $this->widget("bootstrap.widgets.TbButton", array(
-			//'type'=>'primary',
+                 <div class="span1"> 
+                  <?  $url = Yii::app()->createUrl("personspeciality/update",array("id"=>$model->idPersonSpeciality));
+                        $this->widget("bootstrap.widgets.TbButton", array(
+			'type'=>'danger',
                         'label'=>'',
                         'size' => null,
                         'icon'=>"icon-edit",
                         'htmlOptions'=>array(
                                 "style"=>"margin-top: 2px;",
-                                'title'=>"Редагувати сертифікат",
+                                'title'=>"Видалити спеціальність",
                                 'class'=>"span12",
-                                'onclick'=>"PSN.editZno(this,'$url');"), 
+                                'onclick'=>"PSN.editSpec(this,'$url');"), 
                         )); 
-             ?>
-                </div>    
-            </div>
-            
-            <?php if (!empty($model->subjects)): ?>
-                    
-                <?php foreach($model->subjects as $j=>$subject): ?>
-                    <div class="row-fluid">
-                     <div class="span2" align="center">
-                       <!-- <?php echo  ($j==0) ? "<div class='span12' style='text-align: right;'><b>№</b></div>":"";?>
-                        <div class="span12" align="right"><b><?php echo ($j+1)."."; ?></b></div>-->
-                     </div>
-                     <div class ="span4">
-                                <?php //echo $form->hiddenField($model,"[$i]idDocuments"); ?>
-                                <?php echo  ($j==0) ? $form->labelEx($subject,"[$j]SubjectID"):""; ?>
-                                <?php echo $form->dropDownList($subject,"[$j]SubjectID", Subjects::DropDown(), array("class"=>"span12",'disabled'=>"disabled")); ?>
-                     </div>    
-                     <div class ="span2">
-                                <?php echo ($j==0) ? $form->labelEx($subject,"[$j]DateGet"):""; ?>
-                                <?php echo $form->textField($subject,"[$j]DateGet",array("class"=>"span12 datepicker","maxlength"=>10,'disabled'=>"disabled" )); ?>
-                     </div>    
-                     <div class ="span2">
-                                <?php echo ($j==0) ? $form->labelEx($subject,"[$j]SubjectValue"):""; ?>
-                                <?php echo $form->textField($subject,"[$j]SubjectValue",array("class"=>"span12","maxlength"=>15, 'disabled'=>"disabled")); ?>
-                     </div>    
-                   </div>
-                <?php endforeach; ?>
-           <?php endif; ?> 
+                 ?>
+                </div>
+            </div>  
+           
        <?php endforeach; ?>
 
-    <?php endif;*/?>   
+    <?php endif;?>   
     
     
     
