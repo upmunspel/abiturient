@@ -10,6 +10,7 @@ $model = new PersonBenefits();*/
 	'enableAjaxValidation'=>false,
 )); ?>
     <div class="well">
+       
     <div class="row-fluid">
         <div class="span3">
                 <?php

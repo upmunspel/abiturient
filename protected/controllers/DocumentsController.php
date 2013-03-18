@@ -245,9 +245,12 @@ class DocumentsController extends Controller
                     if ($flag !== null)
                     {
                         $transaction->rollback();
-                        
                     }
-                    echo $e->getMessage();
+                    Yii::app()->user->setFlash("error", "Дія заборонена!!!");
+                    $document = Documents::model()->findByPk($documentid);
+                    $personid = $document->PersonID;
+                    $person = Person::model()->findByPk($personid);
+                    $this->renderPartial("//person/tabs/_zno", array('models'=>$person->znos,'personid'=>$personid));
                     if (defined('YII_DEBUG')){
                         debug($e->getMessage());
                     }
