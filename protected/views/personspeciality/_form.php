@@ -25,14 +25,14 @@ $form=$this->beginWidget('CActiveForm', array(
 		<?php //echo $form->error($model,'CourseID'); ?>
             </div>
             <div class="span4">
-                <?php if ($model->isNewRecord || empty($model->sepciality)) {
+                <?php if (empty($model->sepciality)) {
                         $idFacultet = 0;
                       } else {
                          $idFacultet= $model->sepciality->FacultetID;
                       }
                       echo CHtml::label("Факультет", "idFacultet")?>
                 <?php echo CHtml::dropDownList('idFacultet', $idFacultet , CHtml::listData(Facultets::model()->findAll(array('order'=>'FacultetFullName')),'idFacultet','FacultetFullName'),
-                        array('empty'=>'','onchange'=>"PSN.onFacChange(this, '#SepcialityID','".CController::createUrl('personspeciality/speciality')."');",
+                        array('empty'=>'','onchange'=>"PSN.onFacChange(this, '#".CHtml::activeId($model, "SepcialityID")."','".CController::createUrl('personspeciality/speciality')."');",
                         'class'=>"span12")
                       );
                 ?>
@@ -41,7 +41,7 @@ $form=$this->beginWidget('CActiveForm', array(
                 <?php $url = Yii::app()->createUrl("personspeciality/znosubjects",array("personid"=>$personid,"specid"=>intval($model->idPersonSpeciality)));
                       echo $form->labelEx($model,'SepcialityID'); ?>
 		<?php echo $form->dropDownList($model,'SepcialityID', Specialities::DropDown($idFacultet),
-                        array( 'empty'=>'','class'=>"span12", "id"=>"SepcialityID",
+                        array( 'empty'=>'','class'=>"span12",
                             'onchange'=>"PSN.changeSpeciality(this, '$url')") ); ?>
 		<?php //echo $form->error($model,'SepcialityID'); ?>
             </div>
