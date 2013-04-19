@@ -136,7 +136,7 @@ class Helper {
 //        $r[1] = "";
 //        $cleverName = preg_replace($p, $r, $name);
 //        $len = strlen($cleverName);
-        //$tasks->addCondition("SUBSTR(child,0," . $len . ") = '" . $cleverName . "'");
+       //  $tasks->addCondition("SUBSTR(child,0," . $len . ") = '" . $cleverName . "'");
         $tasks->addCondition("SUBSTR(child,0,3) = SUBSTR('" . $name . "',0,3)");
       }
     } else {
@@ -360,7 +360,7 @@ class Helper {
     } else {
       $modules = $parent->getModules();
       foreach ($modules as $mod => $conf) {
-        return $this->findInModule($parent->getModule($mod), $moduleID);
+        return Helper::findInModule($parent->getModule($mod), $moduleID);
       }
     }
     return null;
@@ -521,5 +521,23 @@ class Helper {
     }
     fclose($f);
     return true;
+  }
+  
+  /**
+   * Gets all users array for autocomplete textbox
+   */
+  public static function getAllusers($term){
+    $mod = Helper::findModule("srbac");
+    $cr = new CDbCriteria();
+    $cr->compare($mod->username,$term,true);
+    $users = Helper::findModule('srbac')->getUserModel()->findAll($cr);
+    foreach ($users as $key => $user) {
+      $list[] = array(
+          "label"=>$user->{$mod->username},
+          "value"=>$user->{$mod->username},
+          "id"=>$user->{$mod->userid},
+          );
+    }
+    return $list;
   }
 }

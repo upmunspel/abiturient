@@ -37,8 +37,8 @@ return array(
                     'css' => 'srbac.css',
                     'layout' => 'application.views.layouts.main',
                     'notAuthorizedView' => 'srbac.views.authitem.unauthorized',
-                    //'alwaysAllowed'=>array(),
-                    'userActions' => array('show', 'View', 'List'),
+                    'alwaysAllowed'=>array(),
+                    //'userActions' => array('show', 'View', 'List'),
                     'listBoxNumberOfLines' => 15,
                     'imagesPath' => 'srbac.images',
                     'imagesPack' => 'tango',
@@ -73,7 +73,7 @@ return array(
                     'itemChildTable' => 'sys_rolechildren',
                 ),
 		'user'=>array(
-			// enable cookie-based authentication
+			'class'=>"WebUser",// enable cookie-based authentication
 			'allowAutoLogin'=>true,
 		),
                 'bootstrap'=>array(

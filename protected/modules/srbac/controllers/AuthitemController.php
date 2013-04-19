@@ -48,12 +48,16 @@ class AuthitemController extends SBaseController {
     if ($this->module->debug) {
       return true;
     }
-    if (Yii::app()->user->checkAccess(Helper::findModule('srbac')->superUser) ||
-      !Helper::isAuthorizer()) {
+    if (Yii::app()->user->checkAccess(Helper::findModule('srbac')->superUser) ) {
       return true;
     } else {
       parent::beforeAction($action);
     }
+  }
+  
+  public function actionGetUsers($term){
+    $list = Helper::getAllusers($term);
+    echo CJSON::encode($list);
   }
 
   /**
@@ -972,7 +976,7 @@ class AuthitemController extends SBaseController {
   }
 
   public function actionGetCleverOpers() {
-    $cleverAssigning = Yii::app()->getRequest()->getParam("checked") == "true" ? 1 : 0;
+    $cleverAssigning = Yii::app()->getRequest()->getParam("checked")=="checked" ? 1 : 0;
     $cleverName = Yii::app()->getRequest()->getParam("name");
     Yii::app()->setGlobalState("cleverAssigning", $cleverAssigning);
     Yii::app()->setGlobalState("cleverName", $cleverName);

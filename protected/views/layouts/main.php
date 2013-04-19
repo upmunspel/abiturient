@@ -19,7 +19,9 @@
 
 <body>
     
-    <?php $this->widget('bootstrap.widgets.TbNavbar',array(
+    <?php 
+   
+    $this->widget('bootstrap.widgets.TbNavbar',array(
         //'type'=>'inverse', // null or 'inverse'
         'brand'=>'ЗНУ (Абітурієнт)',
         'brandUrl'=>'/',
@@ -30,15 +32,22 @@
                 'items'=>array(
                     array('label'=>'Головна', 'url'=>array('/site/index')),
                     array('label'=>'Контакти', 'url'=>array('/site/contact'), "icon"=>"icon-envelope"),
-                    array('label'=>'Довідники', 'url'=>'#', 'items'=>array(
-                        array('label'=>'Пільги', 'url'=>yii::app()->createUrl('Benefit/admin')),
-                        array('label'=>'Країни громадянства', 'url'=>yii::app()->createUrl('Country/admin')),
-                        array('label'=>'Статі', 'url'=>yii::app()->createUrl('PersonSexTypes/admin')),
-                        array('label'=>'Школи', 'url'=>yii::app()->createUrl('Schools/admin')),
-                        array('label'=>'Типи документів особи', 'url'=>yii::app()->createUrl('PersonDocumentTypes/admin')),
-                        array('label'=>'Національності', 'url'=>'#'),
-                       
-                    )),
+                    array('label'=>'Довідники', 'visible'=>   Yii::app()->user->checkAccess('show'),
+                         'url'=>'#', "icon"=>"icon-th-large", 'items'=>  Directories::listMenu()),
+                   array('label'=>'Користувачі', 'visible'=>   Yii::app()->user->checkAccess('show'),
+                         'url'=>Yii::app()->createUrl("user"), "icon"=>" icon-user", ),
+                   array('label'=>'Групи користувачів', 'visible'=>  Yii::app()->user->checkAccess('show'),
+                         'url'=>Yii::app()->createUrl("srbac"), "icon"=>"icon-lock", ),
+//                        array(
+//                        array('label'=>'Пільги', 'url'=>yii::app()->createUrl('Benefit/admin')),
+//                        array('label'=>'Країни громадянства', 'url'=>yii::app()->createUrl('Country/admin')),
+//                        array('label'=>'Статі', 'url'=>yii::app()->createUrl('PersonSexTypes/admin')),
+//                        array('label'=>'Школи', 'url'=>yii::app()->createUrl('Schools/admin')),
+//                        array('label'=>'Типи документів особи', 'url'=>yii::app()->createUrl('PersonDocumentTypes/admin')),
+//                        array('label'=>'Національності', 'url'=>'#'),
+//                       
+//                    )
+//                    ),
                 ),
                 
             ),

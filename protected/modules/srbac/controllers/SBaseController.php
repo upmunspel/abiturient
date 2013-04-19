@@ -6,7 +6,6 @@
  * @author Spyros Soldatos <spyros@valor.gr>
  * @link http://code.google.com/p/srbac/
  */
-
 /**
  * SBaseController must be extended by all of the applications controllers
  * if the auto srbac should be used.
@@ -21,6 +20,7 @@
  * @since 1.0.2
  */
 Yii::import("srbac.components.Helper");
+
 class SBaseController extends CController {
 
   /**
@@ -30,30 +30,49 @@ class SBaseController extends CController {
    */
   protected function beforeAction($action) {
     $del = Helper::findModule('srbac')->delimeter;
+    
     //srbac access
     $mod = $this->module !== null ? $this->module->id . $del : "";
-    $contrArr = explode($del, $this->id);
+    
+    $contrArr = explode("/", $this->id);
     $contrArr[sizeof($contrArr) - 1] = ucfirst($contrArr[sizeof($contrArr) - 1]);
     $controller = implode(".", $contrArr);
 
-    $contr = str_replace($del, ".", $this->id);
-
+    $controller = str_replace("/", ".", $this->id);
+    // Static pages
+    if(sizeof($contrArr)==1){
+      $controller = ucfirst($controller);
+    }
     $access = $mod . $controller . ucfirst($this->action->id);
-
+   
+ //   if (Yii::getVersion() >= "1.1.7") {
+//      if (count($this->actionParams) > 0) {
+//        $keys = array_keys($this->actionParams);
+//        foreach ($keys as $key) {
+//          $query = $query . ',' . '$' . $key;
+//        }
+//
+//        $query = substr_replace($query, '', 0, 1);
+//        $access = $access . $query;
+//      }
+//    }
     //Always allow access if $access is in the allowedAccess array
     if (in_array($access, $this->allowedAccess())) {
       return true;
     }
-
+   
+    
     //Allow access if srbac is not installed yet
     if (!Yii::app()->getModule('srbac')->isInstalled()) {
       return true;
     }
+   
     //Allow access when srbac is in debug mode
     if (Yii::app()->getModule('srbac')->debug) {
       return true;
     }
-    // Check for srbac access
+    
+     // Check for srbac access
     if (!Yii::app()->user->checkAccess($access) || Yii::app()->user->isGuest) {
       $this->onUnauthorizedAccess();
     } else {

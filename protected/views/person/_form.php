@@ -57,7 +57,7 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
                 <div class ="span4">
                     <?php echo $form->labelEx($model,'PersonSexID'); ?>
 
-                    <?php echo $form->dropDownList($model,'PersonSexID', PersonSexTypes::DropDown(), array('class'=>'span12')); ?>
+                    <?php echo $form->dropDownList($model,'PersonSexID', Personsextypes::DropDown(), array('class'=>'span12')); ?>
                  
                 </div>
 
