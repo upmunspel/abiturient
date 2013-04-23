@@ -33,7 +33,13 @@ return false;
     or <b>=</b>) перед значенням пошуку
 </p>
 
-<?php echo CHtml::link('Розширений пошук','#',array('class'=>'search-button')); ?>
+<?php //echo CHtml::button('Розширений пошук',array('class'=>'search-button')); ?>
+<?php $this->widget('bootstrap.widgets.TbButton', array(
+    'label'=>'Розширений пошук',
+    'type'=>'primary', // null, 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
+    //'size'=>'large', // null, 'large', 'small' or 'mini'
+    'htmlOptions'=>array('class'=>'search-button'),
+)); ?>
 <div class="search-form" style="display:none">
     <?php $this->renderPartial('_search',array(
 	'model'=>$model,
@@ -42,6 +48,7 @@ return false;
 
 <?php $this->widget('bootstrap.widgets.TbGridView', array(
 'id'=>'person-sex-types-grid',
+    'type'=>'striped bordered condensed',
 'dataProvider'=>$model->search(),
 'filter'=>$model,
 'columns'=>array(

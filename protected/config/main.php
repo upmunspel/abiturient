@@ -19,6 +19,7 @@ return array(
 	// autoloading model and component classes
 	'import'=>array(
 		'application.models.*',
+                'application.controllers.directory.*',
                 'application.models.directory.*',
 		'application.components.*',
                 'application.modules.srbac.controllers.SBaseController',

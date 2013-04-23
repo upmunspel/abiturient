@@ -41,7 +41,7 @@ class Facultets extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('idFacultet', 'required'),
+			array('idFacultet', 'safe'),
 			array('idFacultet', 'numerical', 'integerOnly'=>true),
 			array('FacultetFullName', 'length', 'max'=>255),
 			array('FacultetShortName, FacultetTypeName', 'length', 'max'=>45),
@@ -71,11 +71,11 @@ class Facultets extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-    'idFacultet' => 'Id Facultet',
-    'FacultetFullName' => 'Facultet Full Name',
-    'FacultetShortName' => 'Facultet Short Name',
-    'FacultetKode' => 'Facultet Kode',
-    'FacultetTypeName' => 'Facultet Type Name',
+                    'idFacultet' => 'Код',
+                    'FacultetFullName' => 'Повна назва',
+                    'FacultetShortName' => 'Скорочена назва',
+                    'FacultetKode' => 'UCODE',
+                    'FacultetTypeName' => 'Тип',
 		);
 	}
 

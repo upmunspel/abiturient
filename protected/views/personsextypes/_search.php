@@ -4,27 +4,25 @@
 /* @var $form CActiveForm */
 ?>
 
-<div class="wide form">
+<div class="">
+    
+<?php /** @var BootActiveForm $form */
+$form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
+    'id'=>'verticalForm',
+    
+    'type'=>'horizontal',
+    'htmlOptions'=>array('class'=>'well'),
+));
+//$form = new TbActiveForm();
+?>
 
-<?php $form=$this->beginWidget('CActiveForm', array(
-	'action'=>Yii::app()->createUrl($this->route),
-	'method'=>'get',
-)); ?>
 
-	<div class="row">
-		<?php echo $form->label($model,'idPersonSexTypes'); ?>
-		<?php echo $form->textField($model,'idPersonSexTypes'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->label($model,'PersonSexTypesName'); ?>
-		<?php echo $form->textField($model,'PersonSexTypesName',array('size'=>12,'maxlength'=>12)); ?>
-	</div>
-
-	<div class="row buttons">
-		<?php echo CHtml::submitButton('Пошук'); ?>
-	</div>
-
+    <?php echo $form->textFieldRow($model,'idPersonSexTypes'); ?>
+    <?php echo $form->textFieldRow($model,'PersonSexTypesName',array('size'=>12,'maxlength'=>12)); ?>
+    <div class ="row-fluid">
+        <?php  $this->widget('bootstrap.widgets.TbButton', array('buttonType'=>'submit', 'label'=>'Пошук')); ?>
+    </div>
+	
 <?php $this->endWidget(); ?>
 
 </div><!-- search-form -->
