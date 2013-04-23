@@ -9,10 +9,10 @@ class AccessToDictionaries{
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
 				'actions'=>array('view','create','update','admin','delete'),
-				'roles'=>array('Admins'),
+				'roles'=>array('Admins',"Root"),
 			),
 			array('deny',  // deny all users
-                                'actions'=>array('index'),
+                                //'actions'=>array('index'),
 				'users'=>array('*'),
 			), 
         );

@@ -40,4 +40,5 @@ class TranslateModelName{
         return $rez;
     }
 }
+Yii::t
 ?>

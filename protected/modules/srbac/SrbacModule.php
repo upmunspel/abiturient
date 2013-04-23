@@ -27,7 +27,7 @@ class SrbacModule extends CWebModule {
   /* @var $_yiiSupportedVersion String The yii version tha srbac supports */
   private $_yiiSupportedVersion = "1.1.0";
   /* @var $_version Srbac version */
-  private $_version = "1.2";
+  private $_version = "1.3beta";
   /* @var $_cssPublished boolean If css file exists and is published */
   private $_cssPublished = false;
   /* @var $_imagesPublished boolean If images files exists and are published */

@@ -25,6 +25,7 @@ class SDbAuthManager extends CDbAuthManager {
     if (!empty($this->defaultRoles) && in_array($itemName,$this->defaultRoles)) {
       return true;
     }
+    
     $sql = "SELECT name, type, description, t1.bizrule, t1.data, t2.bizrule AS bizrule2, t2.data AS data2 FROM {$this->itemTable} t1, {$this->assignmentTable} t2 WHERE name=itemname AND userid=:userid";
     $command = $this->db->createCommand($sql);
     $command->bindValue(':userid', $userId);
@@ -32,7 +33,7 @@ class SDbAuthManager extends CDbAuthManager {
     // check directly assigned items
     $names = array();
     foreach ($command->queryAll() as $row) {
-      Yii::trace('Checking permission "' . $row['name'] . '"', 'system.web.auth.CDbAuthManager');
+       Yii::trace('Checking permission "' . $row['name'] . '"', 'system.web.auth.CDbAuthManager');
       if ($this->executeBizRule($row['bizrule2'], $params, unserialize($row['data2']))
         && $this->executeBizRule($row['bizrule'], $params, unserialize($row['data']))) {
         if (strtolower($row['name']) === strtolower($itemName)) {
