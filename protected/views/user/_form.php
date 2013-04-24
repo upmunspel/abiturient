@@ -1,9 +1,10 @@
 <?php $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
 	'id'=>'user-form',
 	'enableAjaxValidation'=>false,
+    
 )); ?>
 
-	<p class="help-block">Fields with <span class="required">*</span> are required.</p>
+	<p class="help-block">Поля з <span class="required">*</span> є обов'язковими для заповнення.</p>
 
 	
 
@@ -16,12 +17,12 @@
 	<?php echo $form->textAreaRow($model,'info',array('rows'=>6, 'cols'=>50, 'class'=>'span8')); ?>
         
         <?php echo $form->errorSummary($model); ?>
-	<div class="form-actions">
+	<hr>
 		<?php $this->widget('bootstrap.widgets.TbButton', array(
 			'buttonType'=>'submit',
 			'type'=>'primary',
 			'label'=>$model->isNewRecord ? 'Створити' : 'Зберегти',
 		)); ?>
-	</div>
+	
 
 <?php $this->endWidget(); ?>

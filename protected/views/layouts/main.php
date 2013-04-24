@@ -32,29 +32,20 @@
                 'items'=>array(
                     array('label'=>'Головна', 'url'=>array('/site/index')),
                     array('label'=>'Контакти', 'url'=>array('/site/contact'), "icon"=>"icon-envelope"),
-                    array('label'=>'Довідники', 'visible'=>   Yii::app()->user->checkAccess('show'),
-                         'url'=>'#', "icon"=>"icon-th-large", 'items'=>  Directories::listMenu()),
-                   array('label'=>'Користувачі', 'visible'=>   Yii::app()->user->checkAccess('show'),
-                         'url'=>Yii::app()->createUrl("user"), "icon"=>" icon-user", ),
-                   array('label'=>'Групи користувачів', 'visible'=>  Yii::app()->user->checkAccess('show'),
-                         'url'=>Yii::app()->createUrl("srbac"), "icon"=>"icon-lock", ),
-//                        array(
-//                        array('label'=>'Пільги', 'url'=>yii::app()->createUrl('Benefit/admin')),
-//                        array('label'=>'Країни громадянства', 'url'=>yii::app()->createUrl('Country/admin')),
-//                        array('label'=>'Статі', 'url'=>yii::app()->createUrl('PersonSexTypes/admin')),
-//                        array('label'=>'Школи', 'url'=>yii::app()->createUrl('Schools/admin')),
-//                        array('label'=>'Типи документів особи', 'url'=>yii::app()->createUrl('PersonDocumentTypes/admin')),
-//                        array('label'=>'Національності', 'url'=>'#'),
-//                       
-//                    )
-//                    ),
-                ),
-                
+                    array('label'=>'Довідники', 'visible'=>Yii::app()->user->checkAccess('showDirectiries'),
+                         'url'=>'#', "icon"=>"icon-book", 'items'=> Directories::listMenu()),
+                 ),
             ),
             array(
                 'class'=>'bootstrap.widgets.TbMenu',
                 'htmlOptions'=>array('class'=>'pull-right'),
                 'items'=>array(
+                    array('label'=>'Налаштування', 'visible'=>  Yii::app()->user->checkAccess('showProperties'),'url'=>"#", "icon"=>"icon-wrench",
+                          'items'=>array(
+                                 array('label'=>'Користувачі', 'url'=>Yii::app()->createUrl("user"), "icon"=>" icon-user", ),
+                                 array('label'=>'Групи користувачів', 'url'=>Yii::app()->createUrl("srbac"), "icon"=>"icon-lock", ),
+                           )
+                        ),
                     array('label'=>'Авторизуватися', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest, 'icon'=>"icon-user"),
                     array('label'=>'Вийти з системи ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest, 'icon'=>"icon-user")
                 ),

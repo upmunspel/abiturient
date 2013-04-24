@@ -16,5 +16,6 @@ $this->menu=array(
 ?>
 
 <h1>Оновлення користувача <?php echo $model->username; ?></h1>
-
+<div class ='well form'>
 <?php echo $this->renderPartial('_form',array('model'=>$model)); ?>
+</div>

@@ -27,9 +27,9 @@ class UserIdentity extends CUserIdentity
         else
         {
             $this->_id=$record->id;
-            $gmodel = Sysroleassignments::model()->find("userid = :userid", array ( ":userid"=>$this->_id)) ;
-            $this->setState('group', $gmodel->itemname); 
-            //$this->setState('title', md5()$record->title);
+//            $gmodel = Sysroleassignments::model()->find("userid = :userid", array ( ":userid"=>$this->_id)) ;
+//            $this->setState('group', $gmodel->itemname); 
+//            //$this->setState('title', md5()$record->title);
             $this->errorCode=self::ERROR_NONE;
         }
         return !$this->errorCode;

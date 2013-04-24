@@ -17,7 +17,7 @@
  * @property Personsepciality[] $personsepcialities1
  * @property Personsepciality[] $personsepcialities2
  */
-class Documentsubject extends CActiveRecord
+class Documentsubject extends ActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -39,12 +39,14 @@ class Documentsubject extends CActiveRecord
         }
         
 
+       
+       
         protected function beforeSave() {
-         
             $this->DateGet=date('Y-m-d',  strtotime($this->DateGet));      
-            parent::beforeSave();
-            return true;
+            return parent::beforeSave();
+          
         }
+        
 
 	/**
 	 * @return string the associated database table name

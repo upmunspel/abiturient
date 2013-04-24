@@ -11,7 +11,7 @@
  * The followings are the available model relations:
  * @property documents[] $PersonBenefitDocument
  */
-class PersonBenefits extends CActiveRecord
+class PersonBenefits extends ActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -91,4 +91,5 @@ class PersonBenefits extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+       
 }

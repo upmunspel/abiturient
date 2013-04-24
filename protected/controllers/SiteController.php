@@ -74,10 +74,15 @@ class SiteController extends Controller
            
             if($error=Yii::app()->errorHandler->error)
 		{
-			if(Yii::app()->request->isAjaxRequest)
-				echo $error['message'];
-			else
-				$this->render('error', $error);
+                    if(Yii::app()->request->isAjaxRequest){
+//                            $result = array();
+//                            $result['result']="error";
+//                            $result['data']= $error['message'];
+//                            echo CJSON::encode($result);
+                            echo $error['message'];
+                    } else {
+                            $this->render('error', $error);
+                    }
 		}
 	}
 
