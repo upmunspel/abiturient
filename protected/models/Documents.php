@@ -15,7 +15,7 @@
  * @property string $Issued
  * @property integer $isCopy
  */
-class Documents extends CActiveRecord
+class Documents extends ActiveRecord
 {
 	
         public static function ZNODropDown($PersonID, $SepcialityID = 0, $Level = 0){
@@ -79,12 +79,6 @@ class Documents extends CActiveRecord
         }
         
 
-        protected function beforeSave() {
-         
-            $this->DateGet=date('Y-m-d',  strtotime($this->DateGet));      
-            parent::beforeSave();
-            return true;
-        }
 	/**
 	 * @return string the associated database table name
 	 */
@@ -183,4 +177,12 @@ class Documents extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+       
+        protected function beforeSave() {
+          
+            $this->DateGet=date('Y-m-d',  strtotime($this->DateGet));      
+            return parent::beforeSave();
+          
+        }
+        
 }

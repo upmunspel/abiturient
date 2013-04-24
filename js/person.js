@@ -195,7 +195,19 @@ PSN.reloadBenefit = function(obj, url){
 };
 PSN.deleteBenefit = function(obj, url){
     if (confirm("Ви впевнені, що бажаєте видалити пільгу?")){
-    $("#benefits").load(url);
+    //$("#benefits").load(url);
+    $.ajax({
+             'url': url,
+             success: function (data) { 
+                    var obj = jQuery.parseJSON(data);
+                    if (obj.result === "success") {
+                        $("#benefits").html(obj.data);
+                    } else {
+                        alert(obj.data);  
+                    }
+                 
+                }
+        });
     }
 };
 /**
@@ -237,7 +249,20 @@ PSN.appendZno= function(obj, link){
  };
 PSN.deleteZno= function(obj, url){
      if (confirm("Ви впевнені, що бажаєте видалити сертивікат ЗНО?")){
-         $("#znos").load(url);
+         $.ajax({
+             'url': url,
+             success: function (data) { 
+                    var obj = jQuery.parseJSON(data);
+                   
+                    if (obj.result === "success") {
+                        $("#znos").html(obj.data);
+                    } else {
+                        alert(obj.data);  
+                    }
+                 
+                }
+        });
+        
      }
 };
 PSN.addZnoSubject = function(obj, url){
@@ -285,12 +310,12 @@ PSN.appendSpec= function(obj, link){
     'url': link,
     'data': fdata,
     success: function (data) { 
+            alert(data);
             var obj = jQuery.parseJSON(data);
+            alert(obj.result);
             if (obj.result === "success") {
-          
                $("#specModal").modal("hide");
                $("#specs").html(obj.data);
-               
             } else {
                $("#spec-modal-body").html(obj.data);  
             }
@@ -301,7 +326,20 @@ PSN.appendSpec= function(obj, link){
  };
  PSN.delSpec = function(obj, link){
  if (confirm("Ви впевнені, що бажаєте видалити спеціальність?")){
-         $("#specs").load(link);
+     $.ajax({
+             'url': link,
+             success: function (data) { 
+                    var obj = jQuery.parseJSON(data);
+                   
+                    if (obj.result === "success") {
+                        $("#specs").html(obj.data);
+                    } else {
+                        alert(obj.data);  
+                    }
+                 
+                }
+        });
+        
      }
  };
  PSN.editSpec = function(obj, link){

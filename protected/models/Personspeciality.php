@@ -43,7 +43,7 @@
  * @property Causality $causality
  * @property Documentsubject $documentSubject1
  */
-class Personspeciality extends CActiveRecord
+class Personspeciality extends ActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -199,4 +199,5 @@ class Personspeciality extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+       
 }

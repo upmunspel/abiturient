@@ -155,27 +155,37 @@ class DocumentsController extends Controller
                 $model->attributes = $_GET["Documents"];
                 $valid  = $model->validate() && $valid;
             }
+            // Удаление предметов
+            try {
+                if (isset($_GET["Documentsubject"])){
+                        foreach ($_GET["Documentsubject"] as $i=>$obj){
+                            $subjectid = $obj["idDocumentSubject"];
+                            unset($obj["idDocumentSubject"]);
+                            if (!empty($subjectid) && $subjectid > 0){
+                               $item = $this->loadSubjects($subjectid);
+                            } else {
+                               $item = new Documentsubject();  
+                            }
+                            $item->attributes = $obj;
+                            if ($item->deleted == 0){
+                                $valid = $item->validate() && $valid ;
+                                $subjects[] = $item;
+                            } else {
+                                if (!$item->isNewRecord) $item->delete();
+                            }
 
-            if (isset($_GET["Documentsubject"])){
-                    foreach ($_GET["Documentsubject"] as $i=>$obj){
-                        $subjectid = $obj["idDocumentSubject"];
-                        unset($obj["idDocumentSubject"]);
-                        if (!empty($subjectid) && $subjectid > 0){
-                           $item = $this->loadSubjects($subjectid);
-                        } else {
-                           $item = new Documentsubject();  
                         }
-                        $item->attributes = $obj;
-                        if ($item->deleted == 0){
-                            $valid = $item->validate() && $valid ;
-                            $subjects[] = $item;
-                        } else {
-                            if (!$item->isNewRecord) $item->delete();
-                        }
-                       
-                    }
-            } 
-                
+                } 
+            } catch (CHttpException $e) {
+                  echo CJSON::encode(array("result"=>"error","data" =>$e->getMessage()));
+                  Yii::app()->end();
+            } catch (Exception $e) {
+                  echo CJSON::encode(array("result"=>"error","data" =>"Дія заборонена!"));
+                  Yii::app()->end();
+            }
+            
+            // Сохранение предметов 
+            
             if (!$valid){
                 echo CJSON::encode(array("result"=>"error","data" =>
                 $this->renderPartial('_form', array('model'=>$model,'subjects'=>$subjects),true)));
@@ -224,10 +234,10 @@ class DocumentsController extends Controller
         
         public function actionDelZno($documentid){   
             $flag = $transaction = Yii::app()->db->getCurrentTransaction();
-            if ($transaction === null)
-            {
+            if ($transaction === null){
                 $transaction = Yii::app()->db->beginTransaction();
             }
+            
             try
             {
                 $document = Documents::model()->findByPk($documentid);
@@ -235,26 +245,24 @@ class DocumentsController extends Controller
                 if (!empty($document)){
                     $document->delete();
                 } else {
-                    throw new Exception("Документ (documentID = $documentid) не знайдено!");
+                    throw new CHttpException(404,"Документ (documentID = $documentid) не знайдено!");
                 }
                 $personid = $document->PersonID;
                 $transaction->commit();
                 $person = Person::model()->findByPk($personid);
-                $this->renderPartial("//person/tabs/_zno", array('models'=>$person->znos,'personid'=>$personid));
+                echo CJSON::encode(array("result"=>"success","data" => $this->renderPartial("//person/tabs/_zno", array('models'=>$person->znos,'personid'=>$personid),true)));
+            } catch (CHttpException $e) {
+                if ($flag !== null) {
+                        $transaction->rollback();
+                 }
+                 echo CJSON::encode(array("result"=>"error","data" =>$e->getMessage()));
+                 
             } catch (Exception $e) {
-                    if ($flag !== null)
-                    {
+                    if ($flag !== null) {
                         $transaction->rollback();
                     }
-                    Yii::app()->user->setFlash("error", "Дія заборонена!!!");
-                    $document = Documents::model()->findByPk($documentid);
-                    $personid = $document->PersonID;
-                    $person = Person::model()->findByPk($personid);
-                    $this->renderPartial("//person/tabs/_zno", array('models'=>$person->znos,'personid'=>$personid));
-                    if (defined('YII_DEBUG')){
-                        debug($e->getMessage());
-                    }
-            }
+                    echo CJSON::encode(array("result"=>"error","data" =>"Дія заборонена!"));
+            } 
 	}
         
         public function actionEditZno($documentid)  {   

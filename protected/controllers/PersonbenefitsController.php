@@ -145,16 +145,19 @@ class PersonbenefitsController extends Controller
                 }
                 $transaction->commit();
                 $person = Person::model()->findByPk($personid);
-                $this->renderPartial("_benefits", array('models'=>$person->benefits,'personid'=>$personid));
-            } catch (Exception $e) {
-                    if ($flag !== null)
-                    {
+                echo CJSON::encode(array("result"=>'success','data'=>$this->renderPartial("_benefits", array('models'=>$person->benefits,'personid'=>$personid),true)));
+            } catch (CHttpException $e) {
+                if ($flag !== null) {
                         $transaction->rollback();
-                       
+                 }
+                 echo CJSON::encode(array("result"=>"error","data" =>$e->getMessage()));
+                 
+            } catch (Exception $e) {
+                    if ($flag !== null) {
+                        $transaction->rollback();
                     }
-                    echo $e->getMessage();
-                   
-            }
+                    echo CJSON::encode(array("result"=>"error","data" =>"Дія заборонена!"));
+            } 
 	}
         
         public function actionAppendBenefit(){

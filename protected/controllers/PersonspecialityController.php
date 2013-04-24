@@ -87,11 +87,13 @@ class PersonspecialityController extends Controller
                         
                         $valid  = $model->validate() && $valid;
                         if (!$valid){
+                            //debug ($model->PersonID);
                             echo CJSON::encode(array("result"=>"error","data" =>
                             $this->renderPartial('_form', array('model'=>$model),true)));
                              Yii::app()->end();
                         } else {
 			if($model->save())
+                            //debug ($model->PersonID);
                             $person = Person::model()->findByPk($model->PersonID);
                             echo CJSON::encode(array("result"=>"success","data" =>
                                  $this->renderPartial("//person/tabs/_spec", array('models'=>$person->specs,'personid'=>$model->PersonID), true)
@@ -132,18 +134,23 @@ class PersonspecialityController extends Controller
                             $model->DocumentSubject3 = null;
                         } 
                         $valid  = $model->validate() && $valid;
-                        if (!$valid){
-                            echo CJSON::encode(array("result"=>"error","data" =>
-                            $this->renderPartial('_form', array('model'=>$model),true)));
+                       try { 
+                            if (!$valid){
+                                echo CJSON::encode(array("result"=>"error","data" =>
+                                $this->renderPartial('_form', array('model'=>$model),true)));
+                                Yii::app()->end();
+                            } else {
+                                if($model->save())
+                                    $person = Person::model()->findByPk($model->PersonID);
+                                    echo CJSON::encode(array("result"=>"success","data" =>
+                                         $this->renderPartial("//person/tabs/_spec", array('models'=>$person->specs,'personid'=>$model->PersonID), true)
+                                    ));
+                                Yii::app()->end();
+                            }
+                       } catch (Exception $e) {
+                            echo CJSON::encode(array("result"=>"error","data" =>$e->getMessage()));
                             Yii::app()->end();
-                        } else {
-                            if($model->save())
-                                $person = Person::model()->findByPk($model->PersonID);
-                                echo CJSON::encode(array("result"=>"success","data" =>
-                                     $this->renderPartial("//person/tabs/_spec", array('models'=>$person->specs,'personid'=>$model->PersonID), true)
-                                ));
-                            Yii::app()->end();
-                        }
+                       }
 		}
 
 		$this->renderPartial('_Modal', array('model'=>$model,'personid'=>$model->PersonID));
@@ -156,11 +163,18 @@ class PersonspecialityController extends Controller
 	 */
 	public function actionDelete($id)
 	{       
-                $model = $this->loadModel($id);
-                $personid = $model->PersonID;
-                $model->delete();    
-                $person = Person::model()->findByPk($personid);
-                $this->renderPartial("//person/tabs/_spec", array('models'=>$person->specs,'personid'=>$personid));
+                try{
+                    $model = $this->loadModel($id);
+                    $personid = $model->PersonID;
+                    $model->delete();    
+                    $person = Person::model()->findByPk($personid);
+                    echo CJSON::encode(array("result"=>"success","data" =>$this->renderPartial("//person/tabs/_spec", array('models'=>$person->specs,'personid'=>$personid),true)));
+                } catch (CHttpException $e) {
+                     echo CJSON::encode(array("result"=>"error","data" =>$e->getMessage()));
+                } catch (Exception $e) {
+                    echo CJSON::encode(array("result"=>"error","data" =>"Дія заборонена!"));
+                } 
+                
 	}
 
 	/**

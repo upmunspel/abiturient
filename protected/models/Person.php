@@ -27,8 +27,9 @@
  * @property integer $CountryID
  * @property string  $PhotoName
  * @property integer $isCampus
+ * @property integer $SysUserID
  */
-class Person extends CActiveRecord
+class Person extends ActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -175,8 +176,9 @@ class Person extends CActiveRecord
                     'specs'=>array(self::HAS_MANY, 'Personspeciality', 'PersonID'),
 		);
 	}
-
-protected function beforeSave() {
+       
+        
+        protected function beforeSave() {
              
             if ($this->KOATUUCodeL1ID == "0") $this->KOATUUCodeL1ID = NULL;
             if ($this->KOATUUCodeL2ID == "0") $this->KOATUUCodeL2ID = NULL;
@@ -184,8 +186,9 @@ protected function beforeSave() {
             if ($this->SchoolID == "0") $this->SchoolID = NULL;
             
            // $from=DateTime::createFromFormat('d.m.Y',$this->Birthday);
-            $this->Birthday=date('Y-m-d', strtotime($this->Birthday));       
-            
+            $this->Birthday=date('Y-m-d', strtotime($this->Birthday));  
+        
+         
             parent::beforeSave();
             return true;
         }

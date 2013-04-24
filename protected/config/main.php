@@ -8,7 +8,7 @@ Yii::setPathOfAlias('bootstrap', dirname(__FILE__).'/../extensions/bootstrap');
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 	'name'=>'Абітурієнт',
-        'sourceLanguage'=>'en',
+        'sourceLanguage'=>'uk',
         'language'=>'uk',
         //'theme'=>'bootstrap',
 
@@ -114,7 +114,7 @@ return array(
 		// uncomment the following to use a MySQL database
 		
 		'db'=>array(
-			'connectionString' => 'mysql:host=localhost;dbname=abiturient',
+			'connectionString' => 'mysql:host=10.1.103.26;dbname=abiturient',
 			'emulatePrepare' => true,
 			'username' => 'root',
 			'password' => 'root',
