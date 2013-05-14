@@ -12,12 +12,44 @@ $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'spec-form-modal',
 	'enableAjaxValidation'=>false,
 )); 
-//$form= new CActiveForm();
+$form= new CActiveForm();
 ?>
 
-	<?php //echo $form->errorSummary($model); ?>
+	<?php echo $form->errorSummary($model); ?>
         <?php echo CHtml::hiddenField('personid', $personid); ?>
-        <?php //echo !$model->isNewRecord ? $form->hiddenField($model,'idSpeciality') : "";?>
+        <?php //echo !$model->isNewRecord ? $form->hiddenField($model,'idSpeciality') : "";
+        //debug($model->attributeLabels("isBudget"));
+        ?>
+        <div class="row-fluid">
+            <div class="span2">
+                
+                <label for="<?php echo CHtml::activeId($model, 'isBudget'); ?>" >
+                    <?php echo $form->checkBox($model,'isBudget'); ?>
+                    <?php echo $model->getAttributeLabel("isBudget"); ?>
+                </label>
+            </div>
+            <div class="span2">
+                
+                <label for="<?php echo CHtml::activeId($model, 'isContract'); ?>" >
+                    <?php echo $form->checkBox($model,'isContract'); ?>
+                    <?php echo $model->getAttributeLabel("isContract"); ?>
+                </label>
+            </div>
+            <div class="span3">
+                
+                <label for="<?php echo CHtml::activeId($model, 'isNeedHostel'); ?>" >
+                    <?php echo $form->checkBox($model,'isNeedHostel'); ?>
+                    <?php echo $model->getAttributeLabel("isNeedHostel"); ?>
+                </label>
+            </div>
+        </div>
+        <div class="row-fluid">
+             <div class="span6">
+		<?php echo $form->labelEx($model,'EntrantDocumentID'); ?>
+		<?php echo $form->dropDownList($model,'EntrantDocumentID', Documents::PersonEntrantDocuments($personid),array('empty'=>'','class'=>'span12')); ?>
+		<?php //echo $form->error($model,'CourseID'); ?>
+            </div>
+        </div>
         <div class="row-fluid">
             <div class="span2">
 		<?php echo $form->labelEx($model,'CourseID'); ?>
@@ -45,12 +77,12 @@ $form=$this->beginWidget('CActiveForm', array(
                             'onchange'=>"PSN.changeSpeciality(this, '$url')") ); ?>
 		<?php //echo $form->error($model,'SepcialityID'); ?>
             </div>
-             <div class="span2">
-		<?php echo $form->labelEx($model,'PaymentTypeID'); ?>
-		<?php echo $form->dropDownList($model,'PaymentTypeID', CHtml::listData(Personeducationpaymenttypes::model()->findAll(), 'idEducationPaymentTypes', 'EducationPaymentTypesName'),
-                                array( 'empty'=>'','class'=>"span12")); ?>
+<!--             <div class="span2">
+		<?php //echo $form->labelEx($model,'PaymentTypeID'); ?>
+		<?php //echo $form->dropDownList($model,'PaymentTypeID', CHtml::listData(Personeducationpaymenttypes::model()->findAll(), 'idEducationPaymentTypes', 'EducationPaymentTypesName'),
+                                //array( 'empty'=>'','class'=>"span12")); ?>
 		<?php //echo $form->error($model,'PaymentTypeID'); ?>
-            </div>
+            </div>-->
             <div class="span2">
 		<?php echo $form->labelEx($model,'EducationFormID'); ?>
 		<?php echo $form->dropDownList($model,'EducationFormID',CHtml::listData(Personeducationforms::model()->findAll(), 'idPersonEducationForm', 'PersonEducationFormName'),array('empty'=>'', 'class'=>"span12")); ?>
@@ -93,13 +125,13 @@ $form=$this->beginWidget('CActiveForm', array(
                  <?php //echo $form->error($model,'isTarget'); ?>
             </div>
 
-            <div class="span2">
-                    <?php echo $form->labelEx($model,'isContact'); ?>
+<!--            <div class="span2">
+                    <?php // echo //$form->labelEx($model,'isContact'); ?>
                  <div class="switch" data-on-label="Так" data-off-label="Ні">
-                    <?php echo $form->checkBox($model,'isContact'); ?>
+                    <?php // echo //$form->checkBox($model,'isContact'); ?>
                  </div>
                     <?php //echo $form->error($model,'isContact'); ?>
-            </div>
+            </div>-->
             <div class="span2">
                     <?php echo $form->labelEx($model,'isCopyEntrantDoc'); ?>
                  <div class="switch" data-on-label="Так" data-off-label="Ні">

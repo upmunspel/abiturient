@@ -75,10 +75,10 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
                     <?php echo $form->labelEx($model,"CountryID"); ?>
                     <?php echo $form->dropDownList($model,'CountryID', Country::DropDown(), array('class'=>'span12')); ?>
                 </div>
-                <div class ="span4">
-                    <?php echo $form->labelEx($model,'PersonEducationTypeID'); ?>
-                    <?php echo $form->dropDownList($model,'PersonEducationTypeID', PersonEducationTypes::DropDown(), array('class'=>'span12')); ?>
-                </div>
+<!--                <div class ="span4">
+                    <?php //echo $form->labelEx($model,'PersonEducationTypeID'); ?>
+                    <?php //echo $form->dropDownList($model,'PersonEducationTypeID', PersonEducationTypes::DropDown(), array('class'=>'span12')); ?>
+                </div>-->
 
                 <div class ="span4">
                     <?php echo $form->labelEx($model,'LanguageID'); ?>
@@ -143,12 +143,12 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
             <?php echo $form->labelEx($model,'HomeNumber');//,array('class'=>'span3'));?>
             <?php echo $form->textField($model,'HomeNumber',array('class'=>'span12','maxlength'=>50)); ?>
             </div>
-            <div class ="span2">
-                    <?php echo $form->labelEx($model,'isCampus'); ?>
+<!--            <div class ="span2">
+                    <?php //echo $form->labelEx($model,'isCampus'); ?>
                     <div class="switch" data-on-label="Так" data-off-label="Ні">
-                        <?php echo $form->checkBox($model,'isCampus'); ?>
+                        <?php //echo $form->checkBox($model,'isCampus'); ?>
                     </div>
-            </div>
+            </div>-->
         </div>
             
         <p class="help-block"><strong>Школа</strong></p>

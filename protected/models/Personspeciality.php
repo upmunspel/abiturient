@@ -7,14 +7,16 @@
  * @property integer $idPersonSpeciality
  * @property integer $PersonID
  * @property integer $SepcialityID
- * @property integer $PaymentTypeID
+ * //@property integer $PaymentTypeID
  * @property integer $EducationFormID
  * @property integer $QualificationID
  * @property integer $EntranceTypeID
  * @property integer $CourseID
  * @property integer $CausalityID
  * @property integer $isTarget
- * @property integer $isContact
+ * @property integer $isContract
+ * @property integer $isBudget
+ * @property integer $isNeedHostel
  * @property double $AdditionalBall
  * @property integer $isCopyEntrantDoc
  * @property integer $DocumentSubject1
@@ -73,7 +75,7 @@ class Personspeciality extends ActiveRecord
 		return array(
 			array('PersonID, SepcialityID, PaymentTypeID, EducationFormID, 
                                QualificationID, EntranceTypeID, CourseID, CausalityID, 
-                               isTarget, isContact, isCopyEntrantDoc, DocumentSubject1, 
+                               isTarget, isContract, isBudget, isCopyEntrantDoc, DocumentSubject1, 
                                DocumentSubject2, DocumentSubject3, 
                                Exam1ID, Exam1Ball, Exam2ID, Exam2Ball,
                                Exam3ID, Exam3Ball', 'numerical', 'integerOnly'=>true),
@@ -81,8 +83,8 @@ class Personspeciality extends ActiveRecord
                         array("Exam1Ball, Exam2Ball, Exam3Ball, AdditionalBall", 'numerical',
                                "max"=>200, "min"=>100, "allowEmpty"=>true ),
                         array('PersonID, SepcialityID, PaymentTypeID, EducationFormID, 
-                               QualificationID, EntranceTypeID, CourseID, isTarget, isContact, 
-                               isCopyEntrantDoc', "required"),
+                               QualificationID, EntranceTypeID, CourseID, isTarget, isContract, 
+                               isCopyEntrantDoc, EntrantDocumentID, isNeedHostel', "required"),
                     
                         array("DocumentSubject1, DocumentSubject2, DocumentSubject3", "required", "on"=>"ZNO"),
                         array("Exam1ID, Exam2ID, Exam3ID, Exam1Ball, Exam2Ball, Exam3Ball, CausalityID", "required", "on"=>"EXAM"),
@@ -93,7 +95,7 @@ class Personspeciality extends ActiveRecord
 			//array('AdditionalBall', 'numerical'),
                             // The following rule is used by search().
                             // Please remove those attributes that should not be searched.
-			array('idPersonSpeciality, PersonID, SepcialityID, PaymentTypeID, EducationFormID, QualificationID, EntranceTypeID, CourseID, CausalityID, isTarget, isContact, AdditionalBall, isCopyEntrantDoc, DocumentSubject1, DocumentSubject2, DocumentSubject3, Exam1ID, Exam1Ball, Exam2ID, Exam2Ball, Exam3ID, Exam3Ball', 'safe', 'on'=>'search'),
+			array('idPersonSpeciality, PersonID, SepcialityID, PaymentTypeID, EducationFormID, QualificationID, EntranceTypeID, CourseID, CausalityID, isTarget, isContract, AdditionalBall, isCopyEntrantDoc, DocumentSubject1, DocumentSubject2, DocumentSubject3, Exam1ID, Exam1Ball, Exam2ID, Exam2Ball, Exam3ID, Exam3Ball', 'safe', 'on'=>'search'),
 		);
 	}
         public function validate($attributes = null, $clearErrors = true) {
@@ -146,8 +148,11 @@ class Personspeciality extends ActiveRecord
     'CourseID' => 'Курс',
     'CausalityID' => 'Причина відсутності сертифікату',
     'isTarget' => 'Цільовий вступ',
-    'isContact' => 'Проп-ти контракт',
+    'isContract' => 'Контракт',
+    'isBudget' => 'Бюджет',
+    'isNeedHostel' => 'Потрібен гуртожиток',
     'AdditionalBall' => 'Додатковий бал',
+    'EntrantDocumentID' => 'Документ, на основе которого происходит поступление',                
     'isCopyEntrantDoc' => 'Копія',
     'DocumentSubject1' => 'Предмет сертифікату',
     'DocumentSubject2' => 'Предмет сертифікату',

@@ -310,9 +310,9 @@ PSN.appendSpec= function(obj, link){
     'url': link,
     'data': fdata,
     success: function (data) { 
-            alert(data);
+            //alert(data);
             var obj = jQuery.parseJSON(data);
-            alert(obj.result);
+            //alert(obj.result);
             if (obj.result === "success") {
                $("#specModal").modal("hide");
                $("#specs").html(obj.data);
