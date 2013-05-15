@@ -1,0 +1,396 @@
+﻿<?php
+
+class DocumentsController extends Controller
+{
+    public $layout='//layouts/column2';
+        public $defaultAction='admin';	
+        /**
+	 * @return array action filters
+	 */
+	public function filters()
+	{
+		return array(
+			'accessControl', // perform access control for CRUD operations
+                        'ajaxOnly + newZno, newZnoSubject, appendZno, delZno, delZnoSubject,
+                                    editZno',
+		);
+	}
+
+	/**
+	 * Specifies the access control rules.
+	 * This method is used by the 'accessControl' filter.
+	 * @return array access control rules
+	 */
+	public function accessRules()
+	{
+		return array(
+			array('allow',  // allow all users to perform 'index' and 'view' actions
+				'actions'=>array(),
+				'users'=>array('*'),
+			),
+			array('allow', // allow authenticated user to perform 'create' and 'update' actions
+				'actions'=>array(   'newZno',
+                                                    'newZnoSubject', 
+                                                    'appendZno',
+                                                    'delZno',
+                                                    'delZnoSubject',
+                                                    'editZno'
+                                                ),
+				'users'=>array('@'),
+			),
+			array('allow', // allow admin user to perform 'admin' and 'delete' actions
+				'actions'=>array('admin','delete'),
+				'users'=>array('admin'),
+			),
+			array('deny',  // deny all users
+				'users'=>array('*'),
+			),
+		);
+	}
+        
+        public function actionNewZno($personid)  {   
+                $model = new Documents('ZNO');
+                $model->PersonID = $personid;
+                $subjects=array();
+                $this->renderPartial('_znoModal',array(
+                            'model'=>$model,
+                            'subjects'=>$subjects,true,true
+                ));
+            }
+            
+        public function actionNewZnoSubject()  {   
+                $model = new Documents('ZNO');
+                $subjects = array();
+                $valid = true;
+                if (isset($_GET["Documents"])){
+                    $model->attributes = $_GET["Documents"];
+                    $model->validate();
+                }
+                $dateget = "";
+                if (isset($_GET["Documentsubject"])){
+                        foreach ($_GET["Documentsubject"] as $i=>$obj){
+                            $subjectid = $obj["idDocumentSubject"];
+                            if (!empty($subjectid) && $subjectid > 0){
+                               $item = $this->loadSubjects($subjectid);
+                            } else {
+                               $item = new Documentsubject();  
+                            }
+                            $item->attributes = $obj;
+                            if ($item->deleted == 0){
+                                $valid = $item->validate() && $valid ;
+                            }
+                            $subjects[] = $item;
+                            $dateget = $item->DateGet;
+                            
+                        }
+                } 
+                if ($valid) {
+                    $tm = new Documentsubject();
+                    $tm->DateGet = $dateget;
+                    $subjects[] = $tm;
+                }
+                
+                $this->renderPartial('_form',array(
+                            'model'=>$model,
+                            'subjects'=>$subjects, 
+                ));
+            } 
+       
+        public function actionDelZnoSubject($num)  {   
+                $model = new Documents('ZNO');
+                $subjects = array();
+                $valid = true;
+                if (isset($_GET["Documents"])){
+                    $model->attributes = $_GET["Documents"];
+                    $model->validate();
+                }
+                
+                if (isset($_GET["Documentsubject"])){
+                        unset($_GET["Documentsubject"][$num]); 
+                        foreach ($_GET["Documentsubject"] as $i=>$obj){
+                            $item = new Documentsubject();
+                            $item->attributes = $obj;
+                            if ($i==$num){
+                                $item->deleted = 1;
+                            }
+                            if ($item->deleted == 0){
+                                $valid = $item->validate() && $valid ;
+                            }
+                            $subjects[] = $item;
+                            
+                        }
+                } 
+                
+                $this->renderPartial('_form',array(
+                            'model'=>$model,
+                            'subjects'=>$subjects, 
+                ));
+            }     
+        
+        protected function loadDocuments($documentid){
+                $model = Documents::model()->findByPk($documentid);
+                if (empty($model)){
+                    throw new Exception("Документ (id = $documentid) не знайдено!");
+                }
+                $model->scenario = "ZNO";
+                return $model;
+        }
+        protected function loadSubjects($subjectid){
+                $model = Documentsubject::model()->findByPk($subjectid);
+                if (empty($model)){
+                    throw new Exception("Предмет (id = $subjectid) не знайдено!");
+                }
+                return $model;
+        }
+        public function actionAppendZno(){
+            
+            $model = new Documents('ZNO');
+            $model->TypeID = 4;
+            $subjects = array();
+            $valid = true;
+            if (isset($_GET["Documents"])){
+                $documentid = $_GET["Documents"]['idDocuments'];
+                unset($_GET["Documents"]['idDocuments']);
+                if (!empty($documentid)) {
+                    $model=$this->loadDocuments($documentid);
+                }
+                $model->attributes = $_GET["Documents"];
+                $valid  = $model->validate() && $valid;
+            }
+            // Удаление предметов
+            try {
+                if (isset($_GET["Documentsubject"])){
+                        foreach ($_GET["Documentsubject"] as $i=>$obj){
+                            $subjectid = $obj["idDocumentSubject"];
+                            unset($obj["idDocumentSubject"]);
+                            if (!empty($subjectid) && $subjectid > 0){
+                               $item = $this->loadSubjects($subjectid);
+                            } else {
+                               $item = new Documentsubject();  
+                            }
+                            $item->attributes = $obj;
+                            if ($item->deleted == 0){
+                                $valid = $item->validate() && $valid ;
+                                $subjects[] = $item;
+                            } else {
+                                if (!$item->isNewRecord) $item->delete();
+                            }
+
+                        }
+                } 
+            } catch (CHttpException $e) {
+                  echo CJSON::encode(array("result"=>"error","data" =>$e->getMessage()));
+                  Yii::app()->end();
+            } catch (Exception $e) {
+                  echo CJSON::encode(array("result"=>"error","data" =>"Дія заборонена!"));
+                  Yii::app()->end();
+            }
+            
+            // Сохранение предметов 
+            
+            if (!$valid){
+                echo CJSON::encode(array("result"=>"error","data" =>
+                $this->renderPartial('_form', array('model'=>$model,'subjects'=>$subjects),true)));
+            } else {
+                /* save all new records */
+                $flag = $transaction = Yii::app()->db->getCurrentTransaction();
+                if ($transaction === null)
+                {
+                    $transaction = Yii::app()->db->beginTransaction();
+                }
+                try
+                {
+                   if ($model->save()){
+                       foreach ($subjects as $subject){
+                           $subject->DocumentID = $model->idDocuments;
+                           if ($subject->deleted == 0){
+                                if (!$subject->save()){
+                                    throw new Exception("Помилка збереження даних!");
+                                }
+                            } else {
+                                if (!$subject->delete()){
+                                    throw new Exception("Помилка видалення даних!");
+                                }
+                            }
+                       }
+                   }
+                   $transaction->commit();
+                   $person = Person::model()->findByPk($model->PersonID);
+                   echo CJSON::encode(array("result"=>"success","data" =>
+                        $this->renderPartial("//person/tabs/_zno", array('models'=>$person->znos,'personid'=>$model->PersonID), true)
+                        ));
+                } catch (Exception $e) {
+                    if ($flag !== null)
+                    {
+                        $transaction->rollback();
+                       
+                    }
+                    echo CJSON::encode(array("result"=>"error","data" =>$e->getMessage()));
+                   
+                }
+               
+                
+            };
+            
+        } 
+        
+        public function actionDelZno($documentid){   
+            $flag = $transaction = Yii::app()->db->getCurrentTransaction();
+            if ($transaction === null){
+                $transaction = Yii::app()->db->beginTransaction();
+            }
+            
+            try
+            {
+                $document = Documents::model()->findByPk($documentid);
+                
+                if (!empty($document)){
+                    $document->delete();
+                } else {
+                    throw new CHttpException(404,"Документ (documentID = $documentid) не знайдено!");
+                }
+                $personid = $document->PersonID;
+                $transaction->commit();
+                $person = Person::model()->findByPk($personid);
+                echo CJSON::encode(array("result"=>"success","data" => $this->renderPartial("//person/tabs/_zno", array('models'=>$person->znos,'personid'=>$personid),true)));
+            } catch (CHttpException $e) {
+                if ($flag !== null) {
+                        $transaction->rollback();
+                 }
+                 echo CJSON::encode(array("result"=>"error","data" =>$e->getMessage()));
+                 
+            } catch (Exception $e) {
+                    if ($flag !== null) {
+                        $transaction->rollback();
+                    }
+                    echo CJSON::encode(array("result"=>"error","data" =>"Дія заборонена!"));
+            } 
+	}
+        
+        public function actionEditZno($documentid)  {   
+                $model = Documents::model()->findByPk($documentid);
+                if (empty($model)) throw new Exception("Документ (id = $documentid) не знайдено!");
+                $model->scenario = "ZNO";
+                $personid = $model->PersonID;
+                
+                $this->renderPartial('_znoModal',array(
+                            'model'=>$model,
+                            'subjects'=>$model->subjects,
+                            'personid'=>$personid,true,true
+                ));
+            }
+            	public function actionView($id)
+	{
+		$this->render('view',array(
+			'model'=>$this->loadModel($id),
+		));
+	}
+        
+	/**
+	 * Creates a new model.
+	 * If creation is successful, the browser will be redirected to the 'view' page.
+	 */
+	public function actionCreate()
+	{
+		$model=new Documents;
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['Documents']))
+		{
+			$model->attributes=$_POST['Documents'];
+			if($model->save())
+				$this->redirect(array('view','id'=>$model->idDocuments));
+}
+
+		$this->render('create',array(
+			'model'=>$model,
+		));
+	}
+
+	/**
+	 * Updates a particular model.
+	 * If update is successful, the browser will be redirected to the 'view' page.
+	 * @param integer $id the ID of the model to be updated
+	 */
+	public function actionUpdate($id)
+	{
+		$model=$this->loadModel($id);
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['Documents']))
+		{
+			$model->attributes=$_POST['Documents'];
+			if($model->save())
+				$this->redirect(array('view','id'=>$model->idDocuments));
+		}
+
+		$this->render('update',array(
+			'model'=>$model,
+		));
+	}
+public function actionDelete($id)
+	{
+		$this->loadModel($id)->delete();
+
+		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+		if(!isset($_GET['ajax']))
+			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+	}
+
+	/**
+	 * Lists all models.
+	 */
+	public function actionIndex()
+	{
+		$dataProvider=new CActiveDataProvider('Documents');
+		$this->render('index',array(
+			'dataProvider'=>$dataProvider,
+		));
+	}
+
+	/**
+	 * Manages all models.
+	 */
+	public function actionAdmin()
+	{
+		$model=new Documents('search');
+		$model->unsetAttributes();  // clear any default values
+		if(isset($_GET['Documents']))
+			$model->attributes=$_GET['Documents'];
+
+		$this->render('admin',array(
+			'model'=>$model,
+		));
+	}
+
+	/**
+	 * Returns the data model based on the primary key given in the GET variable.
+	 * If the data model is not found, an HTTP exception will be raised.
+	 * @param integer the ID of the model to be loaded
+	 */
+	public function loadModel($id)
+	{
+		$model=Documents::model()->findByPk($id);
+		if($model===null)
+			throw new CHttpException(404,'The requested page does not exist.');
+		return $model;
+	}
+
+	/**
+	 * Performs the AJAX validation.
+	 * @param CModel the model to be validated
+	 */
+	protected function performAjaxValidation($model)
+	{
+		if(isset($_POST['ajax']) && $_POST['ajax']==='documents-form')
+		{
+			echo CActiveForm::validate($model);
+			Yii::app()->end();
+		}
+	}
+        
+}
