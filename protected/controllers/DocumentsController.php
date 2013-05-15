@@ -60,29 +60,40 @@ class DocumentsController extends Controller
                 $model = new Documents('ZNO');
                 $subjects = array();
                 $valid = true;
+                $subjectCount = 0;
                 if (isset($_GET["Documents"])){
                     $model->attributes = $_GET["Documents"];
                     $model->validate();
                 }
                 $dateget = "";
                 if (isset($_GET["Documentsubject"])){
-                        foreach ($_GET["Documentsubject"] as $i=>$obj){
+                       
+//                         foreach ($_GET["Documentsubject"] as $i=>$obj){
+//                             if ($obj['deleted']!=0) $subjectCount++;
+//                         }
+                        
+                        foreach ($_GET["Documentsubject"] as $obj){
+                          
                             $subjectid = $obj["idDocumentSubject"];
                             if (!empty($subjectid) && $subjectid > 0){
                                $item = $this->loadSubjects($subjectid);
                             } else {
                                $item = new Documentsubject();  
+                                
                             }
                             $item->attributes = $obj;
                             if ($item->deleted == 0){
                                 $valid = $item->validate() && $valid ;
-                            }
+                                $subjectCount++;
+                            }  
                             $subjects[] = $item;
                             $dateget = $item->DateGet;
                             
                         }
-                } 
-                if ($valid) {
+                }
+                //debug( $subjectCount);
+                if ($valid &&  $subjectCount < 5) {
+                    
                     $tm = new Documentsubject();
                     $tm->DateGet = $dateget;
                     $subjects[] = $tm;

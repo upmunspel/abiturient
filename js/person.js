@@ -310,9 +310,9 @@ PSN.appendSpec= function(obj, link){
     'url': link,
     'data': fdata,
     success: function (data) { 
-            alert(data);
+            //alert(data);
             var obj = jQuery.parseJSON(data);
-            alert(obj.result);
+            //alert(obj.result);
             if (obj.result === "success") {
                $("#specModal").modal("hide");
                $("#specs").html(obj.data);
@@ -398,6 +398,12 @@ PSN.appendSpec= function(obj, link){
      $("#subjects-holder").load(url,data);
      
  }
+ PSN.changeFIO = function(){
+    $("#FirstName").keyup(function(){$("#FirstNameR").val($("#FirstName").val());});
+    $("#LastName").keyup(function(){$("#LastNameR").val($("#LastName").val());});
+    $("#MiddleName").keyup(function(){$("#MiddleNameR").val($("#MiddleName").val());});
+ }
 $(document).ready(function(){
     PSN.Init();
+    PSN.changeFIO();
 });

@@ -18,6 +18,19 @@
 class Documents extends ActiveRecord
 {
 	
+        public static function PersonEntrantDocuments($PersonID){
+            $res = array();
+            $model = Documents::model()->findAll("PersonID = :PersonID", array(":PersonID"=>$PersonID));
+            if (!empty($model)){
+                foreach ($model as $doc){
+                    $doctype = PersonDocumentTypes::model()->findByPk($doc->TypeID);
+                    if ($doctype->IsEntrantDocument == 1){
+                    $res[$doc->idDocuments] = $doctype->PersonDocumentTypesName."({$doc->Numbers})";
+                    }
+                }
+            }
+            return $res;
+        }
         public static function ZNODropDown($PersonID, $SepcialityID = 0, $Level = 0){
             $res = array();
             $model = Documents::model()->findAll("PersonID = :PersonID and TypeID = 4", array(":PersonID"=>$PersonID));
@@ -100,13 +113,16 @@ class Documents extends ActiveRecord
 			array('Series', 'length', 'max'=>10),
 			array('Numbers', 'length', 'max'=>15),
 			array('Issued', 'length', 'max'=>250),
-			array('DateGet, idDocuments, Series, Numbers, ', 'safe'),
+			array('DateGet, idDocuments, Series, Numbers,  ', 'safe'),
                     
                         array('DateGet, Series, Numbers, Issued', 'required', "except"=>"INN, HOSP, ZNO"),
-                    
+                        // INN
                         array('Numbers', 'required', "on"=>"INN"),
                         array('Numbers', 'numerical' , 'integerOnly'=>true, "on"=>"INN"),
+                        array('Numbers', 'length', 'is'=>10, "on"=>"INN"),
+                        // HOST
                         array('DateGet', 'required', "on"=>"HOSP"),
+                        // ENTRANT 
                         array('AtestatValue', 'required', "on"=>"ENTRANT"),
                         /* ZNO SCENARIO */
                         array('Numbers, ZNOPin', 'required', "on"=>"ZNO"),
