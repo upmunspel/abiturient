@@ -101,13 +101,13 @@ class PersonController extends Controller
                             $model->mobphone->attributes=$_POST['PersonContacts']['mobphone'];
                         }
                         
-			if($model->save()
-                                && $model->persondoc->validate() 
-                                && $model->entrantdoc->validate()
-                                && $model->inndoc->validate() 
-                                && $model->hospdoc->validate()
+			if(     $model->persondoc->validate() 
+                                && $model->entrantdoc->validate("ENTRANT")
+                                && $model->inndoc->validate("INN") 
+                                && $model->hospdoc->validate("HOSP")
                                 && $model->homephone->validate() 
-                                && $model->mobphone->validate()){
+                                && $model->mobphone->validate()
+                                && $model->save()){
                             $model->persondoc->PersonID = $model->idPerson;
                             $model->entrantdoc->PersonID = $model->idPerson;
                             $model->inndoc->PersonID = $model->idPerson;
@@ -175,9 +175,9 @@ class PersonController extends Controller
                         
                         if ($model->validate()
                                 && $model->persondoc->validate() 
-                                && $model->entrantdoc->validate()
-                                && $model->inndoc->validate() 
-                                && $model->hospdoc->validate()
+                                && $model->entrantdoc->validate("ENTRANT")
+                                && $model->inndoc->validate("INN") 
+                                && $model->hospdoc->validate("HOSP")
                                 && $model->homephone->validate() 
                                 && $model->mobphone->validate()){
                             

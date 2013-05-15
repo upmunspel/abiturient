@@ -116,10 +116,13 @@ class Documents extends ActiveRecord
 			array('DateGet, idDocuments, Series, Numbers,  ', 'safe'),
                     
                         array('DateGet, Series, Numbers, Issued', 'required', "except"=>"INN, HOSP, ZNO"),
-                    
+                        // INN
                         array('Numbers', 'required', "on"=>"INN"),
                         array('Numbers', 'numerical' , 'integerOnly'=>true, "on"=>"INN"),
+                        array('Numbers', 'length', 'is'=>10, "on"=>"INN"),
+                        // HOST
                         array('DateGet', 'required', "on"=>"HOSP"),
+                        // ENTRANT 
                         array('AtestatValue', 'required', "on"=>"ENTRANT"),
                         /* ZNO SCENARIO */
                         array('Numbers, ZNOPin', 'required', "on"=>"ZNO"),

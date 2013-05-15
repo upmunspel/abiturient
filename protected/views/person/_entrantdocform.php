@@ -27,14 +27,14 @@
     </div> 
 </div>
 <div class="row-fluid">
-    <div class ="span10">
+    <div class ="span12">
         <?php echo $form->labelEx($model,'[entrantdoc]Issued'); ?>
         <?php echo $form->textField($model,'[entrantdoc]Issued',array('class'=>'span12','maxlength'=>250)); ?>
     </div>    
-    <div class ="span2">
-        <?php echo $form->labelEx($model,'[entrantdoc]isCopy'); ?>
+<!--    <div class ="span2">
+        <?php // echo $form->labelEx($model,'[entrantdoc]isCopy'); ?>
         <div class="switch" data-on-label="Так" data-off-label="Ні">
-            <?php echo $form->checkBox($model,'[entrantdoc]isCopy'); ?>
+            <?php //echo $form->checkBox($model,'[entrantdoc]isCopy'); ?>
         </div>
-    </div>
+    </div>-->
 </div>

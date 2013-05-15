@@ -8,43 +8,48 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
 	'id'=>'person-form',
     //'type'=>'horizontal',
 	'enableAjaxValidation'=>false,
-    'htmlOptions'=>array("class"=>"well"),
+    'htmlOptions'=>array("class"=>"well form"),
 ));
 ?>
 <p class="help-block"><strong>Особисті дані</strong></p>
         <hr>
-       
+        <div class="row-fluid">
+            <div class ="span12">
+                <?php echo $form->errorSummary($model) ?>
+            </div>
+        </div>
+            
         <div class="row-fluid">
             <div class ="span9">
             <div class="row-fluid">
                 <div class ="span4">
                 <?php echo $form->labelEx($model,'FirstName');//,array('class'=>'span3'));?>
-                <?php echo $form->textField($model,'FirstName',array('class'=>'span12','maxlength'=>50)); ?>
+                <?php echo $form->textField($model,'FirstName',array('id'=>"FirstName",'class'=>'span12','maxlength'=>50)); ?>
                 <?php //echo $form->error($model,'FirstName'); ?>    
                 </div>
                 <div class ="span4">
                 <?php echo $form->labelEx($model,'LastName');//,array('class'=>'span3'));?>
-                <?php echo $form->textField($model,'LastName',array('class'=>'span12','maxlength'=>50)); ?>
+                <?php echo $form->textField($model,'LastName',array('id'=>"LastName",'class'=>'span12','maxlength'=>50)); ?>
                 <?php //echo $form->error($model,'LastName'); ?>        
                 </div>
                 <div class ="span4">
                 <?php echo $form->labelEx($model,'MiddleName');//,array('class'=>'span3'));?>
-                <?php echo $form->textField($model,'MiddleName',array('class'=>'span12','maxlength'=>50)); ?>
+                <?php echo $form->textField($model,'MiddleName',array('id'=>"MiddleName", 'class'=>'span12','maxlength'=>50)); ?>
                 <?php //echo $form->error($model,'MiddleName'); ?>    
                 </div>
             </div>
             <div class="row-fluid">
                 <div class ="span4">
                 <?php echo $form->labelEx($model,'FirstNameR');//,array('class'=>'span3'));?>
-                <?php echo $form->textField($model,'FirstNameR',array('class'=>'span12','maxlength'=>50)); ?>
+                <?php echo $form->textField($model,'FirstNameR',array('id'=>"FirstNameR",'class'=>'span12','maxlength'=>50)); ?>
                 </div>
                 <div class ="span4">
                 <?php echo $form->labelEx($model,'LastNameR');//,array('class'=>'span3'));?>
-                <?php echo $form->textField($model,'LastNameR',array('class'=>'span12','maxlength'=>50)); ?>
+                <?php echo $form->textField($model,'LastNameR',array('id'=>"LastNameR",'class'=>'span12','maxlength'=>50)); ?>
                 </div>
                 <div class ="span4">
                 <?php echo $form->labelEx($model,'MiddleNameR');//,array('class'=>'span3'));?>
-                <?php echo $form->textField($model,'MiddleNameR',array('class'=>'span12','maxlength'=>50)); ?>
+                <?php echo $form->textField($model,'MiddleNameR',array('id'=>"MiddleNameR",'class'=>'span12','maxlength'=>50)); ?>
                 </div>
             </div>
                  

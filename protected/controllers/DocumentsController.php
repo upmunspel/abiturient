@@ -72,7 +72,7 @@ class DocumentsController extends Controller
 //                             if ($obj['deleted']!=0) $subjectCount++;
 //                         }
                         
-                        foreach ($_GET["Documentsubject"] as $i=>$obj){
+                        foreach ($_GET["Documentsubject"] as $obj){
                           
                             $subjectid = $obj["idDocumentSubject"];
                             if (!empty($subjectid) && $subjectid > 0){
