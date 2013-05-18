@@ -1,5 +1,5 @@
 <?php
-/* @var $this CountryController */
+/* @var $this Countrycontroller */
 /* @var $dataProvider CActiveDataProvider */
 
 $this->breadcrumbs=array(

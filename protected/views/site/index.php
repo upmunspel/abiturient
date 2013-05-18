@@ -1,5 +1,5 @@
 <?php
-/* @var $this SiteController */
+/* @var $this Sitecontroller */
 $this->pageTitle=Yii::app()->name;
 ?>
 
@@ -9,8 +9,7 @@ $this->pageTitle=Yii::app()->name;
 
 <p>Запорізький національний університет</p>
 <br/>
-<div class="row">
-  <div class="span2"></div>
+
   <div class="span2">
       <?php $this->widget('bootstrap.widgets.TbButton', array(
     'label'=>'Абітурієнти',
@@ -34,8 +33,19 @@ $this->pageTitle=Yii::app()->name;
     'size'=>'large', // null, 'large', 'small' or 'mini'
     )); ?>
     </div>
-     <div class="span1"></div>
-</div>
+      <div class="span2">
+  <?php
+ $this->widget('bootstrap.widgets.TbButton', array(
+    'label'=>'Тестовий друк',
+    'type'=>'danger', // null, 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
+    'size'=>'large', // null, 'large', 'small' or 'mini' 
+     'url'=>("http://10.1.103.26:8080/JasperReports/?iframe=true&width=1024&height=450"),
+    
+    )); //<a href="http://10.1.103.26:8080/JasperReports/?iframe=true&width=1024&height=450" title="Тестовий друк">Тестовий друк</a>
+      //'<a href="http://10.1.103.26:8080/JasperReports/?iframe=true&width=1024&height=450">Link to myFunction</a>';
+    ?>
+    </div>
+    </div>
 <div class="row">
 <?php 
     $this->beginWidget('ext.prettyPhoto.PrettyPhoto', array(
@@ -47,9 +57,6 @@ $this->pageTitle=Yii::app()->name;
     
   ),
 ));?>
- 
-<a href="http://10.1.103.26:8080/JasperReports/?iframe=true&width=1024&height=450" title="Тестовий друк">Тестовий друк</a>
- 
 <?php $this->endWidget('ext.prettyPhoto.PrettyPhoto'); ?>
 </div>
 

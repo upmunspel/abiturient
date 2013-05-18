@@ -1,5 +1,5 @@
 <?php
-/* @var $this SiteController */
+/* @var $this Sitecontroller */
 /* @var $model ContactForm */
 /* @var $form CActiveForm */
 
@@ -7,7 +7,7 @@ $this->pageTitle=Yii::app()->name . ' - Contact Us';
 
 ?>
 <?php
-/* @var $this SiteController */
+/* @var $this Sitecontroller */
 
 $this->pageTitle=Yii::app()->name;
 ?>

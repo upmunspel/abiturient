@@ -25,12 +25,12 @@
         //'type'=>'inverse', // null or 'inverse'
         'brand'=>'ЗНУ (Абітурієнт)',
         'brandUrl'=>'/',
-        
+        'collapse'=>true,
         'items'=>array(
             array(
                 'class'=>'bootstrap.widgets.TbMenu',
                 'items'=>array(
-                    array('label'=>'Головна', 'url'=>array('/site/index')),
+                    array('label'=>'Головна', 'url'=>array('/site/index'), "icon"=>"icon-home"),
                     array('label'=>'Контакти', 'url'=>array('/site/contact'), "icon"=>"icon-envelope"),
                     array('label'=>'Довідники', 'visible'=>Yii::app()->user->checkAccess('showDirectiries'),
                          'url'=>'#', "icon"=>"icon-book", 'items'=> Directories::listMenu()),
@@ -44,7 +44,7 @@
                           'items'=>array(
                                  array('label'=>'Користувачі', 'url'=>Yii::app()->createUrl("user"), "icon"=>" icon-user", ),
                                  array('label'=>'Групи користувачів', 'url'=>Yii::app()->createUrl("srbac"), "icon"=>"icon-lock", ),
-                                 array('label'=>'Управління довілниками', 'url'=>Yii::app()->createUrl("directories/admin"), "icon"=>"icon-book", ),
+                                 array('label'=>'Керування довідниками', 'url'=>Yii::app()->createUrl("directories"), "icon"=>"icon-pencil", ),
                            )
                         ),
                     array('label'=>'Авторизуватися', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest, 'icon'=>"icon-user"),

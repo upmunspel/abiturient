@@ -1,5 +1,5 @@
 <?php
-/* @var $this SchoolsController */
+/* @var $this Schoolscontroller */
 /* @var $model Schools */
 
 $this->breadcrumbs=array(
@@ -9,7 +9,7 @@ $this->breadcrumbs=array(
 
 $this->menu=array(
 /*array('label'=>'List Schools', 'url'=>array('index')),*/
-array('label'=>'Додати запис', 'url'=>array('create')),
+array('label'=>'Додати запис', 'url'=>array('create'),'icon'=>"icon-plus"),
 );
 
 Yii::app()->clientScript->registerScript('search', "
@@ -32,9 +32,8 @@ return false;
     Можна додати оператор порівняння (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>
     or <b>=</b>) перед значенням пошуку
 </p>
-
-<?php echo CHtml::link('Розширений пошук','#',array('class'=>'search-button')); ?>
-<div class="search-form" style="display:none">
+<?php echo CHtml::link('Розширений пошук','#',array('class'=>'search-button btn btn-primary')); ?>
+<div class="search-form" style="display:none; margin-top: 20px;">
     <?php $this->renderPartial('_search',array(
 	'model'=>$model,
 )); ?>
@@ -42,6 +41,7 @@ return false;
 
 <?php $this->widget('bootstrap.widgets.TbGridView', array(
 'id'=>'schools-grid',
+'type'=>'striped bordered condensed',
 'dataProvider'=>$model->search(),
 'filter'=>$model,
 'columns'=>array(

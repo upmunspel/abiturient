@@ -1,5 +1,5 @@
 <?php
-/* @var $this BenefitController */
+/* @var $this Benefitcontroller */
 /* @var $model Benefit */
 
 $this->breadcrumbs=array(
@@ -9,7 +9,7 @@ $this->breadcrumbs=array(
 
 $this->menu=array(
 /*array('label'=>'List Benefit', 'url'=>array('index')),*/
-array('label'=>'Додати запис', 'url'=>array('create')),
+array('label'=>'Додати запис', 'url'=>array('create'),'icon'=>"icon-plus"),
 );
 
 Yii::app()->clientScript->registerScript('search', "
@@ -33,8 +33,8 @@ return false;
     or <b>=</b>) перед значенням пошуку
 </p>
 
-<?php echo CHtml::link('Розширений пошук','#',array('class'=>'search-button')); ?>
-<div class="search-form" style="display:none">
+<?php echo CHtml::link('Розширений пошук','#',array('class'=>'search-button btn btn-primary')); ?>
+<div class="search-form" style="display:none; margin-top: 20px;">
     <?php $this->renderPartial('_search',array(
 	'model'=>$model,
 )); ?>

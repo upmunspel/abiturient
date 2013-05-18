@@ -1,5 +1,5 @@
 <?php
-/* @var $this BenefitController */
+/* @var $this Benefitcontroller */
 /* @var $model Benefit */
 /* @var $form CActiveForm */
 ?>
@@ -12,8 +12,7 @@
        
 )); ?>
 
-	<p class="note">Fields with <span class="required">*</span> are required.</p>
-
+<p class="note">Поля, відмічені <span class="required">*</span> обов'язкові для заповнення!</p>
 	<?php echo $form->errorSummary($model); ?>
 
 	<!--<div class="row">
@@ -59,9 +58,16 @@
         </div>	
 
 
-	<div class="row-fluid buttons">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Створити' : 'Зберегти'); ?>
-	</div>
+<?php //------------------------------------------------------------------------------------------------------------------------------------//?>
+    <div class="row-fluid">
+    <?php $this->widget("bootstrap.widgets.TbButton", array(
+			'buttonType'=>'submit',
+			'type'=>'primary',
+                          "size"=>"null",
+			'label'=>$model->isNewRecord ? 'Створити' : 'Зберегти',
+                        )); 
+    ?>
+    </div>
 
 <?php $this->endWidget(); ?>
 

@@ -5,11 +5,11 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List Directories','url'=>array('index')),
-	array('label'=>'Manage Directories','url'=>array('admin')),
+	array('label'=>'Переглянути записи','url'=>array('index'),'icon'=>"icon-list-alt"),
+	array('label'=>'Керування','url'=>array('admin'),'icon'=>"icon-wrench"),
 );
 ?>
 
-<h1>Create Directories</h1>
+<h1>Створення запису довідника "Довідники"</h1>
 
 <?php echo $this->renderPartial('_form', array('model'=>$model)); ?>

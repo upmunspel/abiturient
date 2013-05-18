@@ -1,5 +1,5 @@
 <?php
-/* @var $this FacultetsController */
+/* @var $this Facultetscontroller */
 /* @var $data Facultets */
 ?>
 

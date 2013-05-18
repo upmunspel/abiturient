@@ -6,13 +6,13 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List Directories','url'=>array('index')),
-	array('label'=>'Create Directories','url'=>array('create')),
-	array('label'=>'View Directories','url'=>array('view','id'=>$model->idDirecrtory)),
-	array('label'=>'Manage Directories','url'=>array('admin')),
+	array('label'=>'Переглянути записи','url'=>array('index'),'icon'=>"icon-wrench"),
+	array('label'=>'Додати запис','url'=>array('create'),'icon'=>"icon-plus"),
+	array('label'=>'Переглянути запис','url'=>array('view','id'=>$model->idDirecrtory),'icon'=>"icon-eye-open"),
+	array('label'=>'Керування','url'=>array('admin'),'icon'=>"icon-wrench"),
 );
 ?>
 
-<h1>Update Directories <?php echo $model->idDirecrtory; ?></h1>
+<h1>Змінити запис довідника<?php echo $model->idDirecrtory; ?></h1>
 
 <?php echo $this->renderPartial('_form',array('model'=>$model)); ?>
