@@ -4,12 +4,12 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'Create Directories','url'=>array('create')),
-	array('label'=>'Manage Directories','url'=>array('admin')),
+	array('label'=>'Додати запис','url'=>array('create'),'icon'=>"icon-plus"),
+	array('label'=>'Керування','url'=>array('admin'),'icon'=>"icon-wrench"),
 );
 ?>
 
-<h1>Directories</h1>
+<h1>Довідники</h1>
 
 <?php $this->widget('bootstrap.widgets.TbListView',array(
 	'dataProvider'=>$dataProvider,

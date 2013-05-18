@@ -1,5 +1,5 @@
 <?php
-/* @var $this SchoolsController */
+/* @var $this Schoolscontroller */
 /* @var $model Schools */
 
 $this->breadcrumbs=array(
@@ -9,10 +9,10 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	/*array('label'=>'List Schools', 'url'=>array('index')),*/
-	array('label'=>'Додати запис', 'url'=>array('create')),
-	array('label'=>'Переглянути запис', 'url'=>array('view', 'id'=>$model->idSchool)),
-	array('label'=>'Переглянути записи', 'url'=>array('admin')),
+	/*array('label'=>'List Facultets', 'url'=>array('index')),*/
+	array('label'=>'Додати запис', 'url'=>array('create'),'icon'=>"icon-plus"),
+	array('label'=>'Переглянути запис', 'url'=>array('view', 'id'=>$model->idSchool),'icon'=>"icon-eye-open"),
+	array('label'=>'Переглянути записи', 'url'=>array('admin'),'icon'=>"icon-list-alt"),
 );
 ?>
 

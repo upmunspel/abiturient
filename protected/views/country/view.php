@@ -1,5 +1,5 @@
 <?php
-/* @var $this CountryController */
+/* @var $this Countrycontroller */
 /* @var $model Country */
 
 $this->breadcrumbs=array(
@@ -9,10 +9,10 @@ $this->breadcrumbs=array(
 
 $this->menu=array(
 	/*array('label'=>'List Country', 'url'=>array('index')),*/
-	array('label'=>'Додати запис', 'url'=>array('create')),
-	array('label'=>'Змінити запис', 'url'=>array('update', 'id'=>$model->idCountry)),
-	array('label'=>'Видалити запис', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->idCountry),'confirm'=>'Are you sure you want to delete this item?')),
-	array('label'=>'Переглянути записи', 'url'=>array('admin')),
+	array('label'=>'Додати запис', 'url'=>array('create'),'icon'=>"icon-plus"),
+	array('label'=>'Змінити запис', 'url'=>array('update', 'id'=>$model->idCountry),'icon'=>" icon-pencil"),
+	array('label'=>'Видалити запис', 'url'=>'#','icon'=>"icon-trash", 'linkOptions'=>array('submit'=>array('delete','id'=>$model->idCountry),'confirm'=>'Ви впевнені, що хочете видалити цей елемент?')),
+	array('label'=>'Переглянути записи', 'url'=>array('admin'),'icon'=>"icon-list-alt"),
 );
 ?>
 
@@ -20,6 +20,7 @@ $this->menu=array(
 
 <?php $this->widget('bootstrap.widgets.TbDetailView', array(
 	'data'=>$model,
+    	'type'=>array('bordered', 'condensed','striped'),
 	'attributes'=>array(
 		'idCountry',
 		'CountryName',

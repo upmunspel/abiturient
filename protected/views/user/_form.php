@@ -16,7 +16,7 @@ $form = new TbActiveForm();
 
 	<?php echo $form->textFieldRow($model,'email',array('class'=>'span5','maxlength'=>255)); ?>
         
-        <?php echo $form->dropDownListRow($model,'SysPkID',CHtml::listData(SysPk::model()->findAll(),"idPk","PkName" ), array('class'=>'span5')); ?>
+        <?php echo $form->dropDownListRow($model,'SysPkID',CHtml::listData(SysPk::model()->findAll(),"idPk","PkName" ), array('empty'=>"",'class'=>'span5')); ?>
 
 	<?php echo $form->textAreaRow($model,'info',array('rows'=>6, 'cols'=>50, 'class'=>'span8')); ?>
         

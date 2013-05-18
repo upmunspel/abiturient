@@ -1,42 +1,42 @@
 <?php
-/* @var $this BenefitController */
+/* @var $this Benefitcontroller */
 /* @var $model Benefit */
 /* @var $form CActiveForm */
 ?>
 
-<div class="wide form">
-
+<div class="well form">
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'action'=>Yii::app()->createUrl($this->route),
 	'method'=>'get',
 )); ?>
-
-	<div class="row">
+<?php //------------------------------------------------------------------------------------------------------------------------------------//?>
+<div class="row-fluid">
+	<div class ="span2">
 		<?php echo $form->label($model,'idBenefit'); ?>
-		<?php echo $form->textField($model,'idBenefit'); ?>
+		<?php echo $form->textField($model,'idBenefit',array('class'=>'span12')); ?>
 	</div>
-
-	<div class="row">
+	<div class ="span10">
 		<?php echo $form->label($model,'BenefitName'); ?>
-		<?php echo $form->textField($model,'BenefitName',array('size'=>60,'maxlength'=>250)); ?>
+		<?php echo $form->textField($model,'BenefitName',array('class'=>'span12','size'=>60,'maxlength'=>250)); ?>
 	</div>
-
-	<div class="row">
+</div>
+<?php //------------------------------------------------------------------------------------------------------------------------------------//?>
+<div class="row-fluid">
+	<div class ="span6">
 		<?php echo $form->label($model,'BenefitKey'); ?>
-		<?php echo $form->textField($model,'BenefitKey',array('size'=>30,'maxlength'=>30)); ?>
+		<?php echo $form->textField($model,'BenefitKey',array('class'=>'span12','size'=>30,'maxlength'=>30)); ?>
 	</div>
-
-	<div class="row">
+	<div class ="span6">
 		<?php echo $form->label($model,'BenefitGroupID'); ?>
-		<?php echo $form->textField($model,'BenefitGroupID'); ?>
+		<?php echo $form->textField($model,'BenefitGroupID',array('class'=>'span12')); ?>
 	</div>
-
-	<div class="row">
-		<?php echo $form->label($model,'Visible'); ?>
-		
-                 <div id='togle_Visible'>
-                    <?php echo $form->checkBox($model,'Visible'); ?>
-                 </div> 
+</div>
+<?php //------------------------------------------------------------------------------------------------------------------------------------//?>
+<div class="row-fluid">
+		<?php echo $form->label($model,'Visible'); ?>	
+                  <div class="switch" data-on-label="Так" data-off-label="Ні">
+                        <?php echo $form->checkBox($model,'Visible');?>
+                    </div>
                  <script type='text/javascript'>
                     $('#togle_Visible').toggleButtons({
                         //width: 100,
@@ -46,12 +46,16 @@
                         }
                     });
                  </script> 
-	</div>
-
-	<div class="row buttons">
-		<?php echo CHtml::submitButton('Пошук'); ?>
-	</div>
-
+</div>
+<?php //------------------------------------------------------------------------------------------------------------------------------------//?>      
+ <hr>
+<div class="row-fluid">
+        <?php $this->widget('bootstrap.widgets.TbButton', array(
+                'buttonType'=>'submit',
+                //'type'=>'info',
+                'label'=>'Пошук',
+        )); ?>
+</div>
+<?php //------------------------------------------------------------------------------------------------------------------------------------//?>
 <?php $this->endWidget(); ?>
-
 </div><!-- search-form -->

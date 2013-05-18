@@ -1,5 +1,5 @@
 <?php
-/* @var $this SiteController */
+/* @var $this Sitecontroller */
 /* @var $error array */
 
 $this->pageTitle=Yii::app()->name . ' - Error';

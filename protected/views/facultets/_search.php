@@ -1,10 +1,9 @@
 <?php
-/* @var $this FacultetsController */
+/* @var $this Facultetscontroller */
 /* @var $model Facultets */
 /* @var $form CActiveForm */
 ?>
 <div class="well form">
- 
 <?php $form=$this->beginWidget('CActiveForm', array(
     'action'=>Yii::app()->createUrl($this->route),
     'method'=>'get',
@@ -36,9 +35,9 @@
 		<?php echo $form->textField($model,'FacultetTypeName',array('class'=>'span12','size'=>45,'maxlength'=>45)); ?>
     </div>
 </div>
- <hr>
 <?php //------------------------------------------------------------------------------------------------------------------------------------//?>
-<div class="row-fluid">
+<hr>
+ <div class="row-fluid">
         <?php $this->widget('bootstrap.widgets.TbButton', array(
                 'buttonType'=>'submit',
                 //'type'=>'info',
@@ -47,5 +46,4 @@
 </div>
 <?php //------------------------------------------------------------------------------------------------------------------------------------//?>
 <?php $this->endWidget(); ?>
-</div>
-<!-- search-form -->
+</div><!-- search-form -->

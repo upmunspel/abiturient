@@ -44,9 +44,15 @@
  * @property Courses $course
  * @property Causality $causality
  * @property Documentsubject $documentSubject1
+ * @property integer $StatusID
+ * @property Personrequeststatustypes $status
+ * @property integer $RequestFromEB
  */
+
 class Personspeciality extends ActiveRecord
 {
+        public $StatusID = 4;
+        public $isHigherEducation =0;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -73,16 +79,16 @@ class Personspeciality extends ActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('PersonID, SepcialityID, PaymentTypeID, EducationFormID, 
+			array('PersonID, SepcialityID,  EducationFormID, 
                                QualificationID, EntranceTypeID, CourseID, CausalityID, 
                                isTarget, isContract, isBudget, isCopyEntrantDoc, DocumentSubject1, 
                                DocumentSubject2, DocumentSubject3, 
                                Exam1ID, Exam1Ball, Exam2ID, Exam2Ball,
-                               Exam3ID, Exam3Ball', 'numerical', 'integerOnly'=>true),
-                        
+                               Exam3ID, Exam3Ball, isHigherEducation, SkipDocumentValue', 'numerical', 'integerOnly'=>true),
+                        array("AdditionalBallComment", 'safe'),
                         array("Exam1Ball, Exam2Ball, Exam3Ball, AdditionalBall", 'numerical',
                                "max"=>200, "min"=>100, "allowEmpty"=>true ),
-                        array('PersonID, SepcialityID, PaymentTypeID, EducationFormID, 
+                        array('PersonID, SepcialityID,  EducationFormID, 
                                QualificationID, EntranceTypeID, CourseID, isTarget, isContract, 
                                isCopyEntrantDoc, EntrantDocumentID, isNeedHostel', "required"),
                     
@@ -95,7 +101,7 @@ class Personspeciality extends ActiveRecord
 			//array('AdditionalBall', 'numerical'),
                             // The following rule is used by search().
                             // Please remove those attributes that should not be searched.
-			array('idPersonSpeciality, PersonID, SepcialityID, PaymentTypeID, EducationFormID, QualificationID, EntranceTypeID, CourseID, CausalityID, isTarget, isContract, AdditionalBall, isCopyEntrantDoc, DocumentSubject1, DocumentSubject2, DocumentSubject3, Exam1ID, Exam1Ball, Exam2ID, Exam2Ball, Exam3ID, Exam3Ball', 'safe', 'on'=>'search'),
+			array('idPersonSpeciality, PersonID, SepcialityID,  EducationFormID, QualificationID, EntranceTypeID, CourseID, CausalityID, isTarget, isContract, AdditionalBall, isCopyEntrantDoc, DocumentSubject1, DocumentSubject2, DocumentSubject3, Exam1ID, Exam1Ball, Exam2ID, Exam2Ball, Exam3ID, Exam3Ball', 'safe', 'on'=>'search'),
 		);
 	}
         public function validate($attributes = null, $clearErrors = true) {
@@ -128,6 +134,9 @@ class Personspeciality extends ActiveRecord
 			'course' => array(self::BELONGS_TO, 'Courses', 'CourseID'),
 			'causality' => array(self::BELONGS_TO, 'Causality', 'CausalityID'),
 			'documentSubject1' => array(self::BELONGS_TO, 'Documentsubject', 'DocumentSubject1'),
+                        'status' => array(self::BELONGS_TO, 'Personrequeststatustypes', 'StatusID'),
+                    
+                    
 		);
 	}
         
@@ -163,6 +172,7 @@ class Personspeciality extends ActiveRecord
     'Exam2Ball' => 'Бал',
     'Exam3ID' => 'Екзамен',
     'Exam3Ball' => 'Бал',
+      'isHigherEducation' => 'Информация о высшем образовании',              
 		);
 	}
 

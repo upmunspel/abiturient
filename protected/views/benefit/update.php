@@ -1,5 +1,5 @@
 <?php
-/* @var $this BenefitController */
+/* @var $this Benefitcontroller */
 /* @var $model Benefit */
 
 $this->breadcrumbs=array(
@@ -10,9 +10,9 @@ $this->breadcrumbs=array(
 
 $this->menu=array(
 	/*array('label'=>'List Benefit', 'url'=>array('index')),*/
-	array('label'=>'Додати запис', 'url'=>array('create')),
-	array('label'=>'Переглянути запис', 'url'=>array('view', 'id'=>$model->idBenefit)),
-	array('label'=>'Переглянути записи', 'url'=>array('admin')),
+	array('label'=>'Додати запис', 'url'=>array('create'),'icon'=>"icon-plus"),
+	array('label'=>'Переглянути запис', 'url'=>array('view', 'id'=>$model->idBenefit),'icon'=>"icon-eye-open"),
+	array('label'=>'Переглянути записи', 'url'=>array('admin'),'icon'=>"icon-list-alt"),
 );
 ?>
 

@@ -44,9 +44,9 @@ class User extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('username, password, SysPkID', 'required'),
+			array('username, password', 'required'),
 			array('username, password', 'length', 'max'=>255),
-                        array('email, info', 'safe'),
+                        array('email, info, SysPkID', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, username, password, email, info', 'safe', 'on'=>'search'),
@@ -61,6 +61,7 @@ class User extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+                    'syspk'=>array(self::BELONGS_TO,'SysPk','SysPkID')
 		);
 	}
 

@@ -1,5 +1,5 @@
 <?php
-/* @var $this SchoolsController */
+/* @var $this Schoolscontroller */
 /* @var $dataProvider CActiveDataProvider */
 
 $this->breadcrumbs=array(

@@ -1,5 +1,5 @@
 <?php
-/* @var $this FacultetsController */
+/* @var $this Facultetscontroller */
 /* @var $model Facultets */
 /* @var $form CActiveForm */
 ?>
@@ -40,17 +40,17 @@
             <?php echo $form->error($model,'FacultetTypeName'); ?>
     </div>
 </div>
-<hr>
 <?php //------------------------------------------------------------------------------------------------------------------------------------//?>
-    <div class="row-fluid">
+<hr>    
+<div class="row-fluid">
     <?php $this->widget("bootstrap.widgets.TbButton", array(
 			'buttonType'=>'submit',
 			'type'=>'primary',
-                          "size"=>"null",
+                        "size"=>"null",
 			'label'=>$model->isNewRecord ? 'Створити' : 'Зберегти',
                         )); 
     ?>
-    </div>
+</div>
 <?php $this->endWidget(); ?>
 </div>
 <!-- form -->

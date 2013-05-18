@@ -1,5 +1,5 @@
 <?php
-/* @var $this SiteController */
+/* @var $this Sitecontroller */
 
 $this->pageTitle=Yii::app()->name . ' - About';
 $this->breadcrumbs=array(
