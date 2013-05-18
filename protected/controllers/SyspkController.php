@@ -1,14 +1,12 @@
 <?php
 
-class DirectoriesController extends Controller
+class SyspkController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
 	public $layout='//layouts/column2';
-        public $defaultAction='admin';
-
 
 	/**
 	 * @return array action filters
@@ -30,15 +28,15 @@ class DirectoriesController extends Controller
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
 				'actions'=>array('index','view'),
-				'roles'=>array('admin','root'),
+				'roles'=>array('admin',"root"),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
 				'actions'=>array('create','update'),
-				'roles'=>array('admin','root'),
+				'roles'=>array('admin',"root"),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
 				'actions'=>array('admin','delete'),
-				'roles'=>array('admin','root'),
+				'roles'=>array('admin',"root"),
 			),
 			array('deny',  // deny all users
 				'users'=>array('*'),
@@ -63,21 +61,16 @@ class DirectoriesController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model=new Directories;
+		$model=new SysPk;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Directories']))
+		if(isset($_POST['SysPk']))
 		{
-			$model->attributes=$_POST['Directories'];
-//                        $access = 0;
-//                        foreach ($model->Access as $key => $value) {
-//                            $access = $access | intval($value);
-//                        }
-//                        $model->Access == $access;
+			$model->attributes=$_POST['SysPk'];
 			if($model->save())
-				$this->redirect(array('admin'));
+				$this->redirect(array('admin','id'=>$model->idPk));
 		}
 
 		$this->render('create',array(
@@ -93,17 +86,15 @@ class DirectoriesController extends Controller
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
-                
-//                $model->Access = UAccess::IntToArr($model->Access);
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Directories']))
+		if(isset($_POST['SysPk']))
 		{
-			$model->attributes=$_POST['Directories'];
+			$model->attributes=$_POST['SysPk'];
 			if($model->save())
-				$this->redirect(Yii::app()->createUrl("directories/admin"));
+				$this->redirect(array('admin','id'=>$model->idPk));
 		}
 
 		$this->render('update',array(
@@ -136,7 +127,7 @@ class DirectoriesController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('Directories');
+		$dataProvider=new CActiveDataProvider('SysPk');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
@@ -147,10 +138,10 @@ class DirectoriesController extends Controller
 	 */
 	public function actionAdmin()
 	{
-		$model=new Directories('search');
+		$model=new SysPk('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['Directories']))
-			$model->attributes=$_GET['Directories'];
+		if(isset($_GET['SysPk']))
+			$model->attributes=$_GET['SysPk'];
 
 		$this->render('admin',array(
 			'model'=>$model,
@@ -164,7 +155,7 @@ class DirectoriesController extends Controller
 	 */
 	public function loadModel($id)
 	{
-		$model=Directories::model()->findByPk($id);
+		$model=SysPk::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -176,7 +167,7 @@ class DirectoriesController extends Controller
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='directories-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='sys-pk-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();

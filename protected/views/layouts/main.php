@@ -44,6 +44,7 @@
                           'items'=>array(
                                  array('label'=>'Користувачі', 'url'=>Yii::app()->createUrl("user"), "icon"=>" icon-user", ),
                                  array('label'=>'Групи користувачів', 'url'=>Yii::app()->createUrl("srbac"), "icon"=>"icon-lock", ),
+                                 array('label'=>'Управління довілниками', 'url'=>Yii::app()->createUrl("directories/admin"), "icon"=>"icon-book", ),
                            )
                         ),
                     array('label'=>'Авторизуватися', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest, 'icon'=>"icon-user"),

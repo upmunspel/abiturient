@@ -145,6 +145,7 @@ class Documents extends ActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
                     "subjects"=>array(self::HAS_MANY, "Documentsubject", "DocumentID"),
+                    "type"=>array(self::BELONGS_TO, "PersonDocumentTypes", "TypeID"),
 		);
 	}
 

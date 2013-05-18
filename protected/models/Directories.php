@@ -27,8 +27,10 @@ class Directories extends CActiveRecord
             $list = self::model()->findAll();
             $arr  = array();
             foreach ($list as $value) {
-                $tmarr = array('label'=>$value->DirectoryName, 'url'=>yii::app()->createUrl($value->DirectoryLink));
-                array_push($arr, $tmarr);
+                if ($value->Visible){
+                    $tmarr = array('label'=>$value->DirectoryName, 'url'=>yii::app()->createUrl($value->DirectoryLink));
+                    array_push($arr, $tmarr);
+                }
             }
             return $arr;
             
