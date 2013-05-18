@@ -7,6 +7,12 @@
 <div class="modal-header">
     <a class="close" data-dismiss="modal">&times;</a>
     <h4><?php echo $model->isNewRecord ? "Нова спеціальність":"Редагування спеціальності"; ?></h4>
+    <div style="float: right; font-weight: bold">
+        Статус: <span style=" color: red;"><?php echo $model->status->PersonRequestStatusTypeName; ?></span>
+    </div>
+    <div style="float: right; color: red; font-weight: bold; margin-right: 20px;">
+       <?php echo $model->RequestFromEB == 1 ? "Електронна заява":"Влвасна заява"; ?>
+    </div>
     Поля з <span class ="required">*</span> необхідно заповнити.
 </div>
  

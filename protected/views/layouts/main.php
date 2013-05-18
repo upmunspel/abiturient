@@ -20,7 +20,7 @@
 <body>
     
     <?php 
-   
+    $pkname = WebUser::getPkName();
     $this->widget('bootstrap.widgets.TbNavbar',array(
         //'type'=>'inverse', // null or 'inverse'
         'brand'=>'ЗНУ (Абітурієнт)',
@@ -31,7 +31,7 @@
                 'class'=>'bootstrap.widgets.TbMenu',
                 'items'=>array(
                     array('label'=>'Головна', 'url'=>array('/site/index'), "icon"=>"icon-home"),
-                    array('label'=>'Контакти', 'url'=>array('/site/contact'), "icon"=>"icon-envelope"),
+                    array('label'=>'Контакти', 'url'=>array('/site/contact'), "icon"=>"icon-envelope", 'visible'=>Yii::app()->user->isGuest),
                     array('label'=>'Довідники', 'visible'=>Yii::app()->user->checkAccess('showDirectiries'),
                          'url'=>'#', "icon"=>"icon-book", 'items'=> Directories::listMenu()),
                  ),
@@ -48,7 +48,7 @@
                            )
                         ),
                     array('label'=>'Авторизуватися', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest, 'icon'=>"icon-user"),
-                    array('label'=>'Вийти з системи ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest, 'icon'=>"icon-user")
+                    array('label'=>'Вийти з системи ('.Yii::app()->user->name.(empty($pkname)? "":"/".$pkname).')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest, 'icon'=>"icon-user")
                 ),
                 
             ),

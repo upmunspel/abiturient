@@ -1,3 +1,6 @@
 #page {
     padding-top: 60px;
 }
+#spec-modal-holder .modal-body {
+  min-height: 500px;   
+}

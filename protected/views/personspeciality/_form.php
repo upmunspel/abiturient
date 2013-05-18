@@ -8,11 +8,11 @@
 
 <?php 
 $personid= $model->PersonID;
-$form=$this->beginWidget('CActiveForm', array(
+$form=$this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 	'id'=>'spec-form-modal',
 	'enableAjaxValidation'=>false,
 )); 
-$form= new CActiveForm();
+$form= new TbActiveForm();
 ?>
 
 	<?php echo $form->errorSummary($model); ?>
@@ -42,12 +42,27 @@ $form= new CActiveForm();
                     <?php echo $model->getAttributeLabel("isNeedHostel"); ?>
                 </label>
             </div>
+            <div class="span5">
+                
+                <label for="<?php echo CHtml::activeId($model, 'isHigherEducation'); ?>" >
+                    <?php echo $form->radioButtonListInlineRow($model,'isHigherEducation',array(0=>'не отримую', 1=>'не вказано', 2=>"є",3=>'немає')); ?>  
+                    <?php // Информация о высшем образовании персоны. echo $model->getAttributeLabel("isNeedHostel"); ?>
+                </label>
+            </div>
         </div>
+    <hr>
         <div class="row-fluid">
              <div class="span6">
 		<?php echo $form->labelEx($model,'EntrantDocumentID'); ?>
 		<?php echo $form->dropDownList($model,'EntrantDocumentID', Documents::PersonEntrantDocuments($personid),array('empty'=>'','class'=>'span12')); ?>
 		<?php //echo $form->error($model,'CourseID'); ?>
+            </div>
+            <div class="span6">
+                 <?php echo $form->labelEx($model,'SkipDocumentValue'); ?>
+                 <div class="switch" data-on-label="Так" data-off-label="Ні">
+                    <?php echo $form->checkBox($model,'SkipDocumentValue'); ?>
+                 </div>
+                
             </div>
         </div>
         <div class="row-fluid">
@@ -141,7 +156,12 @@ $form= new CActiveForm();
             </div>
             <div class="span2">
                     <?php echo $form->labelEx($model,'AdditionalBall'); ?>
-                    <?php echo $form->textField($model,'AdditionalBall'); ?>
+                    <?php echo $form->textField($model,'AdditionalBall',array('class'=>"span12")); ?>
+                    <?php //echo $form->error($model,'AdditionalBall'); ?>
+            </div>
+            <div class="span6">
+                    <?php echo $form->labelEx($model,'AdditionalBallComment'); ?>
+                    <?php echo $form->textField($model,'AdditionalBallComment',array('class'=>"span12")); ?>
                     <?php //echo $form->error($model,'AdditionalBall'); ?>
             </div>
         </div>
