@@ -5,8 +5,8 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List Directories','url'=>array('index')),
-	array('label'=>'Create Directories','url'=>array('create')),
+	//array('label'=>'Перелі Directories','url'=>array('index')),
+	array('label'=>'Створити','url'=>array('create')),
 );
 
 Yii::app()->clientScript->registerScript('search', "
@@ -23,7 +23,7 @@ $('.search-form form').submit(function(){
 ");
 ?>
 
-<h1>Manage Directories</h1>
+<h1>Управління Довідниками</h1>
 
 <p>
 You may optionally enter a comparison operator (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>
@@ -43,12 +43,13 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
         'type'=>'striped bordered condensed',
 	'filter'=>$model,
 	'columns'=>array(
-		'idDirecrtory',
+		//'idDirecrtory',
 		'DirectoryName',
-		//'DirectoryInfo',
-		'DirectoryLink',
-		'Visible',
-		'Access',
+		'DirectoryInfo',
+		//'DirectoryLink',
+		
+		array( 'name'=>'Visible', 'filter'=>array(1=>"Так", 0=>"Ні"),'value'=>'($data->Visible) ? "Так":"Ні"', 'htmlOptions'=>array("width"=>"100")),
+              ///Access
 		array(
 			'class'=>'bootstrap.widgets.TbButtonColumn',
 		),

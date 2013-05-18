@@ -174,6 +174,7 @@ class Person extends ActiveRecord
                     'benefits' => array(self::HAS_MANY, 'PersonBenefits', 'PersonID'),
                     'znos'=>array(self::HAS_MANY, 'Documents', 'PersonID', 'on'=>'znos.TypeID=4'),
                     'specs'=>array(self::HAS_MANY, 'Personspeciality', 'PersonID'),
+                    'docs'=>array(self::HAS_MANY, 'Documents', 'PersonID'),
 		);
 	}
        

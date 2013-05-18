@@ -6,6 +6,7 @@
 <?php $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
 	'id'=>'directories-form',
 	'enableAjaxValidation'=>false,
+        'htmlOptions'=>array('class'=>"well"),
 )); 
 //$form = new TbActiveForm();
 ?>
@@ -16,7 +17,7 @@
 
 	<?php echo $form->textFieldRow($model,'DirectoryName',array('class'=>'span5','maxlength'=>255)); ?>
 
-	<?php echo $form->textAreaRow($model,'DirectoryInfo',array('rows'=>6, 'cols'=>50, 'class'=>'span8')); ?>
+	<?php echo $form->textAreaRow($model,'DirectoryInfo',array('rows'=>6, 'cols'=>50, 'class'=>'span5')); ?>
 
 	<?php echo $form->textFieldRow($model,'DirectoryLink',array('class'=>'span5','maxlength'=>255)); ?>
 
@@ -28,7 +29,7 @@
 		<?php $this->widget('bootstrap.widgets.TbButton', array(
 			'buttonType'=>'submit',
 			'type'=>'primary',
-			'label'=>$model->isNewRecord ? 'Create' : 'Save',
+			'label'=>$model->isNewRecord ? 'Створити' : 'Зберегти',
 		)); ?>
 	</div>
 

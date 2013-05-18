@@ -9,6 +9,7 @@
  * @property string $password
  * @property string $email
  * @property string $info
+ * @property integer $SysPkID
  */
 class User extends CActiveRecord
 {
@@ -43,7 +44,7 @@ class User extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('username, password, ', 'required'),
+			array('username, password, SysPkID', 'required'),
 			array('username, password', 'length', 'max'=>255),
                         array('email, info', 'safe'),
 			// The following rule is used by search().
@@ -74,6 +75,7 @@ class User extends CActiveRecord
 			'password' => 'Парооль',
 			'email' => 'E-Mail',
 			'info' => 'Додаткова інформація',
+                        "SysPkID"=>"Приймальна комісія",
 		);
 	}
 
