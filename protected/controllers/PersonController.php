@@ -76,7 +76,10 @@ class PersonController extends Controller
 		$model=new Person;
                
                 $model->Birthday= date("d.m.Y",mktime(0, 0, 0, 1, 1, date('Y')-18));
-
+                if(isset($_POST['search'])){   
+                    
+                    
+                } 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 

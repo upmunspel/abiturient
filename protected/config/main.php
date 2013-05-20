@@ -23,7 +23,8 @@ return array(
                 'application.models.directory.*',
 		'application.components.*',
                 'application.modules.srbac.controllers.SBaseController',
-	),
+                'ext.EHttpClient.*',
+         ),
 
 	'modules'=>array(
 		// uncomment the following to enable the Gii tool
