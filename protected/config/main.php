@@ -24,6 +24,8 @@ return array(
 		'application.components.*',
                 'application.modules.srbac.controllers.SBaseController',
                 'ext.EHttpClient.*',
+                'ext.EHttpClient.adapter.*',
+                'ext.EWideImage.EWideImage',
          ),
 
 	'modules'=>array(
@@ -176,6 +178,11 @@ return array(
 	'params'=>array(
 		// this is used in contact page
 		'adminEmail'=>'webmaster@example.com',
+                'personSearchURL'=>"http://10.1.103.26:8080/PersonSearch/search.jsp",
+                'photosPath'=>"/images/Photos/",
+                'photosMiniPath'=>"/images/Photos/mini/",
+                'defaultPersonPhoto'=>"180x240.gif",
+            
 	),
    
      

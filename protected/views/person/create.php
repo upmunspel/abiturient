@@ -18,8 +18,8 @@ $this->menu=array(
 
 <h1>Person search sample</h1>
 
-	<?php echo CHtml::textField("search[attestatSeries]");?>
-        <?php echo CHtml::textField("search[attestatNumber]");?>
+	<?php echo CHtml::textField("search[attestatSeries]","АР");?>
+        <?php echo CHtml::textField("search[attestatNumber]","43042636");?>
 
 	<div class="form-actions">
 		<?php $this->widget('bootstrap.widgets.TbButton', array(
