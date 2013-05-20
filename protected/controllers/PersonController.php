@@ -76,7 +76,69 @@ class PersonController extends Controller
 		$model=new Person;
                
                 $model->Birthday= date("d.m.Y",mktime(0, 0, 0, 1, 1, date('Y')-18));
+                if(isset($_POST['search'])){   
+                      try {
+//                        debug(print_r($_POST['search'],true));
+//                        debug(Yii::app()->params["personSearchURL"]);
+                        $client = new EHttpClient(Yii::app()->params["personSearchURL"], array('maxredirects' => 30, 'timeout'      => 30,));
+                        $client->setParameterPost($_POST['search']);
+                        $response = $client->request(EHttpClient::POST);
+                        
+                        if($response->isSuccessful()){
+                           $obj = (object)CJSON::decode($response->getBody());
+                            debug(print_r($obj,true));
+                           if ($obj->id_Person >0 ){
+                               $model->LastName = $obj->lastName ;
+                               $model->FirstName = $obj->firstName ;
+                               $model->MiddleName = $obj->middleName ;
+                               
+                               $model->LastNameR = $obj->lastName ;
+                               $model->FirstNameR = $obj->firstName ;
+                               $model->MiddleNameR = $obj->middleName ;
+                               
+                               
+                               $model->PersonSexID = $obj->id_PersonSex ;
+                               $model->Birthday = date("d.m.Y",mktime(0, 0, 0, $obj->birthday['month'],  $obj->birthday['dayOfMonth'],  $obj->birthday['year']));
+                               $model->IsResident = $obj->resident;
+                               $model->KOATUUCodeL1ID = $obj->id_KoatuuCodeL1 ;
+                               $model->KOATUUCodeL2ID = $obj->id_KoatuuCodeL2 ;
+                               $model->KOATUUCodeL3ID = $obj->id_KoatuuCodeL3;
+                               $model->StreetTypeID = $obj->id_StreetType ;
+                               $model->Address = $obj->address ;
+                               $model->PostIndex = $obj->postIndex ;
+                               $model->HomeNumber = $obj->homeNumber;
+                               
+                               $model->entrantdoc = new Documents();
+                               $model->entrantdoc->AtestatValue=$obj->attestatBall;
+                               $model->entrantdoc->Numbers=$obj->attestatNumber;
+                               $model->entrantdoc->Series=$obj->attestatSeries;
+                               $model->entrantdoc->DateGet=date("d.m.Y",mktime(0, 0, 0, $obj->attestatDate['month'],  $obj->attestatDate['dayOfMonth'],  $obj->attestatDate['year']));
+                               
+                               foreach ($obj->contacts as $val) {
+                                     if ($val['id_ContactType'] == 1)   {
+                                         $model->homephone->PersonContactTypeID = $val['id_ContactType'];
+                                         $model->homephone->PersonID = $model->idPerson;
+                                         $model->homephone->Value = $val['value'] ;
+                                     }
+                                     if ($val['id_ContactType'] == 2)   {
+                                         $model->mobphone->PersonContactTypeID = $val['id_ContactType'];
+                                         $model->mobphone->PersonID = $model->idPerson;
+                                         $model->mobphone->Value = $val['value'] ;
+                                     }   
+                               }
 
+                               
+                           }
+                           
+                        } else {
+                             debug($response->getRawBody());
+                        }
+                        
+                    } catch(Exception $e){
+                        debug($e->getMessage());
+                    }
+                    
+                } 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 

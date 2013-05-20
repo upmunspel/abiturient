@@ -23,15 +23,16 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
             <div class ="span9">
             <div class="row-fluid">
                 <div class ="span4">
-                <?php echo $form->labelEx($model,'FirstName');//,array('class'=>'span3'));?>
-                <?php echo $form->textField($model,'FirstName',array('id'=>"FirstName",'class'=>'span12','maxlength'=>50)); ?>
-                <?php //echo $form->error($model,'FirstName'); ?>    
-                </div>
-                <div class ="span4">
                 <?php echo $form->labelEx($model,'LastName');//,array('class'=>'span3'));?>
                 <?php echo $form->textField($model,'LastName',array('id'=>"LastName",'class'=>'span12','maxlength'=>50)); ?>
                 <?php //echo $form->error($model,'LastName'); ?>        
                 </div>
+                <div class ="span4">
+                <?php echo $form->labelEx($model,'FirstName');//,array('class'=>'span3'));?>
+                <?php echo $form->textField($model,'FirstName',array('id'=>"FirstName",'class'=>'span12','maxlength'=>50)); ?>
+                <?php //echo $form->error($model,'FirstName'); ?>    
+                </div>
+              
                 <div class ="span4">
                 <?php echo $form->labelEx($model,'MiddleName');//,array('class'=>'span3'));?>
                 <?php echo $form->textField($model,'MiddleName',array('id'=>"MiddleName", 'class'=>'span12','maxlength'=>50)); ?>
@@ -39,14 +40,16 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
                 </div>
             </div>
             <div class="row-fluid">
+                 <div class ="span4">
+                <?php echo $form->labelEx($model,'LastNameR');//,array('class'=>'span3'));?>
+                <?php echo $form->textField($model,'LastNameR',array('id'=>"LastNameR",'class'=>'span12','maxlength'=>50)); ?>
+                </div>
+                
                 <div class ="span4">
                 <?php echo $form->labelEx($model,'FirstNameR');//,array('class'=>'span3'));?>
                 <?php echo $form->textField($model,'FirstNameR',array('id'=>"FirstNameR",'class'=>'span12','maxlength'=>50)); ?>
                 </div>
-                <div class ="span4">
-                <?php echo $form->labelEx($model,'LastNameR');//,array('class'=>'span3'));?>
-                <?php echo $form->textField($model,'LastNameR',array('id'=>"LastNameR",'class'=>'span12','maxlength'=>50)); ?>
-                </div>
+               
                 <div class ="span4">
                 <?php echo $form->labelEx($model,'MiddleNameR');//,array('class'=>'span3'));?>
                 <?php echo $form->textField($model,'MiddleNameR',array('id'=>"MiddleNameR",'class'=>'span12','maxlength'=>50)); ?>
@@ -93,9 +96,10 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
         
             </div>    
             
-            <div class="span3">
-                <a href="#" class="thumbnail" rel="tooltip" data-title="Фото абітурієнта">
-                    <img src="<?php echo Yii::app()->baseUrl."/".$model->PhotoName; ?>" alt="" />
+            <div class="span3" >
+                <a href="#" style="width: 180px;" class="thumbnail" rel="tooltip" data-title="Фото абітурієнта">
+                   <?php $path = Yii::app()->baseUrl.Yii::app()->params['photosPath'].$model->PhotoName;
+                    echo CHtml::image($path, 'Фото абітуріента'); ?>
                 </a>
             </div>
         </div>
@@ -209,7 +213,7 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
         <div class="row-fluid">
             <div class ="span12">
                 <?php echo $form->labelEx($model,'SchoolID'); ?>
-                <?php echo $form->dropDownList($model,'SchoolID', Schools::DropDown(KoatuuLevel2::getKoatuuLevel2Code($model->KOATUUCodeL2ID)), array('class'=>'span12')); ?>
+                <?php echo $form->dropDownList($model,'SchoolID', Schools::DropDown(KoatuuLevel2::getKoatuuLevel2Code($model->KOATUUCodeL2ID)), array('empty'=>"",'class'=>'span12')); ?>
             </div>
         </div>
         <p class="help-block"><strong>Документ, який посвідчує особу</strong></p>

@@ -159,7 +159,13 @@ class Person extends ActiveRecord
 			array('Birthday, isCampus', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('idPerson, Birthday, PersonSexID, FirstName, MiddleName, LastName, KOATUUCodeL1ID, KOATUUCodeL2ID, KOATUUCodeL3ID, IsResident, PersonEducationTypeID, StreetTypeID, Address, HomeNumber, PostIndex, SchoolID, FirstNameR, MiddleNameR, LastNameR, LanguageID, CountryID, PersonDocumentID, EntrantDocumentID', 'safe', 'on'=>'search'),
+			array('idPerson, Birthday, PersonSexID, FirstName, MiddleName,
+                            LastName, KOATUUCodeL1ID, KOATUUCodeL2ID, KOATUUCodeL3ID, 
+                            IsResident, PersonEducationTypeID, StreetTypeID, Address, HomeNumber, 
+                            PostIndex, SchoolID, FirstNameR, MiddleNameR, LastNameR, LanguageID, 
+                            CountryID, PersonDocumentID, EntrantDocumentID', 'safe', 'on'=>'search'),
+                    
+                       array('PhotoName', 'file', 'types'=>'jpg, gif, png', 'maxSize' => 5048576,'on'=>'PHOTO'),
 		);
 	}
 
@@ -206,7 +212,7 @@ class Person extends ActiveRecord
             return true;
         }
         protected function afterConstruct() {
-            if (empty($this->PhotoName))      $this->PhotoName = "images/180x240.gif";
+            if (empty($this->PhotoName))      $this->PhotoName = Yii::app()->params['defaultPersonPhoto'];
             if (empty($this->KOATUUCodeL1ID)) $this->KOATUUCodeL1ID = 105572;
             if (empty($this->KOATUUCodeL2ID)) $this->KOATUUCodeL2ID = 105574;
             if (empty($this->KOATUUCodeL3ID)) $this->KOATUUCodeL3ID = 105576;
@@ -222,12 +228,12 @@ class Person extends ActiveRecord
 			'idPerson' => 'Код',
 			'Birthday' => 'Дата народження',
 			'PersonSexID' => 'Стать',
-			'FirstName' => 'Прізвище',
+			'FirstName' => "Ім'я",
 			'MiddleName' => 'Побатькові',
-			'LastName' => "Ім'я",
-                        'FirstNameR' => 'Прізвище (родовий)',
+			'LastName' => "Прізвище",
+                        'FirstNameR' => "Ім'я (родовий)",
 			'MiddleNameR' => 'Побатькові (родовий)',
-			'LastNameR' => "Ім'я (родовий)",
+			'LastNameR' => "Прізвище (родовий)",
 			'IsResident' => 'Українець',
 			'KOATUUCode' => 'Koatuucode',
 			'PersonEducationTypeID' => 'Person Education Type',
