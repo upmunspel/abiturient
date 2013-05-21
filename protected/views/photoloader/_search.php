@@ -1,37 +1,20 @@
+<h1>Знайти абітуріента за кодом</h1>
+<p>
+    Введіть код який абітуріента отримав при реестрації у поле пошуку.
+</p>
+<br>
 <?php
-/* @var $this PersonSexTypesController */
-/* @var $model PersonSexTypes */
-/* @var $form CActiveForm */
+$form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
+    'id' => 'searchForm',
+    'type' => 'search',
+    'action' => Yii::app()->createUrl("photoloader/update"),
+    'method' => "get",
+        ));
 ?>
-
-<div class="well form">
-    
-<?php $form=$this->beginWidget('CActiveForm', array(
-	'action'=>Yii::app()->createUrl($this->route),
-	'method'=>'get',
-)); ?>
-
-<?php //------------------------------------------------------------------------------------------------------------------------------------//?>
-<div class="row-fluid">
-	<div class ="span2">
-            <?php echo $form->label($model,'idPersonSexTypes'); ?>
-            <?php echo $form->textField($model,'idPersonSexTypes',array('class'=>'span12')); ?>
-        </div>
-	<div class ="span10">   
-            <?php echo $form->label($model,'PersonSexTypesName'); ?>
-            <?php echo $form->textField($model,'PersonSexTypesName',array('class'=>'span12','size'=>12,'maxlength'=>12)); ?>
-        </div>
-</div> <hr>
-<?php //------------------------------------------------------------------------------------------------------------------------------------//?>
-<div class="row-fluid">
-        <?php $this->widget('bootstrap.widgets.TbButton', array(
-                'buttonType'=>'submit',
-                //'type'=>'info',
-                'label'=>'Пошук',
-        )); ?>
+<div class="input-prepend"><span class="add-on"><i class="icon-search"></i></span>
+        <?php
+        echo Chtml::textField("id", "", array('class' => 'span2'));
+        ?>
 </div>
-<?php //------------------------------------------------------------------------------------------------------------------------------------//?>
-	
-<?php $this->endWidget(); ?>
-
-</div><!-- search-form -->
+<?php $this->widget('bootstrap.widgets.TbButton', array('buttonType' => 'submit', 'type' => 'primary', 'label' => 'Знайти', 'htmlOptions'=>array('name'=>'','value'=>''))); ?>
+<?php $this->endWidget(); ?> 

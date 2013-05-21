@@ -28,7 +28,32 @@ class SBaseController extends CController {
    * @param String $action . The current action
    * @return boolean true if access is granted else false
    */
-  protected function beforeAction($action) {
+    public function filters()
+    {
+        return array(
+            'accessControl',
+        );
+    }
+    public function accessRules()
+	{
+		 return array( 
+
+			array('allow', // allow authenticated user to perform xxx
+				'actions'=>array('GetUsers', 'Assign', 'GetRoles','GetTasks','GetOpers','Show',
+                                    'Create','Update',"Delete","Confirm",
+                                    "List",'Install','Manage','Autocomplete','Assignments',
+                                    'ShowAssignments','Scan','AutoDeleteItems','AutoCreateItems','Auto','GetCleverOpers',
+                                    'FrontPage','EditAllowed','SaveAllowed','ClearObsolete','DeleteObsolete'),
+				'roles'=>array("Root"),
+			),
+			array('deny',  // deny all users
+                                //'actions'=>array('index'),
+				'users'=>array('*'),
+			), 
+                 );
+	}
+   
+    protected function beforeAction($action) {
     $del = Helper::findModule('srbac')->delimeter;
     
     //srbac access

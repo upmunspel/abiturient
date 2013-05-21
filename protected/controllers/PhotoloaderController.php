@@ -104,7 +104,7 @@ class PhotoloaderController extends Controller
                             //unlink($file->getTempName());
                             $model->PhotoName = "person_$id.jpg";
                             if ($model->save()){
-                                //$this->redirect(array('update','id'=>$model->idPerson));
+                                $this->redirect(array('update','id'=>$model->idPerson,'r'=>md5(time())));
                             }
                         } else {
                             $model->PhotoName = $oldPhoto;

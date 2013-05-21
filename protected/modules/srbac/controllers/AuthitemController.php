@@ -15,7 +15,12 @@
  * @since 1.0.0
  */
 class AuthitemController extends SBaseController {
-
+    public function filters()
+    {
+        return array(
+            'accessControl',
+        );
+    }
   /**
    * @var string specifies the default action to be 'list'.
    */
@@ -48,6 +53,7 @@ class AuthitemController extends SBaseController {
     if ($this->module->debug) {
       return true;
     }
+   
     if (Yii::app()->user->checkAccess(Helper::findModule('srbac')->superUser) ) {
       return true;
     } else {
