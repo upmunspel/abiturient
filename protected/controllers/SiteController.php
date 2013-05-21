@@ -63,7 +63,7 @@ class SiteController extends Controller
 	 */
 	public function actionIndex()
 	{
-            debug(Yii::app()->user->checkAccess('photoLoad'));
+            //debug(Yii::app()->user->checkAccess('photoLoad'));
                 if (Yii::app()->user->checkAccess('photoLoad')){
                     
                     $this->redirect(Yii::app()->createUrl("photoloader"));

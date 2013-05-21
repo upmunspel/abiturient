@@ -123,3 +123,6 @@ $form = new TbActiveForm();
         
        
 <?php $this->endWidget(); ?>
+        <script type="text/javascript" >
+            $("#person-form input, #person-form select").attr("disabled",'disabled');
+        </script>
