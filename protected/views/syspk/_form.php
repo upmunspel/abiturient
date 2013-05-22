@@ -34,6 +34,23 @@
                  <?php echo $form->textAreaRow($model,'Info',array('class'=>'span12')); ?>
             </div>
         </div>
+        <div class="row-fluid">
+            <div class="span2">
+                 <?php echo $form->labelEx($model,'isBudget'); ?>
+                 <div class="switch" data-on-label="Так" data-off-label="Ні">
+                    <?php echo $form->checkBox($model,'isBudget'); ?>
+                 </div>
+                 <?php //echo $form->error($model,'isTarget'); ?>
+            </div>
+             <div class="span2">
+                 <?php echo $form->labelEx($model,'isContract'); ?>
+                 <div class="switch" data-on-label="Так" data-off-label="Ні">
+                    <?php echo $form->checkBox($model,'isContract'); ?>
+                 </div>
+                 <?php //echo $form->error($model,'isTarget'); ?>
+            </div>
+        </div>
+
 	
         
       

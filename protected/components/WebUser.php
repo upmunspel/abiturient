@@ -7,6 +7,9 @@ class WebUser extends CWebUser {
         }
         return Yii::app()->user->getState("group");
     }
+    public function getUserModel(){
+        return User::model()->findByPk($this->id);
+    }
     public static function getPkName(){
         if (!Yii::app()->user->isGuest){
             

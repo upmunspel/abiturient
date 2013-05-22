@@ -41,11 +41,12 @@ class PersonspecialityController extends Controller
         }
         public function actionSpeciality($idFacultet)
         {
-            $data = Specialities::model()->findAll('FacultetID=:FacultetID',
-                          array(':FacultetID'=>(int) $idFacultet));
-
-            $data=CHtml::listData($data,'idSpeciality','SpecialityName');
-            echo CHtml::tag('option', array('value'=>""), "", true);
+//            $data = Specialities::model()->findAll('FacultetID=:FacultetID',
+//                          array(':FacultetID'=>(int) $idFacultet));
+//
+//            $data=CHtml::listData($data,'idSpeciality','SpecialityName');
+//            echo CHtml::tag('option', array('value'=>""), "", true);
+            $data = Specialities::DropDownMask($idFacultet);
             foreach($data as $value=>$name)
             {
                 echo CHtml::tag('option', array('value'=>$value), CHtml::encode($name), true);
@@ -61,7 +62,22 @@ class PersonspecialityController extends Controller
 			'model'=>$this->loadModel($id),
 		));
 	}
-
+        /*
+         * @param $model Personspeciality 
+         */
+        protected function _setDefaults($model){
+            //$model = new Personspeciality();
+            $user = User::model()->findByPk(Yii::app()->user->id);
+            //debug(print_r($user->syspk, true));
+            if (!empty($user->syspk)){
+                $pk =  $user->syspk;
+                //$pk=new SysPk();
+                $model->CourseID = $pk->CourseID;
+                $model->QualificationID = $pk->QualificationID; 
+                $model->isBudget = $pk->isBudget;
+                $model->isContract = $pk->isContract;
+            }
+        }
 	/**
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
@@ -70,6 +86,7 @@ class PersonspecialityController extends Controller
 	{
 		$model=new Personspeciality;
                 $model->PersonID = (int)$personid;
+                $this->_setDefaults($model);
                 $valid = true;
 		if(isset($_GET['Personspeciality']))
 		{

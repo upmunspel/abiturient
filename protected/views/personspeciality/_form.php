@@ -87,7 +87,7 @@ $form= new TbActiveForm();
             <div class="span2">
                 <?php $url = Yii::app()->createUrl("personspeciality/znosubjects",array("personid"=>$personid,"specid"=>intval($model->idPersonSpeciality)));
                       echo $form->labelEx($model,'SepcialityID'); ?>
-		<?php echo $form->dropDownList($model,'SepcialityID', Specialities::DropDown($idFacultet),
+		<?php echo $form->dropDownList($model,'SepcialityID', Specialities::DropDownMask($idFacultet),
                         array( 'empty'=>'','class'=>"span12",
                             'onchange'=>"PSN.changeSpeciality(this, '$url')") ); ?>
 		<?php //echo $form->error($model,'SepcialityID'); ?>
