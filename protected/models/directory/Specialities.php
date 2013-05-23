@@ -25,8 +25,23 @@ class Specialities extends CActiveRecord
 	 * @param string $className active record class name.
 	 * @return Specialities the static model class
 	 */
+        public static function DropDownMask($FacultetID = 0){
+            $user = Yii::app()->user->getUserModel();
+            $records = array();
+            $res = array();
+            if (!empty($user->syspk) &&  !empty($user->syspk->SpecMask)){
+                debug("FacultetID = :FacultetID and SpecialityClasifierCode like '{$user->syspk->SpecMask}%'");
+               $records = Specialities::model()->findAll("FacultetID = :FacultetID and SpecialityClasifierCode like '{$user->syspk->SpecMask}%'", array(":FacultetID"=>$FacultetID));
+            } else {
+               $records = Specialities::model()->findAll("FacultetID = :FacultetID", array(":FacultetID"=>$FacultetID)); 
+            }
+            foreach($records as $record) {
+                   $res[$record->idSpeciality] = $record->SpecialityName."(".$record->SpecialityClasifierCode.")";
+            }
+          return $res;
+	}
         public static function DropDown($FacultetID = 0){
-             $res = array();
+              $res = array();
               foreach(Specialities::model()->findAll("FacultetID = :FacultetID", array(":FacultetID"=>$FacultetID)) as $record) {
                      $res[$record->idSpeciality] = $record->SpecialityName;
               }

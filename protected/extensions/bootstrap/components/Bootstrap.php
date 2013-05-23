@@ -15,17 +15,18 @@ class Bootstrap extends CApplicationComponent
 	// Bootstrap plugins.
 	const PLUGIN_AFFIX = 'affix';
 	const PLUGIN_ALERT = 'alert';
-    const PLUGIN_BUTTON = 'button';
-    const PLUGIN_CAROUSEL = 'carousel';
-    const PLUGIN_COLLAPSE = 'collapse';
-    const PLUGIN_DROPDOWN = 'dropdown';
-    const PLUGIN_MODAL = 'modal';
-    const PLUGIN_POPOVER = 'popover';
-    const PLUGIN_SCROLLSPY = 'scrollspy';
-    const PLUGIN_TAB = 'tab';
-    const PLUGIN_TOOLTIP = 'tooltip';
-    const PLUGIN_TRANSITION = 'transition';
-    const PLUGIN_TYPEAHEAD = 'typeahead';
+        const PLUGIN_BUTTON = 'button';
+        const PLUGIN_CAROUSEL = 'carousel';
+        const PLUGIN_COLLAPSE = 'collapse';
+        const PLUGIN_DROPDOWN = 'dropdown';
+        const PLUGIN_MODAL = 'modal';
+        const PLUGIN_POPOVER = 'popover';
+        const PLUGIN_SCROLLSPY = 'scrollspy';
+        const PLUGIN_TAB = 'tab';
+        const PLUGIN_TOOLTIP = 'tooltip';
+        const PLUGIN_TRANSITION = 'transition';
+        const PLUGIN_TYPEAHEAD = 'typeahead';
+
 
 	/**
 	 * @var array plugin initial options (name=>options).
