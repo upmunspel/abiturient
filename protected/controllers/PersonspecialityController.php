@@ -76,6 +76,7 @@ class PersonspecialityController extends Controller
                 $model->QualificationID = $pk->QualificationID; 
                 $model->isBudget = $pk->isBudget;
                 $model->isContract = $pk->isContract;
+                $model->EducationFormID = $pk->EducationFormID;
             }
         }
 	/**

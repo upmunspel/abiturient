@@ -209,11 +209,20 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
         </div>
         </div>
         </div>
-        
+        <style>
+            .mywidth {
+                width: 785px;
+            }
+        </style>
         <div class="row-fluid">
-            <div class ="span12">
+            <div class ="span12 school">
                 <?php echo $form->labelEx($model,'SchoolID'); ?>
-                <?php echo $form->dropDownList($model,'SchoolID', Schools::DropDown(KoatuuLevel2::getKoatuuLevel2Code($model->KOATUUCodeL2ID)), array('empty'=>"",'class'=>'span12')); ?>
+                
+                <?php echo $form->dropDownList($model,'SchoolID', Schools::DropDown(KoatuuLevel2::getKoatuuLevel2Code($model->KOATUUCodeL2ID)), 
+                        array('empty'=>"",'class'=>"mywidth",'id'=>"SchoolID")); ?>
+                <script type="text/javascript"> 
+                    $("#SchoolID").combobox();
+                 </script>
             </div>
         </div>
         <p class="help-block"><strong>Документ, який посвідчує особу</strong></p>

@@ -22,10 +22,13 @@
              </div>
         </div>
         <div class="row-fluid">
-            <div class ="span6" >
-                <?php echo $form->dropDownListRow($model,'QualificationID',CHtml::listData(Qualifications::model()->findAll(),"idQualification","QualificationName" ), array('class'=>'span12')); ?>
+            <div class ="span3" >
+                <?php echo $form->dropDownListRow($model,'QualificationID',CHtml::listData(Qualifications::model()->findAll(),"idQualification","QualificationName" ), array('empty'=>'Довільний', 'class'=>'span12')); ?>
             </div>
-             <div class ="span6" >
+             <div class ="span3" >
+                <?php echo $form->dropDownListRow($model,'EducationFormID',CHtml::listData(Personeducationforms::model()->findAll(), 'idPersonEducationForm', 'PersonEducationFormName'), array('empty'=>'Довільний', 'class'=>'span12')); ?>
+            </div>
+            <div class ="span6" >
                  <?php echo $form->textFieldRow($model,'SpecMask',array('class'=>'span12')); ?>
              </div>
         </div>

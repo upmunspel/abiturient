@@ -129,7 +129,7 @@ PSN.updateSchools = function(code){
     data: "code="+code,
     success: function (data) { 
         //alert(code);
-            var schools = $("#Person_SchoolID");
+            var schools = $("#SchoolID");
             
             if (!$.isEmptyObject(data)) {
                 schools.empty();
@@ -137,6 +137,14 @@ PSN.updateSchools = function(code){
                 $.each(data, function(i, val) {    // обрабатываем полученные данные
                     schools.append("<option value='"+i+"'>"+val+"</option>");
                 });
+                
+//                 //$(".combobox-container").remove();
+//                  $("#SchoolID").show();
+//                 alert();
+                 $("#SchoolID").combobox("clearElement");
+                 $("#SchoolID").combobox("refresh");
+                   $("#SchoolID").combobox("clearElement");
+               
             } else {
                 schools.empty();
             }

@@ -22,25 +22,24 @@ $form= new TbActiveForm();
         ?>
         <div class="row-fluid">
             <div class="span2">
-                
-                <label for="<?php echo CHtml::activeId($model, 'isBudget'); ?>" >
+                 <?php echo $form->labelEx($model,'isBudget'); ?>
+                 <div class="switch" data-on-label="Так" data-off-label="Ні">
                     <?php echo $form->checkBox($model,'isBudget'); ?>
-                    <?php echo $model->getAttributeLabel("isBudget"); ?>
-                </label>
+                 </div>
+                
+                
             </div>
             <div class="span2">
-                
-                <label for="<?php echo CHtml::activeId($model, 'isContract'); ?>" >
+                 <?php echo $form->labelEx($model,'isContract'); ?>
+                 <div class="switch" data-on-label="Так" data-off-label="Ні">
                     <?php echo $form->checkBox($model,'isContract'); ?>
-                    <?php echo $model->getAttributeLabel("isContract"); ?>
-                </label>
+                 </div>
             </div>
             <div class="span3">
-                
-                <label for="<?php echo CHtml::activeId($model, 'isNeedHostel'); ?>" >
+                <?php echo $form->labelEx($model,'isNeedHostel'); ?>
+                 <div class="switch" data-on-label="Так" data-off-label="Ні">
                     <?php echo $form->checkBox($model,'isNeedHostel'); ?>
-                    <?php echo $model->getAttributeLabel("isNeedHostel"); ?>
-                </label>
+                 </div>
             </div>
             <div class="span5">
                 
@@ -68,7 +67,7 @@ $form= new TbActiveForm();
         <div class="row-fluid">
             <div class="span2">
 		<?php echo $form->labelEx($model,'CourseID'); ?>
-		<?php echo $form->dropDownList($model,'CourseID', CHtml::listData(Courses::model()->findAll(), 'idCourse', 'CourseName'),array('empty'=>'','class'=>'span12')); ?>
+		<?php echo $form->dropDownList($model,'CourseID', CHtml::listData(Courses::model()->findAll(), 'idCourse', 'CourseName'),array('empty'=>'','class'=>'span12', 'disabled'=>Yii::app()->user->isPkSet("CourseID"))); ?>
 		<?php //echo $form->error($model,'CourseID'); ?>
             </div>
             <div class="span4">
@@ -84,7 +83,7 @@ $form= new TbActiveForm();
                       );
                 ?>
             </div>
-            <div class="span2">
+            <div class="span4">
                 <?php $url = Yii::app()->createUrl("personspeciality/znosubjects",array("personid"=>$personid,"specid"=>intval($model->idPersonSpeciality)));
                       echo $form->labelEx($model,'SepcialityID'); ?>
 		<?php echo $form->dropDownList($model,'SepcialityID', Specialities::DropDownMask($idFacultet),
@@ -109,7 +108,7 @@ $form= new TbActiveForm();
            
             <div class="span2">
 		<?php echo $form->labelEx($model,'QualificationID'); ?>
-		<?php echo $form->dropDownList($model,'QualificationID',CHtml::listData(Qualifications::model()->findAll(), 'idQualification', 'QualificationName'),array('empty'=>'', 'class'=>"span12")); ?>
+		<?php echo $form->dropDownList($model,'QualificationID',CHtml::listData(Qualifications::model()->findAll(), 'idQualification', 'QualificationName'),array('empty'=>'', 'class'=>"span12", 'disabled'=>Yii::app()->user->isPkSet("QualificationID"))); ?>
 		<?php //echo $form->error($model,'QualificationID'); ?>
             </div>
             
