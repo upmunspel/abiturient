@@ -26,7 +26,7 @@ return false;
 ");
 ?>
 
-<h1>Довідник Benefitsgroups</h1>
+<h1>Довідник "Групи пільг"</h1>
 
 <p>
     Можна додати оператор порівняння (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>
@@ -42,6 +42,7 @@ return false;
 
 <?php $this->widget('bootstrap.widgets.TbGridView', array(
 'id'=>'benefitsgroups-grid',
+'type'=>'striped bordered condensed',
 'dataProvider'=>$model->search(),
 'filter'=>$model,
 'columns'=>array(
