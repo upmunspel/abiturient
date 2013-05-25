@@ -45,10 +45,10 @@ class Documents extends ActiveRecord
                         foreach ($zno->subjects as $subject){
                             if (!empty($ssubj->subject)){
                             if ($subject->subject->idSubjects==  $ssubj->subject->idSubjects){
-                                $res[$subject->idDocumentSubject] = $subject->subject->SubjectName.": ".$subject->SubjectValue." (№".$zno->Numbers." от ".$subject->DateGet.", пин: ".$zno->ZNOPin.")";
+                                $res[$subject->idDocumentSubject] = $subject->subject->SubjectName.": ".$subject->SubjectValue." (№".$zno->Numbers." от ".$subject->DateGet.", пін: ".$zno->ZNOPin.")";
                                 }
                             } else {
-                                $res[$subject->idDocumentSubject] = $subject->subject->SubjectName.": ".$subject->SubjectValue." (№".$zno->Numbers." от ".$subject->DateGet.", пин: ".$zno->ZNOPin.")";
+                                $res[$subject->idDocumentSubject] = $subject->subject->SubjectName.": ".$subject->SubjectValue." (№".$zno->Numbers." от ".$subject->DateGet.", пін: ".$zno->ZNOPin.")";
                             }
                         }
                         }
@@ -61,7 +61,7 @@ class Documents extends ActiveRecord
                     //$res[$zno->idDocuments] = $zno->Numbers;
                     if (!empty($zno->subjects)){
                         foreach ($zno->subjects as $subject){
-                            $res[$subject->idDocumentSubject] = $subject->subject->SubjectName.": ".$subject->SubjectValue." (№".$zno->Numbers." от ".$subject->DateGet.", пин: ".$zno->ZNOPin.")";
+                            $res[$subject->idDocumentSubject] = $subject->subject->SubjectName.": ".$subject->SubjectValue." (№".$zno->Numbers." от ".$subject->DateGet.", пін: ".$zno->ZNOPin.")";
                             }
                         }
                     }
@@ -157,12 +157,12 @@ class Documents extends ActiveRecord
 		return array(
 			'idDocuments' => 'Id Documents',
 			'PersonID' => 'Person',
-			'TypeID' => 'Тип документу',
+			'TypeID' => 'Тип документа',
 			'Series' => 'Серія ',
 			'Numbers' => 'Номер',
 			'DateGet' => 'Дата видачі',
-			'ZNOPin' => 'ЗНО Пин',
-			'AtestatValue' => 'Серадній бал',
+			'ZNOPin' => 'ЗНО пін',
+			'AtestatValue' => 'Середній бал',
 			'Issued' => 'Ким виданий',
 			'isCopy' => 'Копія',
 		);

@@ -288,6 +288,7 @@ class PersonController extends Controller
 	 */
 	public function actionIndex()
 	{
+             $this->layout="'//layouts/column2";
 		/*$dataProvider=new CActiveDataProvider('Person');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
@@ -307,7 +308,8 @@ class PersonController extends Controller
 	 * Manages all models.
 	 */
 	public function actionAdmin()
-	{
+	{       
+                $this->layout="//layiot/column2_1";
 		$model=new Person('search');
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['Person']))

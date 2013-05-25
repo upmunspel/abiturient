@@ -6,6 +6,6 @@ $this->menu=array(
 );
 ?>
 
-<h1>Оновлення інформації про абітуріента (<?php echo $model->idPerson; ?>)</h1>
+<h1>Оновлення інформації про абітурієнта (<?php echo $model->idPerson; ?>)</h1>
 
 <?php echo $this->renderPartial('_form',array('model'=>$model)); ?>

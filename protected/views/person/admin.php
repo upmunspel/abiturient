@@ -17,7 +17,7 @@ $('.search-form form').submit(function(){
 ");
 ?>
 
-<h1>Перелік абітуріентів</h1>
+<h1>Перелік абітурієнтів</h1>
 
 <p>Ви можете використовувати операції порівняння (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>
 або <b>=</b>) на початку кожного з параметрі що необхідно знайти.
@@ -40,7 +40,7 @@ $('.search-form form').submit(function(){
         array('name'=>'idPerson', 'header'=>'Код', 'htmlOptions'=>array('style'=>'width: 50px')),
         array('name'=>'FirstName', 'header'=>'Прізвище'),
         array('name'=>'LastName', 'header'=>"Ім'я"),
-        array('name'=>'MiddleName', 'header'=>'Побатькові'),
+        array('name'=>'MiddleName', 'header'=>'По батькові'),
         array('name'=>'Birthday', 'header'=>'Дата народження', 'htmlOptions'=>array('style'=>'width: 150px')),   
 		/*'idPerson',
 		'FirstName',

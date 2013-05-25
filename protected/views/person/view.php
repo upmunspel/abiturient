@@ -26,7 +26,7 @@ $this->menu=array(
                 "Birthday"
 	),
 )); ?>
-<h3>Параметри вступу та пільги що маэ абітуріент</h3> 
+<h3>Параметри вступу абітурієнта</h3> 
 <div  style="   background-color: #fff;
                 border: 1px solid #ddd;
                 -webkit-border-radius: 4px;

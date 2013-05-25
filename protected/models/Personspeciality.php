@@ -161,7 +161,7 @@ class Personspeciality extends ActiveRecord
     'isBudget' => 'Бюджет',
     'isNeedHostel' => 'Потрібен гуртожиток',
     'AdditionalBall' => 'Додатковий бал',
-    'EntrantDocumentID' => 'Документ, на основе которого происходит поступление',                
+    'EntrantDocumentID' => 'Документ-основа вступу',                
     'isCopyEntrantDoc' => 'Копія',
     'DocumentSubject1' => 'Предмет сертифікату',
     'DocumentSubject2' => 'Предмет сертифікату',
@@ -172,7 +172,9 @@ class Personspeciality extends ActiveRecord
     'Exam2Ball' => 'Бал',
     'Exam3ID' => 'Екзамен',
     'Exam3Ball' => 'Бал',
-      'isHigherEducation' => 'Информация о высшем образовании',              
+    'isHigherEducation' => 'Освіта аналогічного кваліфікаційного рівня',
+    'SkipDocumentValue' => 'Бал документа не враховується в конкурсному балі', 
+    'AdditionalBallComment' => 'Коментар до додаткового балу', 
 		);
 	}
 

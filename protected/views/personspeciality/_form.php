@@ -44,7 +44,7 @@ $form= new TbActiveForm();
             <div class="span5">
                 
                 <label for="<?php echo CHtml::activeId($model, 'isHigherEducation'); ?>" >
-                    <?php echo $form->radioButtonListInlineRow($model,'isHigherEducation',array(0=>'не отримую', 1=>'не вказано', 2=>"є",3=>'немає')); ?>  
+                    <?php echo $form->radioButtonListInlineRow($model,'isHigherEducation',array(0=>'не отримую', 1=>'не вказано', 2=>"є",3=>'отримую в даний час')); ?>  
                     <?php // Информация о высшем образовании персоны. echo $model->getAttributeLabel("isNeedHostel"); ?>
                 </label>
             </div>
