@@ -3,8 +3,24 @@
 $model = new Documents();
 $form = new CActiveForm();
 ?>
-<div class="form">
-    
+<div class="form well">
+    <div class="row-fluid">
+        <div class="span3">
+                <?php
+                    $url = Yii::app()->createUrl("documents/create",array('personid'=>$personid));
+                    $this->widget('bootstrap.widgets.TbButton', array(
+                    'label'=>'Додати документ',
+                    'type'=>'primary', // null, 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
+                    'size' => null, // null, 'large', 'small' or 'mini'
+                    'loadingText'=>'Зачекайте...',
+                    'htmlOptions'=>array('id'=>'addSpec',
+                        'onclick'=>"PSN.addDoc(this,'$url');",
+                        ),
+                )); ?>
+        </div>
+    </div>
+    <hr>
+   
  <?php  /* END PRINT ZNOS LIST */ 
         
 $dataProvider=new CActiveDataProvider('Documents', array('criteria'=>array(
@@ -38,9 +54,35 @@ $dataProvider=new CActiveDataProvider('Documents', array('criteria'=>array(
     array('name'=>'Numbers', 'header'=>'Номер',  ),
     //array('name'=>'DateGet', 'header'=>'Дата получения',  ),
     array(
-        'class'=>'bootstrap.widgets.TbButtonColumn',
-        'htmlOptions'=>array('style'=>'width: 50px'),
-    ),
+            'class'=>'bootstrap.widgets.TbButtonColumn',
+            'template'=>' {update} {trash}',
+            'buttons'=>array
+            (
+                
+                'update' => array
+                (
+                    'label'=>'Редагувати',
+                    'icon'=>'pencil',
+                    'url'=>'Yii::app()->createUrl("documents/update", array("id"=>$data->idDocuments))',
+                    'options'=>array(
+                        'class'=>'btn',
+                        'onclick'=>"PSN.editDoc(this)",
+                    ),
+                ),
+                'trash' => array
+                (
+                    'label'=>'Видалити',
+                    'icon'=>'trash',
+                    'url'=>'#',
+                    'options'=>array(
+                        'class'=>'btn',
+                    ),
+                ),
+            ),
+            'htmlOptions'=>array(
+                'style'=>'width: 90px;',
+            ),
+        )
 ),
 )); 
 ?>   

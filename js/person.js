@@ -293,6 +293,51 @@ PSN.editZno = function(obj, url){
     });
 };
 /**
+ *  Doc code
+ */
+PSN.addDoc = function(obj, url){
+    var btn = $(obj);
+    btn.button('loading'); // call the loading function
+    //var data = $("#benefit-form").serialize(); 
+    $("#doc-modal-holder").load(url,function() {
+        //alert("ok");//
+        btn.button('reset');
+        $("#docModal").modal("show");
+    });
+ };
+ PSN.appendDoc= function(obj, link){
+    var btn = $(obj);
+    btn.button('loading'); // call the loading function
+    var fdata = $("#doc-form-modal").serialize(); 
+    $.ajax({
+    'url': link,
+    'data': fdata,
+    success: function (data) { 
+            //alert(data);
+            var obj = jQuery.parseJSON(data);
+            //alert(obj.result);
+            if (obj.result === "success") {
+               $("#docModal").modal("hide");
+               $("#docs").html(obj.data);
+            } else {
+               $("#doc-modal-body").html(obj.data);  
+            }
+            btn.button('reset'); 
+        }
+    });
+   
+ };
+ PSN.editDoc = function(obj){
+    var btn = $(obj);
+    //btn.button('loading');
+    
+    $("#doc-modal-holder").load($(obj).attr("href"),function() {
+        //btn.button('reset');
+        $("#docModal").modal("show");
+    });
+    return false;
+ };
+/**
  * SPEC CODE
  */
 PSN.addSpec = function(obj, url){

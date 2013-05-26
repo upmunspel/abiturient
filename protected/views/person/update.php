@@ -1,6 +1,8 @@
 <?php
 $this->menu=array(
 	array('label'=>'Перелік абітурієнтів','url'=>array('index'),'icon'=>"icon-list-alt"),
+        array('label'=>'Параметри вступу','url'=>array("person/view",$params = array("id"=>$model->idPerson)),'icon'=>"icon-list-alt"),
+    
 	array('label'=>'Додати  абітурієнта','url'=>array('create'),'icon'=>"icon-plus"),
 	
 );

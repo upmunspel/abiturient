@@ -10,10 +10,11 @@ class DocumentsController extends Controller
 		return array(
 			'accessControl', // perform access control for CRUD operations
                         'ajaxOnly + newZno, newZnoSubject, appendZno, delZno, delZnoSubject,
-                                    editZno',
+                                    editZno, Create, Update',
 		);
 	}
 
+        
 	/**
 	 * Specifies the access control rules.
 	 * This method is used by the 'accessControl' filter.
@@ -32,7 +33,9 @@ class DocumentsController extends Controller
                                                     'appendZno',
                                                     'delZno',
                                                     'delZnoSubject',
-                                                    'editZno'
+                                                    'editZno',
+                                                    'Create',
+                                    'Update'
                                                 ),
 				'users'=>array('@'),
 			),
@@ -45,7 +48,78 @@ class DocumentsController extends Controller
 			),
 		);
 	}
-        
+        /**
+	 * Returns the data model based on the primary key given in the GET variable.
+	 * If the data model is not found, an HTTP exception will be raised.
+	 * @param integer the ID of the model to be loaded
+	 */
+	public function loadModel($id)
+	{
+		$model=Documents::model()->findByPk($id);
+		if($model===null)
+			throw new CHttpException(404,'The requested page does not exist.');
+		return $model;
+	}
+        public function actionCreate($personid)  {   
+                $model = new Documents();
+                $model->PersonID = $personid;
+                $valid = true;
+              
+                if (isset($_GET["Documents"])){
+                    $model->attributes = $_GET["Documents"];
+                    $valid  = $model->validate() && $valid;
+                    if ($valid && $model->save()){
+                        $person = Person::model()->findByPk($model->PersonID);
+                        echo CJSON::encode(array("result"=>"success","data" =>
+                        $this->renderPartial("//person/tabs/_doc", array('models'=>$person->docs,'personid'=>$model->PersonID), true)
+                        ));
+                    } else {
+                        echo CJSON::encode(array("result"=>"error","data" =>
+                        $this->renderPartial('_formfull', array('model'=>$model),true)));
+                        
+                    }
+                    Yii::app()->end();
+                }
+                
+                $this->renderPartial('_docModal',array(
+                            'model'=>$model,
+                             true,true
+                ));
+            }
+       /**
+	 * Updates a particular model.
+	 * If update is successful, the browser will be redirected to the 'view' page.
+	 * @param integer $id the ID of the model to be updated
+	 */
+	public function actionUpdate($id)
+	{
+		$model=$this->loadModel($id);
+                $valid = true;
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['Documents']))
+		{
+			$model->attributes=$_POST['Documents'];
+                         $valid  = $model->validate() && $valid;
+			if ($valid && $model->save()){
+                            $person = Person::model()->findByPk($model->PersonID);
+                            echo CJSON::encode(array("result"=>"success","data" =>
+                            $this->renderPartial("//person/tabs/_doc", array('models'=>$person->docs,'personid'=>$model->PersonID), true)
+                            ));
+                        } else {
+                            echo CJSON::encode(array("result"=>"error","data" =>
+                            $this->renderPartial('_formfull', array('model'=>$model),true)));
+
+                        }
+                        Yii::app()->end();
+		}
+
+		$this->renderPartial('_docModal',array(
+                            'model'=>$model,
+                             true,true
+                ));
+	} 
         public function actionNewZno($personid)  {   
                 $model = new Documents('ZNO');
                 $model->PersonID = $personid;

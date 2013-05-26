@@ -146,6 +146,10 @@ form hr{
     margin:10px 0px 10px 0px;
     border-top: 1px solid #CCC;
 }
+.form hr{
+    margin:10px 0px 10px 0px;
+    border-top: 1px solid #CCC;
+}
 
 div.wide.form label
 {
