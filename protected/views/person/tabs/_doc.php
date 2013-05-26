@@ -13,7 +13,7 @@ $form = new CActiveForm();
                     'type'=>'primary', // null, 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
                     'size' => null, // null, 'large', 'small' or 'mini'
                     'loadingText'=>'Зачекайте...',
-                    'htmlOptions'=>array('id'=>'addSpec',
+                    'htmlOptions'=>array('id'=>'addDoc',
                         'onclick'=>"PSN.addDoc(this,'$url');",
                         ),
                 )); ?>
@@ -66,7 +66,7 @@ $dataProvider=new CActiveDataProvider('Documents', array('criteria'=>array(
                     'url'=>'Yii::app()->createUrl("documents/update", array("id"=>$data->idDocuments))',
                     'options'=>array(
                         'class'=>'btn',
-                        'onclick'=>"PSN.editDoc(this)",
+                        'onclick'=>"PSN.editDoc(this); return false;",
                     ),
                 ),
                 'trash' => array

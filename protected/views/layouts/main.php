@@ -11,9 +11,9 @@
       
         
         <title><?php echo CHtml::encode($this->pageTitle); ?></title>
-        
-        <?php Yii::app()->clientScript->registerPackage('bootstrap-switch'); ?>
         <?php Yii::app()->bootstrap->register(); ?>
+        <?php Yii::app()->clientScript->registerPackage('bootstrap-switch'); ?>
+        
         
         <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/bootstrap-combobox.css" media="screen" />
         <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/bootstrap-typeahead.js"></script>

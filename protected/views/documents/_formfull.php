@@ -66,7 +66,7 @@ echo $form->errorSummary($model); ?>
         
         $('#doc-form-modal .datepicker').datepicker({'format':'dd.mm.yyyy'});
         $('.datepicker').css("z-index","9999");
-        //$('#doc-form-modal input[type="checkbox"]').bootstrapSwitch();
+        $("#doc-form-modal .switch").bootstrapSwitch();
         
         
        

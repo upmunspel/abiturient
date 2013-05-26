@@ -3,7 +3,7 @@
 <div class="row">
      <div class="span12">
         
-            <div class="well">
+            <div class="well" style='padding: 0px;'>
                 
            <?php
             foreach ($this->menu as $obj) {

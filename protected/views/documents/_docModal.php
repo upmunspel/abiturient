@@ -16,10 +16,18 @@
  
 <div class="modal-footer">
        
-<?php
-
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-?>
+    <?php 
+      $url = $model->isNewRecord ? Yii::app()->createUrl("documents/create",array("personid"=>$model->PersonID)): Yii::app()->createUrl("documents/update",array("id"=>$model->idDocuments)) ;
+      $this->widget('bootstrap.widgets.TbButton', array(
+        'type'=>'primary',
+        'label'=>'Зберегти',
+        'htmlOptions'=>array('onclick'=>"PSN.appendDoc(this, '$url')"),
+    )); ?>
+    <?php $this->widget('bootstrap.widgets.TbButton', array(
+        'label'=>'Скасувати',
+        'url'=>'#',
+        'htmlOptions'=>array('data-dismiss'=>'modal'),
+    )); ?>
+</div>
+ 
+<?php $this->endWidget(); ?>

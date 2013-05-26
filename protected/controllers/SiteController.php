@@ -67,7 +67,7 @@ class SiteController extends Controller
                 if (Yii::app()->user->checkAccess('photoLoad')){
                     $this->redirect(Yii::app()->createUrl("photoloader"));
                 } 
-                if (Yii::app()->user->checkAccess('asOperatorStrart')){
+                if (Yii::app()->user->checkAccess('asOperatorStart')){
                     $this->redirect(Yii::app()->createUrl("person"));
                 } 
                 $this->render('index');
