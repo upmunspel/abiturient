@@ -13,11 +13,14 @@
  * @property integer $EntranceTypeID
  * @property integer $CourseID
  * @property integer $CausalityID
+ * @property integer $CoursedpID
+ * @property integer $OlympiadID
  * @property integer $isTarget
  * @property integer $isContract
  * @property integer $isBudget
  * @property integer $isNeedHostel
  * @property double $AdditionalBall
+ * @property double $CoursedpBall
  * @property integer $isCopyEntrantDoc
  * @property integer $DocumentSubject1
  * @property integer $DocumentSubject2
@@ -47,6 +50,8 @@
  * @property integer $StatusID
  * @property Personrequeststatustypes $status
  * @property integer $RequestFromEB
+ * @property integer $Quota1
+ * @property integer $Quota2
  */
 
 class Personspeciality extends ActiveRecord
@@ -85,9 +90,12 @@ class Personspeciality extends ActiveRecord
                                DocumentSubject2, DocumentSubject3, 
                                Exam1ID, Exam1Ball, Exam2ID, Exam2Ball,
                                Exam3ID, Exam3Ball, isHigherEducation, SkipDocumentValue', 'numerical', 'integerOnly'=>true),
-                        array("AdditionalBallComment", 'safe'),
-                        array("Exam1Ball, Exam2Ball, Exam3Ball, AdditionalBall", 'numerical',
+                        array("AdditionalBallComment,  CoursedpID, Quota1,Quota2, OlympiadID", 'safe'),
+                    
+                        array("Exam1Ball, Exam2Ball, Exam3Ball", 'numerical',
                                "max"=>200, "min"=>100, "allowEmpty"=>true ),
+                        array("AdditionalBall, CoursedpBall", 'numerical',
+                               "max"=>200, "min"=>1, "allowEmpty"=>true ),
                         array('PersonID, SepcialityID,  EducationFormID, 
                                QualificationID, EntranceTypeID, CourseID, isTarget, isContract, 
                                isCopyEntrantDoc, EntrantDocumentID, isNeedHostel', "required"),
@@ -173,7 +181,7 @@ class Personspeciality extends ActiveRecord
     'Exam3ID' => 'Екзамен',
     'Exam3Ball' => 'Бал',
     'isHigherEducation' => 'Освіта аналогічного кваліфікаційного рівня',
-    'SkipDocumentValue' => 'Бал документа не враховується в конкурсному балі', 
+    'SkipDocumentValue' => 'Бал док-та не враховується', 
     'AdditionalBallComment' => 'Коментар до додаткового балу', 
 		);
 	}

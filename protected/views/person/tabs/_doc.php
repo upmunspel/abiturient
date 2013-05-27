@@ -52,7 +52,7 @@ $dataProvider=new CActiveDataProvider('Documents', array('criteria'=>array(
     array('name'=>'type', 'header'=>'Тип документа', 'value' => '$data->type->PersonDocumentTypesName' ),
     array('name'=>'Series', 'header'=>'Серия',  ),
     array('name'=>'Numbers', 'header'=>'Номер',  ),
-    //array('name'=>'DateGet', 'header'=>'Дата получения',  ),
+    array('name'=>'DateGet', 'header'=>'Дата отримання', 'value' => '($data->DateGet!="01.01.1970") ? $data->DateGet :"";'  ),
     array(
             'class'=>'bootstrap.widgets.TbButtonColumn',
             'template'=>' {update} {trash}',

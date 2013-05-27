@@ -1,23 +1,18 @@
 <?php
 
 /**
- * This is the model class for table "sys_roleassignments".
+ * This is the model class for table "coursedp".
  *
- * The followings are the available columns in table 'sys_roleassignments':
- * @property string $itemname
- * @property string $userid
- * @property string $bizrule
- * @property string $data
- *
- * The followings are the available model relations:
- * @property SysRoles $itemname0
+ * The followings are the available columns in table 'coursedp':
+ * @property integer $idCourseDP
+ * @property string $CourseDPName
  */
-class Sysroleassignments extends CActiveRecord
+class Coursedp extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
-	 * @return Sysroleassignments the static model class
+	 * @return Coursedp the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -29,7 +24,7 @@ class Sysroleassignments extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'sys_roleassignments';
+		return 'coursedp';
 	}
 
 	/**
@@ -40,12 +35,12 @@ class Sysroleassignments extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('itemname, userid', 'required'),
-			array('itemname, userid', 'length', 'max'=>64),
-			array('bizrule, data', 'safe'),
+			array('idCourseDP, CourseDPName', 'required'),
+			array('idCourseDP', 'numerical', 'integerOnly'=>true),
+			array('CourseDPName', 'length', 'max'=>50),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('itemname, userid, bizrule, data', 'safe', 'on'=>'search'),
+			array('idCourseDP, CourseDPName', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -57,7 +52,6 @@ class Sysroleassignments extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'itemname0' => array(self::BELONGS_TO, 'SysRoles', 'itemname'),
 		);
 	}
         
@@ -68,10 +62,8 @@ class Sysroleassignments extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-    'itemname' => 'Itemname',
-    'userid' => 'Userid',
-    'bizrule' => 'Bizrule',
-    'data' => 'Data',
+    'idCourseDP' => 'Id Course Dp',
+    'CourseDPName' => 'Course Dpname',
 		);
 	}
 
@@ -86,10 +78,8 @@ class Sysroleassignments extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('itemname',$this->itemname,true);
-		$criteria->compare('userid',$this->userid,true);
-		$criteria->compare('bizrule',$this->bizrule,true);
-		$criteria->compare('data',$this->data,true);
+		$criteria->compare('idCourseDP',$this->idCourseDP);
+		$criteria->compare('CourseDPName',$this->CourseDPName,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

@@ -337,6 +337,24 @@ PSN.addDoc = function(obj, url){
     });
     return false;
  };
+  PSN.delDoc = function(obj, link){
+ if (confirm("Ви впевнені, що бажаєте видалити документ?")){
+     $.ajax({
+             'url': link,
+             success: function (data) { 
+                    var obj = jQuery.parseJSON(data);
+                   
+                    if (obj.result === "success") {
+                        $("#docs").html(obj.data);
+                    } else {
+                        alert(obj.data);  
+                    }
+                 
+                }
+        });
+        
+     }
+ };
 /**
  * SPEC CODE
  */

@@ -120,6 +120,28 @@ class DocumentsController extends Controller
                              true,true
                 ));
 	} 
+        
+         public function actionDelete($id)  {   
+            
+            try
+            {
+                $document=$this->loadModel($id); 
+                $document->delete();
+                $personid = $document->PersonID;
+                $person = Person::model()->findByPk($model->PersonID);
+                echo CJSON::encode(array("result"=>"success","data" =>
+                $this->renderPartial("//person/tabs/_doc", array('models'=>$person->docs,'personid'=>$model->PersonID), true)));
+            } catch (CHttpException $e) {
+                echo CJSON::encode(array("result"=>"error","data" =>$e->getMessage()));
+                 
+            } catch (Exception $e) {
+                    if ($flag !== null) {
+                        $transaction->rollback();
+                    }
+                    echo CJSON::encode(array("result"=>"error","data" =>"Дія заборонена!"));
+            } 
+            }     
+            
         public function actionNewZno($personid)  {   
                 $model = new Documents('ZNO');
                 $model->PersonID = $personid;

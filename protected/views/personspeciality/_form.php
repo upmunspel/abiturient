@@ -56,13 +56,21 @@ $form= new TbActiveForm();
 		<?php echo $form->dropDownList($model,'EntrantDocumentID', Documents::PersonEntrantDocuments($personid),array('empty'=>'','class'=>'span12')); ?>
 		<?php //echo $form->error($model,'CourseID'); ?>
             </div>
-            <div class="span6">
+            <div class="span2">
+                    <?php echo $form->labelEx($model,'isCopyEntrantDoc'); ?>
+                 <div class="switch" data-on-label="Так" data-off-label="Ні">
+                    <?php echo $form->checkBox($model,'isCopyEntrantDoc'); ?>
+                 </div>
+                    <?php //echo $form->error($model,'isCopyEntrantDoc'); ?>
+            </div>
+            <div class="span4">
                  <?php echo $form->labelEx($model,'SkipDocumentValue'); ?>
                  <div class="switch" data-on-label="Так" data-off-label="Ні">
                     <?php echo $form->checkBox($model,'SkipDocumentValue'); ?>
                  </div>
                 
             </div>
+            
         </div>
         <div class="row-fluid">
             <div class="span2">
@@ -131,13 +139,13 @@ $form= new TbActiveForm();
 	</div>
     
         <div class="row-fluid">
-            <div class="span2">
-                 <?php echo $form->labelEx($model,'isTarget'); ?>
+<!--            <div class="span2">
+                 <?php //echo $form->labelEx($model,'isTarget'); ?>
                  <div class="switch" data-on-label="Так" data-off-label="Ні">
-                    <?php echo $form->checkBox($model,'isTarget'); ?>
+                    <?php //echo $form->checkBox($model,'isTarget'); ?>
                  </div>
                  <?php //echo $form->error($model,'isTarget'); ?>
-            </div>
+            </div>-->
 
 <!--            <div class="span2">
                     <?php // echo //$form->labelEx($model,'isContact'); ?>
@@ -146,19 +154,13 @@ $form= new TbActiveForm();
                  </div>
                     <?php //echo $form->error($model,'isContact'); ?>
             </div>-->
-            <div class="span2">
-                    <?php echo $form->labelEx($model,'isCopyEntrantDoc'); ?>
-                 <div class="switch" data-on-label="Так" data-off-label="Ні">
-                    <?php echo $form->checkBox($model,'isCopyEntrantDoc'); ?>
-                 </div>
-                    <?php //echo $form->error($model,'isCopyEntrantDoc'); ?>
-            </div>
+            
             <div class="span2">
                     <?php echo $form->labelEx($model,'AdditionalBall'); ?>
                     <?php echo $form->textField($model,'AdditionalBall',array('class'=>"span12")); ?>
                     <?php //echo $form->error($model,'AdditionalBall'); ?>
             </div>
-            <div class="span6">
+            <div class="span10">
                     <?php echo $form->labelEx($model,'AdditionalBallComment'); ?>
                     <?php echo $form->textField($model,'AdditionalBallComment',array('class'=>"span12")); ?>
                     <?php //echo $form->error($model,'AdditionalBall'); ?>
@@ -168,6 +170,46 @@ $form= new TbActiveForm();
     <div class="row-fluid" id="subjects-holder">
        <?php $this->renderPartial("_subjects_holder", array("model"=>$model,'specialityid'=>$model->SepcialityID)); ?>
     </div>
+    <hr>
+    <div class="row-fluid">
+
+            
+            <div class="span3">
+                    <?php echo $form->labelEx($model,'CoursedpID'); ?>
+                    <?php echo $form->dropDownList($model,'CoursedpID',  CHtml::listData(Coursedp::model()->findAll(), "idCourseDP", "CourseDPName"), array('empty'=>"",'class'=>"span12")); ?>
+                    <?php //echo $form->error($model,'CoursedpID'); ?>
+            </div>
+            <div class="span3">
+                    <?php echo $form->labelEx($model,'CoursedpBall'); ?>
+                    <?php echo $form->textField($model,'CoursedpBall',array('class'=>"span12")); ?>
+                    <?php //echo $form->error($model,'AdditionalBall'); ?>
+            </div>
+      </div>
+      <div class="row-fluid"> 
+            <div class="span6">
+                    <?php echo $form->labelEx($model,'OlympiadID'); ?>
+                    <?php echo $form->dropDownList($model,'OlympiadID', Olympiadsawards::DropDown(), array('empty'=>"",'class'=>"span12")); ?>
+                    <?php //echo $form->error($model,'CoursedpID'); ?>
+            </div>
+        
+            <div class="span2">
+                    <?php  echo $form->labelEx($model,'Quota1'); ?>
+                 <div class="switch" data-on-label="Так" data-off-label="Ні">
+                    <?php  echo $form->checkBox($model,'Quota1'); ?>
+                 </div>
+                    <?php //echo $form->error($model,'isContact'); ?>
+            </div>
+            <div class="span2">
+                    <?php  echo $form->labelEx($model,'Quota2'); ?>
+                 <div class="switch" data-on-label="Так" data-off-label="Ні">
+                    <?php  echo $form->checkBox($model,'Quota2'); ?>
+                 </div>
+                    <?php //echo $form->error($model,'isContact'); ?>
+            </div>
+           
+        
+        
+        </div>
 	
 <!--
 	
