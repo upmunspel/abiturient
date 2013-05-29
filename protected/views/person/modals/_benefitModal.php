@@ -6,7 +6,7 @@
  
 <div class="modal-header" style="wi">
     <a class="close" data-dismiss="modal">&times;</a>
-    <h4>Нова пільта та підтверджуючі документи</h4>
+    <h4>Нова пільга та документи-підтвердження</h4>
     Поля з <span class ="required">*</span> необхідно заповнити.
 </div>
  

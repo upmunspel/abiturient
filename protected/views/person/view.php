@@ -26,7 +26,7 @@ $this->menu=array(
                 "Birthday"
 	),
 )); ?>
-<h3>Параметри вступу та пільги що маэ абітуріент</h3> 
+<h3>Параметри вступу абітурієнта</h3> 
 <div  style="   background-color: #fff;
                 border: 1px solid #ddd;
                 -webkit-border-radius: 4px;
@@ -54,3 +54,4 @@ $this->menu=array(
 <?php $this->renderPartial("modals/_benefitModal",array());?>
 <div id="new-zno"></div>
 <div id="spec-modal-holder"></div>
+<div id="doc-modal-holder"></div>

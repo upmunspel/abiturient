@@ -22,9 +22,11 @@
 
 	<?php echo $form->textFieldRow($model,'DirectoryLink',array('class'=>'span5','maxlength'=>255)); ?>
         <?php echo $form->labelEx($model,'Visible'); ?>
+
         <div class="switch" data-on-label="Так" data-off-label="Ні">
         <?php echo $form->checkBox($model,'Visible'); ?>
         </div> 
+
 	<?php //echo $form->checkBoxRow($model,'Visible',array('class'=>'span1')); ?>
 
 	<?php //echo $form->checkBoxListRow($model,'Access', UAccess::checkList(), array('class'=>'span1')); ?>

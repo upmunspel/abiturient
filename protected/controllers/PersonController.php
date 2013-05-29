@@ -6,7 +6,7 @@ class PersonController extends Controller
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
-	public $layout='//layouts/column2';
+	public $layout='//layouts/column2_1';
 
 	/**
 	 * @return array action filters
@@ -288,6 +288,8 @@ class PersonController extends Controller
 	 */
 	public function actionIndex()
 	{
+            $this->layout="//layouts/column2_1";
+             //$this->layout="'//layouts/column2";
 		/*$dataProvider=new CActiveDataProvider('Person');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
@@ -307,7 +309,8 @@ class PersonController extends Controller
 	 * Manages all models.
 	 */
 	public function actionAdmin()
-	{
+	{       
+                $this->layout="//layouts/column2_1";
 		$model=new Person('search');
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['Person']))

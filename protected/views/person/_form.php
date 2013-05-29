@@ -99,7 +99,7 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
             <div class="span3" >
                 <a href="#" style="width: 180px;" class="thumbnail" rel="tooltip" data-title="Фото абітурієнта">
                    <?php $path = Yii::app()->baseUrl.Yii::app()->params['photosPath'].$model->PhotoName;
-                    echo CHtml::image($path, 'Фото абітуріента'); ?>
+                    echo CHtml::image($path, 'Фото абітурієнта'); ?>
                 </a>
             </div>
         </div>
@@ -107,7 +107,7 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
         <hr>
         <div class="row-fluid">
             <div class ="span12">
-            <?php echo CHtml::label("Область або велике місто","KOATUUCodeL2ID");//,array('class'=>'span3'));?>
+            <?php echo CHtml::label("Область / місто","KOATUUCodeL2ID");//,array('class'=>'span3'));?>
             <?php echo CHtml::activeDropDownList($model, "KOATUUCodeL1ID", KoatuuLevel1::DropDown(), 
                     array('class'=>'span12', 
                             'onchange'=>"PSN.KOATUUChange(this,1)"));
@@ -127,7 +127,7 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
         <div class="row-fluid" <?php echo empty($model->KOATUUCodeL3ID) ? "style='display:none;'":""; ?> >
            
             <div class ="span12" >
-            <?php echo CHtml::label("Місто / ПГТ / Село / район міста","KOATUUCodeL3ID");//,array('class'=>'span3'));?>
+            <?php echo CHtml::label("Місто / район міста / СМТ / село","KOATUUCodeL3ID");//,array('class'=>'span3'));?>
             <?php echo CHtml::activeDropDownList($model, "KOATUUCodeL3ID",  KoatuuLevel3::DropDown($model->KOATUUCodeL2ID), 
                     array('class'=>'span12', 'onchange'=>"PSN.KOATUUChange(this,3)"));
                      ?>
@@ -201,7 +201,7 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
         <div class="row-fluid" <?php echo empty($model->KOATUUCodeL3ID) ? "style='display:none;'":""; ?> >
            
             <div class ="span12" >
-            <?php echo CHtml::label("Місто / ПГТ / Село / район міста","KOATUUCodeL3ID");//,array('class'=>'span3'));?>
+            <?php echo CHtml::label("Місто / район міста / СМТ / село","KOATUUCodeL3ID");//,array('class'=>'span3'));?>
             <?php echo CHtml::dropDownList("KOATUU3", $model->KOATUUCodeL3ID,  KoatuuLevel3::DropDown($model->KOATUUCodeL2ID), 
                     array('class'=>'span12', 'onchange'=>"PSN.KOATUUSchoolChange(this,3)"));
                      ?>
@@ -237,7 +237,7 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
         
         
         
-        <p class="help-block"><strong>Додаткові документи</strong></p>
+        <p class="help-block"><strong>Інші документи</strong></p>
         <hr>
         <div class="row-fluid" <?php echo empty($model->KOATUUCodeL2ID) ? "style='display:none;'":""; ?>>
             <div class ="span4"  >

@@ -100,7 +100,12 @@ class PhotoloaderController extends Controller
                         if ($model->validate()){
                             $file = CUploadedFile::getInstance($model,'PhotoName');
                             $path = Yii::app()->basePath."/..".Yii::app()->params['photosPath'];
-                            EWideImage::loadFromFile($file->getTempName())->resize(null,240)->crop("center", "middle", 180, 240)->saveToFile($path."person_$id.jpg");
+                            $img = EWideImage::loadFromFile($file->getTempName());
+                            if ( $img->getWidth() < $img->getHeight() ) {       
+                                $img ->resize(120,null)->crop("center", "middle", 120, 150)->saveToFile($path."person_$id.jpg");
+                            } else {
+                                $img ->resize(null,150)->crop("center", "middle", 120, 150)->saveToFile($path."person_$id.jpg");
+                            }
                             //unlink($file->getTempName());
                             $model->PhotoName = "person_$id.jpg";
                             if ($model->save()){

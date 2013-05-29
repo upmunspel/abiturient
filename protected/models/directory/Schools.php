@@ -98,7 +98,7 @@ class Schools extends CActiveRecord
 			'KOATUUFullName' => 'Koatuufull назва',
 			'StreetTypeID' => 'Тип вулиці',
 			'StreetName' => 'Назва вулиці',
-			'HouceNum' => 'Номер будинку',
+			'HouceNum' => '№ будинку, кв.',
 			'SchoolBossLastName' => 'Прізвище директора',
 			'SchoolBossFirstName' => 'Ім"я директора',
 			'SchoolBossMiddleName' => 'По-батькові директора',

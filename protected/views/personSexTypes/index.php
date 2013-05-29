@@ -12,7 +12,7 @@ $this->menu=array(
 );
 ?>
 
-<h1>Person Sex Types</h1>
+<h1>Person Sex Typesrgfgbf</h1>
 
 <?php $this->widget('bootstrap.widgets.TbListView', array(
 	'dataProvider'=>$dataProvider,

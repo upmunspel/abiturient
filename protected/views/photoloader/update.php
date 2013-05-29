@@ -7,7 +7,7 @@ Header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
 Header("Pragma: no-cache"); // HTTP/1.1 
 Header("Last-Modified: " . gmdate("D, d M Y H:i:s") . "GMT");
 ?>
-<h1>Змінити фото абітуріента <?php echo $model->idPerson; ?></h1>
+<h1>Змінити фото абітурієнта <?php echo $model->idPerson; ?></h1>
 <?php $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
         'id' => 'person-photo-form',
         //'type'=>'horizontal',
@@ -17,7 +17,7 @@ Header("Last-Modified: " . gmdate("D, d M Y H:i:s") . "GMT");
 ?>
 <div class="row-fluid">
     <div class ="span12">
-       Оберіть фото абітуріента у форматі *.jpg, *.png, *.gif та загальним розмром не більше 10MB.
+       Оберіть фото абітурієнта у форматі *.jpg, *.png, *.gif та загальним розмром не більше 10MB.
     </div>
 </div>
 <div class="row-fluid">

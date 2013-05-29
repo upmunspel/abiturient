@@ -1,6 +1,9 @@
 #page {
-    padding-top: 60px;
+    padding-top: 50px;
+}
+#spec-form-modal {
+    margin: 0px;
 }
 #spec-modal-holder .modal-body {
-  min-height: 500px;   
+  min-height: 600px;   
 }

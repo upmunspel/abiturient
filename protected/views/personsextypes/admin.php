@@ -26,12 +26,12 @@ return false;
 ");
 ?>
 
-<h1>Довідник Person Sex Types</h1>
+<h1>Довідник "Статі"</h1>
 
-<!--<p>
+<p>
     Можна додати оператор порівняння (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>
     or <b>=</b>) перед значенням пошуку
-</p>-->
+</p>
 
 <?php //echo CHtml::button('Розширений пошук',array('class'=>'search-button')); ?>
 <?php /* $this->widget('bootstrap.widgets.TbButton', array(
@@ -44,11 +44,18 @@ return false;
     <?php // $this->renderPartial('_search',array('model'=>$model,)); ?>
 </div> search-form -->
 
-<?php $this->widget('bootstrap.widgets.TbGridView', array(
+<?php echo CHtml::link('Розширений пошук','#',array('class'=>'search-button')); ?>
+<div class="search-form" style="display:none">
+    <?php $this->renderPartial('_search',array(
+	'model'=>$model,
+)); ?>
+</div><!-- search-form -->
+
+   <?php $this->widget('bootstrap.widgets.TbGridView', array(
 'id'=>'person-sex-types-grid',
     'type'=>'striped bordered condensed',
 'dataProvider'=>$model->search(),
-//'filter'=>$model,
+'filter'=>$model,
 'columns'=>array(
 		'idPersonSexTypes',
 		'PersonSexTypesName',

@@ -31,7 +31,7 @@ $this->menu=array(
 
 <?php $this->endWidget(); ?>
 
-<h3>Абітуріент</h3> 
+<h3>Абітурієнт</h3> 
 <a href="javascript:void(0);" onclick="$('#search-form').show();" >Поиск</a>
 
 <?php echo $this->renderPartial('_form', array('model'=>$model)); ?>

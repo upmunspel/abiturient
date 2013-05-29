@@ -11,7 +11,7 @@
         Статус: <span style=" color: red;"><?php echo $model->status->PersonRequestStatusTypeName; ?></span>
     </div>
     <div style="float: right; color: red; font-weight: bold; margin-right: 20px;">
-       <?php echo $model->RequestFromEB == 1 ? "Електронна заява":"Влвасна заява"; ?>
+       <?php echo $model->RequestFromEB == 1 ? "Електронна заява":"Заява створена оператором ЗНУ"; ?>
     </div>
     Поля з <span class ="required">*</span> необхідно заповнити.
 </div>

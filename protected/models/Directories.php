@@ -11,7 +11,7 @@
  * @property integer $Visible
  * @property integer $Access
  */
-class Directories extends CActiveRecord
+class Directories extends ActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.

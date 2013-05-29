@@ -62,8 +62,8 @@ class Courses extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-    'idCourse' => 'Id Course',
-    'CourseName' => 'Course Name',
+    'idCourse' => 'Код курсу',
+    'CourseName' => 'Назва курсу',
 		);
 	}
 
