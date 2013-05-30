@@ -3,7 +3,7 @@
 	'method'=>'get',
 )); ?>
 
-	<?php echo $form->textFieldRow($model,'IdUniversity',array('class'=>'span5')); ?>
+	<?php echo $form->textFieldRow($model,'idUniversity',array('class'=>'span5')); ?>
 
 	<?php echo $form->textFieldRow($model,'UniversityKode',array('class'=>'span5','maxlength'=>36)); ?>
 

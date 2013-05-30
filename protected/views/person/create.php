@@ -10,6 +10,7 @@ $this->menu=array(
 	
 );
 ?>
+
 <?php $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
 	'action'=>Yii::app()->createUrl($this->route),
 	'method'=>'post',
@@ -32,6 +33,10 @@ $this->menu=array(
 <?php $this->endWidget(); ?>
 
 <h3>Абітурієнт</h3> 
-<a href="javascript:void(0);" onclick="$('#search-form').show();" >Поиск</a>
+<?php if (Yii::app()->user->hasFlash("message")){
+            echo "<p>".Yii::app()->user->getFlash("message")."</p>";
+      }
+      ?>
+<a href="javascript:void(0);" onclick="$('#search-form').toggle();" >Поиск</a>
 
 <?php echo $this->renderPartial('_form', array('model'=>$model)); ?>
