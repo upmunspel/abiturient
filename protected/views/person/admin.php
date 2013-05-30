@@ -1,4 +1,5 @@
 <?php
+
 $this->menu=array(
     array('label'=>'Додати ','url'=>array('create'),'icon'=>"icon-plus"),
 );
@@ -24,7 +25,12 @@ $('.search-form form').submit(function(){
 </p>
 
 
-<?php // echo CHtml::link('Розширений пошук','#',array('class'=>'search-button btn')); ?>
+<?php
+// if (true || Yii::app()->user->hasFlash("error")) {
+//     echo  "<p> wwewewew".Yii::app()->user->getFlash("error")."</p>";
+// }
+
+// echo CHtml::link('Розширений пошук','#',array('class'=>'search-button btn')); ?>
 <!--<div class="search-form" style="display:none">
 <?php //$this->renderPartial('_search',array(
 //	'model'=>$model,
@@ -57,8 +63,34 @@ $('.search-form form').submit(function(){
 		'HomeNumber',
 		'PostIndex',
 		*/
-		array(
-			'class'=>'bootstrap.widgets.TbButtonColumn',
-		),
+	array(
+            'class'=>'bootstrap.widgets.TbButtonColumn',
+            'template'=>'{update}{view}',
+            'buttons'=>array
+            (
+                
+                'update' => array(
+                    'label'=>'Редагувати',
+                    'icon'=>'pencil',
+                    'url'=>'Yii::app()->createUrl("person/update", array("id"=>$data->idPerson))',
+                    'options'=>array(
+                        'class'=>'btn',
+                        //'onclick'=>"PSN.editDoc(this); return false;",
+                    ),
+                 ),
+               'view' => array(
+                    'label'=>'Параметри вступу',
+                    'icon'=>'icon-th-list',
+                    'url'=>'Yii::app()->createUrl("person/view", array("id"=>$data->idPerson))',
+                    'options'=>array(
+                        'class'=>'btn',
+                        
+                    ),
+                ),
+            ),
+            'htmlOptions'=>array(
+                'style'=>'width: 90px;',
+            ),
+          )
 	),
 )); ?>

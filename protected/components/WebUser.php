@@ -24,6 +24,16 @@ class WebUser extends CWebUser {
         } 
         return true;
     }
+     public function isShortForm(){
+        $model = $this->getUserModel();
+        if (empty($model->syspk)) return false;
+        
+        if ($model->syspk->QualificationID == 2 || $model->syspk->QualificationID == 3){
+            return true;
+        }
+        
+        return false;
+    }
     public static function getPkName(){
         if (!Yii::app()->user->isGuest){
             

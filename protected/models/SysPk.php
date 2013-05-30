@@ -13,6 +13,7 @@
  * @property string $Info
  * @property string $isBudget
  * @property string $isContract
+ * @property string $isShortForm
  * @property integer $EducationFormID
  */
 class SysPk extends CActiveRecord
@@ -45,7 +46,7 @@ class SysPk extends CActiveRecord
         return array(
             array('PkName, DepartmentID,  QualificationID', 'required'),
             array('DepartmentID, CourseID, QualificationID', 'numerical', 'integerOnly'=>true),
-            array('SpecMask, Info, CourseID, isBudget, isContract, EducationFormID', 'safe'),
+            array('SpecMask, Info, CourseID, isBudget,isShortForm, isContract, EducationFormID', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('idPk, PkName, DepartmentID, CourseID, QualificationID, SpecMask, Info, Course, Qualification, Department', 'safe', 'on'=>'search'),

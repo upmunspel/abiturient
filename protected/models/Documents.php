@@ -84,8 +84,12 @@ class Documents extends ActiveRecord
             return $rerult->IsEntrantDocument;
         }
         protected function afterFind() {
-            $from=DateTime::createFromFormat('Y-m-d',$this->DateGet);
-            $this->DateGet=$from->format('d.m.Y');   
+            if (!empty($this->DateGet) && $this->DateGet != "1970-01-01" ){
+                $from=DateTime::createFromFormat('Y-m-d',$this->DateGet);
+                $this->DateGet=$from->format('d.m.Y'); 
+            } else {
+                $this->DateGet = NULL;
+            }
             parent::afterFind();
             return true;
             
@@ -115,7 +119,7 @@ class Documents extends ActiveRecord
 			array('Issued', 'length', 'max'=>250),
 			array('DateGet, idDocuments, Series, Numbers,  ', 'safe'),
                     
-                        array('DateGet, Series, Numbers, Issued', 'required', "except"=>"INN, HOSP, ZNO"),
+                        array('DateGet, Series, Numbers, Issued', 'required', "except"=>"INN, HOSP, ZNO, FULLINPUT"),
                         // INN
                         array('Numbers', 'required', "on"=>"INN"),
                         array('Numbers', 'numerical' , 'integerOnly'=>true, "on"=>"INN"),
@@ -133,6 +137,9 @@ class Documents extends ActiveRecord
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('idDocuments, PersonID, TypeID, Series, Numbers, DateGet, ZNOPin, AtestatValue, Issued, isCopy', 'safe', 'on'=>'search'),
+                        
+                    
+                        array('idDocuments, PersonID, TypeID, Series, Numbers, DateGet, ZNOPin, AtestatValue, Issued, isCopy', 'safe', 'on'=>'FULLINPUT'),
 		);
 	}
 

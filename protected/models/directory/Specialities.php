@@ -30,11 +30,22 @@ class Specialities extends CActiveRecord
             $records = array();
             $res = array();
             if (!empty($user->syspk) &&  !empty($user->syspk->SpecMask)){
-                debug("FacultetID = :FacultetID and SpecialityClasifierCode like '{$user->syspk->SpecMask}%'");
-               $records = Specialities::model()->findAll("FacultetID = :FacultetID and SpecialityClasifierCode like '{$user->syspk->SpecMask}%'", array(":FacultetID"=>$FacultetID));
+                if ($FacultetID == 0){
+                    $records = Specialities::model()->findAll("SpecialityClasifierCode like '{$user->syspk->SpecMask}%'");
+            
+                } else {
+                    $records = Specialities::model()->findAll("FacultetID = :FacultetID and SpecialityClasifierCode like '{$user->syspk->SpecMask}%'", array(":FacultetID"=>$FacultetID));
+            
+                }
             } else {
-               $records = Specialities::model()->findAll("FacultetID = :FacultetID", array(":FacultetID"=>$FacultetID)); 
+                if ($FacultetID == 0){
+                    $records = Specialities::model()->findAll(); 
+                } else {
+                    $records = Specialities::model()->findAll("FacultetID = :FacultetID", array(":FacultetID"=>$FacultetID)); 
+                }
             }
+            
+            
             foreach($records as $record) {
                    $res[$record->idSpeciality] = $record->SpecialityName."(".$record->SpecialityClasifierCode.")";
             }

@@ -15,6 +15,8 @@
  * @property integer $CausalityID
  * @property integer $CoursedpID
  * @property integer $OlympiadID
+ * @property integer $GraduatedUniversitieID
+ * @property integer $GraduatedSpecialitieID
  * @property integer $isTarget
  * @property integer $isContract
  * @property integer $isBudget
@@ -75,7 +77,10 @@ class Personspeciality extends ActiveRecord
 	{
 		return 'personspeciality';
 	}
-
+        public function isShortForm(){
+            if ($this->QualificationID == 2 || $this->QualificationID == 3 ) return true;
+            return false;
+        }
 	/**
 	 * @return array validation rules for model attributes.
 	 */
@@ -86,18 +91,21 @@ class Personspeciality extends ActiveRecord
 		return array(
 			array('PersonID, SepcialityID,  EducationFormID, 
                                QualificationID, EntranceTypeID, CourseID, CausalityID, 
-                               isTarget, isContract, isBudget, isCopyEntrantDoc, DocumentSubject1, 
+                               isContract, isBudget, isCopyEntrantDoc, DocumentSubject1, 
                                DocumentSubject2, DocumentSubject3, 
                                Exam1ID, Exam1Ball, Exam2ID, Exam2Ball,
                                Exam3ID, Exam3Ball, isHigherEducation, SkipDocumentValue', 'numerical', 'integerOnly'=>true),
                         array("AdditionalBallComment,  CoursedpID, Quota1,Quota2, OlympiadID", 'safe'),
+                    
+                        array("GraduatedUniversitieID, GraduatedSpecialitieID", 'required', 'on'=>"SHORTFORM"),
+                        array("EntranceTypeID",  "required" ,"except"=>"SHORTFORM"),
                     
                         array("Exam1Ball, Exam2Ball, Exam3Ball", 'numerical',
                                "max"=>200, "min"=>100, "allowEmpty"=>true ),
                         array("AdditionalBall, CoursedpBall", 'numerical',
                                "max"=>200, "min"=>1, "allowEmpty"=>true ),
                         array('PersonID, SepcialityID,  EducationFormID, 
-                               QualificationID, EntranceTypeID, CourseID, isTarget, isContract, 
+                               QualificationID,  CourseID, isContract, 
                                isCopyEntrantDoc, EntrantDocumentID, isNeedHostel', "required"),
                     
                         array("DocumentSubject1, DocumentSubject2, DocumentSubject3", "required", "on"=>"ZNO"),
@@ -109,7 +117,7 @@ class Personspeciality extends ActiveRecord
 			//array('AdditionalBall', 'numerical'),
                             // The following rule is used by search().
                             // Please remove those attributes that should not be searched.
-			array('idPersonSpeciality, PersonID, SepcialityID,  EducationFormID, QualificationID, EntranceTypeID, CourseID, CausalityID, isTarget, isContract, AdditionalBall, isCopyEntrantDoc, DocumentSubject1, DocumentSubject2, DocumentSubject3, Exam1ID, Exam1Ball, Exam2ID, Exam2Ball, Exam3ID, Exam3Ball', 'safe', 'on'=>'search'),
+			array('idPersonSpeciality, PersonID, SepcialityID,  EducationFormID, QualificationID, EntranceTypeID, CourseID, CausalityID, isContract, AdditionalBall, isCopyEntrantDoc, DocumentSubject1, DocumentSubject2, DocumentSubject3, Exam1ID, Exam1Ball, Exam2ID, Exam2Ball, Exam3ID, Exam3Ball', 'safe', 'on'=>'search'),
 		);
 	}
         public function validate($attributes = null, $clearErrors = true) {

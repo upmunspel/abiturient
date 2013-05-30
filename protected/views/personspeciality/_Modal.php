@@ -18,7 +18,16 @@
  
 <div class="modal-body" id="spec-modal-body">
   
-    <?php $this->renderPartial("_form",array('model'=>$model)); ?>
+   <?php 
+    
+    if ((Yii::app()->user->isShortForm() && $model->isNewRecord) || $model->isShortForm() ){ 
+        $this->renderPartial("_formShort",array('model'=>$model));
+    } else {
+        $this->renderPartial("_form",array('model'=>$model));
+    }
+    ?>
+    
+    
 </div>
  
 <div class="modal-footer">

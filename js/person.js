@@ -240,6 +240,7 @@ PSN.appendZno= function(obj, link){
     $.ajax({
     'url': link,
     'data': fdata,
+    
     success: function (data) { 
             var obj = jQuery.parseJSON(data);
             if (obj.result === "success") {
@@ -312,6 +313,7 @@ PSN.addDoc = function(obj, url){
     $.ajax({
     'url': link,
     'data': fdata,
+    'type':'POST',
     success: function (data) { 
             //alert(data);
             var obj = jQuery.parseJSON(data);
@@ -337,10 +339,10 @@ PSN.addDoc = function(obj, url){
     });
     return false;
  };
-  PSN.delDoc = function(obj, link){
+ PSN.delDoc = function(obj){
  if (confirm("Ви впевнені, що бажаєте видалити документ?")){
      $.ajax({
-             'url': link,
+             'url': $(obj).attr("href"),
              success: function (data) { 
                     var obj = jQuery.parseJSON(data);
                    
@@ -355,6 +357,7 @@ PSN.addDoc = function(obj, url){
         
      }
  };
+ 
 /**
  * SPEC CODE
  */

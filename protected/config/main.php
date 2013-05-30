@@ -180,7 +180,7 @@ return array(
 		'adminEmail'=>'webmaster@example.com',
                 'personSearchURL'=>"http://10.1.103.26:8080/PersonSearch/search.jsp",
                 'photosPath'=>"/images/Photos/",
-                'photosMiniPath'=>"/images/Photos/mini/",
+                'photosBigPath'=>"/images/Photos/big/",
                 'defaultPersonPhoto'=>"180x240.gif",
             
 	),

@@ -89,9 +89,14 @@ class PersonspecialityController extends Controller
                 $model->PersonID = (int)$personid;
                 $this->_setDefaults($model);
                 $valid = true;
+                
 		if(isset($_GET['Personspeciality']))
-		{
-			$model->attributes=$_GET['Personspeciality'];
+		{       $renderForm = "_form";
+			if (isset($_GET['Personspeciality']['GraduatedUniversitieID'])){
+                            $model->scenario ="SHORTFORM";
+                            $renderForm = "_formShort";
+                        }
+                        $model->attributes=$_GET['Personspeciality'];
                         if (intval($model->EntranceTypeID) == 1){
                             $model->Exam1ID = null; $model->Exam1Ball = null;
                             $model->Exam2ID = null; $model->Exam2Ball = null;
@@ -107,7 +112,7 @@ class PersonspecialityController extends Controller
                         if (!$valid){
                             //debug ($model->PersonID);
                             echo CJSON::encode(array("result"=>"error","data" =>
-                            $this->renderPartial('_form', array('model'=>$model),true)));
+                            $this->renderPartial($renderForm, array('model'=>$model),true)));
                              Yii::app()->end();
                         } else {
 			if($model->save())
@@ -137,8 +142,12 @@ class PersonspecialityController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_GET['Personspeciality']))
-		{
+		if(isset($_GET['Personspeciality'])) {       
+                        $renderForm = "_form";
+			if (isset($_GET['Personspeciality']['GraduatedUniversitieID'])){
+                            $model->scenario ="SHORTFORM";
+                            $renderForm = "_formShort";
+                        }
 			$model->attributes=$_GET['Personspeciality'];
                         
                         if (intval($model->EntranceTypeID) == 1){
@@ -155,7 +164,7 @@ class PersonspecialityController extends Controller
                        try { 
                             if (!$valid){
                                 echo CJSON::encode(array("result"=>"error","data" =>
-                                $this->renderPartial('_form', array('model'=>$model),true)));
+                                $this->renderPartial($renderForm, array('model'=>$model),true)));
                                 Yii::app()->end();
                             } else {
                                 if($model->save())

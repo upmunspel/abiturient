@@ -209,3 +209,8 @@ div.wide.form .buttons, div.wide.form .hint, div.wide.form .errorMessage
     position: relative;
     display: block;
 }
+
+#person-photo-form .alert {
+    margin: 10px 0px 0px 0px;
+   
+}
