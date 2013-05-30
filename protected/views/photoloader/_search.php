@@ -2,9 +2,16 @@
 <p>
     Введіть код який абітурієнта отримав при реестрації у поле пошуку.
 </p>
-<br>
+
+
 <?php
-$form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
+    if (Yii::app()->user->hasFlash("message")) {
+        echo "<span style='color: red;'>".Yii::app()->user->getFlash("message")."</span><br>";
+    }
+ ?>
+ <br>
+<?php 
+    $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
     'id' => 'searchForm',
     'type' => 'search',
     'action' => Yii::app()->createUrl("photoloader/update"),
@@ -17,4 +24,6 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
         ?>
 </div>
 <?php $this->widget('bootstrap.widgets.TbButton', array('buttonType' => 'submit', 'type' => 'primary', 'label' => 'Знайти', 'htmlOptions'=>array('name'=>'','value'=>''))); ?>
+
+    
 <?php $this->endWidget(); ?> 

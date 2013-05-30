@@ -8,6 +8,7 @@
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'zno-form-modal',
 	'enableAjaxValidation'=>false,
+        'method'=>"POST"
 )); 
 echo $form->errorSummary($model); ?> 
 <?php
@@ -23,11 +24,11 @@ echo $form->errorSummary($model); ?>
 <div class="row-fluid">
     <div class ="span6">
         <?php echo $form->labelEx($model,'Numbers'); ?>
-        <?php echo $form->textField($model,'Numbers',array('class'=>'span12', 'maxlength'=>7)); ?>
+        <?php echo $form->textField($model,'Numbers',array('class'=>'span12', )); ?>
     </div>    
     <div class ="span6">
         <?php echo $form->labelEx($model,'ZNOPin'); ?>
-        <?php echo $form->textField($model,'ZNOPin',array('class'=>'span12','maxlength'=>4)); ?>
+        <?php echo $form->textField($model,'ZNOPin',array('class'=>'span12',)); ?>
     </div>    
 </div>
 <?php if (!empty($subjects)): ?>

@@ -16,7 +16,7 @@
                         'active'=>false, 
                         'id'=>"benefits"),
                 array(  'label'=>'Документи', 
-                        'content'=>$this->renderPartial("tabs/_doc",array("models"=>$model->docs, 'personid'=>$model->idPerson),true), 
+                        'content'=>$this->renderPartial("tabs/_doc",array('personid'=>$model->idPerson),true), 
                         'active'=>false, 
                         'id'=>"docs"),
     ),

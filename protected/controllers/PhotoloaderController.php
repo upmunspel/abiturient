@@ -90,8 +90,8 @@ class PhotoloaderController extends Controller
 	 * @param integer $id the ID of the model to be updated
 	 */
 	public function actionUpdate($id)
-	{
-		$model=$this->loadModel($id);
+	{      try {
+                $model=$this->loadModel($id);
                 $model->scenario = "PHOTO";
 		if(isset($_POST['Person']))
 		{       $oldPhoto = $model->PhotoName;
@@ -100,11 +100,14 @@ class PhotoloaderController extends Controller
                         if ($model->validate()){
                             $file = CUploadedFile::getInstance($model,'PhotoName');
                             $path = Yii::app()->basePath."/..".Yii::app()->params['photosPath'];
+                            $bigpath = Yii::app()->basePath."/..".Yii::app()->params['photosBigPath'];
                             $img = EWideImage::loadFromFile($file->getTempName());
                             if ( $img->getWidth() < $img->getHeight() ) {       
                                 $img ->resize(120,null)->crop("center", "middle", 120, 150)->saveToFile($path."person_$id.jpg");
+                                $img ->resize(180,null)->crop("center", "middle", 180, 225)->saveToFile($bigpath."person_$id.jpg");
                             } else {
                                 $img ->resize(null,150)->crop("center", "middle", 120, 150)->saveToFile($path."person_$id.jpg");
+                                $img ->resize(null,225)->crop("center", "middle", 180, 225)->saveToFile($bigpath."person_$id.jpg");
                             }
                             //unlink($file->getTempName());
                             $model->PhotoName = "person_$id.jpg";
@@ -115,10 +118,15 @@ class PhotoloaderController extends Controller
                             $model->PhotoName = $oldPhoto;
                         }
 		}
-
-		$this->render('update',array(
+                $this->render('update',array(
 			'model'=>$model,
 		));
+                Yii::app()->end();
+             } catch (Exception $e) {
+                Yii::app()->user->setFlash("message","Абітуріент із кодом '$id' відсутній у системі!");
+                $this->redirect(Yii::app()->createUrl("photoloader"));
+	     } 
+         
 	}
 
 	/**

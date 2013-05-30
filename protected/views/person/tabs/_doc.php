@@ -1,10 +1,5 @@
-<?php
-/* $this BenefitController */
-$model = new Documents();
-$form = new CActiveForm();
-?>
 <div class="form well">
-    <div class="row-fluid">
+    <div class="row-fluid" >
         <div class="span3">
                 <?php
                     $url = Yii::app()->createUrl("documents/create",array('personid'=>$personid));
@@ -20,9 +15,7 @@ $form = new CActiveForm();
         </div>
     </div>
     <hr>
-   
- <?php  /* END PRINT ZNOS LIST */ 
-        
+<?php  /* END PRINT ZNOS LIST */ 
 $dataProvider=new CActiveDataProvider('Documents', array('criteria'=>array(
     'condition'=>"PersonID=$personid",
     //'order'=>'create_time DESC',
@@ -41,7 +34,6 @@ $dataProvider=new CActiveDataProvider('Documents', array('criteria'=>array(
         'pageSize'=>10,
     )
 ));
-
  $this->widget('bootstrap.widgets.TbGridView', array(
 'type'=>'striped bordered condensed',
 'dataProvider'=>$dataProvider,
@@ -55,12 +47,11 @@ $dataProvider=new CActiveDataProvider('Documents', array('criteria'=>array(
     array('name'=>'DateGet', 'header'=>'Дата отримання', 'value' => '($data->DateGet!="01.01.1970") ? $data->DateGet :"";'  ),
     array(
             'class'=>'bootstrap.widgets.TbButtonColumn',
-            'template'=>' {update} {trash}',
+            'template'=>'{update}{trash}',
             'buttons'=>array
             (
                 
-                'update' => array
-                (
+                'update' => array(
                     'label'=>'Редагувати',
                     'icon'=>'pencil',
                     'url'=>'Yii::app()->createUrl("documents/update", array("id"=>$data->idDocuments))',
@@ -68,14 +59,14 @@ $dataProvider=new CActiveDataProvider('Documents', array('criteria'=>array(
                         'class'=>'btn',
                         'onclick'=>"PSN.editDoc(this); return false;",
                     ),
-                ),
-                'trash' => array
-                (
+                 ),
+               'trash' => array(
                     'label'=>'Видалити',
                     'icon'=>'trash',
-                    'url'=>'#',
+                    'url'=>'Yii::app()->createUrl("documents/delete", array("id"=>$data->idDocuments))',
                     'options'=>array(
                         'class'=>'btn',
+                        'onclick'=>"PSN.delDoc(this); return false;",
                     ),
                 ),
             ),
@@ -83,10 +74,7 @@ $dataProvider=new CActiveDataProvider('Documents', array('criteria'=>array(
                 'style'=>'width: 90px;',
             ),
         )
-),
+    ),
 )); 
 ?>   
-    
-  
-
-</div><!-- form -->
+</div>

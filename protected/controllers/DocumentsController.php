@@ -10,7 +10,7 @@ class DocumentsController extends Controller
 		return array(
 			'accessControl', // perform access control for CRUD operations
                         'ajaxOnly + newZno, newZnoSubject, appendZno, delZno, delZnoSubject,
-                                    editZno, Create, Update',
+                                    editZno, Create, Update, Delete',
 		);
 	}
 
@@ -35,7 +35,7 @@ class DocumentsController extends Controller
                                                     'delZnoSubject',
                                                     'editZno',
                                                     'Create',
-                                    'Update'
+                                    'Update',"Delete"
                                                 ),
 				'users'=>array('@'),
 			),
@@ -61,21 +61,21 @@ class DocumentsController extends Controller
 		return $model;
 	}
         public function actionCreate($personid)  {   
-                $model = new Documents();
+                $model = new Documents("FULLINPUT");
                 $model->PersonID = $personid;
                 $valid = true;
               
-                if (isset($_GET["Documents"])){
-                    $model->attributes = $_GET["Documents"];
+                if (isset($_POST["Documents"])){
+                    $model->attributes = $_POST["Documents"];
                     $valid  = $model->validate() && $valid;
                     if ($valid && $model->save()){
-                        $person = Person::model()->findByPk($model->PersonID);
+                        //$person = Person::model()->findByPk($model->PersonID);
                         echo CJSON::encode(array("result"=>"success","data" =>
-                        $this->renderPartial("//person/tabs/_doc", array('models'=>$person->docs,'personid'=>$model->PersonID), true)
+                        $this->render("//person/tabs/_doc", array('personid'=>$model->PersonID), true)
                         ));
                     } else {
                         echo CJSON::encode(array("result"=>"error","data" =>
-                        $this->renderPartial('_formfull', array('model'=>$model),true)));
+                        $this->render('_formfull', array('model'=>$model),true)));
                         
                     }
                     Yii::app()->end();
@@ -92,54 +92,53 @@ class DocumentsController extends Controller
 	 * @param integer $id the ID of the model to be updated
 	 */
 	public function actionUpdate($id)
-	{
+	{  
 		$model=$this->loadModel($id);
                 $valid = true;
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
-
+                $model->scenario = "FULLINPUT";
 		if(isset($_POST['Documents']))
 		{
 			$model->attributes=$_POST['Documents'];
-                         $valid  = $model->validate() && $valid;
-			if ($valid && $model->save()){
+                        
+                        $valid  = $model->validate() && $valid;
+			
+                        if ($valid && $model->save()){
                             $person = Person::model()->findByPk($model->PersonID);
-                            echo CJSON::encode(array("result"=>"success","data" =>
-                            $this->renderPartial("//person/tabs/_doc", array('models'=>$person->docs,'personid'=>$model->PersonID), true)
-                            ));
+                            $str = $this->renderPartial("//person/tabs/_doc", array('models'=>$person->znos,'personid'=>$model->PersonID), true);
+                            //$str = $this->renderPartial("//person/tabs/_zno", array("model"=>$model "personid"=>$model->PersonID),true);
+                            //echo CJSON::encode($str);
+                            echo CJSON::encode(array("result"=>"success","data" =>$str));
                         } else {
                             echo CJSON::encode(array("result"=>"error","data" =>
                             $this->renderPartial('_formfull', array('model'=>$model),true)));
 
                         }
-                        Yii::app()->end();
-		}
+                        //Yii::app()->end();
+		} else {
 
 		$this->renderPartial('_docModal',array(
                             'model'=>$model,
                              true,true
                 ));
+                }
 	} 
         
          public function actionDelete($id)  {   
             
-            try
-            {
-                $document=$this->loadModel($id); 
-                $document->delete();
-                $personid = $document->PersonID;
-                $person = Person::model()->findByPk($model->PersonID);
-                echo CJSON::encode(array("result"=>"success","data" =>
-                $this->renderPartial("//person/tabs/_doc", array('models'=>$person->docs,'personid'=>$model->PersonID), true)));
-            } catch (CHttpException $e) {
-                echo CJSON::encode(array("result"=>"error","data" =>$e->getMessage()));
-                 
-            } catch (Exception $e) {
-                    if ($flag !== null) {
-                        $transaction->rollback();
-                    }
-                    echo CJSON::encode(array("result"=>"error","data" =>"Дія заборонена!"));
-            } 
+                try
+                {
+                    $model=$this->loadModel($id); 
+                    $model->delete();
+                    echo CJSON::encode(array("result"=>"success","data" =>
+                    $this->renderPartial("//person/tabs/_doc", array('personid'=>$model->PersonID), true)));
+                } catch (CHttpException $e) {
+                     echo CJSON::encode(array("result"=>"error","data" =>$e->getMessage()));
+                }  
+                catch (Exception $e) {
+                     echo CJSON::encode(array("result"=>"error","data" =>"Дія заборонена!"));
+                } 
             }     
             
         public function actionNewZno($personid)  {   

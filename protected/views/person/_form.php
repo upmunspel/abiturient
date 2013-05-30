@@ -98,7 +98,7 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
             
             <div class="span3" >
                 <a href="#" style="width: 180px;" class="thumbnail" rel="tooltip" data-title="Фото абітурієнта">
-                   <?php $path = Yii::app()->baseUrl.Yii::app()->params['photosPath'].$model->PhotoName;
+                   <?php $path = Yii::app()->baseUrl.Yii::app()->params['photosBigPath'].$model->PhotoName;
                     echo CHtml::image($path, 'Фото абітурієнта'); ?>
                 </a>
             </div>

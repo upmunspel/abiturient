@@ -52,6 +52,13 @@
                  </div>
                  <?php //echo $form->error($model,'isTarget'); ?>
             </div>
+            <div class="span2">
+                 <?php echo $form->labelEx($model,'isShortForm'); ?>
+                 <div class="switch" data-on-label="Так" data-off-label="Ні">
+                    <?php echo $form->checkBox($model,'isShortForm'); ?>
+                 </div>
+                 <?php //echo $form->error($model,'isTarget'); ?>
+            </div>
         </div>
 
 	

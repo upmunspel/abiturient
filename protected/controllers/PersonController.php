@@ -46,7 +46,7 @@ class PersonController extends Controller
 				'roles'=>array('Admins'),
 			),*/
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('index','view','admin','delete','create','update', "ajaxcreate","ajaxupdate"),
+				'actions'=>array('index','view','admin','create','update', "ajaxcreate","ajaxupdate"),
 				'roles'=>array("Root","Admins","Operators"),
 			),
 			array('deny',  // deny all users
@@ -270,17 +270,29 @@ class PersonController extends Controller
 	 */
 	public function actionDelete($id)
 	{
-		if(Yii::app()->request->isPostRequest)
-		{
-			// we only allow deletion via POST request
-			$this->loadModel($id)->delete();
-
-			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-			if(!isset($_GET['ajax']))
-				$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
-		}
-		else
-			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
+		
+                    if(Yii::app()->request->isPostRequest)
+                    {
+//                            // we only allow deletion via POST request
+//                              try {
+//                                
+                                $model = $this->loadModel($id);
+                                
+                                $model->delete();
+//                              } catch (Exception $e) {
+//                                 
+//                                     Yii::app()->user->setFlash("error", "Дія заборонена!");
+//                              } 
+                             // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+                               
+                             if(!isset($_GET['ajax'])) {
+                                  
+                                    $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+                             }
+                    }
+                    else
+                            throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
+//               
 	}
 
 	/**
