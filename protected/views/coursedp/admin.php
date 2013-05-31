@@ -1,15 +1,14 @@
 <?php
-/* @var $this Subjectscontroller */
-/* @var $model Subjects */
+/* @var $this CoursedpController */
+/* @var $model Coursedp */
 
 $this->breadcrumbs=array(
-	'Subjects'=>array('index'),
+	'Coursedps'=>array('index'),
 	'Довідник ',
 );
 
 $this->menu=array(
-/*array('label'=>'List Subjects', 'url'=>array('index')),*/
-array('label'=>'Додати запис', 'url'=>array('create'),'icon'=>"icon-plus"),
+array('label'=>'Додати запис', 'url'=>array('create')),
 );
 
 Yii::app()->clientScript->registerScript('search', "
@@ -18,7 +17,7 @@ $('.search-form').toggle();
 return false;
 });
 $('.search-form form').submit(function(){
-$.fn.yiiGridView.update('subjects-grid', {
+$.fn.yiiGridView.update('coursedp-grid', {
 data: $(this).serialize()
 });
 return false;
@@ -26,34 +25,28 @@ return false;
 ");
 ?>
 
-<h1>Довідник "Предмет"</h1>
+<h1>Довідник "Підготовчі курси"</h1>
 
 <p>
     Можна додати оператор порівняння (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>
     or <b>=</b>) перед значенням пошуку
 </p>
+
 <?php echo CHtml::link('Розширений пошук','#',array('class'=>'search-button')); ?>
-<div class="search-form" style="display:none; margin-top: 20px;">
+<div class="search-form" style="display:none">
     <?php $this->renderPartial('_search',array(
 	'model'=>$model,
 )); ?>
 </div><!-- search-form -->
 
 <?php $this->widget('bootstrap.widgets.TbGridView', array(
-'id'=>'subjects-grid',
+'id'=>'coursedp-grid',
 'type'=>'striped bordered condensed',
 'dataProvider'=>$model->search(),
 'filter'=>$model,
 'columns'=>array(
-		'idSubjects',
-		'idZNOSubject',
-		'SubjectName',
-		/*array(
-'name' => 'ParentSubject',
-'filter' => CHtml::listData(Subjects::model()->findAll(), 'idSubjects', 'SubjectName'),
-'value' => '$data->ps->SubjectName',
-),*/
-		'SubjectKey',
+		'idCourseDP',
+		'CourseDPName',
 array(
 'class'=>'bootstrap.widgets.TbButtonColumn',
 ),

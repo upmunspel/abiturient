@@ -86,7 +86,10 @@ class Subjects extends CActiveRecord
 			'personsepcialities' => array(self::HAS_MANY, 'Personsepciality', 'Exam1ID'),
 			'personsepcialities1' => array(self::HAS_MANY, 'Personsepciality', 'Exam2ID'),
 			'personsepcialities2' => array(self::HAS_MANY, 'Personsepciality', 'Exam3ID'),
-		);
+                        'personsepcialities2' => array(self::HAS_MANY, 'Personsepciality', 'Exam3ID'),
+                        'is' => array(self::HAS_MANY, 'Subjects', 'idSubjects'),
+                        'ps' => array(self::BELONGS_TO, 'Subjects', 'ParentSubject'),
+                    );
 	}
         
 
@@ -96,11 +99,11 @@ class Subjects extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-    'idSubjects' => 'Id Subjects',
+    'idSubjects' => 'Код предмета',
     'idZNOSubject' => 'Id Znosubject',
-    'SubjectName' => 'Subject Name',
-    'ParentSubject' => 'Parent Subject',
-    'SubjectKey' => 'Subject Key',
+    'SubjectName' => 'Назва предмета',
+   'ParentSubject' => 'Parent Subject',
+    'SubjectKey' => 'Ключ предмета',
 		);
 	}
 

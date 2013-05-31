@@ -25,7 +25,11 @@ $this->menu=array(
 		'idSubjects',
 		'idZNOSubject',
 		'SubjectName',
-		'ParentSubject',
+		array(
+    'label'=>'Категорія вищого рівня',
+    'type'=>'raw',
+    'value'=>$model->ps->SubjectName,
+),
 		'SubjectKey',
 	),
 )); ?>

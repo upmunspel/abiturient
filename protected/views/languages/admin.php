@@ -33,7 +33,7 @@ return false;
     or <b>=</b>) перед значенням пошуку
 </p>
 
-<?php echo CHtml::link('Розширений пошук','#',array('class'=>'search-button btn btn-primary')); ?>
+<?php echo CHtml::link('Розширений пошук','#',array('class'=>'search-button')); ?>
 <div class="search-form" style="display:none">
     <?php $this->renderPartial('_search',array(
 	'model'=>$model,

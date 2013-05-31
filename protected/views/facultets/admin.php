@@ -29,7 +29,7 @@ return false;
     Можна додати оператор порівняння (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>
     or <b>=</b>) перед значенням пошуку
 </p>
-<?php echo CHtml::link('Розширений пошук','#',array('class'=>'search-button btn btn-primary')); ?>
+<?php echo CHtml::link('Розширений пошук','#',array('class'=>'search-button')); ?>
 <div class="search-form" style="display:none; margin-top: 20px;">
     <?php $this->renderPartial('_search',array(
 	'model'=>$model,

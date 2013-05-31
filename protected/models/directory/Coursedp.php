@@ -62,8 +62,8 @@ class Coursedp extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-    'idCourseDP' => 'Id Course Dp',
-    'CourseDPName' => 'Course Dpname',
+    'idCourseDP' => 'Код курсів довузівської підготовки',
+    'CourseDPName' => 'Назва курсів довузівської підготовки',
 		);
 	}
 

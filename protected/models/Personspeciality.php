@@ -190,7 +190,13 @@ class Personspeciality extends ActiveRecord
     'Exam3Ball' => 'Бал',
     'isHigherEducation' => 'Освіта аналогічного кваліфікаційного рівня',
     'SkipDocumentValue' => 'Бал док-та не враховується', 
-    'AdditionalBallComment' => 'Коментар до додаткового балу', 
+    'AdditionalBallComment' => 'Коментар до додаткового балу',
+    'CoursedpID' => 'Курси довузівської підготовки',
+    'CoursedpBall' => 'Бал за курси',
+    'OlympiadId' => 'Олімпіади',
+    'Quota1' => 'Квота (сільська місцевість)',
+    'Quota2' => 'Квота (пільгові категорії)',
+  
 		);
 	}
 
