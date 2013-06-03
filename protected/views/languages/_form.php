@@ -12,7 +12,7 @@
 <p class="note">Поля, відмічені <span class="required">*</span> обов'язкові для заповнення!</p>
 
 	<?php echo $form->errorSummary($model); ?>
-<?php//------------------------------------------------------------------------------------------------------------------------------------//?>
+
 <div class="row-fluid">   	
        <div class ="span4">
 		<?php echo $form->labelEx($model,'idLanguages'); ?>
@@ -32,7 +32,7 @@
 		<?php echo $form->error($model,'LanguagesName'); ?>
 	</div>
 </div>
-<?php//------------------------------------------------------------------------------------------------------------------------------------//?>
+
 <hr>
 <div class="row-fluid">  
 <?php $this->widget("bootstrap.widgets.TbButton", array(

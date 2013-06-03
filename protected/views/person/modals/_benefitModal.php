@@ -16,16 +16,16 @@
  
 <div class="modal-footer">
     <?php 
-        $url = Yii::app()->createUrl("personbenefits/newbenefitdoc");
-            $this->widget('bootstrap.widgets.TbButton', array(
-            'label'=>'Додати документ',
-            'type'=>'primary', // null, 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
-            'size' => null, // null, 'large', 'small' or 'mini'
-            'loadingText'=>'Зачекайте...',
-            'htmlOptions'=>array('id'=>'addBenefits',
-                'onclick'=>"PSN.addBenefitDoc(this,'$url');",
-                'style'=>"float: left;"),
-        )); ?>
+//        $url = Yii::app()->createUrl("personbenefits/newbenefitdoc");
+//            $this->widget('bootstrap.widgets.TbButton', array(
+//            'label'=>'Додати документ',
+//            'type'=>'primary', // null, 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
+//            'size' => null, // null, 'large', 'small' or 'mini'
+//            'loadingText'=>'Зачекайте...',
+//            'htmlOptions'=>array('id'=>'addBenefits',
+//                'onclick'=>"PSN.addBenefitDoc(this,'$url');",
+//                'style'=>"float: left;"),
+//        )); ?>
     
     <?php 
       $url = Yii::app()->createUrl("personbenefits/appendbenefit");

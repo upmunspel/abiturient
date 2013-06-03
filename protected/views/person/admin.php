@@ -44,8 +44,8 @@ $('.search-form form').submit(function(){
 	'filter'=>$model,
 	'columns'=>array(
         array('name'=>'idPerson', 'header'=>'Код', 'htmlOptions'=>array('style'=>'width: 50px')),
-        array('name'=>'FirstName', 'header'=>'Прізвище'),
-        array('name'=>'LastName', 'header'=>"Ім'я"),
+        array('name'=>'LastName', 'header'=>'Прізвище'),
+        array('name'=>'FirstName', 'header'=>"Ім'я"),
         array('name'=>'MiddleName', 'header'=>'По батькові'),
         array('name'=>'Birthday', 'header'=>'Дата народження', 'htmlOptions'=>array('style'=>'width: 150px')),   
 		/*'idPerson',

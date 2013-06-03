@@ -17,7 +17,6 @@ echo "\$this->breadcrumbs=array(
 ?>
 
 $this->menu=array(
-/*array('label'=>'List <?php echo $this->modelClass; ?>', 'url'=>array('index')),*/
 array('label'=>'Додати запис', 'url'=>array('create')),
 );
 
@@ -37,7 +36,8 @@ return false;
 
 <h1>Довідник <?php
 $labname = $this->pluralize($this->class2name($this->modelClass));
-echo TranslateModelName::getTranstalion($labname)
+echo $labname;
+/*echo TranslateModelName::getTranstalion($labname)*/
 ?></h1>
 
 <p>

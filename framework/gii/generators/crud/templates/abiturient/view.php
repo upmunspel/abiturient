@@ -18,17 +18,17 @@ echo "\$this->breadcrumbs=array(
 ?>
 
 $this->menu=array(
-	/*array('label'=>'List <?php echo $this->modelClass; ?>', 'url'=>array('index')),*/
-	array('label'=>'Додати запис', 'url'=>array('create')),
-	array('label'=>'Змінити запис', 'url'=>array('update', 'id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>)),
-	array('label'=>'Видалити запис', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>),'confirm'=>'Are you sure you want to delete this item?')),
-	array('label'=>'Переглянути записи', 'url'=>array('admin')),
+	array('label'=>'List <?php echo $this->modelClass; ?>', 'url'=>array('index')),
+	array('label'=>'Create <?php echo $this->modelClass; ?>', 'url'=>array('create')),
+	array('label'=>'Update <?php echo $this->modelClass; ?>', 'url'=>array('update', 'id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>)),
+	array('label'=>'Delete <?php echo $this->modelClass; ?>', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>),'confirm'=>'Are you sure you want to delete this item?')),
+	array('label'=>'Manage <?php echo $this->modelClass; ?>', 'url'=>array('admin')),
 );
 ?>
 
-<h1>Переглянути запис довідника <?php echo TranslateModelName::getTranstalion($this->modelClass)." #<?php echo \$model->{$this->tableSchema->primaryKey}; ?>"; ?></h1>
+<h1>View <?php echo $this->modelClass." #<?php echo \$model->{$this->tableSchema->primaryKey}; ?>"; ?></h1>
 
-<?php echo "<?php"; ?> $this->widget('bootstrap.widgets.TbDetailView', array(
+<?php echo "<?php"; ?> $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
 	'attributes'=>array(
 <?php

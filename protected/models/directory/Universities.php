@@ -41,7 +41,7 @@ class Universities extends CActiveRecord
 			array('UniversityName', 'length', 'max'=>200),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('IdUniversity, UniversityKode, UniversityName', 'safe', 'on'=>'search'),
+			array('idUniversity, UniversityKode, UniversityName', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -63,7 +63,7 @@ class Universities extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-    'IdUniversity' => 'Id University',
+    'idUniversity' => 'Id University',
     'UniversityKode' => 'University Kode',
     'UniversityName' => 'University Name',
 		);
@@ -80,7 +80,7 @@ class Universities extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('IdUniversity',$this->IdUniversity);
+		$criteria->compare('idUniversity',$this->idUniversity);
 		$criteria->compare('UniversityKode',$this->UniversityKode,true);
 		$criteria->compare('UniversityName',$this->UniversityName,true);
 

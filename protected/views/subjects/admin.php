@@ -48,7 +48,11 @@ return false;
 		'idSubjects',
 		'idZNOSubject',
 		'SubjectName',
-		'ParentSubject',
+		/*array(
+'name' => 'ParentSubject',
+'filter' => CHtml::listData(Subjects::model()->findAll(), 'idSubjects', 'SubjectName'),
+'value' => '$data->ps->SubjectName',
+),*/
 		'SubjectKey',
 array(
 'class'=>'bootstrap.widgets.TbButtonColumn',

@@ -31,7 +31,18 @@ PSN.Init = function(){
        
     });
     
+    $(".series").keyup(function(){
+        var val = $(this).val();
+        val = val.toUpperCase();
+        $(this).val(val);
+    });
+    
+    
+   
 }
+
+
+
 PSN.KOATUUChange = function(obj, level){
     var id = $(obj," :selected").val();
     $.ajax({
@@ -158,56 +169,52 @@ PSN.addBenefit = function(obj, url){
     var btn = $(obj);
     btn.button('loading'); // call the loading function
     //var data = $("#benefit-form").serialize(); 
-    $("#new-benefit").load(url,function() {
+    $("#benefit-modal-holder").load(url,function() {
+        //alert("ok");//
         btn.button('reset');
         $("#benefitModal").modal("show");
     });
  };
-PSN.appendBenefit = function(obj, link){
+PSN.appendBenefit= function(obj, link){
     var btn = $(obj);
     btn.button('loading'); // call the loading function
     var fdata = $("#benefit-form-modal").serialize(); 
     $.ajax({
     'url': link,
     'data': fdata,
+    'type':'POST',
     success: function (data) { 
+            
             var obj = jQuery.parseJSON(data);
+           
             if (obj.result === "success") {
-          
                $("#benefitModal").modal("hide");
                $("#benefits").html(obj.data);
-               
             } else {
-              $("#new-benefit").html(obj.data);  
+               $("#benefit-modal-body").html(obj.data);  
             }
             btn.button('reset'); 
         }
     });
    
  };
-PSN.addBenefitDoc = function(obj, url){
+ PSN.editBenefit = function(obj){
     var btn = $(obj);
-    btn.button('loading'); // call the loading function
-    var data = $("#benefit-form-modal").serialize(); 
-    $("#new-benefit").load(url,data,function(){ btn.button('reset'); });
-};
-PSN.delBenefitDoc = function(obj, url){
-    var data = $("#benefit-form-modal").serialize(); 
-    $("#new-benefit").load(url,data,function(){});
-};
-PSN.reloadBenefit = function(obj, url){
-    var btn = $(obj);
-    btn.button('loading'); // call the loading function
-    var data = "reload=1";
-    $("#benefits").load(url,data, function() {btn.button('reset');});
-};
-PSN.deleteBenefit = function(obj, url){
-    if (confirm("Ви впевнені, що бажаєте видалити пільгу?")){
-    //$("#benefits").load(url);
-    $.ajax({
-             'url': url,
+    //btn.button('loading');
+    
+    $("#benefit-modal-holder").load($(obj).attr("href"),function() {
+        //btn.button('reset');
+        $("#benefitModal").modal("show");
+    });
+    return false;
+ };
+ PSN.delBenefit = function(obj, link){
+ if (confirm("Ви впевнені, що бажаєте видалити документ?")){
+     $.ajax({
+             'url': link,
              success: function (data) { 
                     var obj = jQuery.parseJSON(data);
+                   
                     if (obj.result === "success") {
                         $("#benefits").html(obj.data);
                     } else {
@@ -216,8 +223,77 @@ PSN.deleteBenefit = function(obj, url){
                  
                 }
         });
-    }
-};
+        
+     }
+ };
+
+
+
+
+//PSN.addBenefit = function(obj, url){
+//    var btn = $(obj);
+//    btn.button('loading'); // call the loading function
+//    //var data = $("#benefit-form").serialize(); 
+//    $("#new-benefit").load(url,function() {
+//        btn.button('reset');
+//        $("#benefitModal").modal("show");
+//    });
+// };
+//PSN.appendBenefit = function(obj, link){
+//    var btn = $(obj);
+//    btn.button('loading'); // call the loading function
+//    var fdata = $("#benefit-form-modal").serialize(); 
+//    $.ajax({
+//    'url': link,
+//    'data': fdata,
+//    success: function (data) { 
+//            var obj = jQuery.parseJSON(data);
+//            if (obj.result === "success") {
+//          
+//               $("#benefitModal").modal("hide");
+//               $("#benefits").html(obj.data);
+//               
+//            } else {
+//              $("#new-benefit").html(obj.data);  
+//            }
+//            btn.button('reset'); 
+//        }
+//    });
+//   
+// };
+//PSN.addBenefitDoc = function(obj, url){
+//    var btn = $(obj);
+//    btn.button('loading'); // call the loading function
+//    var data = $("#benefit-form-modal").serialize(); 
+//    $("#new-benefit").load(url,data,function(){ btn.button('reset'); });
+//};
+//PSN.delBenefitDoc = function(obj, url){
+//    var data = $("#benefit-form-modal").serialize(); 
+//    $("#new-benefit").load(url,data,function(){});
+//};
+//PSN.reloadBenefit = function(obj, url){
+//    var btn = $(obj);
+//    btn.button('loading'); // call the loading function
+//    var data = "reload=1";
+//    $("#benefits").load(url,data, function() {btn.button('reset');});
+//};
+//PSN.deleteBenefit = function(obj, url){
+//    if (confirm("Ви впевнені, що бажаєте видалити пільгу?")){
+//    //$("#benefits").load(url);
+//    $.ajax({
+//             'url': url,
+//             success: function (data) { 
+//                    var obj = jQuery.parseJSON(data);
+//                    if (obj.result === "success") {
+//                        $("#benefits").html(obj.data);
+//                    } else {
+//                        alert(obj.data);  
+//                    }
+//                 
+//                }
+//        });
+//    }
+//};
 /**
  * ZNO CODE
  */
@@ -306,7 +382,7 @@ PSN.addDoc = function(obj, url){
         $("#docModal").modal("show");
     });
  };
- PSN.appendDoc= function(obj, link){
+PSN.appendDoc= function(obj, link){
     var btn = $(obj);
     btn.button('loading'); // call the loading function
     var fdata = $("#doc-form-modal").serialize(); 
@@ -472,10 +548,29 @@ PSN.appendSpec= function(obj, link){
      $("#subjects-holder").load(url,data);
      
  }
+String.prototype.capitalize = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1).toLowerCase();
+}
  PSN.changeFIO = function(){
-    $("#FirstName").keyup(function(){$("#FirstNameR").val($("#FirstName").val());});
-    $("#LastName").keyup(function(){$("#LastNameR").val($("#LastName").val());});
-    $("#MiddleName").keyup(function(){$("#MiddleNameR").val($("#MiddleName").val());});
+
+    $("#FirstName").keyup(function(){
+        var FirstName = $("#FirstName").val();
+          FirstName = FirstName.capitalize();
+        $("#FirstName").val(FirstName);
+        $("#FirstNameR").val(FirstName);
+    });
+    $("#LastName").keyup(function(){
+        var LastName = $("#LastName").val();
+        LastName = LastName.capitalize();
+        $("#LastName").val(LastName);
+        $("#LastNameR").val(LastName);
+    });
+    $("#MiddleName").keyup(function(){
+        var MiddleName = $("#MiddleName").val();
+        MiddleName = MiddleName.capitalize();
+        $("#MiddleName").val(MiddleName);
+        $("#MiddleNameR").val(MiddleName);
+    });
  }
 $(document).ready(function(){
     PSN.Init();

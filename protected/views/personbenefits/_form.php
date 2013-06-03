@@ -1,46 +1,44 @@
-<?php
-/*$this BenefitController 
-$model = new PersonBenefits();*/
-//$form = new CActiveForm();
+<?php 
+/**
+ * @var   $form 
+ */
 ?>
-<div class="form">
 
-<?php $form=$this->beginWidget('CActiveForm', array(
+<?php $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
 	'id'=>'benefit-form-modal',
 	'enableAjaxValidation'=>false,
-)); ?>
-   
-    <div class="row-fluid">    
-         <div class="span12">
-             
-            <?php //echo $form->hiddenField($model,"idPersonBenefits"); ?> 
-            <?php echo $form->hiddenField($model,"PersonID"); ?> 
-            <?php echo $form->dropDownList($model,"BenefitID", Benefit::DropDown(4), array('class'=>"span12")); ?>
-         </div>
-    </div>
-    
-    <?php if (empty($documents)) $documents = array();
-    foreach($documents as $i=>$document): ?>
+        'htmlOptions'=>array("class"=>"form"),
+)); 
+$form  = new TbActiveForm();
+?>
+
+	
         <div class="row-fluid">
-         <div class="span1" align="center">
-            <div class="row-fluid">
-                 <div class="span12"></div>
-            </div>   
-             <div class="row-fluid">
-                 <div class="span12"><b><?php echo ($i+1)."."; ?></b></div>
-             </div>    
-         </div>
-         <div class="span11">
-            <?php  $this->renderPartial("_document",array("model"=>$document,'form'=>$form,'i'=>$i)); ?>
-         </div>
+            <?php echo $form->errorSummary($model); ?>
+            <?php echo $form->hiddenField($model,'PersonID',array('class'=>'span5')); ?>
+            <?php echo $form->dropDownListRow($model,'BenefitID', CHtml::listData(Benefit::model()->findAll(),"idBenefit","BenefitName"), array('class'=>'span12')); ?>
         </div>
-    <?php endforeach; ?> 
-    <script>
+        <div class="row-fluid">
+            <div class ="span1">
+                <?php echo $form->labelEx($model,'Series'); ?>
+                <?php echo $form->textField($model,'Series',array('class'=>'span12','maxlength'=>50)); ?>
+            </div>
+            <div class ="span2">
+                <?php echo $form->labelEx($model,'Numbers'); ?>
+                <?php echo $form->textField($model,'Numbers',array('class'=>'span12')); ?>
+            </div>
+             <div class ="span9">
+                <?php echo $form->labelEx($model,'Issued'); ?>
+                <?php echo $form->textField($model,'Issued',array('class'=>'span12')); ?>
+            </div>
+        </div>
         
-        $('#benefit-form-modal .datepicker').datepicker({'format':'dd.mm.yyyy'});
-        $('.datepicker').css("z-index","9999");
-        
-       
-    </script>
+<!--        <div class="form-actions">
+		<?php /* $this->widget('bootstrap.widgets.TbButton', array(
+			'buttonType'=>'submit',
+			'type'=>'primary',
+			'label'=>$model->isNewRecord ? 'Create' : 'Save',
+		)); */ ?>
+	</div>-->
+
 <?php $this->endWidget(); ?>
-</div><!-- form -->

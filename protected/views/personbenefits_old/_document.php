@@ -1,10 +1,10 @@
 <?php //echo $form->errorSummary($model); ?>
 <div class="row-fluid">
-    <div class ="span9">
+<!--    <div class ="span9">
         <?php //echo $form->hiddenField($model,"[$i]idDocuments"); ?>
-        <?php echo $form->labelEx($model,"[$i]TypeID"); ?>
-        <?php echo $form->dropDownList($model,"[$i]TypeID",  PersonDocumentTypes::DropDown(1), array("class"=>"span12")); ?>
-    </div>    
+        <?php //echo $form->labelEx($model,"[$i]TypeID"); ?>
+        <?php //echo $form->dropDownList($model,"[$i]TypeID",  PersonDocumentTypes::DropDown(1), array("class"=>"span12")); ?>
+    </div>    -->
     <div class ="span1">
         <?php echo $form->labelEx($model,"[$i]Series"); ?>
         <?php echo $form->textField($model,"[$i]Series",array("class"=>"span12","maxlength"=>10)); ?>
