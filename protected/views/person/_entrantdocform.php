@@ -7,7 +7,7 @@
     </div>    
     <div class ="span1">
         <?php echo $form->labelEx($model,'[entrantdoc]Series'); ?>
-        <?php echo $form->textField($model,'[entrantdoc]Series',array('class'=>'span12','maxlength'=>10)); ?>
+        <?php echo $form->textField($model,'[entrantdoc]Series',array('class'=>'span12 series','maxlength'=>10)); ?>
     </div>    
     <div class ="span2">
         <?php echo $form->labelEx($model,'[entrantdoc]Numbers'); ?>

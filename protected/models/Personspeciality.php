@@ -109,9 +109,14 @@ class Personspeciality extends ActiveRecord
                                isCopyEntrantDoc, EntrantDocumentID, isNeedHostel', "required"),
                     
                         array("DocumentSubject1, DocumentSubject2, DocumentSubject3", "required", "on"=>"ZNO"),
-                        array("Exam1ID, Exam2ID, Exam3ID, Exam1Ball, Exam2Ball, Exam3Ball, CausalityID", "required", "on"=>"EXAM"),
-                        array("Exam1ID, Exam2ID, Exam3ID, Exam1Ball, Exam2Ball, Exam3Ball, CausalityID
+                    
+                        array("Exam1ID, Exam2ID, Exam3ID, CausalityID", "required", "on"=>"EXAM"),
+                        array("Exam1Ball, Exam2Ball, Exam3Ball", 'numerical', "max"=>200, "min"=>100, "allowEmpty"=>true, "on"=>"EXAM"),
+                    
+                    
+                        array("Exam1ID, Exam2ID, Exam3ID, CausalityID
                                DocumentSubject1, DocumentSubject2, DocumentSubject3", "required","on"=>"ZNOEXAM" ),
+                        array("Exam1Ball, Exam2Ball, Exam3Ball", 'numerical', "max"=>200, "min"=>100, "allowEmpty"=>true, "on"=>"ZNOEXAM"),
                               // DocumentSubject1, DocumentSubject2, DocumentSubject3, 
                               //  Exam1ID, Exam1Ball, Exam2ID, Exam2Ball, Exam3ID, Exam3Ball', 'numerical', 'integerOnly'=>true),
 			//array('AdditionalBall', 'numerical'),

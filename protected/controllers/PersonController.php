@@ -12,10 +12,15 @@ class PersonController extends Controller
         
         protected function FindLocalPersonByDoc($seria, $number) {
            
-            $models = Documents::model()->findAll("Series=:Series AND Numbers=$number" , array(":Series"=>$seria));
-            
-            //$obj = new Documents();
-            //debug( $models[]->PersonID);
+            $c = new CDbCriteria();
+            if (!(trim($seria) === "")){
+                $c->compare("Series", trim($seria));
+            }
+            if (!(trim($number) === "")){
+                $c->compare("Numbers", trim($number));
+            }
+            $models = Documents::model()->findAll($c);
+         
             if (!is_array($models) && is_object($models)) return $models->PersonID;
             foreach ($models as $obj){
                 return $obj->PersonID;
@@ -208,6 +213,7 @@ class PersonController extends Controller
                             }
                      } else {
                          Yii::app()->user->setFlash("message","Персона вже існує в системі з кодом $findRes");
+                         $this->redirect(Yii::app()->createUrl("person/update",array("id"=>$findRes)));
                      }
                 } 
 		

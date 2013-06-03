@@ -25,7 +25,7 @@ class Documents extends ActiveRecord
                 foreach ($model as $doc){
                     $doctype = PersonDocumentTypes::model()->findByPk($doc->TypeID);
                     if ($doctype->IsEntrantDocument == 1){
-                    $res[$doc->idDocuments] = $doctype->PersonDocumentTypesName."({$doc->Numbers})";
+                    $res[$doc->idDocuments] = $doctype->PersonDocumentTypesName."({$doc->Series} {$doc->Numbers})";
                     }
                 }
             }

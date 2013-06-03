@@ -47,7 +47,7 @@ class Specialities extends CActiveRecord
             
             
             foreach($records as $record) {
-                   $res[$record->idSpeciality] = $record->SpecialityName."(".$record->SpecialityClasifierCode.")";
+                   $res[$record->idSpeciality] = $record->SpecialityDirectionName.(!empty($record->SpecialitySpecializationName) ? ": ".$record->SpecialitySpecializationName." ":"")."(".$record->SpecialityClasifierCode.")";
             }
           return $res;
 	}

@@ -177,7 +177,7 @@ class Person extends ActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-                    'benefits' => array(self::HAS_MANY, 'PersonBenefits', 'PersonID'),
+                    'benefits' => array(self::HAS_MANY, 'Personbenefits', 'PersonID'),
                     'znos'=>array(self::HAS_MANY, 'Documents', 'PersonID', 'on'=>'znos.TypeID=4'),
                     'specs'=>array(self::HAS_MANY, 'Personspeciality', 'PersonID'),
                     'docs'=>array(self::HAS_MANY, 'Documents', 'PersonID'),
@@ -186,6 +186,8 @@ class Person extends ActiveRecord
        
         
         protected function beforeSave() {
+            
+            
              
             if ($this->KOATUUCodeL1ID == "0") $this->KOATUUCodeL1ID = NULL;
             if ($this->KOATUUCodeL2ID == "0") $this->KOATUUCodeL2ID = NULL;

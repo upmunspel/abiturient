@@ -51,7 +51,8 @@ $this->menu=array(
             ?>
     
 </div>
-<?php $this->renderPartial("modals/_benefitModal",array());?>
+
 <div id="new-zno"></div>
 <div id="spec-modal-holder"></div>
 <div id="doc-modal-holder"></div>
+<div id="benefit-modal-holder"></div>
