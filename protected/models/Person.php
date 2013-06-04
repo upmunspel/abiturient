@@ -43,6 +43,10 @@ class Person extends ActiveRecord
         private $hospdoc = NULL;
         private $homephone = NULL;
         private $mobphone = NULL;
+        
+        
+        
+        
         public function getHomephone(){
             if (!empty($this->homephone)) return $this->homephone;
             if (!$this->isNewRecord){
@@ -153,7 +157,7 @@ class Person extends ActiveRecord
                                 LastNameR', 'required'),
 			array('PersonSexID, KOATUUCodeL1ID, KOATUUCodeL2ID, 
                                 KOATUUCodeL3ID, IsResident, PersonEducationTypeID, StreetTypeID, SchoolID, LanguageID, CountryID', 'numerical', 'integerOnly'=>true),
-			array('FirstName, MiddleName, LastName, FirstNameR, MiddleNameR, LastNameR', 'length', 'max'=>100),
+			array('FirstName, MiddleName, LastName, FirstNameR, MiddleNameR, LastNameR, codeU', 'length', 'max'=>100),
 			array('Address,PhotoName', 'length', 'max'=>250),
 			array('HomeNumber, PostIndex', 'length', 'max'=>10),
 			array('Birthday, isCampus', 'safe'),
@@ -285,4 +289,107 @@ class Person extends ActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+        
+        public function loadFromJSON($json_string){
+               $obj = (object)CJSON::decode($json_string);
+               if ($obj->id_Person >0 ){
+                   
+                   $model = $this;
+                   $model->codeU = $obj->personCodeU;
+                   $model->LastName = $obj->lastName ;
+                   $model->FirstName = $obj->firstName ;
+                   $model->MiddleName = $obj->middleName ;
+
+                   $model->LastNameR = $obj->lastName ;
+                   $model->FirstNameR = $obj->firstName ;
+                   $model->MiddleNameR = $obj->middleName ;
+
+
+                   $model->PersonSexID = $obj->id_PersonSex ;
+                   $model->Birthday = date("d.m.Y",mktime(0, 0, 0, $obj->birthday['month'],  $obj->birthday['dayOfMonth'],  $obj->birthday['year']));
+                   $model->IsResident = $obj->resident;
+                   $model->KOATUUCodeL1ID = $obj->id_KoatuuCodeL1 ;
+                   $model->KOATUUCodeL2ID = $obj->id_KoatuuCodeL2 ;
+                   $model->KOATUUCodeL3ID = $obj->id_KoatuuCodeL3;
+                   $model->StreetTypeID = $obj->id_StreetType ;
+                   $model->Address = $obj->address ;
+                   $model->PostIndex = $obj->postIndex ;
+                   $model->HomeNumber = $obj->homeNumber;
+
+                   foreach ($obj->documents as $strval) {
+                         $val = (object)$strval;
+                         if ($val->typeID == 7 )   {
+                                $model->entrantdoc = new Documents();
+                                $model->entrantdoc->TypeID = $val->typeID;
+                                $model->entrantdoc->AtestatValue=$val->attestatValue;
+                                $model->entrantdoc->Numbers=$val->number;
+                                $model->entrantdoc->Series=$val->series;
+                                $model->entrantdoc->DateGet=date("d.m.Y",mktime(0, 0, 0, $val->dateGet['month'],  $val->dateGet['dayOfMonth'],  $val->dateGet['year']));
+                                $model->entrantdoc->ZNOPin = $val->znoPin;
+                                $model->entrantdoc->Issued = $val->issued;
+                         }
+                         if ($val->typeID == 2)   {
+                                $model->entrantdoc = new Documents();
+                                $model->entrantdoc->TypeID = $val->typeID;
+                                $model->entrantdoc->AtestatValue=$val->attestatValue;
+                                $model->entrantdoc->Numbers=$val->number;
+                                $model->entrantdoc->Series=$val->series;
+                                $model->entrantdoc->DateGet=date("d.m.Y",mktime(0, 0, 0, $val->dateGet['month'],  $val->dateGet['dayOfMonth'],  $val->dateGet['year']));
+                                $model->entrantdoc->ZNOPin = $val->znoPin;
+                                $model->entrantdoc->Issued = $val->issued;
+                         }
+                         if ($val->typeID == 1)   {
+
+                                $model->persondoc = new Documents();
+                                $model->persondoc->TypeID = $val->typeID;
+                                $model->persondoc->AtestatValue=$val->attestatValue;
+                                $model->persondoc->Numbers=$val->number;
+                                $model->persondoc->Series=$val->series;
+                                $model->persondoc->DateGet=date("d.m.Y",mktime(0, 0, 0, $val->dateGet['month'],  $val->dateGet['dayOfMonth'],  $val->dateGet['year']));
+                                $model->persondoc->ZNOPin = $val->znoPin;
+                                $model->persondoc->Issued = $val->issued;
+
+                         }
+                         if ($val->typeID == 3 || $val->typeID == 3  )   {
+
+                                $model->persondoc = new Documents();
+                                $model->persondoc->TypeID = $val->typeID;
+                                $model->persondoc->AtestatValue=$val->attestatValue;
+                                $model->persondoc->Numbers=$val->number;
+                                $model->persondoc->Series=$val->series;
+                                $model->persondoc->DateGet=date("d.m.Y",mktime(0, 0, 0, $val->dateGet['month'],  $val->dateGet['dayOfMonth'],  $val->dateGet['year']));
+                                $model->persondoc->ZNOPin = $val->znoPin;
+                                $model->persondoc->Issued = $val->issued;
+
+                         }
+                         if ($val->typeID == 4)   { // zno
+                             if (!empty($model->codeU)){
+                               // debug(print_r($strval, true));
+                                Yii::app()->session[$model->codeU] = serialize($strval); 
+                               // debug(Yii::app()->session[$model->codeU]);
+                             }
+                         }
+                         
+
+
+                   }
+                 foreach ($obj->contacts as $val) {
+                         if ($val['id_ContactType'] == 1)   {
+                             $model->homephone = new PersonContacts();
+                             $model->homephone->PersonContactTypeID = $val['id_ContactType'];
+                             $model->homephone->PersonID = $model->idPerson;
+                             $model->homephone->Value = $val['value'] ;
+                         }
+                         if ($val['id_ContactType'] == 2)   {
+                             $model->mobphone = new PersonContacts();
+                             $model->mobphone->PersonContactTypeID = $val['id_ContactType'];
+                             $model->mobphone->PersonID = $model->idPerson;
+                             $model->mobphone->Value = $val['value'] ;
+                         }  
+
+                   }
+
+
+               }
+        }
 }

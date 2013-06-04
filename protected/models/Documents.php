@@ -209,4 +209,38 @@ class Documents extends ActiveRecord
           
         }
         
+        public function loadAndSaveFromJson($personid, $jsonstr){
+             $obj = (object)$jsonstr;
+             debug(print_r($obj,true));
+             debug($personid);
+             $this->scenario = 'ZNO';
+             $this->PersonID = $personid;
+             $this->TypeID = $obj->typeID;
+             $this->Numbers = $obj->number;
+             $this->DateGet = date("d.m.Y",mktime(0, 0, 0, $obj->dateGet['month'],  $obj->dateGet['dayOfMonth'],  $obj->dateGet['year']));
+             $this->ZNOPin = $obj->znoPin;
+             if ($this->save()){
+                 foreach($obj->subjects as $valstr){
+                     $val = (object)$valstr;
+                     $subj = new Documentsubject();
+                     $subj->DateGet = $this->DateGet;
+                     $subj->DocumentID = $this->idDocuments;
+                     $subj->SubjectID = $val->subjectId;
+                     $subj->SubjectValue = $val->subjectValue;
+                     $subj->save();
+                 }
+             }
+              debug($this->idDocuments);
+//                {       "typeID":4, 
+//                        "documentID":321434,
+//                        "series":"","number":"0104441",
+//                        "dateGet":{"year":2012,"month":0,"dayOfMonth":1,"hourOfDay":2,"minute":0,"second":0},
+//                         "znoPin":4283,"attestatValue":0,"issued":"",
+//                    "subjects":[
+//                    {"subjectId":14,"subjectValue":198.5},
+//                    {"subjectId":21,"subjectValue":194.5},
+//                    {"subjectId":29,"subjectValue":192.0}]}
+            
+        }
+        
 }

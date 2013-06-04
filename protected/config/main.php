@@ -69,6 +69,10 @@ return array(
 
 	// application components
 	'components'=>array(
+                'session' => array (
+                        'autoStart' => true,
+                 ),
+
                 'authManager' => array(
                     'class' => 'srbac.components.SDbAuthManager',
                     'connectionID' => 'db',

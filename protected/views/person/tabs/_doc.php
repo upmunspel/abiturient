@@ -1,4 +1,4 @@
-<div class="form well">
+<div class="form">
     <div class="row-fluid" >
         <div class="span3">
                 <?php
@@ -22,12 +22,12 @@ $dataProvider=new CActiveDataProvider('Documents', array('criteria'=>array(
     'with'=>array('type'),
     ),
     'sort' =>array(
-            'attributes' =>array(
-                    'type'=>array(
-                                    'asc'=>'type.PersonDocumentTypesName',
-                                    'desc'=>'type.PersonDocumentTypesName DESC',
-                            ),
-                    '*',
+             'attributes' =>array("",
+//                    'type'=>array(
+//                                    'asc'=>'type.PersonDocumentTypesName',
+//                                    'desc'=>'type.PersonDocumentTypesName DESC',
+//                            ),
+//                    '*',
             ),
         ),
     'pagination'=>array(
@@ -37,7 +37,7 @@ $dataProvider=new CActiveDataProvider('Documents', array('criteria'=>array(
  $this->widget('bootstrap.widgets.TbGridView', array(
 'type'=>'striped bordered condensed',
 'dataProvider'=>$dataProvider,
-//'template'=>"{items}",
+'template'=>"{items}",
 'columns'=>array(
     //array('name'=>'idDocuments', 'header'=>'ID', "htmlOptions"=>array("style"=>"width: 50px"), 'type' => 'raw'),
     //array('name'=>'typename', 'header'=>'typename',  ),

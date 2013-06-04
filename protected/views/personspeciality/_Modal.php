@@ -13,6 +13,12 @@
     <div style="float: right; color: red; font-weight: bold; margin-right: 20px;">
        <?php echo $model->RequestFromEB == 1 ? "Електронна заява":"Заява створена оператором ЗНУ"; ?>
     </div>
+    
+    <?php if (!$model->isNewRecord): ?>
+    <div style="float: right; font-weight: bold; margin-right: 20px;">
+        Номер справи: <span><?php echo str_pad($model->RequestNumber, 5, '0', STR_PAD_LEFT); ?></span>
+    </div>
+    <?php endif; ?>
     Поля з <span class ="required">*</span> необхідно заповнити.
 </div>
  

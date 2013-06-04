@@ -23,6 +23,7 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
             <div class ="span9">
             <div class="row-fluid">
                 <div class ="span4">
+                 <?php echo $form->hiddenField($model,'codeU'); ?>    
                 <?php echo $form->labelEx($model,'LastName');//,array('class'=>'span3'));?>
                 <?php echo $form->textField($model,'LastName',array('id'=>"LastName",'class'=>'span12','maxlength'=>50)); ?>
                 <?php //echo $form->error($model,'LastName'); ?>        
