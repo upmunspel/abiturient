@@ -5,6 +5,7 @@
  *
  * The followings are the available columns in table 'personspeciality':
  * @property integer $idPersonSpeciality
+ * @property integer $RequestNumber
  * @property integer $PersonID
  * @property integer $SepcialityID
  * //@property integer $PaymentTypeID
@@ -59,6 +60,7 @@
 class Personspeciality extends ActiveRecord
 {
         public $StatusID = 4;
+        public $currentMaxRequestNumber;
         public $isHigherEducation =0;
 	/**
 	 * Returns the static model of the specified AR class.
@@ -132,6 +134,21 @@ class Personspeciality extends ActiveRecord
             
             return parent::validate($attributes, $clearErrors);
         }
+        public function beforeSave() {
+            if ($this->isNewRecord){
+                $c = new CDbCriteria();
+                $c->compare("SepcialityID", $this->SepcialityID);
+                $c->compare("SepcialityID", $this->SepcialityID);
+                $c->compare("QualificationID", $this->QualificationID);
+                $c->compare("CourseID", $this->CourseID);
+                $c->select = 'max(RequestNumber) as currentMaxRequestNumber';
+                $res = self::model()->find($c);
+                debug($res->currentMaxRequestNumber);
+                $this->RequestNumber = $res->currentMaxRequestNumber+1;
+            }
+            
+            return parent::beforeSave();
+        }
 
         /**
 	 * @return array relational rules.
@@ -168,39 +185,39 @@ class Personspeciality extends ActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-    'idPersonSpeciality' => 'Id Person Speciality',
-    'PersonID' => 'Person',
-    'SepcialityID' => 'Напрям підготовки',
-    'PaymentTypeID' => 'Форма оплати',
-    'EducationFormID' => 'Форма навчання',
-    'QualificationID' => 'Навчальний рівень',
-    'EntranceTypeID' => 'Форма вступу',
-    'CourseID' => 'Курс',
-    'CausalityID' => 'Причина відсутності сертифікату',
-    'isTarget' => 'Цільовий вступ',
-    'isContract' => 'Контракт',
-    'isBudget' => 'Бюджет',
-    'isNeedHostel' => 'Потрібен гуртожиток',
-    'AdditionalBall' => 'Додатковий бал',
-    'EntrantDocumentID' => 'Документ-основа вступу',                
-    'isCopyEntrantDoc' => 'Копія',
-    'DocumentSubject1' => 'Предмет сертифікату',
-    'DocumentSubject2' => 'Предмет сертифікату',
-    'DocumentSubject3' => 'Предмет сертифікату',
-    'Exam1ID' => 'Екзамен',
-    'Exam1Ball' => 'Бал',
-    'Exam2ID' => 'Екзамен',
-    'Exam2Ball' => 'Бал',
-    'Exam3ID' => 'Екзамен',
-    'Exam3Ball' => 'Бал',
-    'isHigherEducation' => 'Освіта аналогічного кваліфікаційного рівня',
-    'SkipDocumentValue' => 'Бал док-та не враховується', 
-    'AdditionalBallComment' => 'Коментар до додаткового балу',
-    'CoursedpID' => 'Курси довузівської підготовки',
-    'CoursedpBall' => 'Бал за курси',
-    'OlympiadId' => 'Олімпіади',
-    'Quota1' => 'Квота (сільська місцевість)',
-    'Quota2' => 'Квота (пільгові категорії)',
+                    'idPersonSpeciality' => 'Id Person Speciality',
+                    'PersonID' => 'Person',
+                    'SepcialityID' => 'Напрям підготовки',
+                    'PaymentTypeID' => 'Форма оплати',
+                    'EducationFormID' => 'Форма навчання',
+                    'QualificationID' => 'Навчальний рівень',
+                    'EntranceTypeID' => 'Форма вступу',
+                    'CourseID' => 'Курс',
+                    'CausalityID' => 'Причина відсутності сертифікату',
+                    'isTarget' => 'Цільовий вступ',
+                    'isContract' => 'Контракт',
+                    'isBudget' => 'Бюджет',
+                    'isNeedHostel' => 'Потрібен гуртожиток',
+                    'AdditionalBall' => 'Додатковий бал',
+                    'EntrantDocumentID' => 'Документ-основа вступу',                
+                    'isCopyEntrantDoc' => 'Копія',
+                    'DocumentSubject1' => 'Предмет сертифікату',
+                    'DocumentSubject2' => 'Предмет сертифікату',
+                    'DocumentSubject3' => 'Предмет сертифікату',
+                    'Exam1ID' => 'Екзамен',
+                    'Exam1Ball' => 'Бал',
+                    'Exam2ID' => 'Екзамен',
+                    'Exam2Ball' => 'Бал',
+                    'Exam3ID' => 'Екзамен',
+                    'Exam3Ball' => 'Бал',
+                    'isHigherEducation' => 'Освіта аналогічного кваліфікаційного рівня',
+                    'SkipDocumentValue' => 'Бал док-та не враховується', 
+                    'AdditionalBallComment' => 'Коментар до додаткового балу',
+                    'CoursedpID' => 'Курси довузівської підготовки',
+                    'CoursedpBall' => 'Бал за курси',
+                    'OlympiadId' => 'Олімпіади',
+                    'Quota1' => 'Квота (сільська місцевість)',
+                    'Quota2' => 'Квота (пільгові категорії)',
   
 		);
 	}

@@ -474,7 +474,8 @@ PSN.appendSpec= function(obj, link){
     });
    
  };
- PSN.delSpec = function(obj, link){
+ PSN.delSpec = function(obj){
+ var link = $(obj).attr("href");
  if (confirm("Ви впевнені, що бажаєте видалити спеціальність?")){
      $.ajax({
              'url': link,
@@ -492,7 +493,8 @@ PSN.appendSpec= function(obj, link){
         
      }
  };
- PSN.editSpec = function(obj, link){
+ PSN.editSpec = function(obj){
+    var link = $(obj).attr("href");
     var btn = $(obj);
     //btn.button('loading');
     $("#spec-modal-holder").load(link,function() {
