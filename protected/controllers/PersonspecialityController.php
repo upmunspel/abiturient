@@ -39,6 +39,7 @@ class PersonspecialityController extends Controller
             }
             $this->renderPartial("_subjects_holder", array('model'=>$model, 'specialityid'=>$specialityid));
         }
+        
         public function actionSpeciality($idFacultet)
         {
 //            $data = Specialities::model()->findAll('FacultetID=:FacultetID',
@@ -47,6 +48,7 @@ class PersonspecialityController extends Controller
 //            $data=CHtml::listData($data,'idSpeciality','SpecialityName');
 //            echo CHtml::tag('option', array('value'=>""), "", true);
             $data = Specialities::DropDownMask($idFacultet);
+             echo CHtml::tag('option', array('value'=>""), "", true);
             foreach($data as $value=>$name)
             {
                 echo CHtml::tag('option', array('value'=>$value), CHtml::encode($name), true);

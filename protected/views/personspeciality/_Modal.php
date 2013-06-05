@@ -1,6 +1,6 @@
 <?php $this->beginWidget('bootstrap.widgets.TbModal', array(
             'id'=>'specModal',
-            'htmlOptions'=>array('style'=>'width: 1000px; margin-left: -500px;'),
+            'htmlOptions'=>array('style'=>'width: 1200px; margin-left: -600px;'),
             )
         ); ?>
  

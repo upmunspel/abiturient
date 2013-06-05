@@ -18,12 +18,60 @@
         <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/bootstrap-combobox.css" media="screen" />
         <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/bootstrap-typeahead.js"></script>
         <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/bootstrap-combobox.js"></script>
-        
+        <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/spin.min.js"></script>
+        <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/blockUI.js"></script>
        
 </head>
 
 <body>
-    
+    <div id="loader" style="display: none;"></div>
+    <script>
+        
+        function blockUI(){
+              $.blockUI({ message: $('#loader'),
+                css: { 
+                    top:  ($(window).height() - 150) /2 + 'px', 
+                    left: ($(window).width() - 150) /2 + 'px', 
+                    width: '150px',
+                    border:         'none', 
+                    backgroundColor:'none' 
+                } 
+            });
+        }
+        function unblockUI(){
+             $.unblockUI();
+        }
+        $(document).ajaxStart(function(){
+            blockUI();
+        }).ajaxStop(function(){
+            unblockUI();
+        });
+        
+         $(document).ready(function(){
+         
+          var opts = {
+            lines: 13, // The number of lines to draw
+            length: 55, // The length of each line
+            width: 15, // The line thickness
+            radius: 40, // The radius of the inner circle
+            corners: 1, // Corner roundness (0..1)
+            rotate: 0, // The rotation offset
+            direction: 1, // 1: clockwise, -1: counterclockwise
+            color: '#000', // #rgb or #rrggbb
+            speed: 1, // Rounds per second
+            trail: 60, // Afterglow percentage
+            shadow: true, // Whether to render a shadow
+            hwaccel: true, // Whether to use hardware acceleration
+            className: 'spinner', // The CSS class to assign to the spinner
+            zIndex: 2e9, // The z-index (defaults to 2000000000)
+            top: 'auto', // Top position relative to parent in px
+            left: 'auto' // Left position relative to parent in px
+          };
+        var target = document.getElementById('loader');
+        var spinner = new Spinner(opts).spin(target);     
+        });
+        
+    </script>
     <?php 
     $pkname = WebUser::getPkName();
     $this->widget('bootstrap.widgets.TbNavbar',array(

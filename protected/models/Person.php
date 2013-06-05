@@ -292,7 +292,7 @@ class Person extends ActiveRecord
         
         public function loadFromJSON($json_string){
                $obj = (object)CJSON::decode($json_string);
-               if ($obj->id_Person >0 ){
+               if (!empty($obj->id_Person ) && ($obj->id_Person >0) ){
                    
                    $model = $this;
                    $model->codeU = $obj->personCodeU;
@@ -390,6 +390,8 @@ class Person extends ActiveRecord
                    }
 
 
+               } else {
+                   Yii::app()->user->setFlash("message",'<h3 style="color: red;">Увага! Результат відсутній або напрямок перевантажено!<h3>');
                }
         }
 }

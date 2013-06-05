@@ -36,6 +36,7 @@ $this->menu=array(
 			'buttonType'=>'submit',
 			'type'=>'primary',
 			'label'=>'Поиск',
+                        'htmlOptions'=>array("onclick"=>"blockUI(); return true;"),
 		)); ?>
     </div>
 </div>

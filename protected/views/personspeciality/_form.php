@@ -53,7 +53,7 @@ $form= new TbActiveForm();
         <div class="row-fluid">
              <div class="span6">
 		<?php echo $form->labelEx($model,'EntrantDocumentID'); ?>
-		<?php echo $form->dropDownList($model,'EntrantDocumentID', Documents::PersonEntrantDocuments($personid),array('empty'=>'','class'=>'span12')); ?>
+		<?php echo $form->dropDownList($model,'EntrantDocumentID', Documents::PersonEntrantDocuments($personid),array('class'=>'span12')); ?>
 		<?php //echo $form->error($model,'CourseID'); ?>
             </div>
             <div class="span2">
@@ -192,14 +192,14 @@ $form= new TbActiveForm();
                     <?php //echo $form->error($model,'CoursedpID'); ?>
             </div>
         
-            <div class="span2">
+            <div class="span3">
                     <?php  echo $form->labelEx($model,'Quota1'); ?>
                  <div class="switch" data-on-label="Так" data-off-label="Ні">
                     <?php  echo $form->checkBox($model,'Quota1'); ?>
                  </div>
                     <?php //echo $form->error($model,'isContact'); ?>
             </div>
-            <div class="span2">
+            <div class="span3">
                     <?php  echo $form->labelEx($model,'Quota2'); ?>
                  <div class="switch" data-on-label="Так" data-off-label="Ні">
                     <?php  echo $form->checkBox($model,'Quota2'); ?>
