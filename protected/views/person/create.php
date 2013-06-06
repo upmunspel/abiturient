@@ -6,7 +6,7 @@ $this->breadcrumbs=array(
 
 $this->menu=array(
     
-        array('label'=>'Перелік абітурієнтів','url'=>array('index'),'icon'=>"icon-list-alt"),
+        array('label'=>'Перелік абітурієнтів','url'=>array('index'), 'icon'=>"icon-list-alt"),
 	
 );
 ?>
@@ -36,6 +36,7 @@ $this->menu=array(
 			'buttonType'=>'submit',
 			'type'=>'primary',
 			'label'=>'Поиск',
+                        'htmlOptions'=>array("onclick"=>"blockUI(); return true;"),
 		)); ?>
     </div>
 </div>

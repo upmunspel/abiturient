@@ -21,6 +21,9 @@ class Specialities extends CActiveRecord
 	 * @param string $className active record class name.
 	 * @return Specialities the static model class
 	 */
+        public static function listData(){
+            
+        }
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
