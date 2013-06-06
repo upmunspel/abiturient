@@ -62,7 +62,8 @@ class SpecialitysubjectsController extends Controller
 	public function actionCreate()
 	{
 		$models=array();
-                 
+                $spec=0;
+                $valid = true;
                 for($i=1; $i<=3; $i++) {
                     $model = new Specialitysubjects();
                     $model->LevelID = $i;
@@ -73,17 +74,36 @@ class SpecialitysubjectsController extends Controller
 
 		if(isset($_POST['Specialitysubjects']))
 		{
-                    echo '<br>'; echo '<br>'; echo '<br>';
-                    echo '<pre>';
-                    var_dump($_POST);
-                    echo '</pre>';
+//                    echo '<br>'; echo '<br>'; echo '<br>';
+//                    echo '<pre>';
+//                    var_dump($_POST);
+//                    echo '</pre>';
+                    $spec = $_POST['SpecialityID'];
+                    foreach($models as $i=>$model) {
+                       $model->attributes=$_POST['Specialitysubjects'][$i];
+                       $model->SpecialityID = $spec;
+                       $valid = $model->validate() && $valid;
+                    }
+                    if ($valid){
+                        foreach($models as $i=>$model) {
+                            $subj = $model->SubjectID;
+                            foreach ($model->SubjectID as $sub){
+                                $tm = new Specialitysubjects();
+                                $tm->SpecialityID = $spec;
+                                $tm->SubjectID = $sub;
+                                $tm->LevelID = $model->LevelID;
+                                $tm->save();
+                            }
+                        }
+                        $this->redirect(array('admin'));
+                    }
 //			$model->attributes=$_POST['Specialitysubjects'];
 //			if($model->save())
 //				$this->redirect(array('view','id'=>$model->id));
 		}
 
 		$this->render('create',array(
-			'models'=>$models,
+			'models'=>$models,'SpecialityID'=>$spec,
 		));
 	}
 

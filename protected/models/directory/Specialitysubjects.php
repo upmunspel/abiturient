@@ -42,10 +42,12 @@ class Specialitysubjects extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('SpecialityID, SubjectID, LevelID', 'numerical', 'integerOnly'=>true),
+			array('SpecialityID, LevelID', 'numerical', 'integerOnly'=>true),
+                        array('SpecialityID, LevelID, SubjectID', 'required'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, SpecialityID, SubjectID, LevelID', 'safe', 'on'=>'search'),
+                        //array('SubjectID','type','type'=>'array','allowEmpty'=>false)
 		);
 	}
 

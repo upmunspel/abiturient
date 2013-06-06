@@ -12,4 +12,4 @@ $this->menu=array(
 
 <h1>Create Specialitysubjects</h1>
 
-<?php echo $this->renderPartial('_form', array('models'=>$models)); ?>
+<?php echo $this->renderPartial('_form', array('models'=>$models,'SpecialityID'=>$SpecialityID)); ?>
