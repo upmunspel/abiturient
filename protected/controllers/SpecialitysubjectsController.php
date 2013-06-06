@@ -61,14 +61,19 @@ class SpecialitysubjectsController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model=new Specialitysubjects;
-
+		$models=array();
+                 
+                for($i=1; $i<=3; $i++) {
+                    $model = new Specialitysubjects();
+                    $model->LevelID = $i;
+                    $models[] = $model;
+                }
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
 		if(isset($_POST['Specialitysubjects']))
 		{
-                     echo '<br>'; echo '<br>'; echo '<br>';
+                    echo '<br>'; echo '<br>'; echo '<br>';
                     echo '<pre>';
                     var_dump($_POST);
                     echo '</pre>';
@@ -78,7 +83,7 @@ class SpecialitysubjectsController extends Controller
 		}
 
 		$this->render('create',array(
-			'model'=>$model,
+			'models'=>$models,
 		));
 	}
 

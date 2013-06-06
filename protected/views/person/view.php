@@ -1,3 +1,16 @@
+<?php 
+$this->beginWidget('ext.prettyPhoto.PrettyPhoto', array(
+        'id'=>'pretty_photo',
+        // prettyPhoto options
+        'options'=>array(
+          'opacity'=>0.60,
+          'modal'=>true,
+
+        ),
+      ));
+$this->endWidget('ext.prettyPhoto.PrettyPhoto'); ?>
+
+
 <?php
 $burl = Yii::app()->baseUrl;
 Yii::app()->getClientScript()->registerCoreScript('jquery');

@@ -45,6 +45,7 @@ $this->pageTitle=Yii::app()->name;
       //'<a href="http://10.1.103.26:8080/JasperReports/?iframe=true&width=1024&height=450">Link to myFunction</a>';
     ?>
     </div>
+<a href="http://10.1.103.26:8080/request_report-1.0/?PersonID=33&iframe=true&width=1024&height=500" title="Тестовий друк" rel="prettyPhoto[]">Тестовий друк</a>
     </div>
 <div class="row">
 <?php 
@@ -68,7 +69,7 @@ $this->pageTitle=Yii::app()->name;
     //)); //<a href="http://10.1.103.26:8080/request_report-1.0/?iframe=true&width=1024&height=450&PersonID=33" rel = "" title="Тестовий друк">Тестовий друк</a>
       //'<a href="http://10.1.103.26:8080/JasperReports/?iframe=true&width=1024&height=450">Link to myFunction</a>';
     ?>
-    <a href="http://10.1.103.26:8080/request_report-1.0/?iframe=true&width=1024&height=450&PersonID=33" title="Тестовий друк">Тестовий друк</a>
+    <a href="http://10.1.103.26:8080/request_report-1.0/?PersonID=33&iframe=true&width=1024&height=450" title="Тестовий друк">Тестовий друк</a>
  
 <?php  $this->endWidget('ext.prettyPhoto.PrettyPhoto'); ?>
 </div>
