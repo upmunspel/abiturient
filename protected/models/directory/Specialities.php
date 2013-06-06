@@ -53,8 +53,14 @@ class Specialities extends CActiveRecord
 	}
         public static function DropDown($FacultetID = 0){
               $res = array();
-              foreach(Specialities::model()->findAll("FacultetID = :FacultetID", array(":FacultetID"=>$FacultetID)) as $record) {
-                     $res[$record->idSpeciality] = $record->SpecialityName;
+              if ($FacultetID == 0){
+                foreach(Specialities::model()->findAll() as $record) {
+                       $res[$record->idSpeciality] =  $res[$record->idSpeciality] = $record->SpecialityDirectionName.(!empty($record->SpecialitySpecializationName) ? ": ".$record->SpecialitySpecializationName." ":"")."(".$record->SpecialityClasifierCode.")";
+                }
+              } else {
+                foreach(Specialities::model()->findAll("FacultetID = :FacultetID", array(":FacultetID"=>$FacultetID)) as $record) {
+                       $res[$record->idSpeciality] =  $res[$record->idSpeciality] = $record->SpecialityDirectionName.(!empty($record->SpecialitySpecializationName) ? ": ".$record->SpecialitySpecializationName." ":"")."(".$record->SpecialityClasifierCode.")";
+                }
               }
           return $res;
 	}

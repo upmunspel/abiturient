@@ -34,6 +34,9 @@ $dataProvider=new CActiveDataProvider("Personspeciality", array('criteria'=>arra
         'pageSize'=>10,
     )
 ));
+$url = 'http://10.1.103.26:8080/request_report-1.0/?iframe=true&width=1024&height=450PersonID='.$personid;
+debug($url);
+
  $this->widget('bootstrap.widgets.TbGridView', array(
     'type'=>'striped bordered condensed',
     'dataProvider'=>$dataProvider,
@@ -46,7 +49,7 @@ $dataProvider=new CActiveDataProvider("Personspeciality", array('criteria'=>arra
 
         array(
                 'class'=>'bootstrap.widgets.TbButtonColumn',
-                'template'=>'{update} {trash}',
+                'template'=>'{update} {trash} {print}',
                 'buttons'=>array
                 (
 
@@ -68,9 +71,19 @@ $dataProvider=new CActiveDataProvider("Personspeciality", array('criteria'=>arra
                             'onclick'=>"PSN.delSpec(this); return false;",
                         ),
                     ),
+                    'print' => array(
+                        'label'=>'Друкувати',
+                        'icon'=>'print',
+                        'url'=>  "#",
+                        'options'=>array(
+                            'class'=>'btn',
+                            'onclick'=>"$(this).attr('href','http://10.1.103.26:8080/request_report-1.0/?iframe=true&width=1024&height=450&PersonID=33'); return true;",
+                             //href"=>$url,
+                        ),
+                    ),
                 ),
                 'htmlOptions'=>array(
-                    'style'=>'width: 90px;',
+                    'style'=>'width: 130px;',
                 ),
             )
         ),
