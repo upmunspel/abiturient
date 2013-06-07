@@ -63,13 +63,13 @@ $form= new TbActiveForm();
                  </div>
                     <?php //echo $form->error($model,'isCopyEntrantDoc'); ?>
             </div>
-            <div class="span4">
+<!--            <div class="span4">
                  <?php echo $form->labelEx($model,'SkipDocumentValue'); ?>
                  <div class="switch" data-on-label="Так" data-off-label="Ні">
                     <?php echo $form->checkBox($model,'SkipDocumentValue'); ?>
                  </div>
                 
-            </div>
+            </div>-->
             
         </div>
         <div class="row-fluid">
@@ -155,7 +155,7 @@ $form= new TbActiveForm();
                     <?php //echo $form->error($model,'isContact'); ?>
             </div>-->
             
-            <div class="span2">
+<!--            <div class="span2">
                     <?php echo $form->labelEx($model,'AdditionalBall'); ?>
                     <?php echo $form->textField($model,'AdditionalBall',array('class'=>"span12")); ?>
                     <?php //echo $form->error($model,'AdditionalBall'); ?>
@@ -164,7 +164,7 @@ $form= new TbActiveForm();
                     <?php echo $form->labelEx($model,'AdditionalBallComment'); ?>
                     <?php echo $form->textField($model,'AdditionalBallComment',array('class'=>"span12")); ?>
                     <?php //echo $form->error($model,'AdditionalBall'); ?>
-            </div>
+            </div>-->
         </div>
     <!-- ZNO -->	
     <div class="row-fluid" id="subjects-holder">
@@ -185,7 +185,7 @@ $form= new TbActiveForm();
                     <?php //echo $form->error($model,'AdditionalBall'); ?>
             </div>
       </div>
-      <div class="row-fluid"> 
+<!--      <div class="row-fluid"> 
             <div class="span6">
                     <?php echo $form->labelEx($model,'OlympiadID'); ?>
                     <?php echo $form->dropDownList($model,'OlympiadID', Olympiadsawards::DropDown(), array('empty'=>"",'class'=>"span12")); ?>
@@ -209,7 +209,7 @@ $form= new TbActiveForm();
            
         
         
-        </div>
+        </div>-->
 	
 <!--
 	

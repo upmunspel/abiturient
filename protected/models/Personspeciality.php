@@ -218,7 +218,7 @@ class Personspeciality extends ActiveRecord
                     'OlympiadId' => 'Олімпіади',
                     'Quota1' => 'Квота (сільська місцевість)',
                     'Quota2' => 'Квота (пільгові категорії)',
-  
+                    'RequestNumber'=>"Номер заявки"
 		);
 	}
 
