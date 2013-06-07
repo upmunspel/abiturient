@@ -8,19 +8,21 @@ $form = new TbActiveForm();
 
 	<p class="help-block">Fields with <span class="required">*</span> are required.</p>
 
-	<?php echo $form->errorSummary($model); ?>
-
 	<?php if (empty($SpecialityID)) $SpecialityID = 0;
-        echo CHtml::dropDownList("SpecialityID", $SpecialityID , Specialities::DropDown(), array('class'=>'span5'));
+        echo CHtml::dropDownList("SpecialityID", $SpecialityID , Specialities::DropDown(), array('empty'=>"",'class'=>'span5'));
         $data = CHtml::listData(Subjects::model()->findAll(), "idSubjects", "SubjectName");
         $dataCount  = count($data);
         ?>
+        <div class ="row-fluid">
+            <?php echo $form->error($models[0],"SpecialityID"); ?>
+        </div>
         
         <div class ="row-fluid">
-            <?php foreach ($models as $model): ?>
+            <?php foreach ($models as $i=>$model): ?>
             <div class="span4">
-                <?php echo $form->textFieldRow($model,'[]LevelID',array('class'=>'span12',"value"=>"1","disabled"=>"disabled")); ?>
-                <?php echo $form->dropDownListRow($model,'[]SubjectID',$data, array('class'=>'span12','multiple'=>true,"size"=>"$dataCount")); ?>
+                <?php echo $form->error($model,"[$i]SubjectID"); ?>
+                <?php echo $form->textFieldRow($model,"[$i]LevelID",array('class'=>'span12',"readonly"=>"readonly")); ?>
+                <?php echo $form->dropDownListRow($model,"[$i]SubjectID",$data, array('class'=>'span12','multiple'=>true,"size"=>"$dataCount")); ?>
             </div>
            <?php endforeach; ?>
         </div>

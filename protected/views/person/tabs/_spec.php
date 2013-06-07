@@ -1,3 +1,4 @@
+
 <div class="form">
     <div class="row-fluid">
         <div class="span3">
@@ -34,8 +35,7 @@ $dataProvider=new CActiveDataProvider("Personspeciality", array('criteria'=>arra
         'pageSize'=>10,
     )
 ));
-$url = 'http://10.1.103.26:8080/request_report-1.0/?iframe=true&width=1024&height=450PersonID='.$personid;
-debug($url);
+
 
  $this->widget('bootstrap.widgets.TbGridView', array(
     'type'=>'striped bordered condensed',
@@ -74,11 +74,11 @@ debug($url);
                     'print' => array(
                         'label'=>'Друкувати',
                         'icon'=>'print',
-                        'url'=>  "#",
+                        'url'=>  '$data->PersonID',
                         'options'=>array(
                             'class'=>'btn',
-                            'onclick'=>"$(this).attr('href','http://10.1.103.26:8080/request_report-1.0/?iframe=true&width=1024&height=450&PersonID=33'); return true;",
-                             //href"=>$url,
+                            'onclick'=>'PSN.printSpec(this); return true;',
+                            'rel'=>"prettyPhoto",
                         ),
                     ),
                 ),
@@ -92,3 +92,9 @@ debug($url);
 ?>   
 
 </div><!-- form -->
+<script type="text/javascript">
+/*<![CDATA[*/
+jQuery('#pretty_photo a').attr('rel','prettyPhoto');
+jQuery('a[rel^="prettyPhoto"]').prettyPhoto({'opacity':0.6,'modal':true,'theme':'facebook'});
+/*]]>*/
+</script>

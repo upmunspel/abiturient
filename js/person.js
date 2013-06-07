@@ -41,7 +41,13 @@ PSN.Init = function(){
    
 }
 
-
+PSN.printSpec = function(obj, PersonID){
+    var url = $(obj).attr("href");
+    //alert(parseInt(url));
+    if (!isNaN(parseInt(url))) {
+        $(obj).attr("href","http://10.1.103.26:8080/request_report-1.0/?PersonID="+url+"&iframe=true&width=1024&height=450");
+    }
+}
 
 PSN.KOATUUChange = function(obj, level){
     var id = $(obj," :selected").val();
