@@ -511,7 +511,7 @@ PSN.appendSpec= function(obj, link){
 /**
 * EntranceType Change
 */
- PSN.changeEntranceType = function(obj){
+ PSN.changeEntranceType = function(obj, link ){
     var EntranceType =  parseInt($(obj,":selected").val());
     switch (EntranceType) {
         case 1:
@@ -546,14 +546,22 @@ PSN.appendSpec= function(obj, link){
         
         
     }
+    PSN.changeSpeciality(obj, link);
  }
  /**
   * Sepciality change
   */
- PSN.changeSpeciality = function(obj, url){
-     var Sepciality = $(obj,"selected").val();
-     var data = "specialityid="+Sepciality;
-     $("#subjects-holder").load(url,data);
+ PSN.changeSpeciality = function(obj, link){
+     
+   var fdata = $("#spec-form-modal").serialize(); 
+    $.ajax({
+    'url': link,
+    'data': fdata,
+    'type':'POST',
+    success: function (data) { 
+            $("#subjects-holder").html(data);
+        }
+    });
      
  }
 String.prototype.capitalize = function() {
