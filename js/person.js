@@ -41,11 +41,11 @@ PSN.Init = function(){
    
 }
 
-PSN.printSpec = function(obj, PersonID){
+PSN.printSpec = function(obj, PersonSpecID){
     var url = $(obj).attr("href");
     //alert(parseInt(url));
     if (!isNaN(parseInt(url))) {
-        $(obj).attr("href","http://10.1.103.26:8080/request_report-1.0/?PersonID="+url+"&iframe=true&width=1024&height=450");
+        $(obj).attr("href","http://10.1.103.26:8080/request_report-1.0/?PersonID="+PersonSpecID+"&iframe=true&width=1024&height=450");
     }
 }
 
