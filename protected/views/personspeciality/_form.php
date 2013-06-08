@@ -92,7 +92,7 @@ $form= new TbActiveForm();
                 ?>
             </div>
             <div class="span4">
-                <?php $url = Yii::app()->createUrl("personspeciality/znosubjects",array("personid"=>$personid,"specid"=>intval($model->idPersonSpeciality)));
+                <?php $url = Yii::app()->createUrl("personspeciality/znosubjects",array("personid"=>$personid));
                       echo $form->labelEx($model,'SepcialityID'); ?>
 		<?php echo $form->dropDownList($model,'SepcialityID', Specialities::DropDownMask($idFacultet),
                         array( 'empty'=>'','class'=>"span12",
@@ -123,7 +123,7 @@ $form= new TbActiveForm();
             <div class="span4">
                     <?php echo $form->labelEx($model,'EntranceTypeID'); ?>
                     <?php echo $form->dropDownList($model,'EntranceTypeID',CHtml::listData(Personenterancetypes::model()->findAll(), 'idPersonEnteranceType', 'PersonEnteranceTypeName'),
-                            array('empty'=>'', 'class'=>"span12",'onchange'=>"PSN.changeEntranceType(this)", )); ?>
+                            array('empty'=>'', 'class'=>"span12",'onchange'=>"PSN.changeEntranceType(this, '$url')", )); ?>
                     <?php //echo $form->error($model,'EntranceTypeID'); ?>
             </div>
             

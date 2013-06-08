@@ -74,7 +74,7 @@ $dataProvider=new CActiveDataProvider("Personspeciality", array('criteria'=>arra
                     'print' => array(
                         'label'=>'Друкувати',
                         'icon'=>'print',
-                        'url'=>  '$data->PersonID',
+                        'url'=>  '$data->idPersonSpeciality',
                         'options'=>array(
                             'class'=>'btn',
                             'onclick'=>'PSN.printSpec(this); return true;',

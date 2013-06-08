@@ -21,21 +21,25 @@ class Subjects extends CActiveRecord
      
         public static function DropDown($SepcialityID = 0, $Level = 0){
            $res = array();
-           if ($SepcialityID == 0){
-                foreach(Subjects::model()->findAll() as $record) {
+           $c = new CDbCriteria();
+           $c->order = 'SubjectName';
+          
+           //if ($SepcialityID == 0){
+                foreach(Subjects::model()->findAll($c) as $record) {
                      $res[$record->idSubjects] = $record->SubjectName;
                 }
-           } else {
-                $ssubj = Specialitysubjects::model()->find("SpecialityID=:SpecialityID and LevelID = :LevelID", 
-                        array(":SpecialityID"=>$SepcialityID,":LevelID"=>$Level));
-                if (!empty($ssubj->subject)){
-                      $res[$ssubj->subject->idSubjects] = $ssubj->subject->SubjectName;
-                } else {
-                    foreach(Subjects::model()->findAll() as $record) {
-                         $res[$record->idSubjects] = $record->SubjectName;
-                    }
-                }
-            }
+//           } else {
+//               
+//                $ssubj = Specialitysubjects::model()->find("SpecialityID=:SpecialityID and LevelID = :LevelID", 
+//                        array(":SpecialityID"=>$SepcialityID,":LevelID"=>$Level));
+//                if (!empty($ssubj->subject)){
+//                      $res[$ssubj->subject->idSubjects] = $ssubj->subject->SubjectName;
+//                } else {
+//                    foreach(Subjects::model()->findAll() as $record) {
+//                         $res[$record->idSubjects] = $record->SubjectName;
+//                    }
+//                }
+//            }
            return $res;
         }	
     /**
@@ -82,6 +86,12 @@ class Subjects extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+                 
+//			'documentsubjects' => array(self::HAS_MANY, 'Documentsubject', 'SubjectID'),
+//			'personsepcialities' => array(self::HAS_MANY, 'Personsepciality', 'Exam1ID'),
+//			'personsepcialities1' => array(self::HAS_MANY, 'Personsepciality', 'Exam2ID'),
+//			'personsepcialities2' => array(self::HAS_MANY, 'Personsepciality', 'Exam3ID'),
+		
 			'documentsubjects' => array(self::HAS_MANY, 'Documentsubject', 'SubjectID'),
 			'personsepcialities' => array(self::HAS_MANY, 'Personsepciality', 'Exam1ID'),
 			'personsepcialities1' => array(self::HAS_MANY, 'Personsepciality', 'Exam2ID'),

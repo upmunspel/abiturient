@@ -10,7 +10,10 @@ $form = new TbActiveForm();
 
 	<?php if (empty($SpecialityID)) $SpecialityID = 0;
         echo CHtml::dropDownList("SpecialityID", $SpecialityID , Specialities::DropDown(), array('empty'=>"",'class'=>'span5'));
-        $data = CHtml::listData(Subjects::model()->findAll(), "idSubjects", "SubjectName");
+        $c = new CDbCriteria();
+        $c->order = 'SubjectName';
+        $c->compare('idZNOSubject', '>0');
+        $data = CHtml::listData(Subjects::model()->findAll($c), "idSubjects", "SubjectName");
         $dataCount  = count($data);
         ?>
         <div class ="row-fluid">

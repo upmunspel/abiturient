@@ -29,15 +29,13 @@ class PersonspecialityController extends Controller
 	{
 		return AccessToDictionaries::getAccessRulesToDictionaries();
 	}
-        public function actionZnosubjects($personid, $specid, $specialityid){
-            if ($specid == 0){
-                $model = new Personspeciality();
+        public function actionZnosubjects($personid){
+            $model=new Personspeciality;
+            if(isset($_POST['Personspeciality'])){
+                $model->attributes = $_POST['Personspeciality'];
                 $model->PersonID = intval($personid);
-            } else {
-                $model = Personspeciality::model()->findByPk($specid);
-                $model->PersonID = $personid;  
             }
-            $this->renderPartial("_subjects_holder", array('model'=>$model, 'specialityid'=>$specialityid));
+            $this->renderPartial("_subjects_holder", array('model'=>$model, 'specialityid'=>$model->SepcialityID));
         }
         
         public function actionSpeciality($idFacultet)

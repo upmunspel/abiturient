@@ -103,7 +103,7 @@ class Personspeciality extends ActiveRecord
                         array("EntranceTypeID",  "required" ,"except"=>"SHORTFORM"),
                     
                         array("Exam1Ball, Exam2Ball, Exam3Ball", 'numerical',
-                               "max"=>200, "min"=>100, "allowEmpty"=>true ),
+                               "max"=>200, "min"=>100, "allowEmpty"=>true, 'except'=>'ZNOEXAM, EXAM'),
                         array("AdditionalBall, CoursedpBall", 'numerical',
                                "max"=>200, "min"=>1, "allowEmpty"=>true ),
                         array('PersonID, SepcialityID,  EducationFormID, 
@@ -116,8 +116,8 @@ class Personspeciality extends ActiveRecord
                         array("Exam1Ball, Exam2Ball, Exam3Ball", 'numerical', "max"=>200, "min"=>100, "allowEmpty"=>true, "on"=>"EXAM"),
                     
                     
-                        array("Exam1ID, Exam2ID, Exam3ID, CausalityID
-                               DocumentSubject1, DocumentSubject2, DocumentSubject3", "required","on"=>"ZNOEXAM" ),
+                        array("CausalityID", "required","on"=>"ZNOEXAM" ),
+                        array("Exam1ID, Exam2ID, Exam3ID, DocumentSubject1, DocumentSubject2, DocumentSubject3", "valididateZnoExam","on"=>"ZNOEXAM" ),
                         array("Exam1Ball, Exam2Ball, Exam3Ball", 'numerical', "max"=>200, "min"=>100, "allowEmpty"=>true, "on"=>"ZNOEXAM"),
                               // DocumentSubject1, DocumentSubject2, DocumentSubject3, 
                               //  Exam1ID, Exam1Ball, Exam2ID, Exam2Ball, Exam3ID, Exam3Ball', 'numerical', 'integerOnly'=>true),
@@ -127,6 +127,35 @@ class Personspeciality extends ActiveRecord
 			array('idPersonSpeciality, PersonID, SepcialityID,  EducationFormID, QualificationID, EntranceTypeID, CourseID, CausalityID, isContract, AdditionalBall, isCopyEntrantDoc, DocumentSubject1, DocumentSubject2, DocumentSubject3, Exam1ID, Exam1Ball, Exam2ID, Exam2Ball, Exam3ID, Exam3Ball', 'safe', 'on'=>'search'),
 		);
 	}
+        public function valididateZnoExam($attributes){
+           switch ($attributes){
+            case "DocumentSubject1":
+            case "Exam1ID":    
+                if ((empty($this->DocumentSubject1) &&  empty($this->Exam1ID)) || (!empty($this->DocumentSubject1) &&  !empty($this->Exam1ID))) {
+                    $this->addError("$attributes", "Потрібно обрати сертифікат або предмт" );
+                 
+                    return false;
+                }
+                break;
+            case "DocumentSubject2":
+            case "Exam2ID":    
+            if ((empty($this->DocumentSubject2) &&  empty($this->Exam2ID)) || (!empty($this->DocumentSubject2) &&  !empty($this->Exam2ID))) {
+                $this->addError("$attributes", "Потрібно обрати сертифікат або предмт" );
+              
+                return false;
+            }
+                break;
+            case "DocumentSubject3":
+            case "Exam3ID":    
+            
+             if ((empty($this->DocumentSubject3) &&  empty($this->Exam3ID)) || (!empty($this->DocumentSubject3) &&  !empty($this->Exam3ID))) {
+                $this->addError("$attributes", "Потрібно обрати сертифікат або предмет" );
+               
+                return false;
+            }
+           }
+            return true;
+        }
         public function validate($attributes = null, $clearErrors = true) {
             if ($this->EntranceTypeID == 1) $this->scenario  = "ZNO";
             if ($this->EntranceTypeID == 2) $this->scenario  = "EXAM";

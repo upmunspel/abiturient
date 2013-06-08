@@ -41,11 +41,11 @@ PSN.Init = function(){
    
 }
 
-PSN.printSpec = function(obj, PersonID){
+PSN.printSpec = function(obj, PersonSpecID){
     var url = $(obj).attr("href");
     //alert(parseInt(url));
     if (!isNaN(parseInt(url))) {
-        $(obj).attr("href","http://10.1.103.26:8080/request_report-1.0/?PersonID="+url+"&iframe=true&width=1024&height=450");
+        $(obj).attr("href","http://10.1.103.26:8080/request_report-1.0/?PersonID="+PersonSpecID+"&iframe=true&width=1024&height=450");
     }
 }
 
@@ -511,7 +511,7 @@ PSN.appendSpec= function(obj, link){
 /**
 * EntranceType Change
 */
- PSN.changeEntranceType = function(obj){
+ PSN.changeEntranceType = function(obj, link ){
     var EntranceType =  parseInt($(obj,":selected").val());
     switch (EntranceType) {
         case 1:
@@ -546,14 +546,22 @@ PSN.appendSpec= function(obj, link){
         
         
     }
+    PSN.changeSpeciality(obj, link);
  }
  /**
   * Sepciality change
   */
- PSN.changeSpeciality = function(obj, url){
-     var Sepciality = $(obj,"selected").val();
-     var data = "specialityid="+Sepciality;
-     $("#subjects-holder").load(url,data);
+ PSN.changeSpeciality = function(obj, link){
+     
+   var fdata = $("#spec-form-modal").serialize(); 
+    $.ajax({
+    'url': link,
+    'data': fdata,
+    'type':'POST',
+    success: function (data) { 
+            $("#subjects-holder").html(data);
+        }
+    });
      
  }
 String.prototype.capitalize = function() {

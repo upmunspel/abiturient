@@ -1,16 +1,18 @@
+<?php //$specialityid = 0; ?>
+
 <div class="row-fluid">
     <div class="span6">
             <?php echo CHtml::activeLabelEx($model,'Exam1ID'); ?>
 
     </div>
    <div class="span6">
-            <?php echo CHtml::activeLabelEx($model,'Exam1Ball'); ?>
+            <?php  echo CHtml::activeLabelEx($model,'Exam1Ball'); ?>
 
     </div>
 </div>
 <div class="row-fluid">
     <div class="span6">
-            <?php //echo $form->labelEx($model,'Exam1ID'); ?>
+            <?php //echo $form->labelEx($model,'Exam1ID');  echo($specialityid); ?>
             <?php echo CHtml::activeDropDownList($model,'Exam1ID', Subjects::DropDown( $specialityid, 1),array('empty'=>'',"disabled"=>$model->EntranceTypeID == 1 ? "disabled":"",'class'=>"span12")); ?>
             <?php //echo $form->error($model,'Exam1ID'); ?>
     </div>
