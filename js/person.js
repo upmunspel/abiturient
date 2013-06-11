@@ -60,7 +60,7 @@ PSN.KOATUUChange = function(obj, level){
         var koatuu3 = $("#Person_KOATUUCodeL3ID");
         if (level == 3) {
             PSN.KOATUUCode = data.Code;    
-            if ($("#sameschooladdr").prop("checked")) PSN.updateSchools(PSN.KOATUUCode);
+            if ($("#sameschooladdr").prop("checked")) PSN.updateSchools(PSN.KOATUUCode,4);
             return;
         }
        
