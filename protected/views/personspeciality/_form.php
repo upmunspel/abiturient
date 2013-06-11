@@ -57,19 +57,24 @@ $form= new TbActiveForm();
 		<?php //echo $form->error($model,'CourseID'); ?>
             </div>
             <div class="span2">
+                    <?php echo $form->labelEx($model,'PersonDocumentsAwardsTypesID'); ?>
+                    <?php echo $form->dropDownList($model,'PersonDocumentsAwardsTypesID', CHtml::listData(Persondocumentsawardstypes::model()->findAll("idPersonDocumentsAwardsTypes < 3"), 'idPersonDocumentsAwardsTypes', 'PersonDocumentsAwardsTypesName'),array('empty'=>'','class'=>'span12')); ?>
+	    </div>
+            <div class="span2">
                     <?php echo $form->labelEx($model,'isCopyEntrantDoc'); ?>
                  <div class="switch" data-on-label="Так" data-off-label="Ні">
                     <?php echo $form->checkBox($model,'isCopyEntrantDoc'); ?>
                  </div>
                     <?php //echo $form->error($model,'isCopyEntrantDoc'); ?>
             </div>
-<!--            <div class="span4">
+            <?php if (Yii::app()->user->checkAccess("showFullEntrantForm")): ?>
+           <div class="span2">
                  <?php echo $form->labelEx($model,'SkipDocumentValue'); ?>
                  <div class="switch" data-on-label="Так" data-off-label="Ні">
                     <?php echo $form->checkBox($model,'SkipDocumentValue'); ?>
                  </div>
-                
-            </div>-->
+            </div>
+            <?php   endif; ?>
             
         </div>
         <div class="row-fluid">
@@ -185,31 +190,49 @@ $form= new TbActiveForm();
                     <?php //echo $form->error($model,'AdditionalBall'); ?>
             </div>
       </div>
-<!--      <div class="row-fluid"> 
-            <div class="span6">
+    
+    <?php if (Yii::app()->user->checkAccess("showFullEntrantForm")): ?>
+      <div class="row-fluid"> 
+            <div class="span4">
                     <?php echo $form->labelEx($model,'OlympiadID'); ?>
                     <?php echo $form->dropDownList($model,'OlympiadID', Olympiadsawards::DropDown(), array('empty'=>"",'class'=>"span12")); ?>
                     <?php //echo $form->error($model,'CoursedpID'); ?>
             </div>
         
-            <div class="span3">
+            <div class="span2">
                     <?php  echo $form->labelEx($model,'Quota1'); ?>
                  <div class="switch" data-on-label="Так" data-off-label="Ні">
                     <?php  echo $form->checkBox($model,'Quota1'); ?>
                  </div>
                     <?php //echo $form->error($model,'isContact'); ?>
             </div>
-            <div class="span3">
+            <div class="span2">
                     <?php  echo $form->labelEx($model,'Quota2'); ?>
                  <div class="switch" data-on-label="Так" data-off-label="Ні">
                     <?php  echo $form->checkBox($model,'Quota2'); ?>
                  </div>
                     <?php //echo $form->error($model,'isContact'); ?>
             </div>
+          <div class="span2">
+                    <?php  echo $form->labelEx($model,'isNotCheckAttestat'); ?>
+                 <div class="switch" data-on-label="Так" data-off-label="Ні">
+                    <?php  echo $form->checkBox($model,'isNotCheckAttestat'); ?>
+                 </div>
+                    <?php //echo $form->error($model,'isContact'); ?>
+            </div>
+            <div class="span2">
+                    <?php  echo $form->labelEx($model,'isForeinghEntrantDocument'); ?>
+                 <div class="switch" data-on-label="Так" data-off-label="Ні">
+                    <?php  echo $form->checkBox($model,'isForeinghEntrantDocument'); ?>
+                 </div>
+                    <?php //echo $form->error($model,'isContact'); ?>
+            </div>
+           
            
         
         
-        </div>-->
+        </div>
+    <? endif; ?>
 	
 <!--
 	

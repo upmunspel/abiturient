@@ -8,7 +8,7 @@
  * @property integer $RequestNumber
  * @property integer $PersonID
  * @property integer $SepcialityID
- * //@property integer $PaymentTypeID
+ * @property integer $PaymentTypeID
  * @property integer $EducationFormID
  * @property integer $QualificationID
  * @property integer $EntranceTypeID
@@ -18,12 +18,15 @@
  * @property integer $OlympiadID
  * @property integer $GraduatedUniversitieID
  * @property integer $GraduatedSpecialitieID
+ * @property integer $PersonDocumentsAwardsTypesID
  * @property integer $isTarget
  * @property integer $isContract
  * @property integer $isBudget
  * @property integer $isNeedHostel
- * @property double $AdditionalBall
- * @property double $CoursedpBall
+ * @property integer $isNotCheckAttestat
+ * @property integer $isForeinghEntrantDocument
+ * @property double  $AdditionalBall
+ * @property double  $CoursedpBall
  * @property integer $isCopyEntrantDoc
  * @property integer $DocumentSubject1
  * @property integer $DocumentSubject2
@@ -97,7 +100,7 @@ class Personspeciality extends ActiveRecord
                                DocumentSubject2, DocumentSubject3, 
                                Exam1ID, Exam1Ball, Exam2ID, Exam2Ball,
                                Exam3ID, Exam3Ball, isHigherEducation, SkipDocumentValue', 'numerical', 'integerOnly'=>true),
-                        array("AdditionalBallComment,  CoursedpID, Quota1,Quota2, OlympiadID", 'safe'),
+                        array("AdditionalBallComment,  CoursedpID, Quota1,Quota2, OlympiadID, isNotCheckAttestat, isForeinghEntrantDocument, PersonDocumentsAwardsTypesID", 'safe'),
                     
                         array("GraduatedUniversitieID, GraduatedSpecialitieID", 'required', 'on'=>"SHORTFORM"),
                         array("EntranceTypeID",  "required" ,"except"=>"SHORTFORM"),
@@ -247,7 +250,8 @@ class Personspeciality extends ActiveRecord
                     'OlympiadId' => 'Олімпіади',
                     'Quota1' => 'Квота (сільська місцевість)',
                     'Quota2' => 'Квота (пільгові категорії)',
-                    'RequestNumber'=>"Номер заявки"
+                    'RequestNumber'=>"Номер заявки",
+                    "PersonDocumentsAwardsTypesID"=>"Відзнака"
 		);
 	}
 

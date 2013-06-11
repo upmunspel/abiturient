@@ -185,10 +185,12 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
             <?php echo CHtml::label("Область або велике місто","KOATUUCodeL2ID");//,array('class'=>'span3'));?>
             <?php echo CHtml::dropDownList("KOATUU1", $model->KOATUUCodeL1ID, KoatuuLevel1::DropDown(), 
                     array('class'=>'span12', 
-                            'onchange'=>"PSN.KOATUUSchoolChange(this,1)"));
+                            'onchange'=>"PSN.KOATUUSchoolChange(this,1,2)"));
                      ?>
             </div>
         </div>
+            
+        <?php if (false): ?>     
         <div class="row-fluid" <?php echo empty($model->KOATUUCodeL2ID) ? "style='display:none;'":""; ?>>
             <div class ="span12"  > 
             <?php echo CHtml::label("Район / місто / район міста","KOATUUCodeL2ID");?>
@@ -208,6 +210,8 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
                      ?>
             </div>
         </div>
+        <?php endif; ?>    
+            
         </div>
         </div>
         <style>
@@ -219,7 +223,7 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
             <div class ="span12 school">
                 <?php echo $form->labelEx($model,'SchoolID'); ?>
                 
-                <?php echo $form->dropDownList($model,'SchoolID', Schools::DropDown(KoatuuLevel2::getKoatuuLevel2Code($model->KOATUUCodeL2ID)), 
+                <?php echo $form->dropDownList($model,'SchoolID', Schools::DropDown(KoatuuLevel2::getKoatuuLevel2Code($model->KOATUUCodeL2ID),2), 
                         array('empty'=>"",'class'=>"mywidth",'id'=>"SchoolID")); ?>
                 <script type="text/javascript"> 
                     $("#SchoolID").combobox();
