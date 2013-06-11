@@ -10,10 +10,10 @@ PSN.Init = function(){
            var status = data.value;
            if (status){
                 $("#scholladdr").hide()
-                PSN.updateSchools(PSN.KOATUUCode);
+                PSN.updateSchools(PSN.KOATUUCode,4);
             } else {
                 $("#scholladdr").show();
-                PSN.updateSchools(PSN.KOATUUSchoolCode);
+                PSN.updateSchools(PSN.KOATUUSchoolCode,2);
             }
       });
      $('#personSave').click(function() {
@@ -41,11 +41,11 @@ PSN.Init = function(){
    
 }
 
-PSN.printSpec = function(obj, PersonSpecID){
+PSN.printSpec = function(obj){
     var url = $(obj).attr("href");
     //alert(parseInt(url));
     if (!isNaN(parseInt(url))) {
-        $(obj).attr("href","http://10.1.103.26:8080/request_report-1.0/?PersonID="+PersonSpecID+"&iframe=true&width=1024&height=450");
+        $(obj).attr("href","http://10.1.103.26:8080/request_report-1.0/?PersonID="+url+"&iframe=true&width=1024&height=450");
     }
 }
 
@@ -89,61 +89,61 @@ PSN.KOATUUChange = function(obj, level){
         }
         PSN.KOATUUCode = data.Code;
         //alert( PSN.KOATUUCode+ "  "+$("sameschooladdr").prop("checked"));
-        if ($("#sameschooladdr").prop("checked")) PSN.updateSchools(PSN.KOATUUCode);
+        if ($("#sameschooladdr").prop("checked")) PSN.updateSchools(PSN.KOATUUCode,4);
       
     } 
     });
 }
 
-PSN.KOATUUSchoolChange = function(obj, level){
+PSN.KOATUUSchoolChange = function(obj, level, masklen){
     var id = $(obj," :selected").val();
     $.ajax({
     url: PSN.koatuuLink ,
     dataType : "json",
     data: "id="+id+"&level="+level,
     success: function (data) { 
-        var koatuu2 = $("#KOATUU2");
-        var koatuu3 = $("#KOATUU3");
-        if (level === 3) {
-            PSN.KOATUUSchoolCode = data.Code;    
-            if (!$("#sameschooladdr").prop("checked")) PSN.updateSchools(PSN.KOATUUSchoolCode);    
-            return;
-        }
-       
-        if (!$.isEmptyObject(data.Level2)) {
-            koatuu2.empty();
-            koatuu2.parent().parent().show();
-            $.each(data.Level2, function(i, val) {    // обрабатываем полученные данные
-                koatuu2.append("<option value='"+i+"'>"+val+"</option>");
-            });
-        } else {
-            if (level == 1){
-            koatuu2.empty();
-            koatuu2.empty().parent().parent().hide(); 
-            }
-        }
-        if (!$.isEmptyObject(data.Level3)) {
-           koatuu3.empty();
-           $.each(data.Level3, function(i, val) {    // обрабатываем полученные данные
-                    koatuu3.append("<option value='"+i+"'>"+val+"</option>");
-           });
-           
-           koatuu3.parent().parent().show();
-        } else {
-           koatuu3.empty();
-           koatuu3.empty().parent().parent().hide();
-        }
+//        var koatuu2 = $("#KOATUU2");
+//        var koatuu3 = $("#KOATUU3");
+//        if (level === 3) {
+//            PSN.KOATUUSchoolCode = data.Code;    
+//            if (!$("#sameschooladdr").prop("checked")) PSN.updateSchools(PSN.KOATUUSchoolCode);    
+//            return;
+//        }
+//       
+//        if (!$.isEmptyObject(data.Level2)) {
+//            koatuu2.empty();
+//            koatuu2.parent().parent().show();
+//            $.each(data.Level2, function(i, val) {    // обрабатываем полученные данные
+//                koatuu2.append("<option value='"+i+"'>"+val+"</option>");
+//            });
+//        } else {
+//            if (level == 1){
+//            koatuu2.empty();
+//            koatuu2.empty().parent().parent().hide(); 
+//            }
+//        }
+//        if (!$.isEmptyObject(data.Level3)) {
+//           koatuu3.empty();
+//           $.each(data.Level3, function(i, val) {    // обрабатываем полученные данные
+//                    koatuu3.append("<option value='"+i+"'>"+val+"</option>");
+//           });
+//           
+//           koatuu3.parent().parent().show();
+//        } else {
+//           koatuu3.empty();
+//           koatuu3.empty().parent().parent().hide();
+//        }
         PSN.KOATUUSchoolCode = data.Code;    
-        if (!$("#sameschooladdr").prop("checked")) PSN.updateSchools(PSN.KOATUUSchoolCode);    
+        if (!$("#sameschooladdr").prop("checked")) PSN.updateSchools(PSN.KOATUUSchoolCode, masklen);    
     } 
     });
 };
-PSN.updateSchools = function(code){
+PSN.updateSchools = function(code, masklen){
        
     $.ajax({
     url: PSN.schoolLink,
     dataType : "json",
-    data: "code="+code,
+    data: "code="+code+"&masklen="+masklen,
     success: function (data) { 
         //alert(code);
             var schools = $("#SchoolID");
@@ -158,9 +158,9 @@ PSN.updateSchools = function(code){
 //                 //$(".combobox-container").remove();
 //                  $("#SchoolID").show();
 //                 alert();
-                 $("#SchoolID").combobox("clearElement");
+                 //$("#SchoolID").combobox("clearElement");
                  $("#SchoolID").combobox("refresh");
-                   $("#SchoolID").combobox("clearElement");
+                 $("#SchoolID").combobox("clearElement");
                
             } else {
                 schools.empty();

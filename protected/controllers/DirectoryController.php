@@ -59,7 +59,12 @@ class DirectoryController extends Controller
 
         public function actionSchools($code){
            $result = array();
-           $result = Schools::DropDown($code);
+           
+           if (isset($_GET["masklen"])) {
+               $result = Schools::DropDown($code, intval($_GET["masklen"]));
+           } else {
+               $result = Schools::DropDown($code);
+           }
            echo CJSON::encode($result);
            Yii::app()->end();
         }

@@ -1,20 +1,18 @@
 <?php
 
 /**
- * This is the model class for table "personcontacts".
+ * This is the model class for table "persondocumentsawardstypes".
  *
- * The followings are the available columns in table 'personcontacts':
- * @property integer $idPersonContacts
- * @property integer $PersonID
- * @property integer $PersonContactTypeID
- * @property string $Value
+ * The followings are the available columns in table 'persondocumentsawardstypes':
+ * @property integer $idPersonDocumentsAwardsTypes
+ * @property string $PersonDocumentsAwardsTypesName
  */
-class PersonContacts extends CActiveRecord
+class Persondocumentsawardstypes extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
-	 * @return PersonContacts the static model class
+	 * @return Persondocumentsawardstypes the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -26,7 +24,7 @@ class PersonContacts extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'personcontacts';
+		return 'persondocumentsawardstypes';
 	}
 
 	/**
@@ -37,13 +35,12 @@ class PersonContacts extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			//array('idPersonContacts', 'required'),
-			array('idPersonContacts, PersonID, PersonContactTypeID', 'numerical', 'integerOnly'=>true),
-			array('Value', 'length', 'max'=>50),
-                        array('Value', 'required'),
+			array('idPersonDocumentsAwardsTypes, PersonDocumentsAwardsTypesName', 'required'),
+			array('idPersonDocumentsAwardsTypes', 'numerical', 'integerOnly'=>true),
+			array('PersonDocumentsAwardsTypesName', 'length', 'max'=>50),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('idPersonContacts, PersonID, PersonContactTypeID, Value', 'safe', 'on'=>'search'),
+			array('idPersonDocumentsAwardsTypes, PersonDocumentsAwardsTypesName', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -65,10 +62,8 @@ class PersonContacts extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-    'idPersonContacts' => 'Id Person Contacts',
-    'PersonID' => 'Person',
-    'PersonContactTypeID' => 'Person Contact Type',
-    'Value' => 'Контакт',
+    'idPersonDocumentsAwardsTypes' => 'Id Person Documents Awards Types',
+    'PersonDocumentsAwardsTypesName' => 'Person Documents Awards Types Name',
 		);
 	}
 
@@ -83,10 +78,8 @@ class PersonContacts extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('idPersonContacts',$this->idPersonContacts);
-		$criteria->compare('PersonID',$this->PersonID);
-		$criteria->compare('PersonContactTypeID',$this->PersonContactTypeID);
-		$criteria->compare('Value',$this->Value,true);
+		$criteria->compare('idPersonDocumentsAwardsTypes',$this->idPersonDocumentsAwardsTypes);
+		$criteria->compare('PersonDocumentsAwardsTypesName',$this->PersonDocumentsAwardsTypesName,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

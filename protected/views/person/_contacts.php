@@ -6,7 +6,9 @@ if ($model->PersonContactTypeID == 1) {
 } else {
     $type = "mobphone";
     $label = "Мобільний телефон";
-}          
-echo Chtml::label($label, CHtml::activeId($model,"[$type]Value")); ?>
-<?php echo $form->textField($model,"[$type]Value",array('class'=>'span12')); ?>
+} ?>         
+<?php echo CHtml::label( $label, CHtml::activeId($model,"[$type]Value"), array("required"=>'true')); ?>
+<?php echo $form->textField($model,"[$type]Value",array('class'=>'span12')); 
+      echo $form->error($model,"[$type]Value"); 
+?>
    
