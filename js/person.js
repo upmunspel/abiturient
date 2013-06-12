@@ -161,6 +161,8 @@ PSN.updateSchools = function(code, masklen){
                  //$("#SchoolID").combobox("clearElement");
                  $("#SchoolID").combobox("refresh");
                  $("#SchoolID").combobox("clearElement");
+                 $("#SchoolID").combobox("clearTarget");
+                 
                
             } else {
                 schools.empty();

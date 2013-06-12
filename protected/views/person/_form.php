@@ -99,7 +99,9 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
             
             <div class="span3" >
                 <a href="#" style="width: 180px;" class="thumbnail" rel="tooltip" data-title="Фото абітурієнта">
-                   <?php $path = Yii::app()->baseUrl.Yii::app()->params['photosBigPath'].$model->PhotoName;
+                   <?php 
+                   $path = Yii::app()->baseUrl.Yii::app()->params['photosBigPath'].$model->PhotoName;
+                            
                     echo CHtml::image($path, 'Фото абітурієнта'); ?>
                 </a>
             </div>
@@ -168,14 +170,15 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
                 <?php echo Chtml::label("Закінчив школу за місцем проживання", "sameschooladdr") ?>
             </div>
             <div class ="span1">
-                 <div id="toggle_sameschool" class="switch" data-on-label="Так" data-off-label="Ні">
-                    <?php 
-                    $is_samaschooladdr = true;
-                    echo CHtml::checkBox("sameschooladdr", $is_samaschooladdr);//, array("Ні", "Так"), array('class'=>'span12')); ?>
-                 </div>
+               
+                   
+                    <div id ="toggle_sameschool" class="switch" data-on-label="Так" data-off-label="Ні">
+                        <?php echo $form->checkBox($model,'isSamaSchoolAddr');//, array("Ні", "Так"), array('class'=>'span12')); ?>
+                    </div>
+                  
              </div>
         </div>
-        <div id="scholladdr" <?php echo $is_samaschooladdr ? "style='display:none;'":"";?> >
+        <div id="scholladdr" <?php echo $model->isSamaSchoolAddr ? "style='display:none;'":"";?> >
         <p class="help-block"><strong>Адреса школи</strong></p>
         <hr>
         <div class="row-fluid">
