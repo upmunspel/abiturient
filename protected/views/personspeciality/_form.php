@@ -41,13 +41,16 @@ $form= new TbActiveForm();
                     <?php echo $form->checkBox($model,'isNeedHostel'); ?>
                  </div>
             </div>
+            <?php if (Yii::app()->user->checkAccess("showFullEntrantForm")): ?>
             <div class="span5">
                 
                 <label for="<?php echo CHtml::activeId($model, 'isHigherEducation'); ?>" >
                     <?php echo $form->radioButtonListInlineRow($model,'isHigherEducation',array(0=>'не отримую', 1=>'не вказано', 2=>"є",3=>'отримую в даний час')); ?>  
                     <?php // Информация о высшем образовании персоны. echo $model->getAttributeLabel("isNeedHostel"); ?>
                 </label>
+                
             </div>
+            <?php endif; ?>
         </div>
     <hr>
         <div class="row-fluid">

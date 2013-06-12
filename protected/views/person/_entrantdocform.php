@@ -27,10 +27,25 @@
     </div> 
 </div>
 <div class="row-fluid">
-    <div class ="span12">
+    <div class ="span11">
         <?php echo $form->labelEx($model,'[entrantdoc]Issued'); ?>
-        <?php echo $form->textField($model,'[entrantdoc]Issued',array('class'=>'span12','maxlength'=>250)); ?>
-    </div>    
+        <?php echo $form->textField($model,'[entrantdoc]Issued',array('class'=>'span12 entrantissued','maxlength'=>250)); ?>
+    </div>  
+    <div class ="span1">
+        <?php echo CHtml::label("Оновити",""); ?>
+        <?php $this->widget("bootstrap.widgets.TbButton", array(
+			'type'=>'primary',
+                        'label'=>'',
+                        //'size' => null,
+                        'icon'=>"icon-magnet",
+                        'htmlOptions'=>array(
+                             
+                                'title'=>"Оновити",
+                                'class'=>"span12",
+                                'onclick'=>"PSN.copySchool();"), 
+                        )); 
+                ?>
+    </div>
 <!--    <div class ="span2">
         <?php // echo $form->labelEx($model,'[entrantdoc]isCopy'); ?>
         <div class="switch" data-on-label="Так" data-off-label="Ні">

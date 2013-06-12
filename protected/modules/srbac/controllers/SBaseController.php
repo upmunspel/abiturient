@@ -28,6 +28,7 @@ class SBaseController extends CController {
    * @param String $action . The current action
    * @return boolean true if access is granted else false
    */
+    
     public function filters()
     {
         return array(

@@ -42,5 +42,8 @@ class WebUser extends CWebUser {
         }
         return "";
     }
+    public function getPrintUrl($personid, $specid){
+        return Yii::app()->params["printUrl"]."PersonID=".$personid."&PersonSpecialityID=".$specid."&iframe=true&width=1024&height=600";
+    }
 }
 ?>

@@ -229,20 +229,22 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
                 <?php echo $form->dropDownList($model,'SchoolID', Schools::DropDown(KoatuuLevel2::getKoatuuLevel2Code($model->KOATUUCodeL2ID),2), 
                         array('empty'=>"",'class'=>"mywidth",'id'=>"SchoolID")); ?>
                 <script type="text/javascript"> 
-                    $("#SchoolID").combobox();
+                     $("#SchoolID").click(function(){alert("asdas");});
+                     $("#SchoolID").combobox();
                  </script>
             </div>
         </div>
-        <p class="help-block"><strong>Документ, який посвідчує особу</strong></p>
-        <hr>
-        
-        <?php echo $this->renderPartial("_persondocform", array('model'=>$model->persondoc,'form'=>$form)); ?>
-        
         <p class="help-block"><strong>Документ про освіту, на основі якого здійснюється вступ</strong></p>
         <hr>
         
         <?php echo $this->renderPartial("_entrantdocform", array('model'=>$model->entrantdoc,'form'=>$form)); ?>
         
+        <p class="help-block"><strong>Документ, який посвідчує особу</strong></p>
+        <hr>
+        
+        <?php echo $this->renderPartial("_persondocform", array('model'=>$model->persondoc,'form'=>$form)); ?>
+        
+     
         
         
         <p class="help-block"><strong>Інші документи</strong></p>

@@ -29,7 +29,7 @@
 			changepicturecallback: function(){}, /* Called everytime an item is shown/changed */
 			callback: function(){}, /* Called when prettyPhoto is closed */
 			markup: '<div class="pp_pic_holder"> \
-						<div class="ppt">&nbsp;</div> \
+						<!--<div class="ppt">&nbsp;</div>--> \
 						<div class="pp_top"> \
 							<div class="pp_left"></div> \
 							<div class="pp_middle"></div> \
