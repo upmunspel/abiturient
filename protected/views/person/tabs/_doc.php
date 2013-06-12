@@ -15,6 +15,7 @@
         </div>
     </div>
     <hr>
+    
 <?php  /* END PRINT ZNOS LIST */ 
 $dataProvider=new CActiveDataProvider('Documents', array('criteria'=>array(
     'condition'=>"PersonID=$personid",

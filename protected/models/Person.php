@@ -28,6 +28,7 @@
  * @property string  $PhotoName
  * @property integer $isCampus
  * @property integer $SysUserID
+ * @property integer $isSamaSchoolAddr
  */
 class Person extends ActiveRecord
 {
@@ -160,7 +161,7 @@ class Person extends ActiveRecord
 			array('FirstName, MiddleName, LastName, FirstNameR, MiddleNameR, LastNameR, codeU', 'length', 'max'=>100),
 			array('Address,PhotoName', 'length', 'max'=>250),
 			array('HomeNumber, PostIndex', 'length', 'max'=>10),
-			array('Birthday, isCampus', 'safe'),
+			array('Birthday, isCampus, isSamaSchoolAddr', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('idPerson, Birthday, PersonSexID, FirstName, MiddleName,

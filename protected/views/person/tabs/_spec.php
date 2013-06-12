@@ -74,11 +74,12 @@ $dataProvider=new CActiveDataProvider("Personspeciality", array('criteria'=>arra
                     'print' => array(
                         'label'=>'Друкувати',
                         'icon'=>'print',
-                        'url'=>  '$data->idPersonSpeciality',
+                        'url'=>  'Yii::app()->user->getPrintUrl($data->PersonID, $data->idPersonSpeciality)',
                         'options'=>array(
                             'class'=>'btn',
-                            'onclick'=>'PSN.printSpec(this); return true;',
+                            //'onclick'=>'PSN.printSpec(this); return true;',
                             'rel'=>"prettyPhoto",
+                            'title'=>"Друкувати заявку",
                         ),
                     ),
                 ),

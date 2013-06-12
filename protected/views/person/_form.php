@@ -99,7 +99,9 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
             
             <div class="span3" >
                 <a href="#" style="width: 180px;" class="thumbnail" rel="tooltip" data-title="Фото абітурієнта">
-                   <?php $path = Yii::app()->baseUrl.Yii::app()->params['photosBigPath'].$model->PhotoName;
+                   <?php 
+                   $path = Yii::app()->baseUrl.Yii::app()->params['photosBigPath'].$model->PhotoName;
+                            
                     echo CHtml::image($path, 'Фото абітурієнта'); ?>
                 </a>
             </div>
@@ -168,14 +170,15 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
                 <?php echo Chtml::label("Закінчив школу за місцем проживання", "sameschooladdr") ?>
             </div>
             <div class ="span1">
-                 <div id="toggle_sameschool" class="switch" data-on-label="Так" data-off-label="Ні">
-                    <?php 
-                    $is_samaschooladdr = true;
-                    echo CHtml::checkBox("sameschooladdr", $is_samaschooladdr);//, array("Ні", "Так"), array('class'=>'span12')); ?>
-                 </div>
+               
+                   
+                    <div id ="toggle_sameschool" class="switch" data-on-label="Так" data-off-label="Ні">
+                        <?php echo $form->checkBox($model,'isSamaSchoolAddr');//, array("Ні", "Так"), array('class'=>'span12')); ?>
+                    </div>
+                  
              </div>
         </div>
-        <div id="scholladdr" <?php echo $is_samaschooladdr ? "style='display:none;'":"";?> >
+        <div id="scholladdr" <?php echo $model->isSamaSchoolAddr ? "style='display:none;'":"";?> >
         <p class="help-block"><strong>Адреса школи</strong></p>
         <hr>
         <div class="row-fluid">
@@ -226,20 +229,22 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
                 <?php echo $form->dropDownList($model,'SchoolID', Schools::DropDown(KoatuuLevel2::getKoatuuLevel2Code($model->KOATUUCodeL2ID),2), 
                         array('empty'=>"",'class'=>"mywidth",'id'=>"SchoolID")); ?>
                 <script type="text/javascript"> 
-                    $("#SchoolID").combobox();
+                     $("#SchoolID").click(function(){alert("asdas");});
+                     $("#SchoolID").combobox();
                  </script>
             </div>
         </div>
-        <p class="help-block"><strong>Документ, який посвідчує особу</strong></p>
-        <hr>
-        
-        <?php echo $this->renderPartial("_persondocform", array('model'=>$model->persondoc,'form'=>$form)); ?>
-        
         <p class="help-block"><strong>Документ про освіту, на основі якого здійснюється вступ</strong></p>
         <hr>
         
         <?php echo $this->renderPartial("_entrantdocform", array('model'=>$model->entrantdoc,'form'=>$form)); ?>
         
+        <p class="help-block"><strong>Документ, який посвідчує особу</strong></p>
+        <hr>
+        
+        <?php echo $this->renderPartial("_persondocform", array('model'=>$model->persondoc,'form'=>$form)); ?>
+        
+     
         
         
         <p class="help-block"><strong>Інші документи</strong></p>

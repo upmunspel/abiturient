@@ -15,6 +15,7 @@
  * @since 1.0.0
  */
 class AuthitemController extends SBaseController {
+   
     public function filters()
     {
         return array(

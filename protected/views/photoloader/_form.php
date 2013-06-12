@@ -102,7 +102,7 @@ $form = new TbActiveForm();
             
             <div class="span3">
                 <a href="#" class="thumbnail" style="width: 180px;" rel="tooltip" data-title="Фото абітурієнта">
-                    <?php $path = Yii::app()->baseUrl.Yii::app()->params['photosBigPath'].$model->PhotoName;
+                    <?php  $path = Yii::app()->baseUrl.Yii::app()->params['photosBigPath'].$model->PhotoName;
                     echo CHtml::image($path, 'Фото абітурієнта'); ?>
                     
                 </a>
