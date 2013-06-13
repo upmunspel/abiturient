@@ -59,10 +59,7 @@ $form= new TbActiveForm();
 		<?php echo $form->dropDownList($model,'EntrantDocumentID', Documents::PersonEntrantDocuments($personid),array('class'=>'span12')); ?>
 		<?php //echo $form->error($model,'CourseID'); ?>
             </div>
-            <div class="span2">
-                    <?php echo $form->labelEx($model,'PersonDocumentsAwardsTypesID'); ?>
-                    <?php echo $form->dropDownList($model,'PersonDocumentsAwardsTypesID', CHtml::listData(Persondocumentsawardstypes::model()->findAll("idPersonDocumentsAwardsTypes < 3"), 'idPersonDocumentsAwardsTypes', 'PersonDocumentsAwardsTypesName'),array('empty'=>'','class'=>'span12')); ?>
-	    </div>
+           
             <div class="span2">
                     <?php echo $form->labelEx($model,'isCopyEntrantDoc'); ?>
                  <div class="switch" data-on-label="Так" data-off-label="Ні">
@@ -71,7 +68,7 @@ $form= new TbActiveForm();
                     <?php //echo $form->error($model,'isCopyEntrantDoc'); ?>
             </div>
             <?php if (Yii::app()->user->checkAccess("showFullEntrantForm")): ?>
-           <div class="span2">
+           <div class="span3">
                  <?php echo $form->labelEx($model,'SkipDocumentValue'); ?>
                  <div class="switch" data-on-label="Так" data-off-label="Ні">
                     <?php echo $form->checkBox($model,'SkipDocumentValue'); ?>

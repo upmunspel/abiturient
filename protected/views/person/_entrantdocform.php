@@ -46,10 +46,22 @@
                         )); 
                 ?>
     </div>
-<!--    <div class ="span2">
-        <?php // echo $form->labelEx($model,'[entrantdoc]isCopy'); ?>
+</div>
+<div class="row-fluid">
+     <div class="span3">
+          <?php echo $form->labelEx($model,'[entrantdoc]PersonDocumentsAwardsTypesID'); ?>
+          <?php echo $form->dropDownList($model,'[entrantdoc]PersonDocumentsAwardsTypesID', CHtml::listData(Persondocumentsawardstypes::model()->findAll("idPersonDocumentsAwardsTypes < 3"), 'idPersonDocumentsAwardsTypes', 'PersonDocumentsAwardsTypesName'),array('empty'=>'','class'=>'span12')); ?>
+    </div>
+    <div class ="span3">
+        <?php  echo $form->labelEx($model,'[entrantdoc]isForeinghEntrantDocument'); ?>
         <div class="switch" data-on-label="Так" data-off-label="Ні">
-            <?php //echo $form->checkBox($model,'[entrantdoc]isCopy'); ?>
+            <?php echo $form->checkBox($model,'[entrantdoc]isForeinghEntrantDocument'); ?>
         </div>
-    </div>-->
+    </div>
+    <div class ="span3">
+       <?php  echo $form->labelEx($model,'[entrantdoc]isNotCheckAttestat'); ?>
+        <div class="switch" data-on-label="Так" data-off-label="Ні">
+            <?php echo $form->checkBox($model,'[entrantdoc]isNotCheckAttestat'); ?>
+        </div>
+    </div>
 </div>

@@ -14,6 +14,9 @@
  * @property string $AtestatValue
  * @property string $Issued
  * @property integer $isCopy
+ * @property integer $isForeinghEntrantDocument
+ * @property integer $isNotCheckAttestat
+ * @property integer $PersonDocumentsAwardsTypesID
  */
 class Documents extends ActiveRecord
 {
@@ -141,6 +144,8 @@ class Documents extends ActiveRecord
                         array('DateGet', 'required', "on"=>"HOSP"),
                         // ENTRANT 
                         array('AtestatValue', 'required', "on"=>"ENTRANT"),
+                        array('isForeinghEntrantDocument, isNotCheckAttestat, PersonDocumentsAwardsTypesID', 'safe', "on"=>"ENTRANT"),
+
                         /* ZNO SCENARIO */
                         array('Numbers, ZNOPin', 'required', "on"=>"ZNO"),
                         array('Numbers', 'numerical', "on"=>"ZNO"),
@@ -185,6 +190,9 @@ class Documents extends ActiveRecord
 			'AtestatValue' => 'Середній бал',
 			'Issued' => 'Ким виданий',
 			'isCopy' => 'Копія',
+                    'isForeinghEntrantDocument'=>"Зарубіжний д-т",
+                    "isNotCheckAttestat"=>"Не перевіряди атестат",
+                    'PersonDocumentsAwardsTypesID'=>"Відзнаки",
 		);
 	}
 
