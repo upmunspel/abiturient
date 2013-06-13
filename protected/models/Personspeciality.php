@@ -248,10 +248,13 @@ class Personspeciality extends ActiveRecord
                     'CoursedpID' => 'Курси довузівської підготовки',
                     'CoursedpBall' => 'Бал за курси',
                     'OlympiadId' => 'Олімпіади',
-                    'Quota1' => 'Квота (сільська місцевість)',
-                    'Quota2' => 'Квота (пільгові категорії)',
+                    'Quota1' => 'Квота (с-ка міс-ть)',
+                    'Quota2' => 'Квота (пільгові к-рії)',
                     'RequestNumber'=>"Номер заявки",
-                    "PersonDocumentsAwardsTypesID"=>"Відзнака"
+                    "PersonDocumentsAwardsTypesID"=>"Відзнака",
+                    'isForeinghEntrantDocument'=>"Іноземн. док-т",
+                    'OlympiadID'=>"Олимпиада",
+                    'isNotCheckAttestat'=>"Не перевіряти",
 		);
 	}
 
