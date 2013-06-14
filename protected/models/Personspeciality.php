@@ -219,7 +219,7 @@ class Personspeciality extends ActiveRecord
 		return array(
                     'idPersonSpeciality' => 'Id Person Speciality',
                     'PersonID' => 'Person',
-                    'SepcialityID' => 'Напрям підготовки',
+                    'SepcialityID' => 'Спеціальність',
                     'PaymentTypeID' => 'Форма оплати',
                     'EducationFormID' => 'Форма навчання',
                     'QualificationID' => 'Навчальний рівень',
