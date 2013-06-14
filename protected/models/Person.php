@@ -392,7 +392,7 @@ class Person extends ActiveRecord
 
 
                } else {
-                   Yii::app()->user->setFlash("message",'<h3 style="color: red;">Увага! Результат відсутній або напрямок перевантажено!<h3>');
+                   Yii::app()->user->setFlash("message",'<h3 style="color: red;">Увага! Результат відсутній або напрямок перевантажено!</h3>');
                }
         }
 }

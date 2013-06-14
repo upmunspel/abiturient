@@ -18,16 +18,22 @@ $this->menu=array(
 )); 
 ?>
 
-<h3>Пошук абітурієнта за серією та номером документу</h3>
+<h4>Пошук абітурієнта за серією та номером документу</h4>
+<hr>
 <div class="row-fluid form">
+       
+    
     <div class="span1">
         <?php echo CHtml::label("Серія:","search[attestatSeries]");?>
 	<?php echo CHtml::textField("search[attestatSeries]","АР",array("class"=>"span12"));?>
     </div>
-     <div class="span2">
+    <div class="span2">
         <?php echo CHtml::label("Номер:","search[attestatNumber]"); ?>
         <?php echo CHtml::textField("search[attestatNumber]","43042636",array("class"=>"span12"));?>
-     </div>
+    </div>
+    <div class="span5">
+        <p>Для пошуку абітуріента зберігайте наступну послідовність документів</p>
+    </div>
 </div>
  <div class="row-fluid form">
   

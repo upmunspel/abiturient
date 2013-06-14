@@ -255,6 +255,8 @@ class Personspeciality extends ActiveRecord
                     'isForeinghEntrantDocument'=>"Іноземн. док-т",
                     'OlympiadID'=>"Олимпиада",
                     'isNotCheckAttestat'=>"Не перевіряти",
+                    'GraduatedUniversitieID'=>"ВНЗ, який закінчив",
+                    'GraduatedSpecialitieID'=>"Напрямок (спеціальність), яку закінчив",
 		);
 	}
 

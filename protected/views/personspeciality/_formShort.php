@@ -78,13 +78,13 @@ $form= new TbActiveForm();
                  </div>
                     <?php //echo $form->error($model,'isCopyEntrantDoc'); ?>
             </div>
-            <div class="span4">
+<!--            <div class="span4">
                  <?php echo $form->labelEx($model,'SkipDocumentValue'); ?>
                  <div class="switch" data-on-label="Так" data-off-label="Ні">
                     <?php echo $form->checkBox($model,'SkipDocumentValue'); ?>
                  </div>
                 
-            </div>
+            </div>-->
             
         </div>
         <div class="row-fluid">

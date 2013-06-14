@@ -44,9 +44,9 @@ $dataProvider=new CActiveDataProvider("Personspeciality", array('criteria'=>arra
     'columns'=>array(
         array('name'=>'RequestNumber', "htmlOptions"=>array("style"=>"width: 150px"),  'value' => 'str_pad($data->RequestNumber, 5, "0", STR_PAD_LEFT)'),
         //array('name'=>'typename', 'header'=>'typename',  ),
-        array('name'=>'sepciality', 'header'=>'Спеціальність', 'value' => '$data->sepciality->SpecialityDirectionName' ),
+        array('name'=>'sepcialityCode', 'header'=>'Код спеціальності', 'value' => '$data->sepciality->SpecialityClasifierCode' ),
+        array('name'=>'sepciality', 'header'=>'Спеціальність', 'value' => '!empty($data->sepciality->SpecialityName) ? $data->sepciality->SpecialityName : $data->sepciality->SpecialityDirectionName' ),
         array('name'=>'educationForm', 'header'=>'Форма навчання', 'value' => '$data->educationForm->PersonEducationFormName '  ),
-
         array(
                 'class'=>'bootstrap.widgets.TbButtonColumn',
                 'template'=>'{update} {trash} {print}',
