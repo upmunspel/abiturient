@@ -29,13 +29,21 @@ class Specialities extends CActiveRecord
             $user = Yii::app()->user->getUserModel();
             $records = array();
             $res = array();
+            
             if (!empty($user->syspk) &&  !empty($user->syspk->SpecMask)){
                 if ($FacultetID == 0){
-                    $records = Specialities::model()->findAll("SpecialityClasifierCode like '{$user->syspk->SpecMask}%'");
+                    if ($user->syspk->SpecMask == "7" || $user->syspk->SpecMask == "8") {
+                        $records = Specialities::model()->findAll("SpecialityClasifierCode like '7%' or SpecialityClasifierCode like '8%'");
+                    } else {
+                         $records = Specialities::model()->findAll("SpecialityClasifierCode like '{$user->syspk->SpecMask}%'");
+                    }
             
                 } else {
-                    $records = Specialities::model()->findAll("FacultetID = :FacultetID and SpecialityClasifierCode like '{$user->syspk->SpecMask}%'", array(":FacultetID"=>$FacultetID));
-            
+                     if ($user->syspk->SpecMask == "7" || $user->syspk->SpecMask == "8") {
+                        $records = Specialities::model()->findAll("FacultetID = :FacultetID and (SpecialityClasifierCode like '7%' or SpecialityClasifierCode like '8%')", array(":FacultetID"=>$FacultetID));
+                    } else {
+                        $records = Specialities::model()->findAll("FacultetID = :FacultetID and SpecialityClasifierCode like '{$user->syspk->SpecMask}%'", array(":FacultetID"=>$FacultetID));
+                    }
                 }
             } else {
                 if ($FacultetID == 0){
@@ -51,6 +59,7 @@ class Specialities extends CActiveRecord
             }
           return $res;
 	}
+        
         public static function DropDown($FacultetID = 0){
               $res = array();
               $c = new CDbCriteria();
@@ -60,7 +69,7 @@ class Specialities extends CActiveRecord
               }
              
                 foreach(Specialities::model()->findAll($c) as $record) {
-                       $res[$record->idSpeciality] =  $res[$record->idSpeciality] = $record->SpecialityDirectionName.(!empty($record->SpecialitySpecializationName) ? ": ".$record->SpecialitySpecializationName." ":"")."(".$record->SpecialityClasifierCode.")";
+                       $res[$record->idSpeciality] =  $res[$record->idSpeciality] = (!empty($record->SpecialityName)? $record->SpecialityName." " :"" ).$record->SpecialityDirectionName.(!empty($record->SpecialitySpecializationName) ? ": ".$record->SpecialitySpecializationName." ":"")."(".$record->SpecialityClasifierCode.")";
                 }
              
           return $res;
