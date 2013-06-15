@@ -136,6 +136,9 @@ class Documents extends ActiveRecord
 			array('DateGet, idDocuments, Series, Numbers,  ', 'safe'),
                     
                         array('DateGet, Series, Numbers, Issued', 'required', "except"=>"INN, HOSP, ZNO, FULLINPUT"),
+                    
+                        array('TypeID+Series+Numbers', 'ext.uniqueMultiColumnValidator', 'message'=>"Тип, серія та номер документу не є унікальними!",
+                            'except'=>"INN, HOSP, ZNO, FULLINPUT"),
                         // INN
                         array('Numbers', 'required', "on"=>"INN"),
                         array('Numbers', 'numerical' , 'integerOnly'=>true, "on"=>"INN"),
@@ -145,6 +148,7 @@ class Documents extends ActiveRecord
                         // ENTRANT 
                         array('AtestatValue', 'required', "on"=>"ENTRANT"),
                         array('isForeinghEntrantDocument, isNotCheckAttestat, PersonDocumentsAwardsTypesID', 'safe', "on"=>"ENTRANT"),
+                        
 
                         /* ZNO SCENARIO */
                         array('Numbers, ZNOPin', 'required', "on"=>"ZNO"),
@@ -191,11 +195,12 @@ class Documents extends ActiveRecord
 			'Issued' => 'Ким виданий',
 			'isCopy' => 'Копія',
                     'isForeinghEntrantDocument'=>"Зарубіжний д-т",
-                    "isNotCheckAttestat"=>"Не перевіряди атестат",
+                    "isNotCheckAttestat"=>"Не перевіряти атестат",
                     'PersonDocumentsAwardsTypesID'=>"Відзнаки",
 		);
 	}
 
+        
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.

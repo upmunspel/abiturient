@@ -79,10 +79,10 @@ class Personbenefits extends ActiveRecord
 		return array(
     'idPersonBenefits' => 'Id Person Benefits',
     'PersonID' => 'Person',
-    'BenefitID' => 'Benefit',
-    'Series' => 'Series',
-    'Numbers' => 'Numbers',
-    'Issued' => 'Issued',
+    'BenefitID' => 'Назва пільги',
+    'Series' => 'Серія ',
+    'Numbers' => 'Номер ',
+    'Issued' => 'Ким виданий',
     'Modified' => 'Modified',
     'SysUserID' => 'Sys User',
 		);

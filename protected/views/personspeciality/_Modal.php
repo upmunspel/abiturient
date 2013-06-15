@@ -22,7 +22,7 @@
     Поля з <span class ="required">*</span> необхідно заповнити.
 </div>
  
-<div class="modal-body" id="spec-modal-body">
+<div class="modal-body <?php echo (Yii::app()->user->isShortForm() && $model->isNewRecord) || $model->isShortForm() ? " short":"";?>" id="spec-modal-body">
   
    <?php 
     

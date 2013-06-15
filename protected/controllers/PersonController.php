@@ -146,8 +146,8 @@ class PersonController extends Controller
                             $model->mobphone->attributes=$_POST['PersonContacts']['mobphone'];
                         }
                         
-			if(     $model->persondoc->validate() 
-                                && $model->entrantdoc->validate("ENTRANT")
+			if(     $model->entrantdoc->validate("ENTRANT")
+                                && $model->persondoc->validate() 
                                 && $model->inndoc->validate("INN") 
                                 && $model->hospdoc->validate("HOSP")
                                 && $model->homephone->validate() 

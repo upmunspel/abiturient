@@ -16,6 +16,12 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
         <div class="row-fluid">
             <div class ="span12">
                 <?php echo $form->errorSummary($model) ?>
+                <?php echo $form->errorSummary($model->inndoc) ?>
+                <?php echo $form->errorSummary($model->hospdoc) ?>
+                <?php echo $form->errorSummary($model->entrantdoc) ?>
+                <?php echo $form->errorSummary($model->persondoc) ?>
+                <?php echo $form->errorSummary($model->homephone) ?>
+                <?php echo $form->errorSummary($model->mobphone) ?>
             </div>
         </div>
             
@@ -162,78 +168,84 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
                     </div>
             </div>-->
         </div>
-            
-        <p class="help-block"><strong>Школа</strong></p>
-        <hr>
-        <div class="row-fluid">
-            <div class ="span5">
-                <?php echo Chtml::label("Закінчив школу за місцем проживання", "sameschooladdr") ?>
-            </div>
-            <div class ="span1">
-               
-                   
-                    <div id ="toggle_sameschool" class="switch" data-on-label="Так" data-off-label="Ні">
-                        <?php echo $form->checkBox($model,'isSamaSchoolAddr');//, array("Ні", "Так"), array('class'=>'span12')); ?>
+         
+        
+       <?php $user = Yii::app()->user->getUserModel();
+       if (!($user->syspk->QualificationID == 2 || $user->syspk->QualificationID == 3) ):?>
+                <p class="help-block"><strong>Школа</strong></p>
+                <hr>
+                <div class="row-fluid">
+                    <div class ="span5">
+                        <?php echo Chtml::label("Закінчив школу за місцем проживання", "sameschooladdr") ?>
                     </div>
-                  
-             </div>
-        </div>
-        <div id="scholladdr" <?php echo $model->isSamaSchoolAddr ? "style='display:none;'":"";?> >
-        <p class="help-block"><strong>Адреса школи</strong></p>
-        <hr>
-        <div class="row-fluid">
-          
-        <div class="row-fluid">
-            <div class ="span12">
-            <?php echo CHtml::label("Область або велике місто","KOATUUCodeL2ID");//,array('class'=>'span3'));?>
-            <?php echo CHtml::dropDownList("KOATUU1", $model->KOATUUCodeL1ID, KoatuuLevel1::DropDown(), 
-                    array('class'=>'span12', 
-                            'onchange'=>"PSN.KOATUUSchoolChange(this,1,2)"));
-                     ?>
-            </div>
-        </div>
-            
-        <?php if (false): ?>     
-        <div class="row-fluid" <?php echo empty($model->KOATUUCodeL2ID) ? "style='display:none;'":""; ?>>
-            <div class ="span12"  > 
-            <?php echo CHtml::label("Район / місто / район міста","KOATUUCodeL2ID");?>
-            <?php echo CHtml::dropDownList("KOATUU2", $model->KOATUUCodeL2ID, KoatuuLevel2::DropDown($model->KOATUUCodeL1ID), 
-                    array('class'=>'span12', 
-                            'onchange'=>"PSN.KOATUUSchoolChange(this,2)"));
-                     ?>
-            </div>
-            
-        </div>
-        <div class="row-fluid" <?php echo empty($model->KOATUUCodeL3ID) ? "style='display:none;'":""; ?> >
-           
-            <div class ="span12" >
-            <?php echo CHtml::label("Місто / район міста / СМТ / село","KOATUUCodeL3ID");//,array('class'=>'span3'));?>
-            <?php echo CHtml::dropDownList("KOATUU3", $model->KOATUUCodeL3ID,  KoatuuLevel3::DropDown($model->KOATUUCodeL2ID), 
-                    array('class'=>'span12', 'onchange'=>"PSN.KOATUUSchoolChange(this,3)"));
-                     ?>
-            </div>
-        </div>
+                    <div class ="span1">
+
+
+                            <div id ="toggle_sameschool" class="switch" data-on-label="Так" data-off-label="Ні">
+                                <?php echo $form->checkBox($model,'isSamaSchoolAddr');//, array("Ні", "Так"), array('class'=>'span12')); ?>
+                            </div>
+
+                     </div>
+                </div>
+                <div id="scholladdr" <?php echo $model->isSamaSchoolAddr ? "style='display:none;'":"";?> >
+                    <p class="help-block"><strong>Адреса школи</strong></p>
+                <hr>
+                <div class="row-fluid">
+
+                <div class="row-fluid">
+                    <div class ="span12">
+                    <?php echo CHtml::label("Область або велике місто","KOATUUCodeL2ID");//,array('class'=>'span3'));?>
+                    <?php echo CHtml::dropDownList("KOATUU1", $model->KOATUUCodeL1ID, KoatuuLevel1::DropDown(), 
+                            array('class'=>'span12', 
+                                    'onchange'=>"PSN.KOATUUSchoolChange(this,1,2)"));
+                             ?>
+                    </div>
+                </div>
+
+                <?php 
+
+                if (false): ?>     
+                <div class="row-fluid" <?php echo empty($model->KOATUUCodeL2ID) ? "style='display:none;'":""; ?>>
+                    <div class ="span12"  > 
+                    <?php echo CHtml::label("Район / місто / район міста","KOATUUCodeL2ID");?>
+                    <?php echo CHtml::dropDownList("KOATUU2", $model->KOATUUCodeL2ID, KoatuuLevel2::DropDown($model->KOATUUCodeL1ID), 
+                            array('class'=>'span12', 
+                                    'onchange'=>"PSN.KOATUUSchoolChange(this,2)"));
+                             ?>
+                    </div>
+
+                </div>
+                <div class="row-fluid" <?php echo empty($model->KOATUUCodeL3ID) ? "style='display:none;'":""; ?> >
+
+                    <div class ="span12" >
+                    <?php echo CHtml::label("Місто / район міста / СМТ / село","KOATUUCodeL3ID");//,array('class'=>'span3'));?>
+                    <?php echo CHtml::dropDownList("KOATUU3", $model->KOATUUCodeL3ID,  KoatuuLevel3::DropDown($model->KOATUUCodeL2ID), 
+                            array('class'=>'span12', 'onchange'=>"PSN.KOATUUSchoolChange(this,3)"));
+                             ?>
+                    </div>
+                </div>
+                <?php endif;?>    
+
+                </div>
+                </div>
+                <style>
+                    .mywidth {
+                        width: 1085px;
+                    }
+                </style>
+                <div class="row-fluid">
+                    <div class ="span12 school">
+                        <?php echo $form->labelEx($model,'SchoolID'); ?>
+
+                        <?php echo $form->dropDownList($model,'SchoolID', Schools::DropDown(KoatuuLevel2::getKoatuuLevel2Code($model->KOATUUCodeL2ID),2), 
+                                array('empty'=>"",'class'=>"mywidth",'id'=>"SchoolID")); ?>
+                        <script type="text/javascript"> 
+                             $("#SchoolID").click(function(){alert("asdas");});
+                             $("#SchoolID").combobox();
+                         </script>
+                    </div>
+                </div>
         <?php endif; ?>    
-            
-        </div>
-        </div>
-        <style>
-            .mywidth {
-                width: 785px;
-            }
-        </style>
-        <div class="row-fluid">
-            <div class ="span12 school">
-                <?php echo $form->labelEx($model,'SchoolID'); ?>
-                
-                <?php echo $form->dropDownList($model,'SchoolID', Schools::DropDown(KoatuuLevel2::getKoatuuLevel2Code($model->KOATUUCodeL2ID),2), 
-                        array('empty'=>"",'class'=>"mywidth",'id'=>"SchoolID")); ?>
-                <script type="text/javascript"> 
-                     $("#SchoolID").click(function(){alert("asdas");});
-                     $("#SchoolID").combobox();
-                 </script>
-            </div>
-        </div>
         <p class="help-block"><strong>Документ про освіту, на основі якого здійснюється вступ</strong></p>
         <hr>
         

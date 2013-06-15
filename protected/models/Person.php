@@ -159,7 +159,10 @@ class Person extends ActiveRecord
 			array('PersonSexID, KOATUUCodeL1ID, KOATUUCodeL2ID, 
                                 KOATUUCodeL3ID, IsResident, PersonEducationTypeID, StreetTypeID, SchoolID, LanguageID, CountryID', 'numerical', 'integerOnly'=>true),
 			array('FirstName, MiddleName, LastName, FirstNameR, MiddleNameR, LastNameR, codeU', 'length', 'max'=>100),
-			array('Address,PhotoName', 'length', 'max'=>250),
+			
+                        array('codeU', "unique", "allowEmpty"=>'true' ),
+                
+                        array('Address,PhotoName', 'length', 'max'=>250),
 			array('HomeNumber, PostIndex', 'length', 'max'=>10),
 			array('Birthday, isCampus, isSamaSchoolAddr', 'safe'),
 			// The following rule is used by search().
@@ -255,6 +258,7 @@ class Person extends ActiveRecord
                         "PhotoName"=>"Фото абітурієнта",
                         "SchoolID"=>"Назва школи",
                         "isCampus"=>"Гуртожиток",
+                        "codeU"=>"GUID ідентифікатор",
                     
 		);
 	}
