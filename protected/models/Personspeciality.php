@@ -18,6 +18,7 @@
  * @property integer $OlympiadID
  * @property integer $GraduatedUniversitieID
  * @property integer $GraduatedSpecialitieID
+ * @property string $GraduatedSpeciality
  * @property integer $PersonDocumentsAwardsTypesID
  * @property integer $isTarget
  * @property integer $isContract
@@ -102,7 +103,7 @@ class Personspeciality extends ActiveRecord
                                Exam3ID, Exam3Ball, isHigherEducation, SkipDocumentValue', 'numerical', 'integerOnly'=>true),
                         array("AdditionalBallComment,  CoursedpID, Quota1,Quota2, OlympiadID, isNotCheckAttestat, isForeinghEntrantDocument, PersonDocumentsAwardsTypesID", 'safe'),
                     
-                        array("GraduatedUniversitieID, GraduatedSpecialitieID", 'required', 'on'=>"SHORTFORM"),
+                        array("GraduatedSpeciality, Exam1ID", 'required', 'on'=>"SHORTFORM"),
                         array("EntranceTypeID",  "required" ,"except"=>"SHORTFORM"),
                     
                         array("Exam1Ball, Exam2Ball, Exam3Ball", 'numerical',
@@ -257,6 +258,7 @@ class Personspeciality extends ActiveRecord
                     'isNotCheckAttestat'=>"Не перевіряти",
                     'GraduatedUniversitieID'=>"ВНЗ, який закінчив",
                     'GraduatedSpecialitieID'=>"Напрямок (спеціальність), яку закінчив",
+                    "GraduatedSpeciality"=>"Напрямок (спеціальність), яку закінчив"
 		);
 	}
 

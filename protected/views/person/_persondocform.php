@@ -1,5 +1,10 @@
 <?php //echo $form->errorSummary($model); $form = new CActiveForm()  ?>
 <div class="row-fluid">
+            <div class ="span12">
+                <?php echo $form->errorSummary($model) ?>
+            </div>
+</div>
+<div class="row-fluid">
     <div class ="span5">
         <?php //echo $form->hiddenField($model,'[persondoc]idDocuments'); ?>
         <?php echo $form->labelEx($model,'[persondoc]TypeID'); ?>

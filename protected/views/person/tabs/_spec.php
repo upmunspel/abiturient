@@ -49,7 +49,7 @@ $dataProvider=new CActiveDataProvider("Personspeciality", array('criteria'=>arra
         array('name'=>'educationForm', 'header'=>'Форма навчання', 'value' => '$data->educationForm->PersonEducationFormName '  ),
         array(
                 'class'=>'bootstrap.widgets.TbButtonColumn',
-                'template'=>'{update} {trash} {print}',
+                'template'=>'{update} {trash} {print} {printa}',
                 'buttons'=>array
                 (
 
@@ -82,9 +82,22 @@ $dataProvider=new CActiveDataProvider("Personspeciality", array('criteria'=>arra
                             'title'=>"Друкувати заявку",
                         ),
                     ),
+                    'printa' => array(
+                        'label'=>'Друкувати',
+                        'icon'=>'icon-check',
+                        'url'=>  'Yii::app()->user->getPrintUrl($data->PersonID, $data->idPersonSpeciality)',
+                        'options'=>array(
+                            'class'=>'btn',
+                            //'onclick'=>'PSN.printSpec(this); return true;',
+                            'rel'=>"prettyPhoto",
+                            'title'=>"Друкувати аркуш вступних випробувань",
+                        ),
+                    ),
+                    
+                    
                 ),
                 'htmlOptions'=>array(
-                    'style'=>'width: 130px;',
+                    'style'=>'width: 175px;',
                 ),
             )
         ),

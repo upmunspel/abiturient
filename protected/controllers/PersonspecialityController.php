@@ -92,7 +92,8 @@ class PersonspecialityController extends Controller
                 
 		if(isset($_GET['Personspeciality']))
 		{       $renderForm = "_form";
-			if (isset($_GET['Personspeciality']['GraduatedUniversitieID'])){
+			//if (isset($_GET['Personspeciality']['GraduatedUniversitieID'])){
+                        if (isset($_GET['Personspeciality']['GraduatedSpeciality'])){
                             $model->scenario ="SHORTFORM";
                             $renderForm = "_formShort";
                         }
@@ -144,7 +145,8 @@ class PersonspecialityController extends Controller
 
 		if(isset($_GET['Personspeciality'])) {       
                         $renderForm = "_form";
-			if (isset($_GET['Personspeciality']['GraduatedUniversitieID'])){
+			//if (isset($_GET['Personspeciality']['GraduatedUniversitieID'])){
+                        if (isset($_GET['Personspeciality']['GraduatedSpeciality'])){
                             $model->scenario ="SHORTFORM";
                             $renderForm = "_formShort";
                         }

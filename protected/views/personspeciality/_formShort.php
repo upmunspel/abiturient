@@ -51,16 +51,21 @@ $form= new TbActiveForm();
         </div>
      <hr>
      <div class="row-fluid">
-             <div class="span6">
-		<?php echo $form->labelEx($model,'GraduatedUniversitieID'); ?>
-		<?php echo $form->dropDownList($model,'GraduatedUniversitieID',  CHtml::listData(Universities::model()->findAll(), 'idUniversity', 'UniversityName'),array('empty'=>'','class'=>'span12')); ?>
+            <div class="span12">
+		<?php echo $form->labelEx($model,'GraduatedSpeciality'); ?>
+		<?php echo $form->textField($model,'GraduatedSpeciality',  array('empty'=>'','class'=>'span12')); ?>
+		<?php //echo $form->error($model,'CourseID'); ?>
+            </div>
+<!--            <div class="span6">
+		<?php //echo $form->labelEx($model,'GraduatedUniversitieID'); ?>
+		<?php //echo $form->dropDownList($model,'GraduatedUniversitieID',  CHtml::listData(Universities::model()->findAll(), 'idUniversity', 'UniversityName'),array('empty'=>'','class'=>'span12')); ?>
 		<?php //echo $form->error($model,'CourseID'); ?>
             </div>
             <div class="span6">
-		<?php echo $form->labelEx($model,'GraduatedSpecialitieID'); ?>
-		<?php echo $form->dropDownList($model,'GraduatedSpecialitieID',  Specialities::DropDownMask(), array('empty'=>'','class'=>'span12')); ?>
+		<?php //echo $form->labelEx($model,'GraduatedSpecialitieID'); ?>
+		<?php //echo $form->dropDownList($model,'GraduatedSpecialitieID',  Specialities::DropDown(), array('empty'=>'','class'=>'span12')); ?>
 		<?php //echo $form->error($model,'CourseID'); ?>
-            </div>
+            </div>-->
         </div>
     <hr>
     
