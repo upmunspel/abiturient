@@ -1,21 +1,3 @@
-
-<div class="form">
-    <div class="row-fluid">
-        <div class="span3">
-                <?php
-                    $url = Yii::app()->createUrl("personspeciality/create",array('personid'=>$personid));
-                    $this->widget('bootstrap.widgets.TbButton', array(
-                    'label'=>'Додати спеціальність',
-                    'type'=>'primary', // null, 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
-                    'size' => null, // null, 'large', 'small' or 'mini'
-                    'loadingText'=>'Зачекайте...',
-                    'htmlOptions'=>array('id'=>'addSpec',
-                        'onclick'=>"PSN.addSpec(this,'$url');",
-                        ),
-                )); ?>
-        </div>
-    </div>
-    <hr>  
 <?php  /* END PRINT SPEC LIST */ 
 $dataProvider=new CActiveDataProvider("Personspeciality", array('criteria'=>array(
     'condition'=>"PersonID=$personid",
@@ -36,12 +18,33 @@ $dataProvider=new CActiveDataProvider("Personspeciality", array('criteria'=>arra
     )
 ));
 
-
+?>
+<div class="form">
+    <?php if (count($dataProvider->data)<3): ?>
+    <div class="row-fluid">
+        <div class="span3">
+                <?php
+                    $url = Yii::app()->createUrl("personspeciality/create",array('personid'=>$personid));
+                    $this->widget('bootstrap.widgets.TbButton', array(
+                    'label'=>'Додати спеціальність',
+                    'type'=>'primary', // null, 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
+                    'size' => null, // null, 'large', 'small' or 'mini'
+                    'loadingText'=>'Зачекайте...',
+                    'htmlOptions'=>array('id'=>'addSpec',
+                        'onclick'=>"PSN.addSpec(this,'$url');",
+                        ),
+                )); ?>
+        </div>
+    </div>
+    <hr>
+    <?php endif; ?>
+<?php  
  $this->widget('bootstrap.widgets.TbGridView', array(
     'type'=>'striped bordered condensed',
     'dataProvider'=>$dataProvider,
     'template'=>"{items}",
     'columns'=>array(
+        array('name'=>'PersonRequestNumber', "htmlOptions"=>array("style"=>"width: 150px"),  'value' => '$data->RequestPrefix.str_pad($data->PersonRequestNumber, 5, "0", STR_PAD_LEFT)'),
         array('name'=>'RequestNumber', "htmlOptions"=>array("style"=>"width: 150px"),  'value' => 'str_pad($data->RequestNumber, 5, "0", STR_PAD_LEFT)'),
         //array('name'=>'typename', 'header'=>'typename',  ),
         array('name'=>'sepcialityCode', 'header'=>'Код спеціальності', 'value' => '$data->sepciality->SpecialityClasifierCode' ),
