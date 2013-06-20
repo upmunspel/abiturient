@@ -65,6 +65,7 @@ class Personspeciality extends ActiveRecord
 {
         public $StatusID = 4;
         public $currentMaxRequestNumber;
+        public $currentMaxPersonRequestNumber;
         public $isHigherEducation =0;
 	/**
 	 * Returns the static model of the specified AR class.
@@ -79,6 +80,20 @@ class Personspeciality extends ActiveRecord
 	/**
 	 * @return string the associated database table name
 	 */
+        public function getRequestPrefix(){
+            $prefix = "";
+            switch ($this->QualificationID){
+                case 1:  $prefix = "Б"; break;
+                case 2:  $prefix = "М"; break;
+                case 3:  $prefix = "С"; break;
+                case 4:  $prefix = "МС"; break;
+                
+            }
+            
+            $prefix .= $this->CourseID."-";
+                
+          return $prefix;
+        }
 	public function tableName()
 	{
 		return 'personspeciality';
@@ -176,8 +191,26 @@ class Personspeciality extends ActiveRecord
                 $c->compare("CourseID", $this->CourseID);
                 $c->select = 'max(RequestNumber) as currentMaxRequestNumber';
                 $res = self::model()->find($c);
-                debug($res->currentMaxRequestNumber);
                 $this->RequestNumber = $res->currentMaxRequestNumber+1;
+            }
+            
+            if ($this->isNewRecord){
+                $c = new CDbCriteria();
+                $c->compare("PersonID", $this->PersonID);
+                $c->compare("QualificationID", $this->QualificationID);
+                $c->compare("CourseID", $this->CourseID);
+                $res = self::model()->find($c);
+                if (!empty($res) && !empty($res->PersonRequestNumber)){
+                   $this->PersonRequestNumber=$res->PersonRequestNumber;
+                } else {
+                    $c = new CDbCriteria();
+                    $c->compare("QualificationID", $this->QualificationID);
+                    $c->compare("CourseID", $this->CourseID);
+                    $c->select = 'max(PersonRequestNumber) as currentMaxPersonRequestNumber';
+                    $res = self::model()->find($c);
+                    $this->PersonRequestNumber = $res->currentMaxPersonRequestNumber+1;
+                }
+                
             }
             
             return parent::beforeSave();
@@ -252,6 +285,7 @@ class Personspeciality extends ActiveRecord
                     'Quota1' => 'Квота (с-ка міс-ть)',
                     'Quota2' => 'Квота (пільгові к-рії)',
                     'RequestNumber'=>"Номер заявки",
+                    'PersonRequestNumber'=>"Номер справи",
                     "PersonDocumentsAwardsTypesID"=>"Відзнака",
                     'isForeinghEntrantDocument'=>"Іноземн. док-т",
                     'OlympiadID'=>"Олимпиада",
