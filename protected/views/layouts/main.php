@@ -33,11 +33,12 @@
         function blockUI(){
               $.blockUI({ message: $('#loader'),
                 css: { 
-                    top:  ($(window).height() - 150) /2 + 'px', 
-                    left: ($(window).width() - 150) /2 + 'px', 
-                    width: '150px',
+                    top:  ($(window).height()) /2 + 'px', 
+                    left: ($(window).width()) /2 + 'px', 
+                    width: '200px',
                     border:         'none', 
-                    backgroundColor:'none' 
+                    backgroundColor:'none',
+                    'z-index': 1060
                 } 
             });
         }
@@ -56,7 +57,7 @@
             lines: 13, // The number of lines to draw
             length: 55, // The length of each line
             width: 15, // The line thickness
-            radius: 40, // The radius of the inner circle
+            radius: 45, // The radius of the inner circle
             corners: 1, // Corner roundness (0..1)
             rotate: 0, // The rotation offset
             direction: 1, // 1: clockwise, -1: counterclockwise
