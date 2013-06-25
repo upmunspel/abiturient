@@ -100,23 +100,25 @@ class PersonController extends Controller
 		$model=new Person;
                
                 $model->Birthday= date("d.m.Y",mktime(0, 0, 0, 1, 1, date('Y')-18));
+                
+                $searchRes = array();
+                // Обработка формы поиска
                 if(isset($_POST['search'])){
-                     $findRes = $this->FindLocalPersonByDoc($_POST['search']['attestatSeries'],$_POST['search']['attestatNumber']);
+                     $findRes = 0; //$this->FindLocalPersonByDoc($_POST['search']['attestatSeries'],$_POST['search']['attestatNumber']);
                      //debug($findRes);
                      if ($findRes == 0) {
                             try {
-                            $client = new EHttpClient(Yii::app()->params["personSearchURL"], array('maxredirects' => 30, 'timeout'      => 30,));
-                            $client->setParameterPost($_POST['search']);
-                            $response = $client->request(EHttpClient::POST);
-                            
-                            if($response->isSuccessful()){
-                              $model->loadFromJSON($response->getBody());
-                            } else {
-                                 debug($response->getRawBody());
-                            }
+                                $client = new EHttpClient(Yii::app()->user->getEdboSearchUrl().Yii::app()->params["personSearchURL"], array('maxredirects' => 30, 'timeout'      => 30,));
+                                $client->setParameterPost($_POST['search']);
+                                $response = $client->request(EHttpClient::POST);
 
-                        } catch(Exception $e){
-                            debug($e->getMessage());
+                                if($response->isSuccessful()){
+                                    $searchRes = Person::JsonDataAsArray($response->getBody());
+                                } else {
+                                    debug($response->getRawBody());
+                                }
+                            } catch(Exception $e) {
+                                debug($e->getMessage());
                             }
                      } else {
                          Yii::app()->user->setFlash("message","Персона вже існує в системі з кодом $findRes");
@@ -124,11 +126,46 @@ class PersonController extends Controller
                      }
                 } 
 		
+               if(isset($_GET['personCodeU'])){
+                    if ($model->loadByUCode($_GET['personCodeU'])) {
+                        try {
+
+                        
+
+                            $client = new EHttpClient(Yii::app()->user->getEdboSearchUrl().Yii::app()->params["documentSearchURL"], array('maxredirects' => 30, 'timeout'=> 30,));
+                            $client->setParameterPost($_GET);
+                            $response = $client->request(EHttpClient::POST);
+
+                            if($response->isSuccessful()){
+                                $searchRes = $model->loadDocumentsFromJSON($response->getBody());
+                            } else {
+                                Yii::app()->user->setFlash("message","Не вдалося завантажити документи!");
+                                debug($response->getRawBody());
+                            }
+
+                            $client = new EHttpClient(Yii::app()->user->getEdboSearchUrl().Yii::app()->params["contactSearchURL"], array('maxredirects' => 30, 'timeout'=> 30,));
+                            $client->setParameterPost($_GET);
+                            $response = $client->request(EHttpClient::POST);
+
+                            if($response->isSuccessful()){
+                                $searchRes = $model->loadContactsFromJSON($response->getBody());
+                            } else {
+                                Yii::app()->user->setFlash("message","Не вдалося завантажити документи!");
+                                debug($response->getRawBody());
+                            }
+
+                        } catch(Exception $e) {
+                            debug($e->getMessage());
+                        }
+                    }
+                    
+                } 
 
 		if(isset($_POST['Person'])){
                         $model->attributes=$_POST['Person'];
                         if(isset($_POST['Documents']['persondoc'])){
                             $model->persondoc->attributes=$_POST['Documents']['persondoc'];
+                            $model->validate();
                         }
                         if(isset($_POST['Documents']['entrantdoc'])){
                             $model->entrantdoc->attributes=$_POST['Documents']['entrantdoc'];
@@ -178,7 +215,7 @@ class PersonController extends Controller
                         }
 		}
               
-                $this->render('create',array('model'=>$model,));
+                $this->render('create',array('model'=>$model,"searchres"=>$searchRes));
 	}
 
 	

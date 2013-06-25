@@ -399,6 +399,13 @@
 							date.setFullYear(2000 + val);
 							break;
 						case 'yyyy':
+                                                        if (parts[i].length < 4){
+                                                            if (val > 50){
+                                                                val += 1900;
+                                                            } else {
+                                                                val = val+2000;
+                                                            }
+                                                        }
 							date.setFullYear(val);
 							break;
 					}

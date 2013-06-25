@@ -12,18 +12,19 @@ $this->pageTitle=Yii::app()->name;
 
 <div class="span2">
 <?php $this->widget('bootstrap.widgets.TbButton', array(
-'label'=>'Абітурієнти',
+'label'=>'Авторизуватися',
 'type'=>'primary', // null, 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
 'size'=>'large', // null, 'large', 'small' or 'mini'
-'url'=>Yii::app()->createUrl("person"),
+'url'=>Yii::app()->createUrl("site/login"),
 )); ?>
 </div>
 
-<div class="span3" style="">
+<!--<div class="span3" style="">
 <?php $this->widget('bootstrap.widgets.TbButton', array(
 'label'=>'Статистика вступу',
 'type'=>'primary', // null, 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
 'size'=>'large', // null, 'large', 'small' or 'mini'
 )); ?>
-  </div>
+  </div>-->
+<div class="row-fluid"></div>
 <?php $this->endWidget(); ?>

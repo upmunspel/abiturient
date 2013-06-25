@@ -43,7 +43,15 @@ class WebUser extends CWebUser {
         return "";
     }
     public function getPrintUrl($personid, $specid){
-        return Yii::app()->params["printUrl"]."PersonID=".$personid."&PersonSpecialityID=".$specid."&iframe=true&width=1024&height=600";
+        $model = $this->getUserModel();
+        if (empty($model->syspk) || empty($model->syspk->printIP) ) throw new Exception ("Необхідно визначити адресу серверу друку документів!");
+        $ip = $model->syspk->printIP;  
+        return "http://".$ip.Yii::app()->params["printUrl"]."PersonID=".$personid."&PersonSpecialityID=".$specid."&iframe=true&width=1024&height=600";
+    }
+    public function getEdboSearchUrl(){
+        $model = $this->getUserModel();
+        if (empty($model->syspk) || empty($model->syspk->searchIP) ) throw new Exception ("Необхідно визначити адресу серверу для пошуку!!");
+        return "http://".$model->syspk->printIP;  
     }
 }
 ?>

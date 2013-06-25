@@ -182,8 +182,12 @@ return array(
 	'params'=>array(
 		// this is used in contact page
 		'adminEmail'=>'webmaster@example.com',
-                'personSearchURL'=>"http://10.1.103.26:8080/PersonSearch/search.jsp",
-                'printUrl'=>"http://10.1.103.26:8080/request_report-1.0/?",
+            
+                'personSearchURL'=>":8080/PersonSearch/search.jsp",
+                'documentSearchURL'=>":8080/PersonSearch/documents.jsp",
+                'contactSearchURL'=>":8080/PersonSearch/contacts.jsp",
+            
+                'printUrl'=>":8080/request_report-1.0/?",
                 'photosPath'=>"/images/Photos/",
                 'photosBigPath'=>"/images/Photos/big/",
                 'defaultPersonPhoto'=>"180x240.gif",

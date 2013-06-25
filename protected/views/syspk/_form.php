@@ -33,6 +33,14 @@
              </div>
         </div>
         <div class="row-fluid">
+            <div class ="span3" >
+                 <?php echo $form->textFieldRow($model,'printIP',array('class'=>'span12')); ?>
+             </div>
+            <div class ="span3" >
+                 <?php echo $form->textFieldRow($model,'searchIP',array('class'=>'span12')); ?>
+             </div>
+        </div>
+        <div class="row-fluid">
             <div class ="span12" >
                  <?php echo $form->textAreaRow($model,'Info',array('class'=>'span12')); ?>
             </div>

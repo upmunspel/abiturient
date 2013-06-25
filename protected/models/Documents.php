@@ -133,7 +133,7 @@ class Documents extends ActiveRecord
 			array('Series', 'length', 'max'=>10),
 			array('Numbers', 'length', 'max'=>15),
 			array('Issued', 'length', 'max'=>250),
-			array('DateGet, idDocuments, Series, Numbers,  ', 'safe'),
+			array('DateGet, idDocuments, Series, Numbers, PersonDocumentsAwardsTypesID, isForeinghEntrantDocument, isNotCheckAttestat', 'safe'),
                     
                         array('DateGet, Series, Numbers, Issued', 'required', "except"=>"INN, HOSP, ZNO, FULLINPUT"),
                     
@@ -237,11 +237,9 @@ class Documents extends ActiveRecord
         
         public function loadAndSaveFromJson($personid, $jsonstr){
              $obj = (object)$jsonstr;
-             debug(print_r($obj,true));
-             debug($personid);
              $this->scenario = 'ZNO';
              $this->PersonID = $personid;
-             $this->TypeID = $obj->typeID;
+             $this->TypeID = $obj->id_Type;
              $this->Numbers = $obj->number;
              $this->DateGet = date("d.m.Y",mktime(0, 0, 0, $obj->dateGet['month'],  $obj->dateGet['dayOfMonth'],  $obj->dateGet['year']));
              $this->ZNOPin = $obj->znoPin;
@@ -251,21 +249,11 @@ class Documents extends ActiveRecord
                      $subj = new Documentsubject();
                      $subj->DateGet = $this->DateGet;
                      $subj->DocumentID = $this->idDocuments;
-                     $subj->SubjectID = $val->subjectId;
+                     $subj->SubjectID = $val->id_Subject;
                      $subj->SubjectValue = $val->subjectValue;
                      $subj->save();
                  }
              }
-              debug($this->idDocuments);
-//                {       "typeID":4, 
-//                        "documentID":321434,
-//                        "series":"","number":"0104441",
-//                        "dateGet":{"year":2012,"month":0,"dayOfMonth":1,"hourOfDay":2,"minute":0,"second":0},
-//                         "znoPin":4283,"attestatValue":0,"issued":"",
-//                    "subjects":[
-//                    {"subjectId":14,"subjectValue":198.5},
-//                    {"subjectId":21,"subjectValue":194.5},
-//                    {"subjectId":29,"subjectValue":192.0}]}
             
         }
         
