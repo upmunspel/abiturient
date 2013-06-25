@@ -11,48 +11,13 @@ $this->menu=array(
 );
 ?>
 
-<?php $form=$this->beginWidget('CActiveForm',array(
-	'action'=>Yii::app()->createUrl($this->route),
-	'method'=>'post',
-        'htmlOptions'=>array('style'=>"display: none;",'id'=>'search-form',"class"=>"well"),
-)); 
-?>
-
-<h4>Пошук абітурієнта за серією та номером документу</h4>
-<hr>
-<div class="row-fluid form">
-       
-    
-    <div class="span1">
-        <?php echo CHtml::label("Серія:","search[attestatSeries]");?>
-	<?php echo CHtml::textField("search[attestatSeries]","АР",array("class"=>"span12"));?>
-    </div>
-    <div class="span2">
-        <?php echo CHtml::label("Номер:","search[attestatNumber]"); ?>
-        <?php echo CHtml::textField("search[attestatNumber]","43042636",array("class"=>"span12"));?>
-    </div>
-    <div class="span5">
-        <p>Для пошуку абітуріента зберігайте наступну послідовність документів</p>
-    </div>
-</div>
- <div class="row-fluid form">
-  
-    <div class="span2">
-        <?php $this->widget('bootstrap.widgets.TbButton', array(
-			'buttonType'=>'submit',
-			'type'=>'primary',
-			'label'=>'Поиск',
-                        'htmlOptions'=>array("onclick"=>"blockUI(); return true;"),
-		)); ?>
-    </div>
-</div>
-<?php $this->endWidget(); ?>
+<?php echo $this->renderPartial('_edboSearch', array('model'=>$model,"searchres"=>$searchres)); ?>
 
 <h3>Абітурієнт</h3> 
 <?php if (Yii::app()->user->hasFlash("message")){
             echo "<p>".Yii::app()->user->getFlash("message")."</p>";
       }
       ?>
-<a href="javascript:void(0);" onclick="$('#search-form').toggle();" >Пошук абітуріента за документом</a>
+<h5><a href="javascript:void(0);" onclick="$('#search-form').toggle();" >Пошук абітуріента за документом</a></h5>
 
 <?php echo $this->renderPartial('_form', array('model'=>$model)); ?>
