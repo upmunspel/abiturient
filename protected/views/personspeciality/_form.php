@@ -121,7 +121,7 @@ $form= new TbActiveForm();
            
             <div class="span2">
 		<?php echo $form->labelEx($model,'QualificationID'); ?>
-		<?php echo $form->dropDownList($model,'QualificationID',CHtml::listData(Qualifications::model()->findAll(), 'idQualification', 'QualificationName'),array('empty'=>'', 'class'=>"span12", 'disabled'=>Yii::app()->user->isPkSet("QualificationID"))); ?>
+		<?php echo $form->dropDownList($model,'QualificationID',CHtml::listData(Qualifications::model()->findAll(), 'idQualification', 'QualificationName'),array('empty'=>'', 'class'=>"span12", 'readonly'=>Yii::app()->user->isPkSet("QualificationID"))); ?>
 		<?php //echo $form->error($model,'QualificationID'); ?>
             </div>
             
