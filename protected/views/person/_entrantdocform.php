@@ -1,6 +1,9 @@
 <?php 
  $user = Yii::app()->user->getUserModel();
+// $form = new CActiveForm();
+// $form->
 ?>
+
 <div class="row-fluid">
             <div class ="span12">
                 <?php echo $form->errorSummary($model) ?>
@@ -95,16 +98,21 @@
 ?>
           <?php echo $form->dropDownList($model,'[entrantdoc]PersonDocumentsAwardsTypesID', CHtml::listData(Persondocumentsawardstypes::model()->findAll($c), 'idPersonDocumentsAwardsTypes', 'PersonDocumentsAwardsTypesName'),array('empty'=>'','class'=>'span12')); ?>
     </div>
-    <div class ="span3">
+    <div class ="span2">
         <?php  echo $form->labelEx($model,'[entrantdoc]isForeinghEntrantDocument'); ?>
         <div class="switch" data-on-label="Так" data-off-label="Ні">
             <?php echo $form->checkBox($model,'[entrantdoc]isForeinghEntrantDocument'); ?>
         </div>
     </div>
-    <div class ="span3">
+    <div class ="span2">
        <?php  echo $form->labelEx($model,'[entrantdoc]isNotCheckAttestat'); ?>
         <div class="switch" data-on-label="Так" data-off-label="Ні">
             <?php echo $form->checkBox($model,'[entrantdoc]isNotCheckAttestat'); ?>
         </div>
     </div>
+    <div class ="span5">
+        <?php echo $form->labelEx($model,'PersonBaseSpecealityID'); ?>
+        <?php echo $form->dropDownList($model, 'PersonBaseSpecealityID', Personbasespeciality::DropDown(),array('empty'=>"", 'class'=>'span12')); ?>
+    </div> 
 </div>
+

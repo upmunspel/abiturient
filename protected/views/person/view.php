@@ -33,9 +33,9 @@ $this->menu=array(
         'type'=>array('bordered', 'condensed','striped'),
 	'attributes'=>array(
 		'idPerson',
+                 'LastName',
 		'FirstName',
-		'LastName',
-                'MiddleName',
+		'MiddleName',
                 "Birthday"
 	),
 )); ?>
