@@ -111,8 +111,8 @@
         </div>
     </div>
     <div class ="span5">
-        <?php echo $form->labelEx($model,'PersonBaseSpecealityID'); ?>
-        <?php echo $form->dropDownList($model, 'PersonBaseSpecealityID', Personbasespeciality::DropDown(),array('empty'=>"", 'class'=>'span12')); ?>
+        <?php echo $form->labelEx($model,'[entrantdoc]PersonBaseSpecealityID'); ?>
+        <?php echo $form->dropDownList($model, '[entrantdoc]PersonBaseSpecealityID', Personbasespeciality::DropDown(),array('empty'=>"", 'class'=>'span12')); ?>
     </div> 
 </div>
 
