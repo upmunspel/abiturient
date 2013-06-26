@@ -37,7 +37,7 @@ echo $form->errorSummary($model); ?>
     </div>
     <div class ="span10">
         <?php echo $form->labelEx($model,'Issued'); ?>
-        <?php echo $form->textField($model,'Issued',array('class'=>'span12','maxlength'=>4)); ?>
+        <?php echo $form->textField($model,'Issued',array('class'=>'span12')); ?>
     </div>
 </div>
  <div class="row-fluid">
@@ -54,6 +54,12 @@ echo $form->errorSummary($model); ?>
         <div class="switch" data-on-label="Так" data-off-label="Ні">
         <?php echo $form->checkBox($model,'isCopy'); ?>
         </div>
+    </div>   
+</div>
+<div class="row-fluid">
+    <div class ="span6">
+        <?php echo $form->labelEx($model,'PersonBaseSpecealityID'); ?>
+        <?php echo $form->dropDownList($model, 'PersonBaseSpecealityID', Personbasespeciality::DropDown(),array('empty'=>"",'class'=>'span12')); ?>
     </div>   
 </div>
     <script>

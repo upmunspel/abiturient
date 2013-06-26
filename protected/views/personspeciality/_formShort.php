@@ -50,13 +50,13 @@ $form= new TbActiveForm();
             </div>
         </div>
      <hr>
-     <div class="row-fluid">
+<!--     <div class="row-fluid">
             <div class="span12">
-		<?php echo $form->labelEx($model,'GraduatedSpeciality'); ?>
-		<?php echo $form->textField($model,'GraduatedSpeciality',  array('empty'=>'','class'=>'span12')); ?>
+		<?php //echo $form->labelEx($model,'GraduatedSpeciality'); ?>
+		<?php //echo $form->textField($model,'GraduatedSpeciality',  array('empty'=>'','class'=>'span12')); ?>
 		<?php //echo $form->error($model,'CourseID'); ?>
             </div>
-<!--            <div class="span6">
+            <div class="span6">
 		<?php //echo $form->labelEx($model,'GraduatedUniversitieID'); ?>
 		<?php //echo $form->dropDownList($model,'GraduatedUniversitieID',  CHtml::listData(Universities::model()->findAll(), 'idUniversity', 'UniversityName'),array('empty'=>'','class'=>'span12')); ?>
 		<?php //echo $form->error($model,'CourseID'); ?>
@@ -65,9 +65,9 @@ $form= new TbActiveForm();
 		<?php //echo $form->labelEx($model,'GraduatedSpecialitieID'); ?>
 		<?php //echo $form->dropDownList($model,'GraduatedSpecialitieID',  Specialities::DropDown(), array('empty'=>'','class'=>'span12')); ?>
 		<?php //echo $form->error($model,'CourseID'); ?>
-            </div>-->
+            </div>
         </div>
-    <hr>
+    <hr>-->
     
     
         <div class="row-fluid">

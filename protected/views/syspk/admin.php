@@ -48,7 +48,7 @@ $('.search-form form').submit(function(){
 		
 		array('name'=>'Department', 'value'=>'$data->Department->DepartmentName'),
                 array('name'=>'Course', 'value'=>'($data->CourseID == 0)?"Довільний" :$data->Course->CourseName', 'htmlOptions'=>array("width" =>"70")),
-                array('name'=>'Qualification', 'value'=>'$data->Qualification->QualificationName;', 'htmlOptions'=>array("width" =>"100")),
+                array('name'=>'Qualification', 'value'=>'!empty($data->Qualification)?$data->Qualification->QualificationName:"Довільний"', 'htmlOptions'=>array("width" =>"100")),
 		array('name'=>'SpecMask','htmlOptions'=>array("width" =>"100")),
 		array(
 			'class'=>'bootstrap.widgets.TbButtonColumn',

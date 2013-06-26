@@ -6,7 +6,7 @@ Yii::app()->clientScript->registerScriptFile($burl."/js/person.js");
 
 $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
 	'id'=>'person-form',
-        'action'=>Yii::app()->createUrl("person/create"),
+        'action'=>$model->isNewRecord ? Yii::app()->createUrl("person/create"):"",
     //'type'=>'horizontal',
 	'enableAjaxValidation'=>false,
         'htmlOptions'=>array("class"=>"well form"),

@@ -17,6 +17,7 @@
  * @property integer $isForeinghEntrantDocument
  * @property integer $isNotCheckAttestat
  * @property integer $PersonDocumentsAwardsTypesID
+ * @property integer $PersonBaseSpecealityID
  */
 class Documents extends ActiveRecord
 {
@@ -133,7 +134,7 @@ class Documents extends ActiveRecord
 			array('Series', 'length', 'max'=>10),
 			array('Numbers', 'length', 'max'=>15),
 			array('Issued', 'length', 'max'=>250),
-			array('DateGet, idDocuments, Series, Numbers, PersonDocumentsAwardsTypesID, isForeinghEntrantDocument, isNotCheckAttestat', 'safe'),
+			array('DateGet, idDocuments, Series, Numbers, PersonDocumentsAwardsTypesID, isForeinghEntrantDocument, isNotCheckAttestat, PersonBaseSpecealityID', 'safe'),
                     
                         array('DateGet, Series, Numbers, Issued', 'required', "except"=>"INN, HOSP, ZNO, FULLINPUT"),
                     
@@ -197,6 +198,7 @@ class Documents extends ActiveRecord
                     'isForeinghEntrantDocument'=>"Зарубіжний д-т",
                     "isNotCheckAttestat"=>"Не перевіряти атестат",
                     'PersonDocumentsAwardsTypesID'=>"Відзнаки",
+                    'PersonBaseSpecealityID'=>'Базовий напрям',
 		);
 	}
 
