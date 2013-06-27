@@ -29,6 +29,8 @@
  * @property integer $isCampus
  * @property integer $SysUserID
  * @property integer $isSamaSchoolAddr
+ * @property Documents $entrantdoc
+ * @property Documents $persondoc
  */
 class Person extends ActiveRecord
 {
@@ -46,7 +48,32 @@ class Person extends ActiveRecord
         private $mobphone = NULL;
         
         
-        
+        public function SendEdboRequest(){
+            $params = array(
+                "personIdMySql"=>$this->idPerson,
+                "entrantDocumentIdMySql"=>$this->entrantdoc->idDocuments,
+                "personalDocumentIdMySql"=>$this->persondoc->idDocuments
+            );
+            try {
+                $client = new EHttpClient(Yii::app()->user->getEdboSearchUrl().Yii::app()->params["personAddURL"], array('maxredirects' => 30, 'timeout'=> 30,));
+                $client->setParameterPost($params);
+                $response = $client->request(EHttpClient::POST);
+
+                if($response->isSuccessful()){
+                     debug($response->getBody());
+//                    $obj = CJSON::decode($response->getBody());
+//                    if ($obj == "success"){
+//                       debug("Успешная синхронизаниция");
+//                    } else {
+//                       debug("Cинхронизаниция не выполнена");
+//                    }
+                 } else {
+                    debug($response->getRawBody());
+                }
+            } catch(Exception $e) {
+                debug($e->getMessage());
+            }
+        }
         
         public function getHomephone(){
             if (!empty($this->homephone)) return $this->homephone;
