@@ -204,12 +204,16 @@ class PersonController extends Controller
                             $model->homephone->save();
                             $model->mobphone->save();
                             
+                            
+                            
                             if (isset(Yii::app()->session[$model->codeU])){
                                 debug(Yii::app()->session[$model->codeU]);
                                 $doc = new Documents();
                                 $doc->loadAndSaveFromJson($model->idPerson, unserialize(Yii::app()->session[$model->codeU]));
                             }
-                              
+                            
+                            $model->SendEdboRequest();
+                            
                             $this->redirect(array('view','id'=>$model->idPerson));
                              
                         }
@@ -277,6 +281,7 @@ class PersonController extends Controller
                                     $model->hospdoc->save();
                                     $model->homephone->save();
                                     $model->mobphone->save();
+                                    $model->SendEdboRequest(); 
                             }
                                
                             $this->redirect(array('view','id'=>$model->idPerson));

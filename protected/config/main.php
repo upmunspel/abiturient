@@ -186,6 +186,7 @@ return array(
                 'personSearchURL'=>":8080/PersonSearch/search.jsp",
                 'documentSearchURL'=>":8080/PersonSearch/documents.jsp",
                 'contactSearchURL'=>":8080/PersonSearch/contacts.jsp",
+                'personAddURL'=>":8080/PersonSearch/personaddedbo.jsp",
             
                 'printUrl'=>":8080/request_report-1.0/?",
                 'photosPath'=>"/images/Photos/",
