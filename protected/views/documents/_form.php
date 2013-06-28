@@ -1,9 +1,10 @@
 <?php
 /* @var $this DocumentsController 
  * @var $form CActiveForm
- */
-//$form = new CActiveForm();
+ * @var $model Documents
+*/
 ?>
+
 <div class="form">
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'zno-form-modal',
@@ -24,11 +25,15 @@ echo $form->errorSummary($model); ?>
 <div class="row-fluid">
     <div class ="span6">
         <?php echo $form->labelEx($model,'Numbers'); ?>
-        <?php echo $form->textField($model,'Numbers',array('class'=>'span12', )); ?>
+        <?php echo $form->textField($model,'Numbers',array('class'=>'span12','maxlength'=>7 )); ?>
     </div>    
-    <div class ="span6">
+    <div class ="span3">
         <?php echo $form->labelEx($model,'ZNOPin'); ?>
-        <?php echo $form->textField($model,'ZNOPin',array('class'=>'span12',)); ?>
+        <?php echo $form->textField($model,'ZNOPin',array('class'=>'span12','maxlength'=>4)); ?>
+    </div>    
+    <div class ="span3">
+        <?php echo $form->labelEx($model,'DateGet'); ?>
+        <?php echo $form->textField($model,'DateGet',array('class'=>'span12 datepicker','maxlength'=>4)); ?>
     </div>    
 </div>
 <?php if (!empty($subjects)): ?>

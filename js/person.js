@@ -326,6 +326,10 @@ PSN.appendZno= function(obj, link){
     var btn = $(obj);
     btn.button('loading'); // call the loading function
     var fdata = $("#zno-form-modal").serialize(); 
+    if (fdata == "")  {
+        $("#znoModal").modal("hide");
+        return;
+    }
     $.ajax({
     'url': link,
     'data': fdata,
@@ -341,6 +345,7 @@ PSN.appendZno= function(obj, link){
                $("#zno-modal-body").html(obj.data);  
             }
             btn.button('reset'); 
+            refreshDocuments();
         }
     });
    
@@ -357,7 +362,7 @@ PSN.deleteZno= function(obj, url){
                     } else {
                         alert(obj.data);  
                     }
-                 
+                  refreshDocuments();
                 }
         });
         
@@ -385,6 +390,29 @@ PSN.editZno = function(obj, url){
 /**
  *  Doc code
  */
+
+PSN.edboUpdate = function(obj, link){
+    var btn = $(obj);
+    btn.button('loading'); // call the loading function
+    var fdata = $("#doc-form-modal").serialize(); 
+    $.ajax({
+    'url': link,
+    'type':'POST',
+    success: function (data) { 
+            //alert(data);
+            var obj = jQuery.parseJSON(data);
+            //alert(obj.result);
+            if (obj.result === "success") {
+               $("#docs").html(obj.data);
+            } else {
+               alert(link+"   "+obj.data);  
+            }
+            btn.button('reset'); 
+         
+        }
+    });
+}
+
 PSN.addDoc = function(obj, url){
     var btn = $(obj);
     btn.button('loading'); // call the loading function
@@ -399,6 +427,11 @@ PSN.appendDoc= function(obj, link){
     var btn = $(obj);
     btn.button('loading'); // call the loading function
     var fdata = $("#doc-form-modal").serialize(); 
+  
+    if (fdata == "")  {
+        $("#docModal").modal("hide");
+        return;
+    }
     $.ajax({
     'url': link,
     'data': fdata,
@@ -461,8 +494,10 @@ PSN.addSpec = function(obj, url){
     });
  };
 PSN.onFacChange = function(obj, id , url){
-    var fid = $(obj," :selected").val();
-    data = "idFacultet="+fid;
+    var fid = $("#idFacultet :selected").val();
+    var formid = $("#Personspeciality_EducationFormID :selected").val();
+    
+    data = "idFacultet="+fid+"&idEducationForm="+formid;
     $(id).load(url, data);
  };
 PSN.appendSpec= function(obj, link){

@@ -53,25 +53,30 @@ $model = new PersonBenefits();*/
                 <div class ="span1">
                     <span >&nbsp;</span>
                    <?php 
-            $url = Yii::app()->createUrl("documents/delzno",array('documentid'=>$model->idDocuments));
-            $this->widget("bootstrap.widgets.TbButton", array(
-			'type'=>'danger',
-                        'label'=>'',
-                        'size' => null,
-                        'icon'=>"icon-trash",
-                        'htmlOptions'=>array(
-                                "style"=>"margin-top: 2px;",
-                                'title'=>"Видалити сертифікат",
-                                'class'=>"span12",
-                                'onclick'=>"PSN.deleteZno(this,'$url');"), 
-                        )); 
-             ?>
+                    $url = Yii::app()->createUrl("documents/delzno",array('documentid'=>$model->idDocuments));
+                    
+                    if (empty($model->edboID) || Yii::app()->user->checkAccess("updateAllPost")  ){
+                    $this->widget("bootstrap.widgets.TbButton", array(
+                                'type'=>'danger',
+                                'label'=>'',
+                                'size' => null,
+                                'icon'=>"icon-trash",
+
+                                'htmlOptions'=>array(
+                                        "style"=>"margin-top: 2px;",
+                                        'title'=>"Видалити сертифікат",
+                                        'class'=>"span12",
+                                        'onclick'=>"PSN.deleteZno(this,'$url');"), 
+                                )); 
+                    }
+                     ?>
                 </div>
                 <div class ="span1">
                     <span >&nbsp;</span>
                    <?php 
-            $url = Yii::app()->createUrl("documents/editzno",array('documentid'=>$model->idDocuments));
-            $this->widget("bootstrap.widgets.TbButton", array(
+                    $url = Yii::app()->createUrl("documents/editzno",array('documentid'=>$model->idDocuments));
+                    if (empty($model->edboID) || Yii::app()->user->checkAccess("updateAllPost")  ){
+                     $this->widget("bootstrap.widgets.TbButton", array(
 			//'type'=>'primary',
                         'label'=>'',
                         'size' => null,
@@ -82,6 +87,7 @@ $model = new PersonBenefits();*/
                                 'class'=>"span12",
                                 'onclick'=>"PSN.editZno(this,'$url');"), 
                         )); 
+                    }
              ?>
                 </div>    
             </div>

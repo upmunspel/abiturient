@@ -21,3 +21,9 @@
                         'id'=>"docs"),
     ),
 )); ?>
+
+<script type="text/javascript">
+    function refreshDocuments(){
+        $("#docs").load('<?php echo Yii::app()->createUrl("documents/refresh",array("id"=>$model->idPerson)); ?>');
+    }
+</script>

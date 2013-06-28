@@ -35,6 +35,7 @@ $dataProvider=new CActiveDataProvider("Personspeciality", array('criteria'=>arra
                         ),
                 )); ?>
         </div>
+        
     </div>
     <hr>
     <?php endif; ?>

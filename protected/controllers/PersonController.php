@@ -108,7 +108,9 @@ class PersonController extends Controller
                      //debug($findRes);
                      if ($findRes == 0) {
                             try {
+                                //debug(Yii::app()->user->getEdboSearchUrl());
                                 $client = new EHttpClient(Yii::app()->user->getEdboSearchUrl().Yii::app()->params["personSearchURL"], array('maxredirects' => 30, 'timeout'      => 30,));
+                               debug(Yii::app()->user->getEdboSearchUrl().Yii::app()->params["personSearchURL"]);
                                 $client->setParameterPost($_POST['search']);
                                 $response = $client->request(EHttpClient::POST);
 
@@ -182,7 +184,7 @@ class PersonController extends Controller
                         if(isset($_POST['PersonContacts']['mobphone'])){
                             $model->mobphone->attributes=$_POST['PersonContacts']['mobphone'];
                         }
-                        
+               
 			if(     $model->entrantdoc->validate("ENTRANT")
                                 && $model->persondoc->validate() 
                                 && $model->inndoc->validate("INN") 
@@ -212,7 +214,11 @@ class PersonController extends Controller
                                 $doc->loadAndSaveFromJson($model->idPerson, unserialize(Yii::app()->session[$model->codeU]));
                             }
                             
-                            $model->SendEdboRequest();
+                           if (!$model->SendEdboRequest()){ 
+                                        $model->delete();
+                                        $this->render('create',array('model'=>$model,"searchres"=>$searchRes));
+                                        Yii::app()->end();
+                           }
                             
                             $this->redirect(array('view','id'=>$model->idPerson));
                              
@@ -240,6 +246,8 @@ class PersonController extends Controller
 
 		if(isset($_POST['Person'])){
 			$model->attributes=$_POST['Person'];
+                        if (empty($_POST['Person']['KOATUUCodeL2ID'])) $model-> KOATUUCodeL2ID = null;
+                        if (empty($_POST['Person']['KOATUUCodeL3ID'])) $model-> KOATUUCodeL3ID = null;
                         if(isset($_POST['Documents']['persondoc'])){
                             $model->persondoc->attributes=$_POST['Documents']['persondoc'];
                             $model->persondoc->PersonID = $model->idPerson;
@@ -272,8 +280,10 @@ class PersonController extends Controller
                                 && $model->hospdoc->validate("HOSP")
                                 && $model->homephone->validate() 
                                 && $model->mobphone->validate()){
-                            
-                           if ($model->save()){
+                        
+                        
+                        
+                        if ($model->save()){
                                
                                     $model->persondoc->save();
                                     $model->entrantdoc->save();
@@ -281,10 +291,13 @@ class PersonController extends Controller
                                     $model->hospdoc->save();
                                     $model->homephone->save();
                                     $model->mobphone->save();
-                                    $model->SendEdboRequest(); 
-                            }
+                                    
+                                    //$model->SendEdboRequest();
+                                    
+                         } 
+                        
                                
-                            $this->redirect(array('view','id'=>$model->idPerson));
+                         $this->redirect(array('view','id'=>$model->idPerson));
                                 
                         }
                         

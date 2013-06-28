@@ -86,11 +86,13 @@ class SpecialitysubjectsController extends Controller
                     }
                     if ($valid){
                         foreach($models as $i=>$model) {
+                            if (empty( $model->SubjectID)) continue;
                             $subj = $model->SubjectID;
                             foreach ($model->SubjectID as $sub){
                                 $tm = new Specialitysubjects();
                                 $tm->SpecialityID = $spec;
                                 $tm->SubjectID = $sub;
+                               
                                 $tm->LevelID = $model->LevelID;
                                 $tm->save();
                             }

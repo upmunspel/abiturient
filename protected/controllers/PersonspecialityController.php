@@ -38,14 +38,14 @@ class PersonspecialityController extends Controller
             $this->renderPartial("_subjects_holder", array('model'=>$model, 'specialityid'=>$model->SepcialityID));
         }
         
-        public function actionSpeciality($idFacultet)
+        public function actionSpeciality($idFacultet, $idEducationForm)
         {
 //            $data = Specialities::model()->findAll('FacultetID=:FacultetID',
 //                          array(':FacultetID'=>(int) $idFacultet));
 //
 //            $data=CHtml::listData($data,'idSpeciality','SpecialityName');
 //            echo CHtml::tag('option', array('value'=>""), "", true);
-            $data = Specialities::DropDownMask($idFacultet);
+            $data = Specialities::DropDownMask($idFacultet, $idEducationForm);
              echo CHtml::tag('option', array('value'=>""), "", true);
             foreach($data as $value=>$name)
             {

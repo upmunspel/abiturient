@@ -27,7 +27,7 @@ echo $form->errorSummary($model); ?>
     </div>   
     <div class ="span4">
         <?php echo $form->labelEx($model,'Numbers'); ?>
-        <?php echo $form->textField($model,'Numbers',array('class'=>'span12', 'maxlength'=>7)); ?>
+        <?php echo $form->textField($model,'Numbers',array('class'=>'span12', )); ?>
     </div>    
 </div>
 <div class="row-fluid">
@@ -47,7 +47,7 @@ echo $form->errorSummary($model); ?>
     </div>    
     <div class ="span2">
         <?php echo $form->labelEx($model,'AtestatValue'); ?>
-        <?php echo $form->textField($model,'AtestatValue',array('class'=>'span12', 'maxlength'=>7)); ?>
+        <?php echo $form->textField($model,'AtestatValue',array('class'=>'span12',)); ?>
     </div>    
     <div class ="span2">
         <?php echo $form->labelEx($model,'isCopy'); ?>

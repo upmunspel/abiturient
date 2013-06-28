@@ -10,7 +10,7 @@ class DocumentsController extends Controller
 		return array(
 			'accessControl', // perform access control for CRUD operations
                         'ajaxOnly + newZno, newZnoSubject, appendZno, delZno, delZnoSubject,
-                                    editZno, Create, Update, Delete',
+                                    editZno, Create, Update, Delete, Edboupdate, Refresh',
 		);
 	}
 
@@ -35,7 +35,7 @@ class DocumentsController extends Controller
                                                     'delZnoSubject',
                                                     'editZno',
                                                     'Create',
-                                    'Update',"Delete"
+                                    'Update',"Delete, Edboupdate, Refresh"
                                                 ),
 				'users'=>array('@'),
 			),
@@ -60,6 +60,34 @@ class DocumentsController extends Controller
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
 	}
+        /**
+         * actionEdboupdate - запрос на синхронизацию документов
+         * @param type $personid
+         */
+        public function actionEdboupdate($personid){
+            try {
+                $link = Yii::app()->user->getEdboSearchUrl().":8080/PersonSearch/persondocumentsaddedbo.jsp";
+                
+                $client = new EHttpClient($link, array('maxredirects' => 30, 'timeout' => 30,));
+               
+                $client->setParameterPost(array("personIdMySql"=>$personid));
+                $response = $client->request(EHttpClient::POST);
+
+                if($response->isSuccessful()){
+                         $obj= (object)CJSON::decode($response->getBody());
+                         if ($obj->error){
+                            Yii::app()->user->setFlash("message",$obj->message);
+                         }
+                         
+                } else {
+                    Yii::app()->user->setFlash("message","Синхронізація не виконана! Спробуйте пізніше.");
+                }
+                } catch(Exception $e) {
+                    Yii::app()->user->setFlash("message","Синхронізація не виконана! Спробуйте пізніше.");
+                }
+                $str = $this->renderPartial("//person/tabs/_doc", array('personid'=>$personid), true);
+                echo CJSON::encode(array("result"=>"success","data" =>$str));
+        }
         public function actionCreate($personid)  {   
                 $model = new Documents("FULLINPUT");
                 $model->PersonID = $personid;
@@ -91,6 +119,12 @@ class DocumentsController extends Controller
 	 * If update is successful, the browser will be redirected to the 'view' page.
 	 * @param integer $id the ID of the model to be updated
 	 */
+        public function actionRefresh($id)
+	{  
+		
+		$this->renderPartial('//person/tabs/_doc',array('personid'=>$id ));
+              
+	} 
 	public function actionUpdate($id)
 	{  
 		$model=$this->loadModel($id);
@@ -103,7 +137,7 @@ class DocumentsController extends Controller
 			$model->attributes=$_POST['Documents'];
                         
                         $valid  = $model->validate() && $valid;
-			
+			try {
                         if ($valid && $model->save()){
                             $person = Person::model()->findByPk($model->PersonID);
                             $str = $this->renderPartial("//person/tabs/_doc", array('models'=>$person->znos,'personid'=>$model->PersonID), true);
@@ -114,6 +148,9 @@ class DocumentsController extends Controller
                             echo CJSON::encode(array("result"=>"error","data" =>
                             $this->renderPartial('_formfull', array('model'=>$model),true)));
 
+                        }
+                        } catch (Exception $e) {
+                             echo CJSON::encode(array("result"=>"error","data" =>$e->getMessage()));
                         }
                         //Yii::app()->end();
 		} else {

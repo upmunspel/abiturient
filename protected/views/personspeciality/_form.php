@@ -83,6 +83,12 @@ $form= new TbActiveForm();
 		<?php echo $form->dropDownList($model,'CourseID', CHtml::listData(Courses::model()->findAll(), 'idCourse', 'CourseName'),array('empty'=>'','class'=>'span12', 'disabled'=>Yii::app()->user->isPkSet("CourseID"))); ?>
 		<?php //echo $form->error($model,'CourseID'); ?>
             </div>
+            <div class="span2">
+		<?php echo $form->labelEx($model,'EducationFormID'); ?>
+		<?php echo $form->dropDownList($model,'EducationFormID',CHtml::listData(Personeducationforms::model()->findAll(), 'idPersonEducationForm', 'PersonEducationFormName'),
+                        array('empty'=>'', 'class'=>"span12", 'onchange'=>"PSN.onFacChange(this, '#".CHtml::activeId($model, "SepcialityID")."','".CController::createUrl('personspeciality/speciality')."');")); ?>
+		<?php //echo $form->error($model,'EducationFormID'); ?>
+            </div>
             <div class="span4">
                 <?php if (empty($model->sepciality)) {
                         $idFacultet = 0;
@@ -110,11 +116,7 @@ $form= new TbActiveForm();
                                 //array( 'empty'=>'','class'=>"span12")); ?>
 		<?php //echo $form->error($model,'PaymentTypeID'); ?>
             </div>-->
-            <div class="span2">
-		<?php echo $form->labelEx($model,'EducationFormID'); ?>
-		<?php echo $form->dropDownList($model,'EducationFormID',CHtml::listData(Personeducationforms::model()->findAll(), 'idPersonEducationForm', 'PersonEducationFormName'),array('empty'=>'', 'class'=>"span12")); ?>
-		<?php //echo $form->error($model,'EducationFormID'); ?>
-            </div>
+           
         </div>
 	
         <div class="row-fluid">

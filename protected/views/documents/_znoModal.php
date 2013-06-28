@@ -1,3 +1,8 @@
+<?php
+/*
+    @var $model Documents  
+*/
+?>
 <?php $this->beginWidget('bootstrap.widgets.TbModal', array(
             'id'=>'znoModal',
             'htmlOptions'=>array('style'=>'width: 700px; margin-left: -350px;'),
@@ -30,12 +35,15 @@
         )); ?>
     
     <?php 
-      $url = Yii::app()->createUrl("documents/appendzno");
-      $this->widget('bootstrap.widgets.TbButton', array(
-        'type'=>'primary',
-        'label'=>'Зберегти',
-        'htmlOptions'=>array('onclick'=>"PSN.appendZno(this, '$url')"),
-    )); ?>
+     
+            $url = Yii::app()->createUrl("documents/appendzno");
+            $this->widget('bootstrap.widgets.TbButton', array(
+              'type'=>'primary',
+              'label'=>'Зберегти',
+              'htmlOptions'=>array('onclick'=>"PSN.appendZno(this, '$url')"),
+            ));
+       ?>
+    
     <?php $this->widget('bootstrap.widgets.TbButton', array(
         'label'=>'Скасувати',
         'url'=>'#',

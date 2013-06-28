@@ -152,7 +152,7 @@ class Documents extends ActiveRecord
                         
 
                         /* ZNO SCENARIO */
-                        array('Numbers, ZNOPin', 'required', "on"=>"ZNO"),
+                        array('Numbers, ZNOPin, DateGet', 'required', "on"=>"ZNO"),
                         array('Numbers', 'numerical', "on"=>"ZNO"),
                         array('Numbers', 'length', 'is'=>7, "on"=>"ZNO"),
                         array('ZNOPin', 'numerical', "on"=>"ZNO"),
@@ -240,6 +240,7 @@ class Documents extends ActiveRecord
         public function loadAndSaveFromJson($personid, $jsonstr){
              $obj = (object)$jsonstr;
              $this->scenario = 'ZNO';
+             $this->edboID = $obj->id_Document;
              $this->PersonID = $personid;
              $this->TypeID = $obj->id_Type;
              $this->Numbers = $obj->number;
