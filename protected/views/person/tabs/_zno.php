@@ -15,7 +15,7 @@ $model = new PersonBenefits();*/
          };
         ?>
     <div class="row-fluid">
-        <div class="span3">
+        <div class="span2">
                <?php 
                 $url = Yii::app()->createUrl("documents/newzno",array('personid'=>$personid));
                     $this->widget('bootstrap.widgets.TbButton', array(
@@ -28,11 +28,33 @@ $model = new PersonBenefits();*/
                         ),
                 )); ?>
         </div>
+       
+            <div class="span2">
+                    <?php
+
+                        $url = Yii::app()->createUrl("documents/edboupdate",array('personid'=>$personid));
+                        $this->widget('bootstrap.widgets.TbButton', array(
+                        'label'=>'Синхронізувати',
+                        'type'=>'primary', // null, 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
+                        'size' => null, // null, 'large', 'small' or 'mini'
+                        'loadingText'=>'Зачекайте...',
+                        'htmlOptions'=>array('onclick'=>"PSN.edboZnoUpdate(this,'$url');",),
+                    )); ?>
+            </div>
+            <div class="span8">    
+                <p> Синхронізація виконуэ перевірку та додання всіх документів до бази ЄДБО. Завантажує або перевіряє предмети ЗНО згідно даних з ЄДБО.</p>
+            </div>
+       
     </div>
     <hr>  
+    
+    <?php if (Yii::app()->user->hasFlash("message")): ?>
+    <div class="row-fluid" ><h3 style="color: red;"><?php echo  Yii::app()->user->getFlash("message"); ?></h3></div>
+    <?php endif; ?>
+    
     <?php  /* PRINT ZNOS LIST */ ?>
     <?php if (!empty($models)): ?>   
-        <?php foreach($models as $i=>$model): ?>   
+        <?php  foreach($models as $i=>$model): ?>   
             <div class="row-fluid">
                 <div class ="span1">
                         <div class="row-fluid">
@@ -44,12 +66,18 @@ $model = new PersonBenefits();*/
                 </div>   
                 <div class ="span5">
                     <?php echo $form->labelEx($model,"[$i]Numbers"); ?>
-                    <?php echo $form->textField($model,"[$i]Numbers",array('class'=>'span12','disabled'=>"disabled")); ?>
+                    <?php echo $form->textField($model,"[$i]Numbers",array('class'=>'span12','disabled'=>"disabled",  "style"=>!empty($model->edboID)? "color: green;":"" )); ?>
                 </div>    
-                <div class ="span4">
+                <div class ="span2">
                     <?php echo $form->labelEx($model,"[$i]ZNOPin"); ?>
-                    <?php echo $form->textField($model,"[$i]ZNOPin",array('class'=>'span12', 'disabled'=>"disabled")); ?>
+                    <?php echo $form->textField($model,"[$i]ZNOPin",array('class'=>'span12', 'disabled'=>"disabled",  "style"=>!empty($model->edboID)? "color: green;":"" )); ?>
+                </div>
+                 <div class ="span2">
+                    <?php echo $form->labelEx($model,"[$i]DateGet"); ?>
+                    <?php echo $form->textField($model,"[$i]DateGet",array('class'=>'span12', 'disabled'=>"disabled",  "style"=>!empty($model->edboID)? "color: green;":"" )); ?>
                 </div>    
+                
+                 
                 <div class ="span1">
                     <span >&nbsp;</span>
                    <?php 
@@ -76,7 +104,7 @@ $model = new PersonBenefits();*/
                    <?php 
                     $url = Yii::app()->createUrl("documents/editzno",array('documentid'=>$model->idDocuments));
                     if (empty($model->edboID) || Yii::app()->user->checkAccess("updateAllPost")  ){
-                     $this->widget("bootstrap.widgets.TbButton", array(
+                    $this->widget("bootstrap.widgets.TbButton", array(
 			//'type'=>'primary',
                         'label'=>'',
                         'size' => null,
@@ -92,7 +120,9 @@ $model = new PersonBenefits();*/
                 </div>    
             </div>
             
-            <?php if (!empty($model->subjects)): ?>
+            <?php 
+            //debug(print_r($model->subjects));
+            if (!empty($model->subjects)): ?>
                     
                 <?php foreach($model->subjects as $j=>$subject): ?>
                     <div class="row-fluid">
@@ -103,20 +133,20 @@ $model = new PersonBenefits();*/
                      <div class ="span4">
                                 <?php //echo $form->hiddenField($model,"[$i]idDocuments"); ?>
                                 <?php echo  ($j==0) ? $form->labelEx($subject,"[$j]SubjectID"):""; ?>
-                                <?php echo $form->dropDownList($subject,"[$j]SubjectID", Subjects::DropDown(), array("class"=>"span12",'disabled'=>"disabled")); ?>
+                                <?php echo $form->dropDownList($subject,"[$j]SubjectID", Subjects::DropDown(), array("class"=>"span12",'disabled'=>"disabled",  "style"=>!empty($model->edboID)? "color: green;":"" )); ?>
                      </div>    
-                     <div class ="span2">
-                                <?php echo ($j==0) ? $form->labelEx($subject,"[$j]DateGet"):""; ?>
-                                <?php echo $form->textField($subject,"[$j]DateGet",array("class"=>"span12 datepicker","maxlength"=>10,'disabled'=>"disabled" )); ?>
-                     </div>    
+<!--                     <div class ="span2">
+                                <?php //echo ($j==0) ? $form->labelEx($subject,"[$j]DateGet"):""; ?>
+                                <?php //echo $form->textField($subject,"[$j]DateGet",array("class"=>"span12 datepicker","maxlength"=>10,'disabled'=>"disabled" )); ?>
+                     </div>    -->
                      <div class ="span2">
                                 <?php echo ($j==0) ? $form->labelEx($subject,"[$j]SubjectValue"):""; ?>
-                                <?php echo $form->textField($subject,"[$j]SubjectValue",array("class"=>"span12","maxlength"=>15, 'disabled'=>"disabled")); ?>
+                                <?php echo $form->textField($subject,"[$j]SubjectValue",array("class"=>"span12","maxlength"=>15, 'disabled'=>"disabled",  "style"=>!empty($model->edboID)? "color: green;":"" )); ?>
                      </div>    
                    </div>
                 <?php endforeach; ?>
            <?php endif; ?> 
-       <?php endforeach; ?>
+       <?php endforeach;  ?>
 
     <?php endif;?>   
     

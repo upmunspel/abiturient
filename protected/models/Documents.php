@@ -134,7 +134,9 @@ class Documents extends ActiveRecord
 			array('Series', 'length', 'max'=>10),
 			array('Numbers', 'length', 'max'=>15),
 			array('Issued', 'length', 'max'=>250),
-			array('DateGet, idDocuments, Series, Numbers, PersonDocumentsAwardsTypesID, isForeinghEntrantDocument, isNotCheckAttestat, PersonBaseSpecealityID', 'safe'),
+			array('DateGet, idDocuments, Series, Numbers, PersonDocumentsAwardsTypesID, isForeinghEntrantDocument, isNotCheckAttestat, PersonBaseSpecealityID, edboID', 'safe'),
+                        
+                        //array('DateGet', 'date', "format"=>'dd.MM.yyyy', 'allowEmpty'=>true ),
                     
                         array('DateGet, Series, Numbers, Issued', 'required', "except"=>"INN, HOSP, ZNO, FULLINPUT"),
                     
@@ -237,26 +239,37 @@ class Documents extends ActiveRecord
           
         }
         
-        public function loadAndSaveFromJson($personid, $jsonstr){
-             $obj = (object)$jsonstr;
-             $this->scenario = 'ZNO';
-             $this->edboID = $obj->id_Document;
-             $this->PersonID = $personid;
-             $this->TypeID = $obj->id_Type;
-             $this->Numbers = $obj->number;
-             $this->DateGet = date("d.m.Y",mktime(0, 0, 0, $obj->dateGet['month'],  $obj->dateGet['dayOfMonth'],  $obj->dateGet['year']));
-             $this->ZNOPin = $obj->znoPin;
-             if ($this->save()){
-                 foreach($obj->subjects as $valstr){
-                     $val = (object)$valstr;
-                     $subj = new Documentsubject();
-                     $subj->DateGet = $this->DateGet;
-                     $subj->DocumentID = $this->idDocuments;
-                     $subj->SubjectID = $val->id_Subject;
-                     $subj->SubjectValue = $val->subjectValue;
-                     $subj->save();
-                 }
-             }
+        public static function loadAndSave($personid, $objarr){
+            foreach($objarr as $item){
+                $val = (object)$item;
+               
+                if ($val->id_Type == 4){
+                     $doc = new Documents();
+                     $doc->scenario = "FULLINPUT";
+                     $doc->PersonID = $personid;
+                     $doc->TypeID = $val->id_Type;
+                     $doc->edboID = $val->id_Document;
+                     $doc->AtestatValue=$val->attestatValue;
+                     $doc->Numbers=$val->number;
+                     $doc->Series=$val->series;
+                     $doc->DateGet=date("d.m.Y",mktime(0, 0, 0, $val->dateGet['month'],  $val->dateGet['dayOfMonth'],  $val->dateGet['year']));
+                     $doc->ZNOPin = $val->znoPin;
+                     $doc->Issued = $val->issued;
+                     if ($doc->save() && !empty($val->subjects)){
+                         foreach($val->subjects as $valstr){
+                          $item = (object)$valstr;
+                          $subj = new Documentsubject();
+                          $subj->DateGet = $doc->DateGet;
+                          $subj->edboID = $item->id_DocumentSubject;
+                          $subj->DocumentID = $doc->idDocuments;
+                          $subj->SubjectID = $item->id_Subject;
+                          $subj->SubjectValue = $item->subjectValue;
+                          $subj->save();
+                         }
+                     }
+                }
+                        
+           }
             
         }
         

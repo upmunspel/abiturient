@@ -242,71 +242,6 @@ PSN.appendBenefit= function(obj, link){
 
 
 
-
-//PSN.addBenefit = function(obj, url){
-//    var btn = $(obj);
-//    btn.button('loading'); // call the loading function
-//    //var data = $("#benefit-form").serialize(); 
-//    $("#new-benefit").load(url,function() {
-//        btn.button('reset');
-//        $("#benefitModal").modal("show");
-//    });
-// };
-//PSN.appendBenefit = function(obj, link){
-//    var btn = $(obj);
-//    btn.button('loading'); // call the loading function
-//    var fdata = $("#benefit-form-modal").serialize(); 
-//    $.ajax({
-//    'url': link,
-//    'data': fdata,
-//    success: function (data) { 
-//            var obj = jQuery.parseJSON(data);
-//            if (obj.result === "success") {
-//          
-//               $("#benefitModal").modal("hide");
-//               $("#benefits").html(obj.data);
-//               
-//            } else {
-//              $("#new-benefit").html(obj.data);  
-//            }
-//            btn.button('reset'); 
-//        }
-//    });
-//   
-// };
-//PSN.addBenefitDoc = function(obj, url){
-//    var btn = $(obj);
-//    btn.button('loading'); // call the loading function
-//    var data = $("#benefit-form-modal").serialize(); 
-//    $("#new-benefit").load(url,data,function(){ btn.button('reset'); });
-//};
-//PSN.delBenefitDoc = function(obj, url){
-//    var data = $("#benefit-form-modal").serialize(); 
-//    $("#new-benefit").load(url,data,function(){});
-//};
-//PSN.reloadBenefit = function(obj, url){
-//    var btn = $(obj);
-//    btn.button('loading'); // call the loading function
-//    var data = "reload=1";
-//    $("#benefits").load(url,data, function() {btn.button('reset');});
-//};
-//PSN.deleteBenefit = function(obj, url){
-//    if (confirm("Ви впевнені, що бажаєте видалити пільгу?")){
-//    //$("#benefits").load(url);
-//    $.ajax({
-//             'url': url,
-//             success: function (data) { 
-//                    var obj = jQuery.parseJSON(data);
-//                    if (obj.result === "success") {
-//                        $("#benefits").html(obj.data);
-//                    } else {
-//                        alert(obj.data);  
-//                    }
-//                 
-//                }
-//        });
-//    }
-//};
 /**
  * ZNO CODE
  */
@@ -391,24 +326,53 @@ PSN.editZno = function(obj, url){
  *  Doc code
  */
 
-PSN.edboUpdate = function(obj, link){
+PSN.edboZnoUpdate = function(obj, link){
     var btn = $(obj);
     btn.button('loading'); // call the loading function
-    var fdata = $("#doc-form-modal").serialize(); 
+   
     $.ajax({
     'url': link,
+    'async': false,
     'type':'POST',
     success: function (data) { 
-            //alert(data);
-            var obj = jQuery.parseJSON(data);
-            //alert(obj.result);
-            if (obj.result === "success") {
-               $("#docs").html(obj.data);
-            } else {
-               alert(link+"   "+obj.data);  
-            }
+           
             btn.button('reset'); 
+            refreshZnos();
+            refreshDocuments(); 
+            
+        }
+    });
+}
+PSN.edboDocUpdate = function(obj, link){
+    var btn = $(obj);
+    btn.button('loading'); // call the loading function
+   
+    $.ajax({
+    'url': link,
+    'async': "false",
+    'type':'POST',
+    success: function (data) { 
+            
+            btn.button('reset'); 
+            refreshDocuments(); 
+            refreshZnos();
+        }
+    });
+}
+
+PSN.edboBenefitsUpdate = function(obj, link){
+    var btn = $(obj);
+    btn.button('loading'); // call the loading function
+    $.ajax({
+    'url': link,
+    'async': "false",
+    'type':'POST',
+    success: function (data) { 
+          
          
+            btn.button('reset'); 
+            refreshBenefits(); 
+           
         }
     });
 }

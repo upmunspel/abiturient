@@ -20,13 +20,19 @@ Yii::app()->clientScript->registerScriptFile($burl."/js/person.js");
 $this->menu=array(
 	array('label'=>'Перелік абітурієнтів','url'=>array('index'),'icon'=>"icon-list-alt"),
 	array('label'=>'Додати  абітурієнта','url'=>array('create'),'icon'=>"icon-plus"),
-	array('label'=>'Редагувати абітурієнта','url'=>array('update','id'=>$model->idPerson),'icon'=>" icon-pencil"),
+	array('label'=>'Редагувати абітурієнта','url'=>array('update','id'=>$model->idPerson),'icon'=>" icon-pencil" ),
+    
+        array('label'=>'Синхронізувати персону','url'=>array('view','id'=>$model->idPerson,'opt'=>'edboadd'),'icon'=>" icon-pencil",  "htmlOptions"=>array("onclick"=>"blockUI();") ),
 	//array('label'=>'Видалити абітурієнта','url'=>'#','icon'=>"icon-trash", 'linkOptions'=>array('submit'=>array('delete','id'=>$model->idPerson),'confirm'=>'Are you sure you want to delete this item?')),
 	//array('label'=>'Manage Person','url'=>array('admin')),
 );
 ?>
 
 <h2>Загальна інформація про абітурієнта (<?php echo $model->idPerson; ?>)</h2>
+
+<?php if (Yii::app()->user->hasFlash("message")): ?>
+        <div class="row-fluid" ><h3 style="color: red;"><?php echo  Yii::app()->user->getFlash("message"); ?></h3></div>
+<?php endif; ?>
 
 <?php $this->widget('bootstrap.widgets.TbDetailView',array(
 	'data'=>$model,
@@ -36,7 +42,9 @@ $this->menu=array(
                  'LastName',
 		'FirstName',
 		'MiddleName',
-                "Birthday"
+                "Birthday",
+                 "codeU",
+                 "edboID",
 	),
 )); ?>
 <h3>Параметри вступу абітурієнта</h3> 
@@ -53,14 +61,15 @@ $this->menu=array(
     </div>
     <!--/Вкладки-->
     <hr>
-       <?php $this->widget('bootstrap.widgets.TbButton', array(
+<!--    <p>Правила заповнення</p>-->
+       <?php /*$this->widget('bootstrap.widgets.TbButton', array(
                 'buttonType'=>'button',
                 'type'=>'primary',
                 'label'=>'Зберегти всі зміни',
                 'size'=>"large",
                 'loadingText'=>'Збереження...',
                 'htmlOptions'=>array('id'=>'personSave'),
-                )); 
+                )); */
             ?>
     
 </div>

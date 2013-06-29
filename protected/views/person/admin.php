@@ -42,12 +42,15 @@ $('.search-form form').submit(function(){
         'type'=>'striped bordered condensed',
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
+        'rowCssClassExpression'=>'empty($data->edboID)?"row-red":"row-green"',
 	'columns'=>array(
         array('name'=>'idPerson', 'header'=>'Код', 'htmlOptions'=>array('style'=>'width: 50px')),
         array('name'=>'LastName', 'header'=>'Прізвище'),
         array('name'=>'FirstName', 'header'=>"Ім'я"),
         array('name'=>'MiddleName', 'header'=>'По батькові'),
+            
         array('name'=>'Birthday', 'header'=>'Дата народження', 'htmlOptions'=>array('style'=>'width: 150px')),   
+        array('name'=>'CreateDate', 'htmlOptions'=>array('style'=>'width: 150px')),   
 		/*'idPerson',
 		'FirstName',
 		'MiddleName',

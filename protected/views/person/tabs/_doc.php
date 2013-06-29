@@ -13,7 +13,8 @@
                         ),
                 )); ?>
         </div>
-         <div class="span3">
+      
+        <div class="span2">
                 <?php
                     $url = Yii::app()->createUrl("documents/edboupdate",array('personid'=>$personid));
                     $this->widget('bootstrap.widgets.TbButton', array(
@@ -21,9 +22,13 @@
                     'type'=>'primary', // null, 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
                     'size' => null, // null, 'large', 'small' or 'mini'
                     'loadingText'=>'Зачекайте...',
-                    'htmlOptions'=>array('onclick'=>"PSN.edboUpdate(this,'$url');",),
+                    'htmlOptions'=>array('onclick'=>"PSN.edboDocUpdate(this,'$url');",),
                 )); ?>
         </div>
+         <div class="span8">    
+            <p> Синхронізація виконуэ перевірку та додання всіх документів до бази ЄДБО. Завантажує або перевіряє предмети ЗНО згідно даних з ЄДБО.</p>
+        </div>
+        
     </div>
     <hr>
     <?php if (Yii::app()->user->hasFlash("message")): ?>

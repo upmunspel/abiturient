@@ -84,8 +84,8 @@ class Personspeciality extends ActiveRecord
             $prefix = "";
             switch ($this->QualificationID){
                 case 1:  $prefix = "Б"; break;
-                case 2:  $prefix = "М"; break;
-                case 3:  $prefix = "С"; break;
+                case 2:  $prefix = "CМ"; break;
+                case 3:  $prefix = "СМ"; break;
                 case 4:  $prefix = "МС"; break;
                 
             }
@@ -186,7 +186,6 @@ class Personspeciality extends ActiveRecord
             if ($this->isNewRecord){
                 $c = new CDbCriteria();
                 $c->compare("SepcialityID", $this->SepcialityID);
-                $c->compare("SepcialityID", $this->SepcialityID);
                 $c->compare("QualificationID", $this->QualificationID);
                 $c->compare("CourseID", $this->CourseID);
                 $c->select = 'max(RequestNumber) as currentMaxRequestNumber';
@@ -196,15 +195,31 @@ class Personspeciality extends ActiveRecord
             
             if ($this->isNewRecord){
                 $c = new CDbCriteria();
-                $c->compare("PersonID", $this->PersonID);
-                $c->compare("QualificationID", $this->QualificationID);
+                
+               
+              if ($this->QualificationID == 3 || $this->QualificationID == 2 ) {
+                        $c->addCondition("(QualificationID = 2 or QualificationID = 3) and PersonID = '{$this->PersonID}' and '{$this->CourseID}'");
+              } else {
+                        $c->compare("PersonID", $this->PersonID);
+                        $c->compare("QualificationID", $this->QualificationID);
+                        $c->compare("CourseID", $this->CourseID);
+                }
+                
                 $c->compare("CourseID", $this->CourseID);
+             
                 $res = self::model()->find($c);
+                
                 if (!empty($res) && !empty($res->PersonRequestNumber)){
                    $this->PersonRequestNumber=$res->PersonRequestNumber;
                 } else {
                     $c = new CDbCriteria();
-                    $c->compare("QualificationID", $this->QualificationID);
+                    if ($this->QualificationID == 3 || $this->QualificationID == 2 ) {
+                        $c->addCondition("(QualificationID = 2 or QualificationID = 3) and '{$this->CourseID}'");
+                    } else {
+                        //$c->compare("PersonID", $this->PersonID);
+                        $c->compare("QualificationID", $this->QualificationID);
+                        $c->compare("CourseID", $this->CourseID);
+                    }
                     $c->compare("CourseID", $this->CourseID);
                     $c->select = 'max(PersonRequestNumber) as currentMaxPersonRequestNumber';
                     $res = self::model()->find($c);

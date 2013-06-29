@@ -10,11 +10,11 @@
 <div class="row-fluid form">
     <div class="span1">
         <?php echo CHtml::label("Серія:","search[series]");?>
-	<?php echo CHtml::textField("search[series]","АР",array("class"=>"span12"));?>
+	<?php echo CHtml::textField("search[series]","",array("class"=>"span12"));?>
     </div>
     <div class="span2">
         <?php echo CHtml::label("Номер:","search[number]"); ?>
-        <?php echo CHtml::textField("search[number]","43042636",array("class"=>"span12"));?>
+        <?php echo CHtml::textField("search[number]","",array("class"=>"span12"));?>
     </div>
     <div class="span9">
         <p>Для пошуку абітуріента зберігайте наступну послідовність документів:</p>

@@ -10,7 +10,7 @@ class DocumentsController extends Controller
 		return array(
 			'accessControl', // perform access control for CRUD operations
                         'ajaxOnly + newZno, newZnoSubject, appendZno, delZno, delZnoSubject,
-                                    editZno, Create, Update, Delete, Edboupdate, Refresh',
+                                    editZno, Create, Update, Delete, Edboupdate, Refresh, Refreshzno',
 		);
 	}
 
@@ -35,7 +35,7 @@ class DocumentsController extends Controller
                                                     'delZnoSubject',
                                                     'editZno',
                                                     'Create',
-                                    'Update',"Delete, Edboupdate, Refresh"
+                                    'Update',"Delete, Edboupdate, Refresh, Refreshzno"
                                                 ),
 				'users'=>array('@'),
 			),
@@ -85,8 +85,8 @@ class DocumentsController extends Controller
                 } catch(Exception $e) {
                     Yii::app()->user->setFlash("message","Синхронізація не виконана! Спробуйте пізніше.");
                 }
-                $str = $this->renderPartial("//person/tabs/_doc", array('personid'=>$personid), true);
-                echo CJSON::encode(array("result"=>"success","data" =>$str));
+                
+                echo CJSON::encode(array("result"=>"success","data" =>""));
         }
         public function actionCreate($personid)  {   
                 $model = new Documents("FULLINPUT");
@@ -123,6 +123,12 @@ class DocumentsController extends Controller
 	{  
 		
 		$this->renderPartial('//person/tabs/_doc',array('personid'=>$id ));
+              
+	} 
+        public function actionRefreshzno($id)
+	{  
+		$model = Person::model()->findByPk($id);
+		$this->renderPartial("//person/tabs/_zno",array("models"=>$model->znos, 'personid'=>$model->idPerson));
               
 	} 
 	public function actionUpdate($id)

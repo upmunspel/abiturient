@@ -6,7 +6,7 @@
 </div>
 <div class="row-fluid">
     <div class ="span5">
-        <?php //echo $form->hiddenField($model,'[persondoc]idDocuments'); ?>
+        <?php echo $form->hiddenField($model,'[persondoc]edboID'); ?>
         <?php echo $form->labelEx($model,'[persondoc]TypeID'); ?>
         <?php echo $form->dropDownList($model,'[persondoc]TypeID',  PersonDocumentTypes::DropDown(2), array('class'=>'span12')); ?>
     </div>    

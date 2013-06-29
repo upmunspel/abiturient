@@ -33,6 +33,7 @@
  * @property Documents $entrantdoc
  * @property Documents $persondoc
  * @property Documents $edboID
+ * @property string $CreateDate
  */
 class Person extends ActiveRecord
 {
@@ -41,7 +42,7 @@ class Person extends ActiveRecord
 	 * @param string $className active record class name.
 	 * @return Person the static model class
 	 */
-      
+       
         private $persondoc = NULL;
         private $entrantdoc = NULL;
         private $inndoc = NULL;
@@ -169,6 +170,9 @@ class Person extends ActiveRecord
                         array('Address, PhotoName', 'length', 'max'=>250),
 			array('HomeNumber, PostIndex', 'length', 'max'=>10),
 			array('Birthday, BirthPlace, isCampus, isSamaSchoolAddr', 'safe'),
+                    
+                        //array('Birthday', 'date', "format"=>'dd.MM.yyyy', 'allowEmpty'=>true ),
+                        //
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('idPerson, Birthday, PersonSexID, FirstName, MiddleName,
@@ -215,11 +219,14 @@ class Person extends ActiveRecord
             //if (empty($this->KOATUUCodeL1ID)) $this->KOATUUCodeL1ID = 105572;
             //if (empty($this->KOATUUCodeL2ID)) $this->KOATUUCodeL2ID = 105574;
             //if (empty($this->KOATUUCodeL3ID)) $this->KOATUUCodeL3ID = 105576;
+            
             if ($this->Birthday=="0000-00-00"){
                 $this->Birthday="01.01.1995";     
             } else {
                 $this->Birthday = date("d.m.Y", strtotime($this->Birthday));
             }
+         
+            $this->CreateDate = date("d.m.Y", strtotime($this->CreateDate));
             parent::afterFind();
             return true;
         }
@@ -230,6 +237,7 @@ class Person extends ActiveRecord
             //if (empty($this->KOATUUCodeL2ID)) $this->KOATUUCodeL2ID = 105574;
             //if (empty($this->KOATUUCodeL3ID)) $this->KOATUUCodeL3ID = 105576;
             $this->IsResident = 1;
+            $this->CountryID = 804;
             parent::afterConstruct();
         }
 	/**
@@ -260,8 +268,10 @@ class Person extends ActiveRecord
                         "PhotoName"=>"Фото абітурієнта",
                         "SchoolID"=>"Назва школи",
                         "isCampus"=>"Гуртожиток",
-                        "codeU"=>"GUID ідентифікатор",
+                        "codeU"=>"GUID Код",
+                        "edboID"=>"Ідентифікатор ЄДБО",
                         'BirthPlace'=>'Місце народження',
+                        'CreateDate'=>'Дата додання',
                     
 		);
 	}
@@ -322,7 +332,7 @@ class Person extends ActiveRecord
                 }
            
             } else {
-                    Yii::app()->user->setFlash("message",'<h3 style="color: red;">Увага! Результат відсутній або напрямок перевантажено!</h3>');
+                    Yii::app()->user->setFlash("message",'<h3 style="color: red;">Увага! Результат відсутній спробуйте інший критерій пошуку!</h3>');
             }
             return $result;
         }
@@ -378,8 +388,13 @@ class Person extends ActiveRecord
           * @return type
           */
         public function loadDocumentsFromJSON($json_string){
-             
+            //$json_string = preg_replace("/[+-]?\d+\.\d+/", '"\0"', $json_string ); 
+            
             $objarr = CJSON::decode($json_string);
+         
+            if (!empty($this->codeU)){
+               Yii::app()->session[$this->codeU."-documents"] = serialize($objarr); 
+            }
             
             if ( trim($json_string) == "0" && empty($json_string) && count($objarr) == 0) return;
             
@@ -389,6 +404,7 @@ class Person extends ActiveRecord
                  if ($val->id_Type == 7)   {
                         $model->entrantdoc = new Documents();
                         $model->entrantdoc->TypeID = $val->id_Type;
+                        $model->entrantdoc->edboID = $val->id_Document;
                         $model->entrantdoc->AtestatValue=$val->attestatValue;
                         $model->entrantdoc->Numbers=$val->number;
                         $model->entrantdoc->Series=$val->series;
@@ -399,6 +415,7 @@ class Person extends ActiveRecord
                  if ($val->id_Type == 2)   {
                         $model->entrantdoc = new Documents();
                         $model->entrantdoc->TypeID = $val->id_Type;
+                        $model->entrantdoc->edboID = $val->id_Document;
                         $model->entrantdoc->AtestatValue=$val->attestatValue;
                         $model->entrantdoc->Numbers=$val->number;
                         $model->entrantdoc->Series=$val->series;
@@ -411,6 +428,7 @@ class Person extends ActiveRecord
 
                         $model->persondoc = new Documents();
                         $model->persondoc->TypeID = $val->id_Type;
+                        $model->persondoc->edboID = $val->id_Document;
                         $model->persondoc->AtestatValue=$val->attestatValue;
                         $model->persondoc->Numbers=$val->number;
                         $model->persondoc->Series=$val->series;
@@ -422,6 +440,7 @@ class Person extends ActiveRecord
                  if ($val->id_Type == 3 )   {
                         $model->persondoc = new Documents();
                         $model->persondoc->TypeID = $val->id_Type;
+                        $model->persondoc->edboID = $val->id_Document;
                         $model->persondoc->AtestatValue=$val->attestatValue;
                         $model->persondoc->Numbers=$val->number;
                         $model->persondoc->Series=$val->series;
@@ -431,21 +450,20 @@ class Person extends ActiveRecord
                  }
                  if ($val->id_Type == 5)   {
                         $model->inndoc = new Documents();
+                        
                         $model->inndoc->TypeID = $val->id_Type;
                         $model->inndoc->Numbers=$val->number;
+                        $model->inndoc->edboID = $val->id_Document;
                   
                  }
                  if ($val->id_Type == 6 )   {
                         $model->hospdoc = new Documents();
                         $model->hospdoc->TypeID = $val->id_Type;
+                        $model->hospdoc->edboID = $val->id_Document;
                         $model->hospdoc->DateGet=date("d.m.Y",mktime(0, 0, 0, $val->dateGet['month'],  $val->dateGet['dayOfMonth'],  $val->dateGet['year']));
                         
-                  }
-                 if ($val->id_Type == 4)   { // zno
-                     if (!empty($model->codeU)){
-                        Yii::app()->session[$model->codeU] = serialize($val); 
-                     }
                  }
+                 
             }
         }
         
@@ -486,13 +504,15 @@ class Person extends ActiveRecord
           * Если false - рекомендуется откатить транзакцию или удалить созданную персону
           */
          public function SendEdboRequest(){
+             
+            
             $params = array(
                 "personIdMySql"=>$this->idPerson,
-                "entrantDocumentIdMySql"=>$this->entrantdoc->idDocuments,
-                "personalDocumentIdMySql"=>$this->persondoc->idDocuments
+                "entrantDocumentIdMySql"=>$this->getEntrantdoc()->idDocuments,
+                "personalDocumentIdMySql"=>$this->getPersondoc()->idDocuments
             );
-            debug($this->idPerson);
-            debug($this->entrantdoc->idDocuments);
+//            debug($this->idPerson);
+//            debug($this->entrantdoc->idDocuments);
             try {
                 $client = new EHttpClient(Yii::app()->user->getEdboSearchUrl().Yii::app()->params["personAddURL"], array('maxredirects' => 30, 'timeout'=> 30,));
                 $client->setParameterPost($params);
@@ -506,6 +526,9 @@ class Person extends ActiveRecord
                          debug($obj->message);
                          return false;
                       } else {
+//                         $this->edboID = $obj->id;
+//                         $this->codeU = $obj->id;
+                         Yii::app()->user->setFlash("message",'<h3 style="color: red;">'.$obj->message.'</h3>');  
                          debug("Cинхронизаниция выполнена");
                       }
                  } else {

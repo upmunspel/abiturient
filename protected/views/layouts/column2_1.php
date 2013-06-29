@@ -7,17 +7,18 @@
                 
            <?php
             foreach ($this->menu as $obj) {
-               $this->widget('bootstrap.widgets.TbButton', array(
-                   'label'=>$obj["label"],
-                   'type'=>'primary', // null, 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
-                   'size'=>'large', // null, 'large', 'small' or 'mini'
-                   'url'=>$obj["url"], 
-                   'icon'=>$obj['icon'],
-                   'htmlOptions'=>array('style'=>'margin: 5px;'),
-                   
-                   
-               )); 
-                
+               
+                    $this->widget('bootstrap.widgets.TbButton', array(
+                        'label'=>$obj["label"],
+                        'type'=>'primary', // null, 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
+                        'size'=>'large', // null, 'large', 'small' or 'mini'
+                        'url'=>$obj["url"], 
+                        'icon'=>$obj['icon'],
+                        'htmlOptions'=> array_merge(array("style"=>"margin: 5px;"), !empty($obj['htmlOptions']) ? $obj['htmlOptions'] : array()),
+                     
+
+                    )); 
+              
             }       
 
 	
