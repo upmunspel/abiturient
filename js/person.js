@@ -342,7 +342,8 @@ PSN.edboZnoUpdate = function(obj, link){
             
         }
     });
-}
+};
+
 PSN.edboDocUpdate = function(obj, link){
     var btn = $(obj);
     btn.button('loading'); // call the loading function
@@ -358,7 +359,7 @@ PSN.edboDocUpdate = function(obj, link){
             refreshZnos();
         }
     });
-}
+};
 
 PSN.edboBenefitsUpdate = function(obj, link){
     var btn = $(obj);
@@ -375,7 +376,7 @@ PSN.edboBenefitsUpdate = function(obj, link){
            
         }
     });
-}
+};
 PSN.edboSpecsUpdate = function(obj){
     var link = $(obj).attr("href");
     $.ajax({
@@ -388,7 +389,7 @@ PSN.edboSpecsUpdate = function(obj){
            
         }
     });
-}
+};
 
 PSN.addDoc = function(obj, url){
     var btn = $(obj);

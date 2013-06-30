@@ -49,7 +49,7 @@ $dataProvider=new CActiveDataProvider("Personspeciality", array('criteria'=>arra
     'template'=>"{items}",
     'rowCssClassExpression'=>'empty($data->edboID)?"row-red":"row-green"',
     'columns'=>array(
-        "idPersonSpeciality",
+        //"idPersonSpeciality",
         array('name'=>'PersonRequestNumber', "htmlOptions"=>array("style"=>"width: 150px"),  'value' => '$data->RequestPrefix.str_pad($data->PersonRequestNumber, 5, "0", STR_PAD_LEFT)'),
         array('name'=>'RequestNumber', "htmlOptions"=>array("style"=>"width: 150px"),  'value' => 'str_pad($data->RequestNumber, 5, "0", STR_PAD_LEFT)'),
         //array('name'=>'typename', 'header'=>'typename',  ),
