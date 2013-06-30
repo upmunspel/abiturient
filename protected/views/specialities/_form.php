@@ -13,7 +13,7 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
 	<p class="note">Поля, відмічені <span class="required">*</span> обов'язкові для заповнення!</p>
 
 	<?php echo $form->errorSummary($model); ?>
-<?php //------------------------------------------------------------------------------------------------------------------------------------//?>
+<?php //------------------------------------------------------------------------------------------------------------------------------------// ?>
 <div class="row-fluid">
     <div class ="span4">
 		<?php echo $form->labelEx($model,'idSpeciality'); ?>
@@ -31,7 +31,7 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
 		<?php echo $form->error($model,'SpecialityKode'); ?>
 	</div>
  </div>
- <?php //------------------------------------------------------------------------------------------------------------------------------------//?>
+ <?php //------------------------------------------------------------------------------------------------------------------------------------// ?>
 <div class="row-fluid">
     <div class ="span4">
 		<?php// echo $form->labelEx($model,'FacultetID'); ?>
@@ -39,7 +39,7 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
 		<?php// echo $form->error($model,'FacultetID'); ?>
 	</div>
  </div>
- <?php //------------------------------------------------------------------------------------------------------------------------------------//?>
+ <?php //------------------------------------------------------------------------------------------------------------------------------------// ?>
 <div class="row-fluid">   	
        <div class ="span4">
 		<?php echo $form->labelEx($model,'SpecialityClasifierCode'); ?>
@@ -57,7 +57,7 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
 		<?php echo $form->error($model,'SpecialityContractCount'); ?>
 	</div>
 </div>
-<?php //------------------------------------------------------------------------------------------------------------------------------------//?>
+<?php //------------------------------------------------------------------------------------------------------------------------------------// ?>
 <div class="row-fluid">
     <div class="span12">
 		<?php echo $form->labelEx($model,'isZaoch'); ?>
@@ -66,7 +66,7 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
                  </div> 
             </div>   
 </div>
-<?php //------------------------------------------------------------------------------------------------------------------------------------//?>
+<?php //------------------------------------------------------------------------------------------------------------------------------------// ?>
 <div class="row-fluid">
     <div class="span12">
 		<?php echo $form->labelEx($model,'isPublishIn'); ?>
@@ -75,7 +75,7 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
                  </div> 
             </div>   
 </div>
-<?php //------------------------------------------------------------------------------------------------------------------------------------//?>
+<?php //------------------------------------------------------------------------------------------------------------------------------------// ?>
 <div class="form-actions">
 <?php $this->widget("bootstrap.widgets.TbButton", array(
 			'buttonType'=>'submit',

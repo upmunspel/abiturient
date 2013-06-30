@@ -16,29 +16,27 @@
 <?php echo $form->errorSummary($model); ?>
 <?php //------------------------------------------------------------------------------------------------------------------------------------//?>
 <div class="row-fluid">
-    <div class ="span2">
+     <div class ="span3">
+    <?php echo $form->labelEx($model,'idCountry'); ?>
+    <?php echo $form->textField($model,'idCountry',array('class'=>"span12")); ?>
+    <?php echo $form->error($model,'idCountry'); ?>
+    </div>
+    
+    <div class ="span3">
     <?php echo $form->labelEx($model,'CountryName'); ?>
-    <?php echo $form->textField($model,'CountryName',array('size'=>60,'maxlength'=>255)); ?>
+    <?php echo $form->textField($model,'CountryName',array('class'=>"span12")); ?>
     <?php echo $form->error($model,'CountryName'); ?>
+    </div>
+    <div class ="span3">
+    <?php  echo $form->labelEx($model,'Visible'); ?>
+     <div class="switch" data-on-label="Так" data-off-label="Ні">
+        <?php echo $form->checkBox($model,'Visible'); ?>
+     </div>
+     <?php echo $form->error($model,'Visible'); ?>
     </div>
 </div>
 <?php //------------------------------------------------------------------------------------------------------------------------------------//?>
-<div class="row-fluid">
-            <?php echo $form->labelEx($model,'Visible'); ?>
-           <div class="switch" data-on-label="Так" data-off-label="Ні">
-                    <?php echo $form->checkBox($model,'Visible');?>
-                </div>
-                <script type='text/javascript'>
-                    $('#togle_Visible').toggleButtons({
-                    label: {
-                        enabled: 'Так',
-                        disabled: 'Ні'
-                    }
-                });
-             </script>   
 
-            <?php echo $form->error($model,'Visible'); ?>
-    </div>
 <hr>
 <?php //------------------------------------------------------------------------------------------------------------------------------------//?>
     <div class="row-fluid">
