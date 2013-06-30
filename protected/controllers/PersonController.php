@@ -85,6 +85,15 @@ class PersonController extends Controller
 	 */
 	public function actionView($id)
 	{
+               $model = $this->loadModel($id);
+            
+               if (isset($_GET["opt"]) && !empty($model) && $_GET["opt"] == 'edboadd'){
+                  if ($model->SendEdboRequest()) {
+                     // $model->save();
+                  }
+                  $this->redirect(Yii::app()->createUrl("person/view",array("id"=>$id)));
+               }
+               
 		$this->render('view',array(
 			'model'=>$this->loadModel($id),
 		));
@@ -106,18 +115,22 @@ class PersonController extends Controller
                 if(isset($_POST['search'])){
                      $findRes = 0; //$this->FindLocalPersonByDoc($_POST['search']['attestatSeries'],$_POST['search']['attestatNumber']);
                      //debug($findRes);
-                     if ($findRes == 0) {
+                     if ($findRes == 0 ) {
                             try {
+                                //debug(Yii::app()->user->getEdboSearchUrl());
                                 $client = new EHttpClient(Yii::app()->user->getEdboSearchUrl().Yii::app()->params["personSearchURL"], array('maxredirects' => 30, 'timeout'      => 30,));
+                                debug(Yii::app()->user->getEdboSearchUrl().Yii::app()->params["personSearchURL"]);
                                 $client->setParameterPost($_POST['search']);
                                 $response = $client->request(EHttpClient::POST);
 
                                 if($response->isSuccessful()){
                                     $searchRes = Person::JsonDataAsArray($response->getBody());
                                 } else {
+                                    Yii::app()->user->setFlash("message",'<h3 style="color: red;">Увага! Напрямок перевантажено! Спробуйте пізніше!</h3>');
                                     debug($response->getRawBody());
                                 }
                             } catch(Exception $e) {
+                                Yii::app()->user->setFlash("message",'<h3 style="color: red;">Увага! Напрямок перевантажено! Спробуйте пізніше!</h3>');
                                 debug($e->getMessage());
                             }
                      } else {
@@ -127,16 +140,19 @@ class PersonController extends Controller
                 } 
 		
                if(isset($_GET['personCodeU'])){
+                    debug($_GET['personCodeU']);
                     if ($model->loadByUCode($_GET['personCodeU'])) {
                         try {
 
                         
-
-                            $client = new EHttpClient(Yii::app()->user->getEdboSearchUrl().Yii::app()->params["documentSearchURL"], array('maxredirects' => 30, 'timeout'=> 30,));
+                            $link = Yii::app()->user->getEdboSearchUrl().Yii::app()->params["documentSearchURL"];
+                            debug($link);
+                            $client = new EHttpClient($link, array('maxredirects' => 30, 'timeout'=> 30,));
                             $client->setParameterPost($_GET);
                             $response = $client->request(EHttpClient::POST);
 
                             if($response->isSuccessful()){
+                                debug($response->getBody());
                                 $searchRes = $model->loadDocumentsFromJSON($response->getBody());
                             } else {
                                 Yii::app()->user->setFlash("message","Не вдалося завантажити документи!");
@@ -150,11 +166,12 @@ class PersonController extends Controller
                             if($response->isSuccessful()){
                                 $searchRes = $model->loadContactsFromJSON($response->getBody());
                             } else {
-                                Yii::app()->user->setFlash("message","Не вдалося завантажити документи!");
+                                Yii::app()->user->setFlash("message","Не вдалося завантажити контакти!");
                                 debug($response->getRawBody());
                             }
 
                         } catch(Exception $e) {
+                            Yii::app()->user->setFlash("message","Помилка доступу до ЄДБО!");
                             debug($e->getMessage());
                         }
                     }
@@ -182,7 +199,7 @@ class PersonController extends Controller
                         if(isset($_POST['PersonContacts']['mobphone'])){
                             $model->mobphone->attributes=$_POST['PersonContacts']['mobphone'];
                         }
-                        
+               
 			if(     $model->entrantdoc->validate("ENTRANT")
                                 && $model->persondoc->validate() 
                                 && $model->inndoc->validate("INN") 
@@ -206,13 +223,15 @@ class PersonController extends Controller
                             
                             
                             
-                            if (isset(Yii::app()->session[$model->codeU])){
-                                debug(Yii::app()->session[$model->codeU]);
-                                $doc = new Documents();
-                                $doc->loadAndSaveFromJson($model->idPerson, unserialize(Yii::app()->session[$model->codeU]));
+                            if (isset(Yii::app()->session[$model->codeU."-documents"])){
+                               Documents::loadAndSave($model->idPerson, unserialize(Yii::app()->session[$model->codeU."-documents"]));
                             }
                             
-                            $model->SendEdboRequest();
+                            if (!$model->SendEdboRequest()){ 
+                                         $model->delete();
+                                         $this->render('create',array('model'=>$model,"searchres"=>$searchRes));
+                                         Yii::app()->end();
+                            }
                             
                             $this->redirect(array('view','id'=>$model->idPerson));
                              
@@ -240,6 +259,8 @@ class PersonController extends Controller
 
 		if(isset($_POST['Person'])){
 			$model->attributes=$_POST['Person'];
+                        if (empty($_POST['Person']['KOATUUCodeL2ID'])) $model-> KOATUUCodeL2ID = null;
+                        if (empty($_POST['Person']['KOATUUCodeL3ID'])) $model-> KOATUUCodeL3ID = null;
                         if(isset($_POST['Documents']['persondoc'])){
                             $model->persondoc->attributes=$_POST['Documents']['persondoc'];
                             $model->persondoc->PersonID = $model->idPerson;
@@ -272,8 +293,10 @@ class PersonController extends Controller
                                 && $model->hospdoc->validate("HOSP")
                                 && $model->homephone->validate() 
                                 && $model->mobphone->validate()){
-                            
-                           if ($model->save()){
+                        
+                        
+                        
+                        if ($model->save()){
                                
                                     $model->persondoc->save();
                                     $model->entrantdoc->save();
@@ -281,10 +304,13 @@ class PersonController extends Controller
                                     $model->hospdoc->save();
                                     $model->homephone->save();
                                     $model->mobphone->save();
-                                    $model->SendEdboRequest(); 
-                            }
+                                    
+                                    //$model->SendEdboRequest();
+                                    
+                         } 
+                        
                                
-                            $this->redirect(array('view','id'=>$model->idPerson));
+                         $this->redirect(array('view','id'=>$model->idPerson));
                                 
                         }
                         

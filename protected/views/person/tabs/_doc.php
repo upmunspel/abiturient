@@ -1,6 +1,6 @@
 <div class="form">
     <div class="row-fluid" >
-        <div class="span3">
+        <div class="span2">
                 <?php
                     $url = Yii::app()->createUrl("documents/create",array('personid'=>$personid));
                     $this->widget('bootstrap.widgets.TbButton', array(
@@ -13,8 +13,27 @@
                         ),
                 )); ?>
         </div>
+      
+        <div class="span2">
+                <?php
+                    $url = Yii::app()->createUrl("documents/edboupdate",array('personid'=>$personid));
+                    $this->widget('bootstrap.widgets.TbButton', array(
+                    'label'=>'Синхронізувати',
+                    'type'=>'primary', // null, 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
+                    'size' => null, // null, 'large', 'small' or 'mini'
+                    'loadingText'=>'Зачекайте...',
+                    'htmlOptions'=>array('onclick'=>"PSN.edboDocUpdate(this,'$url');",),
+                )); ?>
+        </div>
+         <div class="span8">    
+            <p> Синхронізація виконуэ перевірку та додання всіх документів до бази ЄДБО. Завантажує або перевіряє предмети ЗНО згідно даних з ЄДБО.</p>
+        </div>
+        
     </div>
     <hr>
+    <?php if (Yii::app()->user->hasFlash("message")): ?>
+    <div class="row-fluid" ><h3 style="color: red;"><?php echo  Yii::app()->user->getFlash("message"); ?></h3></div>
+    <?php endif; ?>
     
 <?php  /* END PRINT ZNOS LIST */ 
 $dataProvider=new CActiveDataProvider('Documents', array('criteria'=>array(
@@ -39,6 +58,7 @@ $dataProvider=new CActiveDataProvider('Documents', array('criteria'=>array(
 'type'=>'striped bordered condensed',
 'dataProvider'=>$dataProvider,
 'template'=>"{items}",
+'rowCssClassExpression'=>'empty($data->edboID)?"row-red":"row-green"',
 'columns'=>array(
     //array('name'=>'idDocuments', 'header'=>'ID', "htmlOptions"=>array("style"=>"width: 50px"), 'type' => 'raw'),
     //array('name'=>'typename', 'header'=>'typename',  ),
@@ -47,6 +67,7 @@ $dataProvider=new CActiveDataProvider('Documents', array('criteria'=>array(
     array('name'=>'Numbers', 'header'=>'Номер',  ),
     "ZNOPin",
     array('name'=>'DateGet', 'header'=>'Дата отримання', 'value' => '($data->DateGet!="01.01.1970") ? $data->DateGet :"";'  ),
+    
     array(
             'class'=>'bootstrap.widgets.TbButtonColumn',
             'template'=>'{update}{trash}',

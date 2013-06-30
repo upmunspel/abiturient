@@ -17,6 +17,8 @@ class BenefitController extends Controller
 		return array(
 			'accessControl', // perform access control for CRUD operations
 			'postOnly + delete', // we only allow deletion via POST request
+                        'ajaxOnly + newZno, newZnoSubject, appendZno, delZno, delZnoSubject,
+                                    editZno, Create, Update, Delete, Edboupdate, Refresh, Refreshzno',
 		);
 	}
 
@@ -35,6 +37,13 @@ class BenefitController extends Controller
 	 * @param integer $id the ID of the model to be displayed
 	 */
 	public function actionView($id)
+	{
+		$this->render('view',array(
+			'model'=>$this->loadModel($id),
+		));
+	}
+        
+        public function actionRefresh($id)
 	{
 		$this->render('view',array(
 			'model'=>$this->loadModel($id),

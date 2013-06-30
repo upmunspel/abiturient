@@ -54,7 +54,7 @@ $form= new TbActiveForm();
         </div>
     <hr>
         <div class="row-fluid">
-             <div class="span6">
+            <div class="span6">
 		<?php echo $form->labelEx($model,'EntrantDocumentID'); ?>
 		<?php echo $form->dropDownList($model,'EntrantDocumentID', Documents::PersonEntrantDocuments($personid),array('class'=>'span12')); ?>
 		<?php //echo $form->error($model,'CourseID'); ?>
@@ -80,8 +80,18 @@ $form= new TbActiveForm();
         <div class="row-fluid">
             <div class="span2">
 		<?php echo $form->labelEx($model,'CourseID'); ?>
-		<?php echo $form->dropDownList($model,'CourseID', CHtml::listData(Courses::model()->findAll(), 'idCourse', 'CourseName'),array('empty'=>'','class'=>'span12', 'disabled'=>Yii::app()->user->isPkSet("CourseID"))); ?>
+		<?php echo $form->dropDownList($model,'CourseID', CHtml::listData(Courses::model()->findAll(), 'idCourse', 'CourseName'),
+                            array(  'empty'=>'','class'=>'span12', 
+                                    'disabled'=>!$model->isNewRecord  || Yii::app()->user->isPkSet("CourseID"))); ?>
 		<?php //echo $form->error($model,'CourseID'); ?>
+            </div>
+            <div class="span2">
+		<?php echo $form->labelEx($model,'EducationFormID'); ?>
+		<?php echo $form->dropDownList($model,'EducationFormID',CHtml::listData(Personeducationforms::model()->findAll(), 'idPersonEducationForm', 'PersonEducationFormName'),
+                        array(  'empty'=>'', 'class'=>"span12", 
+                                'disabled'=>!$model->isNewRecord, 
+                                'onchange'=>"PSN.onFacChange(this, '#".CHtml::activeId($model, "SepcialityID")."','".CController::createUrl('personspeciality/speciality')."');")); ?>
+		<?php //echo $form->error($model,'EducationFormID'); ?>
             </div>
             <div class="span4">
                 <?php if (empty($model->sepciality)) {
@@ -91,7 +101,9 @@ $form= new TbActiveForm();
                       }
                       echo CHtml::label("Факультет", "idFacultet")?>
                 <?php echo CHtml::dropDownList('idFacultet', $idFacultet , CHtml::listData(Facultets::model()->findAll(array('order'=>'FacultetFullName')),'idFacultet','FacultetFullName'),
-                        array('empty'=>'','onchange'=>"PSN.onFacChange(this, '#".CHtml::activeId($model, "SepcialityID")."','".CController::createUrl('personspeciality/speciality')."');",
+                        array('empty'=>'',
+                            'disabled'=>!$model->isNewRecord, 
+                            'onchange'=>"PSN.onFacChange(this, '#".CHtml::activeId($model, "SepcialityID")."','".CController::createUrl('personspeciality/speciality')."');",
                         'class'=>"span12")
                       );
                 ?>
@@ -100,8 +112,9 @@ $form= new TbActiveForm();
                 <?php $url = Yii::app()->createUrl("personspeciality/znosubjects",array("personid"=>$personid));
                       echo $form->labelEx($model,'SepcialityID'); ?>
 		<?php echo $form->dropDownList($model,'SepcialityID', Specialities::DropDownMask($idFacultet),
-                        array( 'empty'=>'','class'=>"span12",
-                            'onchange'=>"PSN.changeSpeciality(this, '$url')") ); ?>
+                        array(  'empty'=>'','class'=>"span12",
+                                'disabled'=>!$model->isNewRecord, 
+                                'onchange'=>"PSN.changeSpeciality(this, '$url')") ); ?>
 		<?php //echo $form->error($model,'SepcialityID'); ?>
             </div>
 <!--             <div class="span2">
@@ -110,11 +123,7 @@ $form= new TbActiveForm();
                                 //array( 'empty'=>'','class'=>"span12")); ?>
 		<?php //echo $form->error($model,'PaymentTypeID'); ?>
             </div>-->
-            <div class="span2">
-		<?php echo $form->labelEx($model,'EducationFormID'); ?>
-		<?php echo $form->dropDownList($model,'EducationFormID',CHtml::listData(Personeducationforms::model()->findAll(), 'idPersonEducationForm', 'PersonEducationFormName'),array('empty'=>'', 'class'=>"span12")); ?>
-		<?php //echo $form->error($model,'EducationFormID'); ?>
-            </div>
+           
         </div>
 	
         <div class="row-fluid">

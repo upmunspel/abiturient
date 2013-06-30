@@ -15,7 +15,7 @@ class PersonbenefitsController extends Controller
 	{
 		return array(
 			'accessControl', // perform access control for CRUD operations
-                        'ajaxOnly + Create, Update, Delete',
+                        'ajaxOnly + Create, Update, Delete, Refresh, Edboupdate',
 		);
 	}
 
@@ -32,7 +32,7 @@ class PersonbenefitsController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create'),//,'update'),
+				'actions'=>array('create, Refresh, Edboupdate'),//,'update'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -45,6 +45,34 @@ class PersonbenefitsController extends Controller
 		);
 	}
 
+        /**
+         * actionEdboupdate - запрос на синхронизацию документов
+         * @param type $personid
+         */
+        public function actionEdboupdate($personid){
+            try {
+                $link = Yii::app()->user->getEdboSearchUrl().":8080/PersonSearch/personbenefitsaddedbo.jsp";
+                
+                $client = new EHttpClient($link, array('maxredirects' => 30, 'timeout' => 30,));
+               
+                $client->setParameterPost(array("personIdMySql"=>$personid));
+                $response = $client->request(EHttpClient::POST);
+
+                if($response->isSuccessful()){
+                         $obj= (object)CJSON::decode($response->getBody());
+                         if ($obj->error){
+                            Yii::app()->user->setFlash("message",$obj->message);
+                         }
+                         
+                } else {
+                    Yii::app()->user->setFlash("message","Синхронізація не виконана! Спробуйте пізніше.");
+                }
+                } catch(Exception $e) {
+                    Yii::app()->user->setFlash("message","Синхронізація не виконана! Спробуйте пізніше.");
+                }
+                
+                echo CJSON::encode(array("result"=>"success","data" =>""));
+        }
 	/**
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
@@ -157,12 +185,10 @@ class PersonbenefitsController extends Controller
 	/**
 	 * Lists all models.
 	 */
-	public function actionIndex()
+	public function actionRefresh($id)
 	{
-		$dataProvider=new CActiveDataProvider('Personbenefits');
-		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
-		));
+		 $person = Person::model()->findByPk($id);
+                 $this->renderPartial("//person/tabs/_benefits", array('models'=>$person->benefits,"personid"=>$id));
 	}
 
 	/**

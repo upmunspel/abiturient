@@ -31,8 +31,8 @@ class Documentsubject extends ActiveRecord
 		return parent::model($className);
 	}
         protected function afterFind() {
-            $from=DateTime::createFromFormat('Y-m-d',$this->DateGet);
-            $this->DateGet=$from->format('d.m.Y');   
+//            $from=DateTime::createFromFormat('Y-m-d',$this->DateGet);
+//            $this->DateGet=$from->format('d.m.Y');   
             parent::afterFind();
             return true;
             
@@ -42,7 +42,7 @@ class Documentsubject extends ActiveRecord
        
        
         protected function beforeSave() {
-            $this->DateGet=date('Y-m-d',  strtotime($this->DateGet));      
+//            $this->DateGet=date('Y-m-d',  strtotime($this->DateGet));      
             return parent::beforeSave();
           
         }
@@ -64,7 +64,7 @@ class Documentsubject extends ActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('DateGet', 'required'),
+			array('DateGet', 'safe'),
 			array('DocumentID, SubjectID, deleted, idDocumentSubject', 'numerical', 'integerOnly'=>true),
 			array('SubjectValue', 'numerical', 'max'=>200, 'min'=>100, 'integerOnly'=>false),
                         array('SubjectValue', 'required'),

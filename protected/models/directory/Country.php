@@ -51,7 +51,7 @@ class Country extends CActiveRecord
 			array('CountryID, CountryName', 'safe', 'on'=>'search'),
 		);*/
             	return array(
-			array('CountryName, Visible', 'required'),
+			array('CountryName, Visible, idCountry', 'required'),
 			array('Visible', 'numerical', 'integerOnly'=>true),
 			array('CountryName', 'length', 'max'=>255),
 			// The following rule is used by search().

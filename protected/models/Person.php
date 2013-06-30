@@ -6,6 +6,7 @@
  * The followings are the available columns in table 'person':
  * @property integer $idPerson
  * @property string $Birthday
+ * @property string $BirthPlace
  * @property integer $PersonSexID
  * @property string $FirstName
  * @property string $MiddleName
@@ -31,6 +32,8 @@
  * @property integer $isSamaSchoolAddr
  * @property Documents $entrantdoc
  * @property Documents $persondoc
+ * @property Documents $edboID
+ * @property string $CreateDate
  */
 class Person extends ActiveRecord
 {
@@ -39,7 +42,7 @@ class Person extends ActiveRecord
 	 * @param string $className active record class name.
 	 * @return Person the static model class
 	 */
-      
+       
         private $persondoc = NULL;
         private $entrantdoc = NULL;
         private $inndoc = NULL;
@@ -48,32 +51,7 @@ class Person extends ActiveRecord
         private $mobphone = NULL;
         
         
-        public function SendEdboRequest(){
-            $params = array(
-                "personIdMySql"=>$this->idPerson,
-                "entrantDocumentIdMySql"=>$this->entrantdoc->idDocuments,
-                "personalDocumentIdMySql"=>$this->persondoc->idDocuments
-            );
-            try {
-                $client = new EHttpClient(Yii::app()->user->getEdboSearchUrl().Yii::app()->params["personAddURL"], array('maxredirects' => 30, 'timeout'=> 30,));
-                $client->setParameterPost($params);
-                $response = $client->request(EHttpClient::POST);
-
-                if($response->isSuccessful()){
-                     debug($response->getBody());
-//                    $obj = CJSON::decode($response->getBody());
-//                    if ($obj == "success"){
-//                       debug("Успешная синхронизаниция");
-//                    } else {
-//                       debug("Cинхронизаниция не выполнена");
-//                    }
-                 } else {
-                    debug($response->getRawBody());
-                }
-            } catch(Exception $e) {
-                debug($e->getMessage());
-            }
-        }
+       
         
         public function getHomephone(){
             if (!empty($this->homephone)) return $this->homephone;
@@ -182,22 +160,25 @@ class Person extends ActiveRecord
 		return array(
 			array('HomeNumber, PostIndex, Address,
                                 FirstName, LastName, FirstNameR, 
-                                LastNameR', 'required'),
+                                LastNameR, LanguageID', 'required'),
 			array('PersonSexID, KOATUUCodeL1ID, KOATUUCodeL2ID, 
                                 KOATUUCodeL3ID, IsResident, PersonEducationTypeID, StreetTypeID, SchoolID, LanguageID, CountryID', 'numerical', 'integerOnly'=>true),
 			array('FirstName, MiddleName, LastName, FirstNameR, MiddleNameR, LastNameR, codeU', 'length', 'max'=>100),
 			
-                        array('codeU', "unique", "allowEmpty"=>'true' ),
+                        array('codeU, edboID', "unique", "allowEmpty"=>'true' ),
                 
-                        array('Address,PhotoName', 'length', 'max'=>250),
+                        array('Address, PhotoName', 'length', 'max'=>250),
 			array('HomeNumber, PostIndex', 'length', 'max'=>10),
-			array('Birthday, isCampus, isSamaSchoolAddr', 'safe'),
+			array('Birthday, BirthPlace, isCampus, isSamaSchoolAddr', 'safe'),
+                    
+                        //array('Birthday', 'date', "format"=>'dd.MM.yyyy', 'allowEmpty'=>true ),
+                        //
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('idPerson, Birthday, PersonSexID, FirstName, MiddleName,
                             LastName, KOATUUCodeL1ID, KOATUUCodeL2ID, KOATUUCodeL3ID, 
                             IsResident, PersonEducationTypeID, StreetTypeID, Address, HomeNumber, 
-                            PostIndex, SchoolID, FirstNameR, MiddleNameR, LastNameR, LanguageID, 
+                            PostIndex, SchoolID, FirstNameR, MiddleNameR, LastNameR,  
                             CountryID, PersonDocumentID, EntrantDocumentID', 'safe', 'on'=>'search'),
                     
                        array('PhotoName', 'file', 'types'=>'jpg, gif, png', 'maxSize' => 5048576,'on'=>'PHOTO'),
@@ -221,8 +202,6 @@ class Person extends ActiveRecord
        
         
         protected function beforeSave() {
-            
-            
              
             if ($this->KOATUUCodeL1ID == "0") $this->KOATUUCodeL1ID = NULL;
             if ($this->KOATUUCodeL2ID == "0") $this->KOATUUCodeL2ID = NULL;
@@ -237,30 +216,34 @@ class Person extends ActiveRecord
             return true;
         }
         protected function afterFind() {
-            if (empty($this->KOATUUCodeL1ID)) $this->KOATUUCodeL1ID = 105572;
-            if (empty($this->KOATUUCodeL2ID)) $this->KOATUUCodeL2ID = 105574;
-            if (empty($this->KOATUUCodeL3ID)) $this->KOATUUCodeL3ID = 105576;
+            //if (empty($this->KOATUUCodeL1ID)) $this->KOATUUCodeL1ID = 105572;
+            //if (empty($this->KOATUUCodeL2ID)) $this->KOATUUCodeL2ID = 105574;
+            //if (empty($this->KOATUUCodeL3ID)) $this->KOATUUCodeL3ID = 105576;
+            
             if ($this->Birthday=="0000-00-00"){
                 $this->Birthday="01.01.1995";     
             } else {
                 $this->Birthday = date("d.m.Y", strtotime($this->Birthday));
             }
+         
+            $this->CreateDate = date("d.m.Y", strtotime($this->CreateDate));
             parent::afterFind();
             return true;
         }
+        
         protected function afterConstruct() {
             if (empty($this->PhotoName))      $this->PhotoName = Yii::app()->params['defaultPersonPhoto'];
-            if (empty($this->KOATUUCodeL1ID)) $this->KOATUUCodeL1ID = 105572;
-            if (empty($this->KOATUUCodeL2ID)) $this->KOATUUCodeL2ID = 105574;
-            if (empty($this->KOATUUCodeL3ID)) $this->KOATUUCodeL3ID = 105576;
+            //if (empty($this->KOATUUCodeL1ID)) $this->KOATUUCodeL1ID = 105572;
+            //if (empty($this->KOATUUCodeL2ID)) $this->KOATUUCodeL2ID = 105574;
+            //if (empty($this->KOATUUCodeL3ID)) $this->KOATUUCodeL3ID = 105576;
             $this->IsResident = 1;
+            $this->CountryID = 804;
             parent::afterConstruct();
         }
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
-	public function attributeLabels()
-	{
+	public function attributeLabels(){
 		return array(
 			'idPerson' => 'Код',
 			'Birthday' => 'Дата народження',
@@ -285,12 +268,14 @@ class Person extends ActiveRecord
                         "PhotoName"=>"Фото абітурієнта",
                         "SchoolID"=>"Назва школи",
                         "isCampus"=>"Гуртожиток",
-                        "codeU"=>"GUID ідентифікатор",
+                        "codeU"=>"GUID Код",
+                        "edboID"=>"Ідентифікатор ЄДБО",
+                        'BirthPlace'=>'Місце народження',
+                        'CreateDate'=>'Дата додання',
                     
 		);
 	}
-	public function search()
-	{
+	public function search(){
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 
@@ -322,6 +307,10 @@ class Person extends ActiveRecord
 		));
 	}
         
+        /**
+         *  Возвращает массив найденых в edbo персон
+         *  Сохраняет результат в сесии с именем "edboResult"
+         */
         public static function JsonDataAsArray($json_string){
             $result = array();
             Yii::app()->session["edboResult"] = $json_string; 
@@ -335,105 +324,24 @@ class Person extends ActiveRecord
                        $model->LastName = $obj->lastName ;
                        $model->FirstName = $obj->firstName ;
                        $model->MiddleName = $obj->middleName ;
-
-//                       $model->LastNameR = $obj->lastName ;
-//                       $model->FirstNameR = $obj->firstName ;
-//                       $model->MiddleNameR = $obj->middleName ;
-
                        $model->PersonSexID = $obj->id_PersonSex ;
                        $model->Birthday = date("d.m.Y",mktime(0, 0, 0, $obj->birthday['month'],  $obj->birthday['dayOfMonth'],  $obj->birthday['year']));
-//                       $model->IsResident = $obj->resident;
-//                       $model->KOATUUCodeL1ID = $obj->id_KoatuuCodeL1 ;
-//                       $model->KOATUUCodeL2ID = $obj->id_KoatuuCodeL2 ;
-//                       $model->KOATUUCodeL3ID = $obj->id_KoatuuCodeL3;
-//                       $model->StreetTypeID = $obj->id_StreetType ;
-//                       $model->Address = $obj->address ;
-//                       $model->PostIndex = $obj->postIndex ;
-//                       $model->HomeNumber = $obj->homeNumber;
-
-/*                       foreach ($obj->documents as $strval) {
-                             $val = (object)$strval;
-                             if ($val->typeID == 7 )   {
-                                    $model->entrantdoc = new Documents();
-                                    $model->entrantdoc->TypeID = $val->typeID;
-                                    $model->entrantdoc->AtestatValue=$val->attestatValue;
-                                    $model->entrantdoc->Numbers=$val->number;
-                                    $model->entrantdoc->Series=$val->series;
-                                    $model->entrantdoc->DateGet=date("d.m.Y",mktime(0, 0, 0, $val->dateGet['month'],  $val->dateGet['dayOfMonth'],  $val->dateGet['year']));
-                                    $model->entrantdoc->ZNOPin = $val->znoPin;
-                                    $model->entrantdoc->Issued = $val->issued;
-                             }
-                             if ($val->typeID == 2)   {
-                                    $model->entrantdoc = new Documents();
-                                    $model->entrantdoc->TypeID = $val->typeID;
-                                    $model->entrantdoc->AtestatValue=$val->attestatValue;
-                                    $model->entrantdoc->Numbers=$val->number;
-                                    $model->entrantdoc->Series=$val->series;
-                                    $model->entrantdoc->DateGet=date("d.m.Y",mktime(0, 0, 0, $val->dateGet['month'],  $val->dateGet['dayOfMonth'],  $val->dateGet['year']));
-                                    $model->entrantdoc->ZNOPin = $val->znoPin;
-                                    $model->entrantdoc->Issued = $val->issued;
-                             }
-                             if ($val->typeID == 1)   {
-
-                                    $model->persondoc = new Documents();
-                                    $model->persondoc->TypeID = $val->typeID;
-                                    $model->persondoc->AtestatValue=$val->attestatValue;
-                                    $model->persondoc->Numbers=$val->number;
-                                    $model->persondoc->Series=$val->series;
-                                    $model->persondoc->DateGet=date("d.m.Y",mktime(0, 0, 0, $val->dateGet['month'],  $val->dateGet['dayOfMonth'],  $val->dateGet['year']));
-                                    $model->persondoc->ZNOPin = $val->znoPin;
-                                    $model->persondoc->Issued = $val->issued;
-
-                             }
-                             if ($val->typeID == 3 || $val->typeID == 3  )   {
-
-                                    $model->persondoc = new Documents();
-                                    $model->persondoc->TypeID = $val->typeID;
-                                    $model->persondoc->AtestatValue=$val->attestatValue;
-                                    $model->persondoc->Numbers=$val->number;
-                                    $model->persondoc->Series=$val->series;
-                                    $model->persondoc->DateGet=date("d.m.Y",mktime(0, 0, 0, $val->dateGet['month'],  $val->dateGet['dayOfMonth'],  $val->dateGet['year']));
-                                    $model->persondoc->ZNOPin = $val->znoPin;
-                                    $model->persondoc->Issued = $val->issued;
-
-                             }
-                             if ($val->typeID == 4)   { // zno
-                                 if (!empty($model->codeU)){
-                                   // debug(print_r($strval, true));
-                                    Yii::app()->session[$model->codeU] = serialize($strval); 
-                                   // debug(Yii::app()->session[$model->codeU]);
-                                 }
-                             }
-
-
-
-                       }
-                       foreach ($obj->contacts as $val) {
-                             if ($val['id_ContactType'] == 1)   {
-                                 $model->homephone = new PersonContacts();
-                                 $model->homephone->PersonContactTypeID = $val['id_ContactType'];
-                                 $model->homephone->PersonID = $model->idPerson;
-                                 $model->homephone->Value = $val['value'] ;
-                             }
-                             if ($val['id_ContactType'] == 2)   {
-                                 $model->mobphone = new PersonContacts();
-                                 $model->mobphone->PersonContactTypeID = $val['id_ContactType'];
-                                 $model->mobphone->PersonID = $model->idPerson;
-                                 $model->mobphone->Value = $val['value'] ;
-                             }  
-
-                       }*/
 
                     } 
                     $result[] = $model;  
                 }
            
             } else {
-                    Yii::app()->user->setFlash("message",'<h3 style="color: red;">Увага! Результат відсутній або напрямок перевантажено!</h3>');
+                    Yii::app()->user->setFlash("message",'<h3 style="color: red;">Увага! Результат відсутній спробуйте інший критерій пошуку!</h3>');
             }
             return $result;
         }
                   
+        /**
+         * loadByUCode - загружает модели используя codeu и переменную сессии edboResult
+         * @param type $codeu
+         * @return boolean
+         */
         public function loadByUCode($codeu){
           
             if (!empty($codeu)) {
@@ -450,6 +358,7 @@ class Person extends ActiveRecord
                     if (!empty($obj)){
                        $model = $this;
                        $model->codeU = $obj->personCodeU;
+                       $model->edboID = $obj->id_Person;
                        $model->LastName = $obj->lastName ;
                        $model->FirstName = $obj->firstName ;
                        $model->MiddleName = $obj->middleName ;
@@ -473,9 +382,19 @@ class Person extends ActiveRecord
             return false;
          }
         
+         /**
+          * loadDocumentsFromJSON - загружает документы персоны из результата поиска в edbo по codeu персоны
+          * @param type $json_string
+          * @return type
+          */
         public function loadDocumentsFromJSON($json_string){
-             
+            //$json_string = preg_replace("/[+-]?\d+\.\d+/", '"\0"', $json_string ); 
+            
             $objarr = CJSON::decode($json_string);
+         
+            if (!empty($this->codeU)){
+               Yii::app()->session[$this->codeU."-documents"] = serialize($objarr); 
+            }
             
             if ( trim($json_string) == "0" && empty($json_string) && count($objarr) == 0) return;
             
@@ -485,6 +404,7 @@ class Person extends ActiveRecord
                  if ($val->id_Type == 7)   {
                         $model->entrantdoc = new Documents();
                         $model->entrantdoc->TypeID = $val->id_Type;
+                        $model->entrantdoc->edboID = $val->id_Document;
                         $model->entrantdoc->AtestatValue=$val->attestatValue;
                         $model->entrantdoc->Numbers=$val->number;
                         $model->entrantdoc->Series=$val->series;
@@ -495,6 +415,7 @@ class Person extends ActiveRecord
                  if ($val->id_Type == 2)   {
                         $model->entrantdoc = new Documents();
                         $model->entrantdoc->TypeID = $val->id_Type;
+                        $model->entrantdoc->edboID = $val->id_Document;
                         $model->entrantdoc->AtestatValue=$val->attestatValue;
                         $model->entrantdoc->Numbers=$val->number;
                         $model->entrantdoc->Series=$val->series;
@@ -507,6 +428,7 @@ class Person extends ActiveRecord
 
                         $model->persondoc = new Documents();
                         $model->persondoc->TypeID = $val->id_Type;
+                        $model->persondoc->edboID = $val->id_Document;
                         $model->persondoc->AtestatValue=$val->attestatValue;
                         $model->persondoc->Numbers=$val->number;
                         $model->persondoc->Series=$val->series;
@@ -518,6 +440,7 @@ class Person extends ActiveRecord
                  if ($val->id_Type == 3 )   {
                         $model->persondoc = new Documents();
                         $model->persondoc->TypeID = $val->id_Type;
+                        $model->persondoc->edboID = $val->id_Document;
                         $model->persondoc->AtestatValue=$val->attestatValue;
                         $model->persondoc->Numbers=$val->number;
                         $model->persondoc->Series=$val->series;
@@ -527,24 +450,28 @@ class Person extends ActiveRecord
                  }
                  if ($val->id_Type == 5)   {
                         $model->inndoc = new Documents();
+                        
                         $model->inndoc->TypeID = $val->id_Type;
                         $model->inndoc->Numbers=$val->number;
+                        $model->inndoc->edboID = $val->id_Document;
                   
                  }
                  if ($val->id_Type == 6 )   {
                         $model->hospdoc = new Documents();
                         $model->hospdoc->TypeID = $val->id_Type;
+                        $model->hospdoc->edboID = $val->id_Document;
                         $model->hospdoc->DateGet=date("d.m.Y",mktime(0, 0, 0, $val->dateGet['month'],  $val->dateGet['dayOfMonth'],  $val->dateGet['year']));
                         
-                  }
-                 if ($val->id_Type == 4)   { // zno
-                     if (!empty($model->codeU)){
-                        Yii::app()->session[$model->codeU] = serialize($val); 
-                     }
                  }
+                 
             }
         }
         
+        /**
+         * loadContactsFromJSON - загружает контакты персоны из результата поиска в edbo по codeu персоны
+         * @param type $json_string
+         * @return type
+         */
         public function loadContactsFromJSON($json_string){
              
             $objarr = CJSON::decode($json_string);
@@ -569,4 +496,48 @@ class Person extends ActiveRecord
                  
             }
         }
-}
+
+         /**
+          * SendEdboRequest - отправляет запрос на добавление персоны в Edbo 
+          * 
+          * @return boolean - сигнализирует о возможности сохранения персоны в локальной базе
+          * Если false - рекомендуется откатить транзакцию или удалить созданную персону
+          */
+         public function SendEdboRequest(){
+             
+            
+            $params = array(
+                "personIdMySql"=>$this->idPerson,
+                "entrantDocumentIdMySql"=>$this->getEntrantdoc()->idDocuments,
+                "personalDocumentIdMySql"=>$this->getPersondoc()->idDocuments
+            );
+//            debug($this->idPerson);
+//            debug($this->entrantdoc->idDocuments);
+            try {
+                $client = new EHttpClient(Yii::app()->user->getEdboSearchUrl().Yii::app()->params["personAddURL"], array('maxredirects' => 30, 'timeout'=> 30,));
+                $client->setParameterPost($params);
+                $response = $client->request(EHttpClient::POST);
+
+                if($response->isSuccessful()){
+                      debug($response->getBody());
+                      $obj = (object)CJSON::decode($response->getBody());
+                      if ($obj->backTransaction){
+                         Yii::app()->user->setFlash("message",'<h3 style="color: red;">'.$obj->message.'</h3>'); 
+                         debug($obj->message);
+                         return false;
+                      } else {
+//                         $this->edboID = $obj->id;
+//                         $this->codeU = $obj->id;
+                         Yii::app()->user->setFlash("message",'<h3 style="color: red;">'.$obj->message.'</h3>');  
+                         debug("Cинхронизаниция выполнена");
+                      }
+                 } else {
+                    debug($response->getRawBody());
+                }
+            } catch(Exception $e) {
+                debug($e->getMessage());
+            }
+            
+            return true;
+        }
+ }

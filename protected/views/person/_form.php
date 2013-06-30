@@ -30,20 +30,22 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
             <div class ="span9">
             <div class="row-fluid">
                 <div class ="span4">
-                 <?php echo $form->hiddenField($model,'codeU'); ?>    
+                 <?php echo $form->hiddenField($model,'codeU'); ?>
+                  <?php echo $form->hiddenField($model,'edboID'); ?>    
+                    
                 <?php echo $form->labelEx($model,'LastName');//,array('class'=>'span3'));?>
-                <?php echo $form->textField($model,'LastName',array('id'=>"LastName",'class'=>'span12','maxlength'=>50)); ?>
+                <?php echo $form->textField($model,'LastName',array('id'=>"LastName",'class'=>'span12','maxlength'=>50, 'readonly'=>!empty($model->codeU) )); ?>
                 <?php //echo $form->error($model,'LastName'); ?>        
                 </div>
                 <div class ="span4">
                 <?php echo $form->labelEx($model,'FirstName');//,array('class'=>'span3'));?>
-                <?php echo $form->textField($model,'FirstName',array('id'=>"FirstName",'class'=>'span12','maxlength'=>50)); ?>
+                <?php echo $form->textField($model,'FirstName',array('id'=>"FirstName",'class'=>'span12','maxlength'=>50, 'readonly'=>!empty($model->codeU))); ?>
                 <?php //echo $form->error($model,'FirstName'); ?>    
                 </div>
               
                 <div class ="span4">
                 <?php echo $form->labelEx($model,'MiddleName');//,array('class'=>'span3'));?>
-                <?php echo $form->textField($model,'MiddleName',array('id'=>"MiddleName", 'class'=>'span12','maxlength'=>50)); ?>
+                <?php echo $form->textField($model,'MiddleName',array('id'=>"MiddleName", 'class'=>'span12','maxlength'=>50, 'readonly'=>!empty($model->codeU))); ?>
                 <?php //echo $form->error($model,'MiddleName'); ?>    
                 </div>
             </div>
@@ -91,24 +93,29 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
                     <?php echo $form->labelEx($model,"CountryID"); ?>
                     <?php echo $form->dropDownList($model,'CountryID', Country::DropDown(), array('class'=>'span12')); ?>
                 </div>
-<!--                <div class ="span4">
-                    <?php //echo $form->labelEx($model,'PersonEducationTypeID'); ?>
-                    <?php //echo $form->dropDownList($model,'PersonEducationTypeID', PersonEducationTypes::DropDown(), array('class'=>'span12')); ?>
-                </div>-->
-
                 <div class ="span4">
                     <?php echo $form->labelEx($model,'LanguageID'); ?>
-                    <?php echo $form->dropDownList($model,'LanguageID', Languages::DropDown(), array('class'=>'span12')); ?>
+                    <?php echo $form->dropDownList($model,'LanguageID', Languages::DropDown(), array("empty"=>"",'class'=>'span12')); ?>
                 </div>
-            </div>
+                <div class ="span4">
+                    <?php echo $form->labelEx($model,'BirthPlace'); ?>
+                    <?php echo $form->textField($model,'BirthPlace', array('class'=>'span12')); ?>
+                </div>
+           </div>
         
             </div>    
             
             <div class="span3" >
                 <a href="#" style="width: 180px;" class="thumbnail" rel="tooltip" data-title="Фото абітурієнта">
                    <?php 
+                   
                    $path = Yii::app()->baseUrl.Yii::app()->params['photosBigPath'].$model->PhotoName;
-                            
+                   
+                   if (!file_exists(Yii::app()->basePath."/../..".$path)) { 
+                       $path = Yii::app()->baseUrl.Yii::app()->params['photosBigPath'].Yii::app()->params['defaultPersonPhoto'];
+                       
+                   }
+                   
                     echo CHtml::image($path, 'Фото абітурієнта'); ?>
                 </a>
             </div>
@@ -119,7 +126,7 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
             <div class ="span12">
             <?php echo CHtml::label("Область / місто","KOATUUCodeL2ID");//,array('class'=>'span3'));?>
             <?php echo CHtml::activeDropDownList($model, "KOATUUCodeL1ID", KoatuuLevel1::DropDown(), 
-                    array('class'=>'span12', 
+                    array('empty'=>"", 'class'=>'span12', 
                             'onchange'=>"PSN.KOATUUChange(this,1)"));
                      ?>
             </div>
@@ -128,18 +135,18 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
             <div class ="span12"  > 
             <?php echo CHtml::label("Район / місто / район міста","KOATUUCodeL2ID");?>
             <?php echo CHtml::activeDropDownList($model, "KOATUUCodeL2ID",  KoatuuLevel2::DropDown($model->KOATUUCodeL1ID), 
-                    array('class'=>'span12', 
+                    array('empty'=>"", 'class'=>'span12', 
                             'onchange'=>"PSN.KOATUUChange(this,2)"));
                      ?>
             </div>
             
         </div>
-        <div class="row-fluid" <?php echo empty($model->KOATUUCodeL3ID) ? "style='display:none;'":""; ?> >
+        <div class="row-fluid" <?php debug($model->KOATUUCodeL3ID); echo empty($model->KOATUUCodeL3ID) ? "style='display:none;'":""; ?> >
            
             <div class ="span12" >
             <?php echo CHtml::label("Місто / район міста / СМТ / село","KOATUUCodeL3ID");//,array('class'=>'span3'));?>
             <?php echo CHtml::activeDropDownList($model, "KOATUUCodeL3ID",  KoatuuLevel3::DropDown($model->KOATUUCodeL2ID), 
-                    array('class'=>'span12', 'onchange'=>"PSN.KOATUUChange(this,3)"));
+                    array('empty'=>"", 'class'=>'span12', 'onchange'=>"PSN.KOATUUChange(this,3)"));
                      ?>
             </div>
             
@@ -154,7 +161,7 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
             <?php echo $form->labelEx($model,'StreetTypeID'); ?>
             <?php echo $form->dropDownList($model,'StreetTypeID', StreetTypes::DropDown(), array('class'=>'span12')); ?>
             </div>
-            <div class ="span4">
+            <div class ="span6">
             <?php echo $form->labelEx($model,'Address');//,array('class'=>'span3'));?>
             <?php echo $form->textField($model,'Address',array('class'=>'span12','maxlength'=>50)); ?>
             </div>
@@ -162,12 +169,6 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
             <?php echo $form->labelEx($model,'HomeNumber');//,array('class'=>'span3'));?>
             <?php echo $form->textField($model,'HomeNumber',array('class'=>'span12','maxlength'=>50)); ?>
             </div>
-<!--            <div class ="span2">
-                    <?php //echo $form->labelEx($model,'isCampus'); ?>
-                    <div class="switch" data-on-label="Так" data-off-label="Ні">
-                        <?php //echo $form->checkBox($model,'isCampus'); ?>
-                    </div>
-            </div>-->
         </div>
          
         
@@ -239,7 +240,7 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
                         <?php echo $form->labelEx($model,'SchoolID'); ?>
 
                         <?php echo $form->dropDownList($model,'SchoolID', Schools::DropDown(KoatuuLevel2::getKoatuuLevel2Code($model->KOATUUCodeL2ID),2), 
-                                array('empty'=>"",'class'=>"mywidth",'id'=>"SchoolID")); ?>
+                                array('empty'=>"", 'class'=>"mywidth",'id'=>"SchoolID")); ?>
                         <script type="text/javascript"> 
                              $("#SchoolID").click(function(){alert("asdas");});
                              $("#SchoolID").combobox();
@@ -262,7 +263,7 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
         
         <p class="help-block"><strong>Інші документи</strong></p>
         <hr>
-        <div class="row-fluid" <?php echo empty($model->KOATUUCodeL2ID) ? "style='display:none;'":""; ?>>
+        <div class="row-fluid" >
             <div class ="span4"  >
             <?php echo $this->renderPartial("_inndocumentform", array('model'=>$model->inndoc,'form'=>$form)); ?>
             </div>
@@ -274,7 +275,7 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
         
         <p class="help-block"><strong>Контактна інформація</strong></p>
         <hr>
-         <div class="row-fluid" <?php echo empty($model->KOATUUCodeL2ID) ? "style='display:none;'":""; ?>>
+         <div class="row-fluid" >
             <div class ="span4"  >
                 <?php echo $this->renderPartial("_contacts", array('model'=>$model->homephone,'form'=>$form)); ?>
             </div>
@@ -306,7 +307,7 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
             var PSN = PSN || {};
             PSN.schoolLink = "<?php echo CController::createUrl('directory/Schools'); ?>";
             PSN.koatuuLink = "<?php echo CController::createUrl('directory/koatuu'); ?>";
-            PSN.KOATUUCode = "<?php echo $js_code =  KoatuuLevel2::getKoatuuLevel2Code($model->KOATUUCodeL2ID);?>";
-            PSN.KOATUUSchoolCode = "<?php echo $js_code; ?>";
+//            PSN.KOATUUCode = "<?php echo $js_code =  KoatuuLevel2::getKoatuuLevel2Code($model->KOATUUCodeL2ID);?>";
+//            PSN.KOATUUSchoolCode = "<?php echo $js_code; ?>";
          </script>
 <?php $this->endWidget(); ?>

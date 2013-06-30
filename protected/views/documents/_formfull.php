@@ -27,7 +27,7 @@ echo $form->errorSummary($model); ?>
     </div>   
     <div class ="span4">
         <?php echo $form->labelEx($model,'Numbers'); ?>
-        <?php echo $form->textField($model,'Numbers',array('class'=>'span12', 'maxlength'=>7)); ?>
+        <?php echo $form->textField($model,'Numbers',array('class'=>'span12', )); ?>
     </div>    
 </div>
 <div class="row-fluid">
@@ -47,21 +47,38 @@ echo $form->errorSummary($model); ?>
     </div>    
     <div class ="span2">
         <?php echo $form->labelEx($model,'AtestatValue'); ?>
-        <?php echo $form->textField($model,'AtestatValue',array('class'=>'span12', 'maxlength'=>7)); ?>
+        <?php echo $form->textField($model,'AtestatValue',array('class'=>'span12',)); ?>
     </div>    
     <div class ="span2">
         <?php echo $form->labelEx($model,'isCopy'); ?>
         <div class="switch" data-on-label="Так" data-off-label="Ні">
         <?php echo $form->checkBox($model,'isCopy'); ?>
         </div>
-    </div>   
+    </div>  
+     <div class ="span2">
+        <?php  echo $form->labelEx($model,'isForeinghEntrantDocument'); ?>
+        <div class="switch" data-on-label="Так" data-off-label="Ні">
+            <?php echo $form->checkBox($model,'isForeinghEntrantDocument'); ?>
+        </div>
+    </div>
+    <div class ="span3">
+       <?php  echo $form->labelEx($model,'isNotCheckAttestat'); ?>
+        <div class="switch" data-on-label="Так" data-off-label="Ні">
+            <?php echo $form->checkBox($model,'isNotCheckAttestat'); ?>
+        </div>
+    </div>
 </div>
 <div class="row-fluid">
     <div class ="span6">
         <?php echo $form->labelEx($model,'PersonBaseSpecealityID'); ?>
         <?php echo $form->dropDownList($model, 'PersonBaseSpecealityID', Personbasespeciality::DropDown(),array('empty'=>"",'class'=>'span12')); ?>
     </div>   
+    <div class="span3">
+          <?php echo $form->labelEx($model,'PersonDocumentsAwardsTypesID'); ?>
+          <?php echo $form->dropDownList($model,'PersonDocumentsAwardsTypesID', CHtml::listData(Persondocumentsawardstypes::model()->findAll(), 'idPersonDocumentsAwardsTypes', 'PersonDocumentsAwardsTypesName'),array('empty'=>'','class'=>'span12')); ?>
+    </div>
 </div>
+
     <script>
         $('#doc-form-modal .datepicker').datepicker({'format':'dd.mm.yyyy'});
         $('.datepicker').css("z-index","9999");

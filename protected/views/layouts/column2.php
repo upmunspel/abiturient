@@ -23,7 +23,8 @@
                                 array(array('label'=>'Доступні дії')),
                                 $this->menu),
                 'type'=>'list',
-                //'htmlOptions'=>array('class'=>'operations'),
+                
+                
             ));
            
             ?>

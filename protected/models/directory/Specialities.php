@@ -25,37 +25,70 @@ class Specialities extends CActiveRecord
 	 * @param string $className active record class name.
 	 * @return Specialities the static model class
 	 */
-        public static function DropDownMask($FacultetID = 0){
+        public static function DropDownMask($FacultetID = 0, $EducationFormID = 0){
             $user = Yii::app()->user->getUserModel();
             $records = array();
             $res = array();
             
-            if (!empty($user->syspk) &&  !empty($user->syspk->SpecMask)){
-                if ($FacultetID == 0){
-                    if ($user->syspk->SpecMask == "7" || $user->syspk->SpecMask == "8") {
-                        $records = Specialities::model()->findAll("SpecialityClasifierCode like '7%' or SpecialityClasifierCode like '8%'");
-                    } else {
-                         $records = Specialities::model()->findAll("SpecialityClasifierCode like '{$user->syspk->SpecMask}%'");
-                    }
             
-                } else {
-                     if ($user->syspk->SpecMask == "7" || $user->syspk->SpecMask == "8") {
-                        $records = Specialities::model()->findAll("FacultetID = :FacultetID and (SpecialityClasifierCode like '7%' or SpecialityClasifierCode like '8%')", array(":FacultetID"=>$FacultetID));
+            if ($EducationFormID == 0){
+                    if (!empty($user->syspk) &&  !empty($user->syspk->SpecMask)){
+                        if ($FacultetID == 0){
+                            if ($user->syspk->SpecMask == "7" || $user->syspk->SpecMask == "8") {
+                                $records = Specialities::model()->findAll("SpecialityClasifierCode like '7%' or SpecialityClasifierCode like '8%'");
+                            } else {
+                                 $records = Specialities::model()->findAll("SpecialityClasifierCode like '{$user->syspk->SpecMask}%'");
+                            }
+
+                        } else {
+                             if ($user->syspk->SpecMask == "7" || $user->syspk->SpecMask == "8") {
+                                $records = Specialities::model()->findAll("FacultetID = :FacultetID and (SpecialityClasifierCode like '7%' or SpecialityClasifierCode like '8%')", array(":FacultetID"=>$FacultetID));
+                            } else {
+                                $records = Specialities::model()->findAll("FacultetID = :FacultetID and SpecialityClasifierCode like '{$user->syspk->SpecMask}%'", array(":FacultetID"=>$FacultetID));
+                            }
+                        }
                     } else {
-                        $records = Specialities::model()->findAll("FacultetID = :FacultetID and SpecialityClasifierCode like '{$user->syspk->SpecMask}%'", array(":FacultetID"=>$FacultetID));
+                        if ($FacultetID == 0){
+                            $records = Specialities::model()->findAll(); 
+                        } else {
+                            $records = Specialities::model()->findAll("FacultetID = :FacultetID", array(":FacultetID"=>$FacultetID)); 
+                        }
                     }
-                }
+
+
+                    foreach($records as $record) {
+                           $res[$record->idSpeciality] =(!empty($record->SpecialityName)? $record->SpecialityName." " :"" ).$record->SpecialityDirectionName.(!empty($record->SpecialitySpecializationName) ? ": ".$record->SpecialitySpecializationName." ":"")."(".$record->SpecialityClasifierCode.")";
+                    }
             } else {
-                if ($FacultetID == 0){
-                    $records = Specialities::model()->findAll(); 
-                } else {
-                    $records = Specialities::model()->findAll("FacultetID = :FacultetID", array(":FacultetID"=>$FacultetID)); 
-                }
-            }
-            
-            
-            foreach($records as $record) {
-                   $res[$record->idSpeciality] =(!empty($record->SpecialityName)? $record->SpecialityName." " :"" ).$record->SpecialityDirectionName.(!empty($record->SpecialitySpecializationName) ? ": ".$record->SpecialitySpecializationName." ":"")."(".$record->SpecialityClasifierCode.")";
+                
+                if (!empty($user->syspk) &&  !empty($user->syspk->SpecMask)){
+                        if ($FacultetID == 0){
+                            if ($user->syspk->SpecMask == "7" || $user->syspk->SpecMask == "8") {
+                                $records = Specialities::model()->findAll("SpecialityClasifierCode like '7%' or SpecialityClasifierCode like '8%' ");
+                            } else {
+                                 $records = Specialities::model()->findAll("SpecialityClasifierCode like '{$user->syspk->SpecMask}%'");
+                            }
+
+                        } else {
+                             if ($user->syspk->SpecMask == "7" || $user->syspk->SpecMask == "8") {
+                                $records = Specialities::model()->findAll("FacultetID = :FacultetID and PersonEducationFormID = :EducationFormID and (SpecialityClasifierCode like '7%' or SpecialityClasifierCode like '8%')", array(":FacultetID"=>$FacultetID,":EducationFormID"=>$EducationFormID));
+                            } else {
+                                $records = Specialities::model()->findAll("FacultetID = :FacultetID and PersonEducationFormID = :EducationFormID and SpecialityClasifierCode like '{$user->syspk->SpecMask}%'", array(":FacultetID"=>$FacultetID, ":EducationFormID"=>$EducationFormID));
+                            }
+                        }
+                    } else {
+                        if ($FacultetID == 0){
+                            $records = Specialities::model()->findAll(); 
+                        } else {
+                            $records = Specialities::model()->findAll("PersonEducationFormID = :EducationFormID and FacultetID = :FacultetID", array(":FacultetID"=>$FacultetID, ":EducationFormID"=>$EducationFormID)); 
+                        }
+                    }
+
+
+                    foreach($records as $record) {
+                           $res[$record->idSpeciality] =(!empty($record->SpecialityName)? $record->SpecialityName." " :"" ).$record->SpecialityDirectionName.(!empty($record->SpecialitySpecializationName) ? ": ".$record->SpecialitySpecializationName." ":"")."(".$record->SpecialityClasifierCode.")";
+                    }
+                
             }
           return $res;
 	}
