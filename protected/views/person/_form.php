@@ -1,3 +1,4 @@
+<div class="form">
 <?php 
 $burl = Yii::app()->baseUrl;
 Yii::app()->getClientScript()->registerCoreScript('jquery');
@@ -9,13 +10,14 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
         'action'=>$model->isNewRecord ? Yii::app()->createUrl("person/create"):"",
     //'type'=>'horizontal',
 	'enableAjaxValidation'=>false,
-        'htmlOptions'=>array("class"=>"well form"),
+        'htmlOptions'=>array("class"=>"well"),
 ));
 ?>
+
 <p class="help-block"><strong>Особисті дані</strong></p>
         <hr>
         <div class="row-fluid">
-            <div class ="span12">
+<!--            <div class ="span12">-->
                 <?php echo $form->errorSummary($model) ?>
                 <?php echo $form->errorSummary($model->inndoc) ?>
                 <?php echo $form->errorSummary($model->hospdoc) ?>
@@ -23,7 +25,7 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
                 <?php echo $form->errorSummary($model->persondoc) ?>
                 <?php echo $form->errorSummary($model->homephone) ?>
                 <?php echo $form->errorSummary($model->mobphone) ?>
-            </div>
+<!--            </div>-->
         </div>
             
         <div class="row-fluid">
@@ -141,7 +143,7 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
             </div>
             
         </div>
-        <div class="row-fluid" <?php debug($model->KOATUUCodeL3ID); echo empty($model->KOATUUCodeL3ID) ? "style='display:none;'":""; ?> >
+        <div class="row-fluid" <?php  echo empty($model->KOATUUCodeL3ID) ? "style='display:none;'":""; ?> >
            
             <div class ="span12" >
             <?php echo CHtml::label("Місто / район міста / СМТ / село","KOATUUCodeL3ID");//,array('class'=>'span3'));?>
@@ -286,13 +288,18 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
         <p class="help-block">Поля позначені <span class="required">*</span> заповняти обов'язково.</p>
          <?php echo $form->errorSummary($model); ?>
 	<div class="form-actions">
-		<?php $this->widget("bootstrap.widgets.TbButton", array(
+		
+             
+               <?php 
+               if (empty($model->codeU) || Yii::app()->user->checkAccess("updateAllPost")) {
+               $this->widget("bootstrap.widgets.TbButton", array(
 			'buttonType'=>'submit',
 			'type'=>'primary',
                          "size"=>"large",
 			'label'=>$model->isNewRecord ? 'Створити' : 'Зберегти',
                         )); 
-                ?>
+               }
+               ?>
             <?php /*$this->widget('bootstrap.widgets.TbButton', array(
                 'buttonType'=>'button',
                 'type'=>'primary',
@@ -311,3 +318,4 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
 //            PSN.KOATUUSchoolCode = "<?php echo $js_code; ?>";
          </script>
 <?php $this->endWidget(); ?>
+</div>

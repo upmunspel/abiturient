@@ -120,6 +120,7 @@ class Personspeciality extends ActiveRecord
                     
                         array("Exam1ID", 'required', 'on'=>"SHORTFORM"),
                         array("EntranceTypeID",  "required" ,"except"=>"SHORTFORM"),
+                        array("CausalityID",  "default", "value"=>100,"except"=>"SHORTFORM"),
                     
                         array("Exam1Ball, Exam2Ball, Exam3Ball", 'numerical',
                                "max"=>200, "min"=>100, "allowEmpty"=>true, 'except'=>'ZNOEXAM, EXAM'),
@@ -298,7 +299,7 @@ class Personspeciality extends ActiveRecord
                     'CoursedpBall' => 'Бал за курси',
                     'OlympiadId' => 'Олімпіади',
                     'Quota1' => 'Квота (с-ка міс-ть)',
-                    'Quota2' => 'Квота (пільгові к-рії)',
+                    'Quota2' => 'Квота (держ. сл-ба)',
                     'RequestNumber'=>"Номер заявки",
                     'PersonRequestNumber'=>"Номер справи",
                     "PersonDocumentsAwardsTypesID"=>"Відзнака",

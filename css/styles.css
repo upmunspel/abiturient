@@ -5,11 +5,14 @@
     margin: 0px;
 }
 #spec-modal-holder .modal-body {
-  min-height: 600px;   
+  min-height: 550px;   
 }
 #spec-modal-holder .short{
   min-height: 450px;   
 }
 .row-green {
     color: green;
+}
+.modal.fade.in {
+    top: 5% !important;
 }

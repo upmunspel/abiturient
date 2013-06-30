@@ -376,6 +376,19 @@ PSN.edboBenefitsUpdate = function(obj, link){
         }
     });
 }
+PSN.edboSpecsUpdate = function(obj){
+    var link = $(obj).attr("href");
+    $.ajax({
+    'url': link,
+    'async': "false",
+    'type':'POST',
+    success: function (data) { 
+        
+            refreshSpecs(); 
+           
+        }
+    });
+}
 
 PSN.addDoc = function(obj, url){
     var btn = $(obj);

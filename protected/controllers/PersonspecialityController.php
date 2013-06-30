@@ -14,9 +14,13 @@ class PersonspecialityController extends Controller
 	 */
 	public function filters()
 	{
-		return array(
-			//'accessControl', // perform access control for CRUD operations
-			//'postOnly', // we only allow deletion via POST request
+//		return array(
+//			//'accessControl', // perform access control for CRUD operations
+//			//'postOnly', // we only allow deletion via POST request
+//		);
+                return array(
+			'accessControl', // perform access control for CRUD operations
+                        'ajaxOnly + Refresh, Edboupdate',
 		);
 	}
 
@@ -27,8 +31,61 @@ class PersonspecialityController extends Controller
 	 */
 	public function accessRules()
 	{
-		return AccessToDictionaries::getAccessRulesToDictionaries();
+		return array(
+			array('allow',  // allow all users to perform 'index' and 'view' actions
+				'actions'=>array(),
+				'users'=>array('*'),
+			),
+			array('allow', // allow authenticated user to perform 'create' and 'update' actions
+				'actions'=>array(   'Znosubjects',
+                                                    'Speciality', 
+                                                    'View',
+                                                    'Create',
+                                                    'Update',
+                                                    "Delete", 
+                                                    "Index", 
+                                                    "Refresh", 
+                                                    'admin',"Edboupdate",
+                                                ),
+				'users'=>array('@'),
+			),
+//			array('allow', // allow admin user to perform 'admin' and 'delete' actions
+//				'actions'=>array('admin','delete'),
+//				'users'=>array('admin'),
+//			),
+			array('deny',  // deny all users
+				'users'=>array('*'),
+			),
+		);
 	}
+        
+        public function actionEdboupdate($id){
+            $model  = Personspeciality::model()->findByPk($id);
+            try {
+                $link = Yii::app()->user->getEdboSearchUrl().":8080/PersonSearch/request.jsp";
+                
+                $client = new EHttpClient($link, array('maxredirects' => 30, 'timeout' => 30,));
+               
+                $client->setParameterPost(array("personIdMySql"=>$model->PersonID, "personSpeciality"=>$id));
+                $response = $client->request(EHttpClient::POST);
+
+                if($response->isSuccessful()){
+                         $obj= (object)CJSON::decode($response->getBody());
+                         if ($obj->error){
+                            Yii::app()->user->setFlash("message",$obj->message);
+                         }
+                         
+                } else {
+                    Yii::app()->user->setFlash("message","Синхронізація не виконана! Спробуйте пізніше.");
+                }
+                } catch(Exception $e) {
+                    Yii::app()->user->setFlash("message","Синхронізація не виконана! Спробуйте пізніше.");
+                }
+                
+                echo CJSON::encode(array("result"=>"success","data" =>""));
+        }
+        
+        
         public function actionZnosubjects($personid){
             $model=new Personspeciality;
             if(isset($_POST['Personspeciality'])){
@@ -128,12 +185,17 @@ class PersonspecialityController extends Controller
 
 		$this->renderPartial('_Modal', array('model'=>$model,'personid'=>$model->PersonID));
         }
+        
+        public function actionRefresh($id){
+            $this->renderPartial("//person/tabs/_spec",array('personid'=>$id));
+        }
 
 	/**
 	 * Updates a particular model.
 	 * If update is successful, the browser will be redirected to the 'view' page.
 	 * @param integer $id the ID of the model to be updated
 	 */
+       
 	public function actionUpdate($id)
 	{
              

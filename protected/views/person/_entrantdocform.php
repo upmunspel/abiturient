@@ -5,9 +5,9 @@
 ?>
 
 <div class="row-fluid">
-            <div class ="span12">
+<!--            <div class ="span12">-->
                 <?php echo $form->errorSummary($model) ?>
-            </div>
+<!--            </div>-->
 </div>
 <div class="row-fluid">
     <div class ="span5">
@@ -89,13 +89,11 @@
      <div class="span3">
           <?php echo $form->labelEx($model,'[entrantdoc]PersonDocumentsAwardsTypesID'); ?>
           <?php $c = new CDbCriteria();
-                
-          if (!($user->syspk->QualificationID == 2 || $user->syspk->QualificationID == 3) ) {
-              $c->compare("idPersonDocumentsAwardsTypes", "<3");
-          } else {
-              $c->compare("idPersonDocumentsAwardsTypes", "3");
-          }
-?>
+            if (!($user->syspk->QualificationID == 2 || $user->syspk->QualificationID == 3) ) {
+                $c->compare("idPersonDocumentsAwardsTypes", "<3");
+            } else {
+                $c->compare("idPersonDocumentsAwardsTypes", "3");
+            } ?>
           <?php echo $form->dropDownList($model,'[entrantdoc]PersonDocumentsAwardsTypesID', CHtml::listData(Persondocumentsawardstypes::model()->findAll($c), 'idPersonDocumentsAwardsTypes', 'PersonDocumentsAwardsTypesName'),array('empty'=>'','class'=>'span12')); ?>
     </div>
     <div class ="span2">
@@ -110,9 +108,16 @@
             <?php echo $form->checkBox($model,'[entrantdoc]isNotCheckAttestat'); ?>
         </div>
     </div>
+    
+    
+    <?php 
+    // Не отображать ели магистр или специалист
+    if (($user->syspk->QualificationID == 2 || $user->syspk->QualificationID == 3) ):?>
     <div class ="span5">
         <?php echo $form->labelEx($model,'[entrantdoc]PersonBaseSpecealityID'); ?>
         <?php echo $form->dropDownList($model, '[entrantdoc]PersonBaseSpecealityID', Personbasespeciality::DropDown(),array('empty'=>"", 'class'=>'span12')); ?>
     </div> 
+    <?php endif; ?>
+    
 </div>
 
