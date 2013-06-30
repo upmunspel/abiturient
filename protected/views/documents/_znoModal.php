@@ -5,7 +5,7 @@
 ?>
 <?php $this->beginWidget('bootstrap.widgets.TbModal', array(
             'id'=>'znoModal',
-            'htmlOptions'=>array('style'=>'width: 700px; margin-left: -350px;'),
+            'htmlOptions'=>array('style'=>'width: 800px; margin-left: -400px;'),
             )
         ); ?>
  

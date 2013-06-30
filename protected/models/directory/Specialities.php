@@ -37,11 +37,11 @@ class Specialities extends CActiveRecord
                             if ($user->syspk->SpecMask == "7" || $user->syspk->SpecMask == "8") {
                                 $records = Specialities::model()->findAll("SpecialityClasifierCode like '7%' or SpecialityClasifierCode like '8%'");
                             } else {
-                                 $records = Specialities::model()->findAll("SpecialityClasifierCode like '{$user->syspk->SpecMask}%'");
+                                $records = Specialities::model()->findAll("SpecialityClasifierCode like '{$user->syspk->SpecMask}%'");
                             }
 
                         } else {
-                             if ($user->syspk->SpecMask == "7" || $user->syspk->SpecMask == "8") {
+                            if ($user->syspk->SpecMask == "7" || $user->syspk->SpecMask == "8") {
                                 $records = Specialities::model()->findAll("FacultetID = :FacultetID and (SpecialityClasifierCode like '7%' or SpecialityClasifierCode like '8%')", array(":FacultetID"=>$FacultetID));
                             } else {
                                 $records = Specialities::model()->findAll("FacultetID = :FacultetID and SpecialityClasifierCode like '{$user->syspk->SpecMask}%'", array(":FacultetID"=>$FacultetID));

@@ -119,7 +119,7 @@ class PersonController extends Controller
                             try {
                                 //debug(Yii::app()->user->getEdboSearchUrl());
                                 $client = new EHttpClient(Yii::app()->user->getEdboSearchUrl().Yii::app()->params["personSearchURL"], array('maxredirects' => 30, 'timeout'      => 30,));
-                                debug(Yii::app()->user->getEdboSearchUrl().Yii::app()->params["personSearchURL"]);
+                                // debug(Yii::app()->user->getEdboSearchUrl().Yii::app()->params["personSearchURL"]);
                                 $client->setParameterPost($_POST['search']);
                                 $response = $client->request(EHttpClient::POST);
 
@@ -140,7 +140,7 @@ class PersonController extends Controller
                 } 
 		
                if(isset($_GET['personCodeU'])){
-                    debug($_GET['personCodeU']);
+                    //debug($_GET['personCodeU']);
                     if ($model->loadByUCode($_GET['personCodeU'])) {
                         try {
 
@@ -152,7 +152,7 @@ class PersonController extends Controller
                             $response = $client->request(EHttpClient::POST);
 
                             if($response->isSuccessful()){
-                                debug($response->getBody());
+                                // debug($response->getBody());
                                 $searchRes = $model->loadDocumentsFromJSON($response->getBody());
                             } else {
                                 Yii::app()->user->setFlash("message","Не вдалося завантажити документи!");

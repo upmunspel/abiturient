@@ -5,6 +5,7 @@ class SiteController extends Controller
 	/**
 	 * Declares class-based actions.
 	 */
+        //public $layout='//layouts/column2_1';
    	public function actions()
 	{
 		return array(
@@ -39,11 +40,11 @@ class SiteController extends Controller
 				'actions'=>array('login', 'error', 'captcha', 'index','contact',"logout"),
 				'users'=>array('*'),
 			),
-                        /*array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('contact'),
+                        array('allow', // allow authenticated user to perform 'create' and 'update' actions
+				'actions'=>array('Reports'),
 				'users'=>array('@'),
 			),
-			array('allow', // allow authenticated user to perform 'create' and 'update' actions
+			 /*array('allow', // allow authenticated user to perform 'create' and 'update' actions
 				'actions'=>array('index','logout'),
 				'users'=>array('@'),
 			),
@@ -119,6 +120,11 @@ class SiteController extends Controller
 		$this->render('contact',array('model'=>$model));
 	}
 
+        public function actionReports()
+	{
+            $this->render('reports');
+        
+        }
 	/**
 	 * Displays the login page
 	 */

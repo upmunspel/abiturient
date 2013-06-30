@@ -66,6 +66,7 @@ class WebUser extends CWebUser {
         if (empty($model->syspk) || empty($model->syspk->searchIP) ) throw new Exception ("Необхідно визначити адресу серверу для пошуку!!");
         return "http://".$model->syspk->searchIP;  
     }
+    
 
 }
 ?>

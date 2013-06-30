@@ -111,7 +111,7 @@ $form= new TbActiveForm();
             <div class="span4">
                 <?php $url = Yii::app()->createUrl("personspeciality/znosubjects",array("personid"=>$personid));
                       echo $form->labelEx($model,'SepcialityID'); ?>
-		<?php echo $form->dropDownList($model,'SepcialityID', Specialities::DropDownMask($idFacultet),
+		<?php echo $form->dropDownList($model,'SepcialityID', Specialities::DropDown($idFacultet),
                         array(  'empty'=>'','class'=>"span12",
                                 'disabled'=>!$model->isNewRecord, 
                                 'onchange'=>"PSN.changeSpeciality(this, '$url')") ); ?>
@@ -222,20 +222,7 @@ $form= new TbActiveForm();
                  </div>
                     <?php //echo $form->error($model,'isContact'); ?>
             </div>
-          <div class="span2">
-                    <?php  echo $form->labelEx($model,'isNotCheckAttestat'); ?>
-                 <div class="switch" data-on-label="Так" data-off-label="Ні">
-                    <?php  echo $form->checkBox($model,'isNotCheckAttestat'); ?>
-                 </div>
-                    <?php //echo $form->error($model,'isContact'); ?>
-            </div>
-            <div class="span2">
-                    <?php  echo $form->labelEx($model,'isForeinghEntrantDocument'); ?>
-                 <div class="switch" data-on-label="Так" data-off-label="Ні">
-                    <?php  echo $form->checkBox($model,'isForeinghEntrantDocument'); ?>
-                 </div>
-                    <?php //echo $form->error($model,'isContact'); ?>
-            </div>
+        
            
            
         

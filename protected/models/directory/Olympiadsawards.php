@@ -4,7 +4,7 @@
  * This is the model class for table "olympiadsawards".
  *
  * The followings are the available columns in table 'olympiadsawards':
- * @property integer $IdOlimpiad
+ * @property integer $idOlimpiad
  * @property string $OlimpiadName
  * @property integer $OlympiadAwardID
  * @property string $OlympiadAwardName
@@ -38,13 +38,13 @@ class Olympiadsawards extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('IdOlimpiad, OlimpiadName, OlympiadAwardID, OlympiadAwardName, OlympiadAwardBonus', 'required'),
-			array('IdOlimpiad, OlympiadAwardID', 'numerical', 'integerOnly'=>true),
+			array('idOlimpiad, OlimpiadName, OlympiadAwardID, OlympiadAwardName, OlympiadAwardBonus', 'required'),
+			array('idOlimpiad, OlympiadAwardID', 'numerical', 'integerOnly'=>true),
 			array('OlympiadAwardBonus', 'numerical'),
 			array('OlimpiadName, OlympiadAwardName', 'length', 'max'=>200),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('IdOlimpiad, OlimpiadName, OlympiadAwardID, OlympiadAwardName, OlympiadAwardBonus', 'safe', 'on'=>'search'),
+			array('idOlimpiad, OlimpiadName, OlympiadAwardID, OlympiadAwardName, OlympiadAwardBonus', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -73,7 +73,7 @@ class Olympiadsawards extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-    'IdOlimpiad' => 'Id Olimpiad',
+    'idOlimpiad' => 'Id Olimpiad',
     'OlimpiadName' => 'Olimpiad Name',
     'OlympiadAwardID' => 'Olympiad Award',
     'OlympiadAwardName' => 'Olympiad Award Name',
@@ -92,7 +92,7 @@ class Olympiadsawards extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('IdOlimpiad',$this->IdOlimpiad);
+		$criteria->compare('idOlimpiad',$this->idOlimpiad);
 		$criteria->compare('OlimpiadName',$this->OlimpiadName,true);
 		$criteria->compare('OlympiadAwardID',$this->OlympiadAwardID);
 		$criteria->compare('OlympiadAwardName',$this->OlympiadAwardName,true);

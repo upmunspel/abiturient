@@ -12,7 +12,7 @@
                         'active'=>false, 
                         'id'=>"benefits"),
                 array(  'label'=>'Спеціальності', 
-                        'content'=>$this->renderPartial("tabs/_spec",array("models"=>$model->specs, 'personid'=>$model->idPerson),true), 
+                        'content'=>$this->renderPartial("tabs/_spec",array('personid'=>$model->idPerson),true), 
                         'active'=>false, 
                         'id'=>"specs"),
              
@@ -20,6 +20,10 @@
                         'content'=>$this->renderPartial("tabs/_doc",array('personid'=>$model->idPerson),true), 
                         'active'=>false, 
                         'id'=>"docs"),
+                array(  'label'=>'Олімпіади', 
+                        'content'=>$this->renderPartial("tabs/_olimp",array('personid'=>$model->idPerson),true), 
+                        'active'=>false, 
+                        'id'=>"olimps"),
     ),
 )); ?>
 
@@ -47,6 +51,15 @@
             'async': false,
             'type':'POST',
             success: function (data) { $("#benefits").html(data); }
+            });
+       
+    }
+    function refreshSpecs(){
+      $.ajax({
+            'url': '<?php echo Yii::app()->createUrl("personspeciality/refresh",array("id"=>$model->idPerson)); ?>',
+            'async': false,
+            'type':'POST',
+            success: function (data) { $("#specs").html(data); }
             });
        
     }

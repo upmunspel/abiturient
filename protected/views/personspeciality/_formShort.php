@@ -109,7 +109,7 @@ $form= new TbActiveForm();
             </div>
             <div class="span4">
                 <?php if (empty($model->sepciality)) {
-                        $idFacultet = 0;
+                         $idFacultet = 0;
                       } else {
                          $idFacultet= $model->sepciality->FacultetID;
                       }
@@ -125,7 +125,7 @@ $form= new TbActiveForm();
             <div class="span4">
                 <?php $url = Yii::app()->createUrl("personspeciality/znosubjects",array("personid"=>$personid,"specid"=>intval($model->idPersonSpeciality)));
                       echo $form->labelEx($model,'SepcialityID'); ?>
-		<?php echo $form->dropDownList($model,'SepcialityID', Specialities::DropDownMask($idFacultet),
+		<?php echo $form->dropDownList($model,'SepcialityID', Specialities::DropDown($idFacultet),
                         array(  'empty'=>'','class'=>"span12",
                                 'disabled'=>!$model->isNewRecord ,
                            // 'onchange'=>"PSN.changeSpeciality(this, '$url')"
@@ -146,7 +146,7 @@ $form= new TbActiveForm();
             <div class="span2">
 		<?php echo $form->labelEx($model,'QualificationID'); ?>
 		<?php echo $form->dropDownList($model,'QualificationID',CHtml::listData(Qualifications::model()->findAll(), 'idQualification', 'QualificationName'),
-                        array('empty'=>'', 'disabled'=>!$model->isNewRecord ,'class'=>"span12")); ?>
+                        array('empty'=>'', 'readonly'=>!$model->isNewRecord ,'class'=>"span12")); ?>
 		<?php //echo $form->error($model,'QualificationID'); ?>
             </div>
             

@@ -18,6 +18,7 @@
         <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/bootstrap-combobox.css" media="screen" />
         <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/bootstrap-typeahead.js"></script>
         <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/bootstrap-combobox.js"></script>
+        <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/bootstrap-datepicker.js"></script>
         <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/spin.min.js"></script>
         <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/blockUI.js"></script>
         
@@ -92,6 +93,8 @@
                     array('label'=>'Контакти', 'url'=>array('/site/contact'), "icon"=>"icon-envelope", 'visible'=>Yii::app()->user->isGuest),
                     array('label'=>'Довідники', 'visible'=>Yii::app()->user->checkAccess('showDirectiries'),
                          'url'=>'#', "icon"=>"icon-book", 'items'=> Directories::listMenu()),
+                    array('label'=>'Звіти', 'visible'=>Yii::app()->user->checkAccess('showReports'),
+                          'url'=>array('/site/reports'), "icon"=>"icon-book", ),
                  ),
             ),
             array(

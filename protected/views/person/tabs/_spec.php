@@ -39,21 +39,29 @@ $dataProvider=new CActiveDataProvider("Personspeciality", array('criteria'=>arra
     </div>
     <hr>
     <?php endif; ?>
+    <?php if (Yii::app()->user->hasFlash("message")): ?>
+    <div class="row-fluid" ><h3 style="color: red;"><?php echo  Yii::app()->user->getFlash("message"); ?></h3></div>
+    <?php endif; ?>
 <?php  
  $this->widget('bootstrap.widgets.TbGridView', array(
     'type'=>'striped bordered condensed',
     'dataProvider'=>$dataProvider,
     'template'=>"{items}",
+    'rowCssClassExpression'=>'empty($data->edboID)?"row-red":"row-green"',
     'columns'=>array(
+        "idPersonSpeciality",
         array('name'=>'PersonRequestNumber', "htmlOptions"=>array("style"=>"width: 150px"),  'value' => '$data->RequestPrefix.str_pad($data->PersonRequestNumber, 5, "0", STR_PAD_LEFT)'),
         array('name'=>'RequestNumber', "htmlOptions"=>array("style"=>"width: 150px"),  'value' => 'str_pad($data->RequestNumber, 5, "0", STR_PAD_LEFT)'),
         //array('name'=>'typename', 'header'=>'typename',  ),
         array('name'=>'sepcialityCode', 'header'=>'Код спеціальності', 'value' => '$data->sepciality->SpecialityClasifierCode' ),
-        array('name'=>'sepciality', 'header'=>'Спеціальність', 'value' => '!empty($data->sepciality->SpecialityName) ? $data->sepciality->SpecialityName : $data->sepciality->SpecialityDirectionName' ),
+        array('name'=>'sepciality', 'header'=>'Спеціальність', 
+             'value' =>'(!empty($data->sepciality->SpecialityName)? $data->sepciality->SpecialityName." " :"" ).$data->sepciality->SpecialityDirectionName.(!empty($data->sepciality->SpecialitySpecializationName) ? ": ".$data->sepciality->SpecialitySpecializationName." ":"")'
+                //'value' => '!empty($data->sepciality->SpecialityName) ? $data->sepciality->SpecialityName : $data->sepciality->SpecialityDirectionName' 
+             ),
         array('name'=>'educationForm', 'header'=>'Форма навчання', 'value' => '$data->educationForm->PersonEducationFormName '  ),
         array(
                 'class'=>'bootstrap.widgets.TbButtonColumn',
-                'template'=>'{update} {trash} {print}',
+                'template'=>'{update} {trash} {print} {sinchr}',
                 'buttons'=>array
                 (
 
@@ -86,6 +94,17 @@ $dataProvider=new CActiveDataProvider("Personspeciality", array('criteria'=>arra
                             'title'=>"Друкувати заявку",
                         ),
                     ),
+                     'sinchr' => array(
+                        'label'=>'Синхронізувати',
+                        'icon'=>'icon-refresh',
+                        'url'=> 'Yii::app()->createUrl("personspeciality/edboupdate",array("id"=>$data->idPersonSpeciality))',
+                        'options'=>array(
+                            'class'=>'btn',
+                            'onclick'=>"PSN.edboSpecsUpdate(this); return false;",
+                            //'rel'=>"prettyPhoto",
+                            'title'=>"Синхронізувати",
+                        ),
+                    ),
 //                    'printa' => array(
 //                        'label'=>'Друкувати',
 //                        'icon'=>'icon-check',
@@ -101,7 +120,7 @@ $dataProvider=new CActiveDataProvider("Personspeciality", array('criteria'=>arra
                     
                 ),
                 'htmlOptions'=>array(
-                    'style'=>'width: 150px;',
+                    'style'=>'width: 180px;',
                 ),
             )
         ),

@@ -529,12 +529,14 @@ class Person extends ActiveRecord
 //                         $this->edboID = $obj->id;
 //                         $this->codeU = $obj->id;
                          Yii::app()->user->setFlash("message",'<h3 style="color: red;">'.$obj->message.'</h3>');  
-                         debug("Cинхронизаниция выполнена");
+                         //debug("Cинхронизаниция выполнена");
                       }
                  } else {
+                      Yii::app()->user->setFlash("message",'<h3 style="color: red;">Помилка! Спробуйте пізніще!</h3>');  
                     debug($response->getRawBody());
                 }
             } catch(Exception $e) {
+                Yii::app()->user->setFlash("message",'<h3 style="color: red;">Помилка! Спробуйте пізніще!</h3>');  
                 debug($e->getMessage());
             }
             

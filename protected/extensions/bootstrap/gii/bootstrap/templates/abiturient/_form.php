@@ -3,7 +3,7 @@
  * The following variables are available in this template:
  * - $this: the BootCrudCode object
  */
-debug(print_r($model));
+//debug(print_r($model));
 ?>
 <?php echo "<?php \$form=\$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
 	'id'=>'".$this->class2id($this->modelClass)."-form',
