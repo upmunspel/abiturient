@@ -76,6 +76,12 @@ $form= new TbActiveForm();
             </div>
             <?php   endif; ?>
             
+             <div class="span1">
+                    <?php echo $form->labelEx($model,'edboID'); ?>
+                    <?php echo $form->textField($model,'edboID',array('class'=>"span12")); ?>
+                    <?php //echo $form->error($model,'AdditionalBall'); ?>
+            </div>
+            
         </div>
         <div class="row-fluid">
             <div class="span2">

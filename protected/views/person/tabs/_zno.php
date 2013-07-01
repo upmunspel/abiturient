@@ -83,7 +83,7 @@ $model = new PersonBenefits();*/
                    <?php 
                     $url = Yii::app()->createUrl("documents/delzno",array('documentid'=>$model->idDocuments));
                     
-                    if (empty($model->edboID) || Yii::app()->user->checkAccess("updateAllPost")  ){
+                    //if (empty($model->edboID) || Yii::app()->user->checkAccess("updateAllPost")  ){
                     $this->widget("bootstrap.widgets.TbButton", array(
                                 'type'=>'danger',
                                 'label'=>'',
@@ -96,14 +96,14 @@ $model = new PersonBenefits();*/
                                         'class'=>"span12",
                                         'onclick'=>"PSN.deleteZno(this,'$url');"), 
                                 )); 
-                    }
+                    //}
                      ?>
                 </div>
                 <div class ="span1">
                     <span >&nbsp;</span>
                    <?php 
                     $url = Yii::app()->createUrl("documents/editzno",array('documentid'=>$model->idDocuments));
-                    if (empty($model->edboID) || Yii::app()->user->checkAccess("updateAllPost")  ){
+                    //if (empty($model->edboID) || Yii::app()->user->checkAccess("updateAllPost")  ){
                     $this->widget("bootstrap.widgets.TbButton", array(
 			//'type'=>'primary',
                         'label'=>'',
@@ -115,7 +115,7 @@ $model = new PersonBenefits();*/
                                 'class'=>"span12",
                                 'onclick'=>"PSN.editZno(this,'$url');"), 
                         )); 
-                    }
+                    //}
              ?>
                 </div>    
             </div>
