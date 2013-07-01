@@ -43,9 +43,9 @@ echo $form->errorSummary($model); ?>
         <div class ="span4">
             <?php  echo Documentsubject::model()->getAttributeLabel("SubjectID"); ?>
         </div>    
-        <div class ="span3">
-            <?php echo Documentsubject::model()->getAttributeLabel("DateGet"); ?>
-        </div>    
+<!--        <div class ="span3">
+            <?php //echo Documentsubject::model()->getAttributeLabel("DateGet"); ?>
+        </div>    -->
         <div class ="span3">
             <?php echo Documentsubject::model()->getAttributeLabel("SubjectValue"); ?>
         </div>    

@@ -155,7 +155,9 @@ class PersonspecialityController extends Controller
                             $renderForm = "_formShort";
                         }
                         $model->attributes=$_GET['Personspeciality'];
+                        
                         if (intval($model->EntranceTypeID) == 1){
+                            
                             $model->Exam1ID = null; $model->Exam1Ball = null;
                             $model->Exam2ID = null; $model->Exam2Ball = null;
                             $model->Exam3ID = null; $model->Exam3Ball = null;
@@ -213,12 +215,13 @@ class PersonspecialityController extends Controller
                             $renderForm = "_formShort";
                         }
 			$model->attributes=$_GET['Personspeciality'];
-                        
+                        debug('model->CausalityID'.$model->CausalityID);
                         if (intval($model->EntranceTypeID) == 1){
                             $model->Exam1ID = null; $model->Exam1Ball = null;
                             $model->Exam2ID = null; $model->Exam2Ball = null;
                             $model->Exam3ID = null; $model->Exam3Ball = null;
                             $model->CausalityID = null;
+                            debug('model->CausalityID'.$model->CausalityID);
                         } elseif (intval($model->EntranceTypeID) == 2){
                             $model->DocumentSubject1 = null;
                             $model->DocumentSubject2 = null;
