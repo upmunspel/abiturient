@@ -208,7 +208,8 @@ class PersonspecialityController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_GET['Personspeciality'])) {       
+		if(isset($_GET['Personspeciality'])) {   
+                    
                         $renderForm = "_form";
 			//if (isset($_GET['Personspeciality']['GraduatedUniversitieID'])){
                           if (!empty($_GET['Personspeciality']['QualificationID']) && $_GET['Personspeciality']['QualificationID'] > 1 && $model->SepcialityID != 70686){
