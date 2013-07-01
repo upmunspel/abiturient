@@ -112,12 +112,12 @@
     
     <?php 
     // Не отображать ели магистр или специалист
-    if (($user->syspk->QualificationID == 2 || $user->syspk->QualificationID == 3) ):?>
+    //if (($user->syspk->QualificationID == 2 || $user->syspk->QualificationID == 3) ):?>
     <div class ="span5">
         <?php echo $form->labelEx($model,'[entrantdoc]PersonBaseSpecealityID'); ?>
         <?php echo $form->dropDownList($model, '[entrantdoc]PersonBaseSpecealityID', Personbasespeciality::DropDown(),array('empty'=>"", 'class'=>'span12')); ?>
     </div> 
-    <?php endif; ?>
+    <?php //endif; ?>
     
 </div>
 

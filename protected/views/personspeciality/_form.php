@@ -76,6 +76,12 @@ $form= new TbActiveForm();
             </div>
             <?php   endif; ?>
             
+             <div class="span1">
+                    <?php echo $form->labelEx($model,'edboID'); ?>
+                    <?php echo $form->textField($model,'edboID',array('class'=>"span12")); ?>
+                    <?php //echo $form->error($model,'AdditionalBall'); ?>
+            </div>
+            
         </div>
         <div class="row-fluid">
             <div class="span2">
@@ -113,7 +119,7 @@ $form= new TbActiveForm();
                       echo $form->labelEx($model,'SepcialityID'); ?>
 		<?php echo $form->dropDownList($model,'SepcialityID', Specialities::DropDown($idFacultet),
                         array(  'empty'=>'','class'=>"span12",
-                                'disabled'=>!$model->isNewRecord, 
+                                'readonly'=>!$model->isNewRecord, 
                                 'onchange'=>"PSN.changeSpeciality(this, '$url')") ); ?>
 		<?php //echo $form->error($model,'SepcialityID'); ?>
             </div>

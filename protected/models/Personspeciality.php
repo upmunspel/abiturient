@@ -116,11 +116,11 @@ class Personspeciality extends ActiveRecord
                                DocumentSubject2, DocumentSubject3, 
                                Exam1ID, Exam1Ball, Exam2ID, Exam2Ball,
                                Exam3ID, Exam3Ball, isHigherEducation, SkipDocumentValue', 'numerical', 'integerOnly'=>true),
-                        array("AdditionalBallComment,  CoursedpID, Quota1,Quota2, OlympiadID, isNotCheckAttestat, isForeinghEntrantDocument, PersonDocumentsAwardsTypesID", 'safe'),
+                        array("AdditionalBallComment,  CoursedpID, Quota1,Quota2, OlympiadID, isNotCheckAttestat, isForeinghEntrantDocument, PersonDocumentsAwardsTypesID, edboID", 'safe'),
                     
                         array("Exam1ID", 'required', 'on'=>"SHORTFORM"),
                         array("EntranceTypeID",  "required" ,"except"=>"SHORTFORM"),
-                        array("CausalityID",  "default", "value"=>100,"except"=>"SHORTFORM"),
+                        //array("CausalityID",  "default", "value"=>100,"except"=>"SHORTFORM"),
                     
                         array("Exam1Ball, Exam2Ball, Exam3Ball", 'numerical',
                                "max"=>200, "min"=>100, "allowEmpty"=>true, 'except'=>'ZNOEXAM, EXAM'),

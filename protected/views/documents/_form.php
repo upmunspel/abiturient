@@ -33,7 +33,7 @@ echo $form->errorSummary($model); ?>
     </div>    
     <div class ="span3">
         <?php echo $form->labelEx($model,'DateGet'); ?>
-        <?php echo $form->textField($model,'DateGet',array('class'=>'span12 datepicker','maxlength'=>4)); ?>
+        <?php echo $form->textField($model,'DateGet',array('class'=>'span12 datepicker')); ?>
     </div>    
 </div>
 <?php if (!empty($subjects)): ?>
@@ -43,9 +43,9 @@ echo $form->errorSummary($model); ?>
         <div class ="span4">
             <?php  echo Documentsubject::model()->getAttributeLabel("SubjectID"); ?>
         </div>    
-        <div class ="span3">
-            <?php echo Documentsubject::model()->getAttributeLabel("DateGet"); ?>
-        </div>    
+<!--        <div class ="span3">
+            <?php //echo Documentsubject::model()->getAttributeLabel("DateGet"); ?>
+        </div>    -->
         <div class ="span3">
             <?php echo Documentsubject::model()->getAttributeLabel("SubjectValue"); ?>
         </div>    
