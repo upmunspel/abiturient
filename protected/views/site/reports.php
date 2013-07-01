@@ -5,7 +5,8 @@
  * and open the template in the editor.
  */
 ?>
-<!--http://10.1.103.57:8080/request_report-1.0/journal?SpecialityID=  idOKR=  eduFormID=  date=-->
+<!--http://10.1.11.57:8080/request_report-1.0/journal?SpecialityID=  idOKR=  eduFormID=  date=-->
+<!--http://10.1.11.57:8080/request_report-1.0/bachelor.jsp?PersonID=1&PersonSpecialityID=1&iframe=true&width=1024&height=600-->
 <h3>Звіт "Журнал реєстрації осіб"</h3>
 <hr>
 <div class="form">
@@ -36,8 +37,8 @@
 		
     </div>
     <div class ="span2">
-                    <?php echo CHtml::label("Дата",'date'); ?>
-                    <?php echo CHtml::textField('date', "", array('class'=>'span12 datepicker')); ?>
+                    <?php echo CHtml::label("Дата",'Date'); ?>
+                    <?php echo CHtml::textField('Date', "", array('class'=>'span12 datepicker')); ?>
                     
     </div>
     
