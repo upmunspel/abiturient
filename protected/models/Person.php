@@ -169,7 +169,7 @@ class Person extends ActiveRecord
                 
                         array('Address, PhotoName', 'length', 'max'=>250),
 			array('HomeNumber, PostIndex', 'length', 'max'=>10),
-			array('Birthday, BirthPlace, isCampus, isSamaSchoolAddr', 'safe'),
+			array('Birthday, BirthPlace, isCampus, isSamaSchoolAddrk, CreateDate, isSamaSchoolAddr', 'safe'),
                     
                         //array('Birthday', 'date', "format"=>'dd.MM.yyyy', 'allowEmpty'=>true ),
                         //
@@ -278,9 +278,14 @@ class Person extends ActiveRecord
 	public function search(){
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
-
+                $user = Yii::app()->user->getUserModel();
+                
 		$criteria=new CDbCriteria;
 
+                if (!empty($user)){
+                   // $criteria->with = 
+                    
+                }
 		$criteria->compare('idPerson',$this->idPerson);
 		$criteria->compare('Birthday',$this->Birthday,true);
 		$criteria->compare('PersonSexID',$this->PersonSexID);
@@ -302,6 +307,7 @@ class Person extends ActiveRecord
 		$criteria->compare('LastNameR',$this->LastNameR,true);
 		$criteria->compare('LanguageID',$this->LanguageID);
 		$criteria->compare('CountryID',$this->CountryID);
+                $criteria->compare('CreateDate',$this->CreateDate);
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
@@ -408,7 +414,7 @@ class Person extends ActiveRecord
                         $model->entrantdoc->AtestatValue=$val->attestatValue;
                         $model->entrantdoc->Numbers=$val->number;
                         $model->entrantdoc->Series=$val->series;
-                        $model->entrantdoc->DateGet=date("d.m.Y",mktime(0, 0, 0, $val->dateGet['month'],  $val->dateGet['dayOfMonth'],  $val->dateGet['year']));
+                        $model->entrantdoc->DateGet=date("d.m.Y",mktime(0, 0, 0, $val->dateGet['month']+1,  $val->dateGet['dayOfMonth'],  $val->dateGet['year']));
                         $model->entrantdoc->ZNOPin = $val->znoPin;
                         $model->entrantdoc->Issued = $val->issued;
                  }
@@ -419,7 +425,7 @@ class Person extends ActiveRecord
                         $model->entrantdoc->AtestatValue=$val->attestatValue;
                         $model->entrantdoc->Numbers=$val->number;
                         $model->entrantdoc->Series=$val->series;
-                        $model->entrantdoc->DateGet=date("d.m.Y",mktime(0, 0, 0, $val->dateGet['month'],  $val->dateGet['dayOfMonth'],  $val->dateGet['year']));
+                        $model->entrantdoc->DateGet=date("d.m.Y",mktime(0, 0, 0, $val->dateGet['month']+1,  $val->dateGet['dayOfMonth'],  $val->dateGet['year']));
                         $model->entrantdoc->ZNOPin = $val->znoPin;
                         $model->entrantdoc->Issued = $val->issued;
                  }
@@ -432,7 +438,7 @@ class Person extends ActiveRecord
                         $model->persondoc->AtestatValue=$val->attestatValue;
                         $model->persondoc->Numbers=$val->number;
                         $model->persondoc->Series=$val->series;
-                        $model->persondoc->DateGet=date("d.m.Y",mktime(0, 0, 0, $val->dateGet['month'],  $val->dateGet['dayOfMonth'],  $val->dateGet['year']));
+                        $model->persondoc->DateGet=date("d.m.Y",mktime(0, 0, 0, $val->dateGet['month']+1,  $val->dateGet['dayOfMonth'],  $val->dateGet['year']));
                         $model->persondoc->ZNOPin = $val->znoPin;
                         $model->persondoc->Issued = $val->issued;
 
@@ -444,7 +450,7 @@ class Person extends ActiveRecord
                         $model->persondoc->AtestatValue=$val->attestatValue;
                         $model->persondoc->Numbers=$val->number;
                         $model->persondoc->Series=$val->series;
-                        $model->persondoc->DateGet=date("d.m.Y",mktime(0, 0, 0, $val->dateGet['month'],  $val->dateGet['dayOfMonth'],  $val->dateGet['year']));
+                        $model->persondoc->DateGet=date("d.m.Y",mktime(0, 0, 0, $val->dateGet['month']+1,  $val->dateGet['dayOfMonth'],  $val->dateGet['year']));
                         $model->persondoc->ZNOPin = $val->znoPin;
                         $model->persondoc->Issued = $val->issued;
                  }
@@ -460,7 +466,7 @@ class Person extends ActiveRecord
                         $model->hospdoc = new Documents();
                         $model->hospdoc->TypeID = $val->id_Type;
                         $model->hospdoc->edboID = $val->id_Document;
-                        $model->hospdoc->DateGet=date("d.m.Y",mktime(0, 0, 0, $val->dateGet['month'],  $val->dateGet['dayOfMonth'],  $val->dateGet['year']));
+                        $model->hospdoc->DateGet=date("d.m.Y",mktime(0, 0, 0, $val->dateGet['month']+1,  $val->dateGet['dayOfMonth'],  $val->dateGet['year']));
                         
                  }
                  

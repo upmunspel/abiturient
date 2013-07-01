@@ -119,7 +119,7 @@ $form= new TbActiveForm();
                       echo $form->labelEx($model,'SepcialityID'); ?>
 		<?php echo $form->dropDownList($model,'SepcialityID', Specialities::DropDown($idFacultet),
                         array(  'empty'=>'','class'=>"span12",
-                                'disabled'=>!$model->isNewRecord, 
+                                'readonly'=>!$model->isNewRecord, 
                                 'onchange'=>"PSN.changeSpeciality(this, '$url')") ); ?>
 		<?php //echo $form->error($model,'SepcialityID'); ?>
             </div>
