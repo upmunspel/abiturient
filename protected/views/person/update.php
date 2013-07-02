@@ -3,7 +3,7 @@ $this->menu=array(
 	array('label'=>'Перелік абітурієнтів','url'=>Yii::app()->createUrl('personview'),'icon'=>"icon-list-alt"),
         array('label'=>'Параметри вступу','url'=>Yii::app()->createUrl("person/view", array("id"=>$model->idPerson)),'icon'=>"icon-list-alt"),
     
-	array('label'=>'Додати  абітурієнта','url'=>array('create'),'icon'=>"icon-plus"),
+	array('label'=>'Додати  абітурієнта','url'=>Yii::app()->createUrl('person/create'),'icon'=>"icon-plus"),
 	
 );
 ?>

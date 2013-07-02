@@ -6,7 +6,7 @@ $this->breadcrumbs=array(
 
 $this->menu=array(
     
-        array('label'=>'Перелік абітурієнтів','url'=>array('index'), 'icon'=>"icon-list-alt"),
+        array('label'=>'Перелік абітурієнтів','url'=>Yii::app()->createUrl('personview'), 'icon'=>"icon-list-alt"),
 	
 );
 ?>

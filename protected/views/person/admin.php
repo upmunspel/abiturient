@@ -1,7 +1,7 @@
 <?php
 
 $this->menu=array(
-    array('label'=>'Додати ','url'=>array('create'),'icon'=>"icon-plus"),
+    array('label'=>'Додати ','url'=>Yii::app()->createUrl('person/create'),'icon'=>"icon-plus"),
 );
 
 Yii::app()->clientScript->registerScript('search', "
