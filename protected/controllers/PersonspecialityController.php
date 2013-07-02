@@ -150,7 +150,7 @@ class PersonspecialityController extends Controller
 		if(isset($_GET['Personspeciality']))
 		{       $renderForm = "_form";
 			//if (isset($_GET['Personspeciality']['GraduatedUniversitieID'])){
-                        if (!empty($_GET['Personspeciality']['QualificationID']) && $_GET['Personspeciality']['QualificationID'] > 1 && $_GET['Personspeciality']['SepcialityID']!=70686){
+                        if (!empty($_GET['Personspeciality']['QualificationID']) && $_GET['Personspeciality']['QualificationID'] > 1 && ($_GET['Personspeciality']['SepcialityID']!=70686 && $_GET['Personspeciality']['SepcialityID']!=90661)){
                             $model->scenario ="SHORTFORM";
                             $renderForm = "_formShort";
                             $model->CausalityID = 100;
@@ -212,7 +212,8 @@ class PersonspecialityController extends Controller
                     
                         $renderForm = "_form";
 			//if (isset($_GET['Personspeciality']['GraduatedUniversitieID'])){
-                          if (!empty($_GET['Personspeciality']['QualificationID']) && $_GET['Personspeciality']['QualificationID'] > 1 && $model->SepcialityID != 70686){
+                        debug($model->SepcialityID);
+                          if (!empty($_GET['Personspeciality']['QualificationID']) && $_GET['Personspeciality']['QualificationID'] > 1 && $model->SepcialityID != 70686 && $model->SepcialityID != 90661){
                             $model->scenario ="SHORTFORM";
                             $renderForm = "_formShort";
                             $model->CausalityID = 100;

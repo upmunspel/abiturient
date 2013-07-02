@@ -18,7 +18,7 @@ Yii::app()->clientScript->registerScriptFile($burl."/js/bootstrap-datepicker.js"
 Yii::app()->clientScript->registerScriptFile($burl."/js/person.js");
 
 $this->menu=array(
-	array('label'=>'Перелік абітурієнтів','url'=>array('index'),'icon'=>"icon-list-alt"),
+	array('label'=>'Перелік абітурієнтів','url'=>Yii::app()->createUrl('personview'),'icon'=>"icon-list-alt"),
 	array('label'=>'Додати  абітурієнта','url'=>array('create'),'icon'=>"icon-plus"),
 	array('label'=>'Редагувати абітурієнта','url'=>array('update','id'=>$model->idPerson),'icon'=>" icon-pencil" ),
     
