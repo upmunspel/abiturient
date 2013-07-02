@@ -39,6 +39,7 @@ $this->menu=array(
 'id'=>'person-speciality-view-grid',
     'type'=>'striped bordered condensed',
 'dataProvider'=>$model->search(),
+//'rowCssClassExpression'=>'empty($data->edboID)?"row-red":"row-green"',
 'filter'=>$model,
     'mergeColumns' => array('FIO', 'Birthday',"PersonRequestNumber", 'idPerson'),
 'columns'=>array(
