@@ -40,9 +40,9 @@ $this->menu=array(
     'type'=>'striped bordered condensed',
 'dataProvider'=>$model->search(),
 'filter'=>$model,
-    'mergeColumns' => array('FIO', 'Birthday',"PersonRequestNumber"),
+    'mergeColumns' => array('FIO', 'Birthday',"PersonRequestNumber", 'idPerson'),
 'columns'=>array(
-                array('name'=>'idPersonSpeciality', 'htmlOptions'=>array('style'=>'width: 50px'),),
+                array('name'=>'idPerson', 'htmlOptions'=>array('style'=>'width: 50px'),),
                 array('name'=>'PersonRequestNumber', 'value'=>'$data->RequestPrefix.str_pad($data->PersonRequestNumber, 5, "0", STR_PAD_LEFT)', 'htmlOptions'=>array('style'=>'width: 100px'),), 
                 array('name'=>'RequestNumber', 'value'=>'str_pad($data->RequestNumber, 5, "0", STR_PAD_LEFT)', 'htmlOptions'=>array('style'=>'width: 50px'),), 
                 

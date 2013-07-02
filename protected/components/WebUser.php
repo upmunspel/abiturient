@@ -28,7 +28,7 @@ class WebUser extends CWebUser {
         $model = $this->getUserModel();
         if (empty($model->syspk)) return false;
         
-        if ($model->syspk->QualificationID == 2 || $model->syspk->QualificationID == 3){
+        if ($model->syspk->idPk != 6 && ($model->syspk->QualificationID == 2 || $model->syspk->QualificationID == 3)){
             return true;
         }
         

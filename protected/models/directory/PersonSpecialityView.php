@@ -93,7 +93,7 @@ class PersonSpecialityView extends CActiveRecord
 		return array(
     'idPersonSpeciality' => 'Код',
     'CreateDate' => 'Дата створення',
-    'idPerson' => 'Id Person',
+    'idPerson' => 'Код',
     'Birthday' => 'Дата нар-ня',
     'FIO' => 'ФИО',
     'isContract' => 'Контракт',
@@ -131,8 +131,12 @@ class PersonSpecialityView extends CActiveRecord
 		$criteria->compare('CourseID',$this->CourseID);
 		$criteria->compare('RequestNumber',$this->RequestNumber);
 		$criteria->compare('PersonRequestNumber',$this->PersonRequestNumber);
-                if (!empty($user)) {
-                    $criteria->compare('QualificationID',$user->syspk->QualificationID);
+                if (!empty($user) && !empty($user->syspk->QualificationID)) {
+                    if ($user->syspk->QualificationID > 1) {
+                         $criteria->compare('QualificationID',">1");
+                    } else {
+                         $criteria->compare('QualificationID',$user->syspk->QualificationID);
+                    }
                 }
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

@@ -22,11 +22,11 @@
     Поля з <span class ="required">*</span> необхідно заповнити.
 </div>
  
-<div class="modal-body <?php echo (Yii::app()->user->isShortForm() && $model->isNewRecord) || $model->isShortForm() && $model->SepcialityID!=70686 ? " short":"";?>" id="spec-modal-body">
+<div class="modal-body <?php echo Yii::app()->user->isShortForm() ? " short":"";?>" id="spec-modal-body">
   
    <?php 
     
-    if ((Yii::app()->user->isShortForm() && $model->isNewRecord) || $model->isShortForm() && $model->SepcialityID!=70686){ 
+    if ((Yii::app()->user->isShortForm()) ){ 
         $this->renderPartial("_formShort",array('model'=>$model));
     } else {
         $this->renderPartial("_form",array('model'=>$model));
