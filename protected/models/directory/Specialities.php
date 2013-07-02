@@ -102,7 +102,12 @@ class Specialities extends CActiveRecord
               }
              
                 foreach(Specialities::model()->findAll($c) as $record) {
-                       $res[$record->idSpeciality] =  $res[$record->idSpeciality] = (!empty($record->SpecialityName)? $record->SpecialityName." " :"" ).$record->SpecialityDirectionName.(!empty($record->SpecialitySpecializationName) ? ": ".$record->SpecialitySpecializationName." ":"")."(".$record->SpecialityClasifierCode.")";
+                       $res[$record->idSpeciality] =  ($res[$record->idSpeciality] = (!empty($record->SpecialityName)? $record->SpecialityName." " :"" ).$record->SpecialityDirectionName.(!empty($record->SpecialitySpecializationName) ? ": ".$record->SpecialitySpecializationName." ":"")."(".$record->SpecialityClasifierCode.")");
+                      if (!empty($record->PersonEducationFormID) &&  $record->PersonEducationFormID == 1) {
+                          $res[$record->idSpeciality].="(Д)";
+                      } else {
+                          $res[$record->idSpeciality].="(З)";
+                      }
                 }
              
           return $res;
