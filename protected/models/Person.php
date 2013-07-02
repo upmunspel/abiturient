@@ -331,7 +331,7 @@ class Person extends ActiveRecord
                        $model->FirstName = $obj->firstName ;
                        $model->MiddleName = $obj->middleName ;
                        $model->PersonSexID = $obj->id_PersonSex ;
-                       $model->Birthday = date("d.m.Y",mktime(0, 0, 0, $obj->birthday['month'],  $obj->birthday['dayOfMonth'],  $obj->birthday['year']));
+                       $model->Birthday = date("d.m.Y",mktime(0, 0, 0, $obj->birthday['month']+1,  $obj->birthday['dayOfMonth'],  $obj->birthday['year']));
 
                     } 
                     $result[] = $model;  
@@ -372,7 +372,7 @@ class Person extends ActiveRecord
                        $model->FirstNameR = $obj->firstName ;
                        $model->MiddleNameR = $obj->middleName ;
                        $model->PersonSexID = $obj->id_PersonSex ;
-                       $model->Birthday = date("d.m.Y",mktime(0, 0, 0, $obj->birthday['month'],  $obj->birthday['dayOfMonth'],  $obj->birthday['year']));
+                       $model->Birthday = date("d.m.Y",mktime(0, 0, 0, $obj->birthday['month']+1,  $obj->birthday['dayOfMonth'],  $obj->birthday['year']));
                        $model->IsResident = $obj->resident;
                        $model->KOATUUCodeL1ID = $obj->id_KoatuuCodeL1 ;
                        $model->KOATUUCodeL2ID = $obj->id_KoatuuCodeL2 ;
