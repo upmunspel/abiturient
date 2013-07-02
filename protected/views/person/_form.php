@@ -291,14 +291,14 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
 		
              
                <?php 
-               if ($model->isNewRecord || empty($model->codeU) || Yii::app()->user->checkAccess("updateAllPost")) {
+               //if ($model->isNewRecord || empty($model->codeU) || Yii::app()->user->checkAccess("updateAllPost")) {
                $this->widget("bootstrap.widgets.TbButton", array(
 			'buttonType'=>'submit',
 			'type'=>'primary',
                          "size"=>"large",
 			'label'=>$model->isNewRecord ? 'Створити' : 'Зберегти',
                         )); 
-               }
+               //}
                ?>
             <?php /*$this->widget('bootstrap.widgets.TbButton', array(
                 'buttonType'=>'button',
