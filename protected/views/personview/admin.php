@@ -4,6 +4,8 @@
 
 $this->menu=array(
     array('label'=>'Додати ','url'=>Yii::app()->createUrl('person/create'),'icon'=>"icon-plus"),
+     array('label'=>'Повний перелік абітуріентів ','url'=>Yii::app()->createUrl('person'),'icon'=>"icon-star-empty"),
+    
 );
 //
 //Yii::app()->clientScript->registerScript('search', "
