@@ -264,7 +264,12 @@ class PersonspecialityController extends Controller
                 try{
                     $model = $this->loadModel($id);
                     $personid = $model->PersonID;
-                    $model->delete();    
+                    if (empty($model->edboID)) {
+                          $model->delete();   
+                          
+                    } else {
+                        Yii::app()->user->setFlash("message","Заборонено видаляти заявку!");
+                    }
                     $person = Person::model()->findByPk($personid);
                     echo CJSON::encode(array("result"=>"success","data" =>$this->renderPartial("//person/tabs/_spec", array('models'=>$person->specs,'personid'=>$personid),true)));
                 } catch (CHttpException $e) {
