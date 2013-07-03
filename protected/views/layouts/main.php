@@ -94,7 +94,7 @@
                     array('label'=>'Довідники', 'visible'=>Yii::app()->user->checkAccess('showDirectiries'),
                          'url'=>'#', "icon"=>"icon-book", 'items'=> Directories::listMenu()),
                     array('label'=>'Звіти', 'visible'=>Yii::app()->user->checkAccess('showReports'),
-                          'url'=>array('/site/reports'), "icon"=>"icon-book", ),
+                          'url'=>Yii::app()->createUrl('statistic'), "icon"=>"icon-book", ),
                  ),
             ),
             array(
