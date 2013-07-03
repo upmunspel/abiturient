@@ -199,7 +199,7 @@ class PersonController extends Controller
                         if(isset($_POST['PersonContacts']['mobphone'])){
                             $model->mobphone->attributes=$_POST['PersonContacts']['mobphone'];
                         }
-                        $model->CreateDate = null;
+                        //$model->CreateDate = null;
 			if(     $model->entrantdoc->validate("ENTRANT")
                                 && $model->persondoc->validate() 
                                 && $model->inndoc->validate("INN") 
