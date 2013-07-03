@@ -307,7 +307,11 @@ class Person extends ActiveRecord
 		$criteria->compare('LastNameR',$this->LastNameR,true);
 		$criteria->compare('LanguageID',$this->LanguageID);
 		$criteria->compare('CountryID',$this->CountryID);
-                $criteria->compare('CreateDate',$this->CreateDate);
+                if (!empty($this->CreateDate)){
+                    $criteria->addBetweenCondition('CreateDate', date('Y-m-d', strtotime($this->CreateDate)), date('Y-m-d', strtotime($this->CreateDate))." 23:59:59");
+                }
+                
+                //$criteria->compare('CreateDate',$this->CreateDate);
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
