@@ -67,6 +67,7 @@ class Personspeciality extends ActiveRecord
         public $currentMaxRequestNumber;
         public $currentMaxPersonRequestNumber;
         public $isHigherEducation =0;
+        public $isCopyEntrantDoc = 1;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
