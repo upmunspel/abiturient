@@ -202,7 +202,7 @@ class Person extends ActiveRecord
        
         
         protected function beforeSave() {
-             
+            unset($this->CreateDate);
             if ($this->KOATUUCodeL1ID == "0") $this->KOATUUCodeL1ID = NULL;
             if ($this->KOATUUCodeL2ID == "0") $this->KOATUUCodeL2ID = NULL;
             if ($this->KOATUUCodeL3ID == "0") $this->KOATUUCodeL3ID = NULL;
