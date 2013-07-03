@@ -50,13 +50,19 @@ $this->menu=array(
                 array('name'=>'RequestNumber', 'value'=>'str_pad($data->RequestNumber, 5, "0", STR_PAD_LEFT)', 'htmlOptions'=>array('style'=>'width: 50px'),), 
                 
                 array('name'=>'FIO', 'htmlOptions'=>array('style'=>'width: 250px'),),   
-                array('name'=>'Birthday', 'htmlOptions'=>array('style'=>'width: 100px'),), 
+                //array('name'=>'Birthday', 'htmlOptions'=>array('style'=>'width: 100px'),), 
                 'SpecCodeName',
 		//'CreateDate',
 		//'idPerson',
-                array('name'=>'isContract', 'htmlOptions'=>array('style'=>'width: 70px'), 'filter'=>array('1'=>'так','0'=>'ні'), 'value'=>'($data->isContract=="1")?("так"):("ні")'), 
-		array('name'=>'isBudget', 'htmlOptions'=>array('style'=>'width: 70px'), 'filter'=>array('1'=>'так','0'=>'ні'), 'value'=>'($data->isBudget=="1")?("так"):("ні")'), 
+                array('name'=>'isCopyEntrantDoc', 'htmlOptions'=>array('style'=>'width: 70px'), 'filter'=>array('1'=>'так','0'=>'ні'), 'value'=>'($data->isCopyEntrantDoc=="1")?("так"):("ні")'), 
 		
+                //array('name'=>'isContract', 'htmlOptions'=>array('style'=>'width: 70px'), 'filter'=>array('1'=>'так','0'=>'ні'), 'value'=>'($data->isContract=="1")?("так"):("ні")'), 
+		//array('name'=>'isBudget', 'htmlOptions'=>array('style'=>'width: 70px'), 'filter'=>array('1'=>'так','0'=>'ні'), 'value'=>'($data->isBudget=="1")?("так"):("ні")'), 
+		array('name'=>'DocumentSubject1Value', 'htmlOptions'=>array('style'=>'width: 50px'),),   
+                array('name'=>'DocumentSubject2Value', 'htmlOptions'=>array('style'=>'width: 50px'),),   
+                array('name'=>'DocumentSubject3Value', 'htmlOptions'=>array('style'=>'width: 50px'),),   
+    
+              array('name'=>'AtestatValue', 'htmlOptions'=>array('style'=>'width: 50px'),),   
 		
 		/*
 		'isBudget',
