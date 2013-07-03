@@ -64,29 +64,59 @@ class DocumentsController extends Controller
          * actionEdboupdate - запрос на синхронизацию документов
          * @param type $personid
          */
-        public function actionEdboupdate($personid){
-            try {
-                $link = Yii::app()->user->getEdboSearchUrl().":8080/PersonSearch/persondocumentsaddedbo.jsp";
-                
-                $client = new EHttpClient($link, array('maxredirects' => 30, 'timeout' => 30,));
-               
-                $client->setParameterPost(array("personIdMySql"=>$personid));
-                $response = $client->request(EHttpClient::POST);
+        public function actionEdboupdate(){
+          
+          if (isset($_GET['personid'])){
+                try {
+                    $personid = $_GET['personid'];
 
-                if($response->isSuccessful()){
-                         $obj= (object)CJSON::decode($response->getBody());
-                         if ($obj->error){
-                            Yii::app()->user->setFlash("message",$obj->message);
-                         }
-                         
-                } else {
+                    $link = Yii::app()->user->getEdboSearchUrl().":8080/PersonSearch/persondocumentsaddedbo.jsp";
+
+                    $client = new EHttpClient($link, array('maxredirects' => 30, 'timeout' => 30,));
+
+                    $client->setParameterPost(array("personIdMySql"=>$personid));
+                    $response = $client->request(EHttpClient::POST);
+
+                    if($response->isSuccessful()){
+                             $obj= (object)CJSON::decode($response->getBody());
+                             if ($obj->error){
+                                Yii::app()->user->setFlash("message",$obj->message);
+                             }
+
+                    } else {
+                        Yii::app()->user->setFlash("message","Синхронізація не виконана! Спробуйте пізніше.");
+                    }
+                } catch(Exception $e) {
                     Yii::app()->user->setFlash("message","Синхронізація не виконана! Спробуйте пізніше.");
                 }
+            } else if (isset($_GET['docid'])){
+                
+                try {
+                    $id = $_GET['docid'];
+
+                    $link = Yii::app()->user->getEdboSearchUrl().":8080/PersonSearch/editdocumentedbo.jsp";
+
+                    $client = new EHttpClient($link, array('maxredirects' => 30, 'timeout' => 30,));
+
+                    $client->setParameterPost(array("documentIdMySql"=>$id));
+                    $response = $client->request(EHttpClient::POST);
+
+                    if($response->isSuccessful()){
+                             $obj= (object)CJSON::decode($response->getBody());
+                             if ($obj->error){
+                                Yii::app()->user->setFlash("message",$obj->message);
+                             }
+
+                    } else {
+                        Yii::app()->user->setFlash("message","Синхронізація не виконана! Спробуйте пізніше.");
+                    }
                 } catch(Exception $e) {
                     Yii::app()->user->setFlash("message","Синхронізація не виконана! Спробуйте пізніше.");
                 }
                 
-                echo CJSON::encode(array("result"=>"success","data" =>""));
+            }
+                
+            echo CJSON::encode(array("result"=>"success","data" =>""));
         }
         public function actionCreate($personid)  {   
                 $model = new Documents("FULLINPUT");

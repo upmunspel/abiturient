@@ -343,7 +343,18 @@ PSN.edboZnoUpdate = function(obj, link){
         }
     });
 };
-
+PSN.edboAnDocUpdate = function(obj){
+    var link = $(obj).attr("href");
+    $.ajax({
+    'url': link,
+    'async': "false",
+    'type':'POST',
+     success: function (data) { 
+            refreshDocuments(); 
+            refreshZnos();
+        }
+    });
+};
 PSN.edboDocUpdate = function(obj, link){
     var btn = $(obj);
     btn.button('loading'); // call the loading function
