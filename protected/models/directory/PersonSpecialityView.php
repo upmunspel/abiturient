@@ -66,7 +66,7 @@ class PersonSpecialityView extends CActiveRecord
 			array('idPersonSpeciality, idPerson, isContract, isBudget, QualificationID, CourseID, RequestNumber, PersonRequestNumber', 'numerical', 'integerOnly'=>true),
 			array('FIO', 'length', 'max'=>302),
 			array('SpecCodeName', 'length', 'max'=>316),
-			array('CreateDate, Birthday', 'safe'),
+			array('CreateDate, Birthday, isCopyEntrantDoc, AtestatValue,  DocumentSubject1Value,  DocumentSubject2Value,  DocumentSubject3Value', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('idPersonSpeciality, CreateDate, idPerson, Birthday, FIO, isContract, isBudget, SpecCodeName, QualificationID, CourseID, RequestNumber, PersonRequestNumber', 'safe', 'on'=>'search'),
@@ -91,18 +91,23 @@ class PersonSpecialityView extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-    'idPersonSpeciality' => 'Код',
-    'CreateDate' => 'Дата створення',
-    'idPerson' => 'Код',
-    'Birthday' => 'Дата нар-ня',
-    'FIO' => 'ФИО',
-    'isContract' => 'Контракт',
-    'isBudget' => 'Бюджет',
-    'SpecCodeName' => 'Спеціальність',
-    'QualificationID' => 'Qualification',
-    'CourseID' => 'Курс',
-    'RequestNumber' => 'Справа',
-    'PersonRequestNumber' => 'Особ. справа',
+                    'idPersonSpeciality' => 'Код',
+                    'CreateDate' => 'Дата створення',
+                    'idPerson' => 'Код',
+                    'Birthday' => 'Дата нар-ня',
+                    'FIO' => 'ФИО',
+                    'isContract' => 'Контракт',
+                    'isBudget' => 'Бюджет',
+                    'SpecCodeName' => 'Спеціальність',
+                    'QualificationID' => 'Qualification',
+                    'CourseID' => 'Курс',
+                    'RequestNumber' => 'Справа',
+                    'PersonRequestNumber' => 'Особ. справа',
+                    "isCopyEntrantDoc"=>"Копія",
+                    "DocumentSubject1Value"=>"ЗНО 1",
+                    "DocumentSubject2Value"=>"ЗНО 2",
+                    "DocumentSubject3Value"=>"ЗНО 3",
+                    "AtestatValue"=>"Атестат",
 		);
 	}
 
@@ -131,6 +136,12 @@ class PersonSpecialityView extends CActiveRecord
 		$criteria->compare('CourseID',$this->CourseID);
 		$criteria->compare('RequestNumber',$this->RequestNumber);
 		$criteria->compare('PersonRequestNumber',$this->PersonRequestNumber);
+                $criteria->compare('isCopyEntrantDoc',$this->isCopyEntrantDoc);
+                  $criteria->compare('DocumentSubject1Value',$this->DocumentSubject1Value);
+                  $criteria->compare('DocumentSubject2Value',$this->DocumentSubject2Value);
+                  $criteria->compare('DocumentSubject3Value',$this->DocumentSubject3Value);
+                $criteria->compare('AtestatValue',$this->AtestatValue);
+              
                 if (!empty($user) && !empty($user->syspk->QualificationID)) {
                     if ($user->syspk->QualificationID > 1) {
                          $criteria->compare('QualificationID',">1");
