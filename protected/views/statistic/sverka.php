@@ -1,13 +1,38 @@
 <?php
 /* @var $this PersonviewController */
 /* @var $model PersonSpecialityView */
-
 ?>
+<style media ="screen">
+    #print-version {
+        display: none;
+    }
+    #screen-version {
+        display: block;
+    }
+</style>
+<style media ="print">
+    .navbar {
+        display: none;
+    }
+    #screen-version {
+        display: none;
+    }
+     #print-version {
+        display: block;
+    }
+</style>
+
+<div id="screen-version">
 <?php Yii::app()->bootstrap->register(); ?>
-<?php $this->widget('bootstrap.widgets.TbGroupGridView', array(
+    
+<?php 
+
+$data = $model->searchBig();
+
+$this->widget('bootstrap.widgets.TbGroupGridView', array(
 'id'=>'person-speciality-view-grid',
     'type'=>'striped bordered condensed',
-'dataProvider'=>$model->searchBig(),
+'dataProvider'=>$data,
  'rowCssClassExpression'=>'empty($data->SpecEdboID) && empty($data->PersonEdboID) ?"row-red":"row-green"',
 'filter'=>$model,
     'mergeColumns' => array('FIO', 'Birthday',"PersonRequestNumber", 'idPerson'),
@@ -77,3 +102,14 @@
 //          ),
 ),
 )); ?>
+</div>
+
+<div id="print-version" >
+    <pre>
+    <?php var_dump($data) ; ?>
+    </pre>
+</div>
+
+
+
+
