@@ -50,7 +50,16 @@ class Person extends ActiveRecord
         private $homephone = NULL;
         private $mobphone = NULL;
         
-        
+        public function getFIO(){
+            return $this->LastName." ".$this->FirstName." ".$this->MiddleName;
+        } 
+        public function getOperatorInfo(){
+            if (!empty($this->SysUserID) ){
+                $model = User::model()->findByPk($this->SysUserID);
+                return $model->info;
+            }
+            return null;
+        }   
        
         
         public function getHomephone(){
@@ -272,6 +281,8 @@ class Person extends ActiveRecord
                         "edboID"=>"Ідентифікатор ЄДБО",
                         'BirthPlace'=>'Місце народження',
                         'CreateDate'=>'Дата додання',
+                        "FIO"=>"ФИО",
+                        "operatorInfo"=>"Оператор",
                     
 		);
 	}

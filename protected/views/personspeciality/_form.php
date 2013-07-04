@@ -42,7 +42,7 @@ $form= new TbActiveForm();
                  </div>
             </div>
             <?php if (Yii::app()->user->checkAccess("showFullEntrantForm")): ?>
-            <div class="span5">
+            <div class="span4">
                 
                 <label for="<?php echo CHtml::activeId($model, 'isHigherEducation'); ?>" >
                     <?php echo $form->radioButtonListInlineRow($model,'isHigherEducation',array(0=>'не отримую', 1=>'не вказано', 2=>"є",3=>'отримую в даний час')); ?>  
@@ -50,11 +50,16 @@ $form= new TbActiveForm();
                 </label>
                 
             </div>
+            <div class="span1">
+                    <?php echo $form->labelEx($model,'edboID'); ?>
+                    <?php echo $form->textField($model,'edboID',array('class'=>"span12")); ?>
+                    <?php //echo $form->error($model,'AdditionalBall'); ?>
+            </div>
             <?php endif; ?>
         </div>
     <hr>
         <div class="row-fluid">
-            <div class="span6">
+            <div class="span5">
 		<?php echo $form->labelEx($model,'EntrantDocumentID'); ?>
 		<?php echo $form->dropDownList($model,'EntrantDocumentID', Documents::PersonEntrantDocuments($personid),array('class'=>'span12')); ?>
 		<?php //echo $form->error($model,'CourseID'); ?>
@@ -76,11 +81,14 @@ $form= new TbActiveForm();
             </div>
             <?php   endif; ?>
             
-             <div class="span1">
-                    <?php echo $form->labelEx($model,'edboID'); ?>
-                    <?php echo $form->textField($model,'edboID',array('class'=>"span12")); ?>
-                    <?php //echo $form->error($model,'AdditionalBall'); ?>
+             <div class="span2">
+                 <?php echo $form->labelEx($model,'RequestFromEB'); ?>
+                 <div class="switch" data-on-label="Так" data-off-label="Ні">
+                    <?php echo $form->checkBox($model,'RequestFromEB'); ?>
+                 </div>
             </div>
+            
+           
             
         </div>
         <div class="row-fluid">

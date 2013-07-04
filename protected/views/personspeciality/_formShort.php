@@ -41,12 +41,17 @@ $form= new TbActiveForm();
                     <?php echo $form->checkBox($model,'isNeedHostel'); ?>
                  </div>
             </div>
-            <div class="span5">
+            <div class="span4">
                 
                 <label for="<?php echo CHtml::activeId($model, 'isHigherEducation'); ?>" >
                     <?php echo $form->radioButtonListInlineRow($model,'isHigherEducation',array(0=>'не отримую', 1=>'не вказано', 2=>"є",3=>'отримую в даний час')); ?>  
                     <?php // Информация о высшем образовании персоны. echo $model->getAttributeLabel("isNeedHostel"); ?>
                 </label>
+            </div>
+             <div class="span1">
+                    <?php echo $form->labelEx($model,'edboID'); ?>
+                    <?php echo $form->textField($model,'edboID',array('class'=>"span12")); ?>
+                    <?php //echo $form->error($model,'AdditionalBall'); ?>
             </div>
         </div>
      <hr>
@@ -82,6 +87,12 @@ $form= new TbActiveForm();
                     <?php echo $form->checkBox($model,'isCopyEntrantDoc'); ?>
                  </div>
                     <?php //echo $form->error($model,'isCopyEntrantDoc'); ?>
+            </div>
+            <div class="span2">
+                 <?php echo $form->labelEx($model,'RequestFromEB'); ?>
+                 <div class="switch" data-on-label="Так" data-off-label="Ні">
+                    <?php echo $form->checkBox($model,'RequestFromEB'); ?>
+                 </div>
             </div>
 <!--            <div class="span4">
                  <?php echo $form->labelEx($model,'SkipDocumentValue'); ?>
