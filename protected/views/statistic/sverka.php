@@ -34,9 +34,9 @@
                 array('name'=>'DocumentSubject3Value', 'htmlOptions'=>array('style'=>'width: 50px'),),   
     
                 array('name'=>'AtestatValue', 'htmlOptions'=>array('style'=>'width: 50px'),),   
-		array('name'=>'CoursedpID', 'htmlOptions'=>array('style'=>'width: 150px'), "value"=>'!empty($data->CoursedpID) ? $data->coursedp->CourseDPName: "немаэ"', 'filter'=>  CHtml::listData(Coursedp::model()->findAll(), "idCourseDP", "CourseDPName") ), 
+		array('name'=>'CoursedpID', 'htmlOptions'=>array('style'=>'width: 150px'), "value"=>'!empty($data->CoursedpID) ? $data->coursedp->CourseDPName: "немає"', 'filter'=>  CHtml::listData(Coursedp::model()->findAll(), "idCourseDP", "CourseDPName") ), 
 		
-                array('name'=>'OlympiadID', 'htmlOptions'=>array('style'=>'width: 150px'), "value"=>'!empty($data->OlympiadID) ? $data->olympiad->OlympiadAwardName: "немаэ"', 'filter'=>  CHtml::listData(Olympiadsawards::model()->findAll(), "OlympiadAwardID", "OlympiadAwardName") ), 
+                array('name'=>'OlympiadID', 'htmlOptions'=>array('style'=>'width: 150px'), "value"=>'!empty($data->OlympiadID) ? $data->olympiad->OlympiadAwardName: "немає"', 'filter'=>  CHtml::listData(Olympiadsawards::model()->findAll(), "OlympiadAwardID", "OlympiadAwardName") ), 
                 'CreateDate',    
     /*
 		'isBudget',
