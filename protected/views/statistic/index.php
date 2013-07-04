@@ -52,6 +52,26 @@
     </div>
 <?php $this->endWidget(); ?>
 </div>
+
+
+<h3>Звіт для загальної перевірки</h3>
+
+ <?php $this->widget("bootstrap.widgets.TbButton", array(
+			'url'=>Yii::app()->createUrl("statistic/sverka"),
+			'type'=>'primary',
+                         "size"=>"large",
+			'label'=>'Показати',
+                        )); 
+               
+     ?>
+
+
+
+
+
+
+
+
 <script>
     $(document).ready(function(){
        $(".datepicker").datepicker({'format':"dd.mm.yyyy"});

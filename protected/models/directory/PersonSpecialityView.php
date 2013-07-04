@@ -16,6 +16,10 @@
  * @property integer $CourseID
  * @property integer $RequestNumber
  * @property integer $PersonRequestNumber
+ * @property integer $OlympiadAwardID
+ * @property integer $CoursedpID
+ * CoursedpID
+ * 
  */
 class PersonSpecialityView extends CActiveRecord
 {
@@ -66,10 +70,10 @@ class PersonSpecialityView extends CActiveRecord
 			array('idPersonSpeciality, idPerson, isContract, isBudget, QualificationID, CourseID, RequestNumber, PersonRequestNumber', 'numerical', 'integerOnly'=>true),
 			array('FIO', 'length', 'max'=>302),
 			array('SpecCodeName', 'length', 'max'=>316),
-			array('CreateDate, Birthday, isCopyEntrantDoc, AtestatValue,  DocumentSubject1Value,  DocumentSubject2Value,  DocumentSubject3Value', 'safe'),
+			array('CreateDate, Birthday, isCopyEntrantDoc, AtestatValue,  DocumentSubject1Value,  DocumentSubject2Value,  DocumentSubject3Value, CoursedpID, OlympiadID, OlympiadID', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('idPersonSpeciality, CreateDate, idPerson, Birthday, FIO, isContract, isBudget, SpecCodeName, QualificationID, CourseID, RequestNumber, PersonRequestNumber', 'safe', 'on'=>'search'),
+			array('idPersonSpeciality, CreateDate, idPerson, Birthday, FIO, isContract, isBudget, SpecCodeName, QualificationID, CourseID, RequestNumber, PersonRequestNumber, CoursedpID, OlympiadID', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -81,6 +85,10 @@ class PersonSpecialityView extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+                      'coursedp' => array(self::BELONGS_TO, 'Coursedp', 'CoursedpID'),
+                      'olympiad'=> array(self::BELONGS_TO, 'Olympiadsawards', 'OlympiadID'),
+                      'qualification'=> array(self::BELONGS_TO, 'Qualifications', 'QualificationID'),
+                    
 		);
 	}
         
@@ -108,6 +116,8 @@ class PersonSpecialityView extends CActiveRecord
                     "DocumentSubject2Value"=>"ЗНО 2",
                     "DocumentSubject3Value"=>"ЗНО 3",
                     "AtestatValue"=>"Атестат",
+                    "CoursedpID"=>"Курси",
+                    "OlympiadID"=>"Олімпіади"
 		);
 	}
 
@@ -137,9 +147,13 @@ class PersonSpecialityView extends CActiveRecord
 		$criteria->compare('RequestNumber',$this->RequestNumber);
 		$criteria->compare('PersonRequestNumber',$this->PersonRequestNumber);
                 $criteria->compare('isCopyEntrantDoc',$this->isCopyEntrantDoc);
-                  $criteria->compare('DocumentSubject1Value',$this->DocumentSubject1Value);
-                  $criteria->compare('DocumentSubject2Value',$this->DocumentSubject2Value);
-                  $criteria->compare('DocumentSubject3Value',$this->DocumentSubject3Value);
+                $criteria->compare('DocumentSubject1Value',$this->DocumentSubject1Value);
+                $criteria->compare('DocumentSubject2Value',$this->DocumentSubject2Value);
+                $criteria->compare('DocumentSubject3Value',$this->DocumentSubject3Value);
+                
+                
+              
+                
                 $criteria->compare('AtestatValue',$this->AtestatValue);
               
                 if (!empty($user) && !empty($user->syspk->QualificationID)) {
@@ -151,6 +165,50 @@ class PersonSpecialityView extends CActiveRecord
                 }
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+		));
+	}
+        public function searchBig()
+	{
+		// Warning: Please modify the following code to remove attributes that
+		// should not be searched.
+//                $user = Yii::app()->user->getUserModel();
+                
+		$criteria=new CDbCriteria;
+
+               
+		$criteria->compare('idPersonSpeciality',$this->idPersonSpeciality);
+		$criteria->compare('CreateDate',$this->CreateDate,true);
+		$criteria->compare('idPerson',$this->idPerson);
+		$criteria->compare('Birthday',$this->Birthday,true);
+		$criteria->compare('FIO',$this->FIO,true);
+		$criteria->compare('isContract',$this->isContract);
+		$criteria->compare('isBudget',$this->isBudget);
+		$criteria->compare('SpecCodeName',$this->SpecCodeName,true);
+		$criteria->compare('QualificationID',$this->QualificationID);
+		$criteria->compare('CourseID',$this->CourseID);
+		$criteria->compare('RequestNumber',$this->RequestNumber);
+		$criteria->compare('PersonRequestNumber',$this->PersonRequestNumber);
+                $criteria->compare('isCopyEntrantDoc',$this->isCopyEntrantDoc);
+                $criteria->compare('DocumentSubject1Value',$this->DocumentSubject1Value);
+                $criteria->compare('DocumentSubject2Value',$this->DocumentSubject2Value);
+                $criteria->compare('DocumentSubject3Value',$this->DocumentSubject3Value);
+                $criteria->compare('AtestatValue',$this->AtestatValue);
+                $criteria->compare('CoursedpID',$this->CoursedpID);
+                $criteria->compare('QualificationID',$this->QualificationID);
+                $criteria->compare('OlympiadID',$this->OlympiadID);
+              
+//                if (!empty($user) && !empty($user->syspk->QualificationID)) {
+//                    if ($user->syspk->QualificationID > 1) {
+//                         $criteria->compare('QualificationID',">1");
+//                    } else {
+//                         $criteria->compare('QualificationID',$user->syspk->QualificationID);
+//                    }
+//                }
+	return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+                    'pagination'=>array(
+                        'pageSize'=>30,
+                    )
 		));
 	}
 }
