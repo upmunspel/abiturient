@@ -223,10 +223,16 @@ class PersonController extends Controller
                             
                             
                             
+                            
                             if (isset(Yii::app()->session[$model->codeU."-documents"])){
                                Documents::loadAndSave($model->idPerson, unserialize(Yii::app()->session[$model->codeU."-documents"]));
                             }
-                            
+//                            debug("model->entrantdoc->AtestatValue = ".$model->entrantdoc->AtestatValue);
+//                            if (!empty($model->entrantdoc->edboID) && (empty($model->entrantdoc->AtestatValue)  || $model->entrantdoc->AtestatValue == 0 )  {
+//                                  debug("model->entrantdoc->AtestatValue = ".$model->entrantdoc->AtestatValue);
+//                                  $old = Yii::app()->user->getFlash("message");
+//                                  Yii::app()->user->setFlash("message",$old." Необхідно ввести середный бал документа про освіту з номером:".$model->entrantdoc->Numbers."!" );
+//                            }
                             if (!$model->SendEdboRequest()){ 
                                          $model->delete();
                                          $this->render('create',array('model'=>$model,"searchres"=>$searchRes));

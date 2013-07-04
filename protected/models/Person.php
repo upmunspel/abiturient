@@ -422,6 +422,22 @@ class Person extends ActiveRecord
             foreach($objarr as $item){
                  $val = (object)$item;
                  $model = $this;
+//2	Атестат про повну загальну середню освіту	1
+//3	Паспорт	2
+//4	Сертифікат ЗНО	0
+//5	Індивідуальний податковий номер	0
+//6	Медична довідка	0
+//7	Cвідоцтво про базову середню освіту	1
+//8	Cвідоцтво кваліфікованого робітника	1
+//9	Диплом кваліфікованого робітника	1
+//10	Диплом молодшого спеціаліста	1
+//11	Диплом бакалавра	1
+//12	Диплом спеціаліста	1
+//13	Диплом магістра	1
+//14	Академічна довідка	1
+//15	Витяг із заліково-екзаменаційних відомостей	1
+//16	Студентський квиток	0
+//17	Посвідка на постійне проживання в Україні
                  if ($val->id_Type == 7)   {
                         $model->entrantdoc = new Documents();
                         $model->entrantdoc->TypeID = $val->id_Type;
@@ -444,6 +460,32 @@ class Person extends ActiveRecord
                         $model->entrantdoc->ZNOPin = $val->znoPin;
                         $model->entrantdoc->Issued = $val->issued;
                  }
+                 if ($val->id_Type == 11)   {
+                        $model->entrantdoc = new Documents();
+                        $model->entrantdoc->TypeID = $val->id_Type;
+                        $model->entrantdoc->edboID = $val->id_Document;
+                        $model->entrantdoc->AtestatValue=$val->attestatValue;
+                        $model->entrantdoc->Numbers=$val->number;
+                        $model->entrantdoc->Series=$val->series;
+                        $model->entrantdoc->DateGet=date("d.m.Y",mktime(0, 0, 0, $val->dateGet['month']+1,  $val->dateGet['dayOfMonth'],  $val->dateGet['year']));
+                        $model->entrantdoc->ZNOPin = $val->znoPin;
+                        $model->entrantdoc->Issued = $val->issued;
+                         
+                         
+                 }
+                  if ($val->id_Type == 12)   {
+                        $model->entrantdoc = new Documents();
+                        $model->entrantdoc->TypeID = $val->id_Type;
+                        $model->entrantdoc->edboID = $val->id_Document;
+                        $model->entrantdoc->AtestatValue=$val->attestatValue;
+                        $model->entrantdoc->Numbers=$val->number;
+                        $model->entrantdoc->Series=$val->series;
+                        $model->entrantdoc->DateGet=date("d.m.Y",mktime(0, 0, 0, $val->dateGet['month']+1,  $val->dateGet['dayOfMonth'],  $val->dateGet['year']));
+                        $model->entrantdoc->ZNOPin = $val->znoPin;
+                        $model->entrantdoc->Issued = $val->issued;
+                        
+                 }
+               
                  
                  if ($val->id_Type == 1)   {
 
