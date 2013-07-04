@@ -77,7 +77,7 @@ class Personspeciality extends ActiveRecord
 	{
 		return parent::model($className);
 	}
-
+     
 	/**
 	 * @return string the associated database table name
 	 */
@@ -117,7 +117,7 @@ class Personspeciality extends ActiveRecord
                                DocumentSubject2, DocumentSubject3, 
                                Exam1ID, Exam1Ball, Exam2ID, Exam2Ball,
                                Exam3ID, Exam3Ball, isHigherEducation, SkipDocumentValue', 'numerical', 'integerOnly'=>true),
-                        array("AdditionalBallComment,  CoursedpID, Quota1,Quota2, OlympiadID, isNotCheckAttestat, isForeinghEntrantDocument, PersonDocumentsAwardsTypesID, edboID", 'safe'),
+                        array("AdditionalBallComment,  CoursedpID, Quota1,Quota2, OlympiadID, isNotCheckAttestat, isForeinghEntrantDocument, PersonDocumentsAwardsTypesID, edboID, RequestFromEB", 'safe'),
                     
                         array("Exam1ID", 'required', 'on'=>"SHORTFORM"),
                         array("EntranceTypeID",  "required" ,"except"=>"SHORTFORM"),
@@ -256,6 +256,7 @@ class Personspeciality extends ActiveRecord
 			'causality' => array(self::BELONGS_TO, 'Causality', 'CausalityID'),
 			'documentSubject1' => array(self::BELONGS_TO, 'Documentsubject', 'DocumentSubject1'),
                         'status' => array(self::BELONGS_TO, 'Personrequeststatustypes', 'StatusID'),
+//                     
                     
                     
 		);
@@ -309,7 +310,9 @@ class Personspeciality extends ActiveRecord
                     'isNotCheckAttestat'=>"Не перевіряти",
                     'GraduatedUniversitieID'=>"ВНЗ, який закінчив",
                     'GraduatedSpecialitieID'=>"Напрямок (спеціальність), яку закінчив",
-                    "GraduatedSpeciality"=>"Напрямок (спеціальність), яку закінчив"
+                    "GraduatedSpeciality"=>"Напрямок (спеціальність), яку закінчив",
+                    'RequestFromEB'=>'Эл-на за-ка',
+                    "edboID"=>"ЄДБО Код",
 		);
 	}
 

@@ -34,17 +34,21 @@ $this->menu=array(
         <div class="row-fluid" ><h3 style="color: red;"><?php echo  Yii::app()->user->getFlash("message"); ?></h3></div>
 <?php endif; ?>
 
-<?php $this->widget('bootstrap.widgets.TbDetailView',array(
+<?php 
+//$model->FIO = $model->LastName." ".$model->FirstName." ".$model->MiddleName;
+$this->widget('bootstrap.widgets.TbDetailView',array(
 	'data'=>$model,
         'type'=>array('bordered', 'condensed','striped'),
 	'attributes'=>array(
 		'idPerson',
-                 'LastName',
-		'FirstName',
-		'MiddleName',
+                "FIO",
+//                 'LastName',
+//		'FirstName',
+//		'MiddleName',
                 "Birthday",
                  "codeU",
                  "edboID",
+                 "operatorInfo",
 	),
 )); ?>
 <h3>Параметри вступу абітурієнта</h3> 
