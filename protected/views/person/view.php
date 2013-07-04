@@ -31,7 +31,8 @@ $this->menu=array(
 <h2>Загальна інформація про абітурієнта (<?php echo $model->idPerson; ?>)</h2>
 
 <?php if (Yii::app()->user->hasFlash("message")): ?>
-        <div class="row-fluid" ><h3 style="color: red;"><?php echo  Yii::app()->user->getFlash("message"); ?></h3></div>
+        <?php $str= Yii::app()->user->getFlash("message"); debug($str); ?>
+        <div class="row-fluid" ><h3 style="color: red;"><?php echo  $str; ?></h3></div>
 <?php endif; ?>
 
 <?php 

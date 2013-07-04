@@ -16,7 +16,7 @@
  
 <div class="modal-footer">
        
-    <?php  if (empty($model->edboID) || Yii::app()->user->checkAccess("updateAllPost")  ){
+    <?php  //if (empty($model->edboID) || Yii::app()->user->checkAccess("updateAllPost")  ){
           
                 $url = $model->isNewRecord ? Yii::app()->createUrl("documents/create",array("personid"=>$model->PersonID)): Yii::app()->createUrl("documents/update",array("id"=>$model->idDocuments)) ;
                 $this->widget('bootstrap.widgets.TbButton', array(
@@ -24,7 +24,7 @@
                   'label'=>'Зберегти',
                   'htmlOptions'=>array('onclick'=>"PSN.appendDoc(this, '$url')"),
               )); 
-          }?>
+         //}?>
     <?php $this->widget('bootstrap.widgets.TbButton', array(
         'label'=>'Скасувати',
         'url'=>'#',
