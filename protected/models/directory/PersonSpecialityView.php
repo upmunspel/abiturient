@@ -117,7 +117,8 @@ class PersonSpecialityView extends CActiveRecord
                     "DocumentSubject3Value"=>"ЗНО 3",
                     "AtestatValue"=>"Атестат",
                     "CoursedpID"=>"Курси",
-                    "OlympiadID"=>"Олімпіади"
+                    "OlympiadID"=>"Олімпіади",
+                    'Qualification'=>'Рівень',
 		);
 	}
 
@@ -208,6 +209,53 @@ class PersonSpecialityView extends CActiveRecord
 			'criteria'=>$criteria,
                     'pagination'=>array(
                         'pageSize'=>30,
+                    )
+		));
+	}
+         public function searchBigPrint()
+	{
+		// Warning: Please modify the following code to remove attributes that
+		// should not be searched.
+//                $user = Yii::app()->user->getUserModel();
+                
+		$criteria=new CDbCriteria;
+
+                $criteria->order = "PersonRequestNumber";
+		$criteria->compare('idPersonSpeciality',$this->idPersonSpeciality);
+		//$criteria->compare('CreateDate',$this->CreateDate,true);
+		$criteria->compare('idPerson',$this->idPerson);
+		$criteria->compare('Birthday',$this->Birthday,true);
+		$criteria->compare('FIO',$this->FIO,true);
+		$criteria->compare('isContract',$this->isContract);
+		$criteria->compare('isBudget',$this->isBudget);
+		$criteria->compare('SpecCodeName',$this->SpecCodeName,true);
+		$criteria->compare('QualificationID',$this->QualificationID);
+		$criteria->compare('CourseID',$this->CourseID);
+		$criteria->compare('RequestNumber',$this->RequestNumber);
+		$criteria->compare('PersonRequestNumber',$this->PersonRequestNumber);
+                $criteria->compare('isCopyEntrantDoc',$this->isCopyEntrantDoc);
+                $criteria->compare('DocumentSubject1Value',$this->DocumentSubject1Value);
+                $criteria->compare('DocumentSubject2Value',$this->DocumentSubject2Value);
+                $criteria->compare('DocumentSubject3Value',$this->DocumentSubject3Value);
+                $criteria->compare('AtestatValue',$this->AtestatValue);
+                $criteria->compare('CoursedpID',$this->CoursedpID);
+                $criteria->compare('QualificationID',$this->QualificationID);
+                $criteria->compare('OlympiadID',$this->OlympiadID);
+                if (!empty($this->CreateDate)){
+                    $criteria->addBetweenCondition('CreateDate', date('Y-m-d', strtotime($this->CreateDate)), date('Y-m-d', strtotime($this->CreateDate))." 23:59:59");
+                }
+              
+//                if (!empty($user) && !empty($user->syspk->QualificationID)) {
+//                    if ($user->syspk->QualificationID > 1) {
+//                         $criteria->compare('QualificationID',">1");
+//                    } else {
+//                         $criteria->compare('QualificationID',$user->syspk->QualificationID);
+//                    }
+//                }
+	       return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+                        'pagination'=>array(
+                        'pageSize'=>10000,
                     )
 		));
 	}

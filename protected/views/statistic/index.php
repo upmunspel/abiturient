@@ -55,7 +55,13 @@
 
 
 <h3>Звіт для загальної перевірки</h3>
+ <label for ="forprint" > 
+    <?php echo Chtml::checkBox("forprint", false, array("onchange"=>"$('.forsceen').toggle(); $('.forprint').toggle();")); ?>
+     Формувати звіт для друку
+ </label> 
+<br>
 
+<div class="forsceen">
  <?php $this->widget("bootstrap.widgets.TbButton", array(
 			'url'=>Yii::app()->createUrl("statistic/sverka"),
 			'type'=>'primary',
@@ -64,7 +70,57 @@
                         )); 
                
      ?>
-
+</div>
+ 
+ <div class="form forprint" style="display: none;">
+<?php 
+  $model = new PersonSpecialityView();
+  $form=$this->beginWidget('CActiveForm', array(
+	'id'=>'zno-form-modal',
+	'enableAjaxValidation'=>false,
+        'method'=>"POST",
+        'action'=>Yii::app()->createUrl("statistic/sverka"),
+)); ?>
+<div class="row-fluid">
+    
+    <div class="span2">
+	<?php echo $form->labelEx($model,'QualificationID'); ?>
+	<?php echo $form->dropDownList($model,'QualificationID', CHtml::listData(Qualifications::model()->findAll(), 'idQualification', 'QualificationName'), array('empty'=>'', 'class'=>"span12",)); ?>
+    </div>
+    <div class="span2">
+        <?php echo $form->labelEx($model,'isCopyEntrantDoc'); ?>
+	<?php echo $form->dropDownList($model,'isCopyEntrantDoc',array(0=>"ні", 1=>"так"), array('empty'=>'', 'class'=>"span12",)); ?>
+    </div>
+    <div class ="span3">
+         <?php   echo $form->labelEx($model,'CoursedpID'); ?>
+         <?php   echo $form->dropDownList($model,'CoursedpID',CHtml::listData(Coursedp::model()->findAll(), "idCourseDP", "CourseDPName"), array('empty'=>'', 'class'=>"span12",)); ?>
+    </div>
+    <div class ="span3">
+         <?php   echo $form->labelEx($model,'OlympiadID'); ?>
+         <?php   echo $form->dropDownList($model,'OlympiadID',CHtml::listData(Olympiadsawards::model()->findAll(), "OlympiadAwardID", "OlympiadAwardName"), array('empty'=>'', 'class'=>"span12",)); ?>
+    </div>
+    
+    <div class="span2">
+        <?php echo $form->labelEx($model,'CreateDate'); ?>
+	<?php echo $form->textField($model,'CreateDate',array("class"=>"span12 datepicker")); ?>
+    </div>
+    
+</div>
+    <hr>
+    <div class="row-fluid">
+     <?php $this->widget("bootstrap.widgets.TbButton", array(
+			'buttonType'=>'submit',
+			'type'=>'primary',
+                         "size"=>"large",
+			'label'=>'Показати',
+                        )); 
+               
+     ?>
+    </div>
+<?php $this->endWidget(); ?>
+</div>
+ 
+ 
 <script>
     $(document).ready(function(){
        $(".datepicker").datepicker({'format':"dd.mm.yyyy"});

@@ -71,9 +71,18 @@ class StatisticController extends Controller
 	{
             $model=new PersonSpecialityView('search');
 	    $model->unsetAttributes();  // clear any default values
-	    if(isset($_GET['PersonSpecialityView'])) $model->attributes=$_GET['PersonSpecialityView'];
-            $this->layout='//layouts/main_1';
-            $this->render('sverka',array("model"=>$model));
+	    if(isset($_GET['PersonSpecialityView'])) {
+                $model->attributes=$_GET['PersonSpecialityView'];
+                $this->layout='//layouts/main_1';
+                $this->render('sverka',array("model"=>$model));
+            } else if(isset($_POST['PersonSpecialityView'])) {
+                $model->attributes=$_POST['PersonSpecialityView'];
+                $this->layout='//layouts/main_1';
+                $this->render('sverka_print',array("model"=>$model));
+            } else {
+                $this->layout='//layouts/main_1';
+                $this->render('sverka',array("model"=>$model));
+            }
 	}
  
 }
