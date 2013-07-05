@@ -32,10 +32,10 @@ class StatisticController extends Controller
 				'actions'=>array('index', 'View', 'Print', "Sverka"),
 				'users'=>array('@'),
 			),
-//			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-//				'actions'=>array('admin','delete'),
-//				'users'=>array('@'),
-//			),
+			array('allow', // allow admin user to perform 'admin' and 'delete' actions
+				'actions'=>array('Public'),
+				'users'=>array('*'),
+			),
 //			array('deny',  // deny all users
 //				'users'=>array('*'),
 //			),
@@ -66,7 +66,16 @@ class StatisticController extends Controller
 		$this->layout='//layouts/clear';
 		$this->render('print');
 	}
-        
+        public function actionPublic()
+	{
+            $model=new PersonSpecialityView('search');
+	    $model->unsetAttributes();  // clear any default values
+	    if(isset($_GET['PersonSpecialityView'])) {
+                $model->attributes=$_GET['PersonSpecialityView'];
+            }
+            $this->layout='//layouts/main_1';
+            $this->render('sverka',array("model"=>$model));
+	}
         public function actionSverka()
 	{
             $model=new PersonSpecialityView('search');
