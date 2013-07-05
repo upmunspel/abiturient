@@ -72,14 +72,14 @@ $form= new TbActiveForm();
                  </div>
                     <?php //echo $form->error($model,'isCopyEntrantDoc'); ?>
             </div>
-            <?php if (Yii::app()->user->checkAccess("showFullEntrantForm")): ?>
+            <?php // if (Yii::app()->user->checkAccess("showFullEntrantForm")): ?>
            <div class="span3">
                  <?php echo $form->labelEx($model,'SkipDocumentValue'); ?>
                  <div class="switch" data-on-label="Так" data-off-label="Ні">
                     <?php echo $form->checkBox($model,'SkipDocumentValue'); ?>
                  </div>
             </div>
-            <?php   endif; ?>
+            <?php // endif; ?>
             
              <div class="span2">
                  <?php echo $form->labelEx($model,'RequestFromEB'); ?>
