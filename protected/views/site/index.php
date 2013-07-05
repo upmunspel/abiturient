@@ -19,12 +19,13 @@ $this->pageTitle=Yii::app()->name;
 )); ?>
 </div>
 
-<!--<div class="span3" style="">
+<div class="span3" style="">
 <?php $this->widget('bootstrap.widgets.TbButton', array(
 'label'=>'Статистика вступу',
 'type'=>'primary', // null, 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
 'size'=>'large', // null, 'large', 'small' or 'mini'
+'url'=>Yii::app()->createUrl("statistic/public"),
 )); ?>
-  </div>-->
+</div>
 <div class="row-fluid"></div>
 <?php $this->endWidget(); ?>

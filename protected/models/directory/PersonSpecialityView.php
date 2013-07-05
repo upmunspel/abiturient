@@ -118,7 +118,7 @@ class PersonSpecialityView extends CActiveRecord
                     "AtestatValue"=>"Атестат",
                     "CoursedpID"=>"Курси",
                     "OlympiadID"=>"Олімпіади",
-                    'Qualification'=>'Рівень',
+                    'QualificationID'=>'Рівень',
 		);
 	}
 
@@ -178,7 +178,9 @@ class PersonSpecialityView extends CActiveRecord
 
                
 		$criteria->compare('idPersonSpeciality',$this->idPersonSpeciality);
-		$criteria->compare('CreateDate',$this->CreateDate,true);
+		if (!empty($this->CreateDate)){
+                    $criteria->addBetweenCondition('CreateDate', date('Y-m-d', strtotime($this->CreateDate)), date('Y-m-d', strtotime($this->CreateDate))." 23:59:59");
+                }
 		$criteria->compare('idPerson',$this->idPerson);
 		$criteria->compare('Birthday',$this->Birthday,true);
 		$criteria->compare('FIO',$this->FIO,true);
@@ -208,7 +210,7 @@ class PersonSpecialityView extends CActiveRecord
 	return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
                     'pagination'=>array(
-                        'pageSize'=>30,
+                        'pageSize'=>25,
                     )
 		));
 	}

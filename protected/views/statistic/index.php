@@ -92,12 +92,21 @@
 	<?php echo $form->dropDownList($model,'isCopyEntrantDoc',array(0=>"ні", 1=>"так"), array('empty'=>'', 'class'=>"span12",)); ?>
     </div>
     <div class ="span3">
-         <?php   echo $form->labelEx($model,'CoursedpID'); ?>
-         <?php   echo $form->dropDownList($model,'CoursedpID',CHtml::listData(Coursedp::model()->findAll(), "idCourseDP", "CourseDPName"), array('empty'=>'', 'class'=>"span12",)); ?>
+         <?php   
+            $cdpfilter = array(">1"=>"будь-яка", "<1"=>"немає");
+            foreach (CHtml::listData(Coursedp::model()->findAll(), "idCourseDP", "CourseDPName") as $key=>$val){
+                $cdpfilter[$key] = $val;
+            }
+            $olympfilter = array(">1"=>"будь-яка", "<1"=>"немає");
+            foreach (CHtml::listData(Olympiadsawards::model()->findAll(), "OlympiadAwardID", "OlympiadAwardName") as $key=>$val){
+                $olympfilter[$key] = $val;
+            }
+         echo $form->labelEx($model,'CoursedpID'); ?>
+         <?php   echo $form->dropDownList($model,'CoursedpID',$cdpfilter, array('empty'=>'', 'class'=>"span12",)); ?>
     </div>
     <div class ="span3">
          <?php   echo $form->labelEx($model,'OlympiadID'); ?>
-         <?php   echo $form->dropDownList($model,'OlympiadID',CHtml::listData(Olympiadsawards::model()->findAll(), "OlympiadAwardID", "OlympiadAwardName"), array('empty'=>'', 'class'=>"span12",)); ?>
+         <?php   echo $form->dropDownList($model,'OlympiadID',$olympfilter,  array('empty'=>'', 'class'=>"span12",)); ?>
     </div>
     
     <div class="span2">
