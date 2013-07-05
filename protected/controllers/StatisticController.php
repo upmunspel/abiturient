@@ -86,7 +86,7 @@ class StatisticController extends Controller
                 $this->render('sverka',array("model"=>$model));
             } else if(isset($_POST['PersonSpecialityView'])) {
                 $model->attributes=$_POST['PersonSpecialityView'];
-                $this->layout='//layouts/main_1';
+                $this->layout='//layouts/main_empty';
                 $this->render('sverka_print',array("model"=>$model));
             } else {
                 $this->layout='//layouts/main_1';
