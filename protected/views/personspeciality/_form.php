@@ -233,7 +233,7 @@ $form= new TbActiveForm();
                  </div>
                     <?php //echo $form->error($model,'isContact'); ?>
             </div>
-            <div class="span2">
+            <div class="span4">
                     <?php  echo $form->labelEx($model,'Quota2'); ?>
                  <div class="switch" data-on-label="Так" data-off-label="Ні">
                     <?php  echo $form->checkBox($model,'Quota2'); ?>
@@ -241,7 +241,11 @@ $form= new TbActiveForm();
                     <?php //echo $form->error($model,'isContact'); ?>
             </div>
         
-           
+            <div class="span2">
+                    <?php echo $form->labelEx($model,'StatusID'); ?>
+                    <?php echo $form->dropDownList($model, 'StatusID', CHtml::listData( Personrequeststatustypes::model()->findAll(), "idPersonRequestStatusType", "PersonRequestStatusTypeName"), array('empty'=>"",'class'=>"span12")); ?>
+                    <?php //echo $form->error($model,'CoursedpID'); ?>
+            </div>
            
         
         

@@ -11,7 +11,7 @@
  * The followings are the available model relations:
  * @property documents[] $PersonBenefitDocument
  */
-class PersonBenefits extends ActiveRecord
+class PersonBenefits_old extends ActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
