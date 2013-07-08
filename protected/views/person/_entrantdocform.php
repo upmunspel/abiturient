@@ -12,8 +12,9 @@
 <div class="row-fluid">
     <div class ="span5">
         <?php echo $form->hiddenField($model,'[entrantdoc]edboID'); ?>
+        <?php echo $form->hiddenField($model,'[entrantdoc]TypeID'); ?>
         <?php echo $form->labelEx($model,'[entrantdoc]TypeID'); ?>
-        <?php echo $form->dropDownList($model,'[entrantdoc]TypeID',  PersonDocumentTypes::DropDown(1), array('class'=>'span12')); ?>
+        <?php echo $form->dropDownList($model,'[entrantdoc]TypeID',  PersonDocumentTypes::DropDown(1), array('class'=>'span12', 'disabled'=>!empty($model->edboID))); ?>
     </div>    
     <div class ="span1">
         <?php echo $form->labelEx($model,'[entrantdoc]Series'); ?>
