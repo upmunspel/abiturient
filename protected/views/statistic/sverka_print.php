@@ -46,6 +46,7 @@
             <th>ЗНО2</th>
             <th>ЗНО3</th>
             <th>Атестат</th>
+            <th>Пільги</th>
             <th style='width: 80px;'>Курси</th>
             <th style='width: 80px;'>Олімпіади</th>
         </tr>
@@ -88,6 +89,9 @@
             ?></td>
             <td><?php
                 echo $table_data[$i]->getAttribute('AtestatValue');
+            ?></td>
+             <td><?php
+                echo $table_data[$i]->getBenefits();
             ?></td>
             <td><?php
                 $crs = $table_data[$i]->getAttribute('CoursedpID');

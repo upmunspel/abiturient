@@ -177,6 +177,17 @@ $form= new TbActiveForm();
     <div class="row-fluid" id="subjects-holder">
        <?php $this->renderPartial("_subjects_holder_short", array("model"=>$model,'specialityid'=>$model->SepcialityID)); ?>
     </div>
+    <?php if (Yii::app()->user->checkAccess("showFullEntrantForm")): ?>
+      <div class="row-fluid"> 
+           
+            <div class="span2">
+                    <?php echo $form->labelEx($model,'StatusID'); ?>
+                    <?php echo $form->dropDownList($model, 'StatusID', CHtml::listData( Personrequeststatustypes::model()->findAll(), "idPersonRequestStatusType", "PersonRequestStatusTypeName"), array('empty'=>"",'class'=>"span12")); ?>
+                    <?php //echo $form->error($model,'CoursedpID'); ?>
+            </div>
+        
+        </div>
+    <? endif; ?>
    
 	
 

@@ -19,7 +19,7 @@
  * @property integer $OlympiadAwardID
  * @property integer $CoursedpID
  * CoursedpID
- * 
+ * RequestFromEB
  */
 class PersonSpecialityView extends CActiveRecord
 {
@@ -46,7 +46,21 @@ class PersonSpecialityView extends CActiveRecord
                 
           return $prefix;
         }
-        
+        public function getBenefits(){
+            $res = "";
+            //debug($this->idPerson);
+            $benefits = Personbenefits::model()->findAll("PersonID = ".$this->idPerson);
+            foreach($benefits as $obj){
+                if (empty($res)) {
+                    $res = $obj->benefit->BenefitName;
+                } else {
+                    $res .="; ".$obj->benefit->BenefitName; 
+                }
+            }
+            if (empty($res)) $res = "----";
+            return $res;
+            
+        }
         public function primaryKey() {
             return "idPersonSpeciality";
         }
@@ -73,7 +87,7 @@ class PersonSpecialityView extends CActiveRecord
 			array('CreateDate, Birthday, isCopyEntrantDoc, AtestatValue,  DocumentSubject1Value,  DocumentSubject2Value,  DocumentSubject3Value, CoursedpID, OlympiadID, OlympiadID', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('idPersonSpeciality, CreateDate, idPerson, Birthday, FIO, isContract, isBudget, SpecCodeName, QualificationID, CourseID, RequestNumber, PersonRequestNumber, CoursedpID, OlympiadID', 'safe', 'on'=>'search'),
+			array('idPersonSpeciality, CreateDate, idPerson, Birthday, FIO, isContract, isBudget, SpecCodeName, QualificationID, CourseID, RequestNumber, PersonRequestNumber, CoursedpID, OlympiadID, RequestFromEB', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -119,6 +133,7 @@ class PersonSpecialityView extends CActiveRecord
                     "CoursedpID"=>"Курси",
                     "OlympiadID"=>"Олімпіади",
                     'QualificationID'=>'Рівень',
+                    "RequestFromEB"=>"Ел. заява",
 		);
 	}
 
@@ -151,7 +166,7 @@ class PersonSpecialityView extends CActiveRecord
                 $criteria->compare('DocumentSubject1Value',$this->DocumentSubject1Value);
                 $criteria->compare('DocumentSubject2Value',$this->DocumentSubject2Value);
                 $criteria->compare('DocumentSubject3Value',$this->DocumentSubject3Value);
-                
+                $criteria->compare('RequestFromEB',$this->RequestFromEB);
                 
               
                 
@@ -199,6 +214,7 @@ class PersonSpecialityView extends CActiveRecord
                 $criteria->compare('CoursedpID',$this->CoursedpID);
                 $criteria->compare('QualificationID',$this->QualificationID);
                 $criteria->compare('OlympiadID',$this->OlympiadID);
+                $criteria->compare('RequestFromEB',$this->RequestFromEB);
               
 //                if (!empty($user) && !empty($user->syspk->QualificationID)) {
 //                    if ($user->syspk->QualificationID > 1) {

@@ -117,7 +117,7 @@ class Personspeciality extends ActiveRecord
                                DocumentSubject2, DocumentSubject3, 
                                Exam1ID, Exam1Ball, Exam2ID, Exam2Ball,
                                Exam3ID, Exam3Ball, isHigherEducation, SkipDocumentValue', 'numerical', 'integerOnly'=>true),
-                        array("AdditionalBallComment,  CoursedpID, Quota1,Quota2, OlympiadID, isNotCheckAttestat, isForeinghEntrantDocument, PersonDocumentsAwardsTypesID, edboID, RequestFromEB", 'safe'),
+                        array("AdditionalBallComment,  CoursedpID, Quota1,Quota2, OlympiadID, isNotCheckAttestat, isForeinghEntrantDocument, PersonDocumentsAwardsTypesID, edboID, RequestFromEB, StatusID", 'safe'),
                     
                         array("Exam1ID", 'required', 'on'=>"SHORTFORM"),
                         array("EntranceTypeID",  "required" ,"except"=>"SHORTFORM"),
@@ -313,6 +313,7 @@ class Personspeciality extends ActiveRecord
                     "GraduatedSpeciality"=>"Напрямок (спеціальність), яку закінчив",
                     'RequestFromEB'=>'Эл-на за-ка',
                     "edboID"=>"ЄДБО Код",
+                    "StatusID"=>"Статус заявки",
 		);
 	}
 
