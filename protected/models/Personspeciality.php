@@ -63,7 +63,7 @@
 
 class Personspeciality extends ActiveRecord
 {
-        public $StatusID = 4;
+        public $StatusID = 1;
         public $currentMaxRequestNumber;
         public $currentMaxPersonRequestNumber;
         public $isHigherEducation =0;
