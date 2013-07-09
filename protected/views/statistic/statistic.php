@@ -135,6 +135,16 @@ $query_specializations ="
 SELECT DISTINCT SpecialitySpecializationName AS `s_name` FROM `specialities` WHERE `SpecialityClasifierCode`='__CODE__' AND FacultetID = __FacultetID__;
 ";
 
+$query_distinct_persons = "SELECT COUNT(DISTINCT PersonID) AS `cnt` 
+    FROM personspeciality 
+    JOIN specialities ON 
+    personspeciality.SepcialityID=specialities.idSpeciality 
+WHERE __WDATE__  AND MID(specialities.SpecialityClasifierCode,1,1) = '".$OKR."'";
+
+
+if ($OKR == '7' || $OKR == '8'){
+   $query_distinct_persons = str_replace(" = '".$OKR."'"," IN ('7','8')",$query_distinct_persons); 
+}
 
 $table = array();
 $res = mysql_query($query);$QUERY_COUNT++;
@@ -272,6 +282,13 @@ $gen_counts_query = str_replace("__DATE__",$date,$gen_counts_query);
 $gen_counts_res = mysql_query($gen_counts_query);$QUERY_COUNT++;
 $gen_counts = mysql_fetch_assoc($gen_counts_res);
 
+$q = str_replace("__WDATE__","MID(CreateDate,1,10)=".$date,$query_distinct_persons);
+$distinct_persons_per_day_res = mysql_query($q);$QUERY_COUNT++;
+$distinct_persons_per_day = mysql_fetch_assoc($distinct_persons_per_day_res);
+$q = str_replace("__WDATE__","1",$query_distinct_persons);
+$distinct_persons_all_res = mysql_query($q);$QUERY_COUNT++;
+$distinct_persons_all = mysql_fetch_assoc($distinct_persons_all_res);
+
 ?>
 <center>
 <h1>
@@ -300,11 +317,29 @@ case 8: echo "Магістр";break;
 </tr>
 <?php for ($i = 0; $i < count($table); $i++){echo $table[$i];}?>
 <tr>
-<td colspan="2"><p title='кількість запитів (mysql_query): <?php echo $QUERY_COUNT;?>'>Всього</p></td>
-<td><?php echo $gen_counts['all-dnevn-XX.07.2013']/*." ( ".$PEREVIRKA." )"*/;?></td>
-<td><?php echo $gen_counts['all-zaochn-XX.07.2013'];?></td>
-<td><?php echo $gen_counts['all-dnevn-from01.07.2013'];?></td>
-<td><?php echo $gen_counts['all-zaochn-from01.07.2013'];?></td>
+<td colspan="2"><p title='кількість запитів (mysql_query): <?php echo $QUERY_COUNT;?>'>Всього заявок</p></td>
+    <td><?php echo $gen_counts['all-dnevn-XX.07.2013']/*." ( ".$PEREVIRKA." )"*/;?></td>
+    <td><?php echo $gen_counts['all-zaochn-XX.07.2013'];?></td>
+    <td><?php echo $gen_counts['all-dnevn-from01.07.2013'];?></td>
+    <td><?php echo $gen_counts['all-zaochn-from01.07.2013'];?></td>
+</tr>
+<tr>
+<td colspan="2">
+    <p title='кількість запитів (mysql_query): <?php echo $QUERY_COUNT;?>'>
+        Всього абітурієнтів
+        <?php
+        switch ($OKR){
+            case '7': 
+                echo " <i>разом з магістрами</i>";  
+                break;
+            case '8':
+                echo " <i>разом із спеціалістами</i>";    
+                break;
+        }
+        ?>
+    </p></td>
+    <td colspan="2"><?php echo $distinct_persons_per_day['cnt'];?></td>
+    <td colspan="2"><?php echo $distinct_persons_all['cnt'];?></td>    
 </tr>
 </table>
 </center>
