@@ -20,7 +20,7 @@ $dataProvider=new CActiveDataProvider("Personspeciality", array('criteria'=>arra
 
 ?>
 <div class="form">
-    <?php if (count($dataProvider->data)<3 || Yii::app()->user->checkAccess("updateAllPost")): ?>
+    <?php if (count($dataProvider->data)<6 || Yii::app()->user->checkAccess("updateAllPost")): ?>
     <div class="row-fluid">
         <div class="span3">
                 <?php
