@@ -34,8 +34,8 @@
 
 
 <div id="print-version" style="margin: 0 auto; width: 100%;"  >
-    <h1>Отчет</h1>
-    <table border=1 cellspacing=0>
+    <h1><center>Отчет сверка</center></h1>
+    <table border=1 cellspacing=0 width="100%">
         <tr>
             <th style='width: 80px;'>Особ. справа</th> 
             <th>Справа</th>
@@ -48,7 +48,7 @@
             <th>Атестат</th>
             <th>Пільги</th>
             <th style='width: 80px;'>Курси</th>
-            <th style='width: 80px;'>Олімпіади</th>
+            <th style='width: 80px;'>Олімпіада / Бал</th>
         </tr>
     <?php
        
@@ -95,8 +95,13 @@
             ?></td>
             <td><?php
                 $crs = $table_data[$i]->getAttribute('CoursedpID');
-                if ($crs){
+                if (!empty($crs)){
+                    
                     echo $table_data[$i]->coursedp->CourseDPName;
+                    $ball =  $table_data[$i]->CoursedpBall() ;
+                    if (!empty($ball)) {
+                        echo "(<strong>".$ball."</strong>)";
+                    }
                 } else {
                     echo "немає";
                 }
@@ -104,7 +109,7 @@
             <td><?php
                 $crs = $table_data[$i]->getAttribute('OlympiadID');
                 if ($crs){
-                    echo $table_data[$i]->olympiad->OlympiadAwardName;
+                    echo $table_data[$i]->olympiad->OlympiadAwardName."(<strong>{$table_data[$i]->olympiad->OlympiadAwardBonus }</strong>)";
                 } else {
                     echo "немає";
                 }

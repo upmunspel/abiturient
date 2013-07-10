@@ -18,6 +18,7 @@
  * @property integer $PersonRequestNumber
  * @property integer $OlympiadAwardID
  * @property integer $CoursedpID
+ * @property integer $SepcialityID
  * CoursedpID
  * RequestFromEB
  */
@@ -61,6 +62,16 @@ class PersonSpecialityView extends CActiveRecord
             return $res;
             
         }
+       
+        public function CoursedpBall(){
+            
+            $model = Personspeciality::model()->findBySql("SELECT `CoursedpBall` FROM `personspeciality` WHERE `idPersonSpeciality` = {$this->idPersonSpeciality}");
+            if (!empty($model)) {
+                return $model->CoursedpBall ; 
+            }
+            return "";
+            
+        }
         public function primaryKey() {
             return "idPersonSpeciality";
         }
@@ -87,7 +98,7 @@ class PersonSpecialityView extends CActiveRecord
 			array('CreateDate, Birthday, isCopyEntrantDoc, AtestatValue,  DocumentSubject1Value,  DocumentSubject2Value,  DocumentSubject3Value, CoursedpID, OlympiadID, OlympiadID', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('idPersonSpeciality, CreateDate, idPerson, Birthday, FIO, isContract, isBudget, SpecCodeName, QualificationID, CourseID, RequestNumber, PersonRequestNumber, CoursedpID, OlympiadID, RequestFromEB', 'safe', 'on'=>'search'),
+			array('idPersonSpeciality, CreateDate, idPerson, Birthday, FIO, isContract, isBudget, SpecCodeName, QualificationID, CourseID, RequestNumber, PersonRequestNumber, CoursedpID, OlympiadID, RequestFromEB, SepcialityID', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -134,6 +145,7 @@ class PersonSpecialityView extends CActiveRecord
                     "OlympiadID"=>"Олімпіади",
                     'QualificationID'=>'Рівень',
                     "RequestFromEB"=>"Ел. заява",
+                    "SepcialityID"=>"Спеціальність",
 		);
 	}
 
@@ -167,7 +179,7 @@ class PersonSpecialityView extends CActiveRecord
                 $criteria->compare('DocumentSubject2Value',$this->DocumentSubject2Value);
                 $criteria->compare('DocumentSubject3Value',$this->DocumentSubject3Value);
                 $criteria->compare('RequestFromEB',$this->RequestFromEB);
-                
+                $criteria->compare('SepcialityID',$this->SepcialityID);
               
                 
                 $criteria->compare('AtestatValue',$this->AtestatValue);
@@ -215,6 +227,7 @@ class PersonSpecialityView extends CActiveRecord
                 $criteria->compare('QualificationID',$this->QualificationID);
                 $criteria->compare('OlympiadID',$this->OlympiadID);
                 $criteria->compare('RequestFromEB',$this->RequestFromEB);
+                $criteria->compare('SepcialityID',$this->SepcialityID);
               
 //                if (!empty($user) && !empty($user->syspk->QualificationID)) {
 //                    if ($user->syspk->QualificationID > 1) {
@@ -259,6 +272,7 @@ class PersonSpecialityView extends CActiveRecord
                 $criteria->compare('CoursedpID',$this->CoursedpID);
                 $criteria->compare('QualificationID',$this->QualificationID);
                 $criteria->compare('OlympiadID',$this->OlympiadID);
+                $criteria->compare('SepcialityID',$this->SepcialityID);
                 if (!empty($this->CreateDate)){
                     $criteria->addBetweenCondition('CreateDate', date('Y-m-d', strtotime($this->CreateDate)), date('Y-m-d', strtotime($this->CreateDate))." 23:59:59");
                 }
@@ -270,6 +284,7 @@ class PersonSpecialityView extends CActiveRecord
 //                         $criteria->compare('QualificationID',$user->syspk->QualificationID);
 //                    }
 //                }
+               //$criteria->order= "PersonRequestNumber";
 	       return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
                         'pagination'=>array(
