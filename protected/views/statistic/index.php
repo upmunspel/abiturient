@@ -198,6 +198,41 @@
 </div>
  
 
+
+
+<div class="form" style="display: none;">
+    <h3>Телефони абітуріентів</h3>
+<?php 
+  $model = new PersonContactsView();
+  $form=$this->beginWidget('CActiveForm', array(
+	
+	'enableAjaxValidation'=>false,
+        'method'=>"get",
+        'action'=>Yii::app()->createUrl("personcontactsview"),
+)); ?>
+<div class="row-fluid">
+    
+    <div class="span6">
+	<?php echo $form->labelEx($model,'SepcialityID'); ?>
+	<?php echo $form->dropDownList($model,'SepcialityID', Specialities::DropDown(0),
+                        array(  'empty'=>'',  'class'=>"span12") ); ?>
+    </div>
+      
+</div>
+    <hr>
+    <div class="row-fluid">
+     <?php $this->widget("bootstrap.widgets.TbButton", array(
+			'buttonType'=>'submit',
+			'type'=>'primary',
+                         "size"=>"large",
+			'label'=>'Показати',
+                        )); 
+               
+     ?>
+    </div>
+<?php $this->endWidget(); ?>
+</div>
+
 <script>
     $(document).ready(function(){
         
