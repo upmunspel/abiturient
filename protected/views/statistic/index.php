@@ -200,7 +200,7 @@
 
 
 
-<div class="form" style="">
+<div class="form" style="display: none;">
     <h3>Телефони абітуріентів</h3>
 <?php 
   $model = new PersonContactsView();

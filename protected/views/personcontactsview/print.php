@@ -45,7 +45,9 @@
     <table border=1 cellspacing=0 width="100%">
         <tr>
             <th width="30">№</th>
+            <th>Справа</th>
             <th>ФІО</th>
+            
             <th>Спеціальність</th>
             <th>Контакти</th>
          </tr>
@@ -59,9 +61,13 @@
                  <td align="center" ><?php
                 echo $i+1;
             ?></td>
+            <td align="center"><?php
+                echo str_pad($table_data[$i]->getAttribute("RequestNumber"), 5, "0", STR_PAD_LEFT);
+            ?></td>
             <td><?php
                 echo $table_data[$i]->getAttribute('FIO');
             ?></td>
+        
             <td><?php
                 echo $table_data[$i]->getAttribute('SpecName');
             ?></td>
