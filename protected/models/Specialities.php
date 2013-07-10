@@ -111,4 +111,5 @@ class Specialities extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+      
 }
