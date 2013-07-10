@@ -230,7 +230,7 @@ WHERE  `SpecialitySpecializationName` <>  \"\" AND FacultetID=__FacultetID__
 ";
 
 $gen_counts_query = "
-SELECT (SELECT COUNT(idPersonSpeciality) FROM specialities 
+SELECT (SELECT COUNT(DISTINCT idPersonSpeciality) FROM specialities 
 JOIN personspeciality ON 
 personspeciality.SepcialityID=specialities.idSpeciality
 JOIN person ON
@@ -239,7 +239,7 @@ WHERE MID(specialities.SpecialityClasifierCode,1,1) ='".$OKR."' AND
  specialities.PersonEducationFormID=1 AND 
 MID(personspeciality.CreateDate,1,10) = MID(__DATE__,1,10) /**/) as `all-dnevn-XX.07.2013`,
 
-(SELECT COUNT(idPersonSpeciality) FROM specialities 
+(SELECT COUNT(DISTINCT idPersonSpeciality) FROM specialities 
 JOIN personspeciality ON 
 personspeciality.SepcialityID=specialities.idSpeciality
 LEFT JOIN personbenefits
@@ -253,7 +253,7 @@ WHERE MID(specialities.SpecialityClasifierCode,1,1) ='".$OKR."' AND
 MID(personspeciality.CreateDate,1,10) = MID(__DATE__,1,10) /**/ 
 AND benefit.isPZK=1) as `all-dnevn-pzk-XX.07.2013`,
 
-(SELECT COUNT(idPersonSpeciality) FROM specialities 
+(SELECT COUNT(DISTINCT idPersonSpeciality) FROM specialities 
 JOIN personspeciality ON 
 personspeciality.SepcialityID=specialities.idSpeciality
 LEFT JOIN personbenefits
@@ -267,7 +267,7 @@ WHERE MID(specialities.SpecialityClasifierCode,1,1) ='".$OKR."' AND
 MID(personspeciality.CreateDate,1,10) = MID(__DATE__,1,10) /**/  
 AND benefit.isPV=1) as `all-dnevn-pv-XX.07.2013`,
 
-(SELECT COUNT(idPersonSpeciality) FROM specialities 
+(SELECT COUNT(DISTINCT idPersonSpeciality) FROM specialities 
 JOIN personspeciality ON 
 personspeciality.SepcialityID=specialities.idSpeciality
 JOIN person ON
@@ -276,7 +276,7 @@ WHERE MID(specialities.SpecialityClasifierCode,1,1) ='".$OKR."' AND
  specialities.PersonEducationFormID=2 AND 
 MID(personspeciality.CreateDate,1,10) = MID(__DATE__,1,10) /**/) as `all-zaochn-XX.07.2013`,
 
-(SELECT COUNT(idPersonSpeciality) FROM specialities 
+(SELECT COUNT(DISTINCT idPersonSpeciality) FROM specialities 
 JOIN personspeciality ON 
 personspeciality.SepcialityID=specialities.idSpeciality
 LEFT JOIN personbenefits
@@ -290,7 +290,7 @@ WHERE MID(specialities.SpecialityClasifierCode,1,1) ='".$OKR."' AND
 MID(personspeciality.CreateDate,1,10) = MID(__DATE__,1,10) /**/  
 AND benefit.isPZK=1) as `all-zaochn-pzk-XX.07.2013`,
 
-(SELECT COUNT(idPersonSpeciality) FROM specialities 
+(SELECT COUNT(DISTINCT idPersonSpeciality) FROM specialities 
 JOIN personspeciality ON 
 personspeciality.SepcialityID=specialities.idSpeciality
 LEFT JOIN personbenefits

@@ -101,7 +101,7 @@ class StatisticController extends Controller
  
         public function actionViewY()
 	{
-                $this->layout='//layouts/main_1';
+                $this->layout='//layouts/clear';
 		$this->render('statisticy');
 	}
 }
