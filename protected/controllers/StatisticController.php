@@ -29,7 +29,7 @@ class StatisticController extends Controller
 	{
 		return array(
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('index', 'View', 'Print', "Sverka","ViewEx"),
+				'actions'=>array('index', 'View', 'Print', "Sverka","ViewEx", "ViewY"),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -99,4 +99,9 @@ class StatisticController extends Controller
 		$this->render('statisticx');
 	}
  
+        public function actionViewY()
+	{
+                $this->layout='//layouts/main_1';
+		$this->render('statisticy');
+	}
 }

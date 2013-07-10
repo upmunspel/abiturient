@@ -292,7 +292,7 @@ $distinct_persons_all = mysql_fetch_assoc($distinct_persons_all_res);
 ?>
 <center>
 <h1>
-Кількість абітурієнтів<br/>
+Кількість заявок абітурієнтів<br/>
 Освітньо-кваліфікаційний рівень "<?php
 switch ($OKR) {
 case 6: echo "Бакалавр";break;
