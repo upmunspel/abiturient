@@ -108,7 +108,7 @@
 
 <h3>Звіт для загальної перевірки</h3>
  <label for ="forprint" > 
-    <?php echo Chtml::checkBox("forprint", false, array("onchange"=>"$('.forsceen').toggle(); $('.forprint').toggle();")); ?>
+    <?php echo Chtml::checkBox("forprint", false, array("id"=>"forprint", "onchange"=>"$('.forsceen').toggle(); $('.forprint').toggle();")); ?>
      Формувати звіт для друку
  </label> 
 <br>
@@ -139,11 +139,16 @@
 	<?php echo $form->labelEx($model,'QualificationID'); ?>
 	<?php echo $form->dropDownList($model,'QualificationID', CHtml::listData(Qualifications::model()->findAll(), 'idQualification', 'QualificationName'), array('empty'=>'', 'class'=>"span12",)); ?>
     </div>
-    <div class="span2">
+    <div class="span3">
+	<?php echo $form->labelEx($model,'SepcialityID'); ?>
+	<?php echo $form->dropDownList($model,'SepcialityID', Specialities::DropDown(0),
+                        array(  'empty'=>'',  'class'=>"span12") ); ?>
+    </div>
+    <div class="span1">
         <?php echo $form->labelEx($model,'isCopyEntrantDoc'); ?>
 	<?php echo $form->dropDownList($model,'isCopyEntrantDoc',array(0=>"ні", 1=>"так"), array('empty'=>'', 'class'=>"span12",)); ?>
     </div>
-    <div class ="span3">
+    <div class ="span2">
          <?php   
             $cdpfilter = array(">1"=>"будь-яка", "<1"=>"немає");
             foreach (CHtml::listData(Coursedp::model()->findAll(), "idCourseDP", "CourseDPName") as $key=>$val){
@@ -156,13 +161,24 @@
          echo $form->labelEx($model,'CoursedpID'); ?>
          <?php   echo $form->dropDownList($model,'CoursedpID',$cdpfilter, array('empty'=>'', 'class'=>"span12",)); ?>
     </div>
-    <div class ="span3">
+    <div class ="span2">
          <?php   echo $form->labelEx($model,'OlympiadID'); ?>
          <?php   echo $form->dropDownList($model,'OlympiadID',$olympfilter,  array('empty'=>'', 'class'=>"span12",)); ?>
     </div>
     
     <div class="span2">
         <?php echo $form->labelEx($model,'CreateDate'); ?>
+        
+       <?php /*$this->widget('zii.widgets.jui.CJuiDatePicker', array(
+            'name'=>'CreateDate',
+            // additional javascript options for the date picker plugin
+            'options'=>array(
+                'showAnim'=>'fold',
+            ),
+            'htmlOptions'=>array(
+                'style'=>'height:20px;'
+            ),
+        )); */?>
 	<?php echo $form->textField($model,'CreateDate',array("class"=>"span12 datepicker")); ?>
     </div>
     
@@ -184,6 +200,16 @@
 
 <script>
     $(document).ready(function(){
+        
        $(".datepicker").datepicker({'format':"dd.mm.yyyy"});
+     
+     
+       if ($("#forprint").prop("checked")) {
+           $('.forprint').show();
+           $('.forsceen').hide();
+       } else {
+           $('.forprint').hide();
+           $('.forsceen').show();
+       }
     });
 </script>
