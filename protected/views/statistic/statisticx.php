@@ -74,12 +74,12 @@ mysql_query("SET NAMES utf8");$QUERY_COUNT++;
 
 //Конвертація дати у формат дд.мм.рррр --> рррр-мм-дд
 //DEFAULT: поточна дата
-$cday_from = date("d");
-$date_from = date("Y-m-d");
+$cday_from = '1';
+$date_from = '2013-07-01';
 $cday_to = date("d");
 $date_to = date("Y-m-d");
 
-if (isset($_GET['date_from'])){
+if (isset($_GET['date_from']) && !empty($_GET['date_from'])){
 	if (preg_match("/([0-9]{2,2})\.([0-9]{2,2})\.([0-9]{4,4})/",$_GET['date_from'])){
 		$cday_from = preg_replace("/([0-9]{2,2})\.([0-9]{2,2})\.([0-9]{4,4})/","$1",$_GET['date_from']);
 		$date_from = preg_replace("/([0-9]{2,2})\.([0-9]{2,2})\.([0-9]{4,4})/","$3-$2-$1",$_GET['date_from']);
@@ -89,7 +89,7 @@ if (isset($_GET['date_from'])){
 		$cday_from = $mcday[2];
 	}
 }
-if (isset($_GET['date_to'])){
+if (isset($_GET['date_to'])  && !empty($_GET['date_to'])){
 	if (preg_match("/([0-9]{2,2})\.([0-9]{2,2})\.([0-9]{4,4})/",$_GET['date_to'])){
 		$cday_to = preg_replace("/([0-9]{2,2})\.([0-9]{2,2})\.([0-9]{4,4})/","$1",$_GET['date_to']);
 		$date_to = preg_replace("/([0-9]{2,2})\.([0-9]{2,2})\.([0-9]{4,4})/","$3-$2-$1",$_GET['date_to']);
@@ -134,11 +134,23 @@ MID(specialities.SpecialityClasifierCode,1,1)='".$OKR."';";
 
 $query_counts = "select 
 
-sum(specialities.PersonEducationFormID=1 AND 
-MID(personspeciality.CreateDate,1,10) = MID(__DATE__,1,10)) AS B_dnevn_per_day, 
+(SELECT COUNT(DISTINCT CONCAT_WS(' ',person.FirstName,person.MiddleName,person.LastName)) FROM specialities 
+JOIN personspeciality ON 
+personspeciality.SepcialityID=specialities.idSpeciality
+JOIN person ON
+personspeciality.PersonID=person.idPerson 
+WHERE specialities.SpecialityClasifierCode ='__CODE__' AND 
+specialities.FacultetID=__FacultetID__  AND specialities.PersonEducationFormID=1 AND 
+MID(personspeciality.CreateDate,1,10) = MID(__DATE__,1,10) /**/) AS B_dnevn_per_day, 
 
-sum(specialities.PersonEducationFormID=2 AND 
-MID(personspeciality.CreateDate,1,10) = MID(__DATE__,1,10)) AS B_zaoch_per_day
+(SELECT COUNT(DISTINCT CONCAT_WS(' ',person.FirstName,person.MiddleName,person.LastName)) FROM specialities 
+JOIN personspeciality ON 
+personspeciality.SepcialityID=specialities.idSpeciality
+JOIN person ON
+personspeciality.PersonID=person.idPerson 
+WHERE specialities.SpecialityClasifierCode ='__CODE__' AND 
+specialities.FacultetID=__FacultetID__  AND specialities.PersonEducationFormID=2 AND 
+MID(personspeciality.CreateDate,1,10) = MID(__DATE__,1,10) /**/) AS B_zaoch_per_day
 
 FROM specialities 
 JOIN personspeciality ON 
@@ -153,13 +165,19 @@ WHERE  `SpecialitySpecializationName` <>  \"\" AND FacultetID=__FacultetID__
 ";
 
 $gen_counts_query = "
-SELECT SUM(specialities.PersonEducationFormID = 1
-AND SUBSTRING(specialities.SpecialityClasifierCode,1,1) = '".$OKR."'
-AND SUBSTRING(CreateDate,1,10)=SUBSTRING(__DATE__,1,10)) as `all-dnevn-XX.07.2013`,
+SELECT (SELECT COUNT(idPersonSpeciality) FROM specialities 
+JOIN personspeciality ON 
+personspeciality.SepcialityID=specialities.idSpeciality
+WHERE MID(specialities.SpecialityClasifierCode,1,1) ='".$OKR."' AND 
+ specialities.PersonEducationFormID=1 AND 
+MID(personspeciality.CreateDate,1,10) = MID(__DATE__,1,10) /**/) as `all-dnevn-XX.07.2013`,
 
-SUM(specialities.PersonEducationFormID = 2
-AND SUBSTRING(specialities.SpecialityClasifierCode,1,1) = '".$OKR."'
-AND SUBSTRING(CreateDate,1,10)=SUBSTRING(__DATE__,1,10)) as `all-zaochn-XX.07.2013`
+(SELECT COUNT(idPersonSpeciality) FROM specialities 
+JOIN personspeciality ON 
+personspeciality.SepcialityID=specialities.idSpeciality
+WHERE MID(specialities.SpecialityClasifierCode,1,1) ='".$OKR."' AND 
+ specialities.PersonEducationFormID=2 AND 
+MID(personspeciality.CreateDate,1,10) = MID(__DATE__,1,10) /**/) as `all-zaochn-XX.07.2013`
 
 FROM
 
@@ -253,6 +271,7 @@ for ($i = 0; $i < mysql_num_rows($res); $i++){
                                     $q = str_replace("__DATE__",$dates[$date_index]['dt'],$query_counts);
                                     $q = str_replace("__CODE__",$spec['SpecialityClasifierCode'],$q);
                                     $q = str_replace("__FacultetID__",$row[$i]['idFacultet'],$q);
+                                    $q = str_replace("/**/"," AND specialities.SpecialitySpecializationName='".$specialization['s_name']."'",$q);
                                     $q .= " AND specialities.SpecialitySpecializationName='".$specialization['s_name']."'";
                                     $res_counts = mysql_query($q);$QUERY_COUNT++;
                                     $count = mysql_fetch_assoc($res_counts);
@@ -325,7 +344,7 @@ for ($date_index = 0; $date_index < $dates_count; $date_index++){
 ?>
 <center>
 <h1>
-Кількість абітурієнтів<br/>
+Кількість заявок абітурієнтів<br/>
 Освітньо-кваліфікаційний рівень "<?php
 switch ($OKR) {
 case 6: echo "Бакалавр";break;

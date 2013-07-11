@@ -198,7 +198,66 @@
 </div>
  
 
+<?php
+//------------------------------------------------------------------------------
+?>
+<div class="form">
+    <h3>Статистика заявок з першочерговим та позаконкурсним вступом</h3>
+<?php 
+  $model = Yii::app()->user->getUserModel();
+  if (empty($model->syspk) || empty($model->syspk->printIP) ) throw new Exception ("Необхідно визначити адресу серверу друку документів!");
+  $ip = $model->syspk->printIP;  
+  $form=$this->beginWidget('CActiveForm', array(
+	'id'=>'stat-pilgi',
+	'enableAjaxValidation'=>false,
+        'method'=>"GET",
+        'action'=>Yii::app()->createUrl("statistic/viewy"),
+)); ?>
+<div class="row-fluid">
+    <div class="span4">
+		<?php echo Chtml::label("Освітньо кваліфікаційний рівень",'okr'); ?>
+		<?php echo CHtml::dropDownList('okr', "", array("6"=>"Бакалавр","7"=>"Специалист","8"=>"Магистр"),array('empty'=>'', 'class'=>"span12")); ?>
+		
+    </div>
+    <div class ="span2">
+                    <?php echo CHtml::label("Початкова дата інтервалу",'date_from',array('style'=>'font-size:8pt;')); ?>
+                    <?php echo CHtml::textField('date_from', "", array('class'=>'span12 datepicker')); ?>
+                    
+    </div>
+    <div class ="span2">
+                    <?php echo CHtml::label("Кінцева дата інтервалу",'date_to',array('style'=>'font-size:8pt;')); ?>
+                    <?php echo CHtml::textField('date_to', "", array('class'=>'span12 datepicker')); ?>
+                    
+    </div>
+    <div class="span4">
+		<?php echo Chtml::label("Секретар",'secname'); ?>
+		<?php echo CHtml::dropDownList('secname', "С.В. Іваненко", array("С.В. Іваненко"=>"С.В. Іваненко", "О.М. Олійник"=>"О.М. Олійник"),array('empty'=>'', 'class'=>"span12")); ?>
+		
+    </div>
+    
+</div>
+    <hr>
 
+    <div class="row-fluid">
+    <label for ="days" > 
+       <?php echo Chtml::checkBox("days", false); ?>
+        По дням
+    </label> 
+     <?php $this->widget("bootstrap.widgets.TbButton", array(
+			'buttonType'=>'submit',
+			'type'=>'primary',
+                         "size"=>"large",
+			'label'=>'Показати',
+                        )); 
+               
+     ?>
+    </div>
+<?php $this->endWidget(); ?>
+</div>
+
+<?php
+//------------------------------------------------------------------------------
+?>
 
 <div class="form" style="display: none;">
     <h3>Телефони абітуріентів</h3>
