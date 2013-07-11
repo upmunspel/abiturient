@@ -328,6 +328,50 @@ class Person extends ActiveRecord
 		));
 	}
         
+        public function PhotoSearch(){
+		// Warning: Please modify the following code to remove attributes that
+		// should not be searched.
+                $user = Yii::app()->user->getUserModel();
+                
+		$criteria=new CDbCriteria;
+
+                if (!empty($user)){
+                   // $criteria->with = 
+                    
+                }
+                
+                $criteria->compare('PhotoName',Yii::app()->params['defaultPersonPhoto']); 
+		$criteria->compare('idPerson',$this->idPerson);
+		$criteria->compare('Birthday',$this->Birthday,true);
+		$criteria->compare('PersonSexID',$this->PersonSexID);
+		$criteria->compare('FirstName',$this->FirstName,true);
+		$criteria->compare('MiddleName',$this->MiddleName,true);
+		$criteria->compare('LastName',$this->LastName,true);
+		$criteria->compare('KOATUUCodeL1ID',$this->KOATUUCodeL1ID);
+		$criteria->compare('KOATUUCodeL2ID',$this->KOATUUCodeL2ID);
+		$criteria->compare('KOATUUCodeL3ID',$this->KOATUUCodeL3ID);
+		$criteria->compare('IsResident',$this->IsResident);
+		$criteria->compare('PersonEducationTypeID',$this->PersonEducationTypeID);
+		$criteria->compare('StreetTypeID',$this->StreetTypeID);
+		$criteria->compare('Address',$this->Address,true);
+		$criteria->compare('HomeNumber',$this->HomeNumber,true);
+		$criteria->compare('PostIndex',$this->PostIndex,true);
+		$criteria->compare('SchoolID',$this->SchoolID);
+		$criteria->compare('FirstNameR',$this->FirstNameR,true);
+		$criteria->compare('MiddleNameR',$this->MiddleNameR,true);
+		$criteria->compare('LastNameR',$this->LastNameR,true);
+		$criteria->compare('LanguageID',$this->LanguageID);
+		$criteria->compare('CountryID',$this->CountryID);
+                if (!empty($this->CreateDate)){
+                    $criteria->addBetweenCondition('CreateDate', date('Y-m-d', strtotime($this->CreateDate)), date('Y-m-d', strtotime($this->CreateDate))." 23:59:59");
+                }
+                
+                //$criteria->compare('CreateDate',$this->CreateDate);
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+		));
+	}
+        
         /**
          *  Возвращает массив найденых в edbo персон
          *  Сохраняет результат в сесии с именем "edboResult"
