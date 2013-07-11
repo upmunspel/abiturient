@@ -29,7 +29,7 @@ class StatisticController extends Controller
 	{
 		return array(
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('index', 'View', 'Print', "Sverka","ViewEx", "ViewY"),
+				'actions'=>array('index', 'View', 'Print', "Sverka","ViewEx", "ViewY", "Originals","ViewBC", "Statisticallname", "Stateb", "Statebperson"),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -103,5 +103,32 @@ class StatisticController extends Controller
 	{
                 $this->layout='//layouts/clear';
 		$this->render('statisticy');
+	}
+        
+        public function actionOriginals()
+	{
+                $this->layout='//layouts/clear';
+		$this->render('originals');
+	}
+        
+        public function actionViewBC()
+	{
+                $this->layout='//layouts/clear';
+		$this->render('statistic_budget_contract');
+	}
+        public function actionStatisticallname()
+	{
+		$this->layout='//layouts/clear';
+		$this->render('Statisticallname');
+	}
+        public function actionStateb()
+	{
+		$this->layout='//layouts/clear';
+		$this->render('stateb');
+	}
+        public function actionStatebperson()
+	{
+		$this->layout='//layouts/clear';
+		$this->render('statebperson');
 	}
 }

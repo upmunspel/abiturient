@@ -40,6 +40,12 @@ class Bootstrap extends CApplicationComponent
 	 */
 	public $forceCopyAssets = false;
 
+	/**
+	 * @var CClientScript Something which can register assets for later inclusion on page.
+	 * For now it's just the `Yii::app()->clientScript`
+	 */
+	public $assetsRegistry;
+	
 	protected $_assetsUrl;
 
 	/**
@@ -317,4 +323,13 @@ class Bootstrap extends CApplicationComponent
     {
         return '2.0.3';
     }
+	
+	public function registerAssetJs($name, $position = CClientScript::POS_END)
+	{
+	
+		if (!$this->assetsRegistry)
+			$this->assetsRegistry = Yii::app()->getClientScript();
+		$this->assetsRegistry->registerScriptFile($this->getAssetsUrl() . "/js/{$name}", $position);
+	}
+	
 }
