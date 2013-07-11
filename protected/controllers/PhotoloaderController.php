@@ -148,9 +148,13 @@ class PhotoloaderController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('PersonSexTypes');
+		$model=new Person('search');
+		$model->unsetAttributes();  // clear any default values
+		if(isset($_GET['Person']))
+			$model->attributes=$_GET['Person'];
+
 		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
+			'model'=>$model,
 		));
 	}
 

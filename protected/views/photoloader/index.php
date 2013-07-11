@@ -4,34 +4,18 @@ $this->renderPartial("_search");
 ?>
 <p>Перелік абітуріентів без фотографій.</p>
 <?php 
-$dataProvider=new CActiveDataProvider('Person', array('criteria'=>array(
-    'condition'=>"PhotoName = '".Yii::app()->params['defaultPersonPhoto']."'",
-    //'order'=>'create_time DESC',
-//    'with'=>array('type'),
-    ),
-//    'sort' =>array(
-//            'attributes' =>array(
-//                    'type'=>array(
-//                                    'asc'=>'type.PersonDocumentTypesName',
-//                                    'desc'=>'type.PersonDocumentTypesName DESC',
-//                            ),
-//                    '*',
-//            ),
-//        ),
-//    'pagination'=>array(
-//        'pageSize'=>10,
-//    )
-));
+
 
 $this->widget('bootstrap.widgets.TbGridView',array(
 	'id'=>'person-grid',
         'type'=>'striped bordered condensed',
-	'dataProvider'=>$dataProvider,
-	//'filter'=>$dataProvider,
+	'dataProvider'=>$model->PhotoSearch(),
+	'filter'=>$model,
 	'columns'=>array(
         array('name'=>'idPerson', 'header'=>'Код', 'htmlOptions'=>array('style'=>'width: 50px')),
-        array('name'=>'FirstName', 'header'=>'Прізвище'),
-        array('name'=>'LastName', 'header'=>"Ім'я"),
+        array('name'=>'LastName', 'header'=>"Прізвище"),
+        array('name'=>'FirstName', 'header'=>"Ім'я"),
+       
         array('name'=>'MiddleName', 'header'=>'По батькові'),
         array('name'=>'Birthday', 'header'=>'Дата народження', 'htmlOptions'=>array('style'=>'width: 150px')),   
 		/*'idPerson',
@@ -51,31 +35,23 @@ $this->widget('bootstrap.widgets.TbGridView',array(
 		*/
 	array(
             'class'=>'bootstrap.widgets.TbButtonColumn',
-            'template'=>'{update}{view}',
+            'template'=>'{update}',
             'buttons'=>array
             (
                 
                 'update' => array(
-                    'label'=>'Редагувати',
+                    'label'=>'Змінити фото абітуріента',
                     'icon'=>'pencil',
-                    'url'=>'Yii::app()->createUrl("person/update", array("id"=>$data->idPerson))',
+                    'url'=>'Yii::app()->createUrl("photoloader/update", array("id"=>$data->idPerson))',
                     'options'=>array(
                         'class'=>'btn',
                         //'onclick'=>"PSN.editDoc(this); return false;",
                     ),
                  ),
-               'view' => array(
-                    'label'=>'Параметри вступу',
-                    'icon'=>'icon-th-list',
-                    'url'=>'Yii::app()->createUrl("person/view", array("id"=>$data->idPerson))',
-                    'options'=>array(
-                        'class'=>'btn',
-                        
-                    ),
-                ),
+              
             ),
             'htmlOptions'=>array(
-                'style'=>'width: 90px;',
+                'style'=>'width: 45px;',
             ),
           )
 	),
