@@ -53,7 +53,7 @@
 <?php $this->endWidget(); ?>
 </div>
 
-<br>
+<br/>
 <h3>Cтатистика заяв абітуріентів за напрямками (обраний інтервал)</h3>
 <div class="form">
 <?php 
@@ -103,7 +103,7 @@
     </div>
 <?php $this->endWidget(); ?>
 </div>
- 
+ <br/>
 
 
 <h3>Звіт для загальної перевірки</h3>
@@ -123,7 +123,7 @@
                
      ?>
 </div>
- 
+
  <div class="form forprint" style="display: none;">
 <?php 
   $model = new PersonSpecialityView();
@@ -197,6 +197,7 @@
 <?php $this->endWidget(); ?>
 </div>
  
+ <br/>
 
 <?php
 //------------------------------------------------------------------------------
@@ -259,6 +260,146 @@
 //------------------------------------------------------------------------------
 ?>
 
+ <br/>
+ 
+<div clas="form">
+    <h3>Графік прийому документів</h3>
+    <a class="btn btn-primary btn-large" href='<?php echo Yii::app()->createUrl('personspeccounts'); ?>'>Показати</a>
+</div>
+
+<?php
+//------------------------------------------------------------------------------
+?>
+ <br/>
+ <div class="form">
+     <h3>Статистика заявок з поданням оригіналів</h3>
+<?php 
+  $model = Yii::app()->user->getUserModel();
+  if (empty($model->syspk) || empty($model->syspk->printIP) ) throw new Exception ("Необхідно визначити адресу серверу друку документів!");
+  $ip = $model->syspk->printIP;  
+  $act = Yii::app()->createUrl("statistic/originals");
+  $form=$this->beginWidget('CActiveForm', array(
+	'id'=>'rept-originals',
+	'enableAjaxValidation'=>false,
+        'method'=>"GET",
+        'action'=>$act,
+)); ?>
+<div class="row-fluid">
+    <div class="span6">
+		<?php echo Chtml::label("Освітньо кваліфікаційний рівень",'okr'); ?>
+		<?php echo CHtml::dropDownList('okr', "", array("6"=>"Бакалавр","7"=>"Специалист","8"=>"Магистр"),array('empty'=>'', 'class'=>"span12")); ?>
+		
+    </div>
+   
+</div>
+    <hr>
+    <div class="row-fluid">
+     <?php $this->widget("bootstrap.widgets.TbButton", array(
+			'buttonType'=>'submit',
+			'type'=>'primary',
+                         "size"=>"large",
+			'label'=>'Показати',
+                        )); 
+               
+     ?>
+    </div>
+<?php $this->endWidget(); ?>
+</div>
+ 
+ 
+ 
+<?php
+//------------------------------------------------------------------------------
+?>
+ <br/>
+ <div class="form">
+     <h3>Статистика заявок абітурієнтів (бюджет / контракт) </h3>
+<?php 
+  $model = Yii::app()->user->getUserModel();
+  if (empty($model->syspk) || empty($model->syspk->printIP) ) throw new Exception ("Необхідно визначити адресу серверу друку документів!");
+  $ip = $model->syspk->printIP;  
+  $act = Yii::app()->createUrl("statistic/viewbc");
+  $form=$this->beginWidget('CActiveForm', array(
+	'id'=>'rept-originals',
+	'enableAjaxValidation'=>false,
+        'method'=>"GET",
+        'action'=>$act,
+)); ?>
+<div class="row-fluid">
+    <div class="span4">
+		<?php echo Chtml::label("Освітньо кваліфікаційний рівень",'okr'); ?>
+		<?php echo CHtml::dropDownList('okr', "", array("6"=>"Бакалавр","7"=>"Специалист","8"=>"Магистр"),array('empty'=>'', 'class'=>"span12")); ?>
+		
+    </div>
+    <div class ="span2">
+                    <?php echo CHtml::label("Початкова дата інтервалу",'date_from',array('style'=>'font-size:8pt;')); ?>
+                    <?php echo CHtml::textField('date_from', "", array('class'=>'span12 datepicker')); ?>
+                    
+    </div>
+    <div class ="span2">
+                    <?php echo CHtml::label("Кінцева дата інтервалу",'date_to',array('style'=>'font-size:8pt;')); ?>
+                    <?php echo CHtml::textField('date_to', "", array('class'=>'span12 datepicker')); ?>
+                    
+    </div>    
+</div>
+    <hr>
+    <div class="row-fluid">
+     <?php $this->widget("bootstrap.widgets.TbButton", array(
+			'buttonType'=>'submit',
+			'type'=>'primary',
+                         "size"=>"large",
+			'label'=>'Показати',
+                        )); 
+               
+     ?>
+    </div>
+<?php $this->endWidget(); ?>
+</div>
+ 
+ 
+
+ 
+<?php
+//------------------------------------------------------------------------------
+?>
+ <br/>
+ <div class="form">
+     <h3>Статистика заявок абітурієнтів (електронні заявки) </h3>
+<?php 
+  $model = Yii::app()->user->getUserModel();
+  if (empty($model->syspk) || empty($model->syspk->printIP) ) throw new Exception ("Необхідно визначити адресу серверу друку документів!");
+  $ip = $model->syspk->printIP;  
+  $act = Yii::app()->createUrl("statistic/stateb");
+  $form=$this->beginWidget('CActiveForm', array(
+	'id'=>'rept-originals',
+	'enableAjaxValidation'=>false,
+        'method'=>"GET",
+        'action'=>$act,
+)); ?>
+<div class="row-fluid">
+    <div class="span6">
+		<?php echo Chtml::label("Освітньо кваліфікаційний рівень",'okr'); ?>
+		<?php echo CHtml::dropDownList('okr', "", array("6"=>"Бакалавр","7"=>"Специалист","8"=>"Магистр"),array('empty'=>'', 'class'=>"span12")); ?>
+		
+    </div>  
+</div>
+    <hr>
+    <div class="row-fluid">
+     <?php $this->widget("bootstrap.widgets.TbButton", array(
+			'buttonType'=>'submit',
+			'type'=>'primary',
+                         "size"=>"large",
+			'label'=>'Показати',
+                        )); 
+               
+     ?>
+    </div>
+<?php $this->endWidget(); ?>
+</div> 
+ 
+ 
+
+ 
 <div class="form" style="display: none;">
     <h3>Телефони абітуріентів</h3>
 <?php 

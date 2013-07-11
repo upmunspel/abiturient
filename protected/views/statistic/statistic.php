@@ -121,7 +121,8 @@ STR_TO_DATE('2013-12-21 23:59:59', '%Y-%m-%d %H:%i:%s')) AS B_zaoch_all
 FROM specialities 
 JOIN personspeciality ON 
 personspeciality.SepcialityID=specialities.idSpeciality 
-WHERE specialities.SpecialityClasifierCode ='__CODE__' AND 
+WHERE specialities.SpecialityClasifierCode ='__CODE__' AND
+personspeciality.StatusID <> 3 AND
 specialities.FacultetID=__FacultetID__ ";
 
 $query_specializationsCodes = "
@@ -276,7 +277,9 @@ FROM
 specialities JOIN facultets
 ON facultets.idFacultet = specialities.FacultetID
 LEFT JOIN personspeciality
-ON specialities.idSpeciality=personspeciality.SepcialityID;";
+ON specialities.idSpeciality=personspeciality.SepcialityID
+WHERE  1 AND
+personspeciality.StatusID <> 3;";
 
 $gen_counts_query = str_replace("__DATE__",$date,$gen_counts_query);
 $gen_counts_res = mysql_query($gen_counts_query);$QUERY_COUNT++;
