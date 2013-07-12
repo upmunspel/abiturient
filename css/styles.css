@@ -16,3 +16,6 @@
 .modal.fade.in {
     top: 5% !important;
 }
+.row-reset {
+    color: blue;
+}

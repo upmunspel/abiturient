@@ -1,6 +1,10 @@
 <?php  /* END PRINT SPEC LIST */ 
+$cond = "PersonID=$personid and StatusID <> 3 ";
+if (Yii::app()->user->checkAccess("updateAllPost")) {
+    $cond = "PersonID=$personid";
+}
 $dataProvider=new CActiveDataProvider("Personspeciality", array('criteria'=>array(
-    'condition'=>"PersonID=$personid and StatusID <> 3 ",
+    'condition'=>$cond,
     //'order'=>'RequestNumber DESC',
     'with'=>array('sepciality',"educationForm"),
     ),
@@ -47,7 +51,7 @@ $dataProvider=new CActiveDataProvider("Personspeciality", array('criteria'=>arra
     'type'=>'striped bordered condensed',
     'dataProvider'=>$dataProvider,
     'template'=>"{items}",
-    'rowCssClassExpression'=>'empty($data->edboID)?"row-red":"row-green"',
+    'rowCssClassExpression'=>'(empty($data->edboID) ? "row-red" : "row-green").(($data->StatusID == 3) ? " row-reset":"") ',
     'columns'=>array(
         //"idPersonSpeciality",
         array('name'=>'PersonRequestNumber', "htmlOptions"=>array("style"=>"width: 150px"),  'value' => '$data->RequestPrefix.str_pad($data->PersonRequestNumber, 5, "0", STR_PAD_LEFT)'),
@@ -127,7 +131,13 @@ $dataProvider=new CActiveDataProvider("Personspeciality", array('criteria'=>arra
     )
 ); 
 ?>   
-
+<hr>
+<div style="font-weight: bold;">Статуси заявок:<div>
+    <ul>
+        <li>Не синхронізована</li>
+        <li style="color: green;">Синхроніхована</li>
+        <li style="color: blue;" >Скасована</li>
+    </ul>
 </div><!-- form -->
 <script type="text/javascript">
 /*<![CDATA[*/
