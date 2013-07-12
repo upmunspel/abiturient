@@ -155,9 +155,10 @@ $form= new TbActiveForm();
         <div class="row-fluid">
            
             <div class="span2">
-		<?php echo $form->labelEx($model,'QualificationID'); ?>
+		<?php echo $form->hiddenField($model,'QualificationID'); 
+                      echo $form->labelEx($model,'QualificationID'); ?>
 		<?php echo $form->dropDownList($model,'QualificationID',CHtml::listData(Qualifications::model()->findAll(), 'idQualification', 'QualificationName'),
-                        array('empty'=>'', 'readonly'=>!$model->isNewRecord ,'class'=>"span12")); ?>
+                        array('empty'=>'', 'disabled'=>!$model->isNewRecord ,'class'=>"span12")); ?>
 		<?php //echo $form->error($model,'QualificationID'); ?>
             </div>
             
