@@ -37,7 +37,10 @@ $this->menu=array(
 )); */?>
 </div><!-- search-form -->
 
-<?php $this->widget('bootstrap.widgets.TbGroupGridView', array(
+<?php 
+
+$edt = CHtml::listData(Personeducationforms::model()->findAll(), 'idPersonEducationForm','PersonEducationFormName');
+$this->widget('bootstrap.widgets.TbGroupGridView', array(
 'id'=>'person-speciality-view-grid',
     'type'=>'striped bordered condensed',
 'dataProvider'=>$model->search(),
@@ -52,8 +55,11 @@ $this->menu=array(
                 array('name'=>'FIO', 'htmlOptions'=>array('style'=>'width: 250px'),),   
                 //array('name'=>'Birthday', 'htmlOptions'=>array('style'=>'width: 100px'),), 
                 'SpecCodeName',
+    array('name'=>'EducationFormID', 'htmlOptions'=>array('style'=>'width: 70px'), 'filter'=>$edt, 'value'=>'$data->educationform->PersonEducationFormName'), 
+		
 		//'CreateDate',
 		//'idPerson',
+    
                 array('name'=>'isCopyEntrantDoc', 'htmlOptions'=>array('style'=>'width: 70px'), 'filter'=>array('1'=>'так','0'=>'ні'), 'value'=>'($data->isCopyEntrantDoc=="1")?("так"):("ні")'), 
 		
                 //array('name'=>'isContract', 'htmlOptions'=>array('style'=>'width: 70px'), 'filter'=>array('1'=>'так','0'=>'ні'), 'value'=>'($data->isContract=="1")?("так"):("ні")'), 
