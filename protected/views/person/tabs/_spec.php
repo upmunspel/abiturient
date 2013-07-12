@@ -3,7 +3,7 @@ $cond = "PersonID=$personid and StatusID <> 3 ";
 if (Yii::app()->user->checkAccess("updateAllPost")) {
     $cond = "PersonID=$personid";
 }
-$dataProvider=new CActiveDataProvider("Personspeciality", array('criteria'=>array(
+$dataProvider=new CActiveDataProvider( "Personspeciality", array('criteria'=>array(
     'condition'=>$cond,
     //'order'=>'RequestNumber DESC',
     'with'=>array('sepciality',"educationForm"),
