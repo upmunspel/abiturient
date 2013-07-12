@@ -139,7 +139,7 @@ echo "<tr >"."<td>№"."</td>"."<td>"."Професійне спрямуванн
            if($j==2){
                $idSpec = $row[$i]['idSpec'];
                $queryDay = "SELECT count(*) as countSpec
-			   FROM `personspeciality`  WHERE personspeciality.EducationFormID = 1 and SepcialityID =".$idSpec."";
+			   FROM `personspeciality`  WHERE personspeciality.StatusID<>3 AND personspeciality.EducationFormID = 1 and SepcialityID =".$idSpec."";
                $tmp = mysql_query($queryDay);
                $cur[$i] = mysql_fetch_assoc($tmp);
                $sum[$j] = $cur[$i]['countSpec'];
@@ -150,7 +150,7 @@ echo "<tr >"."<td>№"."</td>"."<td>"."Професійне спрямуванн
               
                $idSpec = $row[$i]['idSpec'];
                 $queryDay = "SELECT count(*) as countSpec
-			   FROM `personspeciality`  WHERE personspeciality.iscopyentrantdoc = 0 and personspeciality.EducationFormID = 1 and SepcialityID =  ".$idSpec."";
+			   FROM `personspeciality`  WHERE personspeciality.StatusID<>3 AND personspeciality.iscopyentrantdoc = 0 and personspeciality.EducationFormID = 1 and SepcialityID =  ".$idSpec."";
                $tmp = mysql_query($queryDay);
                $cur[$i] = mysql_fetch_assoc($tmp);
                $sum[$j] = $cur[$i]['countSpec'];
@@ -162,7 +162,7 @@ echo "<tr >"."<td>№"."</td>"."<td>"."Професійне спрямуванн
                $idSpec = $row1[$i]['idSpec'];
 		
                 $queryDay = "SELECT count(*) as countSpec
-			   FROM `personspeciality`  WHERE personspeciality.EducationFormID = 2 and SepcialityID =  ".$idSpec."";
+			   FROM `personspeciality`  WHERE personspeciality.StatusID<>3 AND personspeciality.EducationFormID = 2 and SepcialityID =  ".$idSpec."";
                $tmp = mysql_query($queryDay);
                $cur[$i] = mysql_fetch_assoc($tmp);
                $sum[$j] = $cur[$i]['countSpec'];
@@ -175,7 +175,7 @@ echo "<tr >"."<td>№"."</td>"."<td>"."Професійне спрямуванн
            if($j==5){
                $idSpec = $row1[$i]['idSpec'];
                 $queryDay = "SELECT count(*) as countSpec
-			   FROM `personspeciality`  WHERE personspeciality.iscopyentrantdoc = 0 
+			   FROM `personspeciality`  WHERE personspeciality.StatusID<>3 AND personspeciality.iscopyentrantdoc = 0 
                            and personspeciality.EducationFormID = 2 and SepcialityID =  ".$idSpec."";
                $tmp = mysql_query($queryDay);
                $cur[$i] = mysql_fetch_assoc($tmp);

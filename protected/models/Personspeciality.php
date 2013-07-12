@@ -192,6 +192,7 @@ class Personspeciality extends ActiveRecord
                 $c->compare("CourseID", $this->CourseID);
                 $c->select = 'max(RequestNumber) as currentMaxRequestNumber';
                 $res = self::model()->find($c);
+               
                 $this->RequestNumber = $res->currentMaxRequestNumber+1;
             }
             
