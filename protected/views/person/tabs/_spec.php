@@ -1,6 +1,6 @@
 <?php  /* END PRINT SPEC LIST */ 
 $dataProvider=new CActiveDataProvider("Personspeciality", array('criteria'=>array(
-    'condition'=>"PersonID=$personid",
+    'condition'=>"PersonID=$personid and StatusID <> 3 ",
     //'order'=>'RequestNumber DESC',
     'with'=>array('sepciality',"educationForm"),
     ),
