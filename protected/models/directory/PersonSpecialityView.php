@@ -98,7 +98,7 @@ class PersonSpecialityView extends CActiveRecord
 			array('CreateDate, Birthday, isCopyEntrantDoc, AtestatValue,  DocumentSubject1Value,  DocumentSubject2Value,  DocumentSubject3Value, CoursedpID, OlympiadID, OlympiadID', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('idPersonSpeciality, CreateDate, idPerson, Birthday, FIO, isContract, isBudget, SpecCodeName, QualificationID, CourseID, RequestNumber, PersonRequestNumber, CoursedpID, OlympiadID, RequestFromEB, SepcialityID', 'safe', 'on'=>'search'),
+			array('idPersonSpeciality, CreateDate, idPerson, Birthday, FIO, isContract, isBudget, SpecCodeName, QualificationID, CourseID, RequestNumber, PersonRequestNumber, CoursedpID, OlympiadID, RequestFromEB, SepcialityID, EducationFormID', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -113,7 +113,7 @@ class PersonSpecialityView extends CActiveRecord
                       'coursedp' => array(self::BELONGS_TO, 'Coursedp', 'CoursedpID'),
                       'olympiad'=> array(self::BELONGS_TO, 'Olympiadsawards', 'OlympiadID'),
                       'qualification'=> array(self::BELONGS_TO, 'Qualifications', 'QualificationID'),
-                    
+                      'educationform'=>array(self::BELONGS_TO, 'Personeducationforms', 'EducationFormID'),
 		);
 	}
         
@@ -146,6 +146,7 @@ class PersonSpecialityView extends CActiveRecord
                     'QualificationID'=>'Рівень',
                     "RequestFromEB"=>"Ел. заява",
                     "SepcialityID"=>"Спеціальність",
+                    "EducationFormID"=>"Форма",
 		);
 	}
 
@@ -180,7 +181,8 @@ class PersonSpecialityView extends CActiveRecord
                 $criteria->compare('DocumentSubject3Value',$this->DocumentSubject3Value);
                 $criteria->compare('RequestFromEB',$this->RequestFromEB);
                 $criteria->compare('SepcialityID',$this->SepcialityID);
-              
+                $criteria->compare('EducationFormID',$this->EducationFormID);
+                
                 
                 $criteria->compare('AtestatValue',$this->AtestatValue);
               
