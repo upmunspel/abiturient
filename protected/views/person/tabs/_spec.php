@@ -132,7 +132,7 @@ $dataProvider=new CActiveDataProvider("Personspeciality", array('criteria'=>arra
 ); 
 ?>   
 <hr>
-<div style="font-weight: bold;">Статуси заявок:<div>
+<div style="font-weight: bold;">Статуси заявок:</div>
     <ul>
         <li>Не синхронізована</li>
         <li style="color: green;">Синхроніхована</li>
