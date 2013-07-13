@@ -55,13 +55,13 @@ class AllCounts extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('ID', 'required'),
-			array('ID', 'numerical', 'integerOnly'=>true),
+			//array('ID', 'numerical', 'integerOnly'=>true),
 			array('Fakultet', 'length', 'max'=>255),
 			array('Specialnost', 'length', 'max'=>216),
 			array('dnevn, dnevn_budget, dnevn_contract, dnevn_pv, dnevn_pzk, dnevn_originals, dnevn_electro, zaoch, zaoch_budget, zaoch_contract, zaoch_pv, zaoch_pzk, zaoch_originals, zaoch_electro, medals', 'length', 'max'=>21),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('ID, Fakultet, Specialnost, dnevn, dnevn_budget, dnevn_contract, dnevn_pv, dnevn_pzk, dnevn_originals, dnevn_electro, zaoch, zaoch_budget, zaoch_contract, zaoch_pv, zaoch_pzk, zaoch_originals, zaoch_electro, medals', 'safe', 'on'=>'search'),
+			array('Fakultet, Specialnost, dnevn, dnevn_budget, dnevn_contract, dnevn_pv, dnevn_pzk, dnevn_originals, dnevn_electro, zaoch, zaoch_budget, zaoch_contract, zaoch_pv, zaoch_pzk, zaoch_originals, zaoch_electro, medals', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -115,16 +115,17 @@ class AllCounts extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('ID',$this->ID);
+                
+		//$criteria->compare('ID',$this->ID);
 		$criteria->compare('Fakultet',$this->Fakultet,true);
 		$criteria->compare('Specialnost',$this->Specialnost,true);
-		$criteria->compare('dnevn',$this->dnevn,true);
-		$criteria->compare('dnevn_budget',$this->dnevn_budget,true);
-		$criteria->compare('dnevn_contract',$this->dnevn_contract,true);
-		$criteria->compare('dnevn_pv',$this->dnevn_pv,true);
-		$criteria->compare('dnevn_pzk',$this->dnevn_pzk,true);
-		$criteria->compare('dnevn_originals',$this->dnevn_originals,true);
-		$criteria->compare('dnevn_electro',$this->dnevn_electro,true);
+		$criteria->compare('dnevn',$this->dnevn);
+		$criteria->compare('dnevn_budget',$this->dnevn_budget);
+		$criteria->compare('dnevn_contract',$this->dnevn_contract);
+		$criteria->compare('dnevn_pv',$this->dnevn_pv);
+		$criteria->compare('dnevn_pzk',$this->dnevn_pzk);
+		$criteria->compare('dnevn_originals',$this->dnevn_originals);
+		$criteria->compare('dnevn_electro',$this->dnevn_electro);
 		$criteria->compare('zaoch',$this->zaoch);
 		$criteria->compare('zaoch_budget',$this->zaoch_budget);
 		$criteria->compare('zaoch_contract',$this->zaoch_contract);
@@ -133,7 +134,7 @@ class AllCounts extends CActiveRecord
 		$criteria->compare('zaoch_originals',$this->zaoch_originals);
 		$criteria->compare('zaoch_electro',$this->zaoch_electro);
 		$criteria->compare('medals',$this->medals);
-
+                
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
                         'pagination'=>array(
@@ -141,4 +142,124 @@ class AllCounts extends CActiveRecord
                         )
 		));
 	}
-}
+        
+	/**
+	 * Retrieves a list of models based on the current search/filter conditions.
+	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+	 */
+	public function searchBachelors()
+	{
+		// Warning: Please modify the following code to remove attributes that
+		// should not be searched.
+
+		$criteria=new CDbCriteria;
+
+                
+		//$criteria->compare('ID',$this->ID);
+		$criteria->compare('Fakultet',$this->Fakultet,true);
+		$criteria->compare('Specialnost',$this->Specialnost,true);
+		$criteria->compare('dnevn',$this->dnevn);
+		$criteria->compare('dnevn_budget',$this->dnevn_budget);
+		$criteria->compare('dnevn_contract',$this->dnevn_contract);
+		$criteria->compare('dnevn_pv',$this->dnevn_pv);
+		$criteria->compare('dnevn_pzk',$this->dnevn_pzk);
+		$criteria->compare('dnevn_originals',$this->dnevn_originals);
+		$criteria->compare('dnevn_electro',$this->dnevn_electro);
+		$criteria->compare('zaoch',$this->zaoch);
+		$criteria->compare('zaoch_budget',$this->zaoch_budget);
+		$criteria->compare('zaoch_contract',$this->zaoch_contract);
+		$criteria->compare('zaoch_pv',$this->zaoch_pv);
+		$criteria->compare('zaoch_pzk',$this->zaoch_pzk);
+		$criteria->compare('zaoch_originals',$this->zaoch_originals);
+		$criteria->compare('zaoch_electro',$this->zaoch_electro);
+		$criteria->compare('medals',$this->medals);
+                $criteria->addCondition("Specialnost LIKE '%6.%'");
+                
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+                        'pagination'=>array(
+                            'pageSize'=>10000,
+                        )
+		));
+	}
+
+  	/**
+	 * Retrieves a list of models based on the current search/filter conditions.
+	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+	 */
+	public function searchSpecialists()
+	{
+		// Warning: Please modify the following code to remove attributes that
+		// should not be searched.
+
+		$criteria=new CDbCriteria;
+
+                
+		//$criteria->compare('ID',$this->ID);
+		$criteria->compare('Fakultet',$this->Fakultet,true);
+		$criteria->compare('Specialnost',$this->Specialnost,true);
+		$criteria->compare('dnevn',$this->dnevn);
+		$criteria->compare('dnevn_budget',$this->dnevn_budget);
+		$criteria->compare('dnevn_contract',$this->dnevn_contract);
+		$criteria->compare('dnevn_pv',$this->dnevn_pv);
+		$criteria->compare('dnevn_pzk',$this->dnevn_pzk);
+		$criteria->compare('dnevn_originals',$this->dnevn_originals);
+		$criteria->compare('dnevn_electro',$this->dnevn_electro);
+		$criteria->compare('zaoch',$this->zaoch);
+		$criteria->compare('zaoch_budget',$this->zaoch_budget);
+		$criteria->compare('zaoch_contract',$this->zaoch_contract);
+		$criteria->compare('zaoch_pv',$this->zaoch_pv);
+		$criteria->compare('zaoch_pzk',$this->zaoch_pzk);
+		$criteria->compare('zaoch_originals',$this->zaoch_originals);
+		$criteria->compare('zaoch_electro',$this->zaoch_electro);
+                $criteria->addCondition("Specialnost LIKE '%7.%'");
+                
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+                        'pagination'=>array(
+                            'pageSize'=>10000,
+                        )
+		));
+	}
+      
+	/**
+	 * Retrieves a list of models based on the current search/filter conditions.
+	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+	 */
+	public function searchMagisters()
+	{
+		// Warning: Please modify the following code to remove attributes that
+		// should not be searched.
+
+		$criteria=new CDbCriteria;
+
+                
+		//$criteria->compare('ID',$this->ID);
+		$criteria->compare('Fakultet',$this->Fakultet,true);
+		$criteria->compare('Specialnost',$this->Specialnost,true);
+		$criteria->compare('dnevn',$this->dnevn);
+		$criteria->compare('dnevn_budget',$this->dnevn_budget);
+		$criteria->compare('dnevn_contract',$this->dnevn_contract);
+		$criteria->compare('dnevn_pv',$this->dnevn_pv);
+		$criteria->compare('dnevn_pzk',$this->dnevn_pzk);
+		$criteria->compare('dnevn_originals',$this->dnevn_originals);
+		$criteria->compare('dnevn_electro',$this->dnevn_electro);
+		$criteria->compare('zaoch',$this->zaoch);
+		$criteria->compare('zaoch_budget',$this->zaoch_budget);
+		$criteria->compare('zaoch_contract',$this->zaoch_contract);
+		$criteria->compare('zaoch_pv',$this->zaoch_pv);
+		$criteria->compare('zaoch_pzk',$this->zaoch_pzk);
+		$criteria->compare('zaoch_originals',$this->zaoch_originals);
+		$criteria->compare('zaoch_electro',$this->zaoch_electro);
+                $criteria->addCondition("Specialnost LIKE '%8.%'");
+                
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+                        'pagination'=>array(
+                            'pageSize'=>10000,
+                        )
+		));
+	}
+
+
+  }

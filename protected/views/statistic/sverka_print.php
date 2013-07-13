@@ -46,7 +46,7 @@
             <th>ЗНО2</th>
             <th>ЗНО3</th>
             <th>Атестат</th>
-            <th>Пільги</th>
+            <th style="width:200px;">Пільги</th>
             <th style='width: 80px;'>Курси</th>
             <th style='width: 80px;'>Олімпіада / Бал</th>
         </tr>

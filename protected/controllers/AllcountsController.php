@@ -24,7 +24,7 @@ class AllcountsController extends Controller
 	{
 		return array(
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('index', 'View'),
+				'actions'=>array('index', 'View', 'ViewPrint'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -50,9 +50,15 @@ class AllcountsController extends Controller
         public function actionView()
 	{
                 $model=new AllCounts('search');
-                //$this->layout='//layouts/main_1';
+                $this->layout='//layouts/main_1';
 		$this->render('view',array("model"=>$model));
 	}
+        public function actionViewPrint()
+	{
+                $model=new AllCounts('search');
+                $this->layout='//layouts/clear';
+		$this->render('view_print',array("model"=>$model));
+	}        
         public function actionIndex()
 	{
 		$this->render('index');
