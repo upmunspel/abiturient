@@ -51,18 +51,23 @@ $dataProvider=new CActiveDataProvider( "Personspeciality", array('criteria'=>arr
     'type'=>'striped bordered condensed',
     'dataProvider'=>$dataProvider,
     'template'=>"{items}",
-    'rowCssClassExpression'=>'(empty($data->edboID) ? "row-red" : "row-green").(($data->StatusID == 3) ? " row-reset":"") ',
+    'rowCssClassExpression'=>'$data->getRowClass()',
     'columns'=>array(
         //"idPersonSpeciality",
-        array('name'=>'PersonRequestNumber', "htmlOptions"=>array("style"=>"width: 150px"),  'value' => '$data->RequestPrefix.str_pad($data->PersonRequestNumber, 5, "0", STR_PAD_LEFT)'),
-        array('name'=>'RequestNumber', "htmlOptions"=>array("style"=>"width: 150px"),  'value' => 'str_pad($data->RequestNumber, 5, "0", STR_PAD_LEFT)'),
+        array('name'=>'PersonRequestNumber', "htmlOptions"=>array("style"=>"width: 120px"),  'value' => '$data->RequestPrefix.str_pad($data->PersonRequestNumber, 5, "0", STR_PAD_LEFT)'),
+        array('name'=>'RequestNumber', "htmlOptions"=>array("style"=>"width: 120px"),  'value' => 'str_pad($data->RequestNumber, 5, "0", STR_PAD_LEFT)'),
         //array('name'=>'typename', 'header'=>'typename',  ),
-        array('name'=>'sepcialityCode', 'header'=>'Код спеціальності', 'value' => '$data->sepciality->SpecialityClasifierCode' ),
+        array('name'=>'sepcialityCode', 'header'=>'Код спец-ті', "htmlOptions"=>array("style"=>"width: 120px"), 'value' => '$data->sepciality->SpecialityClasifierCode' ),
         array('name'=>'sepciality', 'header'=>'Спеціальність', 
              'value' =>'(!empty($data->sepciality->SpecialityName)? $data->sepciality->SpecialityName." " :"" ).$data->sepciality->SpecialityDirectionName.(!empty($data->sepciality->SpecialitySpecializationName) ? ": ".$data->sepciality->SpecialitySpecializationName." ":"")'
                 //'value' => '!empty($data->sepciality->SpecialityName) ? $data->sepciality->SpecialityName : $data->sepciality->SpecialityDirectionName' 
              ),
         array('name'=>'educationForm', 'header'=>'Форма навчання', 'value' => '$data->educationForm->PersonEducationFormName '  ),
+       
+         array('name'=>'status', 'header'=>'Статус', 
+             'value' =>'$data->status->PersonRequestStatusTypeName',
+                ),
+        
         array(
                 'class'=>'bootstrap.widgets.TbButtonColumn',
                 'template'=>'{update} {trash} {print} {sinchr}',
@@ -137,6 +142,7 @@ $dataProvider=new CActiveDataProvider( "Personspeciality", array('criteria'=>arr
         <li>Не синхронізована</li>
         <li style="color: green;">Синхроніхована</li>
         <li style="color: blue;" >Скасована</li>
+        <li style="color: red;" >Видалена</li>
     </ul>
 </div><!-- form -->
 <script type="text/javascript">

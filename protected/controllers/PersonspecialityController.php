@@ -265,7 +265,9 @@ class PersonspecialityController extends Controller
                     $model = $this->loadModel($id);
                     $personid = $model->PersonID;
                     if (empty($model->edboID)) {
-                          $model->delete();   
+                          //$model->delete();
+                          $model->StatusID = 10;
+                          $model->save();
                           
                     } else {
                         Yii::app()->user->setFlash("message","Заборонено видаляти заявку!");
