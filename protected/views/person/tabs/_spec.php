@@ -24,7 +24,15 @@ $dataProvider=new CActiveDataProvider( "Personspeciality", array('criteria'=>arr
 
 ?>
 <div class="form">
-    <?php if (count($dataProvider->data)<6 || Yii::app()->user->checkAccess("updateAllPost")): ?>
+    <?php
+    
+    $count  = 0;
+    foreach ($dataProvider->getData() as $obj){
+        if (!($obj->StatusID == 10 || $obj->StatusID == 3)) {
+            $count++;
+        }
+    }
+    if ($count<6 || Yii::app()->user->checkAccess("updateAllPost")): ?>
     <div class="row-fluid">
         <div class="span3">
                 <?php
@@ -140,7 +148,7 @@ $dataProvider=new CActiveDataProvider( "Personspeciality", array('criteria'=>arr
 <div style="font-weight: bold;">Статуси заявок:</div>
     <ul>
         <li>Не синхронізована</li>
-        <li style="color: green;">Синхроніхована</li>
+        <li style="color: green;">Синхронізована</li>
         <li style="color: blue;" >Скасована</li>
         <li style="color: red;" >Видалена</li>
     </ul>

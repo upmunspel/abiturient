@@ -212,8 +212,8 @@ class PersonspecialityController extends Controller
                     
                         $renderForm = "_form";
 			//if (isset($_GET['Personspeciality']['GraduatedUniversitieID'])){
-                        debug($model->SepcialityID);
-                          if (!empty($_GET['Personspeciality']['QualificationID']) && $_GET['Personspeciality']['QualificationID'] > 1 && $model->SepcialityID != 70686 && $model->SepcialityID != 90661){
+                        //debug($model->SepcialityID);
+                        if (!empty($_GET['Personspeciality']['QualificationID']) && $_GET['Personspeciality']['QualificationID'] > 1 && $model->SepcialityID != 70686 && $model->SepcialityID != 90661){
                             $model->scenario ="SHORTFORM";
                             $renderForm = "_formShort";
                             $model->CausalityID = 100;
@@ -265,10 +265,15 @@ class PersonspecialityController extends Controller
                     $model = $this->loadModel($id);
                     $personid = $model->PersonID;
                     if (empty($model->edboID)) {
-                          //$model->delete();
+                          if ($model->QualificationID > 1 && $model->SepcialityID != 70686 && $model->SepcialityID != 90661){
+                                $model->scenario ="SHORTFORM";
+                                $model->CausalityID = 100;
+                          }
                           $model->StatusID = 10;
-                          $model->save();
-                          
+                          if (!$model->save()) {
+                              debug(print_r($model->getErrors(),true));
+                          }
+                       
                     } else {
                         Yii::app()->user->setFlash("message","Заборонено видаляти заявку!");
                     }
