@@ -182,6 +182,8 @@ class PersonSpecialityView extends CActiveRecord
                 $criteria->compare('RequestFromEB',$this->RequestFromEB);
                 $criteria->compare('SepcialityID',$this->SepcialityID);
                 $criteria->compare('EducationFormID',$this->EducationFormID);
+                $criteria->addCondition('StatusID<>10');
+                $criteria->addCondition('StatusID<>3');
                 
                 
                 $criteria->compare('AtestatValue',$this->AtestatValue);
@@ -230,6 +232,8 @@ class PersonSpecialityView extends CActiveRecord
                 $criteria->compare('OlympiadID',$this->OlympiadID);
                 $criteria->compare('RequestFromEB',$this->RequestFromEB);
                 $criteria->compare('SepcialityID',$this->SepcialityID);
+                $criteria->addCondition('StatusID<>10');
+                $criteria->addCondition('StatusID<>3');
               
 //                if (!empty($user) && !empty($user->syspk->QualificationID)) {
 //                    if ($user->syspk->QualificationID > 1) {
@@ -275,6 +279,8 @@ class PersonSpecialityView extends CActiveRecord
                 $criteria->compare('QualificationID',$this->QualificationID);
                 $criteria->compare('OlympiadID',$this->OlympiadID);
                 $criteria->compare('SepcialityID',$this->SepcialityID);
+                $criteria->addCondition('StatusID<>10');
+                $criteria->addCondition('StatusID<>3');
                 if (!empty($this->CreateDate)){
                     $criteria->addBetweenCondition('CreateDate', date('Y-m-d', strtotime($this->CreateDate)), date('Y-m-d', strtotime($this->CreateDate))." 23:59:59");
                 }
