@@ -18,7 +18,7 @@ class BenefitController extends Controller
 			'accessControl', // perform access control for CRUD operations
 			'postOnly + delete', // we only allow deletion via POST request
                         'ajaxOnly + newZno, newZnoSubject, appendZno, delZno, delZnoSubject,
-                                    editZno, Create, Update, Delete, Edboupdate, Refresh, Refreshzno',
+                                    editZno, Edboupdate, Refresh, Refreshzno',
 		);
 	}
 
@@ -79,9 +79,10 @@ class BenefitController extends Controller
 	 * @param integer $id the ID of the model to be updated
 	 */
 	public function actionUpdate($id)
-	{
+	{ 
+                
 		$model=$this->loadModel($id);
-
+               
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
@@ -128,7 +129,7 @@ class BenefitController extends Controller
 	public function actionAdmin()
 	{
 		$model=new Benefit('search');
-		$model->unsetAttributes();  // clear any default values
+                 $model->unsetAttributes();  // clear any default values
 		if(isset($_GET['Benefit']))
 			$model->attributes=$_GET['Benefit'];
 
@@ -144,7 +145,7 @@ class BenefitController extends Controller
 	 */
 	public function loadModel($id)
 	{
-		$model=Benefit::model()->findByPk($id);
+		$model=  Benefit::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
