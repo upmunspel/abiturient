@@ -39,6 +39,7 @@
         <tr>
             <th style='width: 80px;'>Особ. справа</th> 
             <th>Справа</th>
+            <th>ФН</th>
             <th>ФІО</th>
             <th>Спеціальність</th>
             <th>Копія</th>
@@ -46,7 +47,7 @@
             <th>ЗНО2</th>
             <th>ЗНО3</th>
             <th>Атестат</th>
-            <th>Пільги</th>
+            <th style="width:200px;">Пільги</th>
             <th style='width: 80px;'>Курси</th>
             <th style='width: 80px;'>Олімпіада / Бал</th>
         </tr>
@@ -62,6 +63,15 @@
             ?> </td>
             <td><?php
                 echo str_pad($table_data[$i]->getAttribute('RequestNumber'), 5, "0", STR_PAD_LEFT);
+            ?></td>
+            <td><?php
+                $is_copy = $table_data[$i]->getAttribute('EducationFormID');
+                if ($is_copy == 1){
+                    $is_copy = "Д";
+                } else {
+                    $is_copy = "З";
+                }
+                echo $is_copy;
             ?></td>
             <td><?php
                 echo $table_data[$i]->getAttribute('FIO');

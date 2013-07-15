@@ -206,7 +206,7 @@ for ($i = 0; $i < mysql_num_rows($res); $i++){
 				$q .= " AND specialities.SpecialitySpecializationName='".$specialization['s_name']."'";
 				$res_counts = mysql_query($q);$QUERY_COUNT++;
 				$count = mysql_fetch_assoc($res_counts);
-				$PEREVIRKA += $count['B_dnevn_per_day'];
+				$PEREVIRKA += $count['B_dnevn_all'];
 				foreach ($count as $key => $val){
 					if (preg_match("/_all/",$key)){
 						if ($val =="") $count[$key] = "0";
@@ -232,7 +232,7 @@ for ($i = 0; $i < mysql_num_rows($res); $i++){
 			$q = str_replace("__FacultetID__",$row[$i]['idFacultet'],$q);
 			$res_counts = mysql_query($q);$QUERY_COUNT++;
 			$count = mysql_fetch_assoc($res_counts);
-			$PEREVIRKA += $count['B_dnevn_per_day'];
+			$PEREVIRKA += $count['B_dnevn_all'];
 			foreach ($count as $key => $val){
 					if (preg_match("/_all/",$key)){
 						if ($val =="") $count[$key] = "0";
@@ -321,9 +321,9 @@ case 8: echo "Магістр";break;
 <?php for ($i = 0; $i < count($table); $i++){echo $table[$i];}?>
 <tr>
 <td colspan="2"><p title='кількість запитів (mysql_query): <?php echo $QUERY_COUNT;?>'>Всього заявок</p></td>
-    <td><?php echo $gen_counts['all-dnevn-XX.07.2013']/*." ( ".$PEREVIRKA." )"*/;?></td>
+    <td><?php echo $gen_counts['all-dnevn-XX.07.2013'];?></td>
     <td><?php echo $gen_counts['all-zaochn-XX.07.2013'];?></td>
-    <td><?php echo $gen_counts['all-dnevn-from01.07.2013'];?></td>
+    <td><?php echo $gen_counts['all-dnevn-from01.07.2013']/*." ( ".$PEREVIRKA." )"*/;?></td>
     <td><?php echo $gen_counts['all-zaochn-from01.07.2013'];?></td>
 </tr>
 <tr>
