@@ -10,6 +10,9 @@
 #spec-modal-holder .short{
   min-height: 450px;   
 }
+.row-red {
+    color: red;
+}
 .row-green {
     color: green;
 }

@@ -95,6 +95,14 @@ class Personspeciality extends ActiveRecord
                 
           return $prefix;
         }
+        public function getRowClass(){
+            // deleted
+            if ($this->StatusID == 10) return "row-red";
+            // cenceled
+            if ($this->StatusID == 3) return "row-reset";
+            if (!empty($this->edboID)) return "row-green";
+            return "";
+        }
 	public function tableName()
 	{
 		return 'personspeciality';
