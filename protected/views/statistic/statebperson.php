@@ -93,7 +93,7 @@ $query ="
     SELECT person.LastName AS surname, person.FirstName AS name , person.MiddleName AS fartherName, person.EdboID AS edbo
 FROM personspeciality
 LEFT JOIN person ON person.idPerson = personspeciality.PersonID
-WHERE personspeciality.SepcialityID = $idSpec  AND personspeciality.StatusID<>3 AND personspeciality.EducationFormID = $eduForm AND ".$electronic;
+WHERE personspeciality.SepcialityID = $idSpec  AND 1 AND personspeciality.EducationFormID = $eduForm AND ".$electronic;
 $res = mysql_query($query);
 $counter = 0;
 echo "<table align=center cellspacing = 0>";

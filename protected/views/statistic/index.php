@@ -398,6 +398,20 @@
 </div> 
  
  
+  <br/>
+ 
+<div clas="form">
+    <h3>Заявки абітурієнтів із сільської місцевості</h3>
+    <a class="btn btn-primary btn-large" href='<?php echo Yii::app()->createUrl('statistic/fromvillage'); ?>'>Показати</a>
+</div>
+ 
+  <br/>
+ 
+<div clas="form">
+    <h3>Заявки абітурієнтів-іноземців</h3>
+    <a class="btn btn-primary btn-large" href='<?php echo Yii::app()->createUrl('statistic/residentlist'); ?>'>Показати</a>
+</div>  
+<br/>
 
 <?php if (Yii::app()->user->checkAccess("printPhones")): ?>
 <div class="form">

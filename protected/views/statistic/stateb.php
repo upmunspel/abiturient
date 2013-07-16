@@ -293,7 +293,7 @@ echo "<tr>"."<td>Факультет</td><td>"."Професійне спряму
            if($j==2){
                $idSpec = $row[$i]['idSpec'];
                $queryDay = "SELECT count(*) as countSpec
-			   FROM `personspeciality`  WHERE personspeciality.EducationFormID = 1 and SepcialityID =".$idSpec." AND personspeciality.StatusID<>3";
+			   FROM `personspeciality`  WHERE personspeciality.EducationFormID = 1 and SepcialityID =".$idSpec." AND 1";
                $tmp = mysql_query($queryDay);
                $cur[$i] = mysql_fetch_assoc($tmp);
                $sum[$j] = $cur[$i]['countSpec'];
@@ -304,7 +304,7 @@ echo "<tr>"."<td>Факультет</td><td>"."Професійне спряму
               
                $idSpec = $row[$i]['idSpec'];
                 $queryDay = "SELECT count(*) as countSpec
-			   FROM `personspeciality`  WHERE personspeciality.RequestFromEB = 1 and personspeciality.EducationFormID = 1 and SepcialityID =  ".$idSpec." AND personspeciality.StatusID<>3";
+			   FROM `personspeciality`  WHERE personspeciality.RequestFromEB = 1 and personspeciality.EducationFormID = 1 and SepcialityID =  ".$idSpec." AND 1";
                $tmp = mysql_query($queryDay);
                $cur[$i] = mysql_fetch_assoc($tmp);
                $sum[$j] = $cur[$i]['countSpec'];
@@ -316,7 +316,7 @@ echo "<tr>"."<td>Факультет</td><td>"."Професійне спряму
                $idSpec = $row1[$i]['idSpec'];
 		
                 $queryDay = "SELECT count(*) as countSpec
-			   FROM `personspeciality`  WHERE personspeciality.EducationFormID = 2 and SepcialityID =  ".$idSpec." AND personspeciality.StatusID<>3";
+			   FROM `personspeciality`  WHERE personspeciality.EducationFormID = 2 and SepcialityID =  ".$idSpec." AND 1";
                $tmp = mysql_query($queryDay);
                $cur[$i] = mysql_fetch_assoc($tmp);
                $sum[$j] = $cur[$i]['countSpec'];       
@@ -329,7 +329,7 @@ echo "<tr>"."<td>Факультет</td><td>"."Професійне спряму
                $idSpec = $row1[$i]['idSpec'];
                 $queryDay = "SELECT count(*) as countSpec
 			   FROM `personspeciality`  WHERE personspeciality.RequestFromEB = 1 
-                           and personspeciality.EducationFormID = 2 and SepcialityID =  ".$idSpec." AND personspeciality.StatusID<>3";
+                           and personspeciality.EducationFormID = 2 and SepcialityID =  ".$idSpec." AND 1";
                $tmp = mysql_query($queryDay);
                $cur[$i] = mysql_fetch_assoc($tmp);
                $sum[$j] = $cur[$i]['countSpec'];
