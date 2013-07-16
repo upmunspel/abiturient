@@ -29,20 +29,21 @@ class StatisticController extends Controller
 	{
 		return array(
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('index', 'View', 'Print', "Sverka","ViewEx", "ViewY", "Originals","ViewBC", "Statisticallname", "Stateb", "Statebperson"),
+				'actions'=>array('util','index', 'View', 'Print', "Sverka","ViewEx", "ViewY", "Originals","ViewBC", "Statisticallname", "Stateb", "Statebperson"),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
 				'actions'=>array('Public'),
 				'users'=>array('*'),
 			),
+                        array('allow', // allow admin user to perform 'admin' and 'delete' actions
+				'actions'=>array('Util'),
+				'roles'=>array('Root'),
+			),
 //			array('deny',  // deny all users
 //				'users'=>array('*'),
 //			),
-//                        array('allow', // allow admin user to perform 'admin' and 'delete' actions
-//				'actions'=>array('index','view','admin','create'),
-//				'roles'=>array('Admins'),
-//			),*/
+//                        */
 //			array('allow', // allow admin user to perform 'admin' and 'delete' actions
 //				'actions'=>array('index','view','admin'),
 //				'roles'=>array("Root","Admins","Operators"),
@@ -130,5 +131,39 @@ class StatisticController extends Controller
 	{
 		$this->layout='//layouts/clear';
 		$this->render('statebperson');
+	}
+        public function actionUtil()
+	{       $model=new PersonSpecialityView('search');
+                $model->unsetAttributes();  // clear any default values
+	        if(isset($_GET['PersonSpecialityView'])) {
+                    $model->attributes=$_GET['PersonSpecialityView'];
+                    $out = "";
+                    if (isset($_GET['renum'])){
+                        $c = new CDbCriteria();
+                        $c->compare("SepcialityID",$model->SepcialityID);
+                        $c->order = "CreateDate";
+                        $pspes = Personspeciality::model()->findAll($c);
+                        
+                        foreach($pspes as $i=>$obj){
+                            $out.="RequestNumber: ". $obj->RequestNumber." chaget to: ".($i+1)."<br>";
+                            $obj->RequestNumber = $i+1; 
+                            if ($obj->QualificationID > 1 && $obj->SepcialityID != 70686 && $obj->SepcialityID != 90661){
+                                $obj->scenario ="SHORTFORM";
+                                //$obj->CausalityID = 100;
+                            }
+                            if (!$obj->save()) {
+                                 debug(print_r($obj->getErrors(),true));
+                                
+                            }
+                        }
+                        
+                    }
+                    $this->render('sverka',array("model"=>$model));
+                    if (!empty($out)) echo $out;
+                   
+                    
+                } else {
+		$this->render('util');
+                }
 	}
 }
