@@ -162,7 +162,6 @@ FROM specialities
 JOIN personspeciality ON 
 personspeciality.SepcialityID=specialities.idSpeciality
 WHERE specialities.SpecialityClasifierCode ='__CODE__' AND 
-personspeciality.StatusID<>3 AND 
 specialities.FacultetID=__FacultetID__  ";
 
         $query_specializationsCodes = "
@@ -206,7 +205,7 @@ specialities JOIN facultets
 ON facultets.idFacultet = specialities.FacultetID
 LEFT JOIN personspeciality
 ON specialities.idSpeciality=personspeciality.SepcialityID
-WHERE personspeciality.StatusID<>3;";
+WHERE 1;";
 
 
         $query_specializations = "

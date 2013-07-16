@@ -1,19 +1,24 @@
 <?php
 
 /**
- * This is the model class for table "personspec_counts".
+ * This is the model class for table "village_list".
  *
- * The followings are the available columns in table 'personspec_counts':
- * @property string $_date_
- * @property string $_count_
- * @property integer $idPersonSpeciality
+ * The followings are the available columns in table 'village_list':
+ * @property string $surname
+ * @property string $name
+ * @property string $fartherName
+ * @property integer $edbo
+ * @property string $place
+ * @property string $region
+ * @property string $city
+ * @property string $cityVillage
  */
-class PersonspecCounts extends CActiveRecord
+class VillageList extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
-	 * @return PersonspecCounts the static model class
+	 * @return VillageList the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -25,7 +30,7 @@ class PersonspecCounts extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'personspec_counts';
+		return 'village_list';
 	}
 
 	/**
@@ -36,12 +41,14 @@ class PersonspecCounts extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('idPersonSpeciality', 'numerical', 'integerOnly'=>true),
-			array('_date_', 'length', 'max'=>10),
-			array('_count_', 'length', 'max'=>21),
+			array('edbo', 'numerical', 'integerOnly'=>true),
+			array('surname, name, fartherName', 'length', 'max'=>100),
+			array('place', 'length', 'max'=>2),
+			array('region', 'length', 'max'=>50),
+			array('city, cityVillage', 'length', 'max'=>75),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('_date_, _count_, idPersonSpeciality', 'safe', 'on'=>'search'),
+			array('surname, name, fartherName, edbo, place, region, city, cityVillage', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -63,9 +70,14 @@ class PersonspecCounts extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-    '_date_' => 'Дата',
-    '_count_' => 'Кількість',
-    'idPersonSpeciality' => 'ID',
+    'surname' => 'Прізвище',
+    'name' => 'Ім\'я',
+    'fartherName' => 'По батькові',
+    'edbo' => 'Edbo',
+    'place' => 'ТИП',
+    'region' => 'Регіон',
+    'city' => 'Насел. Пункт',
+    'cityVillage' => 'Район',
 		);
 	}
 
@@ -80,9 +92,14 @@ class PersonspecCounts extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('_date_',$this->_date_,true);
-		$criteria->compare('_count_',$this->_count_,true);
-		$criteria->compare('idPersonSpeciality',$this->idPersonSpeciality);
+		$criteria->compare('surname',$this->surname,true);
+		$criteria->compare('name',$this->name,true);
+		$criteria->compare('fartherName',$this->fartherName,true);
+		$criteria->compare('edbo',$this->edbo);
+		$criteria->compare('place',$this->place,true);
+		$criteria->compare('region',$this->region,true);
+		$criteria->compare('city',$this->city,true);
+		$criteria->compare('cityVillage',$this->cityVillage,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,'pagination'=>array(

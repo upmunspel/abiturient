@@ -108,7 +108,7 @@ class AllCounts extends CActiveRecord
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
-	public function search()
+	public function search($Date)
 	{
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
@@ -147,7 +147,7 @@ class AllCounts extends CActiveRecord
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
-	public function searchBachelors()
+	public function searchBachelors($Date)
 	{
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
@@ -187,7 +187,7 @@ class AllCounts extends CActiveRecord
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
-	public function searchSpecialists()
+	public function searchSpecialists($Date)
 	{
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
@@ -226,7 +226,7 @@ class AllCounts extends CActiveRecord
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
-	public function searchMagisters()
+	public function searchMagisters($Date)
 	{
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.

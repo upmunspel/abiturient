@@ -29,7 +29,8 @@ class StatisticController extends Controller
 	{
 		return array(
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('util','index', 'View', 'Print', "Sverka","ViewEx", "ViewY", "Originals","ViewBC", "Statisticallname", "Stateb", "Statebperson"),
+				'actions'=>array('util','index', 'View', 'Print', "Sverka","ViewEx", "ViewY", "Originals","ViewBC", "Statisticallname", "Stateb", "Statebperson",
+                                    "Fromvillage","Residentlist", "Viewall", "Viewallprint"),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -131,6 +132,27 @@ class StatisticController extends Controller
 	{
 		$this->layout='//layouts/clear';
 		$this->render('statebperson');
+	}
+        public function actionFromvillage()
+	{
+		$this->layout='//layouts/main_1';
+		$this->render('from_village');
+	}        
+        public function actionResidentlist()
+	{
+		$this->layout='//layouts/main_1';
+		$this->render('resident_list');
+	}
+        public function actionViewall()
+	{
+		$this->layout='//layouts/main_1';
+		$this->render('viewall',array("model"=>AllCounts::model()));
+	}
+        
+        public function actionViewallprint()
+	{
+		$this->layout='//layouts/clear';
+		$this->render('viewall_print',array("model"=>AllCounts::model()));
 	}
         public function actionUtil()
 	{       $model=new PersonSpecialityView('search');

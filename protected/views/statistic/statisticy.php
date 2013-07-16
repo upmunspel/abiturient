@@ -140,7 +140,7 @@ JOIN person ON
 personspeciality.PersonID=person.idPerson 
 WHERE specialities.SpecialityClasifierCode ='__CODE__' AND 
 specialities.FacultetID=__FacultetID__  AND specialities.PersonEducationFormID=1 AND 
-MID(personspeciality.CreateDate,1,10) = MID(__DATE__,1,10) AND personspeciality.StatusID<>3 /**/) AS B_dnevn_per_day, 
+MID(personspeciality.CreateDate,1,10) = MID(__DATE__,1,10) AND 1 /**/) AS B_dnevn_per_day, 
 
 
 (SELECT COUNT(DISTINCT CONCAT_WS(' ',person.FirstName,person.MiddleName,person.LastName)) FROM specialities 
@@ -156,7 +156,7 @@ WHERE specialities.SpecialityClasifierCode ='__CODE__' AND
 specialities.FacultetID=__FacultetID__  AND specialities.PersonEducationFormID=1 AND 
 MID(personspeciality.CreateDate,1,10) = MID(__DATE__,1,10)
 AND benefit.isPZK=1 
-AND personspeciality.StatusID<>3 /**/) AS B_dnevn_pzk_per_day, 
+AND 1 /**/) AS B_dnevn_pzk_per_day, 
 
 (SELECT COUNT(DISTINCT CONCAT_WS(' ',person.FirstName,person.MiddleName,person.LastName)) FROM specialities 
 JOIN personspeciality ON 
@@ -171,7 +171,7 @@ WHERE specialities.SpecialityClasifierCode ='__CODE__' AND
 specialities.FacultetID=__FacultetID__  AND specialities.PersonEducationFormID=1 AND 
 MID(personspeciality.CreateDate,1,10) = MID(__DATE__,1,10)
 AND benefit.isPV=1 
-AND personspeciality.StatusID<>3 /**/) AS B_dnevn_pv_per_day, 
+AND 1 /**/) AS B_dnevn_pv_per_day, 
 
 (SELECT COUNT(DISTINCT CONCAT_WS(' ',person.FirstName,person.MiddleName,person.LastName)) FROM specialities 
 JOIN personspeciality ON 
@@ -180,7 +180,7 @@ JOIN person ON
 personspeciality.PersonID=person.idPerson 
 WHERE specialities.SpecialityClasifierCode ='__CODE__' AND 
 specialities.FacultetID=__FacultetID__  AND specialities.PersonEducationFormID=2 AND 
-MID(personspeciality.CreateDate,1,10) = MID(__DATE__,1,10) AND personspeciality.StatusID<>3 /**/) AS B_zaoch_per_day,
+MID(personspeciality.CreateDate,1,10) = MID(__DATE__,1,10) AND 1 /**/) AS B_zaoch_per_day,
 
 (SELECT COUNT(DISTINCT CONCAT_WS(' ',person.FirstName,person.MiddleName,person.LastName)) FROM specialities 
 JOIN personspeciality ON 
@@ -195,7 +195,7 @@ WHERE specialities.SpecialityClasifierCode ='__CODE__' AND
 specialities.FacultetID=__FacultetID__  AND specialities.PersonEducationFormID=2 AND 
 MID(personspeciality.CreateDate,1,10) = MID(__DATE__,1,10)
 AND benefit.isPZK=1 
-AND personspeciality.StatusID<>3 /**/) AS B_zaoch_pzk_per_day, 
+AND 1 /**/) AS B_zaoch_pzk_per_day, 
 
 (SELECT COUNT(DISTINCT CONCAT_WS(' ',person.FirstName,person.MiddleName,person.LastName)) FROM specialities 
 JOIN personspeciality ON 
@@ -210,7 +210,7 @@ WHERE specialities.SpecialityClasifierCode ='__CODE__' AND
 specialities.FacultetID=__FacultetID__  AND specialities.PersonEducationFormID=2 AND 
 MID(personspeciality.CreateDate,1,10) = MID(__DATE__,1,10)
 AND benefit.isPV=1 
-AND personspeciality.StatusID<>3 /**/) AS B_zaoch_pv_per_day
+AND 1 /**/) AS B_zaoch_pv_per_day
 
 
 FROM specialities 
@@ -237,7 +237,7 @@ JOIN person ON
 personspeciality.PersonID=person.idPerson 
 WHERE MID(specialities.SpecialityClasifierCode,1,1) ='".$OKR."' AND 
  specialities.PersonEducationFormID=1 AND 
-MID(personspeciality.CreateDate,1,10) = MID(__DATE__,1,10) AND personspeciality.StatusID<>3 /**/) as `all-dnevn-XX.07.2013`,
+MID(personspeciality.CreateDate,1,10) = MID(__DATE__,1,10) AND 1 /**/) as `all-dnevn-XX.07.2013`,
 
 (SELECT COUNT(DISTINCT idPersonSpeciality) FROM specialities 
 JOIN personspeciality ON 
@@ -250,7 +250,7 @@ JOIN person ON
 personspeciality.PersonID=person.idPerson 
 WHERE MID(specialities.SpecialityClasifierCode,1,1) ='".$OKR."' AND 
  specialities.PersonEducationFormID=1 AND 
-MID(personspeciality.CreateDate,1,10) = MID(__DATE__,1,10) AND personspeciality.StatusID<>3 /**/ 
+MID(personspeciality.CreateDate,1,10) = MID(__DATE__,1,10) AND 1 /**/ 
 AND benefit.isPZK=1) as `all-dnevn-pzk-XX.07.2013`,
 
 (SELECT COUNT(DISTINCT idPersonSpeciality) FROM specialities 
@@ -264,7 +264,7 @@ JOIN person ON
 personspeciality.PersonID=person.idPerson 
 WHERE MID(specialities.SpecialityClasifierCode,1,1) ='".$OKR."' AND 
  specialities.PersonEducationFormID=1 AND 
-MID(personspeciality.CreateDate,1,10) = MID(__DATE__,1,10) AND personspeciality.StatusID<>3 /**/  
+MID(personspeciality.CreateDate,1,10) = MID(__DATE__,1,10) AND 1 /**/  
 AND benefit.isPV=1) as `all-dnevn-pv-XX.07.2013`,
 
 (SELECT COUNT(DISTINCT idPersonSpeciality) FROM specialities 
@@ -274,7 +274,7 @@ JOIN person ON
 personspeciality.PersonID=person.idPerson 
 WHERE MID(specialities.SpecialityClasifierCode,1,1) ='".$OKR."' AND 
  specialities.PersonEducationFormID=2 AND 
-MID(personspeciality.CreateDate,1,10) = MID(__DATE__,1,10) AND personspeciality.StatusID<>3 /**/) as `all-zaochn-XX.07.2013`,
+MID(personspeciality.CreateDate,1,10) = MID(__DATE__,1,10) AND 1 /**/) as `all-zaochn-XX.07.2013`,
 
 (SELECT COUNT(DISTINCT idPersonSpeciality) FROM specialities 
 JOIN personspeciality ON 
@@ -287,7 +287,7 @@ JOIN person ON
 personspeciality.PersonID=person.idPerson 
 WHERE MID(specialities.SpecialityClasifierCode,1,1) ='".$OKR."' AND 
  specialities.PersonEducationFormID=2 AND 
-MID(personspeciality.CreateDate,1,10) = MID(__DATE__,1,10) AND personspeciality.StatusID<>3 /**/  
+MID(personspeciality.CreateDate,1,10) = MID(__DATE__,1,10) AND 1 /**/  
 AND benefit.isPZK=1) as `all-zaochn-pzk-XX.07.2013`,
 
 (SELECT COUNT(DISTINCT idPersonSpeciality) FROM specialities 
@@ -301,7 +301,7 @@ JOIN person ON
 personspeciality.PersonID=person.idPerson 
 WHERE MID(specialities.SpecialityClasifierCode,1,1) ='".$OKR."' AND 
  specialities.PersonEducationFormID=2 AND 
-MID(personspeciality.CreateDate,1,10) = MID(__DATE__,1,10) AND personspeciality.StatusID<>3 /**/  
+MID(personspeciality.CreateDate,1,10) = MID(__DATE__,1,10) AND 1 /**/  
 AND benefit.isPV=1) as `all-zaochn-pv-XX.07.2013`
 
 FROM
