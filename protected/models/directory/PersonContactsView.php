@@ -73,7 +73,7 @@ class PersonContactsView extends CActiveRecord
 	{
 		return array(
     'FIO' => 'Fio',
-    'SepcialityID' => 'Sepciality',
+    'SepcialityID' => 'Спеціальність',
     'EducationFormID' => 'Education Form',
     'isBudget' => 'Is Budget',
     'isContract' => 'Is Contract',
@@ -92,7 +92,7 @@ class PersonContactsView extends CActiveRecord
 		// should not be searched.
 
 		$criteria=new CDbCriteria;
-                $criteria->order = "RequestNumber";
+                $criteria->order = "FIO";
 		$criteria->compare('FIO',$this->FIO,true);
 		$criteria->compare('SepcialityID',$this->SepcialityID);
 		$criteria->compare('EducationFormID',$this->EducationFormID);
