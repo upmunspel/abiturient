@@ -7,6 +7,70 @@
 ?>
 <!--http://10.1.11.57:8080/request_report-1.0/journal?SpecialityID=  idOKR=  eduFormID=  date=-->
 <!--http://10.1.11.57:8080/request_report-1.0/bachelor.jsp?PersonID=1&PersonSpecialityID=1&iframe=true&width=1024&height=600-->
+
+
+
+<div class="form">
+    <h3>ЗАГАЛЬНА СТАТИСТИКА ЗАЯВОК АБІТУРІЄНТІВ</h3>
+<?php 
+  $model = Yii::app()->user->getUserModel();
+  if (empty($model->syspk) || empty($model->syspk->printIP) ) throw new Exception ("Необхідно визначити адресу серверу друку документів!");
+  $ip = $model->syspk->printIP;  
+  $act = Yii::app()->createUrl("statistic/viewallprint");
+  $form=$this->beginWidget('CActiveForm', array(
+	'id'=>'zno-form-modal',
+	'enableAjaxValidation'=>false,
+        'method'=>"GET",
+        'action'=>$act,
+)); ?>
+<div class="row-fluid">
+    <div class="span3">
+		<?php echo Chtml::label("Освітньо кваліфікаційний рівень",'okr'); ?>
+		<?php echo CHtml::dropDownList('okr', "", array("6"=>"Бакалавр","7"=>"Спеціаліст","8"=>"Магістр"),array('empty'=>'', 'class'=>"span12")); ?>
+		
+    </div>
+    
+    <div class="span3" id="DropDownParamForStat">
+		<?php echo Chtml::label("Показати",'mode',array('id'=>'DropDownParamForStatLabel')); ?>
+		<?php echo CHtml::dropDownList('mode', "", 
+                        array("0"=>"Усі дані",
+                            "1"=>"По формам навчання",
+                            "2"=>"Бюджет/контракт по формам навчання",
+                            "3"=>"Заявки з позачерговим і позаконкурсним вступом по формам навчання",
+                            "4"=>"Електронні заявки",
+                            "5"=>"Медалісти (тільки для бакалаврів)",
+                            "6"=>"Подання оригіналів"),
+                        array('empty'=>'', 'class'=>"span12")); ?>
+		
+    </div>
+    <div class ="span2">
+                    <?php echo CHtml::label("Дата",'date'); ?>
+                    <?php echo CHtml::textField('date', "", array('class'=>'span12 datepicker',
+                         "id"=>"date_ch", "onclick"=>
+                        "$('#DropDownParamForStat').html('<b>Тільки по формам навчання</b>');")); ?>
+                    
+    </div>
+    
+</div>
+    <hr>
+    <div class="row-fluid">
+     <?php $this->widget("bootstrap.widgets.TbButton", array(
+			'buttonType'=>'submit',
+			'type'=>'primary',
+                         "size"=>"large",
+			'label'=>'Показати',
+                        )); 
+               
+     ?>
+    </div>
+<?php $this->endWidget();
+?>
+</div> 
+
+
+<br/>
+
+
 <h3>Щоденна статистика заяв абітуріентів за напрямками</h3>
 
 <div class="form">
