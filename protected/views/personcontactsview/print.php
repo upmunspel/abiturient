@@ -47,7 +47,7 @@
             <th width="30">№</th>
             <th>Справа</th>
             <th>ФІО</th>
-            
+             <th>Ел. заява</th>
             <th>Спеціальність</th>
             <th>Контакти</th>
          </tr>
@@ -67,7 +67,9 @@
             <td><?php
                 echo $table_data[$i]->getAttribute('FIO');
             ?></td>
-        
+        <td><?php
+                echo ($table_data[$i]->getAttribute('RequestFromEB') == 1) ? "Так": "Ні";
+            ?></td>
             <td><?php
                 echo $table_data[$i]->getAttribute('SpecName');
             ?></td>

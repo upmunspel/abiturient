@@ -399,8 +399,8 @@
  
  
 
- 
-<div class="form" style="display: none;">
+<?php if (Yii::app()->user->checkAccess("printPhones")): ?>
+<div class="form">
     <h3>Телефони абітуріентів</h3>
 <?php 
   $model = new PersonContactsView();
@@ -432,7 +432,7 @@
     </div>
 <?php $this->endWidget(); ?>
 </div>
-
+<?php endif; ?>
 <script>
     $(document).ready(function(){
         
