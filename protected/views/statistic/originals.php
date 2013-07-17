@@ -1,4 +1,4 @@
-﻿<html>
+<html>
 <head>
 <meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>
 <title>Статистика по спеціальностям</title>
@@ -29,7 +29,7 @@ A {
 <body>
 <?php
 error_reporting(E_STRICT);
-$connect_status = mysql_connect("10.1.103.26","edbo","eU7InIl","abiturient");
+$connect_status = mysql_connect("10.1.103.26","root","ehHYAuj","abiturient");
 if (!$connect_status){
 	echo "<center>
 	<h1 style='color:red;font-size:18pt;font-family:Monotype Corsiva'>
@@ -123,46 +123,63 @@ case 8: echo "Магістр";break;
 
 <?php 
 $counter = 1;
-echo "<tr >"."<td>№"."</td>"."<td>"."Професійне спрямування"."</td>"."<td>"."Денна<br>кількість"."</td>"."<td>"."Оригінал"."</td>"."<td>"."Заоч.<br>кількість"."</td>"."<td>"."Оригінал."."</td>"."</tr>";
+echo "<tr >"."<td>№"."</td>"."<td>"."Професійне спрямування"."</td>"."<td>Бюджет</td>"."<td>Ліцензія</td>"."<td>"."Денна<br>кількість"."</td>"."<td>"."Оригінал"."</td>"."<td>"."Заоч.<br>кількість"."</td>"."<td>"."Оригінал."."</td>"."</tr>";
    for($i=0; $i<mysql_num_rows($res); $i++){
        $row[$i] = mysql_fetch_assoc($res);
  	$row1[$i] = mysql_fetch_assoc($res1);
 	
        echo "<tr>";
-       for($j = 0; $j<7; $j++){
+       for($j = 0; $j<8; $j++){
            if ($row[$i]['direction'] == "екологія, охорона навколишнього середовища та збалансоване природокористування"){
                     $row[$i]['direction'] = "екологія, охорона навколишнього середовища<br> та збалансоване природокористування";
                
             }
            if($j==0) echo "<td>".$counter++."</td>";
            if($j==1) echo "<td>".$row[$i]['cCode']." ".$row[$i]['direction']."</td>";
-           if($j==2){
+           if($j==2) {
                $idSpec = $row[$i]['idSpec'];
-               $queryDay = "SELECT count(*) as countSpec
-			   FROM `personspeciality`  WHERE 1 AND personspeciality.EducationFormID = 1 and SepcialityID =".$idSpec."";
+                $queryDay = "SELECT `specialities`.specialityBudgetCount AS budget
+                            FROM `specialities` 
+                            WHERE `specialities`.idSpeciality = ".$idSpec."";
                $tmp = mysql_query($queryDay);
                $cur[$i] = mysql_fetch_assoc($tmp);
-               $sum[$j] = $cur[$i]['countSpec'];
-               $allsum[$j-2]+= $cur[$i]['countSpec'];
-               echo "<td>".$cur[$i]['countSpec']."</td>";
+               echo "<td>".$cur[$i]['budget']."</td>";
            }
            if($j==3) {
-              
                $idSpec = $row[$i]['idSpec'];
-                $queryDay = "SELECT count(*) as countSpec
-			   FROM `personspeciality`  WHERE 1 AND personspeciality.iscopyentrantdoc = 0 and personspeciality.EducationFormID = 1 and SepcialityID =  ".$idSpec."";
+                $queryDay = "SELECT `specialities`.specialitycontractCount AS contract
+                            FROM `specialities` 
+                            WHERE `specialities`.idSpeciality = ".$idSpec."";
+               $tmp = mysql_query($queryDay);
+               $cur[$i] = mysql_fetch_assoc($tmp);
+               echo "<td>".$cur[$i]['contract']."</td>";
+           }
+           if($j==4){
+               $idSpec = $row[$i]['idSpec'];
+               $queryDay = "SELECT count(*) as countSpec
+			   FROM `personspeciality`  WHERE personspeciality.EducationFormID = 1 and SepcialityID =".$idSpec."";
                $tmp = mysql_query($queryDay);
                $cur[$i] = mysql_fetch_assoc($tmp);
                $sum[$j] = $cur[$i]['countSpec'];
                $allsum[$j-2]+= $cur[$i]['countSpec'];
                echo "<td>".$cur[$i]['countSpec']."</td>";
            }
-           if($j==4){
+           if($j==5) {
+              
+               $idSpec = $row[$i]['idSpec'];
+                $queryDay = "SELECT count(*) as countSpec
+			   FROM `personspeciality`  WHERE personspeciality.iscopyentrantdoc = 0 and personspeciality.EducationFormID = 1 and SepcialityID =  ".$idSpec."";
+               $tmp = mysql_query($queryDay);
+               $cur[$i] = mysql_fetch_assoc($tmp);
+               $sum[$j] = $cur[$i]['countSpec'];
+               $allsum[$j-2]+= $cur[$i]['countSpec'];
+               echo "<td>".$cur[$i]['countSpec']."</td>";
+           }
+           if($j==6){
               
                $idSpec = $row1[$i]['idSpec'];
-		
                 $queryDay = "SELECT count(*) as countSpec
-			   FROM `personspeciality`  WHERE 1 AND personspeciality.EducationFormID = 2 and SepcialityID =  ".$idSpec."";
+			   FROM `personspeciality`  WHERE personspeciality.EducationFormID = 2 and SepcialityID =  ".$idSpec."";
                $tmp = mysql_query($queryDay);
                $cur[$i] = mysql_fetch_assoc($tmp);
                $sum[$j] = $cur[$i]['countSpec'];
@@ -172,10 +189,10 @@ echo "<tr >"."<td>№"."</td>"."<td>"."Професійне спрямуванн
                }else{echo "<td>".$cur[$i]['countSpec']."</td>";}
                $allsum[$j-2]+= $cur[$i]['countSpec'];
            }
-           if($j==5){
+           if($j==7){
                $idSpec = $row1[$i]['idSpec'];
                 $queryDay = "SELECT count(*) as countSpec
-			   FROM `personspeciality`  WHERE 1 AND personspeciality.iscopyentrantdoc = 0 
+			   FROM `personspeciality`  WHERE personspeciality.iscopyentrantdoc = 0 
                            and personspeciality.EducationFormID = 2 and SepcialityID =  ".$idSpec."";
                $tmp = mysql_query($queryDay);
                $cur[$i] = mysql_fetch_assoc($tmp);
@@ -191,7 +208,7 @@ echo "<tr >"."<td>№"."</td>"."<td>"."Професійне спрямуванн
        
        echo "</tr>";
     }
-    echo "<tr><td colspan=2>Всього:</td><td>".$allsum[0]."</td><td>".$allsum[1]."</td><td>".$allsum[2]."</td><td>".$allsum[3]."</td></tr>";
+    echo "<tr><td colspan=4>Всього:</td><td>".$allsum[2]."</td><td>".$allsum[3]."</td><td>".$allsum[4]."</td><td>".$allsum[5]."</td></tr>";
 echo "</table>";
 
 ?>
