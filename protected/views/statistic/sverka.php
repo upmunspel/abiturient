@@ -33,11 +33,13 @@ $this->widget('bootstrap.widgets.TbGroupGridView', array(
 
                 array('name'=>'PersonRequestNumber', 'value'=>'$data->RequestPrefix.str_pad($data->PersonRequestNumber, 5, "0", STR_PAD_LEFT)', 'htmlOptions'=>array('style'=>'width: 120px'),), 
                 array('name'=>'RequestNumber', 'value'=>'str_pad($data->RequestNumber, 5, "0", STR_PAD_LEFT)', 'htmlOptions'=>array('style'=>'width: 70px'),), 
-                 array('name'=>'RequestFromEB', 'htmlOptions'=>array('style'=>'width: 70px'), 'filter'=>array('1'=>'так','0'=>'ні'), 'value'=>'($data->RequestFromEB == "1")?("так"):("ні")'), 
+                array('name'=>'RequestFromEB', 'htmlOptions'=>array('style'=>'width: 70px'), 'filter'=>array('1'=>'так','0'=>'ні'), 'value'=>'($data->RequestFromEB == "1")?("так"):("ні")'), 
 		
                 array('name'=>'FIO', 'htmlOptions'=>array('style'=>'width: 250px'),),   
                 //array('name'=>'Birthday', 'htmlOptions'=>array('style'=>'width: 100px'),), 
     		//'idPerson',
+                array('name'=>'EducationFormID', 'htmlOptions'=>array('style'=>'width: 70px'), 'filter'=>array('1'=>'Денна','2'=>'Заочна'), 'value'=>'($data->EducationFormID=="1")?("Денна"):("Заочна")'), 
+		
                 array('name'=>'SpecCodeName'), 
 		
                 array('name'=>'isCopyEntrantDoc', 'htmlOptions'=>array('style'=>'width: 70px'), 'filter'=>array('1'=>'так','0'=>'ні'), 'value'=>'($data->isCopyEntrantDoc=="1")?("так"):("ні")'), 
