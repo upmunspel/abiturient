@@ -75,8 +75,9 @@ $date_end = "'".$_GET['date_end']."'";
 
 //----------------------------------------------
 $OKR = 6; //по умолчанию - бакалавр
-if (isset($_GET['okr']) && is_numeric($_GET['okr'])){
-	$OKR = $_GET['okr']; //если есть параметр ОКР - присваиваем это значение
+if (isset($_GET['SpecialityClasifierCode']) && !empty($_GET['SpecialityClasifierCode'])){
+	$OKR = $_GET['SpecialityClasifierCode']; //если есть параметр ОКР - присваиваем это значение
+        $OKR = mb_substr($OKR, 0, 1);
 }
 
 $spec_name = "SpecialityName";
