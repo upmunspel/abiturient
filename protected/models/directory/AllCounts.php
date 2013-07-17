@@ -61,7 +61,8 @@ class AllCounts extends CActiveRecord
 			array('dnevn, dnevn_budget, dnevn_contract, dnevn_pv, dnevn_pzk, dnevn_originals, dnevn_electro, zaoch, zaoch_budget, zaoch_contract, zaoch_pv, zaoch_pzk, zaoch_originals, zaoch_electro, medals', 'length', 'max'=>21),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('Fakultet, Specialnost, dnevn, dnevn_budget, dnevn_contract, dnevn_pv, dnevn_pzk, dnevn_originals, dnevn_electro, zaoch, zaoch_budget, zaoch_contract, zaoch_pv, zaoch_pzk, zaoch_originals, zaoch_electro, medals', 'safe', 'on'=>'search'),
+			array('Fakultet, Specialnost, dnevn, dnevn_budget, dnevn_contract, dnevn_pv, dnevn_pzk, dnevn_originals, dnevn_electro, cnt_dnevn_budgetcount_view,
+                            zaoch, zaoch_budget, zaoch_contract, zaoch_pv, zaoch_pzk, zaoch_originals, zaoch_electro, cnt_zaoch_budgetcount_view, medals', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -93,6 +94,8 @@ class AllCounts extends CActiveRecord
     'dnevn_pzk' => 'К-сть позаконкуср. заявок (денна)',
     'dnevn_originals' => 'К-сть заявок з наданням оригіналів (денна)',
     'dnevn_electro' => 'К-сть електр. заявок (денна)',
+    'cnt_dnevn_budgetcount_view' => 'К-сть бюджетних місць (денна)',
+    'cnt_dnevn_contractcount_view' => 'К-сть контрактних місць (денна)',
     'zaoch' => 'К-сть заявок на заочну форму',
     'zaoch_budget' => 'К-сть заявок на бюджет (заочна)',
     'zaoch_contract' => 'К-сть заявок на контракт (заочна)',
@@ -100,6 +103,8 @@ class AllCounts extends CActiveRecord
     'zaoch_pzk' => 'К-сть позаконкуср. заявок (заочна)',
     'zaoch_originals' => 'К-сть заявок з наданням оригіналів (заочна)',
     'zaoch_electro' => 'К-сть електр. заявок (заочна)',
+    'cnt_zaoch_budgetcount_view' => 'К-сть бюджетних місць (заочна)',
+    'cnt_zaoch_contractcount_view' => 'К-сть контрактних місць (заочна)',           
     'medals' => 'К-сть медалістів',
 		);
 	}

@@ -76,83 +76,91 @@ switch ($mode){
     $columns = array(
         array('name'=>'Fakultet', 'htmlOptions'=>array('style'=>"width:150px;")),
         array('name'=>'Specialnost', 'htmlOptions'=>array('style'=>"width:320px;")),
-        array('name'=>'dnevn', 'htmlOptions'=>array('style'=>"width:75px;"),
+        array('name'=>'dnevn', 'htmlOptions'=>array('style'=>"width:60px;"),
               'value'=> "CHtml::link(".'$Data->dnevn'.",Yii::app()->createUrl(\"statistic/print\",array(\"SepcialityID\"=>get_SepcialityID(".'$Data->ID'.",1))  ))",
               'type'  => 'raw',),
-        array('name'=>'dnevn_budget', 'htmlOptions'=>array('style'=>"width:75px;")),
-        array('name'=>'dnevn_contract', 'htmlOptions'=>array('style'=>"width:75px;")),
-        array('name'=>'dnevn_pv', 'htmlOptions'=>array('style'=>"width:75px;")),
-        array('name'=>'dnevn_pzk', 'htmlOptions'=>array('style'=>"width:75px;")),
-        array('name'=>'dnevn_originals', 'htmlOptions'=>array('style'=>"width:75px;")),
-        array('name'=>'dnevn_electro', 'htmlOptions'=>array('style'=>"width:75px;")),
+        array('name'=>'cnt_dnevn_budgetcount_view', 'htmlOptions'=>array('style'=>"width:60px;")),
+        array('name'=>'cnt_dnevn_contractcount_view', 'htmlOptions'=>array('style'=>"width:60px;")),
+        array('name'=>'dnevn_budget', 'htmlOptions'=>array('style'=>"width:60px;")),
+        array('name'=>'dnevn_contract', 'htmlOptions'=>array('style'=>"width:60px;")),
+        array('name'=>'dnevn_pv', 'htmlOptions'=>array('style'=>"width:60px;")),
+        array('name'=>'dnevn_pzk', 'htmlOptions'=>array('style'=>"width:60px;")),
+        array('name'=>'dnevn_originals', 'htmlOptions'=>array('style'=>"width:60px;")),
+        array('name'=>'dnevn_electro', 'htmlOptions'=>array('style'=>"width:60px;")),
         array('name'=>'zaoch', 'htmlOptions'=>array('style'=>"width:75px;border-left:4px solid green;")),
-        array('name'=>'zaoch_budget', 'htmlOptions'=>array('style'=>"width:75px;")),
-        array('name'=>'zaoch_contract', 'htmlOptions'=>array('style'=>"width:75px;")),
-        array('name'=>'zaoch_pv', 'htmlOptions'=>array('style'=>"width:75px;")),
-        array('name'=>'zaoch_pzk', 'htmlOptions'=>array('style'=>"width:75px;")),
-        array('name'=>'zaoch_originals', 'htmlOptions'=>array('style'=>"width:75px;")),
-        array('name'=>'zaoch_electro', 'htmlOptions'=>array('style'=>"width:75px;")),
+        array('name'=>'cnt_zaoch_budgetcount_view', 'htmlOptions'=>array('style'=>"width:60px;")),
+        array('name'=>'cnt_zaoch_contractcount_view', 'htmlOptions'=>array('style'=>"width:60px;")),
+        array('name'=>'zaoch_budget', 'htmlOptions'=>array('style'=>"width:60px;")),
+        array('name'=>'zaoch_contract', 'htmlOptions'=>array('style'=>"width:60px;")),
+        array('name'=>'zaoch_pv', 'htmlOptions'=>array('style'=>"width:60px;")),
+        array('name'=>'zaoch_pzk', 'htmlOptions'=>array('style'=>"width:60px;")),
+        array('name'=>'zaoch_originals', 'htmlOptions'=>array('style'=>"width:60px;")),
+        array('name'=>'zaoch_electro', 'htmlOptions'=>array('style'=>"width:60px;")),
     ); break;
     case 1:
     $columns = array(
         array('name'=>'Fakultet', 'htmlOptions'=>array('style'=>"width:150px;")),
         array('name'=>'Specialnost', 'htmlOptions'=>array('style'=>"width:320px;")),
-        array('name'=>'dnevn', 'htmlOptions'=>array('style'=>"width:75px;")),
+        array('name'=>'dnevn', 'htmlOptions'=>array('style'=>"width:60px;")),
         array('name'=>'zaoch', 'htmlOptions'=>array('style'=>"width:75px;border-left:4px solid green;")),
     ); break;
     case 2:    
     $columns = array(
         array('name'=>'Fakultet', 'htmlOptions'=>array('style'=>"width:150px;")),
         array('name'=>'Specialnost', 'htmlOptions'=>array('style'=>"width:320px;")),
-        array('name'=>'dnevn', 'htmlOptions'=>array('style'=>"width:75px;")),
-        array('name'=>'dnevn_budget', 'htmlOptions'=>array('style'=>"width:75px;")),
-        array('name'=>'dnevn_contract', 'htmlOptions'=>array('style'=>"width:75px;")),
+        array('name'=>'dnevn', 'htmlOptions'=>array('style'=>"width:60px;")),
+        array('name'=>'dnevn_budget', 'htmlOptions'=>array('style'=>"width:60px;")),
+        array('name'=>'dnevn_contract', 'htmlOptions'=>array('style'=>"width:60px;")),
         array('name'=>'zaoch', 'htmlOptions'=>array('style'=>"width:75px;border-left:4px solid green;")),
-        array('name'=>'zaoch_budget', 'htmlOptions'=>array('style'=>"width:75px;")),
-        array('name'=>'zaoch_contract', 'htmlOptions'=>array('style'=>"width:75px;")),
+        array('name'=>'zaoch_budget', 'htmlOptions'=>array('style'=>"width:60px;")),
+        array('name'=>'zaoch_contract', 'htmlOptions'=>array('style'=>"width:60px;")),
     ); break;
     case 3:
     $columns = array(
         array('name'=>'Fakultet', 'htmlOptions'=>array('style'=>"width:150px;")),
         array('name'=>'Specialnost', 'htmlOptions'=>array('style'=>"width:320px;")),
-        array('name'=>'dnevn', 'htmlOptions'=>array('style'=>"width:75px;")),
-        array('name'=>'dnevn_pv', 'htmlOptions'=>array('style'=>"width:75px;")),
-        array('name'=>'dnevn_pzk', 'htmlOptions'=>array('style'=>"width:75px;")),
+        array('name'=>'dnevn', 'htmlOptions'=>array('style'=>"width:60px;")),
+        array('name'=>'dnevn_pv', 'htmlOptions'=>array('style'=>"width:60px;")),
+        array('name'=>'dnevn_pzk', 'htmlOptions'=>array('style'=>"width:60px;")),
         array('name'=>'zaoch', 'htmlOptions'=>array('style'=>"width:75px;border-left:4px solid green;")),
-        array('name'=>'zaoch_pv', 'htmlOptions'=>array('style'=>"width:75px;")),
-        array('name'=>'zaoch_pzk', 'htmlOptions'=>array('style'=>"width:75px;")),
+        array('name'=>'zaoch_pv', 'htmlOptions'=>array('style'=>"width:60px;")),
+        array('name'=>'zaoch_pzk', 'htmlOptions'=>array('style'=>"width:60px;")),
     ); break;
     case 4:
     $columns = array(
         array('name'=>'Fakultet', 'htmlOptions'=>array('style'=>"width:150px;")),
         array('name'=>'Specialnost', 'htmlOptions'=>array('style'=>"width:320px;")),
-        array('name'=>'dnevn', 'htmlOptions'=>array('style'=>"width:75px;")),
-        array('name'=>'dnevn_electro', 'htmlOptions'=>array('style'=>"width:75px;")),
+        array('name'=>'dnevn', 'htmlOptions'=>array('style'=>"width:60px;")),
+        array('name'=>'dnevn_electro', 'htmlOptions'=>array('style'=>"width:60px;")),
         array('name'=>'zaoch', 'htmlOptions'=>array('style'=>"width:75px;border-left:4px solid green;")),
-        array('name'=>'zaoch_electro', 'htmlOptions'=>array('style'=>"width:75px;")),
+        array('name'=>'zaoch_electro', 'htmlOptions'=>array('style'=>"width:60px;")),
     ); break;
     case 5:
     $columns = array(
         array('name'=>'Fakultet', 'htmlOptions'=>array('style'=>"width:150px;")),
         array('name'=>'Specialnost', 'htmlOptions'=>array('style'=>"width:320px;")),
-        array('name'=>'medals', 'htmlOptions'=>array('style'=>"width:75px;"))
+        array('name'=>'medals', 'htmlOptions'=>array('style'=>"width:60px;"))
     ); break;
     case 6:
     $columns = array(
         array('name'=>'Fakultet', 'htmlOptions'=>array('style'=>"width:150px;")),
         array('name'=>'Specialnost', 'htmlOptions'=>array('style'=>"width:320px;")),
-        array('name'=>'dnevn', 'htmlOptions'=>array('style'=>"width:75px;")),
-        array('name'=>'dnevn_originals', 'htmlOptions'=>array('style'=>"width:75px;")),
+        array('name'=>'dnevn', 'htmlOptions'=>array('style'=>"width:60px;")),
+        array('name'=>'cnt_dnevn_budgetcount_view', 'htmlOptions'=>array('style'=>"width:60px;")),
+        array('name'=>'cnt_dnevn_contractcount_view', 'htmlOptions'=>array('style'=>"width:60px;")),
+        array('name'=>'dnevn_originals', 'htmlOptions'=>array('style'=>"width:60px;")),
         array('name'=>'zaoch', 'htmlOptions'=>array('style'=>"width:75px;border-left:4px solid green;")),
-        array('name'=>'zaoch_originals', 'htmlOptions'=>array('style'=>"width:75px;")),
+        array('name'=>'cnt_zaoch_budgetcount_view', 'htmlOptions'=>array('style'=>"width:60px;")),
+        array('name'=>'cnt_zaoch_contractcount_view', 'htmlOptions'=>array('style'=>"width:60px;")),
+        array('name'=>'zaoch_originals', 'htmlOptions'=>array('style'=>"width:60px;")),
     ); break;
     
     case -1:
     $columns = array(
         array('name'=>'Fakultet', 'htmlOptions'=>array('style'=>"width:150px;")),
         array('name'=>'Specialnost', 'htmlOptions'=>array('style'=>"width:320px;")),
-        array('name'=>'dnevn', 'htmlOptions'=>array('style'=>"width:75px;")),
-        array('name'=>'zaoch', 'htmlOptions'=>array('style'=>"width:75px;")),
+        array('name'=>'dnevn', 'htmlOptions'=>array('style'=>"width:60px;")),
+        array('name'=>'zaoch', 'htmlOptions'=>array('style'=>"width:60px;")),
     ); break;
 }
 
