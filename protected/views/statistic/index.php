@@ -9,7 +9,16 @@
 <!--http://10.1.11.57:8080/request_report-1.0/bachelor.jsp?PersonID=1&PersonSpecialityID=1&iframe=true&width=1024&height=600-->
 
 
+<div clas="form">
+    <h3>Графік прийому документів</h3>
+    <a class="btn btn-primary btn-large" href='<?php echo Yii::app()->createUrl('personspeccounts'); ?>'>Показати</a>
+</div>
 
+<?php
+//------------------------------------------------------------------------------
+?>
+ <br/>
+ 
 <div class="form">
     <h3>ЗАГАЛЬНА СТАТИСТИКА ЗАЯВОК АБІТУРІЄНТІВ</h3>
 <?php 
@@ -117,56 +126,6 @@
 <?php $this->endWidget(); ?>
 </div>
 
-<br/>
-<h3>Cтатистика заяв абітуріентів за напрямками (обраний інтервал)</h3>
-<div class="form">
-<?php 
-  $model = Yii::app()->user->getUserModel();
-  if (empty($model->syspk) || empty($model->syspk->printIP) ) throw new Exception ("Необхідно визначити адресу серверу друку документів!");
-  $ip = $model->syspk->printIP;  
-  $form=$this->beginWidget('CActiveForm', array(
-	'id'=>'zno-form-modal',
-	'enableAjaxValidation'=>false,
-        'method'=>"GET",
-        'action'=>Yii::app()->createUrl("statistic/viewex"),
-)); ?>
-<div class="row-fluid">
-    <div class="span4">
-		<?php echo Chtml::label("Освітньо кваліфікаційний рівень",'okr'); ?>
-		<?php echo CHtml::dropDownList('okr', "", array("6"=>"Бакалавр","7"=>"Специалист","8"=>"Магистр"),array('empty'=>'', 'class'=>"span12")); ?>
-		
-    </div>
-    <div class ="span2">
-                    <?php echo CHtml::label("Початкова дата інтервалу",'date_from',array('style'=>'font-size:8pt;')); ?>
-                    <?php echo CHtml::textField('date_from', "", array('class'=>'span12 datepicker')); ?>
-                    
-    </div>
-    <div class ="span2">
-                    <?php echo CHtml::label("Кінцева дата інтервалу",'date_to',array('style'=>'font-size:8pt;')); ?>
-                    <?php echo CHtml::textField('date_to', "", array('class'=>'span12 datepicker')); ?>
-                    
-    </div>
-    <div class="span4">
-		<?php echo Chtml::label("Секретар",'secname'); ?>
-		<?php echo CHtml::dropDownList('secname', "С.В. Іваненко", array("С.В. Іваненко"=>"С.В. Іваненко", "О.М. Олійник"=>"О.М. Олійник"),array('empty'=>'', 'class'=>"span12")); ?>
-		
-    </div>
-    
-</div>
-    <hr>
-
-    <div class="row-fluid">
-     <?php $this->widget("bootstrap.widgets.TbButton", array(
-			'buttonType'=>'submit',
-			'type'=>'primary',
-                         "size"=>"large",
-			'label'=>'Показати',
-                        )); 
-               
-     ?>
-    </div>
-<?php $this->endWidget(); ?>
-</div>
  <br/>
 
 
@@ -260,6 +219,59 @@
     </div>
 <?php $this->endWidget(); ?>
 </div>
+
+
+
+<br/>
+<h3>Cтатистика заяв абітуріентів за напрямками (обраний інтервал)</h3>
+<div class="form">
+<?php 
+  $model = Yii::app()->user->getUserModel();
+  if (empty($model->syspk) || empty($model->syspk->printIP) ) throw new Exception ("Необхідно визначити адресу серверу друку документів!");
+  $ip = $model->syspk->printIP;  
+  $form=$this->beginWidget('CActiveForm', array(
+	'id'=>'zno-form-modal',
+	'enableAjaxValidation'=>false,
+        'method'=>"GET",
+        'action'=>Yii::app()->createUrl("statistic/viewex"),
+)); ?>
+<div class="row-fluid">
+    <div class="span4">
+		<?php echo Chtml::label("Освітньо кваліфікаційний рівень",'okr'); ?>
+		<?php echo CHtml::dropDownList('okr', "", array("6"=>"Бакалавр","7"=>"Специалист","8"=>"Магистр"),array('empty'=>'', 'class'=>"span12")); ?>
+		
+    </div>
+    <div class ="span2">
+                    <?php echo CHtml::label("Початкова дата інтервалу",'date_from',array('style'=>'font-size:8pt;')); ?>
+                    <?php echo CHtml::textField('date_from', "", array('class'=>'span12 datepicker')); ?>
+                    
+    </div>
+    <div class ="span2">
+                    <?php echo CHtml::label("Кінцева дата інтервалу",'date_to',array('style'=>'font-size:8pt;')); ?>
+                    <?php echo CHtml::textField('date_to', "", array('class'=>'span12 datepicker')); ?>
+                    
+    </div>
+    <div class="span4">
+		<?php echo Chtml::label("Секретар",'secname'); ?>
+		<?php echo CHtml::dropDownList('secname', "С.В. Іваненко", array("С.В. Іваненко"=>"С.В. Іваненко", "О.М. Олійник"=>"О.М. Олійник"),array('empty'=>'', 'class'=>"span12")); ?>
+		
+    </div>
+    
+</div>
+    <hr>
+
+    <div class="row-fluid">
+     <?php $this->widget("bootstrap.widgets.TbButton", array(
+			'buttonType'=>'submit',
+			'type'=>'primary',
+                         "size"=>"large",
+			'label'=>'Показати',
+                        )); 
+               
+     ?>
+    </div>
+<?php $this->endWidget(); ?>
+</div>
  
  <br/>
 
@@ -326,15 +338,7 @@
 
  <br/>
  
-<div clas="form">
-    <h3>Графік прийому документів</h3>
-    <a class="btn btn-primary btn-large" href='<?php echo Yii::app()->createUrl('personspeccounts'); ?>'>Показати</a>
-</div>
 
-<?php
-//------------------------------------------------------------------------------
-?>
- <br/>
  <div class="form">
      <h3>Статистика заявок з поданням оригіналів</h3>
 <?php 
@@ -476,6 +480,32 @@
     <a class="btn btn-primary btn-large" href='<?php echo Yii::app()->createUrl('statistic/residentlist'); ?>'>Показати</a>
 </div>  
 <br/>
+
+
+<div clas="form">
+    <h3>Статистика подання заяв абітурієнтів випускників ЗНУ та інших ВНЗ по спеціальностям</h3>
+    <a class="btn btn-primary btn-large" href='<?php echo Yii::app()->createUrl('statistic/viewgraduated'); ?>'>Показати</a>
+</div>
+ 
+  <br/>
+ 
+<div clas="form">
+    <h3>Статистика подання заяв абітурієнтів випускників ЗНУ та інших ВНЗ по факультетам</h3>
+    <a class="btn btn-primary btn-large" href='<?php echo Yii::app()->createUrl('statistic/viewgraduatedbyf'); ?>'>Показати</a>
+</div>  
+<br/>
+
+
+
+<div clas="form">
+    <h3>Абітурієнти випускники інших ВНЗ по факультетам 
+    </h3>
+    <a class="btn btn-primary btn-large" href='<?php echo Yii::app()->createUrl('statistic/foreigngrad'); ?>'>Показати</a>
+</div>  
+<br/>
+
+
+
 
 <?php if (Yii::app()->user->checkAccess("printPhones")): ?>
 <div class="form">
