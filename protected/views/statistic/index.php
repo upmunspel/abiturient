@@ -490,12 +490,13 @@
 )); ?>
 <div class="row-fluid">
     
-    <div class="span6">
+<!--    <div class="span6">
 	<?php echo $form->labelEx($model,'SepcialityID'); ?>
 	<?php echo $form->dropDownList($model,'SepcialityID', Specialities::DropDown(0),
                         array(  'empty'=>'',  'class'=>"span12") ); ?>
-    </div>
-      
+    </div>-->
+      <?php echo CHtml::label("Факультет", "idFuc") ?>
+      <?php echo CHtml::dropDownList("idFuc", "" , CHtml::listData(Facultets::model()->findAll(array('order'=>'FacultetFullName')),'idFacultet','FacultetFullName'),array(  'empty'=>'',  'class'=>"span12") ); ?>
 </div>
     <hr>
     <div class="row-fluid">

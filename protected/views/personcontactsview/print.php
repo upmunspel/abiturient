@@ -1,85 +1,61 @@
-<?php
-/* @var $this PersonviewController */
-/* @var $model PersonSpecialityView */
-?>
-<!--<style media ="screen">
-    #print-version {
-        /* display: none; */
-    }
-    #screen-version {
-        display: block;
-    }
-</style>-->
+<html>
+<head>
+<meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>
+<title>Список абітурієнтів</title>
 <style>
-    #print-version {
-        display: block;
-        font-size: 10pt;
-        margin: 2px;
-        padding: 0px;
-    }
-    .navbar {
-        display: none;
-    }
-   
-    table { page-break-inside:auto }
-    tr    { page-break-inside:avoid; page-break-after:auto }
-    thead { display:table-header-group }
-    tfoot { display:table-footer-group }
-    
- </style>
+TD {
+	font-size: 12pt;
+	border: 1px solid black;
+       
+}
 
+TABLE {
+       border: 1px solid black;
+}
+
+TH {
+	font-size: 14pt;
+	border: 1px solid black;
+        
+}
+
+H1 {
+	font-size: 20pt;
+        text-align: center;
+}
+
+</style>
+</head>
+<body>
     
-<?php 
-    $data = $model->search(); 
-    $table_data = $data->getData();
-    $spesname = "";
-    if (count($table_data)>0){
-        $spesname = $table_data[0]->getAttribute('SpecName');
-    }
+<?php
+error_reporting(E_STRICT);
+$connect_status = mysql_connect(/*"localhost","root","","abiturient"*/"10.1.103.26","edbo","eU7InIl","abiturient");
+if (!$connect_status){
+	echo "<center>
+	<h1 style='color:red;font-size:18pt;font-family:Monotype Corsiva'>
+	Немає зв'язку з сервером. 
+	Зараз ви можете піти випити кофе або просто почекати. 
+	Влаштовуйтесь позручніше.</h1></center>";
+	exit();
+}
+mysql_query("USE `abiturient`");
+mysql_query("SET NAMES utf8");
+$idFac = $_GET['idFuc'];
+$columncount = 0;
+$query = "SELECT surname, name, fartherName,spec, edu, homephone, mobile, eb , city, region, cityVillage, sumBall, isCopy    
+    FROM persons_list
+    WHERE idFacultet = $idFac AND status NOT IN(2,3,10)";
+$res = mysql_query($query);
+ echo "<H1>Список абітурієнтів</H1>";
+ echo "<table align = center cellspacing = 0><tr style='font-weight:bold; text-align: center;'><td>№</td><td>ПІБ</td><td width=150px>Контакти</td><td>Адреса</td><td>Напрям</td><td>Сума балів</td><td>Ел. заява</td><td>Форма<br>навчання</td><td>Чи буде<br>надавати<br>документи</td></tr>";
+ for($i=0; $i<mysql_num_rows($res); $i++){
+     $rows[$i] = mysql_fetch_assoc($res);
+     echo "<tr><td>".++$columncount."</td><td>".$rows[$i]['surname']." ".$rows[$i]['name']." ".$rows[$i]['fartherName']."</td><td width=150px>"
+     ."моб.".$rows[$i]['mobile']."<br>дом.".$rows[$i]['homePhone']."</td><td>".$rows[$i]['region']."<br>".$rows[$i]['cityVillage']."<br>".$rows[$i]['city']."</td><td width=350>".$rows[$i]['spec']."</td><td>".round($rows[$i]['sumBall'],1)."</td><td>".$rows[$i]['eb']."</td><td>".$rows[$i]['edu']."</td><td>&nbsp</td></tr>";
+ }
 ?>
 
-
-
-<div id="print-version" style="margin: 0 auto; width: 100%;"  >
-    <h3><center>Телефони абітуріентів спеціальності  <?php echo $spesname; ?> </center></h3>
-    <table border=1 cellspacing=0 width="100%">
-        <tr>
-            <th width="30">№</th>
-            <th>Справа</th>
-            <th>ФІО</th>
-             <th>Ел. заява</th>
-            <th>Спеціальність</th>
-            <th>Контакти</th>
-         </tr>
-    <?php
-       
-      
-        
-        for ($i = 0; $i < count($table_data); $i++){
-            ?>
-            <tr>
-                 <td align="center" ><?php
-                echo $i+1;
-            ?></td>
-            <td align="center"><?php
-                echo str_pad($table_data[$i]->getAttribute("RequestNumber"), 5, "0", STR_PAD_LEFT);
-            ?></td>
-            <td><?php
-                echo $table_data[$i]->getAttribute('FIO');
-            ?></td>
-        <td><?php
-                echo ($table_data[$i]->getAttribute('RequestFromEB') == 1) ? "Так": "Ні";
-            ?></td>
-            <td><?php
-                echo $table_data[$i]->getAttribute('SpecName');
-            ?></td>
-             <td><?php
-                echo $table_data[$i]->getAttribute('Contacts');
-            ?></td>
-            </tr>
-            <?php
-        }
-    
-    ?>
-    </table>
-</div>
+</body>
+</html>
+<?php mysql_close(); ?>
