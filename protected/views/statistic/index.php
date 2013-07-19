@@ -502,8 +502,56 @@
     </h3>
     <a class="btn btn-primary btn-large" href='<?php echo Yii::app()->createUrl('statistic/foreigngrad'); ?>'>Показати</a>
 </div>  
-<br/>
 
+
+ <br/>
+ 
+ 
+ 
+ 
+ 
+
+ <div class="form">
+     <h3>Список абітурієнтів, що не пройшли ЗНО</h3>
+<?php 
+  if (empty($model->syspk) || empty($model->syspk->printIP) ) throw new Exception ("Необхідно визначити адресу серверу друку документів!");
+  $ip = $model->syspk->printIP;  
+  $act = Yii::app()->createUrl("statistic/examwithoutzno");
+  $form=$this->beginWidget('CActiveForm', array(
+	'id'=>'rept-originals',
+	'enableAjaxValidation'=>false,
+        'method'=>"GET",
+        'action'=>$act,
+)); ?>
+<div class="row-fluid">
+    <div class="span3">
+		<?php echo Chtml::label("Форма",'form'); ?>
+		<?php echo CHtml::dropDownList('form', "", array("1"=>"Денна","2"=>"Заочна","3"=>"Екстернат"),array('empty'=>'', 'class'=>"span12")); ?>
+		
+    </div>
+   
+</div>
+    <hr>
+    <div class="row-fluid">
+     <?php $this->widget("bootstrap.widgets.TbButton", array(
+			'buttonType'=>'submit',
+			'type'=>'primary',
+                         "size"=>"large",
+			'label'=>'Показати',
+                        )); 
+               
+     ?>
+    </div>
+<?php $this->endWidget(); ?>
+</div>
+
+
+
+
+
+
+
+<br/>
 
 
 
