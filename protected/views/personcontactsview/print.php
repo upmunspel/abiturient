@@ -45,7 +45,7 @@ $idFac = $_GET['idFuc'];
 $columncount = 0;
 
 $query = "SELECT surname, name, fartherName, spec, edu, homephone, mobile, eb , city, region, cityVillage, sumBall, isCopy    
-    FROM persons_list
+    FROM person_list
     WHERE idFacultet = $idFac AND status NOT IN(2,3,10) order by edu, spec, sumBall desc";
  
 
@@ -58,7 +58,7 @@ $res = mysql_query($query);
      echo "<tr>
           <td>".++$columncount."</td>
           <td>".$rows[$i]['surname']." ".$rows[$i]['name']." ".$rows[$i]['fartherName']."</td>
-          <td width=150px>"."моб.".$rows[$i]['mobile']."<br>дом.".$rows[$i]['homePhone']."</td>
+          <td width=150px>"."моб.".$rows[$i]['mobile']."<br>дом.".$rows[$i]['homephone']."</td>
           <td style='font-size: 10px;'>".$rows[$i]['region'].(!empty($rows[$i]['cityVillage']) ? ", ".$rows[$i]['cityVillage']:"").(!empty($rows[$i]['city'])? ", ".$rows[$i]['city']: "")."</td>
           <td align='center' style='font-size: 10px;'>".$rows[$i]['spec']."</td>
           <td align='center' >".round($rows[$i]['sumBall'],1)."</td>
