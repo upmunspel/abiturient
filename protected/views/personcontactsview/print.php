@@ -30,7 +30,7 @@ H1 {
     
 <?php
 error_reporting(E_STRICT);
-$connect_status = mysql_connect(/*"localhost","root","","abiturient"*/"10.1.103.26","edbo","eU7InIl","abiturient");
+$connect_status =  mysql_connect(/*"localhost","root","","abiturient"*/"10.1.103.26","edbo","eU7InIl","abiturient");
 if (!$connect_status){
 	echo "<center>
 	<h1 style='color:red;font-size:18pt;font-family:Monotype Corsiva'>
@@ -43,16 +43,28 @@ mysql_query("USE `abiturient`");
 mysql_query("SET NAMES utf8");
 $idFac = $_GET['idFuc'];
 $columncount = 0;
-$query = "SELECT surname, name, fartherName,spec, edu, homephone, mobile, eb , city, region, cityVillage, sumBall, isCopy    
+
+$query = "SELECT surname, name, fartherName, spec, edu, homephone, mobile, eb , city, region, cityVillage, sumBall, isCopy    
     FROM persons_list
-    WHERE idFacultet = $idFac AND status NOT IN(2,3,10)";
+    WHERE idFacultet = $idFac AND status NOT IN(2,3,10) order by edu, spec, sumBall desc";
+ 
+
+
 $res = mysql_query($query);
- echo "<H1>Список абітурієнтів</H1>";
+ echo "<H1>Контактна інформація абітурієнтів станом на ".date("d.m.Y")."</H1>";
  echo "<table align = center cellspacing = 0><tr style='font-weight:bold; text-align: center;'><td>№</td><td>ПІБ</td><td width=150px>Контакти</td><td>Адреса</td><td>Напрям</td><td>Сума балів</td><td>Ел. заява</td><td>Форма<br>навчання</td><td>Чи буде<br>надавати<br>документи</td></tr>";
  for($i=0; $i<mysql_num_rows($res); $i++){
      $rows[$i] = mysql_fetch_assoc($res);
-     echo "<tr><td>".++$columncount."</td><td>".$rows[$i]['surname']." ".$rows[$i]['name']." ".$rows[$i]['fartherName']."</td><td width=150px>"
-     ."моб.".$rows[$i]['mobile']."<br>дом.".$rows[$i]['homePhone']."</td><td>".$rows[$i]['region']."<br>".$rows[$i]['cityVillage']."<br>".$rows[$i]['city']."</td><td width=350>".$rows[$i]['spec']."</td><td>".round($rows[$i]['sumBall'],1)."</td><td>".$rows[$i]['eb']."</td><td>".$rows[$i]['edu']."</td><td>&nbsp</td></tr>";
+     echo "<tr>
+          <td>".++$columncount."</td>
+          <td>".$rows[$i]['surname']." ".$rows[$i]['name']." ".$rows[$i]['fartherName']."</td>
+          <td width=150px>"."моб.".$rows[$i]['mobile']."<br>дом.".$rows[$i]['homePhone']."</td>
+          <td style='font-size: 10px;'>".$rows[$i]['region'].(!empty($rows[$i]['cityVillage']) ? ", ".$rows[$i]['cityVillage']:"").(!empty($rows[$i]['city'])? ", ".$rows[$i]['city']: "")."</td>
+          <td align='center' style='font-size: 10px;'>".$rows[$i]['spec']."</td>
+          <td align='center' >".round($rows[$i]['sumBall'],1)."</td>
+          <td align='center'>".$rows[$i]['eb']."</td>
+          <td align='center'>".$rows[$i]['edu']."</td>
+          <td>&nbsp</td></tr>";
  }
 ?>
 
