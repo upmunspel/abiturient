@@ -132,7 +132,7 @@ class Personspeciality extends ActiveRecord
                         //array("CausalityID",  "default", "value"=>100,"except"=>"SHORTFORM"),
                     
                         array("Exam1Ball, Exam2Ball, Exam3Ball", 'numerical',
-                               "max"=>200, "min"=>100, "allowEmpty"=>true, 'except'=>'ZNOEXAM, EXAM'),
+                               "max"=>200, "min"=>30, "allowEmpty"=>true, 'except'=>'ZNOEXAM, EXAM'),
                         array("AdditionalBall, CoursedpBall", 'numerical',
                                "max"=>200, "min"=>1, "allowEmpty"=>true ),
                         array('PersonID, SepcialityID,  EducationFormID, 
@@ -142,12 +142,12 @@ class Personspeciality extends ActiveRecord
                         array("DocumentSubject1, DocumentSubject2, DocumentSubject3", "required", "on"=>"ZNO"),
                     
                         array("Exam1ID, Exam2ID, Exam3ID, CausalityID", "required", "on"=>"EXAM"),
-                        array("Exam1Ball, Exam2Ball, Exam3Ball", 'numerical', "max"=>200, "min"=>100, "allowEmpty"=>true, "on"=>"EXAM"),
+                        array("Exam1Ball, Exam2Ball, Exam3Ball", 'numerical', "max"=>200, "min"=>30, "allowEmpty"=>true, "on"=>"EXAM"),
                     
                     
                         array("CausalityID", "required","on"=>"ZNOEXAM" ),
                         array("Exam1ID, Exam2ID, Exam3ID, DocumentSubject1, DocumentSubject2, DocumentSubject3", "valididateZnoExam","on"=>"ZNOEXAM" ),
-                        array("Exam1Ball, Exam2Ball, Exam3Ball", 'numerical', "max"=>200, "min"=>100, "allowEmpty"=>true, "on"=>"ZNOEXAM"),
+                        array("Exam1Ball, Exam2Ball, Exam3Ball", 'numerical', "max"=>200, "min"=>30, "allowEmpty"=>true, "on"=>"ZNOEXAM"),
                               // DocumentSubject1, DocumentSubject2, DocumentSubject3, 
                               //  Exam1ID, Exam1Ball, Exam2ID, Exam2Ball, Exam3ID, Exam3Ball', 'numerical', 'integerOnly'=>true),
 			//array('AdditionalBall', 'numerical'),

@@ -284,7 +284,7 @@ class PersonSpecialityView extends CActiveRecord
                 $criteria->addCondition('StatusID<>10');
                 $criteria->addCondition('StatusID<>3');
                 if (!empty($this->CreateDate)){
-                    $criteria->addBetweenCondition('CreateDate', date('Y-m-d', strtotime($this->CreateDate)), date('Y-m-d', strtotime($this->CreateDate))." 23:59:59");
+                    $criteria->addBetweenCondition('CreateDate', date('Y-m-d', strtotime($this->CreateDate)), date('Y-m-d'));
                 }
               
 //                if (!empty($user) && !empty($user->syspk->QualificationID)) {
