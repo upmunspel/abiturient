@@ -71,6 +71,9 @@ class SiteController extends Controller
                 if (Yii::app()->user->checkAccess('asOperatorStart')){
                     $this->redirect(Yii::app()->createUrl("personview"));
                 } 
+                if (Yii::app()->user->checkAccess('StatisticView')){
+                    $this->redirect(Yii::app()->createUrl("statistic"));
+                } 
                 $this->render('index');
 	}
 

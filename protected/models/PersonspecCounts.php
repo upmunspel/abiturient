@@ -10,7 +10,11 @@
  */
 class PersonspecCounts extends CActiveRecord
 {
-	/**
+    public function primaryKey() {
+        return "idPersonSpeciality";
+    }
+
+    /**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
 	 * @return PersonspecCounts the static model class
@@ -63,9 +67,9 @@ class PersonspecCounts extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-    '_date_' => 'Дата',
-    '_count_' => 'Кількість',
-    'idPersonSpeciality' => 'ID',
+                '_date_' => 'Дата',
+                '_count_' => 'Кількість',
+                'idPersonSpeciality' => 'ID',
 		);
 	}
 
@@ -82,7 +86,7 @@ class PersonspecCounts extends CActiveRecord
 
 		$criteria->compare('_date_',$this->_date_,true);
 		$criteria->compare('_count_',$this->_count_,true);
-		$criteria->compare('idPersonSpeciality',$this->idPersonSpeciality);
+		$criteria->compare('idPersonSpeciality', $this->idPersonSpeciality);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,'pagination'=>array(
