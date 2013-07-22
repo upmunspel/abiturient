@@ -83,6 +83,8 @@ if ($OKR == 6) {
 	$spec_name = "SpecialityDirectionName";
 }
 
+$additional_count_condition = " personspeciality.StatusID NOT IN (10)";
+
 $query = "select 
 facultets.idFacultet,facultets.FacultetFullName, 
 count(distinct specialities.SpecialityClasifierCode) as 'cnt' 
@@ -103,26 +105,31 @@ MID(specialities.SpecialityClasifierCode,1,1)='".$OKR."';";
 $query_counts = "select 
 
 sum(specialities.PersonEducationFormID=1 AND 
-MID(personspeciality.CreateDate,1,10) = MID(__DATE__,1,10)) AS B_dnevn_per_day, 
+MID(personspeciality.CreateDate,1,10) = MID(__DATE__,1,10)
+AND __ADDITIONAL_CONDITION__) AS B_dnevn_per_day, 
 
 sum(specialities.PersonEducationFormID=1 AND
 personspeciality.CreateDate BETWEEN 
 STR_TO_DATE('2013-07-01 00:00:00', '%Y-%m-%d %H:%i:%s') AND 
-STR_TO_DATE('2013-12-21 23:59:59', '%Y-%m-%d %H:%i:%s')) AS B_dnevn_all,
+STR_TO_DATE('2013-12-21 23:59:59', '%Y-%m-%d %H:%i:%s') AND __ADDITIONAL_CONDITION__) AS B_dnevn_all,
 
 sum(specialities.PersonEducationFormID=2 AND 
-MID(personspeciality.CreateDate,1,10) = MID(__DATE__,1,10)) AS B_zaoch_per_day,
+MID(personspeciality.CreateDate,1,10) = MID(__DATE__,1,10)
+AND __ADDITIONAL_CONDITION__) AS B_zaoch_per_day,
 
 sum(specialities.PersonEducationFormID=2 AND 
 personspeciality.CreateDate BETWEEN 
 STR_TO_DATE('2013-07-01 00:00:00', '%Y-%m-%d %H:%i:%s') AND 
-STR_TO_DATE('2013-12-21 23:59:59', '%Y-%m-%d %H:%i:%s')) AS B_zaoch_all 
+STR_TO_DATE('2013-12-21 23:59:59', '%Y-%m-%d %H:%i:%s') AND __ADDITIONAL_CONDITION__) AS B_zaoch_all 
 
 FROM specialities 
 JOIN personspeciality ON 
 personspeciality.SepcialityID=specialities.idSpeciality 
 WHERE specialities.SpecialityClasifierCode ='__CODE__' AND
 specialities.FacultetID=__FacultetID__ ";
+
+$query_counts = str_replace("__ADDITIONAL_CONDITION__",$additional_count_condition,$query_counts);
+
 
 $query_specializationsCodes = "
 SELECT DISTINCT  `SpecialityClasifierCode` 
@@ -139,8 +146,9 @@ $query_distinct_persons = "SELECT COUNT(DISTINCT PersonID) AS `cnt`
     FROM personspeciality 
     JOIN specialities ON 
     personspeciality.SepcialityID=specialities.idSpeciality 
-WHERE __WDATE__  AND MID(specialities.SpecialityClasifierCode,1,1) = '".$OKR."'";
-
+WHERE __WDATE__  AND MID(specialities.SpecialityClasifierCode,1,1) = '".$OKR."'
+    AND __ADDITIONAL_CONDITION__";
+$query_distinct_persons = str_replace("__ADDITIONAL_CONDITION__",$additional_count_condition,$query_distinct_persons);
 
 if ($OKR == '7' || $OKR == '8'){
    $query_distinct_persons = str_replace(" = '".$OKR."'"," IN ('7','8')",$query_distinct_persons); 
@@ -253,23 +261,27 @@ for ($i = 0; $i < mysql_num_rows($res); $i++){
 $gen_counts_query = "
 SELECT SUM(specialities.PersonEducationFormID = 1
 AND SUBSTRING(specialities.SpecialityClasifierCode,1,1) = '".$OKR."'
-AND SUBSTRING(CreateDate,1,10)=SUBSTRING(__DATE__,1,10)) as `all-dnevn-XX.07.2013`,
+AND SUBSTRING(CreateDate,1,10)=SUBSTRING(__DATE__,1,10)
+AND __ADDITIONAL_CONDITION__) as `all-dnevn-XX.07.2013`,
 
 SUM(specialities.PersonEducationFormID = 2
 AND SUBSTRING(specialities.SpecialityClasifierCode,1,1) = '".$OKR."'
-AND SUBSTRING(CreateDate,1,10)=SUBSTRING(__DATE__,1,10)) as `all-zaochn-XX.07.2013`,
+AND SUBSTRING(CreateDate,1,10)=SUBSTRING(__DATE__,1,10)
+AND __ADDITIONAL_CONDITION__) as `all-zaochn-XX.07.2013`,
 
 SUM(specialities.PersonEducationFormID = 1
 AND SUBSTRING(specialities.SpecialityClasifierCode,1,1) = '".$OKR."'
 AND CreateDate
 BETWEEN STR_TO_DATE('2013-07-01 00:00:00', '%Y-%m-%d %H:%i:%s')
-AND STR_TO_DATE('2013-12-21 23:59:59', '%Y-%m-%d %H:%i:%s')) as `all-dnevn-from01.07.2013`,
+AND STR_TO_DATE('2013-12-21 23:59:59', '%Y-%m-%d %H:%i:%s')
+AND __ADDITIONAL_CONDITION__) as `all-dnevn-from01.07.2013`,
 
 SUM(specialities.PersonEducationFormID = 2
 AND SUBSTRING(specialities.SpecialityClasifierCode,1,1) = '".$OKR."'
 AND CreateDate
 BETWEEN STR_TO_DATE('2013-07-01 00:00:00', '%Y-%m-%d %H:%i:%s')
-AND STR_TO_DATE('2013-12-21 23:59:59', '%Y-%m-%d %H:%i:%s')) as `all-zaochn-from01.07.2013`
+AND STR_TO_DATE('2013-12-21 23:59:59', '%Y-%m-%d %H:%i:%s') AND
+__ADDITIONAL_CONDITION__) as `all-zaochn-from01.07.2013`
 
 FROM
 
@@ -279,6 +291,7 @@ LEFT JOIN personspeciality
 ON specialities.idSpeciality=personspeciality.SepcialityID
 WHERE  1 ;";
 
+$gen_counts_query = str_replace("__ADDITIONAL_CONDITION__",$additional_count_condition,$gen_counts_query);
 $gen_counts_query = str_replace("__DATE__",$date,$gen_counts_query);
 $gen_counts_res = mysql_query($gen_counts_query);$QUERY_COUNT++;
 $gen_counts = mysql_fetch_assoc($gen_counts_res);

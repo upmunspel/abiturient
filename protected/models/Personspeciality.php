@@ -100,6 +100,8 @@ class Personspeciality extends ActiveRecord
             if ($this->StatusID == 10) return "row-red";
             // cenceled
             if ($this->StatusID == 3) return "row-reset";
+            //denied
+            if ($this->StatusID == 2) return "row-goldenrod";
             if (!empty($this->edboID)) return "row-green";
             return "";
         }

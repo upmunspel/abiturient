@@ -151,6 +151,7 @@ $dataProvider=new CActiveDataProvider( "Personspeciality", array('criteria'=>arr
         <li style="color: green;">Синхронізована</li>
         <li style="color: blue;" >Скасована</li>
         <li style="color: red;" >Видалена</li>
+        <li style="color: goldenrod;" >Відмова</li>
     </ul>
 </div><!-- form -->
 <script type="text/javascript">
