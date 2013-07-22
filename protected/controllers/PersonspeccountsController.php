@@ -4,7 +4,15 @@ class PersonspeccountsController extends Controller
 {
 	public function actionIndex()
 	{
-		$this->render('index');
+            $model=new PersonspecCounts('search');
+		$model->unsetAttributes();  // clear any default values
+		if(isset($_GET['PersonspecCounts']))
+			$model->attributes=$_GET['PersonspecCounts'];
+
+		$this->render('index',array(
+			'model'=>$model,
+		));
+	
 	}
 
 	// Uncomment the following methods and override them if needed

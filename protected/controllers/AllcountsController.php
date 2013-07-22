@@ -61,6 +61,11 @@ class AllcountsController extends Controller
 	}        
         public function actionIndex()
 	{
-		$this->render('index');
+                $model=new AllCounts('search');
+		$model->unsetAttributes();  // clear any default values
+		if(isset($_GET['AllCounts'])) {
+			$model->attributes=$_GET['AllCounts'];
+                }
+		$this->render('index', array('model'=>$model));
 	}
 }
