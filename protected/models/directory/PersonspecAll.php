@@ -55,7 +55,7 @@ class PersonspecAll extends CActiveRecord
                             RequestFromEB, PozaKonkursom, Pozacherg, edboID, N_dela, StatusID', 'numerical', 'integerOnly'=>true),
 			array('FIO', 'length', 'max'=>302),
 			array('FacultetFullName', 'length', 'max'=>255),
-			array('QualificationName, Forma', 'length', 'max'=>45),
+			array('QualificationName, Forma, Status', 'length', 'max'=>45),
 			array('Specialnost', 'length', 'max'=>216),
 			array('Pilga', 'length', 'max'=>250),
 			array('Date', 'length', 'max'=>10),
@@ -66,7 +66,7 @@ class PersonspecAll extends CActiveRecord
                             Forma, isContract, isBudget, isCopyEntrantDoc, 
                             RequestFromEB, Pilga, PozaKonkursom, Pozacherg, 
                             Date, edboID, Nomer_lichnogo_dela, N_dela, 
-                            StatusID', 'safe', 'on'=>'search'),
+                            StatusID, Status', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -105,6 +105,7 @@ class PersonspecAll extends CActiveRecord
     'Nomer_lichnogo_dela' => 'Номер особової справи',
     'N_dela' => 'Номер справи',
     'StatusID' => 'Статус заявки',
+    'Status' => 'Статус'
 		);
 	}
 
@@ -136,7 +137,61 @@ class PersonspecAll extends CActiveRecord
 		$criteria->compare('Nomer_lichnogo_dela',$this->Nomer_lichnogo_dela,true);
 		$criteria->compare('N_dela',$this->N_dela);
 		$criteria->compare('StatusID',$this->StatusID);
-
+                $criteria->compare('Status',$this->Status);
+		
+		foreach ($params as $key=>$param){
+			switch ($key){
+				case 'okr':
+                                        $okr = $param;
+					$criteria->addCondition("QualificationName LIKE '".$okr."'");
+					break;
+				case 'form':
+					$form = $param;
+					$criteria->addCondition("Forma LIKE '".$form."'");
+					break;
+				case 'spec':
+					$spec = urldecode($param);
+					$criteria->addCondition("Specialnost LIKE '".$spec."'");
+					break;
+                                 case 'date':
+					$date = $param;
+					$criteria->addCondition("`Date` LIKE '".$date."'");
+					break;
+                                 case 'isBudget':
+					$isb = $param;
+					$criteria->addCondition("`isBudget` = ".$isb."");
+					break;
+                                 case 'isContract':
+					$isc = $param;
+					$criteria->addCondition("`isContract` = ".$isc."");
+					break;
+                                 case 'isCopyEntrantDoc':
+					$isced = $param;
+					$criteria->addCondition("`isCopyEntrantDoc` = ".$isced."");
+					break;
+                                 case 'isPV':
+					$ispv = $param;
+					$criteria->addCondition("`Pozacherg` = ".$ispv."");
+					break;
+                                 case 'isPZK':
+					$ispzk = $param;
+					$criteria->addCondition("`PozaKonkursom` = ".$ispzk."");
+					break;
+                                 case 'RequestFromEB':
+					$r = $param;
+					$criteria->addCondition("`RequestFromEB` = ".$r."");
+					break;
+                                 case 'medal':
+					$r = $param;
+                                        if ($r !=0){
+                                            $r = "нагороджені золотою або срібною медаллю";
+                                        }
+					$criteria->addCondition("`Pilga` LIKE '%".$r."%'");
+					break;
+			}
+		}
+		
+		
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
                     'pagination'=>array(
@@ -144,4 +199,38 @@ class PersonspecAll extends CActiveRecord
                         ),
 		));
 	}
+        public function getRowClass($StatusID){
+            $rowClass = "";
+            switch($StatusID){
+                case 1: "Нова заява";break; 
+                case 2: "Відмова";$rowClass="row-goldenrod";break; 
+                case 3: "Скасована";$rowClass="row-reset";break; 
+                case 4: "Допущена";$rowClass="row-green";break; 
+                case 5: "Рекомендовано";$rowClass="row-green";break; 
+                case 6: "Відхилено";$rowClass="row-goldenrod";break; 
+                case 7: "До наказу";$rowClass="row-green";break;
+                case 8: "Із сайту";break; 
+                case 9: "Затримано";$rowClass="row-goldenrod";break;
+
+            }
+            // deleted
+            if ($StatusID == 10) return "row-red";
+            return $rowClass;
+        }
+        
+        public function getStatusName($StatusID){
+            switch($StatusID){
+                case 1: return "Нова заява";break; 
+                case 2: return "Відмова";break; 
+                case 3: return "Скасована";break; 
+                case 4: return "Допущена";break; 
+                case 5: return "Рекомендовано";break; 
+                case 6: return "Відхилено";break; 
+                case 7: return "До наказу";break;
+                case 8: return "Із сайту";break; 
+                case 9: return "Затримано";break;
+                case 10: return "Видалена";break;
+            }
+            return "Нова заява";
+        }
 }

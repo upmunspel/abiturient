@@ -167,7 +167,14 @@ class StatisticController extends Controller
 	}        
         public function actionVerify(){
             $this->layout='//layouts/main_1';
-            $this->render('verify');
+            $model=new PersonspecAll('search');
+            $model->unsetAttributes();  // clear any default values
+            if(isset($_GET['PersonspecAll']))
+                    $model->attributes=$_GET['PersonspecAll'];
+            $this->layout='//layouts/main_1';
+            $this->render('verify',array(
+                    'model'=>$model,
+            ));
         }
         public function actionForeigngrad(){
             $this->layout='//layouts/main_1';

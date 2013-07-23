@@ -1,8 +1,29 @@
 <?php Yii::app()->bootstrap->register(); ?>
 <?php
-$model = PersonspecAll::model();
+
 
 $params = array();
+$all_params = array(
+  'okr',
+  'form',
+  'spec',
+  'date',
+  'isBudget',
+  'isContract',
+  'isCopyEntrantDoc',
+  'isPZK',
+  'isPV',
+  'RequestFromEB',
+  'medal'
+);
+
+foreach($_GET as $key => $val){
+	if (in_array($key, $all_params)){
+            $params[$key] = $val;
+	}
+}
+
+
 
 $data = $model->search($params);
 
@@ -17,28 +38,20 @@ $columns = array(
     array('name'=>'isBudget', 'htmlOptions'=>array('style'=>"width:40px;") , 
         'value' => '($data->isBudget == 1)? "так":"ні"'),
     array('name'=>'isCopyEntrantDoc', 'htmlOptions'=>array('style'=>"width:40px;") , 
-        'value' => '($data->isCopyEntrantDoc == 1)? "копія":"оригінал"'),
+        'value' => '($data->isCopyEntrantDoc == 1)? "копія":"оригінал"', 'filter'=>array('0'=>'оригінал','1'=>'копія')),
     array('name'=>'RequestFromEB', 'htmlOptions'=>array('style'=>"width:40px;") , 
-        'value' => '($data->RequestFromEB == 0)? "ні":"так"'),
+        'value' => '($data->RequestFromEB == 0)? "ні":"так"', 'filter'=>array('0'=>'ні','1'=>'так')),
     array('name'=>'Pilga', 'htmlOptions'=>array('style'=>"width:350px;font-size:7pt;"),
         'value' => '($data->Pilga)? "$data->Pilga":"немає"'),
     array('name'=>'PozaKonkursom', 'htmlOptions'=>array('style'=>"width:40px;") , 
-        'value' => '($data->PozaKonkursom == 0)? "ні":"так"'),
+        'value' => '($data->PozaKonkursom == 0)? "ні":"так"', 'filter'=>array('0'=>'ні','1'=>'так')),
     array('name'=>'Pozacherg', 'htmlOptions'=>array('style'=>"width:40px;") , 
-        'value' => '($data->Pozacherg == 0)? "ні":"так"'),
+        'value' => '($data->Pozacherg == 0)? "ні":"так"', 'filter'=>array('0'=>'ні','1'=>'так')),
     array('name'=>'Date', 'htmlOptions'=>array('style'=>"width:130px;")),
     array('name'=>'edboID', 'htmlOptions'=>array('style'=>"width:50px;")),
     array('name'=>'N_dela', 'htmlOptions'=>array('style'=>"width:50px;")),
-    array('name'=>'StatusID', 'htmlOptions'=>array('style'=>"width:50px;"),
-//        'value' => 'switch($data->StatusID){ case 1: "Нова заява";break; 
-//            case 2: "Відмова";break; 
-//            case 3: "Скасована";break; 
-//            case 4: "Допущена";break; 
-//            case 5: "Рекомендовано";break; 
-//            case 6: "Відхилено";break; 
-//            case 7: "До наказу";break;
-//            case 8: "Із сайту";break; 
-//            case 9: "Затримано";break;}'
+    array('name'=>'Status', 'htmlOptions'=>array('style'=>"width:50px;"), 
+        //'value' => '$data->getStatusName($data->StatusID)'
         ),
     array('name'=>'edboID', 'htmlOptions'=>array('style'=>"width:150px;")),
     
@@ -48,8 +61,8 @@ $this->widget('bootstrap.widgets.TbGroupGridView', array(
 'id'=>'all-counts-view-grid',
     'type'=>'striped bordered condensed',
 'dataProvider'=>$data,
-//'rowCssClassExpression'=>'empty($data->SpecEdboID) && empty($data->PersonEdboID) ?"row-red":"row-green"',
-//'filter'=>$model,
+'rowCssClassExpression'=>'$data->getRowClass($data->StatusID)',
+'filter'=>$model,
 'mergeColumns' => array('FIO'),
 'columns'=>$columns,
 

@@ -14,7 +14,7 @@ class PersonspecCounts extends CActiveRecord
         return "idPersonSpeciality";
     }
 
-    /**
+	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
 	 * @return PersonspecCounts the static model class
@@ -67,9 +67,9 @@ class PersonspecCounts extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-                '_date_' => 'Дата',
-                '_count_' => 'Кількість',
-                'idPersonSpeciality' => 'ID',
+    '_date_' => 'Дата',
+    '_count_' => 'Кількість',
+    'idPersonSpeciality' => 'ID',
 		);
 	}
 

@@ -28,7 +28,88 @@
         }
         return 0;
     }
-
+    
+    function create_link($column, $params, $date = ""){
+        $spec = "";
+        if (isset($params['Specialnost'])){
+            $arr = explode('_',$params['Specialnost']);
+            $spec = $arr[0];
+        }
+        switch ($column){
+            case 'dnevn':
+                $link = Yii::app()->createUrl('statistic/verify');
+                $link .= '?spec='.urlencode($spec).'&form=Денна';
+                if (!empty($date)){
+                    $link .= "&date=".$date;
+                }
+                return $link;
+            case 'zaoch':
+                $link = Yii::app()->createUrl('statistic/verify');
+                $link .= '?spec='.urlencode($spec).'&form=Заочна';
+                if (!empty($date)){
+                    $link .= "&date=".$date;
+                }
+                return $link;
+             case 'dnevn_budget':
+                $link = Yii::app()->createUrl('statistic/verify');
+                $link .= '?spec='.urlencode($spec).'&form=Денна&isBudget=1';
+                return $link;
+             case 'zaoch_budget':
+                $link = Yii::app()->createUrl('statistic/verify');
+                $link .= '?spec='.urlencode($spec).'&form=Заочна&isBudget=1';
+                return $link;
+             case 'dnevn_contract':
+                $link = Yii::app()->createUrl('statistic/verify');
+                $link .= '?spec='.urlencode($spec).'&form=Денна&isContract=1';
+                return $link;
+             case 'zaoch_contract':
+                $link = Yii::app()->createUrl('statistic/verify');
+                $link .= '?spec='.urlencode($spec).'&form=Заочна&isContract=1';
+                return $link;
+             case 'dnevn_originals':
+                $link = Yii::app()->createUrl('statistic/verify');
+                $link .= '?spec='.urlencode($spec).'&form=Денна&isCopyEntrantDoc=0';
+                return $link;
+             case 'zaoch_originals':
+                $link = Yii::app()->createUrl('statistic/verify');
+                $link .= '?spec='.urlencode($spec).'&form=Заочна&isCopyEntrantDoc=0';
+                return $link;
+             case 'dnevn_pv':
+                $link = Yii::app()->createUrl('statistic/verify');
+                $link .= '?spec='.urlencode($spec).'&form=Денна&isPV=1';
+                return $link;
+             case 'zaoch_pv':
+                $link = Yii::app()->createUrl('statistic/verify');
+                $link .= '?spec='.urlencode($spec).'&form=Заочна&isPV=1';
+                return $link;
+             case 'dnevn_pzk':
+                $link = Yii::app()->createUrl('statistic/verify');
+                $link .= '?spec='.urlencode($spec).'&form=Денна&isPZK=1';
+                return $link;
+             case 'zaoch_pzk':
+                $link = Yii::app()->createUrl('statistic/verify');
+                $link .= '?spec='.urlencode($spec).'&form=Заочна&isPZK=1';
+                return $link;
+             case 'dnevn_electro':
+                $link = Yii::app()->createUrl('statistic/verify');
+                $link .= '?spec='.urlencode($spec).'&form=Денна&RequestFromEB=1';
+                return $link;
+             case 'zaoch_electro':
+                $link = Yii::app()->createUrl('statistic/verify');
+                $link .= '?spec='.urlencode($spec).'&form=Заочна&RequestFromEB=1';
+                return $link;
+             case 'medals':
+                $link = Yii::app()->createUrl('statistic/verify');
+                $link .= '?spec='.urlencode($spec).'&medal=1';
+                return $link;
+        }
+        return 0;
+    }
+//-----------------------------------------------------------------------
+    //-----------------------------------------------------------------------//
+//-----------------------------------------------------------------------
+    
+    
 $Date = "";
 if (isset($_GET['date']) && !empty($_GET['date'])){
     $model = AllCountsPerDates::model();
@@ -296,7 +377,21 @@ H1 {
                         $table_row[$j] .= $spec."</td>";
                         continue;
                     }
-                    $table_row[$j] .= $data[$i]->getAttribute($col['name'])."</td>";
+                    $cnt = $data[$i]->getAttribute($col['name']);
+                    $params = array(
+                        'Specialnost' => $data[$i]->getAttribute('Specialnost'),
+                    );
+                    $link = create_link($col['name'], $params, $Date);
+                    if ($link ){
+                        $Link = '<a href="'.$link.'">'.$cnt.'</a>';
+                    } else {
+                        $Link = $data[$i]->getAttribute($col['name']);
+                    }
+                    if ($cnt){
+                        $table_row[$j] .= $Link."</td>";
+                    } else {
+                        $table_row[$j] .= "0 </td>";
+                    }
                     $totals[$col['name']] += $data[$i]->getAttribute($col['name']);
                 }
                 $table_row[$j] .= "</tr>";
@@ -321,8 +416,22 @@ H1 {
                 $table_row[$j] .= $spec."</td>";
                 continue;
             }
-            $table_row[$j] .= $data[$i]->getAttribute($col['name'])."</td>";
-            $totals[$col['name']] += $data[$i]->getAttribute($col['name']);
+                    $cnt = $data[$i]->getAttribute($col['name']);
+                    $params = array(
+                        'Specialnost' => $data[$i]->getAttribute('Specialnost'),
+                    );
+                    $link = create_link($col['name'], $params, $Date);
+                    if ($link ){
+                        $Link = '<a href="'.$link.'">'.$cnt.'</a>';
+                    } else {
+                        $Link = $data[$i]->getAttribute($col['name']);
+                    }
+                    if ($cnt){
+                        $table_row[$j] .= $Link."</td>";
+                    } else {
+                        $table_row[$j] .= "0 </td>";
+                    }
+                    $totals[$col['name']] += $data[$i]->getAttribute($col['name']);
         }
         $table_row[$j] .= "</tr>";
         $r++;
