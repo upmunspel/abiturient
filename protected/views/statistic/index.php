@@ -276,7 +276,7 @@
  <br/>
 
 <?php
-//------------------------------------------------------------------------------
+/*------------------------------------------------------------------------------
 ?>
 <div class="form">
     <h3>Статистика заявок з першочерговим та позаконкурсним вступом</h3>
@@ -464,7 +464,9 @@
     </div>
 <?php $this->endWidget(); ?>
 </div> 
- 
+<?php
+//------------------------------------------------------------------------------*/
+?>
  
   <br/>
  
@@ -527,6 +529,43 @@
     <div class="span3">
 		<?php echo Chtml::label("Форма",'form'); ?>
 		<?php echo CHtml::dropDownList('form', "", array("1"=>"Денна","2"=>"Заочна","3"=>"Екстернат"),array('empty'=>'', 'class'=>"span12")); ?>
+		
+    </div>
+   
+</div>
+    <hr>
+    <div class="row-fluid">
+     <?php $this->widget("bootstrap.widgets.TbButton", array(
+			'buttonType'=>'submit',
+			'type'=>'primary',
+                         "size"=>"large",
+			'label'=>'Показати',
+                        )); 
+               
+     ?>
+    </div>
+<?php $this->endWidget(); ?>
+</div>
+ 
+  <div class="form">
+     <h3>Іноземна мова абітурієнтів у магістратуру</h3>
+		 <p>Для факультету іноземної філології - разом з інформацією про фаховий іспит</p>
+<?php 
+  if (empty($model->syspk) || empty($model->syspk->printIP) ) throw new Exception ("Необхідно визначити адресу серверу друку документів!");
+  $ip = $model->syspk->printIP;  
+  $act = Yii::app()->createUrl("statistic/maglang");
+  $form=$this->beginWidget('CActiveForm', array(
+	'id'=>'rept-originals',
+	'enableAjaxValidation'=>false,
+        'method'=>"GET",
+        'action'=>$act,
+)); ?>
+<div class="row-fluid">
+    <div class="span3">
+		<?php echo Chtml::label("Факультет",'FacultetID'); ?>
+		<?php echo CHtml::dropDownList("FacultetID", "" , 
+						CHtml::listData(Facultets::model()->findAll(array('order'=>'FacultetFullName')),'idFacultet','FacultetFullName'),
+						array(  'empty'=>'',  'class'=>"span12") ); ?>
 		
     </div>
    
