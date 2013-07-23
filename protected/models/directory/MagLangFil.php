@@ -77,8 +77,8 @@ class MagLangFil extends CActiveRecord
     'surname' => 'Прізвище',
     'name' => "Ім'я",
     'farthername' => 'По батькові',
-    'fah' => 'Фах',
-    'SepcialityID' => 'ID SPEC',
+    'fah' => 'Фаховий іспит',
+    'SepcialityID' => 'ID Спеціальності',
 		);
 	}
 
@@ -101,9 +101,13 @@ class MagLangFil extends CActiveRecord
 		$criteria->compare('farthername',$this->farthername,true);
 		$criteria->compare('fah',$this->fah,true);
 		$criteria->compare('SepcialityID',$this->SepcialityID);
+		$criteria->order="spec,surname";
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+                        'pagination'=>array(
+                            'pageSize'=>10000,
+                        )
 		));
 	}
 }

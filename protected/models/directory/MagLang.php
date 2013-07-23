@@ -69,12 +69,12 @@ class MagLang extends CActiveRecord
 	{
 		return array(
     'idFuc' => 'ID',
-    'spec' => 'Спеціалність',
+    'spec' => 'Спеціальність',
     'surname' => 'Прізвище',
     'name' => "Ім'я",
     'farthername' => 'По батькові',
-    'langName' => 'Мова',
-    'SepcialityID' => 'ID SPEC',
+    'langName' => 'Іноземна мова',
+    'SepcialityID' => 'ID Спеціальності',
 		);
 	}
 
@@ -82,7 +82,7 @@ class MagLang extends CActiveRecord
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
-	public function search()
+	public function search($params)
 	{
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
@@ -96,9 +96,23 @@ class MagLang extends CActiveRecord
 		$criteria->compare('farthername',$this->farthername,true);
 		$criteria->compare('langName',$this->langName,true);
 		$criteria->compare('SepcialityID',$this->SepcialityID);
-
+		$criteria->order="spec,surname";
+		foreach ($params as $key => $param){
+			switch ($key){
+				case 'FacultetID':
+					$criteria->addCondition("idFuc = ".$param);
+					break;
+				case 'SpecialityID':
+					$criteria->addCondition("SepcialityID = ".$param);
+					break;
+			}
+		}
+		
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+                        'pagination'=>array(
+                            'pageSize'=>10000,
+                        )
 		));
 	}
 }

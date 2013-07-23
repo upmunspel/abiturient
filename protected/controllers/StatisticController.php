@@ -30,7 +30,8 @@ class StatisticController extends Controller
 		return array(
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
 				'actions'=>array('util','index', 'View', 'Print', "Sverka","ViewEx", "ViewY", "Originals","ViewBC", "Statisticallname", "Stateb", "Statebperson",
-                                    "Fromvillage","Residentlist", "Viewall", "Viewallprint", "Verify", "Viewgraduated", "Viewgraduatedbyf", "Foreigngrad","Examwithoutzno"),
+                                    "Fromvillage","Residentlist", "Viewall", "Viewallprint", "Verify", "Viewgraduated", "Viewgraduatedbyf", "Foreigngrad","Examwithoutzno",
+						"Maglang","Maglangfil"),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -175,7 +176,15 @@ class StatisticController extends Controller
         public function actionExamwithoutzno(){
             $this->layout='//layouts/clear';
             $this->render('examwithoutzno');
-        }        
+        }
+        public function actionMaglang(){
+            $this->layout='//layouts/clear';
+            $this->render('maglang');
+        }
+        public function actionMaglangfil(){
+            $this->layout='//layouts/clear';
+            $this->render('maglangfil');
+        }
         public function actionUtil()
 	{       $model=new PersonSpecialityView('search');
                 $model->unsetAttributes();  // clear any default values
