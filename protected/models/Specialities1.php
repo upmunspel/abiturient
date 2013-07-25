@@ -14,7 +14,7 @@
  * @property integer $isZaoch
  * @property integer $isPublishIn
  */
-class Specialities extends CActiveRecord
+class Specialities1 extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.

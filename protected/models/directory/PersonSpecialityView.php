@@ -154,6 +154,56 @@ class PersonSpecialityView extends CActiveRecord
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
+        /**
+         * Поиск для цен
+         * @return CActiveDataProvider
+         */
+        public function searchPrice()
+	{
+		// Warning: Please modify the following code to remove attributes that
+		// should not be searched.
+                $user = Yii::app()->user->getUserModel();
+                
+		$criteria=new CDbCriteria;
+
+               
+		$criteria->compare('idPersonSpeciality',$this->idPersonSpeciality);
+		$criteria->compare('CreateDate',$this->CreateDate,true);
+		$criteria->compare('idPerson',$this->idPerson);
+		$criteria->compare('Birthday',$this->Birthday,true);
+		$criteria->compare('FIO',$this->FIO,true);
+		$criteria->compare('isContract',$this->isContract);
+		$criteria->compare('isBudget',$this->isBudget);
+		$criteria->compare('SpecCodeName',$this->SpecCodeName,true);
+		$criteria->compare('QualificationID',$this->QualificationID);
+		$criteria->compare('CourseID',$this->CourseID);
+		$criteria->compare('RequestNumber',$this->RequestNumber);
+		$criteria->compare('PersonRequestNumber',$this->PersonRequestNumber);
+                $criteria->compare('isCopyEntrantDoc',$this->isCopyEntrantDoc);
+                $criteria->compare('DocumentSubject1Value',$this->DocumentSubject1Value);
+                $criteria->compare('DocumentSubject2Value',$this->DocumentSubject2Value);
+                $criteria->compare('DocumentSubject3Value',$this->DocumentSubject3Value);
+                $criteria->compare('RequestFromEB',$this->RequestFromEB);
+                $criteria->compare('SepcialityID',$this->SepcialityID);
+                $criteria->compare('EducationFormID',$this->EducationFormID);
+                $criteria->addCondition('StatusID<>10');
+                $criteria->addCondition('StatusID<>3');
+                
+                
+                $criteria->compare('AtestatValue',$this->AtestatValue);
+              
+                if (!empty($user) && !empty($user->syspk->QualificationID)) {
+                    if ($user->syspk->QualificationID > 1) {
+                         $criteria->compare('QualificationID',">1");
+                    } else {
+                         $criteria->compare('QualificationID',$user->syspk->QualificationID);
+                    }
+                }
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+		));
+	}
+        
 	public function search()
 	{
 		// Warning: Please modify the following code to remove attributes that
