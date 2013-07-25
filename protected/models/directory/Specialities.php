@@ -226,7 +226,7 @@ class Specialities extends CActiveRecord
 		// should not be searched.
 
 		$criteria=new CDbCriteria;
-
+                
 		$criteria->compare('idSpeciality',$this->idSpeciality);
 		$criteria->compare('SpecialityName',$this->SpecialityName,true);
 		$criteria->compare('SpecialityKode',$this->SpecialityKode,true);
@@ -243,8 +243,14 @@ class Specialities extends CActiveRecord
                 return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
                         'pagination'=>array(
-                        'pageSize'=>10000,
-                    )
+                            'pageSize'=>10000,
+                         ),
+                      'sort' =>array(
+                            'attributes' =>array("",
+
+                           ),
+                       ),
+                    
 		));
 	}
         public function getSpecialityFullNames(){
