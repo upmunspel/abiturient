@@ -63,6 +63,11 @@ return array(
 			// If removed, Gii defaults to localhost only. Edit carefully to taste.
 			'ipFilters'=>array('127.0.0.1','::1'),
 		),
+                "pfd"=>array(
+                    'layout' => "/layouts/main",
+                    'defaultController'=>"prices",
+                   
+                ),
                 
 		
 	),
@@ -112,6 +117,11 @@ return array(
 				'<controller:\w+>/<id:\d+>'=>'<controller>/view',
 				'<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
 				'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
+                                 
+                                 '<module>/<controller:\w+>/<id:\d+>'=>'<module>/<controller>/view',
+                                 '<module>/<controller:\w+>/<action:\w+>/<id:\d+>'=>'<module>/<controller>/<action>',
+				 '<module>/<controller:\w+>/<action:\w+>'=>'<module>/<controller>/<action>',
+                           
 			),
 		),
 		
@@ -121,10 +131,9 @@ return array(
 		// uncomment the following to use a MySQL database
 		
 		'db'=>array(
-			'connectionString' => 'mysql:host=10.1.103.26;dbname=abiturient',
+			'connectionString' => 'mysql:host=localhost;dbname=abiturient1',
 			'emulatePrepare' => true,
-			'username' => 'root',
-			'password' => 'root',
+			  
 			'charset' => 'utf8',
 		),
 		
