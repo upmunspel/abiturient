@@ -90,7 +90,7 @@
             array(
                 'class'=>'bootstrap.widgets.TbMenu',
                 'items'=>array(
-                    array('label'=>'Головна', 'url'=>array('index'), "icon"=>"icon-home"),
+                    array('label'=>'Головна', 'url'=>array('prices/admin'), "icon"=>"icon-home"),
                  ),
             ),
             array(
