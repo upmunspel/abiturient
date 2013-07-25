@@ -20,7 +20,7 @@ class PersonspecialityController extends Controller
 //		);
                 return array(
 			'accessControl', // perform access control for CRUD operations
-                        'ajaxOnly + Refresh, Edboupdate',
+                        'ajaxOnly + Refresh, Edboupdate, Studupdate',
 		);
 	}
 
@@ -38,7 +38,8 @@ class PersonspecialityController extends Controller
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
 				'actions'=>array(   'Znosubjects',
-                                                    'Speciality', 
+                                                    'Speciality',
+                                    'Specialitys',
                                                     'View',
                                                     'Create',
                                                     'Update',
@@ -46,6 +47,7 @@ class PersonspecialityController extends Controller
                                                     "Index", 
                                                     "Refresh", 
                                                     'admin',"Edboupdate",
+                                                    'Studupdate',
                                                 ),
 				'users'=>array('@'),
 			),
@@ -312,6 +314,36 @@ class PersonspecialityController extends Controller
 			'model'=>$model,
 		));
 	}
+        /**
+         * Обновление цены за обучение
+         * @param type $id
+         */
+        public function actionStudupdate($id)
+	{       
+            $model=$this->loadModel($id);
+            $valid = true;
+        if (isset($_POST['Personspeciality'])) {
+                    $model->attributes = $_POST['Personspeciality'];
+                    $valid = $model->validate() && $valid;
+                    
+            try {
+                if ($model->save())
+                $model=new PersonSpecialityView('search');
+		$model->unsetAttributes();  // clear any default values
+		if(isset($_GET['PersonSpecialityView']))
+		$model->attributes=$_GET['PersonSpecialityView'];
+                //$person = PersonSpecialityView::model()->findByPk($model->idPersonSpeciality);
+                echo CJSON::encode(array("result" => "success", "data" =>
+                    $this->renderPartial("//prices/tabs/_studprice", array('model' =>$model),true)
+                ));
+                Yii::app()->end();
+            } catch (Exception $e) {
+                echo CJSON::encode(array("result" => "error", "data" => $e->getMessage()));
+                Yii::app()->end();
+            }
+        }
+            $this->renderPartial('_studpriceModal', array('model' => $model, 'personid' => $model->idPersonSpeciality));   
+        }
 
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.
@@ -325,7 +357,20 @@ class PersonspecialityController extends Controller
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
 	}
-
+        public function actionSpecialitys($idFacultet, $idEducationForm,$QualificationID)
+        {
+//            $data = Specialities::model()->findAll('FacultetID=:FacultetID',
+//                          array(':FacultetID'=>(int) $idFacultet));
+//
+//            $data=CHtml::listData($data,'idSpeciality','SpecialityName');
+//            echo CHtml::tag('option', array('value'=>""), "", true);
+            $data = Specialities::DropDownMask1($idFacultet, $idEducationForm,$QualificationID);
+             echo CHtml::tag('option', array('value'=>""), "", true);
+            foreach($data as $value=>$name)
+            {
+                echo CHtml::tag('option', array('value'=>$value), CHtml::encode($name), true);
+            }
+        }
 	/**
 	 * Performs the AJAX validation.
 	 * @param CModel the model to be validated
