@@ -42,11 +42,11 @@ class Specialitysubjects extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('SpecialityID, LevelID', 'numerical', 'integerOnly'=>true),
-                        array('SpecialityID, LevelID, SubjectID', 'safe'),
+			array('SpecialityID, LevelID, isProfile', 'numerical', 'integerOnly'=>true),
+                        array('SpecialityID, LevelID, SubjectID, isProfile', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, SpecialityID, SubjectID, LevelID', 'safe', 'on'=>'search'),
+			array('id, SpecialityID, SubjectID, LevelID, isProfile', 'safe', 'on'=>'search'),
                         //array('SubjectID','type','type'=>'array','allowEmpty'=>false)
 		);
 	}
@@ -73,9 +73,10 @@ class Specialitysubjects extends CActiveRecord
 	{
 		return array(
     'id' => 'ID',
-    'SpecialityID' => 'Speciality',
-    'SubjectID' => 'Subject',
-    'LevelID' => 'Level',
+    'SpecialityID' => 'спеціальність',
+    'SubjectID' => 'предмет',
+    'LevelID' => 'Рівень (№ предмета)',
+    'isProfile' => 'Чи є профільним'
 		);
 	}
 
@@ -94,6 +95,7 @@ class Specialitysubjects extends CActiveRecord
 		$criteria->compare('SpecialityID',$this->SpecialityID);
 		$criteria->compare('SubjectID',$this->SubjectID);
 		$criteria->compare('LevelID',$this->LevelID);
+                $criteria->compare('isProfile',$this->isProfile);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
