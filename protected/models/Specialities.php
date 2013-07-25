@@ -111,5 +111,33 @@ class Specialities extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+        
+        public function getSpecialityFullNames(){
+            $Data = $this->findAll();
+
+            $data = array();
+            for ($i = 0; $i < count($Data); $i++){
+                $specID = $Data[$i]->getAttribute('idSpeciality');
+                $BachelorSpecNm = $Data[$i]->getAttribute('SpecialityDirectionName');
+                $Specialization = $Data[$i]->getAttribute('SpecialitySpecializationName');
+                $FormID = $Data[$i]->getAttribute('PersonEducationFormID');
+                $Form = "Денна";
+                switch($FormID){
+                    case 2: $Form = "Заочна"; break;
+                    case 3: $Form = "Екстернат"; break;
+                }
+                if (!empty($BachelorSpecNm)){
+                    $data[$i]['spec'] = $BachelorSpecNm." ".$Specialization." (".$Form.")";
+                    $data[$i]['id'] = $specID;
+                }
+            }
+
+            sort($data);
+            for ($i = 0; $i < count($data); $i++){
+                $d[$data[$i]['id']] = $data[$i]['spec'];
+            }
+            unset($data);
+            return $d;
+        }
       
 }
