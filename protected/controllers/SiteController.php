@@ -74,6 +74,10 @@ class SiteController extends Controller
                 if (Yii::app()->user->checkAccess('StatisticView')){
                     $this->redirect(Yii::app()->createUrl("statistic"));
                 } 
+                if (Yii::app()->user->checkAccess('asPfd')){
+                    $this->redirect(Yii::app()->createUrl("pfd/prices"));
+                } 
+                
                 $this->render('index');
 	}
 
