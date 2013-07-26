@@ -22,7 +22,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
 'columns'=>array(
 		//'idSpeciality',
 		
-                array("name"=>'SpecialityName',"value"=>'$data->SpecialityClasifierCode." : ".$data->SpecialityDirectionName.$data->SpecialityName' ),
+                array("name"=>'SpecialityName',"value"=>'$data->SpecialityClasifierCode." : ".$data->SpecialityDirectionName.$data->SpecialityName.(!empty($data->SpecialitySpecializationName) ? " : ".$data->SpecialitySpecializationName :"") ' ),
 		//'SpecialityKode',
 		//'FacultetID',
                

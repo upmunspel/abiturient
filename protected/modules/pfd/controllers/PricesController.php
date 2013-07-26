@@ -216,10 +216,7 @@ class PricesController extends Controller
             if (!empty($model)){
                $model->{$_POST["name"]} = $_POST["value"];
                if (!$model->save()) {
-                   
-                   debug($model->getError($_POST["name"]));
                    throw new CHttpException(403, $model->getError($_POST["name"]));
-                   
                }
             }
         }
