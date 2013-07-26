@@ -4,71 +4,98 @@
 /* @var $form CActiveForm */
 ?>
 
-<div class="form">
 
-<?php $form=$this->beginWidget('CActiveForm', array(
+
+<?php 
+$specmodel = new PersonSpecialityView();
+if ($model->isNewRecord){
+    $specmodel=PersonSpecialityView::model()->find("idPersonSpeciality = $specid");
+} else {
+    $specmodel=PersonSpecialityView::model()->find("idPersonSpeciality = ".$model->PersonSpecialityID);
+}
+$model->PersonSpecialityID = $specmodel->idPersonSpeciality;
+
+$form=$this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 	'id'=>'contracts-form',
 	'enableAjaxValidation'=>false,
 )); ?>
 
-	<p class="note">Fields with <span class="required">*</span> are required.</p>
+	<p class="note">Поля, відмічені <span class="required">*</span> обов'язкові для заповнення!</p>
 
-	<?php echo $form->errorSummary($model); ?>
+	<?php //echo $form->errorSummary($model); ?>
+<?php  
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'PersonSpecialityID'); ?>
-		<?php echo $form->textField($model,'PersonSpecialityID'); ?>
-		<?php echo $form->error($model,'PersonSpecialityID'); ?>
+//------------------------------------------------------------------------------------------------------------------------------------//?>
+<div class="form well">
+    
+        <div class="row-fluid">
+            <h2>Студент: <?php echo $specmodel->FIO; ?> <br>(<?php echo $specmodel->SpecCodeName ?>) </h2>
+            <hr>
+            <?php echo $form->hiddenField($model,'PersonSpecialityID'); ?>
 	</div>
-
-	<div class="row">
+        <div class="row-fluid">
+            <div class="span3">
 		<?php echo $form->labelEx($model,'ContractNumber'); ?>
-		<?php echo $form->textField($model,'ContractNumber',array('size'=>60,'maxlength'=>100)); ?>
+		<?php echo $form->textField($model,'ContractNumber',array('size'=>60,'maxlength'=>100, "class"=>"span12")); ?>
 		<?php echo $form->error($model,'ContractNumber'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'ContractDate'); ?>
-		<?php echo $form->textField($model,'ContractDate'); ?>
+            </div>
+             
+            <div class="span3">
+                
+                <?php echo $form->labelEx($model,'ContractDate'); ?>
+                <?php echo $form->textField($model, 'ContractDate',array("class"=>"span12"));
+                //echo $model->ContractDate
+                //$form->labelEx($model,'ContractDate'); ?>
+		<?php // echo $form->datepickerRow($model,'ContractDate', array("empty"=>"", "class"=>"span12", 'hint'=>'Click inside! This is a super cool date field.',
+        ///'prepend'=>'<i class="icon-calendar"></i>')); ?>
 		<?php echo $form->error($model,'ContractDate'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'CustomerName'); ?>
-		<?php echo $form->textArea($model,'CustomerName',array('rows'=>6, 'cols'=>50)); ?>
+            </div>
+            <div class="span6">
+                <?php 
+                if ($model->isNewRecord){
+                    $model->CustomerName = $specmodel->FIO;
+                }
+                echo $form->labelEx($model,'CustomerName'); ?>
+		<?php echo $form->textField($model,'CustomerName', array("class"=>"span12")); ?>
 		<?php echo $form->error($model,'CustomerName'); ?>
+            </div>
+           
+            
 	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'CustomerDoc'); ?>
-		<?php echo $form->textArea($model,'CustomerDoc',array('rows'=>6, 'cols'=>50)); ?>
+          <div class="row-fluid">
+            <div class="span6">
+                <?php echo $form->labelEx($model,'CustomerDoc'); ?>
+		<?php echo $form->textArea($model,'CustomerDoc',array('rows'=>3, 'cols'=>50, "class"=>"span12")); ?>
 		<?php echo $form->error($model,'CustomerDoc'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'CustomerAddress'); ?>
-		<?php echo $form->textArea($model,'CustomerAddress',array('rows'=>6, 'cols'=>50)); ?>
+            </div>
+              <div class="span6">
+              <?php echo $form->labelEx($model,'CustomerAddress'); ?>
+		<?php echo $form->textArea($model,'CustomerAddress',array('rows'=>3, 'cols'=>50, "class"=>"span12")); ?>
 		<?php echo $form->error($model,'CustomerAddress'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'CustomerPaymentDetails'); ?>
-		<?php echo $form->textArea($model,'CustomerPaymentDetails',array('rows'=>6, 'cols'=>50)); ?>
+            </div>
+          </div>
+    
+    
+        <div class="row-fluid">
+            
+            <div class="span3">
+              <?php echo $form->labelEx($model,'CustomerPaymentDetails'); ?>
+		<?php echo $form->textArea($model,'CustomerPaymentDetails',array('rows'=>3, 'cols'=>50, "class"=>"span12")); ?>
 		<?php echo $form->error($model,'CustomerPaymentDetails'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'PaymentDate'); ?>
-		<?php echo $form->textField($model,'PaymentDate'); ?>
+            </div>
+            <div class="span3">
+              <?php echo $form->labelEx($model,'PaymentDate'); ?>
+		<?php echo $form->textField($model,'PaymentDate',array("class"=>"span12 datepicker")); ?>
 		<?php echo $form->error($model,'PaymentDate'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'Comment'); ?>
-		<?php echo $form->textArea($model,'Comment',array('rows'=>6, 'cols'=>50)); ?>
+            </div>
+            <div class="span6">
+              <?php echo $form->labelEx($model,'Comment'); ?>
+		<?php echo $form->textArea($model,'Comment',array('rows'=>3, 'cols'=>50, "class"=>"span12")); ?>
 		<?php echo $form->error($model,'Comment'); ?>
-	</div>
-
+            </div>
+            
+        </div>
+        <hr>
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Створити' : 'Зберегти'); ?>
 	</div>
@@ -76,3 +103,7 @@
 <?php $this->endWidget(); ?>
 
 </div><!-- form -->
+<script>
+    //$('#contracts-form .datepicker').datepicker({'format':'dd.mm.yyyy'});
+  
+</script>

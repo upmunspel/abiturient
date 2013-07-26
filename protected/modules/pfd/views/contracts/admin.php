@@ -23,6 +23,7 @@ array('label'=>'Додати запис', 'url'=>array('create'), 'icon'=>"icon-
 		'ContractDate',
 		'CustomerName',
 		'CustomerDoc',
+                'PaymentDate',
 		/*
 		'CustomerAddress',
 		'CustomerPaymentDetails',

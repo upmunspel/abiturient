@@ -44,7 +44,7 @@ class ContractsController extends Controller
 	 * @param integer $id the ID of the model to be displayed
 	 */
 	public function actionView($id)
-	{
+	{   $this->layout='/layouts/column2_1';
 		$this->render('view',array(
 			'model'=>$this->loadModel($id),
 		));
@@ -54,23 +54,24 @@ class ContractsController extends Controller
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 */
-	public function actionCreate()
+	public function actionCreate($specid)
 	{
-            $model=new Contracts;
+                $model = Contracts::model()->find("PersonSpecialityID = $specid");
+                if (!empty($model)) $this->redirect (Yii::app()->createUrl ("pfd/contracts/update",array("id"=>$model->idContract )));
+            
+                $model=new Contracts;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
-
+                $this->layout='/layouts/column2_1';
 		if(isset($_POST['Contracts']))
 		{
 			$model->attributes=$_POST['Contracts'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->idContract));
-                        $id=12;
-                        echo $id;
-		}
+				$this->redirect(Yii::app()->createUrl('pfd/contracts/view',array('id'=>$model->idContract)));
 
-		$this->render('create',array('model'=>$model));
+		}
+		$this->render('create',array('model'=>$model,'specid'=>$specid));
 	}
 
 	/**
@@ -80,16 +81,16 @@ class ContractsController extends Controller
 	 */
 	public function actionUpdate($id)
 	{
-		$model=$this->loadModel($id);
+          	$model=$this->loadModel($id);
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
-
+                $this->layout='/layouts/column2_1';
 		if(isset($_POST['Contracts']))
 		{
 			$model->attributes=$_POST['Contracts'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->idContract));
+				$this->redirect(Yii::app()->createUrl('pfd/contracts/view',array('id'=>$model->idContract)));
 		}
 
 		$this->render('update',array(

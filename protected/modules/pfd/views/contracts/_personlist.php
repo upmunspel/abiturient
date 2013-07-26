@@ -63,6 +63,7 @@ $this->widget('bootstrap.widgets.TbGroupGridView', array(
                                 'options'=>array(
                                     'class'=>'btn',
                                     'onclick'=>"PSN.editSpec(this); return false;",
+                                    'target'=>"_blank",
                                 ),
                              ),
                           )
