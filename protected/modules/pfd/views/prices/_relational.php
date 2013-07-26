@@ -74,7 +74,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
 			//'sortable'=>false,
                         'editable' => array(
 				'url' => $this->createUrl('prices/editprice'),
-				'placement' => 'right',
+				'placement' => 'left',
 				'inputclass' => 'span3',
                                 'type'      => 'select',
                                 'source'    => CHtml::listData(Studyperiods::model()->findAll(), "idStudyPeriod", "StudyPeriodName"),
