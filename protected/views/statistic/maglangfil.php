@@ -8,7 +8,6 @@ $Data = $model->search();
 $columns = array(
 //array('name'=>'idPersonMySql'),
 array('name'=>'spec','htmlOptions' => array ('style'=>'width:250px;')) ,
-array('name'=>'SepcialityID','htmlOptions' => array ('style'=>'width:80px;')) ,
 array('name'=>'surname','htmlOptions' => array ('style'=>'width:150px;')) ,
 array('name'=>'name','htmlOptions' => array ('style'=>'width:100px;')) ,
 array('name'=>'farthername','htmlOptions' => array ('style'=>'width:150px;')) ,
@@ -17,31 +16,9 @@ array('name'=>'fah','htmlOptions' => array ('style'=>'width:100px;')) ,
 );
 
 $data = $Data->getData();
-$group_field = "";
-$group_field_name = 'spec';
-$rowspan[0] = 1;
-$table_row = array();
 $j = 0;
 $N = count($data);
-for ($i = 0; $i < $N; $i++){
-    if ((($data[$i]->getAttribute($group_field_name) != $group_field) && ($group_field != ""))){
-       $table_row[$j++] = "<tr><td rowspan='".($rowspan[$j-1]-1)."' style='vertical-align:center;width:150px;'>".$group_field."</td>"; 
-       $rowspan[$j] = 1;
-    }
-    if ($i == $N-1 && ($data[$i]->getAttribute($group_field_name) != $group_field)){
-       $group_field = $data[$i]->getAttribute($group_field_name);
-       $table_row[$j++] = "<tr><td rowspan='".$rowspan[$j-1]."' style='vertical-align:center;width:150px;'>".$group_field."</td>"; 
-       $rowspan[$j] = 1;
-    }
-    if ($i == $N-1 && ($data[$i]->getAttribute($group_field_name) == $group_field)){
-       $table_row[$j++] = "<tr><td rowspan='".($rowspan[$j-1]+1)."' style='vertical-align:center;width:150px;'>".$group_field."</td>"; 
-       $rowspan[$j-1] += 1;
-       break;
-    }
-    $group_field = $data[$i]->getAttribute($group_field_name);
-    //echo  $fk."<br/>";
-    $rowspan[$j]++;
-}
+
 
 ?>
 
@@ -103,7 +80,6 @@ H1 {
    // var_dump($table_row);
     $labels = $model->AttributeLabels();
     $j = 0;
-    $r = 1;
     
     
     $table_header = "<tr>";
@@ -120,32 +96,10 @@ H1 {
     
     echo $table_header;
     
-    for ($i = 0; $i < count($data); $i++){
-        if ($r == $rowspan[$j]){
-            $table_row[$j++] .= "</tr>\n";
-            echo $table_row[$j-1];
-            if ($i == count($data)-1){
-                foreach ($columns as $col){
-                    if ($col['name']==$group_field_name){
-                        continue;
-                    }
-                    if (isset($col['htmlOptions']) && $col['htmlOptions']){
-                        $table_row[$j] .= "<td style='".$col['htmlOptions']['style']."'>";
-                    } else {
-                        $table_row[$j] .=  "<td>";
-                    }
-                    $table_row[$j] .= $data[$i]->getAttribute($col['name'])."</td>";
-                }
-                $table_row[$j] .= "</tr>";
-                echo $table_row[$j];
-                break;
-            }
-            $r = 1;
-        }
+    $table_row = array();
+    for ($i = 0; $i < $N; $i++){
+        $table_row[$j] = "<tr>";
         foreach ($columns as $col){
-            if ($col['name']==$group_field_name){
-                continue;
-            }
             if (isset($col['htmlOptions']) && $col['htmlOptions']){
                 $table_row[$j] .= "<td style='".$col['htmlOptions']['style']."'>";
             } else {
@@ -154,7 +108,7 @@ H1 {
             $table_row[$j] .= ($data[$i]->getAttribute($col['name']))."</td>";
         }
         $table_row[$j] .= "</tr>";
-        $r++;
+        echo $table_row[$j++];
     }
     
 ?>

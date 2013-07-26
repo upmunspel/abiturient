@@ -188,7 +188,7 @@ class PersonSpecialityView extends CActiveRecord
                 $criteria->compare('EducationFormID',$this->EducationFormID);
                 $criteria->addCondition('StatusID<>10');
                 $criteria->addCondition('StatusID<>3');
-                
+                $criteria->compare('isContract',1);
                 
                 $criteria->compare('AtestatValue',$this->AtestatValue);
               
