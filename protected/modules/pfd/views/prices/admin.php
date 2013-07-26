@@ -9,7 +9,7 @@
 
 $this->menu=array(
 //array('label'=>'Додати запис', 'url'=>array('create'),'icon'=>"icon-plus"),
-array('label'=>'Головна ','url'=>Yii::app()->createUrl('prices'),'icon'=>"icon-home"),
+array('label'=>'Головна ','url'=>Yii::app()->createUrl('pfd/prices/admin'),'icon'=>"icon-home"),
 
 );
 
