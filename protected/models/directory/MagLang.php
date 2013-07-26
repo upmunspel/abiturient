@@ -10,7 +10,6 @@
  * @property string $name
  * @property string $farthername
  * @property string $langName
- * @property integer $SepcialityID
  */
 class MagLang extends CActiveRecord
 {
@@ -40,13 +39,13 @@ class MagLang extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('idFuc, SepcialityID', 'numerical', 'integerOnly'=>true),
+			array('idFuc', 'numerical', 'integerOnly'=>true),
 			array('spec', 'length', 'max'=>315),
 			array('surname, name, farthername', 'length', 'max'=>100),
 			array('langName', 'length', 'max'=>20),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('idFuc, spec, surname, name, farthername, langName, SepcialityID', 'safe', 'on'=>'search'),
+			array('idFuc, spec, surname, name, farthername, langName', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -74,7 +73,6 @@ class MagLang extends CActiveRecord
     'name' => "Ім'я",
     'farthername' => 'По батькові',
     'langName' => 'Іноземна мова',
-    'SepcialityID' => 'ID Спеціальності',
 		);
 	}
 
@@ -95,15 +93,12 @@ class MagLang extends CActiveRecord
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('farthername',$this->farthername,true);
 		$criteria->compare('langName',$this->langName,true);
-		$criteria->compare('SepcialityID',$this->SepcialityID);
 		$criteria->order="spec,surname";
+                //$criteria->distinct = true;
 		foreach ($params as $key => $param){
 			switch ($key){
 				case 'FacultetID':
 					$criteria->addCondition("idFuc = ".$param);
-					break;
-				case 'SpecialityID':
-					$criteria->addCondition("SepcialityID = ".$param);
 					break;
 			}
 		}
@@ -111,7 +106,7 @@ class MagLang extends CActiveRecord
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
                         'pagination'=>array(
-                            'pageSize'=>10000,
+                            'pageSize'=>100000,
                         )
 		));
 	}

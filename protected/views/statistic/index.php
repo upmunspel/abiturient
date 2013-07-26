@@ -586,13 +586,22 @@
 
 
 
-
-
-
-
 <br/>
 
 
+
+
+<div clas="form">
+    <h3>Список заявок абітурієнтів у магістратуру з середнім балом диплома бакалавра або спеціаліста
+    </h3>
+    <a class="btn btn-primary btn-large" href='<?php echo Yii::app()->createUrl('statistic/personspecmag'); ?>'>ЗАВАНТАЖИТИ EXCEL-ДОКУМЕНТ (CSV-формат)</a>
+</div>  
+
+
+ <br/>
+ 
+ 
+ 
 
 <?php if (Yii::app()->user->checkAccess("printPhones")): ?>
 <div class="form">

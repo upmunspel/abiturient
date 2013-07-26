@@ -31,7 +31,7 @@ class StatisticController extends Controller
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
 				'actions'=>array('util','index', 'View', 'Print', "Sverka","ViewEx", "ViewY", "Originals","ViewBC", "Statisticallname", "Stateb", "Statebperson",
                                     "Fromvillage","Residentlist", "Viewall", "Viewallprint", "Verify", "Viewgraduated", "Viewgraduatedbyf", "Foreigngrad","Examwithoutzno",
-						"Maglang","Maglangfil"),
+						"Maglang","Maglangfil","Personspecmag"),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -164,7 +164,12 @@ class StatisticController extends Controller
 	{
 		$this->layout='//layouts/clear';
 		$this->render('graduatedbyf',array("model"=>StatGraduatedByF::model()));
-	}        
+	}     
+        public function actionPersonspecmag()
+	{
+		$this->layout='//layouts/clear';
+		$this->render('getcsv');
+	} 
         public function actionVerify(){
             $this->layout='//layouts/main_1';
             $model=new PersonspecAll('search');

@@ -11,7 +11,6 @@
  * @property string $name
  * @property string $farthername
  * @property string $fah
- * @property integer $SepcialityID
  */
 class MagLangFil extends CActiveRecord
 {
@@ -41,7 +40,6 @@ class MagLangFil extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('SepcialityID', 'numerical', 'integerOnly'=>true),
 			array('FacultetFullName', 'length', 'max'=>255),
 			array('spec', 'length', 'max'=>315),
 			array('ForeignLang', 'length', 'max'=>50),
@@ -49,7 +47,7 @@ class MagLangFil extends CActiveRecord
 			array('fah', 'length', 'max'=>20),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('FacultetFullName, spec, ForeignLang, surname, name, farthername, fah, SepcialityID', 'safe', 'on'=>'search'),
+			array('FacultetFullName, spec, ForeignLang, surname, name, farthername, fah', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -78,7 +76,6 @@ class MagLangFil extends CActiveRecord
     'name' => "Ім'я",
     'farthername' => 'По батькові',
     'fah' => 'Фаховий іспит',
-    'SepcialityID' => 'ID Спеціальності',
 		);
 	}
 
@@ -100,13 +97,13 @@ class MagLangFil extends CActiveRecord
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('farthername',$this->farthername,true);
 		$criteria->compare('fah',$this->fah,true);
-		$criteria->compare('SepcialityID',$this->SepcialityID);
 		$criteria->order="spec,surname";
+                //$criteria->distinct = true;
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
                         'pagination'=>array(
-                            'pageSize'=>10000,
+                            'pageSize'=>100000,
                         )
 		));
 	}
