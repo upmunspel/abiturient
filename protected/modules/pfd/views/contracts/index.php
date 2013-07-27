@@ -7,8 +7,8 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'Create Contracts', 'url'=>array('create')),
-	array('label'=>'Manage Contracts', 'url'=>array('admin')),
+	array('label'=>'Додати запис', 'url'=>array('create')),
+	array('label'=>'Переглянути записи', 'url'=>array('admin')),
 );
 ?>
 

@@ -7,8 +7,8 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'Додати запис', 'url'=>array('create')),
-	array('label'=>'Переглянути записи', 'url'=>array('admin')),
+	array('label'=>'Додати запис', 'url'=>array('create'),'icon'=>"icon-plus"),
+	array('label'=>'Переглянути записи', 'url'=>array('admin'),'icon'=>"icon-list-alt"),
 );
 ?>
 

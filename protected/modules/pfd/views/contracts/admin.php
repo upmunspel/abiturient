@@ -16,6 +16,7 @@ array('label'=>'Додати запис', 'url'=>array('create'), 'icon'=>"icon-
      'type'=>'striped bordered condensed',
 'dataProvider'=>$model->search(),
 'filter'=>$model,
+//'template'=>"{items}",
 'columns'=>array(
 		'idContract',
 		'PersonSpecialityID',

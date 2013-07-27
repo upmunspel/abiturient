@@ -96,16 +96,16 @@ class Contracts extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-                    'idContract' => 'Id Contract',
-                    'PersonSpecialityID' => 'Person Speciality',
-                    'ContractNumber' => 'Contract Number',
-                    'ContractDate' => 'Contract Date',
-                    'CustomerName' => 'Customer Name',
-                    'CustomerDoc' => 'Customer Doc',
-                    'CustomerAddress' => 'Customer Address',
-                    'CustomerPaymentDetails' => 'Customer Payment Details',
-                    'PaymentDate' => 'Payment Date',
-                    'Comment' => 'Comment',
+                    'idContract' => 'Код контракту',
+                    'PersonSpecialityID' => 'Код спеціальності',
+                    'ContractNumber' => 'Номер контракту',
+                    'ContractDate' => 'Дата укладання договору',
+                    'CustomerName' => 'Замовник',
+                    'CustomerDoc' => 'Документи замовника',
+                    'CustomerAddress' => 'Адреса',
+                    'CustomerPaymentDetails' => 'Платіжні реквізити',
+                    'PaymentDate' => 'Дата оплати договору',
+                    'Comment' => 'Коментарій',
 		);
 	}
 

@@ -33,6 +33,8 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm', array(
             <hr>
             <?php echo $form->hiddenField($model,'PersonSpecialityID'); ?>
 	</div>
+<?php //------------------------------------------------------------------------------------------------------------------------------------//?>
+
         <div class="row-fluid">
             <div class="span3">
 		<?php echo $form->labelEx($model,'ContractNumber'); ?>
@@ -60,7 +62,8 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 		<?php echo $form->error($model,'CustomerName'); ?>
             </div>
            
-            
+<?php //------------------------------------------------------------------------------------------------------------------------------------//?>
+        
 	</div>
           <div class="row-fluid">
             <div class="span6">
@@ -75,7 +78,8 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm', array(
             </div>
           </div>
     
-    
+<?php //------------------------------------------------------------------------------------------------------------------------------------//?>
+  
         <div class="row-fluid">
             
             <div class="span3">
@@ -95,15 +99,20 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm', array(
             </div>
             
         </div>
-        <hr>
-	<div class="row buttons">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Створити' : 'Зберегти'); ?>
-	</div>
-
+<?php //------------------------------------------------------------------------------------------------------------------------------------//?>
+    <hr>
+<div class="row-fluid">
+    <?php $this->widget("bootstrap.widgets.TbButton", array(
+			'buttonType'=>'submit',
+			'type'=>'primary',
+                        "size"=>"null",
+			'label'=>$model->isNewRecord ? 'Створити' : 'Зберегти',
+                        )); 
+    ?>
+</div>
 <?php $this->endWidget(); ?>
 
 </div><!-- form -->
 <script>
     //$('#contracts-form .datepicker').datepicker({'format':'dd.mm.yyyy'});
-  
 </script>
