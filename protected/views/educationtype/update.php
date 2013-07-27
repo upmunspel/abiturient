@@ -10,7 +10,7 @@ $this->breadcrumbs=array(
 
 $this->menu=array(
 	/*array('label'=>'List Educationtype', 'url'=>array('index')),*/
-array('label'=>'Додати запис', 'url'=>array('create'),'icon'=>"icon-plus"),
+        array('label'=>'Додати запис', 'url'=>array('create'),'icon'=>"icon-plus"),
 	array('label'=>'Переглянути запис', 'url'=>array('view', 'id'=>$model->idEducationType),'icon'=>"icon-eye-open"),
 	array('label'=>'Переглянути записи', 'url'=>array('admin'),'icon'=>"icon-list-alt"),
 );

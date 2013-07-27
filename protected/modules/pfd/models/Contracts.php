@@ -43,10 +43,13 @@ class Contracts extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('PersonSpecialityID, ContractDate, CustomerName, CustomerDoc, CustomerAddress, CustomerPaymentDetails, Comment', 'required'),
+			array('PersonSpecialityID, ContractNumber, ContractDate, CustomerName, CustomerDoc, CustomerAddress, CustomerPaymentDetails', 'required'),
 			array('PersonSpecialityID', 'numerical', 'integerOnly'=>true),
 			array('ContractNumber', 'length', 'max'=>100),
-			array('PaymentDate', 'safe'),
+	                array('PaymentDate', "date", 'format'=>"dd.MM.yyyy","allowEmpty"=>true ),
+                        array('ContractDate', "date", 'format'=>"dd.MM.yyyy","allowEmpty"=>false ),
+                        array('Comment', "safe"),
+                    
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('idContract, PersonSpecialityID, ContractNumber, ContractDate, CustomerName, CustomerDoc, CustomerAddress, CustomerPaymentDetails, PaymentDate, Comment', 'safe', 'on'=>'search'),
@@ -63,24 +66,46 @@ class Contracts extends CActiveRecord
 		return array(
 		);
 	}
-        
+         protected function beforeSave() {
+            if (!empty( $this->PaymentDate)) $this->PaymentDate=date('Y-m-d', strtotime($this->PaymentDate));  
+             if (!empty( $this->ContractDate)) $this->ContractDate=date('Y-m-d', strtotime($this->ContractDate)); 
+            
+            return parent::beforeSave();
+           
+        }
+        public function afterFind() {
+            if ($this->PaymentDate=="0000-00-00"){
+                $this->PaymentDate="";     
+            } else {
+                $this->PaymentDate = date("d.m.Y", strtotime($this->PaymentDate));
+            }
+          
+            if ($this->ContractDate=="0000-00-00"){
+                $this->ContractDate="";     
+            } else {
+                $this->ContractDate = date("d.m.Y", strtotime($this->ContractDate));
+            }
+            
+            parent::afterFind();
+            return true;
+        }
 
-	/**
+        /**
 	 * @return array customized attribute labels (name=>label)
 	 */
 	public function attributeLabels()
 	{
 		return array(
-    'idContract' => 'Id Contract',
-    'PersonSpecialityID' => 'Person Speciality',
-    'ContractNumber' => 'Contract Number',
-    'ContractDate' => 'Contract Date',
-    'CustomerName' => 'Customer Name',
-    'CustomerDoc' => 'Customer Doc',
-    'CustomerAddress' => 'Customer Address',
-    'CustomerPaymentDetails' => 'Customer Payment Details',
-    'PaymentDate' => 'Payment Date',
-    'Comment' => 'Comment',
+                    'idContract' => 'Код контракту',
+                    'PersonSpecialityID' => 'Код спеціальності',
+                    'ContractNumber' => 'Номер контракту',
+                    'ContractDate' => 'Дата укладання договору',
+                    'CustomerName' => 'Замовник',
+                    'CustomerDoc' => 'Документи замовника',
+                    'CustomerAddress' => 'Адреса',
+                    'CustomerPaymentDetails' => 'Платіжні реквізити',
+                    'PaymentDate' => 'Дата оплати договору',
+                    'Comment' => 'Коментарій',
 		);
 	}
 

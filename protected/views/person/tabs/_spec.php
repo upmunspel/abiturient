@@ -18,7 +18,7 @@ $dataProvider=new CActiveDataProvider( "Personspeciality", array('criteria'=>arr
             ),
         ),
     'pagination'=>array(
-        'pageSize'=>10,
+        'pageSize'=>50,
     )
 ));
 
