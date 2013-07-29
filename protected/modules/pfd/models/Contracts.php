@@ -43,12 +43,12 @@ class Contracts extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('PersonSpecialityID, ContractNumber, ContractDate, CustomerName, CustomerDoc, CustomerAddress, CustomerPaymentDetails', 'required'),
+			array('PersonSpecialityID, ContractDate, CustomerName, CustomerDoc, CustomerAddress', 'required'),
 			array('PersonSpecialityID', 'numerical', 'integerOnly'=>true),
 			array('ContractNumber', 'length', 'max'=>100),
 	                array('PaymentDate', "date", 'format'=>"dd.MM.yyyy","allowEmpty"=>true ),
                         array('ContractDate', "date", 'format'=>"dd.MM.yyyy","allowEmpty"=>false ),
-                        array('Comment', "safe"),
+                        array('Comment,CustomerPaymentDetails', "safe"),
                     
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.

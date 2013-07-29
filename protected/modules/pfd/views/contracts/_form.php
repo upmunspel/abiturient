@@ -36,11 +36,11 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 <?php //------------------------------------------------------------------------------------------------------------------------------------//?>
 
         <div class="row-fluid">
-            <div class="span3">
-		<?php echo $form->labelEx($model,'ContractNumber'); ?>
-		<?php echo $form->textField($model,'ContractNumber',array('size'=>60,'maxlength'=>100, "class"=>"span12")); ?>
-		<?php echo $form->error($model,'ContractNumber'); ?>
-            </div>
+<!--            <div class="span3">
+		<?php // echo $form->labelEx($model,'ContractNumber'); ?>
+		<?php //echo $form->textField($model,'ContractNumber',array('size'=>60,'maxlength'=>100, "class"=>"span12")); ?>
+		<?php //echo $form->error($model,'ContractNumber'); ?>
+            </div>-->
              
             <div class="span3">
                 
@@ -52,7 +52,7 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm', array(
         ///'prepend'=>'<i class="icon-calendar"></i>')); ?>
 		<?php echo $form->error($model,'ContractDate'); ?>
             </div>
-            <div class="span6">
+            <div class="span9">
                 <?php 
                 if ($model->isNewRecord){
                     $model->CustomerName = $specmodel->FIO;
