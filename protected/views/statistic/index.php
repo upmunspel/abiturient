@@ -566,6 +566,10 @@
 		<?php echo CHtml::dropDownList("FacultetID", "" , 
 						CHtml::listData(Facultets::model()->findAll(array('order'=>'FacultetFullName')),'idFacultet','FacultetFullName'),
 						array(  'empty'=>'',  'class'=>"span12") ); ?>
+                <?php echo Chtml::label("Форма",'eduform'); ?>
+                <?php echo CHtml::dropDownList("eduform", "" , 
+						array(1=>"Денна",2=>"Заочна"),
+						array(  'empty'=>'',  'class'=>"span12") ); ?>
 		
     </div>
    

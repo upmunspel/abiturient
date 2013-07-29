@@ -45,9 +45,10 @@ class MagLangFil extends CActiveRecord
 			array('ForeignLang', 'length', 'max'=>50),
 			array('surname, name, farthername', 'length', 'max'=>100),
 			array('fah', 'length', 'max'=>20),
+                        array('eduform', 'length', 'max'=>20),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('FacultetFullName, spec, ForeignLang, surname, name, farthername, fah', 'safe', 'on'=>'search'),
+			array('FacultetFullName, spec, ForeignLang, surname, name, farthername, fah, eduform', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -76,6 +77,7 @@ class MagLangFil extends CActiveRecord
     'name' => "Ім'я",
     'farthername' => 'По батькові',
     'fah' => 'Фаховий іспит',
+    'eduform' => 'Форма'
 		);
 	}
 
@@ -83,7 +85,7 @@ class MagLangFil extends CActiveRecord
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
-	public function search()
+	public function search($params)
 	{
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
@@ -97,8 +99,20 @@ class MagLangFil extends CActiveRecord
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('farthername',$this->farthername,true);
 		$criteria->compare('fah',$this->fah,true);
+                $criteria->compare('eduform',$this->eduform,true);
 		$criteria->order="spec,surname";
-                //$criteria->distinct = true;
+		foreach ($params as $key => $param){
+			switch ($key){
+				case 'eduform':
+                                        $form = "денна";
+                                        switch ($param){
+                                            case 1: $form = "денна"; break;
+                                            case 2: $form = "заочна"; break;
+                                        }
+					$criteria->addCondition("eduform LIKE '".$form."'");
+					break;
+			}
+		}
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
