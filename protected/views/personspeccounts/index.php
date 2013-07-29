@@ -6,6 +6,12 @@
 <?php 
 
 $data = $model->search();
+$categories = array();
+$Data = $data->getData();
+for ($i=0; $i< count($Data);$i++){
+    $categories[] = date("d.m.Y", strtotime($Data[$i]->getAttribute('_date_'))) ;
+}
+
 //$data=new CActiveDataProvider();
 if ($data->getItemCount() == 0) {
     $model= new PersonspecCounts();  
@@ -37,8 +43,15 @@ if ($data->getItemCount() == 0) {
                 'config' => array(
                     'title'=>array('text'=>'Кількість заявок абітурієнтів'),
                     'chart'=>array(
-                        'width'=>800,
+                        'width'=>1200,
 
+                    ),
+                    'xAxis'=> array(
+                        'categories' => $categories,
+                        'labels' => array(
+                            'rotation' => 70,
+                            'y' => 40
+                        )
                     )
                 )
             ),
