@@ -34,7 +34,7 @@ class Contracts extends CActiveRecord
 	{
 		return 'contracts';
 	}
-
+       
 	/**
 	 * @return array validation rules for model attributes.
 	 */
@@ -64,6 +64,7 @@ class Contracts extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+                      'speciality' => array(self::BELONGS_TO, "PersonSpecialityView", 'PersonSpecialityID')
 		);
 	}
          protected function beforeSave() {
@@ -99,12 +100,12 @@ class Contracts extends CActiveRecord
                     'idContract' => 'Код контракту',
                     'PersonSpecialityID' => 'Код спеціальності',
                     'ContractNumber' => 'Номер контракту',
-                    'ContractDate' => 'Дата укладання договору',
+                    'ContractDate' => 'Дата укладання',
                     'CustomerName' => 'Замовник',
                     'CustomerDoc' => 'Документи замовника',
                     'CustomerAddress' => 'Адреса',
                     'CustomerPaymentDetails' => 'Платіжні реквізити',
-                    'PaymentDate' => 'Дата оплати договору',
+                    'PaymentDate' => 'Дата оплати',
                     'Comment' => 'Коментарій',
 		);
 	}

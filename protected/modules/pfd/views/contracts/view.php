@@ -13,12 +13,26 @@ $this->menu=array(
 	array('label'=>'Змінити запис', 'url'=>array('update', 'id'=>$model->idContract),'icon'=>" icon-pencil"),
 	array('label'=>'Видалити запис', 'url'=>'#','icon'=>"icon-trash", 'linkOptions'=>array('submit'=>array('delete','id'=>$model->idContract),'confirm'=>'Ви впевнені, що хочете видалити цей елемент?')),
 	array('label'=>'Переглянути записи', 'url'=>array('admin'),'icon'=>"icon-list-alt"),
+    
 
 );
 ?>
 
-<h1>Перегляд запису довідника "Контракти" #<?php echo $model->idContract; ?></h1>
+<h2>Контракт №<?php echo $model->ContractNumber; ?> від <?php echo $model->ContractDate; ?></h2>
+<?php
+$specmodel = new PersonSpecialityView();
+if ($model->isNewRecord){
+    $specmodel=PersonSpecialityView::model()->find("idPersonSpeciality = $specid");
+} else {
+    $specmodel=PersonSpecialityView::model()->find("idPersonSpeciality = ".$model->PersonSpecialityID);
+}
 
+$specid=$model->PersonSpecialityID;
+$url='http://10.1.11.57:8080/request_report-1.0/price.jsp?idPersonSpeciality='.$specid.'&iframe=true&width=1024&height=600';
+
+$model->PersonSpecialityID = $specmodel->SpecCodeName;
+
+?>
 <?php $this->widget('bootstrap.widgets.TbDetailView', array(
 	'data'=>$model,
         'type'=>array('bordered', 'condensed','striped'),
@@ -37,14 +51,17 @@ $this->menu=array(
 )); ?>
 <hr>
 <?php
+
+
  $this->widget('bootstrap.widgets.TbButton', array(
-    'label'=>'Друк',
+    'label'=>'Друкувати',
     'type'=>'danger', // null, 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
     'size'=>'large', // null, 'large', 'small' or 'mini' 
-    'url'=>("http://10.1.11.57:8080/request_report-1.0/bachelor.jsp?PersonID=51&PersonSpecialityID=68&iframe=true&width=1024&height=600"),
+    'url'=>$url,
     'htmlOptions'=>array(
                             //'onclick'=>'PSN.printSpec(this); return true;',
                             'rel'=>"prettyPhoto",
+                            'title'=>"Контракт",
         ),
     
     ));?>

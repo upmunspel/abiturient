@@ -29,7 +29,7 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 <div class="form well">
     
         <div class="row-fluid">
-            <h2>Студент: <?php echo $specmodel->FIO; ?> <br>(<?php echo $specmodel->SpecCodeName ?>) </h2>
+            <h3>Студент: <?php echo $specmodel->FIO; ?> <br>(<?php echo $specmodel->SpecCodeName ?>) </h3>
             <hr>
             <?php echo $form->hiddenField($model,'PersonSpecialityID'); ?>
 	</div>

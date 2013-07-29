@@ -2,9 +2,9 @@
 /* @var $this ContractsController */
 /* @var $model Contracts */
 
-
 $this->menu=array(
-array('label'=>'Додати запис', 'url'=>array('create'), 'icon'=>"icon-plus"),
+//array('label'=>'Додати запис', 'url'=>array('create'), 'icon'=>"icon-plus"),
+array('label'=>'Пошук Абітурієнтів', 'url'=>array('index'), 'icon'=>"icon-search"), 
 );
 
 ?>
@@ -18,13 +18,16 @@ array('label'=>'Додати запис', 'url'=>array('create'), 'icon'=>"icon-
 'filter'=>$model,
 //'template'=>"{items}",
 'columns'=>array(
-		'idContract',
-		'PersonSpecialityID',
-		'ContractNumber',
-		'ContractDate',
-		'CustomerName',
-		'CustomerDoc',
-                'PaymentDate',
+		array("name"=>'idContract', "header"=>"Код", 'htmlOptions'=>array("style"=>"width: 50px;")),
+                array("name"=>'ContractNumber', 'htmlOptions'=>array("style"=>"width: 150px;")),
+              //'PersonSpecialityID',
+	        array("name"=>'ContractDate', 'htmlOptions'=>array("style"=>"width: 150px;")),
+	        array("name"=>'ContractNumber', 'htmlOptions'=>array("style"=>"width: 250px;"),"value"=>'$data->speciality->SpecCodeName'),
+		
+                'CustomerName',
+		//'CustomerDoc',
+                array("name"=>'PaymentDate', 'htmlOptions'=>array("style"=>"width:150px;")),
+             
 		/*
 		'CustomerAddress',
 		'CustomerPaymentDetails',
