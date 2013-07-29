@@ -43,9 +43,10 @@ class MagLang extends CActiveRecord
 			array('spec', 'length', 'max'=>315),
 			array('surname, name, farthername', 'length', 'max'=>100),
 			array('langName', 'length', 'max'=>20),
+                        array('eduform', 'length', 'max'=>20),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('idFuc, spec, surname, name, farthername, langName', 'safe', 'on'=>'search'),
+			array('idFuc, spec, surname, name, farthername, langName, eduform', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -73,6 +74,7 @@ class MagLang extends CActiveRecord
     'name' => "Ім'я",
     'farthername' => 'По батькові',
     'langName' => 'Іноземна мова',
+    'eduform' => 'Форма',
 		);
 	}
 
@@ -93,12 +95,21 @@ class MagLang extends CActiveRecord
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('farthername',$this->farthername,true);
 		$criteria->compare('langName',$this->langName,true);
+                $criteria->compare('eduform',$this->eduform,true);
 		$criteria->order="spec,surname";
                 //$criteria->distinct = true;
 		foreach ($params as $key => $param){
 			switch ($key){
 				case 'FacultetID':
 					$criteria->addCondition("idFuc = ".$param);
+					break;
+				case 'eduform':
+                                        $form = "денна";
+                                        switch ($param){
+                                            case 1: $form = "денна"; break;
+                                            case 2: $form = "заочна"; break;
+                                        }
+					$criteria->addCondition("eduform LIKE '".$form."'");
 					break;
 			}
 		}

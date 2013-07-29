@@ -1,130 +1,50 @@
-
 <?php
 
-$params = array();
-foreach ($_GET as $key => $param){
-    switch ($key){
-        case 'FacultetID':
-            if (is_numeric($param)){
-                $params[$key] = $param;
-                if ($param == 1638){
-                        header("Location: ".Yii::app()->createUrl("statistic/maglangfil"));
+    include_once 'print_template.php';
+    $params = array();
+    foreach ($_GET as $key => $param){
+        switch ($key){
+            case 'FacultetID':
+                if (is_numeric($param)){
+                    $params[$key] = $param;
+                    if ($param == 1638){
+                        $form = 0;
+                        if (isset($_GET['eduform'])){
+                            $form = $_GET['eduform'];
+                        }
+                        $Loc = "Location: ".Yii::app()->createUrl("statistic/maglangfil");
+                        if ($form > 0){
+                            $Loc .= "?eduform=".$form;
+                        }
+                        header($Loc);
                         exit();
+                    }
                 }
-            }
-            break;
+                break;
+            case 'eduform':
+                if (is_numeric($param)){
+                    $params[$key] = $param;
+                }
+                break;
+        }
     }
-}
 
-$model = MagLang::model();
-$Data = $model->search($params);
+    $model = MagLang::model();
+    $Data = $model->search($params);
 
-$columns = array(
-//array('name'=>'idPersonMySql'),
-array('name'=>'spec','htmlOptions' => array ('style'=>'width:250px;')) ,
-array('name'=>'surname','htmlOptions' => array ('style'=>'width:150px;')) ,
-array('name'=>'name','htmlOptions' => array ('style'=>'width:100px;')) ,
-array('name'=>'farthername','htmlOptions' => array ('style'=>'width:150px;')) ,
-array('name'=>'langName','htmlOptions' => array ('style'=>'width:150px;')) ,
-);
-
-$data = $Data->getData();
-$N = count($data);
-
-?>
-
-<html>
-<head>
-<meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>
-<title>АБІТУРІЄНТ :: МАГІСТРИ :: ІНОЗЕМНА МОВА</title>
-<style media="print">
-TD {
-	font-size: 7pt;
-	border: 1px solid black;
-        font-family: 'Tahoma';
-}
-TH {
-	font-size: 7pt;
-	border: 1px solid black;
-        font-family: 'Tahoma';
-}
-H1 {
-	font-size: 12pt;
-        font-family: 'Tahoma';
-}
-
-A {
-	text-decoration: none;
-	color: black;
-        font-family: 'Tahoma';
-}
-</style>
-<style media="screen">
-TD {
-	font-size: 10pt;
-	/* border: 1px solid black; */
-        padding: 5px;
-        font-family: 'Tahoma';
-}
-TH {
-	font-size: 8pt;
-	/* border: 1px solid black; */
-        padding: 3px;
-        font-family: 'Tahoma';
-        
-}
-H1 {
-	font-size: 16pt;
-}
-
-
-</style>
-</head>
-<body>
-
-<center><h1>
-
-</h1>
-        
-    <table border="1" cellspacing="0">
-<?php
-   // var_dump($table_row);
+    $columns = array(
+    array('name'=>'spec','htmlOptions' => array ('style'=>'width:250px;')) ,
+    array('name'=>'eduform','htmlOptions' => array ('style'=>'width:50px;')) ,
+    array('name'=>'surname','htmlOptions' => array ('style'=>'width:150px;')) ,
+    array('name'=>'name','htmlOptions' => array ('style'=>'width:100px;')) ,
+    array('name'=>'farthername','htmlOptions' => array ('style'=>'width:150px;')) ,
+    array('name'=>'langName','htmlOptions' => array ('style'=>'width:150px;')) ,
+    );
+    $data = $Data->getData();
     $labels = $model->AttributeLabels();
-    $j = 0;
+    $title = "Список абітурієнтів (ОКР \"магістр\"), що будуть складати екзамен з іноземної мови";
+    $group_field_name = '';
     
-    
-    $table_header = "<tr>";
-    foreach ($columns as $col){
-        if (isset($col['htmlOptions']) && $col['htmlOptions']){
-            $table_header .= "<th style='".$col['htmlOptions']['style']."'>";
-        } else {
-            $table_header .=  "<th>";
-        }
-        $table_header .= $labels[$col['name']]."</th>";
-    }
-    
-    $table_header .= "</tr>";
-    
-    echo $table_header;
-    
-    $table_row = array();
-    for ($i = 0; $i < $N; $i++){
-        $table_row[$j] = "<tr>";
-        foreach ($columns as $col){
-            if (isset($col['htmlOptions']) && $col['htmlOptions']){
-                $table_row[$j] .= "<td style='".$col['htmlOptions']['style']."'>";
-            } else {
-                $table_row[$j] .=  "<td>";
-            }
-            $table_row[$j] .= ($data[$i]->getAttribute($col['name']))."</td>";
-        }
-        $table_row[$j] .= "</tr>";
-        echo $table_row[$j++];
-    }
-    
+    print_template($data, $columns, $labels, $title, $group_field_name);
+
 ?>
-    </table>
-</center>
-    
-</body>
-</html>
