@@ -67,11 +67,7 @@ class WebUser extends CWebUser {
         return "http://".$model->syspk->searchIP;  
     }
      public function getPrintPriceUrl($specid){
-        
-//        http://10.1.103.26:8080/request_report-1.0/magistr.jsp?PersonID=197&PersonSpecialityID=205  - магистры
-//        http://10.1.103.26:8080/request_report-1.0/bachelor.jsp?PersonID=197&PersonSpecialityID=205 - бакалавры
-            
-            
+                   
         $model = $this->getUserModel();
         if (empty($model->syspk) || empty($model->syspk->printIP) ) throw new Exception ("Необхідно визначити адресу серверу друку документів!");
         $ip = $model->syspk->printIP;  
