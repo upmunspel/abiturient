@@ -21,6 +21,8 @@
  * @property string $Nomer_lichnogo_dela
  * @property integer $N_dela
  * @property integer $StatusID
+ * @property integer $VillageQuota
+ * @property integer $TargetQuota Description
  */
 class PersonspecAll extends CActiveRecord
 {
@@ -52,12 +54,16 @@ class PersonspecAll extends CActiveRecord
 		return array(
 			array('isBudget, RequestFromEB, N_dela', 'required'),
 			array('isContract, isBudget, isCopyEntrantDoc, 
-                            RequestFromEB, PozaKonkursom, Pozacherg, edboID, N_dela, StatusID', 'numerical', 'integerOnly'=>true),
+                            RequestFromEB, PozaKonkursom, Pozacherg, edboID, 
+                            N_dela, StatusID, VillageQuota, TargetQuota', 'numerical', 'integerOnly'=>true),
 			array('FIO', 'length', 'max'=>302),
 			array('FacultetFullName', 'length', 'max'=>255),
 			array('QualificationName, Forma, Status', 'length', 'max'=>45),
 			array('Specialnost', 'length', 'max'=>216),
 			array('Pilga', 'length', 'max'=>250),
+                        array('exams', 'length', 'max'=>250),
+                        array('ispity', 'length', 'max'=>250),
+                        array('courses', 'length', 'max'=>250),
 			array('Date', 'length', 'max'=>10),
 			array('Nomer_lichnogo_dela', 'length', 'max'=>29),
 			// The following rule is used by search().
@@ -66,7 +72,7 @@ class PersonspecAll extends CActiveRecord
                             Forma, isContract, isBudget, isCopyEntrantDoc, 
                             RequestFromEB, Pilga, PozaKonkursom, Pozacherg, 
                             Date, edboID, Nomer_lichnogo_dela, N_dela, 
-                            StatusID, Status', 'safe', 'on'=>'search'),
+                            StatusID, Status, VillageQuota, TargetQuota,exams,ispity,olymp,courses', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -105,7 +111,14 @@ class PersonspecAll extends CActiveRecord
     'Nomer_lichnogo_dela' => 'Номер особової справи',
     'N_dela' => 'Номер справи',
     'StatusID' => 'Статус заявки',
-    'Status' => 'Статус'
+    'Status' => 'Статус',
+    'VillageQuota' => 'Квота (сільська місцевість)',
+    'TargetQuota' => 'Квота (цільове направлення)',
+    'exams' => 'ЗНО і атестат',
+    'ispity' => 'Іспити',
+    'olymp' => 'Олімпіади',
+    'courses' => 'Курси ДП',
+                    
 		);
 	}
 
@@ -138,6 +151,12 @@ class PersonspecAll extends CActiveRecord
 		$criteria->compare('N_dela',$this->N_dela);
 		$criteria->compare('StatusID',$this->StatusID);
                 $criteria->compare('Status',$this->Status);
+                $criteria->compare('VillageQuota',$this->VillageQuota);
+                $criteria->compare('TargetQuota',$this->TargetQuota);
+                $criteria->compare('exams',$this->exams);
+                $criteria->compare('ispity',$this->ispity);
+                $criteria->compare('olymp',$this->olymp);
+                $criteria->compare('courses',$this->courses);
 		
 		foreach ($params as $key=>$param){
 			switch ($key){
