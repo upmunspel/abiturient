@@ -9,7 +9,7 @@ $this->breadcrumbs=array(
 
 $this->menu=array(
 	//array('label'=>'List Contracts', 'url'=>array('admin'), "icon"=>""),
-	array('label'=>'Додати запис', 'url'=>array('create'),'icon'=>"icon-plus"),
+	//array('label'=>'Додати запис', 'url'=>array('create'),'icon'=>"icon-plus"),
 	array('label'=>'Змінити запис', 'url'=>array('update', 'id'=>$model->idContract),'icon'=>" icon-pencil"),
 	array('label'=>'Видалити запис', 'url'=>'#','icon'=>"icon-trash", 'linkOptions'=>array('submit'=>array('delete','id'=>$model->idContract),'confirm'=>'Ви впевнені, що хочете видалити цей елемент?')),
 	array('label'=>'Переглянути записи', 'url'=>array('admin'),'icon'=>"icon-list-alt"),
@@ -39,7 +39,7 @@ $model->PersonSpecialityID = $specmodel->SpecCodeName;
 	'attributes'=>array(
 		'idContract',
 		'PersonSpecialityID',
-		'ContractNumber',
+		//'ContractNumber',
 		'ContractDate',
 		'CustomerName',
 		'CustomerDoc',
