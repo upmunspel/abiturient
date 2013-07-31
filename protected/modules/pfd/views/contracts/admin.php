@@ -19,12 +19,12 @@ array('label'=>'Пошук Абітурієнтів', 'url'=>array('index'), 'ic
 //'template'=>"{items}",
 'columns'=>array(
 		array("name"=>'idContract', "header"=>"Код", 'htmlOptions'=>array("style"=>"width: 50px;")),
-                array("name"=>'ContractNumber', 'htmlOptions'=>array("style"=>"width: 150px;")),
-              //'PersonSpecialityID',
+                //array("name"=>'ContractNumber', 'htmlOptions'=>array("style"=>"width: 150px;")),
+                //'PersonSpecialityID',
 	        array("name"=>'ContractDate', 'htmlOptions'=>array("style"=>"width: 150px;")),
-	        array("name"=>'ContractNumber', 'htmlOptions'=>array("style"=>"width: 250px;"),"value"=>'$data->speciality->SpecCodeName'),
-		
-                'CustomerName',
+	        array("name"=>'PersonSpecialityID', 'htmlOptions'=>array("style"=>"width: 250px;"),"value"=>'$data->speciality->SpecCodeName'),
+		array("name"=>'speciality','header'=>"ФІО", 'htmlOptions'=>array("style"=>"width: 250px;"), "value"=>'$data->speciality->FIO'),
+                // 'CustomerName',
 		//'CustomerDoc',
                 array("name"=>'PaymentDate', 'htmlOptions'=>array("style"=>"width:150px;")),
              

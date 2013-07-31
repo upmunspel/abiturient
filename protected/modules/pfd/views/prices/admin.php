@@ -13,7 +13,16 @@ array('label'=>'Головна ','url'=>Yii::app()->createUrl('pfd/prices/admin'
 
 );
 
+$this->beginWidget('ext.prettyPhoto.PrettyPhoto', array(
+        'id'=>'pretty_photo',
+        // prettyPhoto options
+        'options'=>array(
+          'opacity'=>0.60,
+          'modal'=>true,
 
+        ),
+      ));
+$this->endWidget('ext.prettyPhoto.PrettyPhoto'); 
 ?>
 <h1>Довідник цін на навчання</h1>
 
@@ -33,11 +42,11 @@ $this->widget('bootstrap.widgets.TbExtendedGridView', array(
                     'header'=>"Деталі",
                     'url' => $this->createUrl('prices/specialitys'),
                     'value'=> '"Показати спеціальності"',
+                    'afterAjaxUpdate' => "js:function(tr,rowid,data){
+                            $('.prettyPhoto').prettyPhoto();
+                        }",
                     "htmlOptions"=>array("style"=>"width: 250px;")
-        //            'afterAjaxUpdate' => 'js:function(tr,rowid,data){
-        //                bootbox.alert("I have afterAjax events too!
-        //                This will only happen once for row with id: "+rowid);
-        //                    }'
+       
                      )
                 )),
 ));

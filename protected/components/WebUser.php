@@ -77,6 +77,5 @@ class WebUser extends CWebUser {
             return "http://".$ip.":8080/request_report-1.0/price.jsp?PersonSpecialityID=$specid&iframe=true&width=1024&height=600";
         return "";
     }   
-
 }
 ?>
