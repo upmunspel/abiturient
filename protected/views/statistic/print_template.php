@@ -1,6 +1,9 @@
 <?php
 function print_template($data,$columns,$labels,$title,$group_field_name){
     $N = count($data);
+    if (isset($data['totals'])){
+        $N --;
+    }
     $html_header = "
     <html>
     <head>
@@ -61,8 +64,13 @@ function print_template($data,$columns,$labels,$title,$group_field_name){
         for ($i = 0; $i < $N-1; $i++){
             /* @var $curr string */
             /* @var $next string */
-            $curr = $data[$i]->getAttribute($group_field_name);
-            $next = $data[$i+1]->getAttribute($group_field_name);
+            if (isset($data[$i][$group_field_name])){
+                $curr = $data[$i][$group_field_name];
+                $next = $data[$i+1][$group_field_name];
+            } else {
+                $curr = $data[$i]->getAttribute($group_field_name);
+                $next = $data[$i+1]->getAttribute($group_field_name);
+            }
             if ($next != $curr){
                $rowspans[$r++] = $rspan;
                $rspan = 1;
@@ -112,10 +120,27 @@ function print_template($data,$columns,$labels,$title,$group_field_name){
             } else {
                 $table_row[$j] .=  ">";
             }
-            $table_row[$j] .= ($data[$i]->getAttribute($col['name']))."</td>";
+            
+            if (isset($data[$i][$col['name']])){
+                $value = $data[$i][$col['name']];
+            } else {
+                $value = $data[$i]->getAttribute($col['name']);
+            }
+            $table_row[$j] .= $value."</td>";
         }
         $table_row[$j] .= "</tr>";
         //echo $table_row[$j++];
+    }
+    $table_total = "";
+    if (isset($data['totals'])){
+        $colspan_total = count($labels) - count($data['totals']);
+        $table_total .= "<tr><td colspan=\"".$colspan_total."\" align='center'>Усього</td>";
+        foreach ($labels as $key=>$lab){
+            if (isset($data['totals'][$key])){
+                $table_total .= "<td>".$data['totals'][$key]."</td>";
+            }
+        }
+        $table_total .= "</tr>";
     }
     
     $html_footer = "
@@ -132,6 +157,7 @@ function print_template($data,$columns,$labels,$title,$group_field_name){
     for ($j = 0; $j < count($table_row); $j++){
         echo $table_row[$j];
     }
+    echo $table_total;
     echo $html_footer;
 }
 ?>
