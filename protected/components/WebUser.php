@@ -77,6 +77,15 @@ class WebUser extends CWebUser {
             return "http://".$ip.":8080/request_report-1.0/price.jsp?PersonSpecialityID=$specid&iframe=true&width=1024&height=600";
         return "";
     }   
-
+     public function getPrintSortUrl($specid){
+                   
+        $model = $this->getUserModel();
+        if (empty($model->syspk) || empty($model->syspk->printIP) ) throw new Exception ("Необхідно визначити адресу серверу друку документів!");
+        $ip = $model->syspk->printIP;  
+        
+        $spec = Specialities::model()->find("idSpeciality=$specid");
+        if (empty($spec)) throw new Exception ("Необхідно визначити спеціальність!");
+        return "http://".$ip.":8080/request_report-1.0/price_sort.jsp?idSpeciality=$specid&iframe=true&width=1024&height=600";
+    }
 }
 ?>

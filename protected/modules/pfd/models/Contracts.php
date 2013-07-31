@@ -22,7 +22,16 @@ class Contracts extends CActiveRecord
 	 * @param string $className active record class name.
 	 * @return Contracts the static model class
 	 */
-	public static function model($className=__CLASS__)
+    
+        
+        public function getFIO(){
+            if (!empty($this->speciality)) {
+                return $this->speciality->FIO;
+            }
+            return "";
+        }
+
+        public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
 	}
@@ -43,16 +52,16 @@ class Contracts extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('PersonSpecialityID, ContractDate, CustomerName, CustomerDoc, CustomerAddress', 'required'),
+			array('PersonSpecialityID, ContractDate, CustomerAddress', 'required'),
 			array('PersonSpecialityID', 'numerical', 'integerOnly'=>true),
 			array('ContractNumber', 'length', 'max'=>100),
 	                array('PaymentDate', "date", 'format'=>"dd.MM.yyyy","allowEmpty"=>true ),
                         array('ContractDate', "date", 'format'=>"dd.MM.yyyy","allowEmpty"=>false ),
-                        array('Comment,CustomerPaymentDetails', "safe"),
+                        array('Comment,CustomerPaymentDetails,CustomerName, CustomerDoc', "safe"),
                     
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('idContract, PersonSpecialityID, ContractNumber, ContractDate, CustomerName, CustomerDoc, CustomerAddress, CustomerPaymentDetails, PaymentDate, Comment', 'safe', 'on'=>'search'),
+			array('idContract, PersonSpecialityID, ContractNumber, ContractDate, CustomerName, CustomerDoc, CustomerAddress, CustomerPaymentDetails, PaymentDate, Comment, speciality', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -118,22 +127,55 @@ class Contracts extends CActiveRecord
 	{
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
+            
+//            $dataProvider=new CActiveDataProvider( "Personspeciality", array('criteria'=>array(
+//    'condition'=>$cond,
+//    //'order'=>'RequestNumber DESC',
+//    'with'=>array('sepciality',"educationForm"),
+//    ),
+//    'sort' =>array(
+//            'attributes' =>array( "",
+////                    'sepciality'=>array(
+////                                    'asc'=>'sepciality.SpecialityDirectionName',
+////                                    'desc'=>'sepciality.SpecialityDirectionName DESC',
+////                            ),
+////                    '*',
+//            ),
+//        ),
+//    'pagination'=>array(
+//        'pageSize'=>50,
+//    )
+//));
 
 		$criteria=new CDbCriteria;
-
+                $criteria->with = array('speciality');
 		$criteria->compare('idContract',$this->idContract);
-		$criteria->compare('PersonSpecialityID',$this->PersonSpecialityID);
+		$criteria->compare('speciality.SpecCodeName',$this->PersonSpecialityID, true);
 		$criteria->compare('ContractNumber',$this->ContractNumber,true);
 		$criteria->compare('ContractDate',$this->ContractDate,true);
 		$criteria->compare('CustomerName',$this->CustomerName,true);
 		$criteria->compare('CustomerDoc',$this->CustomerDoc,true);
 		$criteria->compare('CustomerAddress',$this->CustomerAddress,true);
 		$criteria->compare('CustomerPaymentDetails',$this->CustomerPaymentDetails,true);
-		$criteria->compare('PaymentDate',$this->PaymentDate,true);
+                if (!empty($this->PaymentDate) && ($this->PaymentDate == 0 || trim($this->PaymentDate)=="empty" || trim($this->PaymentDate)=="null") ) {
+                   $criteria->compare('PaymentDate',"0000-00-00",true); 
+                } else {
+                   $criteria->compare('PaymentDate',$this->PaymentDate,true);
+                }
 		$criteria->compare('Comment',$this->Comment,true);
-
+                $criteria->with = array('speciality');
+                $criteria->compare('speciality.FIO',$this->speciality,true);
 		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
-		));
+                            'criteria'=>$criteria,
+                            'sort' => array(
+                                'attributes' =>array(
+                                        'speciality'=>array(
+                                                        'asc'=>'speciality.FIO',
+                                                        'desc'=>'speciality.FIO DESC',
+                                                ),
+                                        '*',
+                                 ),
+                            ))
+                        );
 	}
 }
