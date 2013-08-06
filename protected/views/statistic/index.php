@@ -605,6 +605,15 @@
  <br/>
  
  
+ <div clas="form">
+    <h3>Список заявок абітурієнтів на ОКР 'спеціаліст' з середнім балом диплома
+    </h3>
+    <a class="btn btn-primary btn-large" href='<?php echo Yii::app()->createUrl('statistic/personspecspecialists'); ?>'>ЗАВАНТАЖИТИ EXCEL-ДОКУМЕНТ (CSV-формат)</a>
+</div>  
+
+
+ <br/>
+ 
  
 
 <?php if (Yii::app()->user->checkAccess("printPhones")): ?>

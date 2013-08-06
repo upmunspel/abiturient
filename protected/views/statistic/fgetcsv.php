@@ -1,22 +1,8 @@
 <?php
-
-    //$model = new PersonspecMag();
-
-    $Data = $model->search();
-    $data = $Data->getData();
-
-    $columns = array(
-        array( 'name'=>    'FacultetFullName'  ),
-        array( 'name'=>    'Specialnost'  ),
-        array( 'name'=>    'FIO'  ),
-        array( 'name'=>    'Kontrakt'  ),
-        array( 'name'=>    'Budget'  ),
-        array( 'name'=>    'PersonDocumentTypesName'  ),
-        array( 'name'=>    'evaluation'  ),
-        array( 'name'=>    'Status'  ),
-    );
+function fgetcsv($data,$columns,$file_name){
+    $fp = fopen($file_name, "w");
     
-    $fp = fopen("_diploma.csv", "w");
+    var_dump($fp);
     
     for ($i = 0; $i < count($data); $i++){
         foreach ($columns as $col){
@@ -38,5 +24,6 @@
     
     fclose($fp);
     
-    header("Location: ".Yii::app()->createUrl("_diploma.csv"));
+    //header("Location: ".Yii::app()->createUrl($file_name));
+}
 ?>
