@@ -55,8 +55,8 @@ class Contracts extends CActiveRecord
 			array('PersonSpecialityID, ContractDate', 'required'),
 			array('PersonSpecialityID', 'numerical', 'integerOnly'=>true),
 			array('ContractNumber', 'length', 'max'=>100),
-	                array('PaymentDate', "date", 'format'=>"dd.MM.yyyy","allowEmpty"=>true ),
-                        array('ContractDate', "date", 'format'=>"dd.MM.yyyy","allowEmpty"=>false ),
+	                array('PaymentDate', "date", 'format'=>"dd-MM-yyyy","allowEmpty"=>true ),
+                        array('ContractDate', "date", 'format'=>"dd-MM-yyyy","allowEmpty"=>false ),
                         array('Comment,CustomerPaymentDetails,CustomerName, CustomerDoc,CustomerAddress', "safe"),
                     
 			// The following rule is used by search().
@@ -87,13 +87,13 @@ class Contracts extends CActiveRecord
             if ($this->PaymentDate=="0000-00-00"){
                 $this->PaymentDate="";     
             } else {
-                $this->PaymentDate = date("Y-m-d", strtotime($this->PaymentDate));
+                $this->PaymentDate = date("d-m-Y", strtotime($this->PaymentDate));
             }
           
             if ($this->ContractDate=="0000-00-00"){
                 $this->ContractDate="";     
             } else {
-                $this->ContractDate = date("Y-m-d", strtotime($this->ContractDate));
+                $this->ContractDate = date("d-m-Y", strtotime($this->ContractDate));
             }
             
             parent::afterFind();
