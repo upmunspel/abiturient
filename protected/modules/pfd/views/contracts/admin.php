@@ -11,7 +11,9 @@ array('label'=>'Пошук Абітурієнтів', 'url'=>array('index'), 'ic
 <h1>Контракти</h1>
 
 
-<?php $this->widget('bootstrap.widgets.TbGridView', array(
+<?php
+//$edt = CHtml::listData(Personeducationforms::model()->findAll(), 'idPersonEducationForm','PersonEducationFormName');
+$this->widget('bootstrap.widgets.TbGridView', array(
      'id'=>'contracts-grid',
      'type'=>'striped bordered condensed',
 'dataProvider'=>$model->search(),
@@ -23,10 +25,11 @@ array('label'=>'Пошук Абітурієнтів', 'url'=>array('index'), 'ic
                 //'PersonSpecialityID',
 	        array("name"=>'ContractDate', 'htmlOptions'=>array("style"=>"width: 150px;")),
 	        array("name"=>'PersonSpecialityID', 'htmlOptions'=>array("style"=>"width: 250px;"),"value"=>'$data->speciality->SpecCodeName'),
+                array("header"=>"Форма" , 'htmlOptions'=>array("style"=>"width: 100px;"),"value"=>'($data->speciality->EducationFormID=="1")?("Денна"):("Заочна")'),
 		array("name"=>'speciality','header'=>"ФІО", 'htmlOptions'=>array("style"=>"width: 250px;"), "value"=>'$data->speciality->FIO'),
                 // 'CustomerName',
 		//'CustomerDoc',
-                array("name"=>'PaymentDate', 'htmlOptions'=>array("style"=>"width:150px;")),
+                array("name"=>'PaymentDate', 'htmlOptions'=>array("style"=>"width:120px;")),
              
 		/*
 		'CustomerAddress',
