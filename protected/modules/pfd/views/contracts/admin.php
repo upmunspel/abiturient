@@ -25,7 +25,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                 //'PersonSpecialityID',
 	        array("name"=>'ContractDate', 'htmlOptions'=>array("style"=>"width: 150px;")),
 	        array("name"=>'PersonSpecialityID', 'htmlOptions'=>array("style"=>"width: 250px;"),"value"=>'$data->speciality->SpecCodeName'),
-                array("header"=>"Форма" , 'htmlOptions'=>array("style"=>"width: 100px;"),"value"=>'($data->speciality->EducationFormID=="1")?("Денна"):("Заочна")'),
+                array("name"=>'educationFormID',"header"=>"Форма" , 'htmlOptions'=>array("style"=>"width: 50px;"),"value"=>'($data->speciality->EducationFormID=="1")?("Денна"):("Заочна")','filter'=>array('1'=>'Денна','2'=>'Заочна')),
 		array("name"=>'speciality','header'=>"ФІО", 'htmlOptions'=>array("style"=>"width: 250px;"), "value"=>'$data->speciality->FIO'),
                 // 'CustomerName',
 		//'CustomerDoc',
