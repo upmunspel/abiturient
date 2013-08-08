@@ -68,7 +68,22 @@ $url='http://10.1.11.57:8080/request_report-1.0/price_sort_all.jsp&iframe=true&w
         ),
     
     ));?>
+&nbsp;
+<?php
+$url='http://10.1.11.57:8080/request_report-1.0/price_sort_all_nomoney.jsp&iframe=true&width=1024&height=600';
 
+ $this->widget('bootstrap.widgets.TbButton', array(
+    'label'=>'Не оплатили',
+    'type'=>'danger', // null, 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
+    'size'=>'large', // null, 'large', 'small' or 'mini' 
+    'url'=>$url,
+    'htmlOptions'=>array(
+                            //'onclick'=>'PSN.printSpec(this); return true;',
+                            'rel'=>"prettyPhoto",
+                            'title'=>"Контракт",
+        ),
+    
+    ));?>
 <?php 
   $this->beginWidget('ext.prettyPhoto.PrettyPhoto', array(
   'id'=>'pretty_photo',

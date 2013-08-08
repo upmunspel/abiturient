@@ -22,7 +22,7 @@ class Contracts extends CActiveRecord
 	 * @param string $className active record class name.
 	 * @return Contracts the static model class
 	 */
-    
+        public $educationFormID;
         
         public function getFIO(){
             if (!empty($this->speciality)) {
@@ -30,7 +30,16 @@ class Contracts extends CActiveRecord
             }
             return "";
         }
-
+        public function getEducationFormID(){
+            if (!empty($this->speciality)) {
+                return $this->speciality->EducationFormID;
+            }
+            return "";
+        }
+        public function setEducationFormID($val){
+            $this->educationFormID = $val;
+        }
+        
         public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
@@ -61,7 +70,7 @@ class Contracts extends CActiveRecord
                     
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('idContract, PersonSpecialityID, ContractNumber, ContractDate, CustomerName, CustomerDoc, CustomerAddress, CustomerPaymentDetails, PaymentDate, Comment, speciality', 'safe', 'on'=>'search'),
+			array('idContract, PersonSpecialityID, ContractNumber, ContractDate, CustomerName, CustomerDoc, CustomerAddress, CustomerPaymentDetails, PaymentDate, Comment, speciality, educationFormID', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -151,6 +160,7 @@ class Contracts extends CActiveRecord
                 $criteria->with = array('speciality');
 		$criteria->compare('idContract',$this->idContract);
 		$criteria->compare('speciality.SpecCodeName',$this->PersonSpecialityID, true);
+                $criteria->compare('speciality.EducationFormID',$this->educationFormID);
 		$criteria->compare('ContractNumber',$this->ContractNumber,true);
 		$criteria->compare('ContractDate',$this->ContractDate,true);
 		$criteria->compare('CustomerName',$this->CustomerName,true);
@@ -170,6 +180,10 @@ class Contracts extends CActiveRecord
                             'sort' => array(
                                 'attributes' =>array(
                                         'speciality'=>array(
+                                                        'asc'=>'speciality.FIO',
+                                                        'desc'=>'speciality.FIO DESC',
+                                                ),
+                                        'educationFormID'=>array(
                                                         'asc'=>'speciality.FIO',
                                                         'desc'=>'speciality.FIO DESC',
                                                 ),

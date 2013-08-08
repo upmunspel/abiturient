@@ -73,7 +73,7 @@
   
     <hr>
     <footer>
-        <div style="margin: 0 auto; width: 500px;">© Кафедра математичного моделювання  2012</div>
+        <div style="margin: 0 auto; width: 500px;">© Кафедра математичного моделювання  2013</div>
     </footer>
 </div><!-- page -->
 
