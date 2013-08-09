@@ -116,10 +116,9 @@ $dataProvider=new CActiveDataProvider( "Personspeciality", array('criteria'=>arr
                     'titul' => array(
                         'label'=>'Друкувати титульний лист',
                         'icon'=>'print',
-                        'url'=> 'Yii::app()->createUrl("http://10.1.11.57:8080/request_report-1.0/titul.jsp?PersonSpecialityID=".$data->idPersonSpeciality."&iframe=true&width=1024&height=600")',
+                        'url'=> '"http://10.1.11.57:8080/request_report-1.0/titul.jsp?PersonSpecialityID=".$data->idPersonSpeciality."&iframe=true&width=1024&height=600"',
                         'options'=>array(
                             'class'=>'btn',
-                            'onclick'=>"PSN.edboSpecsUpdate(this); return false;",
                             //'rel'=>"prettyPhoto",
                             'title'=>"Друкувати титульний лист",
                         ),
