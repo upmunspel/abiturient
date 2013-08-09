@@ -78,7 +78,7 @@ $dataProvider=new CActiveDataProvider( "Personspeciality", array('criteria'=>arr
         
         array(
                 'class'=>'bootstrap.widgets.TbButtonColumn',
-                'template'=>'{update} {trash} {print} {sinchr}',
+                'template'=>'{update} {trash} {print} {titul} {sinchr}',
                 'buttons'=>array
                 (
 
@@ -111,6 +111,23 @@ $dataProvider=new CActiveDataProvider( "Personspeciality", array('criteria'=>arr
                             'title'=>"Друкувати заявку",
                         ),
                     ),
+                    
+                    
+                    'titul' => array(
+                        'label'=>'Друкувати титульний лист',
+                        'icon'=>'print',
+                        'url'=> 'Yii::app()->createUrl("http://10.1.11.57:8080/request_report-1.0/titul.jsp?PersonSpecialityID=".$data->idPersonSpeciality."&iframe=true&width=1024&height=600")',
+                        'options'=>array(
+                            'class'=>'btn',
+                            'onclick'=>"PSN.edboSpecsUpdate(this); return false;",
+                            //'rel'=>"prettyPhoto",
+                            'title'=>"Друкувати титульний лист",
+                        ),
+                    ),
+                    
+                    
+                    
+                    
                      'sinchr' => array(
                         'label'=>'Синхронізувати',
                         'icon'=>'icon-refresh',
@@ -137,7 +154,7 @@ $dataProvider=new CActiveDataProvider( "Personspeciality", array('criteria'=>arr
                     
                 ),
                 'htmlOptions'=>array(
-                    'style'=>'width: 180px;',
+                    'style'=>'width: 218px;',
                 ),
             )
         ),

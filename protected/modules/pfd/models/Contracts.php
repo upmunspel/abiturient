@@ -25,15 +25,15 @@ class Contracts extends CActiveRecord
         public $educationFormID;
         
         public function getFIO(){
-            if (!empty($this->speciality)) {
-                return $this->speciality->FIO;
-            }
+//            if (!empty($this->speciality)) {
+//                return $this->speciality->FIO;
+//            }
             return "";
         }
         public function getEducationFormID(){
-            if (!empty($this->speciality)) {
-                return $this->speciality->EducationFormID;
-            }
+//            if (!empty($this->speciality)) {
+//                return $this->speciality->EducationFormID;
+//            }
             return "";
         }
         public function setEducationFormID($val){
@@ -157,7 +157,7 @@ class Contracts extends CActiveRecord
 //));
 
 		$criteria=new CDbCriteria;
-                $criteria->with = array('speciality');
+                //$criteria->with = array('speciality');
 		$criteria->compare('idContract',$this->idContract);
 		$criteria->compare('speciality.SpecCodeName',$this->PersonSpecialityID, true);
                 $criteria->compare('speciality.EducationFormID',$this->educationFormID);
@@ -177,19 +177,20 @@ class Contracts extends CActiveRecord
                 $criteria->compare('speciality.FIO',$this->speciality,true);
 		return new CActiveDataProvider($this, array(
                             'criteria'=>$criteria,
-                            'sort' => array(
-                                'attributes' =>array(
-                                        'speciality'=>array(
-                                                        'asc'=>'speciality.FIO',
-                                                        'desc'=>'speciality.FIO DESC',
-                                                ),
-                                        'educationFormID'=>array(
-                                                        'asc'=>'speciality.FIO',
-                                                        'desc'=>'speciality.FIO DESC',
-                                                ),
-                                        '*',
-                                 ),
-                            ))
+//                            'sort' => array(
+//                                'attributes' =>array(
+//                                        'speciality'=>array(
+//                                                        'asc'=>'speciality.FIO',
+//                                                        'desc'=>'speciality.FIO DESC',
+//                                                ),
+//                                        'educationFormID'=>array(
+//                                                        'asc'=>'speciality.FIO',
+//                                                        'desc'=>'speciality.FIO DESC',
+//                                                ),
+//                                        '*',
+//                                 ),
+//                            )
+                            )
                         );
 	}
 }
