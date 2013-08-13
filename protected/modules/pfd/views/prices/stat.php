@@ -24,7 +24,7 @@ $this->beginWidget('ext.prettyPhoto.PrettyPhoto', array(
       ));
 $this->endWidget('ext.prettyPhoto.PrettyPhoto'); 
 ?>
-<h1>Довідник цін на навчання</h1>
+<h1>Статистика</h1>
 
 <?php 
 $this->widget('bootstrap.widgets.TbExtendedGridView', array(
@@ -39,7 +39,7 @@ $this->widget('bootstrap.widgets.TbExtendedGridView', array(
                     'class'=>'bootstrap.widgets.TbRelationalColumn',
                     'name' => 'idFacultet',
                     'header'=>"Деталі",
-                    'url' => $this->createUrl('prices/specialitys'),
+                    'url' => $this->createUrl('prices/specialitys_stat'),
                     'value'=> '"Показати спеціальності"',
                     'afterAjaxUpdate' => "js:function(tr,rowid,data){
                             $('.prettyPhoto').prettyPhoto();
@@ -47,6 +47,30 @@ $this->widget('bootstrap.widgets.TbExtendedGridView', array(
                     "htmlOptions"=>array("style"=>"width: 250px;")
        
                      ),
+                        array(
+                'class'=>'bootstrap.widgets.TbButtonColumn',
+                'template'=>'{print}',
+                 "header"=>"Ст-ка",
+                'buttons'=>array
+                (
+
+                    'print' => array(
+                        'label'=>'Друкувати перелік осіб, що оформили контакт',
+                        'icon'=>'print',
+                        'url'=>'"http://10.1.11.57:8080/request_report-1.0/price_sort_facultet.jsp?idFacultet=".$data->idFacultet."&iframe=true&width=1024&height=600"',
+                        'options'=>array(
+                            'class'=>'btn prettyPhoto',
+                            //'onclick'=>'Yii::app()->user->getPrintSortUrl($data->idSpeciality)',
+                            'rel'=>"prettyPhoto",
+                            'title'=>"Перелік осіб, що оформили контакт",
+                        ),
+                    ),
+                   
+                ),
+                'htmlOptions'=>array(
+                    'style'=>'width: 30px;',
+                ),
+            )
                 )),
     
 ));
@@ -54,20 +78,36 @@ $this->widget('bootstrap.widgets.TbExtendedGridView', array(
 ?>
 <hr>
 <?php
-$url='stat';
+$url='http://10.1.11.57:8080/request_report-1.0/price_sort_all.jsp&iframe=true&width=1024&height=600';
+
  $this->widget('bootstrap.widgets.TbButton', array(
-    'label'=>'Статистика',
+    'label'=>'Всі спеціальності',
     'type'=>'danger', // null, 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
     'size'=>'large', // null, 'large', 'small' or 'mini' 
     'url'=>$url,
     'htmlOptions'=>array(
                             //'onclick'=>'PSN.printSpec(this); return true;',
-                            //'rel'=>"prettyPhoto",
-                            'title'=>"Статистика",
+                            'rel'=>"prettyPhoto",
+                            'title'=>"Контракт",
         ),
     
     ));?>
 &nbsp;
+<?php
+$url='http://10.1.11.57:8080/request_report-1.0/price_sort_all_nomoney.jsp&iframe=true&width=1024&height=600';
+
+ $this->widget('bootstrap.widgets.TbButton', array(
+    'label'=>'Не оплатили',
+    'type'=>'danger', // null, 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
+    'size'=>'large', // null, 'large', 'small' or 'mini' 
+    'url'=>$url,
+    'htmlOptions'=>array(
+                            //'onclick'=>'PSN.printSpec(this); return true;',
+                            'rel'=>"prettyPhoto",
+                            'title'=>"Контракт",
+        ),
+    
+    ));?>
 <?php 
   $this->beginWidget('ext.prettyPhoto.PrettyPhoto', array(
   'id'=>'pretty_photo',
