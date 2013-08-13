@@ -54,7 +54,7 @@ $this->widget('bootstrap.widgets.TbExtendedGridView', array(
 ?>
 <hr>
 <?php
-$url='stat';
+$url='http://10.1.103.26/abiturient/pfd/prices/stat';
  $this->widget('bootstrap.widgets.TbButton', array(
     'label'=>'Статистика',
     'type'=>'danger', // null, 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
