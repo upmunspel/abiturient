@@ -5,7 +5,7 @@ $this->breadcrumbs=array(
 
 $this->menu=array(
 	array('label'=>'Створити користувача','url'=>array('create'),'icon'=>"icon-plus"),
-	array('label'=>'Управління користівачами','url'=>array('admin'),'icon'=>"icon-user"),
+	array('label'=>'Управління користувачами','url'=>array('admin'),'icon'=>"icon-user"),
 );
 ?>
 

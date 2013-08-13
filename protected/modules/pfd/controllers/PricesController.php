@@ -57,7 +57,7 @@ class PricesController extends Controller
               'roles'=>array('Admins'),
               ), */
             array('allow', // allow admin user to perform 'admin' and 'delete' actions
-                'actions' => array('index', 'view', 'admin', 'delete', 'create', 'update', "ajaxcreate", "ajaxupdate","Specialitys","Editprice"),
+                'actions' => array('stat','index', 'view', 'admin', 'delete', 'create', 'update', "ajaxcreate", "ajaxupdate","Specialitys","Specialitys_stat","Editprice"),
                 'roles' => array("Root", "Admin","PriceOperator"),
             ),
             array('deny',  // deny all users
@@ -164,7 +164,16 @@ class PricesController extends Controller
             'model'=>$model,
         ));
     }
-
+    public function actionStat()
+    {
+        $model=new Facultets('search');
+        $model->unsetAttributes();  // clear any default values
+        if(isset($_GET['Facultets']))
+            $model->attributes=$_GET['Facultets'];
+        $this->render('stat',array(
+            'model'=>$model,
+        ));
+    }
     /**
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
@@ -208,6 +217,15 @@ class PricesController extends Controller
 		if(isset($_GET['Specialities']))
 		$model->attributes=$_GET['Specialities'];
                 $this->renderPartial('_relational',  array('model'=>$model,'id'=>$id), false, true);
+    }
+   public function actionSpecialitys_stat($id){
+	
+        
+        	$model=new Specialities('search');
+		$model->unsetAttributes();  // clear any default values
+		if(isset($_GET['Specialities']))
+		$model->attributes=$_GET['Specialities'];
+                $this->renderPartial('_relational_stat',  array('model'=>$model,'id'=>$id), false, true);
     }
     public function actionEditprice(){
         

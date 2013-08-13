@@ -66,6 +66,19 @@ PRC.onFacChanges = function(obj, id , url){
     var formid = $("#idEducationForm :selected").val();
     var mid= $("#QualificationID :selected").val();
     data = "idFacultet="+fid+"&idEducationForm="+formid+"&QualificationID="+mid;
-    //alert(data);
+    alert(data);
     $(id).load(url, data);
  };
+  PRC.changeSpeciality = function(obj, link){
+     
+   var fdata = $("#spec-form-modal").serialize(); 
+    $.ajax({
+    'url': link,
+    'data': fdata,
+    'type':'POST',
+    success: function (data) { 
+            $("#subjects-holder").html(data);
+        }
+    });
+     
+ }
