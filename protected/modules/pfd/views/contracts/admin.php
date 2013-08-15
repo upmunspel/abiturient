@@ -42,3 +42,36 @@ array(
 ),
 ),
 )); ?>
+&nbsp;
+<?php
+$url='http://10.1.11.57:8080/request_report-1.0/price_sort_same.jsp&iframe=true&width=1024&height=600';
+
+ $this->widget('bootstrap.widgets.TbButton', array(
+    'label'=>'Контракти більше 1',
+    //'type'=>'inverse', // null, 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
+    'size'=>'small', // null, 'large', 'small' or 'mini' 
+    'url'=>$url,
+    'htmlOptions'=>array(
+                            //'onclick'=>'PSN.printSpec(this); return true;',
+                            'rel'=>"prettyPhoto",
+                            'title'=>"Контракти >1",
+        ),
+    
+    ));?>
+<?php 
+  $this->beginWidget('ext.prettyPhoto.PrettyPhoto', array(
+  'id'=>'pretty_photo',
+  // prettyPhoto options
+  'options'=>array(
+  'opacity'=>0.60,
+  'modal'=>true,
+    
+  ),
+));?>
+<?php $this->endWidget('ext.prettyPhoto.PrettyPhoto'); ?>
+<script type="text/javascript">
+/*<![CDATA[*/
+jQuery('#pretty_photo a').attr('rel','prettyPhoto');
+jQuery('a[rel^="prettyPhoto"]').prettyPhoto({'opacity':0.6,'modal':true,'theme':'facebook'});
+/*]]>*/
+</script>
