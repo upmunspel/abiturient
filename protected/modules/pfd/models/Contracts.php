@@ -25,15 +25,15 @@ class Contracts extends CActiveRecord
         public $educationFormID;
         
         public function getFIO(){
-//            if (!empty($this->speciality)) {
-//                return $this->speciality->FIO;
-//            }
+            if (!empty($this->speciality)) {
+                return $this->speciality->FIO;
+            }
             return "";
         }
         public function getEducationFormID(){
-//            if (!empty($this->speciality)) {
-//                return $this->speciality->EducationFormID;
-//            }
+            if (!empty($this->speciality)) {
+                return $this->speciality->EducationFormID;
+            }
             return "";
         }
         public function setEducationFormID($val){
@@ -82,7 +82,7 @@ class Contracts extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-                      'speciality' => array(self::BELONGS_TO, "PersonSpecialityView", 'PersonSpecialityID')
+                      'speciality' => array(self::BELONGS_TO, "PersonContractSpecialityView", 'PersonSpecialityID')
 		);
 	}
          protected function beforeSave() {
