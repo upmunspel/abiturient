@@ -74,13 +74,25 @@ class WebUser extends CWebUser {
             
         $model = $this->getUserModel();
         if (empty($model->syspk) || empty($model->syspk->printIP) ) throw new Exception ("Необхідно визначити адресу серверу друку документів!");
-        $ip = $model->syspk->printIP;  
-        
-        $spec = Personspeciality::model()->find("idPersonSpeciality=$specid");
+        $ip = $model->syspk->printIP; 
+        $spec = Specialities::model()->find("idSpeciality=$specid");
         if (empty($spec)) throw new Exception ("Необхідно визначити спеціальність!");
-            return "http://".$ip.":8080/request_report-1.0/price.jsp?PersonSpecialityID=$specid&iframe=true&width=1024&height=600";
+            return "http://".$ip.":8080/request_report-1.0/price_sort.jsp?idSpeciality=$specid&iframe=true&width=1024&height=600";
         return "";
     }   
-
+     public function getPrintFackultetUrl($fuckultet){
+        
+//        http://10.1.103.26:8080/request_report-1.0/magistr.jsp?PersonID=197&PersonSpecialityID=205  - магистры
+//        http://10.1.103.26:8080/request_report-1.0/bachelor.jsp?PersonID=197&PersonSpecialityID=205 - бакалавры
+            
+            
+        $model = $this->getUserModel();
+        if (empty($model->syspk) || empty($model->syspk->printIP) ) throw new Exception ("Необхідно визначити адресу серверу друку документів!");
+        $ip = $model->syspk->printIP; 
+        $spec = Facultets::model()->find("idFacultet=$fuckultet");
+        if (empty($spec)) throw new Exception ("Необхідно визначити спеціальність!");
+            return "http://".$ip.":8080/request_report-1.0/price_sort_facultet.jsp?idFacultet=$fuckultet&iframe=true&width=1024&height=600";
+        return "";
+    }
 }
 ?>
