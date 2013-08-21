@@ -93,31 +93,6 @@ $this->widget('bootstrap.widgets.TbGridView', array(
               ),
             
         ),    
-        
-        array(
-                'class'=>'bootstrap.widgets.TbButtonColumn',
-                'template'=>'{print}',
-                 "header"=>"Ст-ка",
-                'buttons'=>array
-                (
-
-                    'print' => array(
-                        'label'=>'Друкувати перелік осіб, що оформили контакт',
-                        'icon'=>'print',
-                        'url'=>'"http://10.1.11.57:8080/request_report-1.0/price_sort.jsp?idSpeciality=".$data->idSpeciality."&iframe=true&width=1024&height=600"',
-                        'options'=>array(
-                            'class'=>'btn prettyPhoto',
-                            //'onclick'=>'Yii::app()->user->getPrintSortUrl($data->idSpeciality)',
-                            //'rel'=>"prettyPhoto",
-                            'title'=>"Перелік осіб, що оформили контакт",
-                        ),
-                    ),
-                   
-                ),
-                'htmlOptions'=>array(
-                    'style'=>'width: 30px;',
-                ),
-            )
 //        array('name'=>'isPublishIn',
 //                    'header'=>'isPublishIn',
 //                    'filter'=>array('1'=>'так','0'=>'ні'),

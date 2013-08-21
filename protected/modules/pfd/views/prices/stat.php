@@ -57,7 +57,8 @@ $this->widget('bootstrap.widgets.TbExtendedGridView', array(
                     'print' => array(
                         'label'=>'Друкувати перелік осіб, що оформили контакт',
                         'icon'=>'print',
-                        'url'=>'"http://10.1.11.57:8080/request_report-1.0/price_sort_facultet.jsp?idFacultet=".$data->idFacultet."&iframe=true&width=1024&height=600"',
+                        'url'=>'Yii::app()->user->getPrintFackultetUrl($data->idFacultet)',
+                        //'url'=>'"http://10.1.11.57:8080/request_report-1.0/price_sort_facultet.jsp?idFacultet=".$data->idFacultet."&iframe=true&width=1024&height=600"',
                         'options'=>array(
                             'class'=>'btn prettyPhoto',
                             //'onclick'=>'Yii::app()->user->getPrintSortUrl($data->idSpeciality)',

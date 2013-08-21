@@ -10,6 +10,11 @@
 
 
 <div clas="form">
+    <h3>Формування актів</h3>
+    <a class="btn btn-primary btn-large" href='<?php echo Yii::app()->createUrl('statistic/acts'); ?>'>Показати</a>
+</div>
+
+<div clas="form">
     <h3>Графік прийому документів</h3>
     <a class="btn btn-primary btn-large" href='<?php echo Yii::app()->createUrl('personspeccounts'); ?>'>Показати</a>
 </div>
