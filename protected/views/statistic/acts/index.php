@@ -45,7 +45,7 @@
                             for (i = objSpecialization.options.length-1; i >= 0; i--) {
                               objSpecialization.options[i] = null;
                             }
-                            objSpec.options[0] = new Option("екологія, охорона навколишнього середовища та збал...",
+                            objSpec.options[0] = new Option("екологія, охорона навколишнього середовища та збалансоване природокористування",
                                                    "екологія, охорона навколишнього середовища та збалансоване природокористування",true,true);
                             objSpec.options[1] = new Option("Біологія","Біологія",false,false);
                             objSpec.options[2] = new Option("Хімія","Хімія",false,false);
