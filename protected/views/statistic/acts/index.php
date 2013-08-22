@@ -80,6 +80,18 @@
                             objSpecialization[0] = new Option("Спеціалізації немає","",true,true);
                             break;
                             
+                       case 'Менеджменту': 
+                            for(i = objSpec.options.length-1; i >= 0; i--) {
+                              objSpec.options[i] = null;                            
+                            }  
+                            for (i = objSpecialization.options.length-1; i >= 0; i--) {
+                              objSpecialization.options[i] = null;
+                            }
+                            objSpec.options[0] = new Option("Менеджмент","Менеджмент",true,true);
+                           
+                            objSpecialization[0] = new Option("Спеціалізації немає","",true,true);
+                            break;
+                            
                        case 'Фізичний': 
                             for(i = objSpec.options.length-1; i >= 0; i--) {
                               objSpec.options[i] = null;                             
