@@ -61,8 +61,7 @@ $url='http://10.1.11.57:8080/request_report-1.0/price_sort_all_nomoney.jsp&ifram
         //'type'=>'primary', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
         'size'=>'large',
         'htmlOptions'=>array(
-                            'rel'=>"prettyPhoto",
-                            'title'=>"Контракт",
+                            'target'=>"_blank",
         ),
         'buttons'=>array(
             array('label'=>'Денна та заочна', 'items'=>array(
@@ -80,20 +79,21 @@ $url='http://10.1.11.57:8080/request_report-1.0/price_sort_all_nomoney.jsp&ifram
         //'type'=>'primary', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
         'size'=>'large',
         'htmlOptions'=>array(
-                            'rel'=>"prettyPhoto",
-                            'title'=>"Контракт",
+                            'target'=>"_blank",
         ),
         'buttons'=>array(
             array('label'=>'Денна/Заочна', 'items'=>array(
                 array('label'=>'Денна','items'=>array(
                     array('label'=>'Бакалавр', 'url'=>Yii::app()->user->getPrintUrlstatFORM(1,1)),
                     array('label'=>'Спеціаліст', 'url'=>Yii::app()->user->getPrintUrlstatFORM(1,3)),
-                    array( 'label'=>'Магістр', 'url'=>Yii::app()->user->getPrintUrlstatFORM(1,2))),
+                    array( 'label'=>'Магістр', 'url'=>Yii::app()->user->getPrintUrlstatFORM(1,2)),
+                    array( 'label'=>'Усі рівні кваліфікації', 'url'=>Yii::app()->user->getPrintUrlstatFORM(1,0))),
                     ),
                 array('label'=>'Заочна','items'=>array(
                     array('label'=>'Бакалавр', 'url'=>Yii::app()->user->getPrintUrlstatFORM(2,1)),
                     array('label'=>'Спеціаліст', 'url'=>Yii::app()->user->getPrintUrlstatFORM(2,3)),
-                    array( 'label'=>'Магістр', 'url'=>Yii::app()->user->getPrintUrlstatFORM(2,2))),
+                    array( 'label'=>'Магістр', 'url'=>Yii::app()->user->getPrintUrlstatFORM(2,2)),
+                    array( 'label'=>'Усі рівні кваліфікації', 'url'=>Yii::app()->user->getPrintUrlstatFORM(2,0))),
                     ),
                 )),
         ),
