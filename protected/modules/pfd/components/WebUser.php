@@ -94,5 +94,19 @@ class WebUser extends CWebUser {
             return "http://".$ip.":8080/request_report-1.0/price_sort_facultet.jsp?idFacultet=$fuckultet&iframe=true&width=1024&height=600";
         return "";
     }
+	    public function getPrintUrlstat($id){     
+        $model = $this->getUserModel();
+        if (empty($model->syspk) || empty($model->syspk->printIP) ) throw new Exception ("Необхідно визначити адресу серверу друку документів!");
+        $ip = $model->syspk->printIP;  
+        return "http://".$ip.":8080/request_report-1.0/price_sort_speciality.jsp?idQualification=$id&iframe=true&width=1024&height=600";
+
+    }
+        public function getPrintUrlstatFORM($id,$idform){     
+        $model = $this->getUserModel();
+        if (empty($model->syspk) || empty($model->syspk->printIP) ) throw new Exception ("Необхідно визначити адресу серверу друку документів!");
+        $ip = $model->syspk->printIP;  
+        return "http://".$ip.":8080/request_report-1.0/price_sort_specialityEducationForm.jsp?idQualification=$id&idPersonEducationForm=$idform&iframe=true&width=1024&height=600";
+
+    }
 }
 ?>
