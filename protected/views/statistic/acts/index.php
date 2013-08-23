@@ -11,7 +11,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>Формування рейтингу - крок 2</title>
+		<title>Акты</title>
 		<link rel="stylesheet" type="text/css" href="styles.css" />
                 <script type="text/javascript">
                 function who()
@@ -45,7 +45,7 @@
                             for (i = objSpecialization.options.length-1; i >= 0; i--) {
                               objSpecialization.options[i] = null;
                             }
-                            objSpec.options[0] = new Option("екологія, охорона навколишнього середовища та збалансоване природокористування",
+                            objSpec.options[0] = new Option("екологія, охорона навколишнього середовища та збал...",
                                                    "екологія, охорона навколишнього середовища та збалансоване природокористування",true,true);
                             objSpec.options[1] = new Option("Біологія","Біологія",false,false);
                             objSpec.options[2] = new Option("Хімія","Хімія",false,false);
@@ -80,18 +80,6 @@
                             objSpecialization[0] = new Option("Спеціалізації немає","",true,true);
                             break;
                             
-                       case 'Менеджменту': 
-                            for(i = objSpec.options.length-1; i >= 0; i--) {
-                              objSpec.options[i] = null;                            
-                            }  
-                            for (i = objSpecialization.options.length-1; i >= 0; i--) {
-                              objSpecialization.options[i] = null;
-                            }
-                            objSpec.options[0] = new Option("Менеджмент","Менеджмент",true,true);
-                           
-                            objSpecialization[0] = new Option("Спеціалізації немає","",true,true);
-                            break;
-                            
                        case 'Фізичний': 
                             for(i = objSpec.options.length-1; i >= 0; i--) {
                               objSpec.options[i] = null;                             
@@ -116,6 +104,18 @@
                             objSpec.options[2] = new Option("Видавнича справа та редагування","Видавнича справа та редагування",false,false);
                             objSpecialization[0] = new Option("Спеціалізації немає","",true,true);
                             break;
+                            
+                       case 'Менеджменту': 
+                            for(i = objSpec.options.length-1; i >= 0; i--) {
+                              objSpec.options[i] = null;                         
+                            }
+                            for (i = objSpecialization.options.length-1; i >= 0; i--) {
+                              objSpecialization.options[i] = null;
+                            }
+                            objSpec.options[0] = new Option("Менеджмент","Менеджмент",true,true);
+                            objSpecialization[0] = new Option("Спеціалізації немає","",true,true);
+                            break;
+                            
                             
                        case 'Філологічний': 
                             for(i = objSpec.options.length-1; i >= 0; i--) {
@@ -203,7 +203,7 @@
                 </script>
 	</head>
 	<body>
-   <form  action="CreateActs" method="post" name="act">
+   <form  action="select.php" method="post" name="act">
    Виберіть факультет:
    <p><select id="fac" name="facultet" onchange="who()">
     <option disabled>Выберите Факультет</option>
@@ -233,6 +233,11 @@
     <p><select id="specialization" name="specialization">
              <option value=""></option>
      </select></p>
+     <input type="radio" name="budgetcontract" value="1">Бюджет</input>
+     <input type="radio" name="budgetcontract" value="0">Контракт</input>
+     <p>
+     <input type="radio" name="eduform" value="1">Дневная</input>
+     <input type="radio" name="eduform" value="0">Заочная</input>
    <p><input type="submit" value="Отправить"></p>
   </form>
 	</body>
