@@ -50,6 +50,6 @@
       //  else{
            // echo "<a href=\"http://10.1.11.57:8080/request_report-1.0/decanat_contract.jsp?Speciality=$spec&Fac=$fac&iframe=true&width=1024&height=600\">Сформувати PDF</a>";
      //   }
-         header("Location: http://10.1.11.57:8080/request_report-1.0/decanat_contract.jsp?budgetcontract=$budgetcontract&eduform=$eduform&budget=$budget&contract=$contract&iframe=true&width=1024&height=600");
+         header("Location: http://10.1.11.57:8080/request_report-1.0/decanat.jsp?budgetcontract=$budgetcontract&eduform=$eduform&budget=$budget&contract=$contract&iframe=true&width=1024&height=600");
         ?>
  
