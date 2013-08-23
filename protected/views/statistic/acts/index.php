@@ -203,7 +203,7 @@
                 </script>
 	</head>
 	<body>
-   <form  action="select.php" method="post" name="act">
+   <form  action="createacts" method="post" name="act">
    Виберіть факультет:
    <p><select id="fac" name="facultet" onchange="who()">
     <option disabled>Выберите Факультет</option>
