@@ -81,5 +81,7 @@ $this->widget('bootstrap.widgets.TbDetailView',array(
 
 <div id="new-zno"></div>
 <div id="spec-modal-holder"></div>
+<div id="spec-modal-holder-error"></div>
+<div id="spec_electron-modal-holder"></div>
 <div id="doc-modal-holder"></div>
 <div id="benefit-modal-holder"></div>

@@ -39,7 +39,7 @@ class PersonspecialityController extends Controller
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
 				'actions'=>array(   'Znosubjects',
                                                     'Speciality',
-                                    'Specialitys',
+                                                    'Specialitys',
                                                     'View',
                                                     'Create',
                                                     'Update',
@@ -48,6 +48,7 @@ class PersonspecialityController extends Controller
                                                     "Refresh", 
                                                     'admin',"Edboupdate",
                                                     'Studupdate',
+                                                    "Create_electron",
                                                 ),
 				'users'=>array('@'),
 			),
@@ -189,6 +190,64 @@ class PersonspecialityController extends Controller
 		}
 
 		$this->renderPartial('_Modal', array('model'=>$model,'personid'=>$model->PersonID));
+        }
+        
+   	public function actionCreate_electron($personid,$spec)
+	{
+		$model=new Personspeciality;
+                $model->PersonID = (int)$personid;
+                $this->_setDefaults($model);
+                $valid = true;
+                
+		if(isset($_GET['Personspeciality']))
+		{       $renderForm = "_form";
+			//if (isset($_GET['Personspeciality']['GraduatedUniversitieID'])){
+ 
+                        $model->attributes=$_GET['Personspeciality'];
+                        
+                        if (intval($model->EntranceTypeID) == 1){
+                            
+                            $model->Exam1ID = null; $model->Exam1Ball = null;
+                            $model->Exam2ID = null; $model->Exam2Ball = null;
+                            $model->Exam3ID = null; $model->Exam3Ball = null;
+                            $model->CausalityID = null;
+                        } elseif (intval($model->EntranceTypeID) == 2){
+                            $model->DocumentSubject1 = null;
+                            $model->DocumentSubject2 = null;
+                            $model->DocumentSubject3 = null;
+                        } 
+                        
+                        $valid  = $model->validate() && $valid;
+                        if (!$valid){
+                            //debug ($model->PersonID);
+                            echo CJSON::encode(array("result"=>"error","data" =>
+                            $this->renderPartial($renderForm, array('model'=>$model),true)));
+                             Yii::app()->end();
+                        } else {
+			if($model->save())
+                            //debug ($model->PersonID);
+                            $person = Person::model()->findByPk($model->PersonID);
+                            echo CJSON::encode(array("result"=>"success","data" =>
+                                 $this->renderPartial("//person/tabs/_spec", array('models'=>$person->specs,'personid'=>$model->PersonID), true)
+                            ));
+                            Yii::app()->end();
+                        }
+		}                   
+                            //$link = Yii::app()->user->getEdboSearchUrl().Yii::app()->params["documentSearchURL"];
+                            //debug($link);
+                            //print "<script type=\"text/javascript\">prompt('Введдіть ЄДБО Кодi!');</script>";
+                            //$client = new EHttpClient($link, array('maxredirects' => 30, 'timeout'=> 30,));
+                            //$client->setParameterPost($_GET);
+                            //$response = $client->request(EHttpClient::POST);
+                $searchRes = array();            
+                $searchRes = $model->loadOnlineStatementFromJSON($spec);
+                $user = Yii::app()->user->getUserModel();
+                if($user->syspk->SpecMask == "1"){
+                $this->renderPartial('_Modal_electron', array('model'=>$model,'spec'=>$spec));
+                }
+                else{
+		$this->renderPartial('_Modal_electron_error', array('model'=>$model));
+                } 
         }
         
         public function actionRefresh($id){
