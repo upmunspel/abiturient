@@ -1,20 +1,57 @@
 <?php
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 ?>
 <!--http://10.1.11.57:8080/request_report-1.0/journal?SpecialityID=  idOKR=  eduFormID=  date=-->
 <!--http://10.1.11.57:8080/request_report-1.0/bachelor.jsp?PersonID=1&PersonSpecialityID=1&iframe=true&width=1024&height=600-->
 
 
-<div clas="form">
+
+<div class="form">
+    <h3>Список абітурієнтів, що вивчали іноземну мову, із статусом заявки "до наказу"</h3>
+    <?php 
+        $buttons = array();
+        $faculty_data = Facultets::model()->search();
+        $faculty_data = $faculty_data->getData();
+            $lang_data = Languages::model()->search();
+            $lang_data = $lang_data->getData();
+        $_items = array();
+        for($i = 0; $i < count($faculty_data); $i++){
+            $items = array();
+            array_push($items,
+                array(
+                    'label'=>'Усі мови',
+                    'url'=>Yii::app()->user->getLanguagesUrl($faculty_data[$i]->getAttribute('idFacultet'),0),
+                 )
+             );
+            for ($j = 0; $j < count($lang_data); $j++){
+                array_push($items,
+                    array(
+                        'label'=>$lang_data[$j]->getAttribute('LanguagesName'),
+                        'url'=>Yii::app()->user->getLanguagesUrl($faculty_data[$i]->getAttribute('idFacultet'),$lang_data[$j]->getAttribute('idLanguages'))
+                     )
+                 );
+            }
+            array_push($_items,array('label'=>$faculty_data[$i]->getAttribute('FacultetFullName'),'items'=>$items));
+        }
+        array_push($buttons,array('label'=>'Факультети','items'=>$_items));
+        $this->widget('bootstrap.widgets.TbButtonGroup', array(
+                //'type'=>'primary', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
+                'size'=>'large',
+                'htmlOptions'=>array(
+                                    'target'=>"_blank",
+                ),
+                'buttons'=>$buttons));
+        ?>
+    
+</div>
+
+<div class="form">
     <h3>Формування актів</h3>
     <a class="btn btn-primary btn-large" href='<?php echo Yii::app()->createUrl('statistic/acts'); ?>'>Показати</a>
 </div>
 
-<div clas="form">
+<div class="form">
     <h3>Графік прийому документів</h3>
     <a class="btn btn-primary btn-large" href='<?php echo Yii::app()->createUrl('personspeccounts'); ?>'>Показати</a>
 </div>
