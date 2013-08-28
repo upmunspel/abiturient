@@ -368,5 +368,35 @@ class Personspeciality extends ActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+        public function loadOnlineStatementFromJSON($lol){
+            //$json_string = preg_replace("/[+-]?\d+\.\d+/", '"\0"', $json_string ); 
+            
+            /*$objarr = CJSON::decode($json_string);
+         
+            if (!empty($this->codeU)){
+               Yii::app()->session[$this->codeU."-documents"] = serialize($objarr); 
+            }
+            
+            if ( trim($json_string) == "0" && empty($json_string) && count($objarr) == 0) return;
+            
+            foreach($objarr as $item){
+                 $val = (object)$item;*/
+                 $model = $this;
+//1	Код ЄДБО
+
+             $model->edboID=$lol;   
+            /*if ($val->id_Type == 7)   {
+                        $model->entrantdoc = new Documents();
+                        $model->entrantdoc->TypeID = $val->id_Type;
+                        $model->entrantdoc->edboID = $val->id_Document;
+                        $model->entrantdoc->AtestatValue=$val->attestatValue;
+                        $model->entrantdoc->Numbers=$val->number;
+                        $model->entrantdoc->Series=$val->series;
+                        $model->entrantdoc->DateGet=date("d.m.Y",mktime(0, 0, 0, $val->dateGet['month']+1,  $val->dateGet['dayOfMonth'],  $val->dateGet['year']));
+                        $model->entrantdoc->ZNOPin = $val->znoPin;
+                        $model->entrantdoc->Issued = $val->issued;
+                 }                
+            }*/
+        }
        
 }

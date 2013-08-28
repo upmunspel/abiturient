@@ -482,6 +482,20 @@ PSN.addSpec = function(obj, url){
         $("#specModal").modal("show");
     });
  };
+ PSN.addSpec_electron = function(obj,url,us){
+     uname=0;
+     if(us!=1){
+           uname = parseInt(prompt('Введдіть ЄДБО Код '))
+     }
+    var btn = $(obj);
+    btn.button('loading'); // call the loading function
+    //var data = $("#benefit-form").serialize(); 
+    $("#spec_electron-modal-holder").load(url+"&spec="+uname,function() {
+        //alert(url+"&id="+uname);
+        btn.button('reset');
+        $("#spec_electronModal").modal("show");
+    });  
+ };
 PSN.onFacChange = function(obj, id , url){
     var fid = $("#idFacultet :selected").val();
     var formid = $("#Personspeciality_EducationFormID :selected").val();

@@ -34,7 +34,6 @@ $dataProvider=new CActiveDataProvider( "Personspeciality", array('criteria'=>arr
     }
     if ($count<6 || Yii::app()->user->checkAccess("updateAllPost")): ?>
     <div class="row-fluid">
-        <div class="span3">
                 <?php
                     $url = Yii::app()->createUrl("personspeciality/create",array('personid'=>$personid));
                     $this->widget('bootstrap.widgets.TbButton', array(
@@ -46,8 +45,25 @@ $dataProvider=new CActiveDataProvider( "Personspeciality", array('criteria'=>arr
                         'onclick'=>"PSN.addSpec(this,'$url');",
                         ),
                 )); ?>
-        </div>
-        
+        &nbsp;
+                        <?php
+                    $user = Yii::app()->user->getUserModel();
+                    $us=0;
+                    if($user->syspk->SpecMask != "1"){
+                    $us=1;    
+                    }
+                    $url2 = Yii::app()->createUrl("personspeciality/create_electron",array('personid'=>$personid));
+                    $this->widget('bootstrap.widgets.TbButton', array(
+                    'buttonType'=>'submit',
+                    'label'=>'Додати електронну заяву',
+                    'type'=>'primary', // null, 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
+                    'size' => null, // null, 'large', 'small' or 'mini'
+                    'loadingText'=>'Зачекайте...',
+                    'htmlOptions'=>array('id'=>'addSpec_electron',
+                        'onclick'=>"PSN.addSpec_electron(this,'$url2','$us');",
+                        ),
+                    )); 
+?>
     </div>
     <hr>
     <?php endif; ?>
