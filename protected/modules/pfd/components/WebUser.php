@@ -108,5 +108,17 @@ class WebUser extends CWebUser {
         return "http://".$ip.":8080/request_report-1.0/price_sort_specialityEducationForm.jsp?idQualification=$id&idPersonEducationForm=$idform&iframe=true&width=1024&height=600";
 
     }
+    public function getLanguagesUrl($faculty,$lang){
+        $WU = new WebUser();
+        $model = $WU->getUserModel();
+        if (empty($model->syspk) || empty($model->syspk->printIP) ) throw new Exception ("Необхідно визначити адресу серверу друку документів!");
+        $ip = $model->syspk->printIP;  
+        $_faculty = Facultets::model()->find("idFacultet=$faculty");
+        $_lang = Languages::model()->find("idLanguages=$lang");
+        if (empty($_faculty) || (empty($_lang) && $lang != '0')) 
+            throw new Exception ("Помилка вхідних даних!");
+        return "http://".$ip.":8080/request_report-1.0/language.jsp?faculty=$faculty&lang=$lang&iframe=true&width=1024&height=600";
+    }
+    
 }
 ?>
