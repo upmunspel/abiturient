@@ -616,19 +616,19 @@ String.prototype.capitalize = function() {
 
     $("#FirstName").keyup(function(){
         var FirstName = $("#FirstName").val();
-          FirstName = FirstName.capitalize();
+          //FirstName = FirstName.capitalize();
         $("#FirstName").val(FirstName);
         $("#FirstNameR").val(FirstName);
     });
     $("#LastName").keyup(function(){
         var LastName = $("#LastName").val();
-        LastName = LastName.capitalize();
+        //LastName = LastName.capitalize();
         $("#LastName").val(LastName);
         $("#LastNameR").val(LastName);
     });
     $("#MiddleName").keyup(function(){
         var MiddleName = $("#MiddleName").val();
-        MiddleName = MiddleName.capitalize();
+        //MiddleName = MiddleName.capitalize();
         $("#MiddleName").val(MiddleName);
         $("#MiddleNameR").val(MiddleName);
     });
