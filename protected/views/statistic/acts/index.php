@@ -128,6 +128,7 @@
                             objSpecialization.options[0] = new Option("українська мова і література","українська мова і література",true,true);
                             objSpecialization.options[1] = new Option("мова і література: російська","мова і література: російська",false,false);
                             objSpecialization.options[2] = new Option("переклад: українська, російська, польська мови","переклад: українська, російська, польська мови",false,false);
+                            objSpecialization.options[3] = new Option("переклад: українська, російська, болгарська мови","переклад: українська, російська, болгарська мови",false,false);
                             break;
                             
                        case 'Іноземної філології': 
