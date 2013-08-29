@@ -26,7 +26,7 @@
         //echo $SpecSpec."\n";
         if($tmp == false){
         $speciality = substr($SpecSpec,0, $index);
-        $specialization = substr($SpecSpec,$index+1,strlen($SpecSpec)-($index+1));
+        $specialization = substr($SpecSpec,$index+2,strlen($SpecSpec)-($index+1));
         }
         else
         {
