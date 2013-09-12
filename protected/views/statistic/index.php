@@ -8,6 +8,10 @@
 
 
 <div class="form">
+<div class="form">
+    <h3>Список абітурієнтів зі статусом "До наказу" і навчальних закладів, що вони закінчили</h3>
+    <a class="btn btn-primary btn-large" href='<?php echo Yii::app()->createUrl('statistic/graduatedschool'); ?>'>Показати</a>
+</div>
     <h3>Список абітурієнтів, що вивчали іноземну мову, із статусом заявки "до наказу"</h3>
     <?php 
         $buttons = array();

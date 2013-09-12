@@ -31,7 +31,7 @@ class StatisticController extends Controller
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
 				'actions'=>array('util','index', 'View', 'Print', "Sverka","ViewEx", "ViewY", "Originals","ViewBC", "Statisticallname", "Stateb", "Statebperson",
                                     "Fromvillage","Residentlist", "Viewall", "Viewallprint", "Verify", "Viewgraduated", "Viewgraduatedbyf", "Foreigngrad","Examwithoutzno",
-						"Maglang","Maglangfil","Personspecmag","Personspecspecialists","Acts","CreateActs"),
+						"Maglang","Maglangfil","Personspecmag","Personspecspecialists","Acts","CreateActs","GraduatedSchool"),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -209,6 +209,17 @@ class StatisticController extends Controller
         public function actionCreateActs(){
             $this->layout='//layouts/clear';
             $this->render('acts/select');
+        }
+        public function actionGraduatedSchool(){
+            $this->layout='//layouts/main_1';
+            $model=new GraduatedSchool('search');
+            $model->unsetAttributes();  // clear any default values
+            if(isset($_GET['GraduatedSchool']))
+                    $model->attributes=$_GET['GraduatedSchool'];
+            $this->layout='//layouts/main_1';
+            $this->render('graduatedschool',array(
+                    'model'=>$model,
+            ));
         }
         public function actionUtil()
 	{       $model=new PersonSpecialityView('search');
