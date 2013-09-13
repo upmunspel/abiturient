@@ -45,9 +45,12 @@ class GraduatedSchool extends CActiveRecord
 			array('Issued', 'length', 'max'=>250),
 			array('IssuedYear', 'length', 'max'=>4),
 			array('edu_type', 'length', 'max'=>37),
+                        array('spec', 'length', 'max'=>200),
+                        array('edu_form', 'length', 'max'=>37),
+                        array('status', 'length', 'max'=>32),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('ID_person, PIB, doc_type, Issued, IssuedYear, edu_type', 'safe', 'on'=>'search'),
+			array('ID_person, PIB, doc_type, Issued, IssuedYear, edu_type, spec, edu_form, status', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -75,6 +78,9 @@ class GraduatedSchool extends CActiveRecord
     'Issued' => 'Ким виданий документ про освіту',
     'IssuedYear' => 'Коли виданий документ про освіту',
     'edu_type' => 'Тип закладу',
+    'spec' => 'Спеціальність',
+    'edu_form' => 'Форма навчання',
+    'status' => 'Статус заявки',
 		);
 	}
 
@@ -95,6 +101,9 @@ class GraduatedSchool extends CActiveRecord
 		$criteria->compare('Issued',$this->Issued,true);
 		$criteria->compare('IssuedYear',$this->IssuedYear,true);
 		$criteria->compare('edu_type',$this->edu_type,true);
+                $criteria->compare('spec',$this->spec,true);
+                $criteria->compare('edu_form',$this->edu_form,true);
+                $criteria->compare('status',$this->status,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

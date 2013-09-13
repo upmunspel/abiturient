@@ -20,6 +20,21 @@ $columns = array(
             'спеціалізована школа' => 'спеціалізована школа',
             'технікум' => 'технікум',
             'училище' => 'училище')),
+    array('name'=>'spec', 'htmlOptions'=>array('style'=>"width:150px;")),
+    array('name'=>'edu_form', 'htmlOptions'=>array('style'=>"width:80px;"),
+        'filter'=>array(
+            'Денна'=>'Денна',
+            'Заочна'=>'Заочна',
+            'Екстернат'=>'Екстернат',
+            )),
+    array('name'=>'status', 'htmlOptions'=>array('style'=>"width:80px;"),
+        'filter'=>array(
+            'До наказу'=>'До наказу',
+            'Відхилено'=>'Відхилено',
+            'Допущена'=>'Допущена',
+            'Нова заява'=>'Нова заява',
+            )),
+    
     
 );
 
@@ -29,7 +44,8 @@ $this->widget('bootstrap.widgets.TbGroupGridView', array(
 'dataProvider'=>$data,
 'filter'=>$model,
 'columns'=>$columns,
+'mergeColumns' => array('PIB'),
  'htmlOptions' => array(
-     'style' => 'font-size:12pt;',
+     'style' => 'font-size:10pt;',
   )
 )); ?>
