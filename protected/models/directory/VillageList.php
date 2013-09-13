@@ -42,13 +42,13 @@ class VillageList extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('edbo', 'numerical', 'integerOnly'=>true),
-			array('surname, name, fartherName', 'length', 'max'=>100),
+			array('surname, name, fartherName, spec', 'length', 'max'=>100),
 			array('place', 'length', 'max'=>2),
-			array('region', 'length', 'max'=>50),
+			array('region, edu_form, status', 'length', 'max'=>50),
 			array('city, cityVillage', 'length', 'max'=>75),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('surname, name, fartherName, edbo, place, region, city, cityVillage', 'safe', 'on'=>'search'),
+			array('surname, name, fartherName, edbo, place, region, city, cityVillage, spec, edu_form, status', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -78,6 +78,9 @@ class VillageList extends CActiveRecord
     'region' => 'Регіон',
     'city' => 'Насел. Пункт',
     'cityVillage' => 'Район',
+    'spec' => 'Спеціальність',
+    'edu_form' => 'Форма навчання',
+    'status' => 'Статус заявки',
 		);
 	}
 
@@ -100,6 +103,9 @@ class VillageList extends CActiveRecord
 		$criteria->compare('region',$this->region,true);
 		$criteria->compare('city',$this->city,true);
 		$criteria->compare('cityVillage',$this->cityVillage,true);
+                $criteria->compare('spec',$this->spec,true);
+                $criteria->compare('edu_form',$this->edu_form,true);
+                $criteria->compare('status',$this->status,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,'pagination'=>array(

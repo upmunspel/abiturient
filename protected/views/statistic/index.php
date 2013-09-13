@@ -6,12 +6,23 @@
 <!--http://10.1.11.57:8080/request_report-1.0/bachelor.jsp?PersonID=1&PersonSpecialityID=1&iframe=true&width=1024&height=600-->
 
 
+  <br/>
+ 
+<div clas="form">
+    <h3>Заявки абітурієнтів із сільської місцевості</h3>
+    <a class="btn btn-primary btn-large" href='<?php echo Yii::app()->createUrl('statistic/fromvillage'); ?>'>Показати</a>
+</div>
 
-<div class="form">
+  <br/>
+  
 <div class="form">
     <h3>Список абітурієнтів зі статусом "До наказу" і навчальних закладів, що вони закінчили</h3>
     <a class="btn btn-primary btn-large" href='<?php echo Yii::app()->createUrl('statistic/graduatedschool'); ?>'>Показати</a>
 </div>
+  
+  <br/>
+  
+<div class="form">
     <h3>Список абітурієнтів, що вивчали іноземну мову, із статусом заявки "до наказу"</h3>
     <?php 
         $buttons = array();
@@ -514,12 +525,7 @@
 //------------------------------------------------------------------------------*/
 ?>
  
-  <br/>
- 
-<div clas="form">
-    <h3>Заявки абітурієнтів із сільської місцевості</h3>
-    <a class="btn btn-primary btn-large" href='<?php echo Yii::app()->createUrl('statistic/fromvillage'); ?>'>Показати</a>
-</div>
+
  
   <br/>
  
