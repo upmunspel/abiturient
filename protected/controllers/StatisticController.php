@@ -136,8 +136,15 @@ class StatisticController extends Controller
 	}
         public function actionFromvillage()
 	{
-		$this->layout='//layouts/main_1';
-		$this->render('from_village');
+            $this->layout='//layouts/main_1';
+            $model=new VillageList('search');
+            $model->unsetAttributes();  // clear any default values
+            if(isset($_GET['VillageList']))
+                    $model->attributes=$_GET['VillageList'];
+            $this->layout='//layouts/main_1';
+            $this->render('from_village',array(
+                    'model'=>$model,
+            ));
 	}        
         public function actionResidentlist()
 	{
