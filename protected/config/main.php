@@ -118,7 +118,7 @@ return array(
 				'<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
 				'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
                                  
-                                 '<module>/<controller:\w+>/<id:\d+>'=>'<module>/<controller>/view',
+                               //  '<module>/<controller:\w+>/<id:\d+>'=>'<module>/<controller>/view',
                                  '<module>/<controller:\w+>/<action:\w+>/<id:\d+>'=>'<module>/<controller>/<action>',
 				 '<module>/<controller:\w+>/<action:\w+>'=>'<module>/<controller>/<action>',
                            
@@ -131,9 +131,10 @@ return array(
 		// uncomment the following to use a MySQL database
 		
 		'db'=>array(
-			'connectionString' => 'mysql:host=localhost;dbname=abiturient1',
+			'connectionString' => 'mysql:host=localhost;dbname=abiturient',
 			'emulatePrepare' => true,
-			  
+			 'username' => 'edbo',
+			'password' => 'eU7InIl',    
 			'charset' => 'utf8',
 		),
 		
