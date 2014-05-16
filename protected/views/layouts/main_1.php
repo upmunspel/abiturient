@@ -30,41 +30,40 @@
 <body>
     <?php 
     $pkname = WebUser::getPkName();
-    $this->widget('bootstrap.widgets.TbNavbar',array(
+    $this->widget('bootstrap.widgets.TbNavbar', array(
         //'type'=>'inverse', // null or 'inverse'
-        'brand'=>'ЗНУ (Абітурієнт)',
-        'brandUrl'=>'/',
-        'collapse'=>true,
-        'items'=>array(
+        'brand' => 'ЗНУ (Абітурієнт)',
+        'brandUrl' => array('/site/index'),
+        'collapse' => true,
+        'items' => array(
             array(
-                'class'=>'bootstrap.widgets.TbMenu',
-                'items'=>array(
-                    array('label'=>'Головна', 'url'=>array('/site/index'), "icon"=>"icon-home"),
-                    array('label'=>'Контакти', 'url'=>array('/site/contact'), "icon"=>"icon-envelope", 'visible'=>Yii::app()->user->isGuest),
-                    array('label'=>'Довідники', 'visible'=>Yii::app()->user->checkAccess('showDirectiries'),
-                         'url'=>'#', "icon"=>"icon-book", 'items'=> Directories::listMenu()),
-                    array('label'=>'Звіти', 'visible'=>Yii::app()->user->checkAccess('showReports'),
-                          'url'=>Yii::app()->createUrl('statistic'), "icon"=>"icon-book", ),
-                 ),
+                'class' => 'bootstrap.widgets.TbMenu',
+                'items' => array(
+                    array('label' => 'Рейтинги', 'url' => array('/rating'), "icon"=>"icon-list"),
+                    array('label' => 'Контакти', 'url' => array('/site/contact'), "icon" => "icon-envelope", 'visible' => Yii::app()->user->isGuest),
+                    array('label' => 'Довідники', 'visible' => Yii::app()->user->checkAccess('showDirectiries'),
+                        'url' => '#', "icon" => "icon-book", 'items' => Directories::listMenu()),
+                    array('label' => 'Звіти', 'visible' => Yii::app()->user->checkAccess('showReports'),
+                        'url' => Yii::app()->createUrl('statistic'), "icon" => "icon-book",),
+                ),
             ),
             array(
-                'class'=>'bootstrap.widgets.TbMenu',
-                'htmlOptions'=>array('class'=>'pull-right'),
-                'items'=>array(
-                    array('label'=>'Налаштування', 'visible'=>  Yii::app()->user->checkAccess('showProperties'),'url'=>"#", "icon"=>"icon-wrench",
-                          'items'=>array(
-                                 array('label'=>'Користувачі', 'url'=>Yii::app()->createUrl("user"), "icon"=>" icon-user", ),
-                                 array('label'=>'Групи користувачів', 'url'=>Yii::app()->createUrl("srbac"), "icon"=>"icon-lock", ),
-                                 array('label'=>'Керування довідниками', 'url'=>Yii::app()->createUrl("directories"), "icon"=>"icon-pencil", ),
-                           )
-                        ),
-                    array('label'=>'Авторизуватися', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest, 'icon'=>"icon-user"),
-                    array('label'=>'Вийти з системи ('.Yii::app()->user->name.(empty($pkname)? "":"/".$pkname).')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest, 'icon'=>"icon-user")
+                'class' => 'bootstrap.widgets.TbMenu',
+                'htmlOptions' => array('class' => 'pull-right'),
+                'items' => array(
+                    array('label' => 'Налаштування', 'visible' => Yii::app()->user->checkAccess('showProperties'), 'url' => "#", "icon" => "icon-wrench",
+                        'items' => array(
+                            array('label' => 'Користувачі', 'url' => Yii::app()->createUrl("user"), "icon" => " icon-user",),
+                            array('label' => 'Групи користувачів', 'url' => Yii::app()->createUrl("srbac"), "icon" => "icon-lock",),
+                            array('label' => 'Керування довідниками', 'url' => Yii::app()->createUrl("directories"), "icon" => "icon-pencil",),
+                        )
+                    ),
+                    array('label' => 'Авторизуватися', 'url' => array('/site/login'), 'visible' => Yii::app()->user->isGuest, 'icon' => "icon-user"),
+                    array('label' => 'Вийти з системи (' . Yii::app()->user->name . (empty($pkname) ? "" : "/" . $pkname) . ')', 'url' => array('/site/logout'), 'visible' => !Yii::app()->user->isGuest, 'icon' => "icon-user")
                 ),
-                
             ),
         ),
-    )); 
+    ));
     ?>
        <div style="margin: 0 auto; padding: 50px; width: 90%;">
         <?php echo $content; ?>
