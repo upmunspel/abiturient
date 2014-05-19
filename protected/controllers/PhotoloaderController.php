@@ -123,7 +123,7 @@ class PhotoloaderController extends Controller
 		));
                 Yii::app()->end();
              } catch (Exception $e) {
-                Yii::app()->user->setFlash("message","Абітуріент із кодом '$id' відсутній у системі!");
+                Yii::app()->user->setFlash("message","Абітуріент із кодом '$id' відсутній у системі! ".$e->getMessage());
                 $this->redirect(Yii::app()->createUrl("photoloader"));
 	     } 
          
