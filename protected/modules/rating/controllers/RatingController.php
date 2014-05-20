@@ -31,7 +31,7 @@ class RatingController extends Controller {
   public function accessRules() {
     return array(
         array('allow', // allow all users to perform 'index' and 'view' actions
-            'actions' => array("rating", "excelrating"),
+            'actions' => array("rating", "excelrating", 'ratinglinks'),
             'users' => array('*'),
         ),
         array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -122,6 +122,7 @@ class RatingController extends Controller {
     $reqPersonspeciality = Yii::app()->request->getParam('Personspeciality',null);
     $reqFaculty = Yii::app()->request->getParam('Facultets',null);
     $reqBenefits = Yii::app()->request->getParam('Benefit',null);
+    $reqToExcel = Yii::app()->request->getParam('toexcel',1);
 
     $model = new Personspeciality();
     if (isset($reqPersonspeciality['rating_order_mode'])){
@@ -160,6 +161,7 @@ class RatingController extends Controller {
     $models = $model->search_rel(true);
     if (count($models)){
         $_data = $this->CreateRatingData($models);
+        $_data['toexcel'] = $reqToExcel;
         $this->layout = '//layouts/clear';
         $this->render('/personspeciality/excelrating',$_data);
     } else {
@@ -352,6 +354,13 @@ class RatingController extends Controller {
             '_pzk_counter'=>$_pzk_counter,
             '_quota_counter'=>$_quota_counter,
             );
+  }
+  
+  public function actionRatinglinks(){
+    foreach (Specialities::model()->findAll() as $spec){
+      echo "http://10.1.103.26/abiturient/rating/rating/excelrating?&Personspeciality%5BSepcialityID%5D=".$spec->idSpeciality."&Personspeciality%5Brating_order_mode%5D=1&Personspeciality%5Bstatus_confirmed%5D=0&Personspeciality%5Bstatus_committed%5D=0&Personspeciality%5Bstatus_submitted%5D=1<br/>";
+      echo "http://10.1.103.26/abiturient/rating/rating/excelrating?&Personspeciality%5BSepcialityID%5D=".$spec->idSpeciality."&Personspeciality%5Brating_order_mode%5D=1&Personspeciality%5Bstatus_confirmed%5D=1&Personspeciality%5Bstatus_committed%5D=0&Personspeciality%5Bstatus_submitted%5D=1<hr/>";
+    }
   }
   
   /**
