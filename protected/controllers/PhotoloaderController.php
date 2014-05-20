@@ -92,25 +92,26 @@ class PhotoloaderController extends Controller
 	public function actionUpdate($id)
 	{      try {
                 $model=$this->loadModel($id);
+                //$model = new Person;
                 $model->scenario = "PHOTO";
 		if(isset($_POST['Person']))
 		{       $oldPhoto = $model->PhotoName;
                         $model->PhotoName = $_POST['Person']['PhotoName'];
-                       
+                        $tfio = Transliteration::text($model->FirstName)."_".Transliteration::text($model->LastName)."_".Transliteration::text($model->MiddleName);
                         if ($model->validate()){
                             $file = CUploadedFile::getInstance($model,'PhotoName');
                             $path = Yii::app()->basePath."/..".Yii::app()->params['photosPath'];
                             $bigpath = Yii::app()->basePath."/..".Yii::app()->params['photosBigPath'];
                             $img = EWideImage::loadFromFile($file->getTempName());
                             if ( $img->getWidth() < $img->getHeight() ) {       
-                                $img ->resize(120,null)->crop("center", "middle", 120, 150)->saveToFile($path."person_$id.jpg");
-                                $img ->resize(180,null)->crop("center", "middle", 180, 225)->saveToFile($bigpath."person_$id.jpg");
+                                $img ->resize(120,null)->crop("center", "middle", 120, 150)->saveToFile($path."person_$id"."_$tfio.jpg");
+                                $img ->resize(180,null)->crop("center", "middle", 180, 225)->saveToFile($bigpath."person_$id"."_$tfio.jpg");
                             } else {
-                                $img ->resize(null,150)->crop("center", "middle", 120, 150)->saveToFile($path."person_$id.jpg");
-                                $img ->resize(null,225)->crop("center", "middle", 180, 225)->saveToFile($bigpath."person_$id.jpg");
+                                $img ->resize(null,150)->crop("center", "middle", 120, 150)->saveToFile($path."person_$id"."_$tfio.jpg");
+                                $img ->resize(null,225)->crop("center", "middle", 180, 225)->saveToFile($bigpath."person_$id"."_$tfio.jpg");
                             }
                             //unlink($file->getTempName());
-                            $model->PhotoName = "person_$id.jpg";
+                            $model->PhotoName = "person_$id"."_$tfio.jpg";
                             if ($model->save()){
                                 $this->redirect(array('update','id'=>$model->idPerson,'r'=>md5(time())));
                             }
