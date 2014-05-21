@@ -7,12 +7,15 @@
 <div class="form">
 
 <?php 
+
+
 $personid= $model->PersonID;
 $form=$this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 	'id'=>'spec-form-modal',
 	'enableAjaxValidation'=>false,
 )); 
 $form= new TbActiveForm();
+
 ?>
 
 	<?php echo $form->errorSummary($model); ?>
@@ -21,31 +24,37 @@ $form= new TbActiveForm();
         //debug($model->attributeLabels("isBudget"));
         ?>
         <div class="row-fluid">
-            <div class="span2">
-                 <?php echo $form->labelEx($model,'isBudget'); ?>
-                 <div class="switch" data-on-label="Так" data-off-label="Ні">
-                    <?php echo $form->checkBox($model,'isBudget'); ?>
+             <div class="span5">
+                 <div class="row-fluid">
+                    <div class="span4">
+                       <?php echo $form->labelEx($model,'isBudget'); ?>
+                       <div class="switch" data-on-label="Так" data-off-label="Ні">
+                          <?php echo $form->checkBox($model,'isBudget'); ?>
+                       </div>
+                    </div>
+                    <div class="span4">
+                        <?php echo $form->labelEx($model,'isContract'); ?>
+                        <div class="switch" data-on-label="Так" data-off-label="Ні">
+                           <?php echo $form->checkBox($model,'isContract'); ?>
+                        </div>
+                    </div>
+                     
+                    <div class="span4">
+                        <?php echo $form->labelEx($model,'isNeedHostel'); ?>
+                         <div class="switch" data-on-label="Так" data-off-label="Ні">
+                            <?php echo $form->checkBox($model,'isNeedHostel'); ?>
+                         </div>
+                    </div>
                  </div>
-                
-                
-            </div>
-            <div class="span2">
-                 <?php echo $form->labelEx($model,'isContract'); ?>
-                 <div class="switch" data-on-label="Так" data-off-label="Ні">
-                    <?php echo $form->checkBox($model,'isContract'); ?>
-                 </div>
-            </div>
-            <div class="span3">
-                <?php echo $form->labelEx($model,'isNeedHostel'); ?>
-                 <div class="switch" data-on-label="Так" data-off-label="Ні">
-                    <?php echo $form->checkBox($model,'isNeedHostel'); ?>
-                 </div>
-            </div>
+                 
+             </div>
+            
+           
             <?php //if (Yii::app()->user->checkAccess("showFullEntrantForm")): ?>
             <div class="span4">
                 
                 <label for="<?php echo CHtml::activeId($model, 'isHigherEducation'); ?>" >
-                    <?php echo $form->radioButtonListInlineRow($model,'isHigherEducation',array(0=>'не отримую', 1=>'отримую' , 2=>"є",3=>'немає')); ?>  
+                    <?php //echo $form->radioButton ListRow($model,'isHigherEducation',array(0=>'не отримую', 1=>'отримую' , 2=>"є",3=>'немає')); ?>  
                     <?php // Информация о высшем образовании персоны. echo $model->getAttributeLabel("isNeedHostel"); ?>
                 </label>
                 
@@ -55,7 +64,13 @@ $form= new TbActiveForm();
                     <?php echo $form->textField($model,'edboID',array('class'=>"span12")); ?>
                     <?php //echo $form->error($model,'AdditionalBall'); ?>
             </div>
-            <?php //endif; ?>
+            <?php if (Yii::app()->user->checkAccess("showFullEntrantForm")): ?>
+            <div class="span2">
+                    <?php echo $form->labelEx($model,'StatusID'); ?>
+                    <?php echo $form->dropDownList($model, 'StatusID', CHtml::listData( Personrequeststatustypes::model()->findAll(), "idPersonRequestStatusType", "PersonRequestStatusTypeName"), array('empty'=>"",'class'=>"span12")); ?>
+                    <?php //echo $form->error($model,'CoursedpID'); ?>
+            </div>
+            <?php  endif; ?>
         </div>
     <hr>
         <div class="row-fluid">
@@ -204,54 +219,59 @@ $form= new TbActiveForm();
     </div>
     <hr>
     <div class="row-fluid">
+        <div class="span6">    
 
-            
-            <div class="span3">
-                    <?php echo $form->labelEx($model,'CoursedpID'); ?>
-                    <?php echo $form->dropDownList($model,'CoursedpID',  CHtml::listData(Coursedp::model()->findAll(), "idCourseDP", "CourseDPName"), array('empty'=>"",'class'=>"span12")); ?>
-                    <?php //echo $form->error($model,'CoursedpID'); ?>
+            <div class="row-fluid">
+                <div class="span8">
+                        <?php echo $form->labelEx($model,'CoursedpID'); ?>
+                        <?php echo $form->dropDownList($model,'CoursedpID',  CHtml::listData(Coursedp::model()->findAll(), "idCourseDP", "CourseDPName"), array('empty'=>"",'class'=>"span12")); ?>
+                        <?php //echo $form->error($model,'CoursedpID'); ?>
+                </div>
+                <div class="span4">
+                        <?php echo $form->labelEx($model,'CoursedpBall'); ?>
+                        <?php echo $form->textField($model,'CoursedpBall',array('class'=>"span12")); ?>
+                        <?php //echo $form->error($model,'AdditionalBall'); ?>
+                </div>
             </div>
-            <div class="span3">
-                    <?php echo $form->labelEx($model,'CoursedpBall'); ?>
-                    <?php echo $form->textField($model,'CoursedpBall',array('class'=>"span12")); ?>
-                    <?php //echo $form->error($model,'AdditionalBall'); ?>
+
+        <?php if (Yii::app()->user->checkAccess("showFullEntrantForm")): ?>
+          
+            <div class="row-fluid">
+
+                <div class="span6">
+                        <?php echo $form->labelEx($model,'OlympiadID'); ?>
+                        <?php echo $form->dropDownList($model,'OlympiadID', Olympiadsawards::DropDown(), array('empty'=>"",'class'=>"span12")); ?>
+                        <?php //echo $form->error($model,'CoursedpID'); ?>
+                </div>
+
+                <div class="span3">
+                        <?php  echo $form->labelEx($model,'Quota1'); ?>
+                     <div class="switch" data-on-label="Так" data-off-label="Ні">
+                        <?php  echo $form->checkBox($model,'Quota1'); ?>
+                     </div>
+                        <?php //echo $form->error($model,'isContact'); ?>
+                </div>
+                <div class="span3">
+                        <?php  echo $form->labelEx($model,'Quota2'); ?>
+                     <div class="switch" data-on-label="Так" data-off-label="Ні">
+                        <?php  echo $form->checkBox($model,'Quota2'); ?>
+                     </div>
+                        <?php //echo $form->error($model,'isContact'); ?>
+                </div>
+
             </div>
-      </div>
-    
-    <?php if (Yii::app()->user->checkAccess("showFullEntrantForm")): ?>
-      <div class="row-fluid"> 
-            <div class="span4">
-                    <?php echo $form->labelEx($model,'OlympiadID'); ?>
-                    <?php echo $form->dropDownList($model,'OlympiadID', Olympiadsawards::DropDown(), array('empty'=>"",'class'=>"span12")); ?>
-                    <?php //echo $form->error($model,'CoursedpID'); ?>
-            </div>
-        
-            <div class="span2">
-                    <?php  echo $form->labelEx($model,'Quota1'); ?>
-                 <div class="switch" data-on-label="Так" data-off-label="Ні">
-                    <?php  echo $form->checkBox($model,'Quota1'); ?>
-                 </div>
-                    <?php //echo $form->error($model,'isContact'); ?>
-            </div>
-            <div class="span4">
-                    <?php  echo $form->labelEx($model,'Quota2'); ?>
-                 <div class="switch" data-on-label="Так" data-off-label="Ні">
-                    <?php  echo $form->checkBox($model,'Quota2'); ?>
-                 </div>
-                    <?php //echo $form->error($model,'isContact'); ?>
-            </div>
-        
-            <div class="span2">
-                    <?php echo $form->labelEx($model,'StatusID'); ?>
-                    <?php echo $form->dropDownList($model, 'StatusID', CHtml::listData( Personrequeststatustypes::model()->findAll(), "idPersonRequestStatusType", "PersonRequestStatusTypeName"), array('empty'=>"",'class'=>"span12")); ?>
-                    <?php //echo $form->error($model,'CoursedpID'); ?>
-            </div>
-           
-        
-        
+        <?php endif; ?>
         </div>
-    <?php endif; ?>
-	
+        <div class="span6">
+             <div class="row-fluid">
+            <?php echo $form->labelEx($model,'benefits'); ?>
+                    <?php echo $form->dropDownList($model, 'benefits', 
+                            CHtml::listData(Personbenefits::model()->findAll("PersonID = {$model->PersonID}"), "idPersonBenefits", "benefit.BenefitName"), 
+                            array('empty'=>"", 'style'=>"width: 100%;", "multiple"=>"multiple")); ?>
+             </div>
+                           
+        </div>
+    </div>    
 <!--
 	
 	<div class="row buttons">
@@ -259,9 +279,10 @@ $form= new TbActiveForm();
 	</div>
    --> 
 
-<?php $this->endWidget();?>
+<?php $this->endWidget(); ?>
     <script>
         $("#spec-form-modal .switch").bootstrapSwitch();
+        $('#<?php echo CHtml::activeId($model, "benefits"); ?>').select2({ placeholder: "Выбрать льготу", allowClear: true });
         //PSN.changeEntranceType($('#<?php echo CHtml::activeId($model, 'EntranceTypeID');?>').get(0));
     </script>
 
