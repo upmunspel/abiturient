@@ -209,6 +209,7 @@ class RatingController extends Controller {
           $info_row['isPZK'] = ($model->isOutOfComp || $model->Quota1)? '+': '';
           $info_row['isExtra'] = ($model->isExtraEntry)? '+': '';
           $info_row['isOriginal'] = (!$model->isCopyEntrantDoc)? '+': '';
+          $info_row['idPersonSpeciality'] = $model->idPersonSpeciality;
           $was = 0;
           if ((Personspeciality::$is_rating_order) && $model->Quota1){
             //цільовики
@@ -357,10 +358,29 @@ class RatingController extends Controller {
   }
   
   public function actionRatinglinks(){
-    foreach (Specialities::model()->findAll() as $spec){
-      echo "http://10.1.103.26/abiturient/rating/rating/excelrating?&Personspeciality%5BSepcialityID%5D=".$spec->idSpeciality."&Personspeciality%5Brating_order_mode%5D=1&Personspeciality%5Bstatus_confirmed%5D=0&Personspeciality%5Bstatus_committed%5D=0&Personspeciality%5Bstatus_submitted%5D=1<br/>";
-      echo "http://10.1.103.26/abiturient/rating/rating/excelrating?&Personspeciality%5BSepcialityID%5D=".$spec->idSpeciality."&Personspeciality%5Brating_order_mode%5D=1&Personspeciality%5Bstatus_confirmed%5D=1&Personspeciality%5Bstatus_committed%5D=0&Personspeciality%5Bstatus_submitted%5D=1<hr/>";
+    $criteria = new CDbCriteria();
+    $criteria->with = array('eduform');
+    $criteria->together = true;
+    $criteria->select = array(
+       'idSpeciality',
+        new CDbExpression("concat_ws(' ',"
+                . "SpecialityClasifierCode,"
+                . "(case substr(SpecialityClasifierCode,1,1) when '6' then "
+                . "SpecialityDirectionName else SpecialityName end),"
+                . "(case SpecialitySpecializationName when '' then '' "
+                . " else concat('(',SpecialitySpecializationName,')') end)"
+                . ",',',concat('форма: ',eduform.PersonEducationFormName)) AS tSPEC"
+        ),
+    );
+    $criteria->order = 'SpecialityName ASC,SpecialityDirectionName ASC,SpecialityClasifierCode ASC';
+    echo "<html><meta charset='utf8'><head></head><body>";
+    foreach (Specialities::model()->findAll($criteria) as $spec){
+      $href = 'http://localhost/abiturient/rating/rating/excelrating?&Personspeciality%5BSepcialityID%5D='.$spec->idSpeciality.'&Personspeciality%5Brating_order_mode%5D=1&Personspeciality%5Bstatus_confirmed%5D=1&Personspeciality%5Bstatus_committed%5D=0&Personspeciality%5Bstatus_submitted%5D=1&toexcel=0'; 
+      echo "<a href='".$href."' target='_blank'>".$spec->tSPEC."</a><br/>";
+      echo "<code>".$href."</code><hr/>";
+
     }
+    echo "</body></html>";
   }
   
   /**
