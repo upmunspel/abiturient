@@ -364,7 +364,7 @@ class Personspeciality extends ActiveRecord
                     'RequestFromEB'=>'Эл-на за-ка',
                     "edboID"=>"ЄДБО Код",
                     "StatusID"=>"Статус заявки",
-                    "benefit"=>"Льгота",
+                    "benefits"=>"Льготы",
 		);
 	}
 
