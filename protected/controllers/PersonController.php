@@ -111,6 +111,8 @@ class PersonController extends Controller
                 $model->Birthday= date("d.m.Y",mktime(0, 0, 0, 1, 1, date('Y')-18));
                 
                 $searchRes = array();
+                
+                
                 // Обработка формы поиска
                 if(isset($_POST['search'])){
                      $findRes = 0; //$this->FindLocalPersonByDoc($_POST['search']['attestatSeries'],$_POST['search']['attestatNumber']);
@@ -118,7 +120,7 @@ class PersonController extends Controller
                      if ($findRes == 0 ) {
                             try {
                                 //debug(Yii::app()->user->getEdboSearchUrl());
-                                $client = new EHttpClient(Yii::app()->user->getEdboSearchUrl().Yii::app()->params["personSearchURL"], array('maxredirects' => 30, 'timeout'      => 30,));
+                                $client = new EHttpClient(Yii::app()->user->getEdboSearchUrl().Yii::app()->params["personSearchURL"], array('maxredirects' => 30, 'timeout'      => 5,));
                                 // debug(Yii::app()->user->getEdboSearchUrl().Yii::app()->params["personSearchURL"]);
                                 $client->setParameterPost($_POST['search']);
                                 $response = $client->request(EHttpClient::POST);
@@ -127,11 +129,11 @@ class PersonController extends Controller
                                     $searchRes = Person::JsonDataAsArray($response->getBody());
                                 } else {
                                     Yii::app()->user->setFlash("message",'<h3 style="color: red;">Увага! Напрямок перевантажено! Спробуйте пізніше!</h3>');
-                                    debug($response->getRawBody());
+                                    //debug($response->getRawBody());
                                 }
                             } catch(Exception $e) {
                                 Yii::app()->user->setFlash("message",'<h3 style="color: red;">Увага! Напрямок перевантажено! Спробуйте пізніше!</h3>');
-                                debug($e->getMessage());
+                                //debug($e->getMessage());
                             }
                      } else {
                          Yii::app()->user->setFlash("message","Персона вже існує в системі з кодом $findRes");
@@ -233,11 +235,13 @@ class PersonController extends Controller
 //                                  $old = Yii::app()->user->getFlash("message");
 //                                  Yii::app()->user->setFlash("message",$old." Необхідно ввести середный бал документа про освіту з номером:".$model->entrantdoc->Numbers."!" );
 //                            }
+                            /*
                             if (!$model->SendEdboRequest()){ 
                                          $model->delete();
                                          $this->render('create',array('model'=>$model,"searchres"=>$searchRes));
                                          Yii::app()->end();
                             }
+                            */
                             
                             $this->redirect(array('view','id'=>$model->idPerson));
                              

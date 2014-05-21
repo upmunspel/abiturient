@@ -77,6 +77,84 @@
 <!-- ----------------------------------------------------------------------- -->
 <br/>
 
+<!-- Детальна статистика заяв абітурієнтів за обраний інтервал -->
+<h3>Детальна статистика заяв абітурієнтів за обраний інтервал</h3>
+
+<div class="form">
+  <?php
+
+  $act = Yii::app()->createUrl("statistic/stat/viewall");
+  $form = $this->beginWidget('CActiveForm', array(
+      'id' => 'zno-form-modal',
+      'enableAjaxValidation' => false,
+      'method' => "GET",
+      'action' => $act,
+  ));
+  ?>
+  <div class="row-fluid">
+    <div class="span3">
+      <?php echo Chtml::label("Освітньо-кваліфікаційний рівень", 'QualificationID'); ?>
+      <?php
+      echo CHtml::dropDownList(
+              'QualificationID', 
+              "", 
+              array("1" => "Бакалавр", "3" => "Спеціаліст", "2" => "Магістр"), 
+              array('empty' => '',));
+      ?>
+    </div>
+    <div class="span3">
+      <?php echo Chtml::label("Секретар", 'secname'); ?>
+      <?php
+      echo CHtml::dropDownList(
+              'secname', 
+              "С.В. Іваненко", 
+              array(
+                  "С.В. Іваненко" => "С.В. Іваненко", 
+                  "О.М. Олійник" => "О.М. Олійник"), 
+              array('empty' => '',));
+      ?>
+
+    </div>
+  </div>
+  <div class="row-fluid">
+    <div class='span3'>
+      <?php echo CHtml::label("Від дати", 'DateFrom'); ?>
+      <?php
+      echo CHtml::textField(
+              'DateFrom', 
+              date('d.m.Y'), 
+              array('class' => 'datepicker'));
+      ?>
+
+    </div>
+    <div class='span3'>
+      <?php echo CHtml::label("До дати", 'DateTo'); ?>
+      <?php
+      echo CHtml::textField(
+              'DateTo', 
+              date('d.m.Y'), 
+              array('class' => 'datepicker'));
+      ?>
+
+    </div>
+  </div>
+ 
+  <div class="row-fluid">
+    <?php
+    $this->widget("bootstrap.widgets.TbButton", array(
+        'buttonType' => 'submit',
+        'type' => 'primary',
+        "size" => "large",
+        'label' => 'Показати',
+    ));
+    ?>
+  </div>
+<?php $this->endWidget(); ?>
+</div>
+ <hr/>
+<!-- ----------------------------------------------------------------------- -->
+<br/>
+
 <?php
       Yii::app()->user->setFlash('warning', 'Модуль для статистики та звітів допрацьовується.');
       $this->widget('bootstrap.widgets.TbAlert', array(

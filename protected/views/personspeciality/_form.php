@@ -250,7 +250,7 @@ $form= new TbActiveForm();
         
         
         </div>
-    <? endif; ?>
+    <?php endif; ?>
 	
 <!--
 	

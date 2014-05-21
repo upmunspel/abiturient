@@ -621,16 +621,16 @@ class Person extends ActiveRecord
 //            debug($this->idPerson);
 //            debug($this->entrantdoc->idDocuments);
             try {
-                $client = new EHttpClient(Yii::app()->user->getEdboSearchUrl().Yii::app()->params["personAddURL"], array('maxredirects' => 30, 'timeout'=> 30,));
+                $client = new EHttpClient(Yii::app()->user->getEdboSearchUrl().Yii::app()->params["personAddURL"], array('maxredirects' => 30, 'timeout'=> 5,));
                 $client->setParameterPost($params);
                 $response = $client->request(EHttpClient::POST);
 
                 if($response->isSuccessful()){
-                      debug($response->getBody());
+                      //debug($response->getBody());
                       $obj = (object)CJSON::decode($response->getBody());
                       if ($obj->backTransaction){
                          Yii::app()->user->setFlash("message",'<h3 style="color: red;">'.$obj->message.'</h3>'); 
-                         debug($obj->message);
+                         //debug($obj->message);
                          return false;
                       } else {
 //                         $this->edboID = $obj->id;
@@ -640,11 +640,11 @@ class Person extends ActiveRecord
                       }
                  } else {
                       Yii::app()->user->setFlash("message",'<h3 style="color: red;">Помилка! Спробуйте пізніще!</h3>');  
-                    debug($response->getRawBody());
+                    //debug($response->getRawBody());
                 }
             } catch(Exception $e) {
                 Yii::app()->user->setFlash("message",'<h3 style="color: red;">Помилка! Спробуйте пізніще!</h3>');  
-                debug($e->getMessage());
+                //debug($e->getMessage());
             }
             
             return true;
