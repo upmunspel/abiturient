@@ -16,6 +16,8 @@ $burl = Yii::app()->baseUrl;
 Yii::app()->getClientScript()->registerCoreScript('jquery');
 Yii::app()->clientScript->registerScriptFile($burl."/js/bootstrap-datepicker.js");
 Yii::app()->clientScript->registerScriptFile($burl."/js/person.js");
+Yii::app()->clientScript->registerPackage('select2');
+
 
 $this->menu=array(
 	array('label'=>'Перелік абітурієнтів','url'=>Yii::app()->createUrl('personview'),'icon'=>"icon-list-alt"),

@@ -3,6 +3,7 @@
 // uncomment the following to define a path alias
 // Yii::setPathOfAlias('local','path/to/local-folder');
 Yii::setPathOfAlias('bootstrap', dirname(__FILE__) . '/../extensions/bootstrap');
+
 // This is the main Web application configuration. Any writable
 // CWebApplication properties can be configured here.
 return array(
@@ -12,7 +13,7 @@ return array(
     'language' => 'uk',
     //'theme'=>'bootstrap',
     // preloading 'log' component
-    'preload' => array('log'),
+    'preload' => array('log','bootstrap' ),
     // autoloading model and component classes
     'import' => array(
         'application.models.*',
@@ -98,6 +99,11 @@ return array(
                     'js' => array('js/bootstrapSwitch.js'),
                     'css' => array('stylesheets/bootstrap-switch.css'),
                 ),
+                'select2' => array(
+                    'basePath' => 'ext.select2',
+                    'js' => array('select2.js'),
+                    'css' => array('select2.css'),
+                ),
             ),
         ),
         // uncomment the following to enable URLs in path-format
@@ -120,8 +126,8 @@ return array(
         // uncomment the following to use a MySQL database
         'db' => array(
             'connectionString' => 'mysql:host=localhost;dbname=abiturient',
-            'username' => 'edbo',
-            'password' => 'eU7InIl',
+            'username' => 'root',
+            'password' => 'root',
             'emulatePrepare' => true,
             'charset' => 'utf8',
         ),
@@ -133,9 +139,10 @@ return array(
            'class' => 'CLogRouter',
            'routes' => array(
               array(
-                 'class' => 'CProfileLogRoute',
-                 'levels' => 'profile',
-                 'enabled' => false,
+                 'class' => 'ext.phpconsole.PhpConsoleLogRoute',
+                 //'class' => 'CProfileLogRoute',
+                 //'levels' => 'profile',
+                 //'enabled' => true,
               ),
               ),
           ),

@@ -68,6 +68,7 @@ class Personspeciality extends ActiveRecord
         public $currentMaxPersonRequestNumber;
         public $isHigherEducation =0;
         public $isCopyEntrantDoc = 1;
+        public $benefits = array(); 
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -127,7 +128,7 @@ class Personspeciality extends ActiveRecord
                                DocumentSubject2, DocumentSubject3, 
                                Exam1ID, Exam1Ball, Exam2ID, Exam2Ball,
                                Exam3ID, Exam3Ball, isHigherEducation, SkipDocumentValue', 'numerical', 'integerOnly'=>true),
-                        array("AdditionalBallComment,  CoursedpID, Quota1,Quota2, OlympiadID, isNotCheckAttestat, isForeinghEntrantDocument, PersonDocumentsAwardsTypesID, edboID, RequestFromEB, StatusID", 'safe'),
+                        array("AdditionalBallComment,  CoursedpID, Quota1,Quota2, OlympiadID, isNotCheckAttestat, isForeinghEntrantDocument, PersonDocumentsAwardsTypesID, edboID, RequestFromEB, StatusID, benefits", 'safe'),
                     
                         array("Exam1ID", 'required', 'on'=>"SHORTFORM"),
                         array("EntranceTypeID",  "required" ,"except"=>"SHORTFORM"),
@@ -242,8 +243,43 @@ class Personspeciality extends ActiveRecord
                 }
                 
             }
-            
+           
             return parent::beforeSave();
+        }
+        
+        public function afterSave() {
+         
+            // Сохраняем массив льгот привязанных к специальности
+            
+            if (!empty($this->benefits) && is_array($this->benefits)){
+                foreach ($this->benefits as $val) {
+                    $item = Personspecialitybenefits::model()->findByPk(array("PersonBenefitID"=>$val,'PersonSpecialityID'=>$this->idPersonSpeciality ));
+                    if (count($item)==0) { $item = new Personspecialitybenefits(); }
+                    $item->PersonBenefitID = $val;
+                    $item->PersonSpecialityID = $this->idPersonSpeciality;
+                    $item->save();
+                } 
+               
+            } else {
+              
+                  $item = Personspecialitybenefits::model()->findAll("PersonSpecialityID = {$this->idPersonSpeciality}"); 
+                   foreach ($item as $val) {
+                        $val->delete();
+                   }    
+            }
+            
+            return parent::afterSave();
+        }
+        
+        public function afterFind() {
+            // Формируем массив льгот привязанных к специальности
+            $this->benefits = array();
+            $psb = Personspecialitybenefits::model()->findAll("PersonSpecialityID = '{$this->idPersonSpeciality}'");
+            foreach ($psb as $item) {
+                //$item = new Personspecialitybenefits();
+                $this->benefits[] = $item->PersonBenefitID;
+            } 
+            return parent::afterFind();
         }
 
         /**
@@ -269,6 +305,7 @@ class Personspeciality extends ActiveRecord
 			'causality' => array(self::BELONGS_TO, 'Causality', 'CausalityID'),
 			'documentSubject1' => array(self::BELONGS_TO, 'Documentsubject', 'DocumentSubject1'),
                         'status' => array(self::BELONGS_TO, 'Personrequeststatustypes', 'StatusID'),
+                    
 //                     
                     
                     
@@ -327,6 +364,7 @@ class Personspeciality extends ActiveRecord
                     'RequestFromEB'=>'Эл-на за-ка',
                     "edboID"=>"ЄДБО Код",
                     "StatusID"=>"Статус заявки",
+                    "benefit"=>"Льгота",
 		);
 	}
 

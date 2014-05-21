@@ -280,6 +280,10 @@ class PersonspecialityController extends Controller
                             $model->CausalityID = 100;
                         }
 			$model->attributes=$_GET['Personspeciality'];
+                        
+                        if (empty($_GET['Personspeciality']['benefits'])){
+                             $model->benefits=array();   
+                        }
                        
                         if (intval($model->EntranceTypeID) == 1){
                             $model->Exam1ID = null; $model->Exam1Ball = null;
