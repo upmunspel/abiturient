@@ -31,6 +31,12 @@ class Specialities extends CActiveRecord {
   public $cnt_requests;
   public $cnt_persons_per_day;
   public $cnt_persons;
+  
+  public $cnt_req_budget;
+  public $cnt_req_contract;
+  public $cnt_req_electro;
+  public $cnt_req_original;
+  
 
   public static function model($className = __CLASS__) {
     return parent::model($className);

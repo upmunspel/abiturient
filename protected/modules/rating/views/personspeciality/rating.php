@@ -980,5 +980,9 @@ $this->widget('bootstrap.widgets.TbGridView', array(
         'style' => 'font-size : 8pt;'
     )
 ));
+        
+echo CHtml::link('Усі посилання',Yii::app()->CreateUrl('/rating/rating/ratinglinks'),array(
+   'target' => '_blank'
+));
 
 ?>
