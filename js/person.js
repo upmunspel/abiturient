@@ -197,8 +197,8 @@ PSN.appendBenefit= function(obj, link){
     'data': fdata,
     'type':'POST',
     success: function (data) { 
-            
-            var obj = jQuery.parseJSON(data);
+            //alert(data);
+           var obj = jQuery.parseJSON(data);
            
             if (obj.result === "success") {
                $("#benefitModal").modal("hide");
@@ -206,7 +206,10 @@ PSN.appendBenefit= function(obj, link){
             } else {
                $("#benefit-modal-body").html(obj.data);  
             }
+           
             btn.button('reset'); 
+            refreshBenefits();
+            //alert("ParseOK");
         }
     });
    
