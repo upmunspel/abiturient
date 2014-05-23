@@ -71,6 +71,10 @@ return array(
             'layout' => "/layouts/main",
             'defaultController' => "stat",
         ),
+         "call" => array(
+            'layout' => "/layouts/main",
+            'defaultController' => "default",
+        ),
     ),
     // application components
     'components' => array(
