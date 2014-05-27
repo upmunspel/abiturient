@@ -250,7 +250,8 @@ class Personspeciality extends ActiveRecord
         public function afterSave() {
          
             // Сохраняем массив льгот привязанных к специальности
-            
+            Personspecialitybenefits::model()->deleteAll("PersonSpecialityID = {$this->idPersonSpeciality}"); 
+                
             if (!empty($this->benefits) && is_array($this->benefits)){
                 foreach ($this->benefits as $val) {
                     $item = Personspecialitybenefits::model()->findByPk(array("PersonBenefitID"=>$val,'PersonSpecialityID'=>$this->idPersonSpeciality ));
@@ -260,12 +261,6 @@ class Personspeciality extends ActiveRecord
                     $item->save();
                 } 
                
-            } else {
-              
-                  $item = Personspecialitybenefits::model()->findAll("PersonSpecialityID = {$this->idPersonSpeciality}"); 
-                   foreach ($item as $val) {
-                        $val->delete();
-                   }    
             }
             
             return parent::afterSave();

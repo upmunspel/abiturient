@@ -32,7 +32,7 @@
     <script>
 
       function blockUI() {
-        $.blockUI({message: $('#loader'),
+        jQuery.blockUI({message: $('#loader'),
           css: {
             top: ($(window).height()) / 2 + 'px',
             left: ($(window).width()) / 2 + 'px',
@@ -44,7 +44,7 @@
         });
       }
       function unblockUI() {
-        $.unblockUI();
+        jQuery.unblockUI();
       }
       $(document).ajaxStart(function() {
         blockUI();

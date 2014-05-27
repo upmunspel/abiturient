@@ -71,6 +71,10 @@ return array(
             'layout' => "/layouts/main",
             'defaultController' => "stat",
         ),
+         "call" => array(
+            'layout' => "/layouts/main",
+            'defaultController' => "default",
+        ),
     ),
     // application components
     'components' => array(
@@ -101,7 +105,7 @@ return array(
                 ),
                 'select2' => array(
                     'basePath' => 'ext.select2',
-                    'js' => array('select2.js'),
+                    'js' => array('select2.js',"select2_locale_uk.js"),
                     'css' => array('select2.css'),
                 ),
             ),

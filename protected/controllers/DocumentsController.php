@@ -129,11 +129,11 @@ class DocumentsController extends Controller
                     if ($valid && $model->save()){
                         //$person = Person::model()->findByPk($model->PersonID);
                         echo CJSON::encode(array("result"=>"success","data" =>
-                        $this->render("//person/tabs/_doc", array('personid'=>$model->PersonID), true)
+                        $this->renderPartial("//person/tabs/_doc", array('personid'=>$model->PersonID), true)
                         ));
                     } else {
                         echo CJSON::encode(array("result"=>"error","data" =>
-                        $this->render('_formfull', array('model'=>$model),true)));
+                        $this->renderPartial('_formfull', array('model'=>$model),true)));
                         
                     }
                     Yii::app()->end();

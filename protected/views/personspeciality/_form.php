@@ -59,12 +59,13 @@ $form= new TbActiveForm();
                 </label>
                 
             </div>
+              <?php if (Yii::app()->user->checkAccess("showFullEntrantForm")): ?>
             <div class="span1">
                     <?php echo $form->labelEx($model,'edboID'); ?>
                     <?php echo $form->textField($model,'edboID',array('class'=>"span12")); ?>
                     <?php //echo $form->error($model,'AdditionalBall'); ?>
             </div>
-            <?php if (Yii::app()->user->checkAccess("showFullEntrantForm")): ?>
+            <?php //if (Yii::app()->user->checkAccess("showFullEntrantForm")): ?>
             <div class="span2">
                     <?php echo $form->labelEx($model,'StatusID'); ?>
                     <?php echo $form->dropDownList($model, 'StatusID', CHtml::listData( Personrequeststatustypes::model()->findAll(), "idPersonRequestStatusType", "PersonRequestStatusTypeName"), array('empty'=>"",'class'=>"span12")); ?>
@@ -87,22 +88,22 @@ $form= new TbActiveForm();
                  </div>
                     <?php //echo $form->error($model,'isCopyEntrantDoc'); ?>
             </div>
-            <?php // if (Yii::app()->user->checkAccess("showFullEntrantForm")): ?>
-           <div class="span3">
+            <?php  if (Yii::app()->user->checkAccess("showFullEntrantForm")): ?>
+            <div class="span3">
                  <?php echo $form->labelEx($model,'SkipDocumentValue'); ?>
                  <div class="switch" data-on-label="Так" data-off-label="Ні">
                     <?php echo $form->checkBox($model,'SkipDocumentValue'); ?>
                  </div>
             </div>
-            <?php // endif; ?>
+           
             
-             <div class="span2">
+            <div class="span2">
                  <?php echo $form->labelEx($model,'RequestFromEB'); ?>
                  <div class="switch" data-on-label="Так" data-off-label="Ні">
                     <?php echo $form->checkBox($model,'RequestFromEB'); ?>
                  </div>
             </div>
-            
+             <?php  endif; ?>
            
             
         </div>
@@ -260,7 +261,7 @@ $form= new TbActiveForm();
                 </div>
 
             </div>
-        <?php endif; ?>
+       
         </div>
         <div class="span6">
              <div class="row-fluid">
@@ -271,6 +272,7 @@ $form= new TbActiveForm();
              </div>
                            
         </div>
+         <?php endif; ?>
     </div>    
 <!--
 	

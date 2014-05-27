@@ -106,11 +106,11 @@ class PersonbenefitsController extends Controller
                         if ($valid && $model->save()){
                             $person = Person::model()->findByPk($model->PersonID);
                             echo CJSON::encode(array("result"=>"success","data" =>
-                            $this->render("//person/tabs/_benefits", array('models'=>$person->benefits,"personid"=>$model->PersonID), true)
+                            $this->renderPartial("//person/tabs/_benefits", array('models'=>$person->benefits,"personid"=>$model->PersonID), true)
                             ));
                         } else {
                             echo CJSON::encode(array("result"=>"error","data" =>
-                            $this->render('_form', array('model'=>$model),true)));
+                            $this->renderPartial('_form', array('model'=>$model),true)));
 
                         }
                         Yii::app()->end();
@@ -118,7 +118,7 @@ class PersonbenefitsController extends Controller
 
 		$this->renderPartial('_Modal',array(
                             'model'=>$model,
-                             true,true
+                             true
                 ));
 	}
 
@@ -160,7 +160,7 @@ class PersonbenefitsController extends Controller
                     $model->delete();
                     $person = Person::model()->findByPk($model->PersonID);
                     echo CJSON::encode(array("result"=>"success","data" =>
-                            $this->render("//person/tabs/_benefits", array('models'=>$person->benefits,"personid"=>$model->PersonID), true)
+                            $this->renderPartial("//person/tabs/_benefits", array('models'=>$person->benefits,"personid"=>$model->PersonID), true)
                             ));
                 } catch (CHttpException $e) {
                      echo CJSON::encode(array("result"=>"error","data" =>$e->getMessage()));

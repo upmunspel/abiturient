@@ -3,13 +3,12 @@
  * @var   $form 
  */
 ?>
-
 <?php $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
 	'id'=>'benefit-form-modal',
 	'enableAjaxValidation'=>false,
         'htmlOptions'=>array("class"=>"form"),
 )); 
-$form  = new TbActiveForm();
+//$form  = new TbActiveForm();
 ?>
 
 	
@@ -40,5 +39,4 @@ $form  = new TbActiveForm();
 			'label'=>$model->isNewRecord ? 'Create' : 'Save',
 		)); */ ?>
 	</div>-->
-
 <?php $this->endWidget(); ?>
