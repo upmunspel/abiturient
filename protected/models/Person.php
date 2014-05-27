@@ -34,6 +34,8 @@
  * @property Documents $persondoc
  * @property Documents $edboID
  * @property string $CreateDate
+ * @property integer $KOATUUCodeID
+ * @property string $KOATUUCode
  */
 class Person extends ActiveRecord
 {
@@ -49,6 +51,8 @@ class Person extends ActiveRecord
         private $hospdoc = NULL;
         private $homephone = NULL;
         private $mobphone = NULL;
+        
+        public $koatu;
         
         public function getFIO(){
             return $this->LastName." ".$this->FirstName." ".$this->MiddleName;
@@ -178,7 +182,7 @@ class Person extends ActiveRecord
                 
                         array('Address, PhotoName', 'length', 'max'=>250),
 			array('HomeNumber, PostIndex', 'length', 'max'=>10),
-			array('Birthday, BirthPlace, isCampus, isSamaSchoolAddrk, CreateDate, isSamaSchoolAddr', 'safe'),
+			array('Birthday, BirthPlace, isCampus, isSamaSchoolAddrk, CreateDate, isSamaSchoolAddr, koatu', 'safe'),
                     
                         //array('Birthday', 'date', "format"=>'dd.MM.yyyy', 'allowEmpty'=>true ),
                         //
@@ -219,8 +223,11 @@ class Person extends ActiveRecord
             
            // $from=DateTime::createFromFormat('d.m.Y',$this->Birthday);
             $this->Birthday=date('Y-m-d', strtotime($this->Birthday));  
-        
-         
+            if (!empty($this->koatu)){
+                $koatu = explode(";", $this->koatu);
+                $this->KOATUUCodeID = $koatu[0];
+                $this->KOATUUCode = $koatu[1];
+            }
             parent::beforeSave();
             return true;
         }
@@ -236,6 +243,12 @@ class Person extends ActiveRecord
             }
          
             $this->CreateDate = date("d.m.Y", strtotime($this->CreateDate));
+            if ($this->KOATUUCodeID > 0){
+            $this->koatu = $this->KOATUUCodeID.";".$this->KOATUUCode;
+            } else {
+               $this->koatu =""; 
+            }
+            
             parent::afterFind();
             return true;
         }
@@ -283,6 +296,7 @@ class Person extends ActiveRecord
                         'CreateDate'=>'Дата додання',
                         "FIO"=>"ФИО",
                         "operatorInfo"=>"Оператор",
+                        "koatu"=>"Адреса",
                     
 		);
 	}

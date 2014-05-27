@@ -105,7 +105,7 @@ return array(
                 ),
                 'select2' => array(
                     'basePath' => 'ext.select2',
-                    'js' => array('select2.js'),
+                    'js' => array('select2.js',"select2_locale_uk.js"),
                     'css' => array('select2.css'),
                 ),
             ),

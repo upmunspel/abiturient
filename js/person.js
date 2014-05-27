@@ -41,9 +41,9 @@ PSN.Init = function(){
    
 }
 PSN.copySchool = function(){
-    var key  = $("input[name='Person[SchoolID]']").val();
+    var key  = parseInt($("#Person_SchoolID").val());
     if (key > 0){
-       $(".entrantissued").val($("#SchoolID option[value="+key+"]").text());
+       $("#Documents_entrantdoc_Issued").val($("#s2id_Person_SchoolID .select2-chosen").text());
     }
 }
 PSN.printSpec = function(obj){
