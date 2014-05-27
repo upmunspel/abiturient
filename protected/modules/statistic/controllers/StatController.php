@@ -64,7 +64,8 @@ class StatController extends Controller {
       case 2 : $spec_ident='8'; break;
       case 3 : $spec_ident='7'; break;
     }
-    
+    $statuses = implode(',',
+            array_flip(Personrequeststatustypes::model()->getStatusList()));
     $criteria = new CDbCriteria();
     $criteria->with = array(
         'facultet',
