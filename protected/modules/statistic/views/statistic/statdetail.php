@@ -28,18 +28,22 @@ A {
 </style>
 <style media="screen">
 TD {
-	font-size: 14pt;
+	font-size: 13pt;
+  font-family: Tahoma;
 	/* border: 1px solid black; */
-        padding: 5px;
+  padding: 5px;
 }
 TH {
 	font-size: 14pt;
 	/* border: 1px solid black; */
-        padding: 5px;
-        
+  font-family: Tahoma;  
 }
 H1 {
 	font-size: 16pt;
+}
+
+TABLE {
+  width: 800px;
 }
 
 
@@ -60,31 +64,46 @@ case 8: echo "Магістр";break;
 <br/>
 <?php echo $date_from . ' - ' . $date_to; ?>
 </h1>
-<table border=1 cellspacing=0 style='width:18cm;'>
+<table border=1 cellspacing=0 >
 <tr>
   <th rowspan="2" align='center'>Факультети</th>
   <th rowspan="2" align='center'>Спеціальності</th>
   <th colspan="2" align='center' style="font-size:10pt;">Вього заявок</th>
+  <?php if ($cbudget){ ?>
   <th colspan="2" align='center' style="font-size:10pt;">На бюджет</th>
+  <?php } if ($ccontract){ ?>
   <th colspan="2" align='center' style="font-size:10pt;">На контракт</th>
+  <?php } if ($cpv){ ?>
+  <th colspan="2" align='center' style="font-size:10pt;">Першочергово</th>
+  <?php } if ($cpzk){ ?>
+  <th colspan="2" align='center' style="font-size:10pt;">Поза конкурсом</th>
+  <?php } if ($celectro){ ?>
   <th colspan="1" align='center' style="font-size:10pt;">Електронні заявки</th>
+  <?php } if ($coriginals){ ?>
   <th colspan="1" align='center' style="font-size:10pt;">Оригінали</th>
+  <?php }  ?>
 </tr>
 <tr>
 
   <th align='center' style="font-size:10pt;">Денна<br/>кількість</th>
   <th align='center' style="font-size:10pt;">Заочна<br/>кількість</th>
-
+  <?php if ($cbudget){ ?>
   <th align='center' style="font-size:10pt;">Денна<br/>кількість</th>
   <th align='center' style="font-size:10pt;">Заочна<br/>кількість</th>
-
+  <?php } if ($ccontract){ ?>
   <th align='center' style="font-size:10pt;">Денна<br/>кількість</th>
   <th align='center' style="font-size:10pt;">Заочна<br/>кількість</th>
-
+  <?php } if ($cpv){ ?>
   <th align='center' style="font-size:10pt;">Денна<br/>кількість</th>
-
+  <th align='center' style="font-size:10pt;">Заочна<br/>кількість</th>
+  <?php } if ($cpzk){ ?>
   <th align='center' style="font-size:10pt;">Денна<br/>кількість</th>
-
+  <th align='center' style="font-size:10pt;">Заочна<br/>кількість</th>
+  <?php } if ($celectro){ ?>
+  <th align='center' style="font-size:10pt;">Денна<br/>кількість</th>
+  <?php } if ($coriginals){ ?>
+  <th align='center' style="font-size:10pt;">Денна<br/>кількість</th>
+  <?php }  ?>
 </tr>
 <?php 
 foreach ($cnt_data as $row){
@@ -101,23 +120,33 @@ foreach ($cnt_data as $row){
             $data[1]['cnt_requests'] : '0') ."</td>";
     echo "<td>".((isset($data[2]))? 
             $data[2]['cnt_requests'] : '0') ."</td>";
-    
-    echo "<td>".((isset($data[1]))? 
-            $data[1]['cnt_req_budget'] : '0') ."</td>";
-    echo "<td>".((isset($data[2]))? 
-            $data[2]['cnt_req_budget'] : '0') ."</td>";
-
-    echo "<td>".((isset($data[1]))? 
-            $data[1]['cnt_req_contract'] : '0') ."</td>";
-    echo "<td>".((isset($data[2]))? 
-            $data[2]['cnt_req_contract'] : '0') ."</td>";
-    
-    echo "<td>".((isset($data[1]))? 
-            $data[1]['cnt_req_electro'] : '0') ."</td>";
-    
-    echo "<td>".((isset($data[1]))? 
-            $data[1]['cnt_req_originals'] : '0') ."</td>";
-    
+    if ($cbudget){
+      echo "<td>".((isset($data[1]))? 
+              $data[1]['cnt_req_budget'] : '0') ."</td>";
+      echo "<td>".((isset($data[2]))? 
+              $data[2]['cnt_req_budget'] : '0') ."</td>";
+    } if ($ccontract){
+      echo "<td>".((isset($data[1]))? 
+              $data[1]['cnt_req_contract'] : '0') ."</td>";
+      echo "<td>".((isset($data[2]))? 
+              $data[2]['cnt_req_contract'] : '0') ."</td>";
+    } if ($cpv){
+      echo "<td>".((isset($data[1]))? 
+              $data[1]['cnt_req_pv'] : '0') ."</td>";
+      echo "<td>".((isset($data[2]))? 
+              $data[2]['cnt_req_pv'] : '0') ."</td>";
+    } if ($cpzk){
+      echo "<td>".((isset($data[1]))? 
+              $data[1]['cnt_req_pzk'] : '0') ."</td>";
+      echo "<td>".((isset($data[2]))? 
+              $data[2]['cnt_req_pzk'] : '0') ."</td>";
+    } if ($celectro){
+      echo "<td>".((isset($data[1]))? 
+              $data[1]['cnt_req_electro'] : '0') ."</td>";
+    } if ($coriginals){
+      echo "<td>".((isset($data[1]))? 
+              $data[1]['cnt_req_originals'] : '0') ."</td>";
+    }
     echo "</tr>";
     $i++;
   }  
