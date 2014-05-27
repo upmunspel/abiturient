@@ -373,14 +373,12 @@ class RatingController extends Controller {
         ),
     );
     $criteria->order = 'SpecialityName ASC,SpecialityDirectionName ASC,SpecialityClasifierCode ASC';
-    echo "<html><meta charset='utf8'><head></head><body>";
+    echo "<html><meta charset='utf8'><head></head><body><ul>";
     foreach (Specialities::model()->findAll($criteria) as $spec){
-      $href = 'http://localhost/abiturient/rating/rating/excelrating?&Personspeciality%5BSepcialityID%5D='.$spec->idSpeciality.'&Personspeciality%5Brating_order_mode%5D=1&Personspeciality%5Bstatus_confirmed%5D=1&Personspeciality%5Bstatus_committed%5D=0&Personspeciality%5Bstatus_submitted%5D=1&toexcel=0'; 
-      echo "<a href='".$href."' target='_blank'>".$spec->tSPEC."</a><br/>";
-      echo "<code>".$href."</code><hr/>";
-
+      $href = 'http://10.1.103.26/abiturient/rating/rating/excelrating?&Personspeciality%5BSepcialityID%5D='.$spec->idSpeciality.'&Personspeciality%5Brating_order_mode%5D=1&Personspeciality%5Bstatus_confirmed%5D=1&Personspeciality%5Bstatus_committed%5D=0&Personspeciality%5Bstatus_submitted%5D=1&toexcel=0'; 
+      echo "<li><a href='".$href."' target='_blank'>".$spec->tSPEC."</a></li>";
     }
-    echo "</body></html>";
+    echo "</ul></body></html>";
   }
   
   /**
