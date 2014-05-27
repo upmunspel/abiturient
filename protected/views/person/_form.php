@@ -279,7 +279,7 @@ $this->widget("bootstrap.widgets.TbButton", array(
     <script type="text/javascript">
         $("#<?php echo CHtml::activeId($model, "SchoolID") ?>").select2({
             placeholder: "Введіть назву школи",
-            minimumInputLength: 5,
+            minimumInputLength: 2,
             allowClear: true,
             ajax: {// instead of writing the function to execute the request we use Select2's convenient helper
                 url: "<?php echo Yii::app()->createUrl("directory/school"); ?>",
@@ -289,6 +289,7 @@ $this->widget("bootstrap.widgets.TbButton", array(
                         q: term, // search term
                         page_limit: 10,
                         page: page,
+                        area: $("#<?php echo CHtml::activeId($model, "koatu");?>").val()
                     };
                 },
                 results: function(data, page) {

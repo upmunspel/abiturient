@@ -69,11 +69,22 @@ class DirectoryController extends Controller {
     /**
      * Контроллер для работы выбора школ при редактировании персоны
      */
-    public function actionSchool($q, $page_limit, $page) {
+    public function actionSchool($q, $page_limit, $page, $area) {
      
         $result = array("more" => false, 'results' => array());
         $count = 0;
         $subcount = 0;
+        $req = explode(";", $area);
+        $text = "";
+        if (count($req) > 1 && $req[0] > 0) {
+            $model = Schools::model()->findall("SchoolName LIKE  '%" . $q . "%' and KOATUUCode LIKE '".substr($req[1],0,2)."%' LIMIT " . ($page - 1)*$page_limit . " , " . $page_limit * $page);
+            $count += Schools::model()->count("SchoolName LIKE  '%" . $q . "%' and KOATUUCode LIKE '".substr($req[1],0,2)."%'");
+            $subcount +=($page - 1) * $page_limit + count($model);
+            foreach ($model as $val) {
+                $result['results'][] = array("id" => $val->idSchool, "text" => $val->SchoolName);
+            }
+        }
+        
         $model = Schools::model()->findall("SchoolName LIKE  '%" . $q . "%' LIMIT " . ($page - 1)*$page_limit . " , " . $page_limit * $page);
         $count += Schools::model()->count("SchoolName LIKE  '%" . $q . "%'");
         $subcount +=($page - 1) * $page_limit + count($model);
