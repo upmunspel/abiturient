@@ -39,8 +39,10 @@ class Specialities extends CActiveRecord
             }
              if ($QualificationID == 2) {
                 $mask = "8";
-            }
-            
+            }  
+            if ($QualificationID == 1) {
+                $mask = "6";
+            } 
             
             if ($FacultetID == 0 || $EducationFormID == 0 || $QualificationID == 0 ) {
                 $records = Specialities::model()->findAll("SpecialityClasifierCode like '7%' or SpecialityClasifierCode like '8%'");

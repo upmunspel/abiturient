@@ -169,12 +169,14 @@ $form= new TbActiveForm();
            
             <div class="span2">
 		<?php echo $form->labelEx($model,'QualificationID'); ?>
-		<?php echo $form->dropDownList($model,'QualificationID',CHtml::listData(Qualifications::model()->findAll(), 'idQualification', 'QualificationName'),
-                        array('empty'=>'', 'class'=>"span12", 
-                              'disabled'=>!$model->isNewRecord,
-                        //Yii::app()->user->isPkSet("QualificationID")
-                        )); ?>
-		<?php //echo $form->error($model,'QualificationID'); ?>
+		   <?php echo $form->dropDownList($model,'QualificationID',CHtml::listData(Qualifications::model()->findAll("idQualification = 1"), 'idQualification', 'QualificationName'),
+                                array(  'empty'=>'', 
+                                        'disabled'=>!$model->isNewRecord ,
+                                        'class'=>"span12",
+                                        'id'=>"QualificationID",
+                                        'onchange'=>"PSN.onFacChange(this, '#".CHtml::activeId($model, "SepcialityID")."','".CController::createUrl('personspeciality/speciality')."');")
+                                ); ?>
+                        <?php //echo $form->error($model,'QualificationID'); ?>
             </div>
             
             <div class="span4">
