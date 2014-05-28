@@ -29,13 +29,25 @@ class Specialities extends CActiveRecord
 	 * @param string $className active record class name.
 	 * @return Specialities the static model class
 	 */
-        public static function DropDownMask($FacultetID = 0, $EducationFormID = 0){
+        public static function DropDownMask($FacultetID = 0, $EducationFormID = 0, $QualificationID = 0){
             $user = Yii::app()->user->getUserModel();
             $records = array();
             $res = array();
+            $mask = "";
+            if ($QualificationID == 3) {
+                $mask = "7";
+            }
+             if ($QualificationID == 2) {
+                $mask = "8";
+            }
             
             
-            if ($EducationFormID == 0){
+            if ($FacultetID == 0 || $EducationFormID == 0 || $QualificationID == 0 ) {
+                $records = Specialities::model()->findAll("SpecialityClasifierCode like '7%' or SpecialityClasifierCode like '8%'");
+            } else {
+                $records = Specialities::model()->findAll("FacultetID = :FacultetID and PersonEducationFormID = :EducationFormID and SpecialityClasifierCode like '$mask%'", array(":FacultetID"=>$FacultetID, ":EducationFormID"=>$EducationFormID));
+            }
+            /*if ($EducationFormID == 0){
                     if (!empty($user->syspk) &&  !empty($user->syspk->SpecMask)){
                         if ($FacultetID == 0){
                             if ($user->syspk->SpecMask == "7" || $user->syspk->SpecMask == "8") {
@@ -60,9 +72,6 @@ class Specialities extends CActiveRecord
                     }
 
 
-                    foreach($records as $record) {
-                           $res[$record->idSpeciality] =(!empty($record->SpecialityName)? $record->SpecialityName." " :"" ).$record->SpecialityDirectionName.(!empty($record->SpecialitySpecializationName) ? ": ".$record->SpecialitySpecializationName." ":"")."(".$record->SpecialityClasifierCode.")";
-                    }
             } else {
                 
                 if (!empty($user->syspk) &&  !empty($user->syspk->SpecMask)){
@@ -89,11 +98,12 @@ class Specialities extends CActiveRecord
                     }
 
 
-                    foreach($records as $record) {
-                           $res[$record->idSpeciality] =(!empty($record->SpecialityName)? $record->SpecialityName." " :"" ).$record->SpecialityDirectionName.(!empty($record->SpecialitySpecializationName) ? ": ".$record->SpecialitySpecializationName." ":"")."(".$record->SpecialityClasifierCode.")";
-                    }
                 
-            }
+            }*/
+            
+             foreach($records as $record) {
+                           $res[$record->idSpeciality] =(!empty($record->SpecialityName)? $record->SpecialityName." " :"" ).$record->SpecialityDirectionName.(!empty($record->SpecialitySpecializationName) ? ": ".$record->SpecialitySpecializationName." ":"")."(".$record->SpecialityClasifierCode.")";
+             }
           return $res;
 	}
         

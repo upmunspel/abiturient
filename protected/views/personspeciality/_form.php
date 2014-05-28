@@ -80,31 +80,40 @@ $form= new TbActiveForm();
 		<?php echo $form->dropDownList($model,'EntrantDocumentID', Documents::PersonEntrantDocuments($personid),array('class'=>'span12')); ?>
 		<?php //echo $form->error($model,'CourseID'); ?>
             </div>
-           
-            <div class="span2">
-                    <?php echo $form->labelEx($model,'isCopyEntrantDoc'); ?>
-                 <div class="switch" data-on-label="Так" data-off-label="Ні">
-                    <?php echo $form->checkBox($model,'isCopyEntrantDoc'); ?>
-                 </div>
-                    <?php //echo $form->error($model,'isCopyEntrantDoc'); ?>
+            <div class="span4">
+                <div class="row-fluid">
+                    <div class="span4">
+                            <?php echo $form->labelEx($model,'isCopyEntrantDoc'); ?>
+                         <div class="switch" data-on-label="Так" data-off-label="Ні">
+                            <?php echo $form->checkBox($model,'isCopyEntrantDoc'); ?>
+                         </div>
+                            <?php //echo $form->error($model,'isCopyEntrantDoc'); ?>
+                    </div>
+                    <?php  if (Yii::app()->user->checkAccess("showFullEntrantForm")): ?>
+                        <div class="span4">
+                             <?php echo $form->labelEx($model,'SkipDocumentValue'); ?>
+                             <div class="switch" data-on-label="Так" data-off-label="Ні">
+                                <?php echo $form->checkBox($model,'SkipDocumentValue'); ?>
+                             </div>
+                        </div>
+                        <div class="span4">
+                             <?php echo $form->labelEx($model,'RequestFromEB'); ?>
+                             <div class="switch" data-on-label="Так" data-off-label="Ні">
+                                <?php echo $form->checkBox($model,'RequestFromEB'); ?>
+                             </div>
+                        </div>
+                     <?php  endif; ?>
+                </div>
             </div>
-            <?php  if (Yii::app()->user->checkAccess("showFullEntrantForm")): ?>
             <div class="span3">
-                 <?php echo $form->labelEx($model,'SkipDocumentValue'); ?>
-                 <div class="switch" data-on-label="Так" data-off-label="Ні">
-                    <?php echo $form->checkBox($model,'SkipDocumentValue'); ?>
-                 </div>
+                <?php  if (Yii::app()->user->checkAccess("showFullEntrantForm")): ?>
+		<?php echo $form->labelEx($model,'LanguageID'); ?>
+		<?php echo $form->dropDownList(
+                                $model,'LanguageID', CHtml::listData(Languages::model()->findAll(), 'idLanguages', 'LanguagesName'),
+                                array(  'empty'=>'','class'=>'span12')
+                            ); ?>
+		<?php  endif; ?>
             </div>
-           
-            
-            <div class="span2">
-                 <?php echo $form->labelEx($model,'RequestFromEB'); ?>
-                 <div class="switch" data-on-label="Так" data-off-label="Ні">
-                    <?php echo $form->checkBox($model,'RequestFromEB'); ?>
-                 </div>
-            </div>
-             <?php  endif; ?>
-           
             
         </div>
         <div class="row-fluid">
@@ -117,7 +126,7 @@ $form= new TbActiveForm();
             </div>
             <div class="span2">
 		<?php echo $form->labelEx($model,'EducationFormID'); ?>
-		<?php echo $form->dropDownList($model,'EducationFormID',CHtml::listData(Personeducationforms::model()->findAll(), 'idPersonEducationForm', 'PersonEducationFormName'),
+		<?php echo $form->dropDownList($model,'EducationFormID',CHtml::listData(Personeducationforms::model()->findAll(""), 'idPersonEducationForm', 'PersonEducationFormName'),
                         array(  'empty'=>'', 'class'=>"span12", 
                                 'disabled'=>!$model->isNewRecord, 
                                 'onchange'=>"PSN.onFacChange(this, '#".CHtml::activeId($model, "SepcialityID")."','".CController::createUrl('personspeciality/speciality')."');")); ?>

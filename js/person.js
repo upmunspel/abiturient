@@ -502,8 +502,8 @@ PSN.addSpec = function(obj, url){
 PSN.onFacChange = function(obj, id , url){
     var fid = $("#idFacultet :selected").val();
     var formid = $("#Personspeciality_EducationFormID :selected").val();
-    
-    data = "idFacultet="+fid+"&idEducationForm="+formid;
+    var qid = $("#QualificationID :selected").val();
+    data = "idFacultet="+fid+"&idEducationForm="+formid+"&QualificationID="+qid;
     $(id).load(url, data);
  };
 PSN.appendSpec= function(obj, link){

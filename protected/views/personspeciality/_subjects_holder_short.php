@@ -1,7 +1,6 @@
  <!-- ZNO -->
-<?php if (empty($specialityid)){
-    $specialityid = 0;
-} 
+<?php 
+
 ?>
 <!--Exams -->
 <div class="span12 examsujects">
