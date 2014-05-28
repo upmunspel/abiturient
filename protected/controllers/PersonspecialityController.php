@@ -98,15 +98,10 @@ class PersonspecialityController extends Controller
             $this->renderPartial("_subjects_holder", array('model'=>$model, 'specialityid'=>$model->SepcialityID));
         }
         
-        public function actionSpeciality($idFacultet, $idEducationForm)
+        public function actionSpeciality($idFacultet, $idEducationForm, $QualificationID)
         {
-//            $data = Specialities::model()->findAll('FacultetID=:FacultetID',
-//                          array(':FacultetID'=>(int) $idFacultet));
-//
-//            $data=CHtml::listData($data,'idSpeciality','SpecialityName');
-//            echo CHtml::tag('option', array('value'=>""), "", true);
-            $data = Specialities::DropDownMask($idFacultet, $idEducationForm);
-             echo CHtml::tag('option', array('value'=>""), "", true);
+            $data = Specialities::DropDownMask($idFacultet, $idEducationForm, $QualificationID);
+            echo CHtml::tag('option', array('value'=>""), "", true);
             foreach($data as $value=>$name)
             {
                 echo CHtml::tag('option', array('value'=>$value), CHtml::encode($name), true);
@@ -126,6 +121,9 @@ class PersonspecialityController extends Controller
          * @param $model Personspeciality 
          */
         protected function _setDefaults($model){
+            if ($model->PersonID > 0){
+                $model->LanguageID = $model->person->LanguageID;
+            }
             //$model = new Personspeciality();
             $user = User::model()->findByPk(Yii::app()->user->id);
             //debug(print_r($user->syspk, true));
@@ -157,6 +155,7 @@ class PersonspecialityController extends Controller
                             $model->scenario ="SHORTFORM";
                             $renderForm = "_formShort";
                             $model->CausalityID = 100;
+                            
                         }
                         $model->attributes=$_GET['Personspeciality'];
                         
@@ -420,15 +419,15 @@ class PersonspecialityController extends Controller
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
 	}
-        public function actionSpecialitys($idFacultet, $idEducationForm,$QualificationID)
+        public function actionSpecialitys($idFacultet, $idEducationForm, $QualificationID)
         {
 //            $data = Specialities::model()->findAll('FacultetID=:FacultetID',
 //                          array(':FacultetID'=>(int) $idFacultet));
 //
 //            $data=CHtml::listData($data,'idSpeciality','SpecialityName');
 //            echo CHtml::tag('option', array('value'=>""), "", true);
-            $data = Specialities::DropDownMask1($idFacultet, $idEducationForm,$QualificationID);
-             echo CHtml::tag('option', array('value'=>""), "", true);
+            $data = Specialities::DropDownMask1($idFacultet, $idEducationForm, $QualificationID);
+            echo CHtml::tag('option', array('value'=>""), "", true);
             foreach($data as $value=>$name)
             {
                 echo CHtml::tag('option', array('value'=>$value), CHtml::encode($name), true);

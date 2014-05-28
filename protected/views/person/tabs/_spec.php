@@ -88,10 +88,15 @@ $dataProvider=new CActiveDataProvider( "Personspeciality", array('criteria'=>arr
              ),
         array('name'=>'educationForm', 'header'=>'Форма навчання', 'value' => '$data->educationForm->PersonEducationFormName '  ),
        
-         array('name'=>'status', 'header'=>'Статус', 
+        array('name'=>'isCopyEntrantDoc', 'header'=>'Копия', 
+             'value' =>'($data->isCopyEntrantDoc) ? "Так":"Ні"',
+                ),
+        array('name'=>'status', 'header'=>'Статус', 
              'value' =>'$data->status->PersonRequestStatusTypeName',
                 ),
-        
+        array('name'=>'CreateDate', 'header'=>'Дата', 
+             'value' =>'$data->CreateDate',
+                ),
         array(
                 'class'=>'bootstrap.widgets.TbButtonColumn',
                 'template'=>'{update} {trash} {print} {titul} {sinchr}',
