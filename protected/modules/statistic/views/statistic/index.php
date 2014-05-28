@@ -214,8 +214,26 @@
   </div>
 </div>
 </div>
- <hr/>
 <!-- ----------------------------------------------------------------------- -->
+<?php if (Yii::app()->user->checkAccess('showProperties')){ ?>
+<div class="row row-fluid" >
+  <div class="well well-large span11">
+    <h3>Контактні дані абітурієнтів</h3>
+    <ul>
+    <?php 
+      foreach (Facultets::model()->findAll('1 ORDER BY FacultetFullName') as $faculty){
+        echo '<li>'.CHtml::link($faculty->FacultetFullName,
+                Yii::app()->CreateUrl("statistic/stat/contacts?FacultyID=".$faculty->idFacultet));
+        echo '</li>';
+      }
+    ?>
+    </ul>
+  </div>
+</div>
+<?php } ?>
+<!-- ----------------------------------------------------------------------- -->
+ <hr/>
+
 
 <?php
       Yii::app()->user->setFlash('warning', 'Модуль для статистики та звітів допрацьовується.');

@@ -36,7 +36,11 @@
  * @property string $CreateDate
  */
 class Person extends ActiveRecord {
-
+  public $NAME;
+  public $PsnContacts;
+  public $SPECS;
+  public $idSTATUSES;
+  public $STATUSES;
   /**
    * Returns the static model of the specified AR class.
    * @param string $className active record class name.
@@ -94,6 +98,9 @@ class Person extends ActiveRecord {
         'znos' => array(self::HAS_MANY, 'Documents', 'PersonID', 'on' => 'znos.TypeID=4'),
         'specs' => array(self::HAS_MANY, 'Personspeciality', 'PersonID'),
         'docs' => array(self::HAS_MANY, 'Documents', 'PersonID'),
+        'contacts' => array(self::HAS_MANY, 'PersonContacts', 'PersonID'),
+        'thspecs' => array(self::HAS_MANY, 'Specialities', 'SepcialityID', 
+            'through' => 'specs'),
     );
   }
 
@@ -192,5 +199,5 @@ class Person extends ActiveRecord {
         'criteria' => $criteria,
     ));
   }
-
-}
+  
+  }
