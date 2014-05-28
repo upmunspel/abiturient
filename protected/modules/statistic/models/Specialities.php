@@ -36,7 +36,12 @@ class Specialities extends CActiveRecord {
   public $cnt_req_contract;
   public $cnt_req_electro;
   public $cnt_req_original;
-  
+  public $cnt_req_pv;
+  public $cnt_req_pzk;
+  public $modes;
+  public $statuses;
+
+
 
   public static function model($className = __CLASS__) {
     return parent::model($className);
@@ -103,7 +108,9 @@ class Specialities extends CActiveRecord {
         'YearPrice' => "Загальна вартість",
         'SemPrice' => "Ціна за семестр",
         "PersonEducationFormID" => "Форма освіти",
-        "StudyPeriodID" => "Період"
+        "StudyPeriodID" => "Період",
+        "modes" => "Вивести кількість заявок абітурієнтів :",
+        "statuses" => "Статуси заявок абітурієнтів :",
     );
   }
 

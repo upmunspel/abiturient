@@ -64,7 +64,8 @@ class StatController extends Controller {
       case 2 : $spec_ident='8'; break;
       case 3 : $spec_ident='7'; break;
     }
-    
+    $statuses = implode(',',
+            array_flip(Personrequeststatustypes::model()->getStatusList()));
     $criteria = new CDbCriteria();
     $criteria->with = array(
         'facultet',
@@ -77,14 +78,14 @@ class StatController extends Controller {
         new CDbExpression('((SELECT COUNT(ps.idPersonSpeciality) FROM personspeciality ps WHERE '
                 . 'ps.SepcialityID=t.idSpeciality AND '
                 . 'ps.QualificationID = ' . $reqQualificationID . ' AND '
-                . 'ps.StatusID NOT IN (10) AND '
+                . 'ps.StatusID IN ('.$statuses.') AND '
                 . 'ps.CreateDate BETWEEN '
                 . '"' . $date . ' 00:00:00' . '" '
                 . 'AND "' . $date . ' 23:59:59")) AS cnt_requests_per_day'),
         new CDbExpression('((SELECT COUNT(ps.idPersonSpeciality) FROM personspeciality ps WHERE '
                 . 'ps.SepcialityID=t.idSpeciality AND '
                 . 'ps.QualificationID = ' . $reqQualificationID . ' AND '
-                . 'ps.StatusID NOT IN (10) AND '
+                . 'ps.StatusID IN ('.$statuses.') AND '
                 . 'ps.CreateDate BETWEEN '
                 //. '"'.date('Y').'-07-01 00:00:00' . '" '
                 . '"2013-07-01 00:00:00' . '" '
@@ -165,9 +166,42 @@ class StatController extends Controller {
     $reqQualificationID = Yii::app()->request->getParam('QualificationID',1);
     $reqDateFrom = Yii::app()->request->getParam('DateFrom',date('d.m.Y'));
     $reqDateTo = Yii::app()->request->getParam('DateTo',date('d.m.Y'));
-    $reqMode = Yii::app()->request->getParam('mode',0);
-    $modes = explode(';',$reqMode);
-    
+    $reqSpecialities = Yii::app()->request->getParam('Specialities',null);
+    $reqBudgetColumn = 0;
+    $reqContractColumn = 0;
+    $reqPvColumn = 0;
+    $reqPzkColumn = 0;
+    $reqElectroColumn = 0;
+    $reqOriginalsColumn = 0;
+    $statuses = implode(',',
+            array_flip(Personrequeststatustypes::model()->getStatusList()));
+    if (isset($reqSpecialities['modes'])){
+      foreach ($reqSpecialities['modes'] as $val){
+        switch ( $val ) {
+          case 'budget':
+            $reqBudgetColumn = 1;
+            break;
+          case 'contract':
+            $reqContractColumn = 1;
+            break;
+          case 'pv':
+            $reqPvColumn = 1;
+            break;
+          case 'pzk':
+            $reqPzkColumn = 1;
+            break;
+          case 'electro':
+            $reqElectroColumn = 1;
+            break;
+          case 'originals':
+            $reqOriginalsColumn = 1;
+            break;
+        }
+      }
+    }
+    if (isset($reqSpecialities['statuses']) && !empty($reqSpecialities['statuses'])){
+      $statuses = implode(',',$reqSpecialities['statuses']);
+    }
     if (!is_numeric($reqQualificationID)){
       $reqQualificationID = 1;
     }
@@ -197,46 +231,71 @@ class StatController extends Controller {
     $criteria->addCondition('SUBSTR(t.SpecialityClasifierCode,1,1) LIKE '
             . '"'.$spec_ident.'"');
     
+    $date_segment = '"' . $dateFrom . ' 00:00:00' . '" '
+                . 'AND "' . $dateTo . ' 23:59:59"';
+    
     $criteria->select = array('*',
-        new CDbExpression('((SELECT COUNT(ps1.idPersonSpeciality) FROM personspeciality ps1 WHERE '
-                . 'ps1.SepcialityID=t.idSpeciality AND '
-                . 'ps1.QualificationID = ' . $reqQualificationID . ' AND '
-                . 'ps1.StatusID NOT IN (10) AND '
-                . 'ps1.isBudget = 1 AND '
-                . 'ps1.CreateDate BETWEEN '
-                . '"' . $dateFrom . ' 00:00:00' . '" '
-                . 'AND "' . $dateTo . ' 23:59:59")) AS cnt_req_budget'),
-        new CDbExpression('((SELECT COUNT(ps2.idPersonSpeciality) FROM personspeciality ps2 WHERE '
-                . 'ps2.SepcialityID=t.idSpeciality AND '
-                . 'ps2.QualificationID = ' . $reqQualificationID . ' AND '
-                . 'ps2.StatusID NOT IN (10) AND '
-                . 'ps2.isContract = 1 AND '
-                . 'ps2.CreateDate BETWEEN '
-                . '"' . $dateFrom . ' 00:00:00' . '" '
-                . 'AND "' . $dateTo . ' 23:59:59")) AS cnt_req_contract'),
-        new CDbExpression('((SELECT COUNT(ps3.idPersonSpeciality) FROM personspeciality ps3 WHERE '
-                . 'ps3.SepcialityID=t.idSpeciality AND '
-                . 'ps3.QualificationID = ' . $reqQualificationID . ' AND '
-                . 'ps3.StatusID NOT IN (10) AND '
-                . 'ps3.isCopyEntrantDoc <> 1 AND '
-                . 'ps3.CreateDate BETWEEN '
-                . '"' . $dateFrom . ' 00:00:00' . '" '
-                . 'AND "' . $dateTo . ' 23:59:59")) AS cnt_req_original'),
-        new CDbExpression('((SELECT COUNT(ps4.idPersonSpeciality) FROM personspeciality ps4 WHERE '
-                . 'ps4.SepcialityID=t.idSpeciality AND '
-                . 'ps4.QualificationID = ' . $reqQualificationID . ' AND '
-                . 'ps4.StatusID NOT IN (10) AND '
-                . 'ps4.RequestFromEB = 1 AND '
-                . 'ps4.CreateDate BETWEEN '
-                . '"' . $dateFrom . ' 00:00:00' . '" '
-                . 'AND "' . $dateTo . ' 23:59:59")) AS cnt_req_electro'),
         new CDbExpression('((SELECT COUNT(ps5.idPersonSpeciality) FROM personspeciality ps5 WHERE '
                 . 'ps5.SepcialityID=t.idSpeciality AND '
                 . 'ps5.QualificationID = ' . $reqQualificationID . ' AND '
-                . 'ps5.StatusID NOT IN (10) AND '
+                . 'ps5.StatusID IN ('.$statuses.') AND '
                 . 'ps5.CreateDate BETWEEN '
-                . '"' . $dateFrom . ' 00:00:00' . '" '
-                . 'AND "' . $dateTo . ' 23:59:59")) AS cnt_requests'),
+                . $date_segment
+                . ')) AS cnt_requests'),
+        (($reqBudgetColumn) ? new CDbExpression('((SELECT COUNT(ps1.idPersonSpeciality) FROM personspeciality ps1 WHERE '
+                . 'ps1.SepcialityID=t.idSpeciality AND '
+                . 'ps1.QualificationID = ' . $reqQualificationID . ' AND '
+                . 'ps1.StatusID IN ('.$statuses.') AND '
+                . 'ps1.isBudget = 1 AND '
+                . 'ps1.CreateDate BETWEEN '
+                . $date_segment
+                . ')) AS cnt_req_budget') : 'idSpeciality' ),
+        (($reqContractColumn) ? new CDbExpression('((SELECT COUNT(ps2.idPersonSpeciality) FROM personspeciality ps2 WHERE '
+                . 'ps2.SepcialityID=t.idSpeciality AND '
+                . 'ps2.QualificationID = ' . $reqQualificationID . ' AND '
+                . 'ps2.StatusID IN ('.$statuses.') AND '
+                . 'ps2.isContract = 1 AND '
+                . 'ps2.CreateDate BETWEEN '
+                . $date_segment
+                . ')) AS cnt_req_contract') : 'idSpeciality' ),
+        (($reqOriginalsColumn) ? new CDbExpression('((SELECT COUNT(ps3.idPersonSpeciality) FROM personspeciality ps3 WHERE '
+                . 'ps3.SepcialityID=t.idSpeciality AND '
+                . 'ps3.QualificationID = ' . $reqQualificationID . ' AND '
+                . 'ps3.StatusID IN ('.$statuses.') AND '
+                . 'ps3.isCopyEntrantDoc <> 1 AND '
+                . 'ps3.CreateDate BETWEEN '
+                . $date_segment
+                . ')) AS cnt_req_original') : 'idSpeciality' ),
+        (($reqElectroColumn) ? new CDbExpression('((SELECT COUNT(ps4.idPersonSpeciality) FROM personspeciality ps4 WHERE '
+                . 'ps4.SepcialityID=t.idSpeciality AND '
+                . 'ps4.QualificationID = ' . $reqQualificationID . ' AND '
+                . 'ps4.StatusID IN ('.$statuses.') AND '
+                . 'ps4.RequestFromEB = 1 AND '
+                . 'ps4.CreateDate BETWEEN '
+                . $date_segment
+                . ')) AS cnt_req_electro') : 'idSpeciality' ),
+        (($reqPvColumn) ? new CDbExpression('((SELECT COUNT(DISTINCT ps6.idPersonSpeciality) FROM personspeciality ps6 '
+                . 'LEFT JOIN person ON ps6.PersonID=person.idPerson '
+                . 'LEFT JOIN personbenefits psben ON psben.PersonID=person.idPerson '
+                . 'LEFT JOIN benefit ON psben.BenefitID=benefit.idBenefit WHERE '
+                . 'ps6.SepcialityID=t.idSpeciality AND '
+                . 'ps6.QualificationID = ' . $reqQualificationID . ' AND '
+                . 'ps6.StatusID IN ('.$statuses.') AND '
+                . 'IF(ISNULL(benefit.isPV),0,(benefit.isPV = 1)) AND '
+                . 'ps6.CreateDate BETWEEN '
+                . $date_segment
+                . ')) AS cnt_req_pv') : 'idSpeciality' ),
+        (($reqPzkColumn) ? new CDbExpression('((SELECT COUNT(DISTINCT ps7.idPersonSpeciality) FROM personspeciality ps7 '
+                . 'LEFT JOIN person ON ps7.PersonID=person.idPerson '
+                . 'LEFT JOIN personbenefits psben ON psben.PersonID=person.idPerson '
+                . 'LEFT JOIN benefit ON psben.BenefitID=benefit.idBenefit WHERE '
+                . 'ps7.SepcialityID=t.idSpeciality AND '
+                . 'ps7.QualificationID = ' . $reqQualificationID . ' AND '
+                . 'ps7.StatusID IN ('.$statuses.') AND '
+                . 'IF(ISNULL(benefit.isPZK),0,(benefit.isPZK = 1)) AND '
+                . 'ps7.CreateDate BETWEEN '
+                . $date_segment
+                . ')) AS cnt_req_pzk') : 'idSpeciality' ),
     );
     $criteria->group = 'idSpeciality';
     $criteria->order = 'facultet.FacultetFullName,SpecialityDirectionName,SpecialityName';
@@ -264,6 +323,8 @@ class StatController extends Controller {
           'cnt_req_contract' => $spec->cnt_req_contract,
           'cnt_req_electro' => $spec->cnt_req_electro,
           'cnt_req_originals' => $spec->cnt_req_electro,
+          'cnt_req_pv' => $spec->cnt_req_pv,
+          'cnt_req_pzk' => $spec->cnt_req_pzk,
           'cnt_requests' => $spec->cnt_requests,
       );
       $i++;
@@ -274,6 +335,12 @@ class StatController extends Controller {
         'spec_ident' => $spec_ident,
         'date_from' => $reqDateFrom,
         'date_to' => $reqDateTo,
+        'cbudget' => $reqBudgetColumn,
+        'ccontract' => $reqContractColumn,
+        'cpv' => $reqPvColumn,
+        'cpzk' => $reqPzkColumn,
+        'celectro' => $reqElectroColumn,
+        'coriginals' => $reqOriginalsColumn,
     ));
   }
 
