@@ -1,202 +1,244 @@
 <?php
 
-class PhotoloaderController extends Controller
-{
-	/**
-	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
-	 * using two-column layout. See 'protected/views/layouts/column2.php'.
-	 */
-	public $layout='//layouts/column1';
-        public $defaultAction='index';
+class PhotoloaderController extends Controller {
 
-	/**
-	 * @return array action filters
-	 */
-	public function filters()
-	{
-		return array(
-			'accessControl', // perform access control for CRUD operations
-			'postOnly + delete', // we only allow deletion via POST request
-		);
-	}
+    /**
+     * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
+     * using two-column layout. See 'protected/views/layouts/column2.php'.
+     */
+    public $layout = '//layouts/column1';
+    public $defaultAction = 'index';
 
-	/**
-	 * Specifies the access control rules.
-	 * This method is used by the 'accessControl' filter.
-	 * @return array access control rules
-	 */
-	public function accessRules()
-	{
-		return array(
-			array('allow',  // allow all users to perform  actions
-				'actions'=>array('index', 'update'),
-				'roles'=>array('Root', 'PhotoOperator'),
-			),
-                        /*array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('contact'),
-				'users'=>array('@'),
-			),
-			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('index','logout'),
-				'users'=>array('@'),
-			),
-			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete'),
-				'users'=>array('admin'),
-			),*/
-			array('deny',  // deny all users
-				'users'=>array('*'),
-			),
-		);
-	}
+    /**
+     * @return array action filters
+     */
+    public function filters() {
+        return array(
+            'accessControl', // perform access control for CRUD operations
+            'postOnly + delete', // we only allow deletion via POST request
+        );
+    }
 
-	/**
-	 * Displays a particular model.
-	 * @param integer $id the ID of the model to be displayed
-	 */
-	public function actionView($id)
-	{
-		$this->render('view',array(
-			'model'=>$this->loadModel($id),
-		));
-	}
+    /**
+     * Specifies the access control rules.
+     * This method is used by the 'accessControl' filter.
+     * @return array access control rules
+     */
+    public function accessRules() {
+        return array(
+            array('allow', // allow all users to perform  actions
+                'actions' => array('index', 'update'),
+                'roles' => array('Root', 'PhotoOperator'),
+            ),
+            array('allow', // allow authenticated user to perform 'create' and 'update' actions
+                'actions' => array('reloadphoto'),
+                'users' => array('@'),
+            ),
+            /* array('allow', // allow authenticated user to perform 'create' and 'update' actions
+              'actions'=>array('index','logout'),
+              'users'=>array('@'),
+              ),
+              array('allow', // allow admin user to perform 'admin' and 'delete' actions
+              'actions'=>array('admin','delete'),
+              'users'=>array('admin'),
+              ), */
+            array('deny', // deny all users
+                'users' => array('*'),
+            ),
+        );
+    }
 
-	/**
-	 * Creates a new model.
-	 * If creation is successful, the browser will be redirected to the 'view' page.
-	 */
-	public function actionCreate()
-	{
-		$model=new Personsextypes;
+    /**
+     * Displays a particular model.
+     * @param integer $id the ID of the model to be displayed
+     */
+    public function actionView($id) {
+        $this->render('view', array(
+            'model' => $this->loadModel($id),
+        ));
+    }
 
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+    /**
+     * Creates a new model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     */
+    public function actionCreate() {
+        $model = new Personsextypes;
 
-		if(isset($_POST['PersonSexTypes']))
-		{
-			$model->attributes=$_POST['PersonSexTypes'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->idPersonSexTypes));
-		}
+        // Uncomment the following line if AJAX validation is needed
+        // $this->performAjaxValidation($model);
 
-		$this->render('create',array(
-			'model'=>$model,
-		));
-	}
+        if (isset($_POST['PersonSexTypes'])) {
+            $model->attributes = $_POST['PersonSexTypes'];
+            if ($model->save())
+                $this->redirect(array('view', 'id' => $model->idPersonSexTypes));
+        }
 
-	/**
-	 * Updates a particular model.
-	 * If update is successful, the browser will be redirected to the 'view' page.
-	 * @param integer $id the ID of the model to be updated
-	 */
-	public function actionUpdate($id)
-	{      try {
-                $model=$this->loadModel($id);
-                //$model = new Person;
-                $model->scenario = "PHOTO";
-		if(isset($_POST['Person']))
-		{       $oldPhoto = $model->PhotoName;
-                        $model->PhotoName = $_POST['Person']['PhotoName'];
-                        $tfio = Transliteration::text($model->FirstName)."_".Transliteration::text($model->LastName)."_".Transliteration::text($model->MiddleName);
-                        if ($model->validate()){
-                            $file = CUploadedFile::getInstance($model,'PhotoName');
-                            $path = Yii::app()->basePath."/..".Yii::app()->params['photosPath'];
-                            $bigpath = Yii::app()->basePath."/..".Yii::app()->params['photosBigPath'];
-                            $img = EWideImage::loadFromFile($file->getTempName());
-                            if ( $img->getWidth() < $img->getHeight() ) {       
-                                $img ->resize(120,null)->crop("center", "middle", 120, 150)->saveToFile($path."person_$id"."_$tfio.jpg");
-                                $img ->resize(180,null)->crop("center", "middle", 180, 225)->saveToFile($bigpath."person_$id"."_$tfio.jpg");
-                            } else {
-                                $img ->resize(null,150)->crop("center", "middle", 120, 150)->saveToFile($path."person_$id"."_$tfio.jpg");
-                                $img ->resize(null,225)->crop("center", "middle", 180, 225)->saveToFile($bigpath."person_$id"."_$tfio.jpg");
-                            }
-                            //unlink($file->getTempName());
-                            $model->PhotoName = "person_$id"."_$tfio.jpg";
-                            if ($model->save()){
-                                $this->redirect(array('update','id'=>$model->idPerson,'r'=>md5(time())));
-                            }
-                        } else {
-                            $model->PhotoName = $oldPhoto;
-                        }
-		}
-                $this->render('update',array(
-			'model'=>$model,
-		));
-                Yii::app()->end();
-             } catch (Exception $e) {
-                Yii::app()->user->setFlash("message","Абітуріент із кодом '$id' відсутній у системі! ".$e->getMessage());
-                $this->redirect(Yii::app()->createUrl("photoloader"));
-	     } 
-         
-	}
+        $this->render('create', array(
+            'model' => $model,
+        ));
+    }
 
-	/**
-	 * Deletes a particular model.
-	 * If deletion is successful, the browser will be redirected to the 'admin' page.
-	 * @param integer $id the ID of the model to be deleted
-	 */
-	public function actionDelete($id)
-	{
-		$this->loadModel($id)->delete();
+    /**
+     * Updates a particular model.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     * @param integer $id the ID of the model to be updated
+     */
+    public function actionUpdate($id) {
+        try {
+            $model = $this->loadModel($id);
+            //$model = new Person;
+            $model->scenario = "PHOTO";
+            if (isset($_POST['Person'])) {
+                $oldPhoto = $model->PhotoName;
+                $model->PhotoName = $_POST['Person']['PhotoName'];
+                $tfio = Transliteration::text($model->FirstName) . "_" . Transliteration::text($model->LastName) . "_" . Transliteration::text($model->MiddleName);
+                if ($model->validate()) {
+                    $file = CUploadedFile::getInstance($model, 'PhotoName');
+                    $path = Yii::app()->basePath . "/.." . Yii::app()->params['photosPath'];
+                    $bigpath = Yii::app()->basePath . "/.." . Yii::app()->params['photosBigPath'];
+                    $img = EWideImage::loadFromFile($file->getTempName());
+                    if ($img->getWidth() < $img->getHeight()) {
+                        $img->resize(120, null)->crop("center", "middle", 120, 150)->saveToFile($path . "person_$id" . "_$tfio.jpg");
+                        $img->resize(180, null)->crop("center", "middle", 180, 225)->saveToFile($bigpath . "person_$id" . "_$tfio.jpg");
+                    } else {
+                        $img->resize(null, 150)->crop("center", "middle", 120, 150)->saveToFile($path . "person_$id" . "_$tfio.jpg");
+                        $img->resize(null, 225)->crop("center", "middle", 180, 225)->saveToFile($bigpath . "person_$id" . "_$tfio.jpg");
+                    }
+                    //unlink($file->getTempName());
+                    $model->PhotoName = "person_$id" . "_$tfio.jpg";
+                    if ($model->save()) {
+                        $this->redirect(array('update', 'id' => $model->idPerson, 'r' => md5(time())));
+                    }
+                } else {
+                    $model->PhotoName = $oldPhoto;
+                }
+            }
+            $this->render('update', array(
+                'model' => $model,
+            ));
+            Yii::app()->end();
+        } catch (Exception $e) {
+            Yii::app()->user->setFlash("message", "Абітуріент із кодом '$id' відсутній у системі! " . $e->getMessage());
+            $this->redirect(Yii::app()->createUrl("photoloader"));
+        }
+    }
 
-		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-		if(!isset($_GET['ajax']))
-			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
-	}
+    /**
+     * Ajax photoreloader
+     * @param integer $id
+     */
+    public function actionReloadphoto($id) {
+        try {
+            $temp_dir = sys_get_temp_dir();
+            $model = $this->loadModel($id);
+            //$model = new Person;
+            //$model->scenario = "PHOTO";
+            if (file_exists($temp_dir . DIRECTORY_SEPARATOR . $model->codeU)) {
+                
+                $oldPhoto = $model->PhotoName;
+                $tfio = Transliteration::text($model->FirstName) . "_" . Transliteration::text($model->LastName) . "_" . Transliteration::text($model->MiddleName);
+                $model->PhotoName = "person_$id" . "_$tfio.jpg";
+                //PC::debug($model->PhotoName);
+                
+                $file = $temp_dir . DIRECTORY_SEPARATOR . $model->codeU;
+                
+                //PC::debug($file);
+                $path = Yii::app()->basePath . "/.." . Yii::app()->params['photosPath'];
+                $bigpath = Yii::app()->basePath . "/.." . Yii::app()->params['photosBigPath'];
+                $img = EWideImage::loadFromFile($file);
+                if ($img->getWidth() <  $img->getHeight()) {
+                    $img->resize(120, null)->crop("center", "middle", 120, 150)->saveToFile($path . "person_$id" . "_$tfio.jpg");
+                    $img->resize(180, null)->crop("center", "middle", 180, 225)->saveToFile($bigpath . "person_$id" . "_$tfio.jpg");
+                } else {
+                    $img->resize(null, 150)->crop("center", "middle", 120, 150)->saveToFile($path . "person_$id" . "_$tfio.jpg");
+                    $img->resize(null, 225)->crop("center", "middle", 180, 225)->saveToFile($bigpath . "person_$id" . "_$tfio.jpg");
+                }
+                //unlink($file->getTempName());
 
-	/**
-	 * Lists all models.
-	 */
-	public function actionIndex()
-	{
-		$model=new Person('search');
-		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['Person']))
-			$model->attributes=$_GET['Person'];
+                if ($model->save()) {
+                    //PC::debug($model->PhotoName);
+                } else {
+                    //PC::debug(print_r($model->getErrors()));
+                    
+                }
+                 echo CJSON::encode(array("result"=>"SUCCESS", "data"=> Yii::app()->request->baseUrl.Yii::app()->params['photosPath'].$model->PhotoName));
+            } else {
+                  echo CJSON::encode(array("result"=>"ERROR", "data"=> "Фото відсутнє!"));
+            }
+            
+          
+           
+        } catch (Exception $e) {
+            if (defined('YII_DEBUG')) {
+                Yii::log($e->getMessage(), CLogger::LEVEL_INFO, 'actionReloadphoto');
+            }
+            echo CJSON::encode(array("result"=>"ERROR", "data"=>$e->getMessage()));
+        }
+    }
 
-		$this->render('index',array(
-			'model'=>$model,
-		));
-	}
+    /**
+     * Deletes a particular model.
+     * If deletion is successful, the browser will be redirected to the 'admin' page.
+     * @param integer $id the ID of the model to be deleted
+     */
+    public function actionDelete($id) {
+        $this->loadModel($id)->delete();
 
-	/**
-	 * Manages all models.
-	 */
-	public function actionAdmin()
-	{
-		$model=new Personsextypes('search');
-		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['PersonSexTypes']))
-			$model->attributes=$_GET['PersonSexTypes'];
+        // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+        if (!isset($_GET['ajax']))
+            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+    }
 
-		$this->render('admin',array(
-			'model'=>$model,
-		));
-	}
+    /**
+     * Lists all models.
+     */
+    public function actionIndex() {
+        $model = new Person('search');
+        $model->unsetAttributes();  // clear any default values
+        if (isset($_GET['Person']))
+            $model->attributes = $_GET['Person'];
 
-	/**
-	 * Returns the data model based on the primary key given in the GET variable.
-	 * If the data model is not found, an HTTP exception will be raised.
-	 * @param integer the ID of the model to be loaded
-	 */
-	public function loadModel($id)
-	{
-		$model=Person::model()->findByPk($id);
-		if($model===null)
-			throw new CHttpException(404,'The requested page does not exist.');
-		return $model;
-	}
+        $this->render('index', array(
+            'model' => $model,
+        ));
+    }
 
-	/**
-	 * Performs the AJAX validation.
-	 * @param CModel the model to be validated
-	 */
-	protected function performAjaxValidation($model)
-	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='person-sex-types-form')
-		{
-			echo CActiveForm::validate($model);
-			Yii::app()->end();
-		}
-	}
+    /**
+     * Manages all models.
+     */
+    public function actionAdmin() {
+        $model = new Personsextypes('search');
+        $model->unsetAttributes();  // clear any default values
+        if (isset($_GET['PersonSexTypes']))
+            $model->attributes = $_GET['PersonSexTypes'];
+
+        $this->render('admin', array(
+            'model' => $model,
+        ));
+    }
+
+    /**
+     * Returns the data model based on the primary key given in the GET variable.
+     * If the data model is not found, an HTTP exception will be raised.
+     * @param integer the ID of the model to be loaded
+     */
+    public function loadModel($id) {
+        $model = Person::model()->findByPk($id);
+        if ($model === null)
+            throw new CHttpException(404, 'The requested page does not exist.');
+        return $model;
+    }
+
+    /**
+     * Performs the AJAX validation.
+     * @param CModel the model to be validated
+     */
+    protected function performAjaxValidation($model) {
+        if (isset($_POST['ajax']) && $_POST['ajax'] === 'person-sex-types-form') {
+            echo CActiveForm::validate($model);
+            Yii::app()->end();
+        }
+    }
+
 }

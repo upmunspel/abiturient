@@ -46,7 +46,7 @@ $dataProvider=new CActiveDataProvider( "Personspeciality", array('criteria'=>arr
                         ),
                 )); ?>
         &nbsp;
-                        <?php
+                <?php
                     $user = Yii::app()->user->getUserModel();
                     $us=0;
                     if($user->syspk->SpecMask != "1"){
@@ -63,7 +63,7 @@ $dataProvider=new CActiveDataProvider( "Personspeciality", array('criteria'=>arr
                         'onclick'=>"PSN.addSpec_electron(this,'$url2','$us');",
                         ),
                     )); 
-?>
+                ?>
     </div>
     <hr>
     <?php endif; ?>
