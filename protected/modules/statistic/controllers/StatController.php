@@ -28,10 +28,12 @@ class StatController extends Controller {
     return array(
         array('allow', // allow authenticated user to perform 'create' and 'update' actions
             'actions' => array('index', 'view', 
-                "viewall"),
+                "viewall","queryconstructor"),
             'users' => array('@'),
         ),
-
+        array('allow', 
+            'actions' => array("contacts"),
+            'roles' => array('Root','Admin'),),
         array('deny', // deny all users
             'users' => array('*'),
         ),
@@ -343,5 +345,78 @@ class StatController extends Controller {
         'coriginals' => $reqOriginalsColumn,
     ));
   }
+  
+  /**
+   * @todo It's Hard
+   */
+  public function actionQueryconstructor(){
+    
+  }
 
+  /**
+   * Метод створює сторінку контактної інформації персон.
+   * @todo YEAH!!!
+   */
+  public function actionContacts(){
+    $reqFacultyID = Yii::app()->request->getParam('FacultyID',null);
+    
+    $criteria = new CDbCriteria();
+    $criteria->with = array(
+        'contacts' => array('select' => false),
+        'contacts.contacttype' => array('select' => false),
+        'specs.sepciality' => array('select' => false),
+        'specs.sepciality.eduform' => array('select' => false),
+        'specs' => array('select' => false),
+        'specs.status' => array('select' => false),
+    );
+    $criteria->together = true;
+    $criteria->select = array(
+        '*',
+        new CDbExpression("concat_ws(' ',trim(t.LastName),trim(t.FirstName),t.MiddleName) AS NAME"),
+        new CDbExpression("GROUP_CONCAT(DISTINCT CONCAT(contacttype.PersonContactTypeName,': ',contacts.Value) SEPARATOR ';;') AS PsnContacts"),
+        new CDbExpression("GROUP_CONCAT(DISTINCT concat_ws(' ',"
+                . "sepciality.SpecialityClasifierCode,"
+                . "(case substr(sepciality.SpecialityClasifierCode,1,1) when '6' then "
+                . "sepciality.SpecialityDirectionName else sepciality.SpecialityName end),"
+                . "(case sepciality.SpecialitySpecializationName when '' then '' "
+                . " else concat('(',sepciality.SpecialitySpecializationName,')') end),"
+                . "',',concat('форма: ',eduform.PersonEducationFormName)) SEPARATOR ';;') AS SPECS"),
+        new CDbExpression('GROUP_CONCAT(specs.StatusID SEPARATOR ";;") AS idSTATUSES'),
+        new CDbExpression('GROUP_CONCAT(status.PersonRequestStatusTypeName SEPARATOR ";;") AS STATUSES'),
+    );
+    if (is_numeric($reqFacultyID)){
+      $criteria->compare('sepciality.FacultetID',$reqFacultyID);
+    }
+    $criteria->group = 't.idPerson';
+    $criteria->order = 'NAME ASC, sepciality.SpecialityName, sepciality.SpecialityDirectionName, status.idPersonRequestStatusType';
+    //$criteria->limit = '100';
+    $models = Person::model()->findAll($criteria);
+    $contact_data = array();
+    foreach ($models as $model){
+      $specs = explode(';;',$model->SPECS);
+      $contacts = explode(';;',$model->PsnContacts);
+      $_status_ids = explode(';;',$model->idSTATUSES);
+      $_statuses = explode(';;',$model->STATUSES);
+      
+      $statuses = array();
+      $status_ids = array();
+      for ($i = 0; $i < count($_status_ids); $i++){
+        if ($i%2){
+          $status_ids[] = $_status_ids[$i];
+          $statuses[] = $_statuses[$i];
+        }
+      }
+      $contact_data[$model->idPerson] = array(
+          'NAME' => $model->NAME,
+          'PsnContacts' => $contacts,
+          'SPECS' => $specs,
+          'status_ids' => $status_ids,
+          'statuses' => $statuses,
+      ); 
+    }
+    $this->layout = '//layouts/clear';
+    $this->render('//personcontactsview/print', array(
+        'contact_data' => $contact_data
+    ));
+  }
 }
