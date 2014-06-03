@@ -35,10 +35,11 @@ class WebServices {
                 }
                 $ctx = stream_context_create(array('http' => array('timeout' => WebServices::$requestTimeout)));
                 $res = @file_get_contents(WebServices::$searchSrv . $script . $codeU, 0, $ctx);
-                if (!empty($res) && empty(trim($res)) ) {
+                $tres = trim($res);
+                if (!empty($res) && empty($tres) ) {
                     throw new Exception("Фото у ЄДЕБО відсутне!");
                 }
-                if (empty(trim($res))) {
+                if (empty($tres)) {
                     throw new Exception("Відсутній доступ до сервера ЄДЕБО!");
                 }
                 Yii::app()->cache->set($codeU, $res);
