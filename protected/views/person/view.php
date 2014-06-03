@@ -33,7 +33,7 @@ $this->menu=array(
 
 
 <?php if (Yii::app()->user->hasFlash("message")): ?>
-        <?php $str= Yii::app()->user->getFlash("message"); debug($str); ?>
+        <?php $str= Yii::app()->user->getFlash("message");  ?>
         <div class="row-fluid" ><h3 style="color: red;"><?php echo  $str; ?></h3></div>
 <?php endif; ?>
          <h2>Загальна інформація про абітурієнта (<?php echo $model->idPerson; ?>)</h2>
@@ -94,25 +94,26 @@ $this->widget('bootstrap.widgets.TbDetailView',array(
                     <a href="#" style="width: 120px;" class="thumbnail" rel="tooltip" data-title="Фото абітурієнта">
                         <?php
                         if (!empty($model->codeU)){
-                            $temp_dir = sys_get_temp_dir();
-                            if (file_exists($temp_dir.DIRECTORY_SEPARATOR.$model->codeU)){
-                                $homepage = file_get_contents($temp_dir.DIRECTORY_SEPARATOR.$model->codeU);
-                                echo '<img src="data:image/gif;base64,' . base64_encode($homepage) . '" />';
-                            } else {
-                                $homepage = WebServices::getPersonPhotoByCodeU($model->codeU);
-                                if (!empty($homepage)) {
-                                    file_put_contents($temp_dir.DIRECTORY_SEPARATOR.$model->codeU,  base64_decode($homepage));
-                                    echo '<img src="data:image/gif;base64,' .  $homepage . '" />';
+                            $photo = WebServices::getPersonPhotoByCodeU($model->codeU);
+                                if (!empty($photo)) {
+                                    echo '<img src="data:image/gif;base64,' .  $photo . '" />';
                                 } else {
                                     $path = Yii::app()->baseUrl . Yii::app()->params['photosPath'] . Yii::app()->params['defaultPersonPhotoSmall'];
-                                    echo CHtml::image($path, 'Фото абітурієнта',array("id"=>"existing-photo"));
+                                    echo CHtml::image($path, 'Фото абітурієнта');
                                     
                                 }
-                            }
+                        } else {
+                            $path = Yii::app()->baseUrl . Yii::app()->params['photosPath'] . Yii::app()->params['defaultPersonPhotoSmall'];
+                            echo CHtml::image($path, 'Фото абітурієнта');
                         }
+                       
                         ?>
                     </a>
             </div>
+            <?php if (Yii::app()->user->hasFlash("photomessage")): ?>
+                <?php $str= Yii::app()->user->getFlash("photomessage");  ?>
+                <div class="row-fluid" ><span style="color: red;"><?php echo  $str; ?></span></div>
+            <?php endif; ?>
         </div>
     </div>
 </div>

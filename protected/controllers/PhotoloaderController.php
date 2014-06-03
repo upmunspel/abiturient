@@ -134,19 +134,15 @@ class PhotoloaderController extends Controller {
             $model = $this->loadModel($id);
             //$model = new Person;
             //$model->scenario = "PHOTO";
-            if (file_exists($temp_dir . DIRECTORY_SEPARATOR . $model->codeU)) {
+            $edbeo_file = WebServices::getPersonPhotoByCodeU($model->codeU);
+            if (!empty($edbeo_file)) {
                 
                 $oldPhoto = $model->PhotoName;
                 $tfio = Transliteration::text($model->FirstName) . "_" . Transliteration::text($model->LastName) . "_" . Transliteration::text($model->MiddleName);
                 $model->PhotoName = "person_$id" . "_$tfio.jpg";
-                //PC::debug($model->PhotoName);
-                
-                $file = $temp_dir . DIRECTORY_SEPARATOR . $model->codeU;
-                
-                //PC::debug($file);
                 $path = Yii::app()->basePath . "/.." . Yii::app()->params['photosPath'];
                 $bigpath = Yii::app()->basePath . "/.." . Yii::app()->params['photosBigPath'];
-                $img = EWideImage::loadFromFile($file);
+                $img = EWideImage::loadFromString(base64_decode($edbeo_file));
                 if ($img->getWidth() <  $img->getHeight()) {
                     $img->resize(120, null)->crop("center", "middle", 120, 150)->saveToFile($path . "person_$id" . "_$tfio.jpg");
                     $img->resize(180, null)->crop("center", "middle", 180, 225)->saveToFile($bigpath . "person_$id" . "_$tfio.jpg");
@@ -154,17 +150,16 @@ class PhotoloaderController extends Controller {
                     $img->resize(null, 150)->crop("center", "middle", 120, 150)->saveToFile($path . "person_$id" . "_$tfio.jpg");
                     $img->resize(null, 225)->crop("center", "middle", 180, 225)->saveToFile($bigpath . "person_$id" . "_$tfio.jpg");
                 }
-                //unlink($file->getTempName());
-
+              
                 if ($model->save()) {
                     //PC::debug($model->PhotoName);
                 } else {
                     //PC::debug(print_r($model->getErrors()));
                     
                 }
-                 echo CJSON::encode(array("result"=>"SUCCESS", "data"=> Yii::app()->request->baseUrl.Yii::app()->params['photosPath'].$model->PhotoName));
+                echo CJSON::encode(array("result"=>"SUCCESS", "data"=> Yii::app()->request->baseUrl.Yii::app()->params['photosPath'].$model->PhotoName));
             } else {
-                  echo CJSON::encode(array("result"=>"ERROR", "data"=> "Фото відсутнє!"));
+                echo CJSON::encode(array("result"=>"ERROR", "data"=> "Фото відсутнє!"));
             }
             
           
