@@ -30,13 +30,16 @@ $this->menu=array(
 );
 ?>
 
-<h2>Загальна інформація про абітурієнта (<?php echo $model->idPerson; ?>)</h2>
+
 
 <?php if (Yii::app()->user->hasFlash("message")): ?>
-        <?php $str= Yii::app()->user->getFlash("message"); debug($str); ?>
+        <?php $str= Yii::app()->user->getFlash("message");  ?>
         <div class="row-fluid" ><h3 style="color: red;"><?php echo  $str; ?></h3></div>
 <?php endif; ?>
-
+         <h2>Загальна інформація про абітурієнта (<?php echo $model->idPerson; ?>)</h2>
+<div class="row-fluid">
+    <div class="span8">
+       
 <?php 
 //$model->FIO = $model->LastName." ".$model->FirstName." ".$model->MiddleName;
 $this->widget('bootstrap.widgets.TbDetailView',array(
@@ -54,6 +57,66 @@ $this->widget('bootstrap.widgets.TbDetailView',array(
                  "operatorInfo",
 	),
 )); ?>
+    </div>
+    <div class="span4" >
+        <div class="row-fluid">
+            <div class="span5" >
+                    <b>Існуюче</b>
+                    <a href="#" style="width: 120px;" class="thumbnail" rel="tooltip" data-title="Фото абітурієнта">
+                        <?php
+                        $path = Yii::app()->baseUrl . Yii::app()->params['photosPath'] . $model->PhotoName;
+
+                        if (!file_exists(Yii::app()->basePath . "/../.." . $path)) {
+                            $path = Yii::app()->baseUrl . Yii::app()->params['photosPath'] . Yii::app()->params['defaultPersonPhotoSmall'];
+                        }
+
+                        echo CHtml::image($path, 'Фото абітурієнта',array("id"=>"existing-photo"));
+                        ?>
+
+                    </a>
+            </div>
+            <div class="span2" style="padding-top: 80px;" >
+                 <?php
+                        $url = Yii::app()->createUrl("photoloader/reloadphoto",array('id'=>$model->idPerson));
+                        $this->widget('bootstrap.widgets.TbButton', array(
+                        'label'=>'<<',
+                        'type'=>'primary', // null, 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
+                        'size' => null, // null, 'large', 'small' or 'mini'
+                        'loadingText'=>'...',
+                        'htmlOptions'=>array('id'=>'addSpec',
+                            'onclick'=>"PSN.reloadPersonPhote(this,'$url');",
+                            'title'=>"Замінити існуюче фотографію"
+                            ),
+                        )); ?>
+            </div>
+            <div class="span5" >
+                    <b>У ЄДБО</b>
+                    <a href="#" style="width: 120px;" class="thumbnail" rel="tooltip" data-title="Фото абітурієнта">
+                        <?php
+                        if (!empty($model->codeU)){
+                            $photo = WebServices::getPersonPhotoByCodeU($model->codeU);
+                                if (!empty($photo)) {
+                                    echo '<img src="data:image/gif;base64,' .  $photo . '" />';
+                                } else {
+                                    $path = Yii::app()->baseUrl . Yii::app()->params['photosPath'] . Yii::app()->params['defaultPersonPhotoSmall'];
+                                    echo CHtml::image($path, 'Фото абітурієнта');
+                                    
+                                }
+                        } else {
+                            $path = Yii::app()->baseUrl . Yii::app()->params['photosPath'] . Yii::app()->params['defaultPersonPhotoSmall'];
+                            echo CHtml::image($path, 'Фото абітурієнта');
+                        }
+                       
+                        ?>
+                    </a>
+            </div>
+            <?php if (Yii::app()->user->hasFlash("photomessage")): ?>
+                <?php $str= Yii::app()->user->getFlash("photomessage");  ?>
+                <div class="row-fluid" ><span style="color: red;"><?php echo  $str; ?></span></div>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>
 <h3>Параметри вступу абітурієнта</h3> 
 <div  style="   background-color: #fff;
                 border: 1px solid #ddd;

@@ -78,6 +78,9 @@ return array(
     ),
     // application components
     'components' => array(
+        'cache'=>array(
+               'class' => 'system.caching.CFileCache',
+            ),
         'session' => array(
             'autoStart' => true,
         ),
@@ -134,6 +137,7 @@ return array(
             'password' => 'ehHYAuj',
             'emulatePrepare' => true,
             'charset' => 'utf8',
+            'enableParamLogging' => true,
         ),
         'errorHandler' => array(
             // use 'site/error' action to display errors
@@ -144,6 +148,8 @@ return array(
                     'routes' => array(
                         array(
                  'class' => 'ext.phpconsole.PhpConsoleLogRoute',
+                 'handleErrors' => true,
+                 'handleExceptions' => true,
                  //'class' => 'CProfileLogRoute',
                  //'levels' => 'profile',
                  //'enabled' => true,
@@ -164,5 +170,6 @@ return array(
         'photosPath' => "/images/Photos/",
         'photosBigPath' => "/images/Photos/big/",
         'defaultPersonPhoto' => "180x240.gif",
+        'defaultPersonPhotoSmall' => "120x150.gif",
     ),
 );

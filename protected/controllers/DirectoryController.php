@@ -76,16 +76,15 @@ class DirectoryController extends Controller {
         $subcount = 0;
         $req = explode(";", $area);
         $text = "";
+        $criteria=$this->getSearchCondition("SchoolName", $q, $page_limit, $page);
+        $criteria->addSearchCondition("KOATUUCode", substr($req[1],0,2));
         if (count($req) > 1 && $req[0] > 0) {
-            $model = Schools::model()->findall("SchoolName LIKE  '%" . $q . "%' and KOATUUCode LIKE '".substr($req[1],0,2)."%' LIMIT " . ($page - 1)*$page_limit . " , " . $page_limit * $page);
-            $count += Schools::model()->count("SchoolName LIKE  '%" . $q . "%' and KOATUUCode LIKE '".substr($req[1],0,2)."%'");
-            $subcount +=($page - 1) * $page_limit + count($model);
-            foreach ($model as $val) {
-                $result['results'][] = array("id" => $val->idSchool, "text" => $val->SchoolName);
-            }
+             $criteria->addSearchCondition("KOATUUCode", substr($req[1],0,2));
         }
         
-        $model = Schools::model()->findall("SchoolName LIKE  '%" . $q . "%' LIMIT " . ($page - 1)*$page_limit . " , " . $page_limit * $page);
+        $model = Schools::model()->findall($criteria);
+        $criteria->offset = -1;
+        $criteria->limit = -1;
         $count += Schools::model()->count("SchoolName LIKE  '%" . $q . "%'");
         $subcount +=($page - 1) * $page_limit + count($model);
         foreach ($model as $val) {
@@ -155,30 +154,62 @@ class DirectoryController extends Controller {
         }
         echo CJSON::encode($result);
     }
-      /**
+    protected function  getSearchCondition($field, $q, $page_limit, $page ){
+        $criteria=new CDbCriteria();
+        $q = trim($q);
+        
+        if (substr_count($q, " ", 0) > 0) {// нсколько слов
+            $q = explode(" ", $q);
+            foreach ($q as $v){
+                $criteria->addSearchCondition($field, trim($v));
+            }
+        } else {
+            $criteria->addSearchCondition($field, $q);
+        }
+        
+        $criteria->limit = $page_limit;
+        $criteria->offset =($page - 1)*$page_limit;
+        
+       //PC::debug($criteria->condition.print_r($criteria->params,1));
+        
+        return $criteria;
+    }
+
+    /**
      * Контроллер для работы выбора адреса при редактировании персоны
      */
     public function actionKoatu($q, $page_limit, $page) {
-        $criteria = new CDbCriteria;
+       
         $result = array("more" => false, 'results' => array());
         $count = 0;
         $subcount = 0;
-        $model = KoatuuLevel1::model()->findall("KOATUULevel1Name LIKE  '%" . $q . "%' LIMIT " . ($page - 1)*$page_limit  . " , " . $page_limit * $page);
-        $count += KoatuuLevel1::model()->count("KOATUULevel1Name LIKE  '%" . $q . "%'");
+        
+        $criteria=$this->getSearchCondition("KOATUULevel1FullName", $q, $page_limit, $page);
+        $model = KoatuuLevel1::model()->findall($criteria);
+        $criteria->offset = -1;
+        $criteria->limit = -1;
+        $count += KoatuuLevel1::model()->count($criteria);
         $subcount+=($page - 1) * $page_limit + count($model);
+        
         foreach ($model as $val) {
-            //$val = new KoatuuLevel3();
+           
             $result['results'][] = array("id" => $val->idKOATUULevel1 . ";" . $val->KOATUULevel1Code, "text" => $val->KOATUULevel1FullName);
         }
-        $model = KoatuuLevel2::model()->findall("KOATUULevel2Name LIKE  '%" . $q . "%' LIMIT " . ($page - 1)*$page_limit  . " , " . $page_limit * $page);
-        $count += KoatuuLevel2::model()->count("KOATUULevel2Name LIKE  '%" . $q . "%'");
+        $criteria=$this->getSearchCondition("KOATUULevel2FullName", $q, $page_limit, $page);
+        $model = KoatuuLevel2::model()->findall($criteria);
+        $criteria->offset = -1;
+        $criteria->limit = -1;
+        $count += KoatuuLevel2::model()->count($criteria);
         $subcount+=($page - 1) * $page_limit + count($model);
         foreach ($model as $val) {
-            //$val = new KoatuuLevel3(); Полные тексты	
+          
             $result['results'][] = array("id" => $val->idKOATUULevel2 . ";" . $val->KOATUULevel2Code, "text" => $val->KOATUULevel2FullName);
         }
-        $model = KoatuuLevel3::model()->findall("KOATUULevel3Name LIKE  '%" . $q . "%' LIMIT " . ($page - 1)*$page_limit  . " , " . $page_limit * $page);
-        $count += KoatuuLevel3::model()->count("KOATUULevel3Name LIKE  '%" . $q . "%'");
+        $criteria=$this->getSearchCondition("KOATUULevel3FullName", $q, $page_limit, $page);
+        $model = KoatuuLevel3::model()->findall($criteria);
+        $criteria->offset = -1;
+        $criteria->limit = -1;
+        $count += KoatuuLevel3::model()->count($criteria);
         $subcount+=($page - 1) * $page_limit + count($model);
         foreach ($model as $val) {
             //$val = new KoatuuLevel3();
