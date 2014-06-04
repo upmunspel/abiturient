@@ -131,7 +131,7 @@ return array(
         'db' => array(
             'connectionString' => 'mysql:host=localhost;dbname=abiturient',
             'username' => 'root',
-            'password' => 'root',
+            'password' => 'ehHYAuj',
             'emulatePrepare' => true,
             'charset' => 'utf8',
         ),
@@ -139,17 +139,17 @@ return array(
             // use 'site/error' action to display errors
             'errorAction' => 'site/error',
         ),
-        'log' => array(
-           'class' => 'CLogRouter',
-           'routes' => array(
-              array(
+            'log' => array(
+                'class' => 'CLogRouter',
+                    'routes' => array(
+                        array(
                  'class' => 'ext.phpconsole.PhpConsoleLogRoute',
                  //'class' => 'CProfileLogRoute',
                  //'levels' => 'profile',
                  //'enabled' => true,
-              ),
-              ),
-          ),
+                        ),
+                ),
+            ),
     ),
     // application-level parameters that can be accessed
     // using Yii::app()->params['paramName']
