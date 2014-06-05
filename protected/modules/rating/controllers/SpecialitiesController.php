@@ -83,7 +83,7 @@ class SpecialitiesController extends Controller
                     . " else concat('(',SpecialitySpecializationName,')') end)"
                     . ",',',concat('форма: ',eduform.PersonEducationFormName))",$term,true);
       }
-      $criteria->order = 'tSPEC ASC';
+      $criteria->order = 'SpecialityName ASC,SpecialityDirectionName ASC,SpecialityClasifierCode ASC';
       $_data = CHtml::ListData(Specialities::model()->findAll($criteria),'idSpeciality','tSPEC');
       $data = array();
       $c = 0;

@@ -28,7 +28,10 @@ class StatController extends Controller {
     return array(
         array('allow', // allow authenticated user to perform 'create' and 'update' actions
             'actions' => array('index', 'view', 
-                "viewall","queryconstructor"),
+                "viewall","queryconstructor","qdata",
+                'languages','reqstatuses','koatuus','zno',
+                'doctypes','benefitgroups','eduforms','okr',
+                'countries','schools'),
             'users' => array('@'),
         ),
         array('allow', 
@@ -41,6 +44,7 @@ class StatController extends Controller {
   }
   
   public function actionIndex() {
+    $this->layout = '//layouts/main_noblock';
     $this->render('/statistic/index');
   }
   
@@ -324,7 +328,7 @@ class StatController extends Controller {
           'cnt_req_budget' => $spec->cnt_req_budget,
           'cnt_req_contract' => $spec->cnt_req_contract,
           'cnt_req_electro' => $spec->cnt_req_electro,
-          'cnt_req_originals' => $spec->cnt_req_electro,
+          'cnt_req_originals' => $spec->cnt_req_original,
           'cnt_req_pv' => $spec->cnt_req_pv,
           'cnt_req_pzk' => $spec->cnt_req_pzk,
           'cnt_requests' => $spec->cnt_requests,
@@ -418,5 +422,201 @@ class StatController extends Controller {
     $this->render('//personcontactsview/print', array(
         'contact_data' => $contact_data
     ));
+  }
+  
+  /**
+   * Метод повертає JSON-укомплектовані дані для AJAX-запиту
+   * вибірки усіх полів при формуванні звіту
+   */
+  public function actionQdata($q){
+    $fields = array();
+    $fields[] = array('text' => 'ПІБ персони', 'id' => 0);
+    $fields[] = array('text' => 'Дата народження', 'id' => 1);
+    $fields[] = array('text' => 'Адреса КОАТУУ', 'id' => 2);
+    $fields[] = array('text' => 'Країна громадянства', 'id' => 3);
+    $fields[] = array('text' => 'Закінчено навчальний заклад', 'id' => 4);
+    $fields[] = array('text' => 'Місце народження', 'id' => 5);
+    $fields[] = array('text' => 'Іноземна мова', 'id' => 6);
+    $fields[] = array('text' => 'Спеціальність', 'id' => 7);
+    $fields[] = array('text' => 'Факультет', 'id' => 8);
+    $fields[] = array('text' => 'На бюджет', 'id' => 9);
+    $fields[] = array('text' => 'На контракт', 'id' => 10);
+    $fields[] = array('text' => 'Потрібен гуртожиток', 'id' => 11);
+    $fields[] = array('text' => 'Статус заявки', 'id' => 12);
+    $fields[] = array('text' => 'Дата створення заявки', 'id' => 13);
+    $fields[] = array('text' => 'ЗНО (інформація)', 'id' => 14);
+    //$fields[] = array('text' => 'Предмет ЗНО', 'id' => 15);
+    $fields[] = array('text' => 'Іспити (інформація)', 'id' => 16);
+    //$fields[] = array('text' => 'Тип документа', 'id' => 17);
+    $fields[] = array('text' => 'Документи', 'id' => 18);
+    $fields[] = array('text' => 'Пільги', 'id' => 19);
+    $fields[] = array('text' => 'Тип пільги', 'id' => 20);
+    $fields[] = array('text' => 'Першочергово', 'id' => 21);
+    $fields[] = array('text' => 'Поза конкурсом', 'id' => 22);
+    $fields[] = array('text' => 'Форма навчання', 'id' => 15);
+    $fields[] = array('text' => 'ОКР', 'id' => 17);
+    
+    if (!$q){
+      $result = $fields;
+    } else {
+      $result = array();
+      foreach($fields as $f){
+        if (strstr($f['text'],$q) !== FALSE){
+          $result[] = $f;
+        }
+      }
+    }
+    echo CJSON::encode($result);
+  }
+  
+  /**
+   * Метод асинхронно повертає усі іноземні мови
+   */
+  public function actionLanguages(){
+      $models = Languages::model()->findAll();
+      $result = array();
+      foreach ($models as $model){
+          /* @var $model Languages */
+          $result[] = array('text' => $model->LanguagesName, 'id' => $model->idLanguages);
+      }
+      echo CJSON::encode($result);
+  }
+
+  /**
+   * Метод асинхронно повертає усі статуси заявок
+   */
+  public function actionReqstatuses(){
+      $models = Personrequeststatustypes::model()->findAll();
+      $result = array();
+      foreach ($models as $model){
+          /* @var $model Personrequeststatustypes */
+          $result[] = array('text' => $model->PersonRequestStatusTypeName, 
+              'id' => $model->idPersonRequestStatusType);
+      }
+      echo CJSON::encode($result);
+  }
+  
+  /**
+   * Метод асинхронно повертає знайдені дані КОАТУУ
+   */
+  public function actionKoatuus($q){
+      $k3models = KoatuuLevel3::model()->findAll('KOATUULevel3FullName LIKE "%'.$q.'%"');
+      $k2models = KoatuuLevel2::model()->findAll('KOATUULevel2FullName LIKE "%'.$q.'%"');
+      $k1models = KoatuuLevel1::model()->findAll('KOATUULevel1FullName LIKE "%'.$q.'%"');
+      $result = array();
+      foreach ($k3models as $model){
+          /* @var $model KoatuuLevel3 */
+          $result[] = array('text' => $model->KOATUULevel3FullName, 
+              'id' => $model->idKOATUULevel3);
+      }
+      foreach ($k2models as $model){
+          /* @var $model KoatuuLevel2 */
+          $result[] = array('text' => $model->KOATUULevel2FullName, 
+              'id' => $model->idKOATUULevel2);
+      }
+      foreach ($k1models as $model){
+          /* @var $model KoatuuLevel1 */
+          $result[] = array('text' => $model->KOATUULevel1FullName, 
+              'id' => $model->idKOATUULevel1);
+      }
+      echo CJSON::encode($result);
+  }
+  
+  /**
+   * Метод асинхронно повертає список предметів ЗНО
+   */
+  public function actionZno(){
+      $models = Subjects::model()->findAll('idZNOSubject>0 ORDER BY SubjectName ASC');
+      $result = array();
+      foreach ($models as $model){
+          /* @var $model Subjects */
+          $result[] = array('text' => $model->SubjectName, 
+              'id' => $model->idSubjects);
+      }
+      echo CJSON::encode($result);
+  }
+  
+  /**
+   * Метод асинхронно повертає список типів документів
+   */
+  public function actionDoctypes(){
+      $models = PersonDocumentTypes::model()->findAll('1 ORDER BY PersonDocumentTypesName ASC');
+      $result = array();
+      foreach ($models as $model){
+          /* @var $model PersonDocumentTypes */
+          $result[] = array('text' => $model->PersonDocumentTypesName, 
+              'id' => $model->idPersonDocumentTypes);
+      }
+      echo CJSON::encode($result);
+  }
+  
+  /**
+   * Метод асинхронно повертає список типів пільг
+   */
+  public function actionBenefitgroups(){
+      $models = Benefit::model()->findAll('1 ORDER BY BenefitName ASC');
+      $result = array();
+      foreach ($models as $model){
+          /* @var $model Benefit */
+          $result[] = array('text' => str_replace('"', "'", $model->BenefitName), 
+              'id' => $model->idBenefit);
+      }
+      echo CJSON::encode($result);
+  }
+  
+  /**
+   * Метод асинхронно повертає список форм навчання
+   */
+  public function actionEduforms(){
+      $models = Personeducationforms::model()->findAll('1 ORDER BY PersonEducationFormName ASC');
+      $result = array();
+      foreach ($models as $model){
+          /* @var $model Personeducationforms */
+          $result[] = array('text' => str_replace('"', "'", $model->PersonEducationFormName), 
+              'id' => $model->idPersonEducationForm);
+      }
+      echo CJSON::encode($result);
+  }
+  
+  /**
+   * Метод асинхронно повертає список ОКР
+   */
+  public function actionOkr(){
+      $models = Qualifications::model()->findAll('1 ORDER BY QualificationName ASC');
+      $result = array();
+      foreach ($models as $model){
+          /* @var $model Qualifications */
+          $result[] = array('text' => str_replace('"', "'", $model->QualificationName), 
+              'id' => $model->idQualification);
+      }
+      echo CJSON::encode($result);
+  }
+  
+  /**
+   * Метод асинхронно повертає список країн громадянства персон
+   */
+  public function actionCountries(){
+      $models = Country::model()->findAll('1 ORDER BY CountryName ASC');
+      $result = array();
+      foreach ($models as $model){
+          /* @var $model Country */
+          $result[] = array('text' => str_replace('"', "'", $model->CountryName), 
+              'id' => $model->idCountry);
+      }
+      echo CJSON::encode($result);
+  }
+  
+  /**
+   * Метод асинхронно повертає список НЗ, що закінчили персони
+   */
+  public function actionSchools(){
+      $models = Schools::model()->findAll('1 ORDER BY SchoolName ASC');
+      $result = array();
+      foreach ($models as $model){
+          /* @var $model Schools */
+          $result[] = array('text' => str_replace('"', "'", $model->SchoolName), 
+              'id' => $model->idSchool);
+      }
+      echo CJSON::encode($result);
   }
 }

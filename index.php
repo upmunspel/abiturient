@@ -1,5 +1,6 @@
 <?php
 error_reporting(0);
+ini_set('memory_limit', '1024M');
 // change the following paths if necessary
 $yii=dirname(__FILE__).'/framework/yii.php';
 $config=dirname(__FILE__).'/protected/config/main.php';

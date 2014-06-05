@@ -34,6 +34,7 @@
  * @property Documents $persondoc
  * @property Documents $edboID
  * @property string $CreateDate
+ * @property integer $KOATUUCodeID
  */
 class Person extends ActiveRecord {
   public $NAME;
@@ -65,10 +66,12 @@ class Person extends ActiveRecord {
     // will receive user inputs.
     return array(
         array('HomeNumber, PostIndex, Address,
-                                FirstName, LastName, FirstNameR, 
-                                LastNameR, LanguageID', 'required'),
+                  FirstName, LastName, FirstNameR, 
+                  LastNameR, LanguageID', 'required'),
         array('PersonSexID, KOATUUCodeL1ID, KOATUUCodeL2ID, 
-                                KOATUUCodeL3ID, IsResident, PersonEducationTypeID, StreetTypeID, SchoolID, LanguageID, CountryID', 'numerical', 'integerOnly' => true),
+                  KOATUUCodeL3ID, IsResident, PersonEducationTypeID,
+                  StreetTypeID, SchoolID, LanguageID, CountryID, 
+                  KOATUUCodeID', 'numerical', 'integerOnly' => true),
         array('FirstName, MiddleName, LastName, FirstNameR, MiddleNameR, LastNameR, codeU', 'length', 'max' => 100),
         array('codeU, edboID', "unique", "allowEmpty" => 'true'),
         array('Address, PhotoName', 'length', 'max' => 250),
@@ -79,10 +82,11 @@ class Person extends ActiveRecord {
 			// The following rule is used by search().
         // Please remove those attributes that should not be searched.
         array('idPerson, Birthday, PersonSexID, FirstName, MiddleName,
-                            LastName, KOATUUCodeL1ID, KOATUUCodeL2ID, KOATUUCodeL3ID, 
-                            IsResident, PersonEducationTypeID, StreetTypeID, Address, HomeNumber, 
-                            PostIndex, SchoolID, FirstNameR, MiddleNameR, LastNameR,  
-                            CountryID, PersonDocumentID, EntrantDocumentID', 'safe', 'on' => 'search'),
+                  LastName, KOATUUCodeL1ID, KOATUUCodeL2ID, KOATUUCodeL3ID, 
+                  IsResident, PersonEducationTypeID, StreetTypeID, Address, HomeNumber, 
+                  PostIndex, SchoolID, FirstNameR, MiddleNameR, LastNameR,  
+                  CountryID, PersonDocumentID, EntrantDocumentID,KOATUUCodeID', 
+            'safe', 'on' => 'search'),
         array('PhotoName', 'file', 'types' => 'jpg, gif, png', 'maxSize' => 5048576, 'on' => 'PHOTO'),
     );
   }
@@ -101,6 +105,9 @@ class Person extends ActiveRecord {
         'contacts' => array(self::HAS_MANY, 'PersonContacts', 'PersonID'),
         'thspecs' => array(self::HAS_MANY, 'Specialities', 'SepcialityID', 
             'through' => 'specs'),
+        'country' => array(self::BELONGS_TO,'Country','CountryID'),
+        'language' => array(self::BELONGS_TO,'Languages','LanguageID'),
+        'school' => array(self::BELONGS_TO,'Schools','SchoolID'),
     );
   }
 

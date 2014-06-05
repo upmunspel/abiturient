@@ -93,6 +93,10 @@ class Personspeciality extends ActiveRecord {
   public $NAME;
   public $SPEC;
   public $ComputedPoints;
+  public $KOATUU;
+  public $ZNO;
+  public $EXAM;
+  public $DOCS;
   
   public $rating_order_mode;
   public $status_confirmed;
