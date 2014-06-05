@@ -127,6 +127,7 @@ class DirectoryController extends Controller {
        
         $result = array();
         $text = "";
+        
         if (count($req) > 1 && $req[0] > 0) {
            //PC::debug($req[0] );
             $model = KoatuuLevel1::model()->find("idKOATUULevel1 = {$req[0]}");

@@ -17,7 +17,7 @@
         <?php echo CHtml::textField("search[number]","",array("class"=>"span12"));?>
     </div>
     <div class="span9">
-        <p>Для пошуку абітуріента зберігайте наступну послідовність документів:</p>
+        <p>Для пошуку абітурієнта зберігайте наступну послідовність документів:</p>
         <ul>
             <li>Атестат про повну середню освіту</li>
             <li>Паспорт</li>
@@ -32,7 +32,7 @@
 			'buttonType'=>'submit',
 			'type'=>'primary',
 			'label'=>'Пошук',
-                        'htmlOptions'=>array("onclick"=>"blockUI(); return true;"),
+                        //'htmlOptions'=>array("onclick"=>"blockUI(); return true;"),
 		)); ?>
     </div>
 </div>

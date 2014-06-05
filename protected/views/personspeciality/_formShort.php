@@ -227,6 +227,24 @@ $form= new TbActiveForm();
        $this->renderPartial("_subjects_holder_short", array("model"=>$model,'specialityid'=>$model->SepcialityID)); 
        ?>
     </div>
+    
+       
+
+    <?php if (Yii::app()->user->checkAccess("showFullEntrantForm")): ?>
+    <hr>
+    <div class="row-fluid">
+        <div class="span6">
+             <div class="row-fluid">
+            <?php echo $form->labelEx($model,'benefits'); ?>
+                    <?php echo $form->dropDownList($model, 'benefits', 
+                            CHtml::listData(Personbenefits::model()->findAll("PersonID = {$model->PersonID}"), "idPersonBenefits", "benefit.BenefitName"), 
+                            array('empty'=>"", 'style'=>"width: 100%;", "multiple"=>"multiple")); ?>
+             </div>
+
+        </div>
+    </div>
+     <?php endif; ?>
+  
    
    
 	
@@ -240,7 +258,9 @@ $form= new TbActiveForm();
 <?php $this->endWidget();?>
     <script>
         $("#spec-form-modal .switch").bootstrapSwitch();
-        //PSN.changeEntranceType($('#<?php echo CHtml::activeId($model, 'EntranceTypeID');?>').get(0));
+       
+        $('#<?php echo CHtml::activeId($model, "benefits"); ?>').select2({ placeholder: "Выбрать льготу", allowClear: true });
+   
     </script>
 
 </div><!-- form -->
