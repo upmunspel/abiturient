@@ -436,7 +436,7 @@ Yii::app()->clientScript->registerPackage('select2');
   
 </script>
 
-<div class="row row-fluid">
+<div class="row-fluid">
 <!-- Щоденна статистика заяв абітурієнтів за напрямками -->
 
 <div class="well well-large span5">
@@ -550,7 +550,7 @@ Yii::app()->clientScript->registerPackage('select2');
   ?>
     </div>
     </div>
-    <div class="row-fluid">
+    <div class="span12 row-fluid">
       <div class="span6">
         <?php echo Chtml::label("ОКР", 'QualificationID'); ?>
         <?php
@@ -558,7 +558,7 @@ Yii::app()->clientScript->registerPackage('select2');
                 'QualificationID', 
                 "", 
                 array("1" => "Бакалавр", "3" => "Спеціаліст", "2" => "Магістр"), 
-                array('empty' => '',));
+                array('empty' => '','class'=>'span12'));
         ?>
       </div>
       <div class="span6">
@@ -570,19 +570,19 @@ Yii::app()->clientScript->registerPackage('select2');
                 array(
                     "С.В. Іваненко" => "С.В. Іваненко", 
                     "О.М. Олійник" => "О.М. Олійник"), 
-                array('empty' => '',));
+                array('empty' => '','class'=>'span12'));
         ?>
 
       </div>
     </div>
-    <div class="row-fluid">
+    <div class="span12 row-fluid">
       <div class='span6'>
         <?php echo CHtml::label("Від дати", 'DateFrom'); ?>
         <?php
         echo CHtml::textField(
                 'DateFrom', 
                 date('d.m.Y'), 
-                array('class' => 'datepicker'));
+                array('class' => 'datepicker span12'));
         ?>
 
       </div>
@@ -592,7 +592,7 @@ Yii::app()->clientScript->registerPackage('select2');
         echo CHtml::textField(
                 'DateTo', 
                 date('d.m.Y'), 
-                array('class' => 'datepicker'));
+                array('class' => 'datepicker span12'));
         ?>
 
       </div>
@@ -615,7 +615,7 @@ Yii::app()->clientScript->registerPackage('select2');
 <!-- ----------------------------------------------------------------------- -->
 
 <!-- Конструктор звітів -->
-<div class="row row-fluid" >
+<div class="row-fluid" >
   <div class="well well-large span11">
     <h3 id="reportconstructor">Конструктор звітів</h3>
   <?php
@@ -640,7 +640,7 @@ Yii::app()->clientScript->registerPackage('select2');
         <input type='search' name="fields" id="fields" class="span11" />
       </div>
       <div id='selectx'></div>
-      <?php for ($i = 0; $i < 23; $i++){ 
+      <?php for ($i = 0; $i < 24; $i++){ 
           $is_date = ($i == 13 || $i == 1);
           $is_checkbox = (($i >= 9 && $i <= 11) || ($i >= 21 && $i <= 22));
           $is_koatuu = ($i == 2);
@@ -706,6 +706,7 @@ Yii::app()->clientScript->registerPackage('select2');
               'type' => 'primary',
               "size" => "large",
               'label' => 'Створити звіт',
+              'id' => 'CreteReport',
           ));
           ?>
           <?php
@@ -714,6 +715,11 @@ Yii::app()->clientScript->registerPackage('select2');
               'type' => 'success',
               "size" => "large",
               'label' => 'Створити звіт у форматі WEB-Excel',
+              'id' => 'CreteExcelReport',
+              'htmlOptions' => array(
+                'name' => 'excel',
+                'value' => 'excel'
+              ),
           ));
           ?>
           <?php $this->endWidget(); ?>
@@ -723,7 +729,7 @@ Yii::app()->clientScript->registerPackage('select2');
 </div>
 <!-- ----------------------------------------------------------------------- -->
 <?php if (Yii::app()->user->checkAccess('showProperties')){ ?>
-<div class="row row-fluid" >
+<div class="row-fluid" >
   <div class="well well-large span11">
     <h3>Контактні дані абітурієнтів</h3>
     <ul>

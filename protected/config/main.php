@@ -133,11 +133,12 @@ return array(
         // uncomment the following to use a MySQL database
         'db' => array(
             'connectionString' => 'mysql:host=localhost;dbname=abiturient',
-            'username' => 'root',
-            'password' => 'ehHYAuj',
+            'username' => 'edbo',
+            'password' => 'eU7InIl',
             'emulatePrepare' => true,
             'charset' => 'utf8',
             'enableParamLogging' => true,
+            'enableProfiling' =>YII_DEBUG_PROFILING,
         ),
         'errorHandler' => array(
             // use 'site/error' action to display errors
@@ -147,12 +148,12 @@ return array(
                 'class' => 'CLogRouter',
                     'routes' => array(
                         array(
-                 'class' => 'ext.phpconsole.PhpConsoleLogRoute',
-                 'handleErrors' => true,
-                 'handleExceptions' => true,
-                 //'class' => 'CProfileLogRoute',
-                 //'levels' => 'profile',
-                 //'enabled' => true,
+                 //'class' => 'ext.phpconsole.PhpConsoleLogRoute',
+                 //'handleErrors' => true,
+                 //'handleExceptions' => true,
+                 'class' => 'CWebLogRoute',
+                 'levels' => 'profile',
+                 'enabled' =>YII_DEBUG_SHOW_PROFILER,
                         ),
                 ),
             ),

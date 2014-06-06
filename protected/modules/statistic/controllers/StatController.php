@@ -431,30 +431,29 @@ class StatController extends Controller {
   public function actionQdata($q){
     $fields = array();
     $fields[] = array('text' => 'ПІБ персони', 'id' => 0);
-    $fields[] = array('text' => 'Дата народження', 'id' => 1);
-    $fields[] = array('text' => 'Адреса КОАТУУ', 'id' => 2);
-    $fields[] = array('text' => 'Країна громадянства', 'id' => 3);
-    $fields[] = array('text' => 'Закінчено навчальний заклад', 'id' => 4);
-    $fields[] = array('text' => 'Місце народження', 'id' => 5);
-    $fields[] = array('text' => 'Іноземна мова', 'id' => 6);
-    $fields[] = array('text' => 'Спеціальність', 'id' => 7);
+    $fields[] = array('text' => 'Форма навчання', 'id' => 15);
+    $fields[] = array('text' => 'ОКР', 'id' => 17);
+    $fields[] = array('text' => 'Напрям', 'id' => 23);
     $fields[] = array('text' => 'Факультет', 'id' => 8);
     $fields[] = array('text' => 'На бюджет', 'id' => 9);
     $fields[] = array('text' => 'На контракт', 'id' => 10);
     $fields[] = array('text' => 'Потрібен гуртожиток', 'id' => 11);
     $fields[] = array('text' => 'Статус заявки', 'id' => 12);
     $fields[] = array('text' => 'Дата створення заявки', 'id' => 13);
+    $fields[] = array('text' => 'Спеціальність', 'id' => 7);
+    $fields[] = array('text' => 'Дата народження', 'id' => 1);
+    $fields[] = array('text' => 'Адреса КОАТУУ', 'id' => 2);
+    $fields[] = array('text' => 'Країна громадянства', 'id' => 3);
+    $fields[] = array('text' => 'Закінчено навчальний заклад', 'id' => 4);
+    $fields[] = array('text' => 'Місце народження', 'id' => 5);
+    $fields[] = array('text' => 'Іноземна мова', 'id' => 6);
     $fields[] = array('text' => 'ЗНО (інформація)', 'id' => 14);
-    //$fields[] = array('text' => 'Предмет ЗНО', 'id' => 15);
     $fields[] = array('text' => 'Іспити (інформація)', 'id' => 16);
-    //$fields[] = array('text' => 'Тип документа', 'id' => 17);
     $fields[] = array('text' => 'Документи', 'id' => 18);
     $fields[] = array('text' => 'Пільги', 'id' => 19);
     $fields[] = array('text' => 'Тип пільги', 'id' => 20);
     $fields[] = array('text' => 'Першочергово', 'id' => 21);
     $fields[] = array('text' => 'Поза конкурсом', 'id' => 22);
-    $fields[] = array('text' => 'Форма навчання', 'id' => 15);
-    $fields[] = array('text' => 'ОКР', 'id' => 17);
     
     if (!$q){
       $result = $fields;
@@ -500,26 +499,47 @@ class StatController extends Controller {
    * Метод асинхронно повертає знайдені дані КОАТУУ
    */
   public function actionKoatuus($q){
-      $k3models = KoatuuLevel3::model()->findAll('KOATUULevel3FullName LIKE "%'.$q.'%"');
-      $k2models = KoatuuLevel2::model()->findAll('KOATUULevel2FullName LIKE "%'.$q.'%"');
-      $k1models = KoatuuLevel1::model()->findAll('KOATUULevel1FullName LIKE "%'.$q.'%"');
+    $result = array();
+    $koatuu_keys = explode(' ',$q);
+    $kriteria1 = new CDbCriteria();
+    $kriteria2 = new CDbCriteria();
+    $kriteria3 = new CDbCriteria();
+    foreach ($koatuu_keys as $koatuu_key){
+      $kriteria3->compare("concat(KOATUULevel3FullName,"
+              . "' (тип: ',KOATUULevel3Type,')')",
+              $koatuu_key,true);
+      $kriteria2->compare("KOATUULevel2FullName",
+              $koatuu_key,true);
+      $kriteria1->compare("KOATUULevel1FullName",
+              $koatuu_key,true);
+    }
+    $k3models_count = KoatuuLevel3::model()->count($kriteria3);
+    $k2models_count = KoatuuLevel2::model()->count($kriteria2);
+    $k1models_count = KoatuuLevel1::model()->count($kriteria1);
+
+    if ($k3models_count + $k2models_count + $k1models_count > 50){
       $result = array();
+    } else {
+      $k3models = KoatuuLevel3::model()->findAll($kriteria3);
       foreach ($k3models as $model){
-          /* @var $model KoatuuLevel3 */
-          $result[] = array('text' => $model->KOATUULevel3FullName, 
-              'id' => $model->idKOATUULevel3);
+        /* @var $model KoatuuLevel3 */
+        $result[] = array('text' => $model->KOATUULevel3FullName, 
+            'id' => $model->idKOATUULevel3);
       }
+      $k2models = KoatuuLevel2::model()->findAll($kriteria2);
       foreach ($k2models as $model){
-          /* @var $model KoatuuLevel2 */
-          $result[] = array('text' => $model->KOATUULevel2FullName, 
-              'id' => $model->idKOATUULevel2);
+        /* @var $model KoatuuLevel2 */
+        $result[] = array('text' => $model->KOATUULevel2FullName, 
+            'id' => $model->idKOATUULevel2);
       }
+      $k1models = KoatuuLevel1::model()->findAll($kriteria1);
       foreach ($k1models as $model){
-          /* @var $model KoatuuLevel1 */
-          $result[] = array('text' => $model->KOATUULevel1FullName, 
-              'id' => $model->idKOATUULevel1);
+        /* @var $model KoatuuLevel1 */
+        $result[] = array('text' => $model->KOATUULevel1FullName, 
+            'id' => $model->idKOATUULevel1);
       }
-      echo CJSON::encode($result);
+    }
+    echo CJSON::encode($result);
   }
   
   /**
