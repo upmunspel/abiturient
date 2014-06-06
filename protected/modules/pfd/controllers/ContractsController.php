@@ -7,7 +7,7 @@ class ContractsController extends Controller
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
 	public $layout='/layouts/column1';
-        public $defaultAction='index';
+        public $defaultAction='view';
 
 	/**
 	 * @return array action filters

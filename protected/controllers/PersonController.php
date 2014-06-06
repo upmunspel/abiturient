@@ -105,7 +105,8 @@ class PersonController extends Controller
 	 */
         public function actionCreate()
 	{
-            
+                $this->layout='//layouts/column2_noblock';
+                
 		$model=new Person;
                
                 $model->Birthday= date("d.m.Y",mktime(0, 0, 0, 1, 1, date('Y')-18));
@@ -117,64 +118,33 @@ class PersonController extends Controller
                 if(isset($_POST['search'])){
                      $findRes = 0; //$this->FindLocalPersonByDoc($_POST['search']['attestatSeries'],$_POST['search']['attestatNumber']);
                      //debug($findRes);
-                     if ($findRes == 0 ) {
-                            try {
-                                //debug(Yii::app()->user->getEdboSearchUrl());
-                                $client = new EHttpClient(Yii::app()->user->getEdboSearchUrl().Yii::app()->params["personSearchURL"], array('maxredirects' => 30, 'timeout'      => 5,));
-                                // debug(Yii::app()->user->getEdboSearchUrl().Yii::app()->params["personSearchURL"]);
-                                $client->setParameterPost($_POST['search']);
-                                $response = $client->request(EHttpClient::POST);
-
-                                if($response->isSuccessful()){
-                                    $searchRes = Person::JsonDataAsArray($response->getBody());
-                                } else {
-                                    Yii::app()->user->setFlash("message",'<h3 style="color: red;">Увага! Напрямок перевантажено! Спробуйте пізніше!</h3>');
-                                    //debug($response->getRawBody());
-                                }
-                            } catch(Exception $e) {
-                                Yii::app()->user->setFlash("message",'<h3 style="color: red;">Увага! Напрямок перевантажено! Спробуйте пізніше!</h3>');
-                                //debug($e->getMessage());
-                            }
-                     } else {
-                         Yii::app()->user->setFlash("message","Персона вже існує в системі з кодом $findRes");
-                         $this->redirect(Yii::app()->createUrl("person/update",array("id"=>$findRes)));
-                     }
+                    try { 
+                        if ($findRes == 0) {
+                            $res = WebServices::findPerson($_POST['search']['series'], $_POST['search']['number']);
+                            $searchRes = Person::JsonDataAsArray($res);
+                        } else {
+                            Yii::app()->user->setFlash("message", "Персона вже існує в системі з кодом $findRes");
+                            $this->redirect(Yii::app()->createUrl("person/update", array("id" => $findRes)));
+                        }
+                    } catch (Exception $e ) {
+                          Yii::app()->user->setFlash("message", $e->getMessage());
+                    }
                 } 
 		
                if(isset($_GET['personCodeU'])){
-                    //debug($_GET['personCodeU']);
+                   
                     if ($model->loadByUCode($_GET['personCodeU'])) {
                         try {
 
-                        
-                            $link = Yii::app()->user->getEdboSearchUrl().Yii::app()->params["documentSearchURL"];
-                            debug($link);
-                            $client = new EHttpClient($link, array('maxredirects' => 30, 'timeout'=> 30,));
-                            $client->setParameterPost($_GET);
-                            $response = $client->request(EHttpClient::POST);
-
-                            if($response->isSuccessful()){
-                                // debug($response->getBody());
-                                $searchRes = $model->loadDocumentsFromJSON($response->getBody());
-                            } else {
-                                Yii::app()->user->setFlash("message","Не вдалося завантажити документи!");
-                                debug($response->getRawBody());
-                            }
-
-                            $client = new EHttpClient(Yii::app()->user->getEdboSearchUrl().Yii::app()->params["contactSearchURL"], array('maxredirects' => 30, 'timeout'=> 30,));
-                            $client->setParameterPost($_GET);
-                            $response = $client->request(EHttpClient::POST);
-
-                            if($response->isSuccessful()){
-                                $searchRes = $model->loadContactsFromJSON($response->getBody());
-                            } else {
-                                Yii::app()->user->setFlash("message","Не вдалося завантажити контакти!");
-                                debug($response->getRawBody());
-                            }
+                            $response = WebServices::findPersonDocumentsByCodeU($_GET['personCodeU']);
+                            $searchRes = $model->loadDocumentsFromJSON($response);
+                           
+                            $response = WebServices::findPersonContactsByCodeU($_GET['personCodeU']);
+                            $searchRes = $model->loadContactsFromJSON($response);
+                           
 
                         } catch(Exception $e) {
-                            Yii::app()->user->setFlash("message","Помилка доступу до ЄДБО!");
-                            debug($e->getMessage());
+                            Yii::app()->user->setFlash("message",$e->getMessage());
                         }
                     }
                     

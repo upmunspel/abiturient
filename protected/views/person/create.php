@@ -15,9 +15,9 @@ $this->menu=array(
 
 <h3>Абітурієнт</h3> 
 <?php if (Yii::app()->user->hasFlash("message")){
-            echo "<p>".Yii::app()->user->getFlash("message")."</p>";
+            echo "<h4 style='color: red;'>".Yii::app()->user->getFlash("message")."</h4>";
       }
       ?>
-<h5><a href="javascript:void(0);" onclick="$('#search-form').toggle();" >Пошук абітуріента за документом</a></h5>
+<h5><a href="javascript:void(0);" onclick="$('#search-form').toggle();" >Пошук абітурієнта за документом</a></h5>
 
 <?php echo $this->renderPartial('_form', array('model'=>$model)); ?>

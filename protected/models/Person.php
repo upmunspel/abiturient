@@ -405,7 +405,8 @@ class Person extends ActiveRecord
                        $model->MiddleName = $obj->middleName ;
                        $model->PersonSexID = $obj->id_PersonSex ;
                        $model->Birthday = date("d.m.Y",mktime(0, 0, 0, $obj->birthday['month']+1,  $obj->birthday['dayOfMonth'],  $obj->birthday['year']));
-
+                       //$model->KOATUUCode
+                       
                     } 
                     $result[] = $model;  
                 }
@@ -447,9 +448,19 @@ class Person extends ActiveRecord
                        $model->PersonSexID = $obj->id_PersonSex ;
                        $model->Birthday = date("d.m.Y",mktime(0, 0, 0, $obj->birthday['month']+1,  $obj->birthday['dayOfMonth'],  $obj->birthday['year']));
                        $model->IsResident = $obj->resident;
-                       $model->KOATUUCodeL1ID = $obj->id_KoatuuCodeL1 ;
+                       /*$model->KOATUUCodeL1ID = $obj->id_KoatuuCodeL1 ;
                        $model->KOATUUCodeL2ID = $obj->id_KoatuuCodeL2 ;
-                       $model->KOATUUCodeL3ID = $obj->id_KoatuuCodeL3;
+                       $model->KOATUUCodeL3ID = $obj->id_KoatuuCodeL3;*/
+                       $model->KOATUUCodeID = $obj->id_KoatuuCode;
+                      // $model->KOATUUCode = '0000000000';
+                     
+                       
+                       $code = KoatuuLevel1::model()->findAllByPk($obj->id_KoatuuCode);
+                       if (empty($code)) {  $code = KoatuuLevel2::model()->findAllByPk($obj->id_KoatuuCode);}
+                       if (empty($code)) {  $code = KoatuuLevel3::model()->findAllByPk($obj->id_KoatuuCode);}
+                       
+                       $model->KOATUUCode = $code;
+                       $model->koatu = $obj->id_KoatuuCode.";".$code;
                        $model->StreetTypeID = $obj->id_StreetType ;
                        $model->Address = $obj->address ;
                        $model->PostIndex = $obj->postIndex ;

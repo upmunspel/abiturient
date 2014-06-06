@@ -19,12 +19,16 @@
     <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/bootstrap-typeahead.js"></script>
     <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/bootstrap-combobox.js"></script>
     <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/bootstrap-datepicker.js"></script>
+    <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/spin.min.js"></script>
+<!--    <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/blockUI.js"></script>-->
+
+
 
 
   </head>
 
   <body>
-
+ 
     <?php
     $pkname = WebUser::getPkName();
     $this->widget('bootstrap.widgets.TbNavbar', array(
@@ -46,8 +50,7 @@
             ),
             array(
                 'class' => 'bootstrap.widgets.TbMenu',
-                'htmlOptions' => array('class' => 'pull-right',
-                     'title' => '(' . Yii::app()->user->name . (empty($pkname) ? "" : "/" . $pkname) . ')',),
+                'htmlOptions' => array('class' => 'pull-right'),
                 'items' => array(
                     array('label' => 'Налаштування', 'visible' => Yii::app()->user->checkAccess('showProperties'), 'url' => "#", "icon" => "icon-wrench",
                         'items' => array(
@@ -57,8 +60,7 @@
                         )
                     ),
                     array('label' => 'Авторизуватися', 'url' => array('/site/login'), 'visible' => Yii::app()->user->isGuest, 'icon' => "icon-user"),
-                    array('label' => 'Вийти з системи', 
-                        'url' => array('/site/logout'), 'visible' => !Yii::app()->user->isGuest, 'icon' => "icon-user")
+                    array('label' => 'Вийти з системи (' . Yii::app()->user->name . (empty($pkname) ? "" : "/" . $pkname) . ')', 'url' => array('/site/logout'), 'visible' => !Yii::app()->user->isGuest, 'icon' => "icon-user")
                 ),
             ),
         ),
@@ -73,7 +75,7 @@
 
       <hr>
         <footer>
-          <div style="margin: 0 auto; width: 500px;">© Лабораторія ІС та КТ <?php echo date('Y'); ?></div>
+          <div style="margin: 0 auto; width: 500px;">© Кафедра математичного моделювання  2013</div>
         </footer>
     </div><!-- page -->
 

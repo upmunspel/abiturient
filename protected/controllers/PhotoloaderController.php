@@ -142,6 +142,7 @@ class PhotoloaderController extends Controller {
                 $model->PhotoName = "person_$id" . "_$tfio.jpg";
                 $path = Yii::app()->basePath . "/.." . Yii::app()->params['photosPath'];
                 $bigpath = Yii::app()->basePath . "/.." . Yii::app()->params['photosBigPath'];
+                               
                 $img = EWideImage::loadFromString(base64_decode($edbeo_file));
                 if ($img->getWidth() <  $img->getHeight()) {
                     $img->resize(120, null)->crop("center", "middle", 120, 150)->saveToFile($path . "person_$id" . "_$tfio.jpg");
