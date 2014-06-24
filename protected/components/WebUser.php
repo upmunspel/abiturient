@@ -65,7 +65,7 @@ class WebUser extends CWebUser {
         throw new Exception ("Необхідно визначити адресу серверу друку документів!");
       }
       $ip = $model->syspk->printIP;  
-      return "http://".$ip."/request_report-1.0/titul.jsp?PersonSpecialityID=".$PersonSpecialityID."&iframe=true&width=1024&height=600";
+      return "http://".$ip.":8080/request_report-1.0/titul.jsp?PersonSpecialityID=".$PersonSpecialityID."&iframe=true&width=1024&height=600";
     }
     
     public function getEdboSearchUrl(){
