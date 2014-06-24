@@ -127,35 +127,26 @@ $dataProvider=new CActiveDataProvider( "Personspeciality", array('criteria'=>arr
                         'url'=>  'Yii::app()->user->getPrintUrl($data->PersonID, $data->idPersonSpeciality)',
                         'options'=>array(
                             'class'=>'btn',
-                            //'onclick'=>'PSN.printSpec(this); return true;',
                             'rel'=>"prettyPhoto",
                             'title'=>"Друкувати заявку",
                         ),
                     ),
-                    
-                    
                     'titul' => array(
                         'label'=>'Друкувати титульний лист',
-                        'icon'=>'print',
-                        'url'=> '"http://10.1.11.57:8080/request_report-1.0/titul.jsp?PersonSpecialityID=".$data->idPersonSpeciality."&iframe=true&width=1024&height=600"',
+                        'icon'=>'file',
+                        'url'=> 'Yii::app()->user->getTitulUrl($data->idPersonSpeciality)',
                         'options'=>array(
                             'class'=>'btn',
-                            //'rel'=>"prettyPhoto",
                             'title'=>"Друкувати титульний лист",
                         ),
                     ),
-                    
-                    
-                    
-                    
-                     'sinchr' => array(
+                    'sinchr' => array(
                         'label'=>'Синхронізувати',
                         'icon'=>'icon-refresh',
                         'url'=> 'Yii::app()->createUrl("personspeciality/edboupdate",array("id"=>$data->idPersonSpeciality))',
                         'options'=>array(
                             'class'=>'btn',
                             'onclick'=>"PSN.edboSpecsUpdate(this); return false;",
-                            //'rel'=>"prettyPhoto",
                             'title'=>"Синхронізувати",
                         ),
                     ),
