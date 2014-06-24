@@ -50,11 +50,11 @@ class PersonController extends Controller
 	public function accessRules()
 	{
 		return array(
-			/*array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
+			array('allow',  // allow all users to perform 'index' and 'view' actions
+				'actions'=>array('index','view','translitnames'),
 				'users'=>array('*'),
 			),
-			array('allow', // allow authenticated user to perform 'create' and 'update' actions
+			/*array('allow', // allow authenticated user to perform 'create' and 'update' actions
 				'actions'=>array('create','update'),
 				'users'=>array('@'),
 			),
@@ -369,6 +369,24 @@ class PersonController extends Controller
 			'model'=>$model,
 		));
 	}
+  
+  public function actionTranslitnames(){
+    $models = Person::model()->findAll();
+    foreach ($models as $model){
+      echo $model->LastName;
+      echo ' ';
+      echo $model->FirstName;
+      echo ' ';
+      echo $model->MiddleName;
+      echo ' => ';
+      echo ActiveRecord::translit2010($model->LastName);
+      echo ' ';
+      echo ActiveRecord::translit2010($model->FirstName);
+      echo ' ';
+      echo ActiveRecord::translit2010($model->MiddleName);
+      echo '<br/>';
+    }
+  }
 
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.
