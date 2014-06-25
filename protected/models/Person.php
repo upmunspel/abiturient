@@ -245,13 +245,13 @@ class Person extends ActiveRecord {
         }
 
         if (empty($this->LastNameEn)) {
-            $this->LastNameEn = Transliteration::text($this->LastName);
+            $this->LastNameEn = Transliteration::translit2010($this->LastName);
         }
         if (empty($this->MiddleNameEn)) {
-            $this->MiddleNameEn = Transliteration::text($this->MiddleName);
+            $this->MiddleNameEn = Transliteration::translit2010($this->MiddleName);
         }
         if (empty($this->FirstNameEn)) {
-            $this->FirstNameEn = Transliteration::text($this->FirstName);
+            $this->FirstNameEn = Transliteration::translit2010($this->FirstName);
         }
 
         if (!Yii::app()->user->checkAccess("editResident")) {
