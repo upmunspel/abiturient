@@ -28,7 +28,7 @@ if ($model->isNewRecord){
 }
 
 $specid=$model->PersonSpecialityID;
-$url='http://10.1.11.57:8080/request_report-1.0/price.jsp?idPersonSpeciality='.$specid.'&iframe=true&width=1024&height=600';
+$url='http://10.1.22.150:8080/request_report-1.0/price.jsp?idPersonSpeciality='.$specid.'&iframe=true&width=1024&height=600';
 
 $model->PersonSpecialityID = $specmodel->SpecCodeName;
 

@@ -40,11 +40,13 @@ class ReptController extends Controller {
   }
   
   public function actionIndex() {
+    Yii::app()->db->createCommand('SET SESSION group_concat_max_len=150000')->execute();
     $reqFields = Yii::app()->request->getParam('fields',null);
     $reqCond = Yii::app()->request->getParam('cond',null);
     $reqAcondval = Yii::app()->request->getParam('acondval',null);
     $reqCondval = Yii::app()->request->getParam('condval',null);
-    //var_dump($reqCondval);exit();
+    $reqExcel = Yii::app()->request->getParam('excel',null);
+    //var_dump($reqExcel);exit();
     $fields = array();
     $fields[] = array('text' => 'ПІБ персони',);
     $fields[] = array('text' => 'Дата народження',);
@@ -69,6 +71,7 @@ class ReptController extends Controller {
     $fields[] = array('text' => 'Тип пільги',);
     $fields[] = array('text' => 'Першочергово',);
     $fields[] = array('text' => 'Поза конкурсом',);
+    $fields[] = array('text' => 'Напрям',);
     
     if (!is_string($reqFields)){
       throw new CHttpException(400,'Помилка. Невірний запит.');
@@ -88,9 +91,13 @@ class ReptController extends Controller {
       $condition_type = $reqCond[$i];
       if (isset($reqCondval[$i])){
         $condition_value = $reqCondval[$i];
+      } else {
+        $condition_value = true;
       }
       if (isset($reqAcondval[$i])){
         $alternative_condition_value = $reqAcondval[$i];
+      } else {
+        $alternative_condition_value = true;
       }
       $to_select = in_array($i,$field_nums);  
       if (!$to_select && !$condition_type){
@@ -103,53 +110,53 @@ class ReptController extends Controller {
       }
       switch ($i){
         case 0:
-          $NAME_sql = "concat_ws(' ',trim(person.LastName),trim(person.FirstName),person.MiddleName)";
-          array_push($keys,'NAME');
-          $this->addRelationTo('person', $with_rel);
-          if ($to_select){
-            array_push($select, 
-                    new CDbExpression($NAME_sql." AS NAME"));
-            $widget_columns[$field_num_indexes[$i]] =
-                    array('name' => 'NAME','header' => $header, 
-                    'value' => '$data->NAME',);
-          }
-          if ($condition_type == 1 && $condition_value){
-            $criteria->addCondition($NAME_sql." LIKE '".$condition_value."'");
-          }
-          if ($condition_type == 2 && $condition_value){
-            $criteria->addCondition($NAME_sql." LIKE '%".$condition_value."%'");
-          }
-          if ($condition_type == 3 && $condition_value){
-            $criteria->addCondition($NAME_sql." NOT LIKE '%".$condition_value."%'");
-          }
-          if ($condition_type == 4){
-            $criteria->addCondition($NAME_sql." LIKE ''");
-          }
+          $rels = array(
+              array('name' => 'person', 'select' => true),
+          );
+          $sel = array(
+              'to_select' => $to_select,
+              'sql_as' => 'NAME',
+              'sql_expr' => "concat_ws(' ',trim(person.LastName),trim(person.FirstName),person.MiddleName)",
+          );
+          $widget_column = array('name' => 'NAME', 
+            'header' => $header,
+            'value' => 
+            function ($data){
+              echo $data->NAME;
+            }
+          );
+          $field_num_index = ($to_select)? $field_num_indexes[$i]:0;
+          $this->ProcessFieldTextOnly($with_rel, $rels, 
+            $select, $sel, 
+            $widget_columns, $widget_column, $field_num_index,
+            $condition_type, $condition_value,
+            $criteria
+          );
+          ////////////////////////////////////////////
           break;
         case 1:
-          $this->addRelationTo('person', $with_rel);
-          array_push($keys,'Birthday');
-          if ($to_select){
-            $widget_columns[$field_num_indexes[$i]] = 
-                    array('name' => 'person.Birthday', 'header' => $header);
-          }
-          if ($condition_type == 1 && $condition_value){
-            $condition_date = date('Y-m-d',strtotime(str_replace('.','-',$condition_value)));
-            $criteria->addCondition("person.Birthday = '".$condition_date."'");
-          }
-          if ($condition_type == 2 && $condition_value){
-            $condition_date = date('Y-m-d',strtotime(str_replace('.','-',$condition_value)));
-            $criteria->addCondition("person.Birthday LIKE '%".$condition_date."%'");
-          }
-          if ($condition_type == 4){
-            $criteria->addCondition("person.Birthday = '' OR ISNULL(person.Birthday)");
-          }
-          if ($condition_type == 5 && $condition_value && $alternative_condition_value){
-             $condition_date1 = date('Y-m-d',strtotime(str_replace('.','-',$condition_value)));
-             $condition_date2 = date('Y-m-d',strtotime(str_replace('.','-',$alternative_condition_value)));
-            $criteria->addCondition("person.Birthday BETWEEN '".$condition_date1."' "
-                    . "AND '".$condition_date2."'");
-          }
+          $rels = array(
+              array('name' => 'person', 'select' => true),
+          );
+          $sel = array(
+              'to_select' => $to_select,
+              'db_field' => 'person.Birthday',
+          );
+          $widget_column = array('name' => 'person.Birthday', 
+            'header' => $header,
+            'value' => 
+            function ($data){
+              echo $data->person->Birthday;
+            }
+          );
+          $field_num_index = ($to_select)? $field_num_indexes[$i]:0;
+          $this->ProcessFieldDateOnly($with_rel, $rels, 
+            $sel, $widget_columns, $widget_column, 
+            $field_num_index,
+            $condition_type, 
+            $condition_value, $alternative_condition_value,
+            $criteria);
+          ////////////////////////////////////////////
           break;
         case 2: //Спеціально для ..баного КОАТУУ 
           $this->addRelationTo('person', $with_rel);
@@ -213,22 +220,22 @@ class ReptController extends Controller {
                       .$koatuu_key.'%"',"OR");
               }
             }
-            $k3models = KoatuuLevel3::model()->findAll($kriteria3);
-            $k2models = KoatuuLevel2::model()->findAll($kriteria2);
-            $k1models = KoatuuLevel1::model()->findAll($kriteria1);
-            foreach ($k3models as $model){
-                /* @var $model KoatuuLevel3 */
-                $result_ids[$model->idKOATUULevel3] = $model->idKOATUULevel3;
-            }
-            foreach ($k2models as $model){
-                /* @var $model KoatuuLevel2 */
-                $result_ids[$model->idKOATUULevel2] = $model->idKOATUULevel2;
-            }
-            foreach ($k1models as $model){
-                /* @var $model KoatuuLevel1 */
-                $result_ids[$model->idKOATUULevel1] = $model->idKOATUULevel1;
-            }
-            $koatuu_id_in = implode(',',$result_ids);
+              $k3models = KoatuuLevel3::model()->findAll($kriteria3);
+              foreach ($k3models as $model){
+                  /* @var $model KoatuuLevel3 */
+                  $result_ids[$model->idKOATUULevel3] = $model->idKOATUULevel3;
+              }
+              $k2models = KoatuuLevel2::model()->findAll($kriteria2);
+              foreach ($k2models as $model){
+                  /* @var $model KoatuuLevel2 */
+                  $result_ids[$model->idKOATUULevel2] = $model->idKOATUULevel2;
+              }
+              $k1models = KoatuuLevel1::model()->findAll($kriteria1);
+              foreach ($k1models as $model){
+                  /* @var $model KoatuuLevel1 */
+                  $result_ids[$model->idKOATUULevel1] = $model->idKOATUULevel1;
+              }
+              $koatuu_id_in = implode(',',$result_ids);
             if (!$koatuu_id_in){
               $criteria->addCondition('person.KOATUUCodeID IS '.$denial.' NULL');
             } else {
@@ -238,122 +245,115 @@ class ReptController extends Controller {
           if ($condition_type == 4){
             $criteria->addCondition("person.KOATUUCodeID = '' OR ISNULL(person.KOATUUCodeID)");
           }
+          //KOATUU END ////////////////////////////////////////////////////
           break;
         case 3:
-          $this->addRelationTo('person', $with_rel);
-          $this->addRelationTo('person.country', $with_rel);
-          array_push($keys,'country.CountryName');
-          if ($to_select){
-            $widget_columns[$field_num_indexes[$i]] =
-                    array('name' => 'country.CountryName', 
-                        'header' => $header,
-                        'value' => '$data->person->country->CountryName'
-                        );
-          }
-          if ($condition_type == 1 && $alternative_condition_value){
-            $criteria->addCondition("person.CountryID = '"
-                    .$alternative_condition_value."'");
-          }
-          if (($condition_type == 2 || $condition_type == 3) && $condition_value){
-            $denial = ($condition_type == 3)? "NOT":"";
-            $db_field = 'country.CountryName';
-            $add_criteria = $this->getConditionString($db_field, $condition_value);
-            $criteria->addCondition($denial.'('.$add_criteria.')');
-          }
-          if ($condition_type == 4){
-            $criteria->addCondition("country.CountryName  = '' OR ISNULL(country.CountryName )");
-          }
-          if ($condition_type == 3 && !$condition_value){
-            $criteria->addCondition("person.CountryID IS NOT NULL");
-          }
+          $rels = array(
+              array('name' => 'person', 'select' => true),
+              array('name' => 'person.country', 'select' => true),
+          );
+          $sel = array(
+              'to_select' => $to_select,
+              'db_field_id' => 'person.CountryID',
+              'db_field' => 'country.CountryName',
+          );
+          $widget_column = array('name' => 'country.CountryName', 
+            'header' => $header,
+            'value' => 
+            function ($data){
+              if (!empty($data->person->country)){
+                echo $data->person->country->CountryName;
+              }
+            }
+          );
+          $field_num_index = ($to_select)? $field_num_indexes[$i]:0;
+          $this->ProcessFieldTextAlternative($with_rel, $rels, 
+            $select, $sel, 
+            $widget_columns, $widget_column, $field_num_index,
+            $condition_type, $condition_value, $alternative_condition_value,
+            $criteria);
+          ////////////////////////////////////////////
           break;
         case 4:
-          $this->addRelationTo('person', $with_rel);
-          $this->addRelationTo('person.school', $with_rel);
-          array_push($keys,'school.SchoolName');
-          if ($to_select){
-            $widget_columns[$field_num_indexes[$i]] =
-                    array('name' => 'school.SchoolName', 
-                        'header' => $header,
-                        'value' => '$data->person->school->SchoolName'
-                        );
-          }
-          if ($condition_type == 1 && $alternative_condition_value){
-            $criteria->addCondition("person.SchoolID = '"
-                    .$alternative_condition_value."'");
-          }
-          if (($condition_type == 2 || $condition_type == 3) && $condition_value){
-            $db_field = 'school.SchoolName';
-            $denial = ($condition_type == 3)? "NOT":"";
-            $add_criteria = $this->getConditionString($db_field, $condition_value);
-            $criteria->addCondition($denial.'('.$add_criteria.')');
-          }
-          if ($condition_type == 4){
-            $criteria->addCondition("school.SchoolName  = '' OR ISNULL(school.SchoolName )");
-          }
-          if ($condition_type == 3 && !$condition_value){
-            $criteria->addCondition("person.SchoolID IS NOT NULL");
-          }
+          $rels = array(
+              array('name' => 'person', 'select' => true),
+              array('name' => 'person.school', 'select' => true),
+          );
+          $sel = array(
+              'to_select' => $to_select,
+              'db_field_id' => 'person.SchoolID',
+              'db_field' => 'school.SchoolName',
+          );
+          $widget_column = array('name' => 'school.SchoolName', 
+            'header' => $header,
+            'value' => 
+            function ($data){
+              if (!empty($data->person->school)){
+                echo $data->person->school->SchoolName;
+              }
+            }
+          );
+          $field_num_index = ($to_select)? $field_num_indexes[$i]:0;
+          $this->ProcessFieldTextAlternative($with_rel, $rels, 
+            $select, $sel, 
+            $widget_columns, $widget_column, $field_num_index,
+            $condition_type, $condition_value, $alternative_condition_value,
+            $criteria);
+          ////////////////////////////////////////////
           break;
         case 5:
-          $this->addRelationTo('person', $with_rel);
-          array_push($keys,'person.BirthPlace');
-          if ($to_select){
-            $widget_columns[$field_num_indexes[$i]] =  
-                    array('name' => 'person.BirthPlace', 
-                        'header' => $header,
-                        'value' => '$data->person->BirthPlace'
-                        );
-          }
-          if ($condition_type == 1 && $condition_value){
-            $criteria->addCondition("person.BirthPlace LIKE '"
-                    .$condition_value."'");
-          }
-          if (($condition_type == 2 || $condition_type == 3) && $condition_value){
-            $db_field = 'person.BirthPlace';
-            $denial = ($condition_type == 3)? "NOT":"";
-            $add_criteria = $this->getConditionString($db_field, $condition_value);
-            $criteria->addCondition($denial.'('.$add_criteria.')');
-          }
-          if ($condition_type == 4){
-            $criteria->addCondition("person.BirthPlace = '' OR ISNULL(person.BirthPlace)");
-          }
-          if ($condition_type == 3 && !$condition_value){
-            $criteria->addCondition("NOT(person.BirthPlace = '' OR ISNULL(person.BirthPlace))");
-          }
+          $rels = array(
+              array('name' => 'person', 'select' => true),
+          );
+          $sel = array(
+              'to_select' => $to_select,
+              'db_field' => 'person.BirthPlace',
+          );
+          $widget_column = array('name' => 'person.BirthPlace', 
+            'header' => $header,
+            'value' => 
+            function ($data){
+              echo $data->person->BirthPlace;
+            }
+          );
+          $field_num_index = ($to_select)? $field_num_indexes[$i]:0;
+          $this->ProcessFieldTextOnly($with_rel, $rels, 
+            $select, $sel, 
+            $widget_columns, $widget_column, $field_num_index,
+            $condition_type, $condition_value,
+            $criteria
+          );
+          ///////////////////////////////////////
           break;
         case 6:
-          $this->addRelationTo('person', $with_rel);
-          $this->addRelationTo('person.language', $with_rel);
-          array_push($keys,'language.LanguagesName');
-          if ($to_select){
-            $widget_columns[$field_num_indexes[$i]] =  
-                    array('name' => 'language.LanguagesName', 
-                        'header' => $header,
-                        'value' => '$data->person->language->LanguagesName'
-                        );
-          }
-          if ($condition_type == 1 && $alternative_condition_value){
-            $criteria->addCondition("person.LanguageID='"
-                    .$alternative_condition_value."'");
-          }
-          if (($condition_type == 2 || $condition_type == 3) && $condition_value){
-            $db_field = 'language.LanguagesName';
-            $denial = ($condition_type == 3)? "NOT":"";
-            $add_criteria = $this->getConditionString($db_field, $condition_value);
-            $criteria->addCondition($denial.'('.$add_criteria.')');
-          }
-          if ($condition_type == 4){
-            $criteria->addCondition("language.LanguagesName = '' OR ISNULL(language.LanguagesName)");
-          }
-          if ($condition_type == 3 && !$condition_value){
-            $criteria->addCondition("NOT(ISNULL(person.LanguageID))");
-          }
+          $rels = array(
+              array('name' => 'person', 'select' => true),
+              array('name' => 'person.language', 'select' => true),
+          );
+          $sel = array(
+              'to_select' => $to_select,
+              'db_field_id' => 'person.LanguageID',
+              'db_field' => 'language.LanguagesName',
+          );
+          $widget_column = array('name' => 'language.LanguagesName', 
+            'header' => $header,
+            'value' => 
+            function ($data){
+              if (!empty($data->person->language)){
+                echo $data->person->language->LanguagesName;
+              }
+            }
+          );
+          $field_num_index = ($to_select)? $field_num_indexes[$i]:0;
+          $this->ProcessFieldTextAlternative($with_rel, $rels, 
+            $select, $sel, 
+            $widget_columns, $widget_column, $field_num_index,
+            $condition_type, $condition_value, $alternative_condition_value,
+            $criteria);
+          ////////////////////////////////////////////
           break;
         case 7:
-          $group = 't.idPersonSpeciality';
-          $this->addRelationTo('sepciality', $with_rel);
-          $this->addRelationTo('sepciality.eduform', $with_rel);
+         // $group = 't.idPersonSpeciality';
           $SPEC_sql = "concat_ws(' ',"
                   . "SpecialityClasifierCode,"
                   . "(case substr(SpecialityClasifierCode,1,1) when '6' then "
@@ -361,387 +361,597 @@ class ReptController extends Controller {
                   . "(case SpecialitySpecializationName when '' then '' "
                   . " else concat('(',SpecialitySpecializationName,')') end)"
                   . ",',',concat('форма: ',eduform.PersonEducationFormName))";
-          array_push($keys,'SPEC');
-          if ($to_select){
-            array_push($select,new CDbExpression($SPEC_sql." AS SPEC"
-            ));
-            $widget_columns[$field_num_indexes[$i]] =  
-                    array('name' => 'SPEC', 
-                        'header' => $header,
-                        'value' => '$data->SPEC'
-                        );
-          }
-          if ($condition_type == 1 && $alternative_condition_value){
-            $criteria->addCondition("SepcialityID='"
-                    .$alternative_condition_value."'");
-          }
-          if (($condition_type == 2 || $condition_type == 3) && $condition_value){
-            $db_field = $SPEC_sql;
-            $denial = ($condition_type == 3)? "NOT":"";
-            $add_criteria = $this->getConditionString($db_field, $condition_value);
-            $criteria->addCondition($denial.'('.$add_criteria.')');
-          }
-          if ($condition_type == 4){
-            $criteria->addCondition("ISNULL(SepcialityID)");
-          }
-          if ($condition_type == 3 && !$condition_value){
-            $criteria->addCondition("NOT(ISNULL(SepcialityID))");
-          }
+          $rels = array(
+              array('name' => 'sepciality', 'select' => false),
+              array('name' => 'sepciality.eduform', 'select' => false),
+          );
+          $sel = array(
+              'to_select' => $to_select,
+              'db_field_id' => 't.SepcialityID',
+              'sql_as' => 'SPEC',
+              'sql_expr' => $SPEC_sql,
+              'group_concat' => true,
+          );
+          $widget_column = array('name' => 'SPEC', 
+            'header' => $header,
+            'value' => 
+            function ($data){
+                $_arr = array();
+              $_nodes = explode('||',$data->SPEC);
+              foreach ($_nodes as $_node){
+                $_subjs = explode(';;',$_node);
+                if (!$_node){continue;}
+                $is_first = true;
+                foreach ($_subjs as $_subj){
+                  if (isset($_arr[$_subj]) || !$_subj){continue;}
+                  $_arr[$_subj] = true;
+                  if (!$is_first){echo '<br/>';} else{$is_first = false;}
+                  echo $_subj;
+                }
+              }
+            }
+          );
+          $field_num_index = ($to_select)? $field_num_indexes[$i]:0;
+          $this->ProcessFieldTextAlternative($with_rel, $rels, 
+            $select, $sel, 
+            $widget_columns, $widget_column, $field_num_index,
+            $condition_type, $condition_value, $alternative_condition_value,
+            $criteria);
+          ////////////////////////////////////////////
           break;
         case 8:
           $group = 't.idPersonSpeciality';
-          $this->addRelationTo('sepciality', $with_rel);
-          $this->addRelationTo('sepciality.facultet', $with_rel);
-          array_push($keys,'facultet.FacultetFullName');
-          if ($to_select){
-            $widget_columns[$field_num_indexes[$i]] =  
-                    array('name' => 'facultet.FacultetFullName', 
-                        'header' => $header,
-                        'value' => '$data->sepciality->facultet->FacultetFullName'
-                        );
-          }
-          if ($condition_type == 1 && $condition_value){
-            $criteria->addCondition("facultet.FacultetFullName LIKE '"
-                    .$condition_value."'");
-          }
-          if (($condition_type == 2 || $condition_type == 3) && $condition_value){
-            $db_field = 'facultet.FacultetFullName';
-            $denial = ($condition_type == 3)? "NOT":"";
-            $add_criteria = $this->getConditionString($db_field, $condition_value);
-            $criteria->addCondition($denial.'('.$add_criteria.')');
-          }
-          if ($condition_type == 4){
-            $criteria->addCondition("ISNULL(facultet.FacultetFullName)");
-          }
-          if ($condition_type == 3 && !$condition_value){
-            $criteria->addCondition("NOT(ISNULL(facultet.FacultetFullName))");
-          }
+          $rels = array(
+              array('name' => 'sepciality', 'select' => true),
+              array('name' => 'sepciality.facultet', 'select' => true),
+          );
+          $sel = array(
+              'to_select' => $to_select,
+              'db_field' => 'facultet.FacultetFullName',
+          );
+          $widget_column = array('name' => 'person.BirthPlace', 
+            'header' => $header,
+            'value' => 
+            function ($data){
+              if (!empty($data->sepciality->facultet)){
+                echo $data->sepciality->facultet->FacultetFullName;
+              }
+            }
+          );
+          $field_num_index = ($to_select)? $field_num_indexes[$i]:0;
+          $this->ProcessFieldTextOnly($with_rel, $rels, 
+            $select, $sel, 
+            $widget_columns, $widget_column, $field_num_index,
+            $condition_type, $condition_value,
+            $criteria
+          );
+          ///////////////////////////////////////
           break;
         case 9:
           $group = 't.idPersonSpeciality';
-          array_push($keys,'isBudget');
-          if ($to_select){
-            $widget_columns[$field_num_indexes[$i]] =  
-                    array('name' => 'isBudget', 
-                        'header' => $header,
-                        'value' => '($data->isBudget)?"так":"ні"'
-                        );
-          }
-          if ($condition_type == 1){
-            $cvalue = ($condition_value)? '1':'0';
-            $criteria->addCondition("isBudget = '"
-                    .$cvalue."'");
-          }
-          if ($condition_type == 4){
-            $criteria->addCondition("ISNULL(isBudget)");
-          }
+          $sel = array(
+              'to_select' => $to_select,
+              'db_field' => 'isBudget',
+          );
+          $widget_column = array('name' => 'isBudget', 
+            'header' => $header,
+            'value' => 
+            function ($data){
+              echo ($data->isBudget)? "так":"ні";
+            }
+          );
+          $field_num_index = ($to_select)? $field_num_indexes[$i]:0;
+          $this->ProcessFieldCheckboxOnly($with_rel, $rels, 
+            $sel, $widget_columns, $widget_column, 
+            $field_num_index,
+            $condition_type, $condition_value,
+            $criteria);
+          ////////////////////////////////////////////
           break;
         case 10:
           $group = 't.idPersonSpeciality';
-          array_push($keys,'isContract');
-          if ($to_select){
-            $widget_columns[$field_num_indexes[$i]] =  
-                    array('name' => 'isContract', 
-                        'header' => $header,
-                        'value' => '($data->isContract)?"так":"ні"'
-                        );
-          }
-          if ($condition_type == 1){
-            $cvalue = ($condition_value)? '1':'0';
-            $criteria->addCondition("isContract = '"
-                    .$cvalue."'");
-          }
-          if ($condition_type == 4){
-            $criteria->addCondition("ISNULL(isContract)");
-          }
+          $sel = array(
+              'to_select' => $to_select,
+              'db_field' => 'isContract',
+          );
+          $widget_column = array('name' => 'isContract', 
+            'header' => $header,
+            'value' => 
+            function ($data){
+              echo ($data->isContract)? "так":"ні";
+            }
+          );
+          $field_num_index = ($to_select)? $field_num_indexes[$i]:0;
+          $this->ProcessFieldCheckboxOnly($with_rel, $rels, 
+            $sel, $widget_columns, $widget_column, 
+            $field_num_index,
+            $condition_type, $condition_value,
+            $criteria);
+          ////////////////////////////////////////////
           break;
         case 11:
           $group = 't.idPersonSpeciality';
-          array_push($keys,'isNeedHostel');
-          if ($to_select){
-            $widget_columns[$field_num_indexes[$i]] =  
-                    array('name' => 'isNeedHostel', 
-                        'header' => $header,
-                        'value' => '($data->isNeedHostel)?"так":"ні"'
-                        );
-          }
-          if ($condition_type == 1){
-            $cvalue = ($condition_value)? '1':'0';
-            $criteria->addCondition("isNeedHostel = '"
-                    .$cvalue."'");
-          }
-          if ($condition_type == 4){
-            $criteria->addCondition("ISNULL(isNeedHostel)");
-          }
+          $sel = array(
+              'to_select' => $to_select,
+              'db_field' => 'isNeedHostel',
+          );
+          $widget_column = array('name' => 'isNeedHostel', 
+            'header' => $header,
+            'value' => 
+            function ($data){
+              echo ($data->isNeedHostel)? "так":"ні";
+            }
+          );
+          $field_num_index = ($to_select)? $field_num_indexes[$i]:0;
+          $this->ProcessFieldCheckboxOnly($with_rel, $rels, 
+            $sel, $widget_columns, $widget_column, 
+            $field_num_index,
+            $condition_type, $condition_value,
+            $criteria);
+          ////////////////////////////////////////////
           break;
         case 12:
           $group = 't.idPersonSpeciality';
-          $this->addRelationTo('status', $with_rel);
-          array_push($keys,'status.PersonRequestStatusTypeName');
-          if ($to_select){
-            $widget_columns[$field_num_indexes[$i]] =  
-                    array('name' => 'status.PersonRequestStatusTypeName', 
-                        'header' => $header,
-                        'value' => '$data->status->PersonRequestStatusTypeName'
-                        );
-          }
-          if ($condition_type == 1 && $alternative_condition_value){
-            $criteria->addCondition("t.StatusID='"
-                    .$alternative_condition_value."'");
-          }
-          if (($condition_type == 2 || $condition_type == 3) && $condition_value){
-            $db_field = 'status.PersonRequestStatusTypeName';
-            $denial = ($condition_type == 3)? "NOT":"";
-            $add_criteria = $this->getConditionString($db_field, $condition_value);
-            $criteria->addCondition($denial.'('.$add_criteria.')');
-          }
-          if ($condition_type == 4){
-            $criteria->addCondition("status.PersonRequestStatusTypeName = '' "
-                    . "OR ISNULL(status.PersonRequestStatusTypeName)");
-          }
-          if ($condition_type == 3 && !$condition_value){
-            $criteria->addCondition("NOT(ISNULL(t.StatusID))");
-          }
+          $rels = array(
+              array('name' => 'status', 'select' => true),
+          );
+          $sel = array(
+              'to_select' => $to_select,
+              'db_field_id' => 't.StatusID',
+              'db_field' => 'status.PersonRequestStatusTypeName',
+          );
+          $widget_column = array('name' => 'status.PersonRequestStatusTypeName', 
+            'header' => $header,
+            'value' => 
+            function ($data){
+              if (!empty($data->status)){
+                echo $data->status->PersonRequestStatusTypeName;
+              }
+            }
+          );
+          $field_num_index = ($to_select)? $field_num_indexes[$i]:0;
+          $this->ProcessFieldTextAlternative($with_rel, $rels, 
+            $select, $sel, 
+            $widget_columns, $widget_column, $field_num_index,
+            $condition_type, $condition_value, $alternative_condition_value,
+            $criteria);
+          ////////////////////////////////////////////
           break;
         case 13:
           $group = 't.idPersonSpeciality';
-          array_push($keys,'t.CreateDate');
-          if ($to_select){
-            $widget_columns[$field_num_indexes[$i]] = 
-                    array('name' => 't.CreateDate', 'header' => $header, 
-                        'value' => 'date("d.m.Y",strtotime($data->CreateDate))');
-          }
-          if ($condition_type == 1 && $condition_value){
-            $condition_date = date('Y-m-d',strtotime(str_replace('.','-',$condition_value)));
-            $criteria->addCondition("MID(t.CreateDate,0,10) = '".$condition_date."'");
-          }
-          if ($condition_type == 2 && $condition_value){
-            $condition_date = date('Y-m-d',strtotime(str_replace('.','-',$condition_value)));
-            $criteria->addCondition("MID(t.CreateDate,0,10) LIKE '%".$condition_date."%'");
-          }
-          if ($condition_type == 4){
-            $criteria->addCondition("t.CreateDate = '' OR ISNULL(t.CreateDate)");
-          }
-          if ($condition_type == 5 && $condition_value && $alternative_condition_value){
-             $condition_date1 = date('Y-m-d',strtotime(str_replace('.','-',$condition_value)));
-             $condition_date2 = date('Y-m-d',strtotime(str_replace('.','-',$alternative_condition_value)));
-            $criteria->addCondition("t.CreateDate BETWEEN '".$condition_date1." 00:00:00' "
-                    . "AND '".$condition_date2." 23:59:59'");
-          }
+          $sel = array(
+              'to_select' => $to_select,
+              'db_field' => 't.CreateDate',
+          );
+          $widget_column = array('name' => 't.CreateDate', 
+            'header' => $header,
+            'value' => 
+            function ($data){
+              echo date('d.m.Y',strtotime($data->CreateDate));
+            }
+          );
+          $field_num_index = ($to_select)? $field_num_indexes[$i]:0;
+          $this->ProcessFieldDateOnly($with_rel, $rels, 
+            $sel, $widget_columns, $widget_column, 
+            $field_num_index,
+            $condition_type, 
+            $condition_value, $alternative_condition_value,
+            $criteria);
+          ////////////////////////////////////////////
           break;
         case 14:
-          $group = 't.idPersonSpeciality';
-          array_push($keys,'ZNO');
-          $ZNO_sql = "concat_ws(';;',
-              IF(ISNULL(t.DocumentSubject1),'',(select concat(concat('предмет1: ',
-              IF(ISNULL(sj1.SubjectName),'відсутній',sj1.SubjectName)),
-                IF(ISNULL(sj1.SubjectName),'',concat('; бал: ',docsj1.SubjectValue,
-                  '; номер: ',d1.Numbers,
-                  '; PIN: ',d1.ZNOPin))) from 
-                documentsubject docsj1 
-                join subjects sj1 on (docsj1.SubjectID=sj1.idSubjects)
-                join documents d1 on (docsj1.DocumentID=d1.idDocuments)
-                where docsj1.idDocumentSubject=t.DocumentSubject1 limit 1
-              )),
-              IF(ISNULL(t.DocumentSubject2),'',(select concat(concat('предмет2: ',
-              IF(ISNULL(sj2.SubjectName),'відсутній',sj2.SubjectName)),
-                IF(ISNULL(sj2.SubjectName),'',concat('; бал: ',docsj2.SubjectValue,
-                  '; номер: ',d2.Numbers,
-                  '; PIN: ',d2.ZNOPin))) from 
-                documentsubject docsj2 
-                join subjects sj2 on (docsj2.SubjectID=sj2.idSubjects)
-                join documents d2 on (docsj2.DocumentID=d2.idDocuments)
-                where docsj2.idDocumentSubject=t.DocumentSubject2 limit 1
-              )),
-              IF(ISNULL(t.DocumentSubject3),'',(select concat(concat('предмет3: ',
-              IF(ISNULL(sj3.SubjectName),'відсутній',sj3.SubjectName)),
-                IF(ISNULL(sj3.SubjectName),'',concat('; бал: ',docsj3.SubjectValue,
-                  '; номер: ',d3.Numbers,
-                  '; PIN: ',d3.ZNOPin))) from 
-                documentsubject docsj3 
-                join subjects sj3 on (docsj3.SubjectID=sj3.idSubjects)
-                join documents d3 on (docsj3.DocumentID=d3.idDocuments)
-                where docsj3.idDocumentSubject=t.DocumentSubject3 limit 1
-              ))
-            )";
-          if ($to_select){
-            array_push($select,new CDbExpression($ZNO_sql." AS ZNO"
-            ));
-            $widget_columns[$field_num_indexes[$i]] =  
-                    array('name' => 'ZNO', 
+          $rels = array(
+              array('name' => 'documentSubject1', 'select' => true),
+              array('name' => 'documentSubject1.subject1', 'select' => true),
+              array('name' => 'documentSubject1.document1', 'select' => true),
+              array('name' => 'documentSubject2', 'select' => true),
+              array('name' => 'documentSubject2.subject2', 'select' => true),
+              array('name' => 'documentSubject2.document2', 'select' => true),
+              array('name' => 'documentSubject3', 'select' => true),
+              array('name' => 'documentSubject3.subject3', 'select' => true),
+              array('name' => 'documentSubject3.document3', 'select' => true),
+          );
+          $sel = array(
+              'to_select' => $to_select,
+              'sql_as' => 'ZNO',
+              'sql_expr' => "group_concat(DISTINCT concat_ws(';;',
+                IF(ISNULL(t.DocumentSubject1),'',
+                  concat(
+                    subject1.SubjectName,
+                    '; бал: ',IF(ISNULL(documentSubject1.SubjectValue),
+                      'немає',documentSubject1.SubjectValue),
+                    '; номер: ',IF(ISNULL(document1.Numbers),
+                      'немає',document1.Numbers),
+                    '; PIN: ',IF(ISNULL(document1.ZNOPin),
+                      'немає',document1.ZNOPin)
+                  )
+                ),
+                IF(ISNULL(t.DocumentSubject2),'',
+                  concat(
+                    subject2.SubjectName,
+                    '; бал: ',IF(ISNULL(documentSubject2.SubjectValue),
+                      'немає',documentSubject2.SubjectValue),
+                    '; номер: ',IF(ISNULL(document2.Numbers),
+                      'немає',document2.Numbers),
+                    '; PIN: ',IF(ISNULL(document2.ZNOPin),
+                      'немає',document2.ZNOPin)
+                  )
+                ),
+                IF(ISNULL(t.DocumentSubject3),'',
+                  concat(
+                    subject3.SubjectName,
+                    '; бал: ',IF(ISNULL(documentSubject3.SubjectValue),
+                      'немає',documentSubject3.SubjectValue),
+                    '; номер: ',IF(ISNULL(document3.Numbers),
+                      'немає',document3.Numbers),
+                    '; PIN: ',IF(ISNULL(document3.ZNOPin),
+                      'немає',document3.ZNOPin)
+                  )
+                )
+              ) SEPARATOR '||')"
+          );
+          $widget_column = array('name' => 'ZNO', 
                         'header' => $header,
                         'value' => 
             function ($data){
-              $zno_arr = array();
-              $zno_nodes = explode('||',$data->ZNO);
-              foreach ($zno_nodes as $zno_node){
-                $zno_subjs = explode(';;',$zno_node);
+              $_arr = array();
+              $_nodes = explode('||',$data->ZNO);
+              foreach ($_nodes as $_node){
+                $_subjs = explode(';;',$_node);
+                if (!$_node){continue;}
                 $is_first = true;
-                foreach ($zno_subjs as $zno_subj){
-                  if (isset($zno_arr[$zno_subj]) || !$zno_subj){
-                    continue;
-                  }
-                  $zno_arr[$zno_subj] = true;
-                  if (!$is_first){
-                    echo '<br/>';
-                  } else{
-                    $is_first = false;
-                  }
-                  echo $zno_subj;
+                foreach ($_subjs as $_subj){
+                  if (isset($_arr[$_subj]) || !$_subj){continue;}
+                  $_arr[$_subj] = true;
+                  if (!$is_first){echo '<br/>';} else{$is_first = false;}
+                  echo $_subj;
                 }
               }
             }
-                        );
-          }
-          if ($condition_type == 1 && $condition_value){
-            $criteria->addCondition($ZNO_sql." LIKE '"
-                    .$condition_value."'");
-          }
-          if (($condition_type == 2 || $condition_type == 3) && $condition_value){
-            $denial = ($condition_type == 3)? "NOT":"";
-            $db_field = $ZNO_sql;
-            $add_criteria = $this->getConditionString($db_field, $condition_value);
-            $criteria->addCondition($denial.'('.$add_criteria.')');
-          }
-          if ($condition_type == 4){
-            $criteria->addCondition("ISNULL(t.DocumentSubject1)");
-            $criteria->addCondition("ISNULL(t.DocumentSubject2)");
-            $criteria->addCondition("ISNULL(t.DocumentSubject3)");
-          }
-          if ($condition_type == 3 && !$condition_value){
-            $criteria->addCondition("NOT(ISNULL(t.DocumentSubject1))");
-            $criteria->addCondition("NOT(ISNULL(t.DocumentSubject2))");
-            $criteria->addCondition("NOT(ISNULL(t.DocumentSubject3))");
-          }
+          );
+          $field_num_index = ($to_select)? $field_num_indexes[$i]:0;
+          $this->ProcessFieldTextOnly($with_rel, $rels, 
+            $select, $sel, 
+            $widget_columns, $widget_column, $field_num_index,
+            $condition_type, $condition_value,
+            $criteria
+          );
+          ///////////////////////////////////////
           break;
         case 16:
-          $group = 't.idPersonSpeciality';
-          $this->addRelationTo('exam1', $with_rel);
-          $this->addRelationTo('exam2', $with_rel);
-          $this->addRelationTo('exam3', $with_rel);
-          array_push($keys,'EXAM');
-          $EXAM_sql = "concat_ws(';;',
-              IF(ISNULL(t.Exam1ID),'',
-              concat('іспит1: ',exam1.SubjectName,'; бал: ',
-              IF(ISNULL(t.Exam1Ball),'немає',t.Exam1Ball))),
-              IF(ISNULL(t.Exam2ID),'',
-              concat('іспит2: ',exam2.SubjectName,'; бал: ',
-              IF(ISNULL(t.Exam2Ball),'немає',t.Exam2Ball))),
-              IF(ISNULL(t.Exam3ID),'',
-              concat('іспит3: ',exam3.SubjectName,'; бал: ',
-              IF(ISNULL(t.Exam3Ball),'немає',t.Exam3Ball)))
-            )";
-          if ($to_select){
-            array_push($select,new CDbExpression($EXAM_sql." AS EXAM"
-            ));
-            $widget_columns[$field_num_indexes[$i]] =  
-                    array('name' => 'EXAM', 
+          //$group = 't.idPersonSpeciality';
+          $rels = array(
+              array('name' => 'exam1', 'select' => true),
+              array('name' => 'exam2', 'select' => true),
+              array('name' => 'exam3', 'select' => true),
+          );
+          $sel = array(
+              'to_select' => $to_select,
+              'sql_as' => 'EXAM',
+              'sql_expr' => "concat_ws(';;',
+                IF(ISNULL(t.Exam1ID),'',
+                concat(exam1.SubjectName,'; бал: ',
+                IF(ISNULL(t.Exam1Ball),'немає',t.Exam1Ball))),
+                IF(ISNULL(t.Exam2ID),'',
+                concat(exam2.SubjectName,'; бал: ',
+                IF(ISNULL(t.Exam2Ball),'немає',t.Exam2Ball))),
+                IF(ISNULL(t.Exam3ID),'',
+                concat(exam3.SubjectName,'; бал: ',
+                IF(ISNULL(t.Exam3Ball),'немає',t.Exam3Ball)))
+              )",
+             'group_concat' => true,
+          );
+          $widget_column = array('name' => 'EXAM', 
                         'header' => $header,
                         'value' => 
             function ($data){
-              $exam_arr = array();
-              $exam_nodes = explode('||',$data->EXAM);
-              foreach ($exam_nodes as $exam_node){
-                $exam_subjs = explode(';;',$exam_node);
+              $_arr = array();
+              $_nodes = explode('||',$data->EXAM);
+              foreach ($_nodes as $_node){
+                $_subjs = explode(';;',$_node);
+                if (!$_node){continue;}
                 $is_first = true;
-                foreach ($exam_subjs as $exam_subj){
-                  if (isset($exam_arr[$exam_subj]) || !$exam_subj){
-                    continue;
-                  }
-                  $exam_arr[$exam_subj] = true;
-                  if (!$is_first){
-                    echo '<br/>';
-                  } else{
-                    $is_first = false;
-                  }
-                  echo $exam_subj;
+                foreach ($_subjs as $_subj){
+                  if (isset($_arr[$_subj]) || !$_subj){continue;}
+                  $_arr[$_subj] = true;
+                  if (!$is_first){echo '<br/>';} else{$is_first = false;}
+                  echo $_subj;
                 }
               }
             }
-                        );
-          }
-          if ($condition_type == 1 && $condition_value){
-            $criteria->addCondition($EXAM_sql." LIKE '"
-                    .$condition_value."'");
-          }
-          if (($condition_type == 2 || $condition_type == 3) && $condition_value){
-            $denial = ($condition_type == 3)? "NOT":"";
-            $db_field = $EXAM_sql;
-            $add_criteria = $this->getConditionString($db_field, $condition_value);
-            $criteria->addCondition($denial.'('.$add_criteria.')');
-          }
-          if ($condition_type == 4){
-            $criteria->addCondition("ISNULL(t.Exam1ID)");
-            $criteria->addCondition("ISNULL(t.Exam2ID)");
-            $criteria->addCondition("ISNULL(t.Exam3ID)");
-          }
-          if ($condition_type == 3 && !$condition_value){
-            $criteria->addCondition("NOT(ISNULL(t.Exam1ID)) "
-                    . "AND NOT(ISNULL(t.Exam2ID)) AND NOT(ISNULL(t.Exam3ID))");
-          }
+          );
+          $field_num_index = ($to_select)? $field_num_indexes[$i]:0;
+          $this->ProcessFieldTextOnly($with_rel, $rels, 
+            $select, $sel, 
+            $widget_columns, $widget_column, $field_num_index,
+            $condition_type, $condition_value,
+            $criteria
+          );
+          ///////////////////////////////////////
           break;
         case 18:
-          $this->addRelationTo('person', $with_rel);
-          $this->addRelationTo('person.docs', $with_rel, false);
-          $this->addRelationTo('person.docs.type', $with_rel, false);
-          array_push($keys,'DOCS');
-          $DOCS_sql = "group_concat(
-              concat(
-                type.PersonDocumentTypesName,
-                ': ',
-                IF(ISNULL(docs.Series),'',docs.Series),' ',
-                IF(ISNULL(docs.Numbers),'',concat(docs.Numbers,' ')),
-                IF((ISNULL(docs.Issued) OR docs.Issued=''),'',concat('видано ',docs.Issued,', ')),
-                IF((ISNULL(docs.DateGet) OR docs.DateGet LIKE '1970-01-01'),'',concat('дата видачі ',docs.DateGet,' ')),
-                IF ((ISNULL(docs.AtestatValue) OR docs.AtestatValue = 0),'',
-                concat('(значення: ',docs.AtestatValue, ')'))
-              ) SEPARATOR ';;'
-            )";
-          if ($to_select){
-            array_push($select,new CDbExpression($DOCS_sql." AS DOCS"
-            ));
-            $widget_columns[$field_num_indexes[$i]] =  
-                    array('name' => 'DOCS', 
+          $rels = array(
+              array('name' => 'person', 'select' => true),
+              array('name' => 'person.docs', 'select' => false),
+              array('name' => 'person.docs.type', 'select' => false),
+          );
+          $sel = array(
+              'to_select' => $to_select,
+              'sql_as' => 'DOCS',
+              'sql_expr' => "concat(
+                    type.PersonDocumentTypesName,
+                    ': ',
+                    IF(ISNULL(docs.Series),'',docs.Series),' ',
+                    IF(ISNULL(docs.Numbers),'',concat(docs.Numbers,' ')),
+                    IF((ISNULL(docs.Issued) OR docs.Issued=''),
+                      '',concat('видано: ',docs.Issued,', ')),
+                    IF((ISNULL(docs.DateGet) OR docs.DateGet LIKE '1970-01-01'),
+                      '',concat('дата видачі ',docs.DateGet,' ')),
+                    IF ((ISNULL(docs.AtestatValue) OR docs.AtestatValue = 0),'',
+                    concat('(значення: ',docs.AtestatValue, ')'))
+                  )",
+              'group_concat' => true,
+          );
+          $widget_column = array('name' => 'DOCS', 
                         'header' => $header,
                         'value' => 
             function ($data){
-              $docs_arr = array();
-              $docs_nodes = explode('||',$data->DOCS);
-              foreach ($docs_nodes as $docs_node){
-                $docs_subjs = explode(';;',$docs_node);
+              $_arr = array();
+              $_nodes = explode('||',$data->DOCS);
+              foreach ($_nodes as $_node){
+                $_subjs = explode(';;',$_node);
+                if (!$_node){continue;}
                 $is_first = true;
-                foreach ($docs_subjs as $docs_subj){
-                  if (isset($docs_arr[$docs_subj]) || !$docs_subj){
-                    continue;
-                  }
-                  $docs_arr[$docs_subj] = true;
-                  if (!$is_first){
-                    echo '<br/>';
-                  } else{
-                    $is_first = false;
-                  }
-                  echo $docs_subj;
+                foreach ($_subjs as $_subj){
+                  if (isset($_arr[$_subj]) || !$_subj){continue;}
+                  $_arr[$_subj] = true;
+                  if (!$is_first){echo '<br/>';} else{$is_first = false;}
+                  echo $_subj;
                 }
               }
             }
-                        );
-          }
-          if ($condition_type == 1 && $condition_value){
-            $criteria->addCondition($DOCS_sql." LIKE '"
-                    .$condition_value."'");
-          }
-          if (($condition_type == 2 || $condition_type == 3) && $condition_value){
-            $denial = ($condition_type == 3)? "NOT":"";
-            $db_field = $DOCS_sql;
-            $add_criteria = $this->getConditionString($db_field, $condition_value);
-            $criteria->addCondition($denial.'('.$add_criteria.')');
-          }
-          if ($condition_type == 4){
-            $criteria->addCondition("ISNULL(docs.PersonID)");
-          }
-          if ($condition_type == 3 && !$condition_value){
-            $criteria->addCondition("NOT(ISNULL(docs.PersonID))");
-          }
+          );
+          $field_num_index = ($to_select)? $field_num_indexes[$i]:0;
+          $this->ProcessFieldTextOnly($with_rel, $rels, 
+            $select, $sel, 
+            $widget_columns, $widget_column, $field_num_index,
+            $condition_type, $condition_value,
+            $criteria
+          );
+          ///////////////////////////////////////
+          break;
+        case 19:
+          $rels = array(
+              array('name' => 'person', 'select' => true),
+              array('name' => 'person.benefits', 'select' => false),
+              array('name' => 'person.benefits.benefit', 'select' => false),
+          );
+          $sel = array(
+              'to_select' => $to_select,
+              'sql_as' => 'BENEFITS',
+              'sql_expr' => "
+                concat(
+                    benefit.BenefitName,
+                    ': ',
+                    IF(ISNULL(benefits.Series),'',concat('серія: ',benefits.Series)),' ',
+                    IF(ISNULL(benefits.Numbers),'',concat('номер: ',benefits.Numbers,' ')),
+                    IF((ISNULL(benefits.Issued) OR benefits.Issued=''),
+                      '',concat('видано: ',benefits.Issued,', ')),
+                    IF ((benefit.isPV = 1),' (першочергово)',''),
+                    IF ((benefit.isPZK = 1),' (поза конкурсом)','')
+                  )",
+              'group_concat' => true,
+          );
+          $widget_column = array('name' => 'BENEFITS', 
+                        'header' => $header,
+                        'type' => 'raw',
+                        'value' => 
+            function ($data){
+              $_arr = array();
+              $_nodes = explode('||',$data->BENEFITS);
+              foreach ($_nodes as $_node){
+                $_subjs = explode(';;',$_node);
+                if (!$_node){continue;}
+                $is_first = true;
+                foreach ($_subjs as $_subj){
+                  if (isset($_arr[$_subj]) || !$_subj){continue;}
+                  $_arr[$_subj] = true;
+                  if (!$is_first){echo '<br/>';} else{$is_first = false;}
+                  echo $_subj;
+                }
+              }
+            }
+          );
+          $field_num_index = ($to_select)? $field_num_indexes[$i]:0;
+          $this->ProcessFieldTextOnly($with_rel, $rels, 
+            $select, $sel, 
+            $widget_columns, $widget_column, $field_num_index,
+            $condition_type, $condition_value,
+            $criteria
+          );
+          ///////////////////////////////////////
+          break;
+        case 20:
+          $rels = array(
+              array('name' => 'person', 'select' => true),
+              array('name' => 'person.benefits', 'select' => false),
+              array('name' => 'person.benefits.benefit', 'select' => false),
+          );
+          $sel = array(
+              'to_select' => $to_select,
+              'db_field_id' => 'benefits.BenefitID',
+              'sql_as' => 'BENTYPES',
+              'sql_expr' => 'benefit.BenefitName',
+              'group_concat' => true,
+          );
+          $widget_column = array('name' => 'BENTYPES', 
+                        'header' => $header,
+                        'value' => 
+            function ($data){
+              echo $data->BENTYPES;
+            }
+          );
+          $field_num_index = ($to_select)? $field_num_indexes[$i]:0;
+          $this->ProcessFieldTextAlternative($with_rel, $rels, 
+            $select, $sel, 
+            $widget_columns, $widget_column, $field_num_index,
+            $condition_type, $condition_value, $alternative_condition_value,
+            $criteria
+          );
+          ///////////////////////////////////////
+          break;
+        case 21:
+          $rels = array(
+              array('name' => 'person', 'select' => true),
+              array('name' => 'person.benefits', 'select' => false),
+              array('name' => 'person.benefits.benefit', 'select' => false),
+          );
+          $sel = array(
+              'to_select' => $to_select,
+              'db_field' => 'benefit.isPV',
+          );
+          $widget_column = array('name' => 'benefit.isPV', 
+            'header' => $header,
+            'value' => 
+            function ($data){
+              if (!empty($data->person->benefits)){
+                $echo = 'ні';
+                foreach ($data->person->benefits as $ben){
+                  if ($ben->benefit->isPV){
+                    $echo = 'так';
+                  }
+                }
+                echo $echo;
+              }
+            }
+          );
+          $field_num_index = ($to_select)? $field_num_indexes[$i]:0;
+          $this->ProcessFieldCheckboxOnly($with_rel, $rels, 
+            $sel, $widget_columns, $widget_column, 
+            $field_num_index,
+            $condition_type, $condition_value,
+            $criteria);
+          ////////////////////////////////////////////
+          break;
+        case 22:
+          $rels = array(
+              array('name' => 'person', 'select' => true),
+              array('name' => 'person.benefits', 'select' => false),
+              array('name' => 'person.benefits.benefit', 'select' => false),
+          );
+          $sel = array(
+              'to_select' => $to_select,
+              'db_field' => 'benefit.isPZK',
+          );
+          $widget_column = array('name' => 'benefit.isPZK', 
+            'header' => $header,
+            'value' => 
+            function ($data){
+              if (!empty($data->person->benefits)){
+                $echo = 'ні';
+                foreach ($data->person->benefits as $ben){
+                  if ($ben->benefit->isPZK){
+                    $echo = 'так';
+                  }
+                }
+                echo $echo;
+              }
+            }
+          );
+          $field_num_index = ($to_select)? $field_num_indexes[$i]:0;
+          $this->ProcessFieldCheckboxOnly($with_rel, $rels, 
+            $sel, $widget_columns, $widget_column, 
+            $field_num_index,
+            $condition_type, $condition_value,
+            $criteria);
+          ////////////////////////////////////////////
+          break;
+        case 15:
+          $group = 't.idPersonSpeciality';
+          $rels = array(
+              array('name' => 'sepciality', 'select' => true),
+              array('name' => 'sepciality.eduform', 'select' => true),
+          );
+          $sel = array(
+              'to_select' => $to_select,
+              'db_field_id' => 'sepciality.PersonEducationFormID',
+              'db_field' => 'eduform.PersonEducationFormName',
+          );
+          $widget_column = array('name' => 'eduform.PersonEducationFormName', 
+            'header' => $header,
+            'value' => 
+            function ($data){
+              echo $data->sepciality->eduform->PersonEducationFormName;
+            }
+          );
+          $field_num_index = ($to_select)? $field_num_indexes[$i]:0;
+          $this->ProcessFieldTextAlternative($with_rel, $rels, 
+            $select, $sel, 
+            $widget_columns, $widget_column, $field_num_index,
+            $condition_type, $condition_value, $alternative_condition_value,
+            $criteria);
+          ////////////////////////////////////////////
+          break;
+        case 17:
+          $group = 't.idPersonSpeciality';
+          $rels = array(
+              array('name' => 'qualification', 'select' => true),
+          );
+          $sel = array(
+              'to_select' => $to_select,
+              'db_field_id' => 't.QualificationID',
+              'db_field' => 'qualification.QualificationName',
+          );
+          $widget_column = array('name' => 'qualification.QualificationName', 
+            'header' => $header,
+            'value' => 
+            function ($data){
+              if (!empty($data->qualification)){
+                echo $data->qualification->QualificationName;
+              }
+            }
+          );
+          $field_num_index = ($to_select)? $field_num_indexes[$i]:0;
+          $this->ProcessFieldTextAlternative($with_rel, $rels, 
+            $select, $sel, 
+            $widget_columns, $widget_column, $field_num_index,
+            $condition_type, $condition_value, $alternative_condition_value,
+            $criteria);
+          ////////////////////////////////////////////
+          break;
+        case 23:
+          $group = 't.idPersonSpeciality';
+          $rels = array(
+              array('name' => 'sepciality', 'select' => true),
+          );
+          $DIRECTION_sql = "concat_ws(' ',"
+                  . "SpecialityClasifierCode,"
+                  . "(case substr(SpecialityClasifierCode,1,1) when '6' then "
+                  . "SpecialityDirectionName else SpecialityName end),"
+                  . "(case SpecialitySpecializationName when '' then '' "
+                  . " else concat('(',SpecialitySpecializationName,')') end)"
+                  . ")";
+          $sel = array(
+              'to_select' => $to_select,
+              'sql_as' => 'DIRECTION',
+              'sql_expr' => $DIRECTION_sql,
+              'group_concat' => false,
+          );
+          $widget_column = array('name' => 'DIRECTION', 
+            'header' => $header,
+            'value' => 
+            function ($data){
+              echo $data->DIRECTION;
+            }
+          );
+          $field_num_index = ($to_select)? $field_num_indexes[$i]:0;
+          $this->ProcessFieldTextOnly($with_rel, $rels, 
+            $select, $sel, 
+            $widget_columns, $widget_column, $field_num_index,
+            $condition_type, $condition_value,
+            $criteria
+          );
+          ////////////////////////////////////////////
           break;
       }
     }
@@ -756,16 +966,16 @@ class ReptController extends Controller {
         'criteria' => $criteria,
         'sort' => array(
             'defaultOrder' => array(
-                'idPersonSpeciality' => CSort::SORT_DESC,
+                'idPersonSpeciality' => CSort::SORT_ASC,
             ),
             'attributes' => array(
                 'NAME' => array(
                     'asc' => 'NAME',
                     'desc' => 'NAME DESC',
                 ),
-                'SPEC' => array(
-                    'asc' => 'SPEC',
-                    'desc' => 'SPEC DESC',
+                'DIRECTION' => array(
+                    'asc' => 'sepciality.SpecialityName ASC,sepciality.SpecialityDirectionName ASC,sepciality.SpecialityClasifierCode ASC',
+                    'desc' => 'sepciality.SpecialityName DESC,sepciality.SpecialityDirectionName DESC,sepciality.SpecialityClasifierCode DESC',
                 ),
                 'KOATUU' => array(
                     'asc' => 'KOATUU',
@@ -774,6 +984,14 @@ class ReptController extends Controller {
                 'ZNO' => array(
                     'asc' => 'ZNO',
                     'desc' => 'ZNO DESC',
+                ),
+                'BENEFITS' => array(
+                    'asc' => 'BENEFITS',
+                    'desc' => 'BENEFITS DESC',
+                ),
+                'DOCS' => array(
+                    'asc' => 'DOCS',
+                    'desc' => 'DOCS DESC',
                 ),
                 'status.PersonRequestStatusTypeName' => array(
                     'asc' => 'status.PersonRequestStatusTypeName',
@@ -807,11 +1025,11 @@ class ReptController extends Controller {
             ),
         ),
         'pagination'=>array(
-            'pageSize'=>150,
+            'pageSize'=> ($reqExcel)? 15000:150,
         ),
     ));
     $dataProvider->setTotalItemCount(count($model->findAll($criteria)));
-    $this->layout = '//layouts/main_noblock';
+    $this->layout = ($reqExcel)? '//layouts/clear' : '//layouts/main_noblock';
     $direct_widget_columns = array();
     for ($i = 0; $i < count($field_nums); $i++){
       foreach ($widget_columns as $key=>$value){
@@ -821,7 +1039,7 @@ class ReptController extends Controller {
       }
     }
     
-    $this->render('/statistic/rept',array(
+    $this->render(($reqExcel)? '/statistic/rept_excel':'/statistic/rept',array(
         'data' => $dataProvider,
         'columns' => $direct_widget_columns,
     ));
@@ -861,4 +1079,208 @@ class ReptController extends Controller {
     return $add_criteria;
   }
   
+  protected function ProcessFieldTextOnly(&$with_rel, $rels, 
+          &$select, $sel, 
+          &$widget_columns, $widget_column, $field_num_index,
+          $condition_type, $condition_value,
+          &$criteria){
+    //$sel['sql_expr']
+    //$sel['sql_as']
+    //$sel['group_concat']
+    //$sel['db_field']
+    //$sel['to_select']
+    //$rel['name']
+    //$rel['select']
+    if (!isset($sel['group_concat'])){
+      $sel['group_concat'] = false;
+    }
+    if (!empty($rels)){
+      foreach ($rels as $rel){
+        $this->addRelationTo($rel['name'], $with_rel, $rel['select']);
+      }
+    }
+    $to_select = $sel['to_select'];
+    $sql_expr = '';
+    $db_field = '';
+    if (isset($sel['sql_expr'])){
+      $sql_expr = $sel['sql_expr'];
+      $sql_as = $sel['sql_as'];
+    } else {
+      $db_field = $sel['db_field'];
+    }
+    if ($to_select){
+      if ($sql_expr){
+        $_sql_expr = ($sel['group_concat'])? 
+          'GROUP_CONCAT(DISTINCT '.$sql_expr.' SEPARATOR ";;")' : 
+          $sql_expr;
+        array_push($select,new CDbExpression($_sql_expr." AS ".$sql_as
+        ));
+      }
+      $widget_columns[$field_num_index] =  
+              $widget_column;
+    }
+    if ($condition_type == 1 && $condition_value){
+      $criteria->addCondition($sql_expr." LIKE '"
+              .$condition_value."'");
+    }
+    if (($condition_type == 2 || $condition_type == 3) && $condition_value){
+      $denial = ($condition_type == 3)? "NOT":"";
+      if ($sql_expr){
+        $db_field = $sql_expr;
+      }
+      $add_criteria = $this->getConditionString($db_field, $condition_value);
+      $criteria->addCondition($denial.'('.$add_criteria.')');
+    }
+    if ($condition_type == 4){
+      if ($sql_expr){
+        $db_field = $sql_expr;
+      }
+      $criteria->addCondition("ISNULL(".$db_field.") OR ".$db_field."=''");
+    }
+    if ($condition_type == 3 && !$condition_value){
+      if ($sql_expr){
+        $db_field = $sql_expr;
+      }
+      $criteria->addCondition("NOT(ISNULL(".$db_field.") OR ".$db_field."='')");
+    }
+    return false;
   }
+  
+  
+  protected function ProcessFieldTextAlternative(&$with_rel, $rels, 
+          &$select, $sel, 
+          &$widget_columns, $widget_column, $field_num_index,
+          $condition_type, $condition_value, $alternative_condition_value,
+          &$criteria){
+    //$sel['sql_expr']
+    //$sel['sql_as']
+    //$sel['db_field']
+    //$sel['db_field_id']
+    //$sel['to_select']
+    //$rel['name']
+    //$rel['select']
+    if (!isset($sel['group_concat'])){
+      $sel['group_concat'] = false;
+    }
+    if (!empty($rels)){
+      foreach ($rels as $rel){
+        $this->addRelationTo($rel['name'], $with_rel, $rel['select']);
+      }
+    }
+    $to_select = $sel['to_select'];
+    $sql_expr = '';
+    $db_field = '';
+    $db_field_id = $sel['db_field_id'];
+    if (isset($sel['sql_expr'])){
+      $sql_expr = $sel['sql_expr'];
+      $sql_as = $sel['sql_as'];
+    } else {
+      $db_field = $sel['db_field'];
+    }
+    if ($to_select){
+      if ($sql_expr){
+        $_sql_expr = ($sel['group_concat'])? 
+          'GROUP_CONCAT(DISTINCT '.$sql_expr.' SEPARATOR ";;")' : 
+          $sql_expr;
+        array_push($select,new CDbExpression($_sql_expr." AS ".$sql_as
+        ));
+      }
+      $widget_columns[$field_num_index] =  
+              $widget_column;
+    }
+    if ($condition_type == 1 && $alternative_condition_value){
+      $criteria->addCondition($db_field_id." = '"
+              .$alternative_condition_value."'");
+    }
+    if (($condition_type == 2 || $condition_type == 3) && $condition_value){
+      $denial = ($condition_type == 3)? "NOT":"";
+      if ($sql_expr){
+        $db_field = $sql_expr;
+      }
+      $add_criteria = $this->getConditionString($db_field, $condition_value);
+      $criteria->addCondition($denial.'('.$add_criteria.')');
+    }
+    if ($condition_type == 4){
+      $criteria->addCondition("ISNULL(".$db_field_id.") OR ".$db_field_id."=''");
+    }
+    if ($condition_type == 3 && !$condition_value){
+      $criteria->addCondition("NOT(ISNULL(".$db_field_id.") OR ".$db_field_id."='')");
+    }
+    return false;
+  }
+  
+  protected function ProcessFieldDateOnly(&$with_rel, $rels, 
+          $sel, &$widget_columns, $widget_column, 
+          $field_num_index,
+          $condition_type, 
+          $condition_value, $alternative_condition_value,
+          &$criteria){
+    //$sel['db_field']
+    //$sel['to_select']
+    //$rel['name']
+    //$rel['select']
+    if (!empty($rels)){
+      foreach ($rels as $rel){
+        $this->addRelationTo($rel['name'], $with_rel, $rel['select']);
+      }
+    }
+    $to_select = $sel['to_select'];
+    $db_field = $sel['db_field'];
+ 
+    if ($to_select){
+      $widget_columns[$field_num_index] =  
+              $widget_column;
+    }
+    if ($condition_type == 1 && $condition_value){
+      $condition_date = date('Y-m-d',strtotime(str_replace('.','-',$condition_value)));
+      $criteria->addCondition($db_field." = '".$condition_date."'");
+    }
+    if ($condition_type == 2 && $condition_value){
+      $condition_date = date('Y-m-d',strtotime(str_replace('.','-',$condition_value)));
+      $criteria->addCondition($db_field." LIKE '%".$condition_date."%'");
+    }
+    if ($condition_type == 4){
+      $criteria->addCondition($db_field." = '' OR ISNULL(".$db_field.")");
+    }
+    if ($condition_type == 5 && $condition_value && $alternative_condition_value){
+      $condition_date1 = date('Y-m-d',strtotime(str_replace('.','-',$condition_value)));
+      $condition_date2 = date('Y-m-d',strtotime(str_replace('.','-',$alternative_condition_value)));
+      $criteria->addCondition($db_field." BETWEEN '".$condition_date1."' "
+              . "AND '".$condition_date2."'");
+    }
+    return false;
+  }
+  
+  protected function ProcessFieldCheckboxOnly(&$with_rel, $rels, 
+          $sel, &$widget_columns, $widget_column, 
+          $field_num_index,
+          $condition_type, $condition_value,
+          &$criteria){
+    //$sel['db_field']
+    //$sel['to_select']
+    //$rel['name']
+    //$rel['select']
+    if (!empty($rels)){
+      foreach ($rels as $rel){
+        $this->addRelationTo($rel['name'], $with_rel, $rel['select']);
+      }
+    }
+    $to_select = $sel['to_select'];
+    $db_field = $sel['db_field'];
+ 
+    if ($to_select){
+      $widget_columns[$field_num_index] =  
+              $widget_column;
+    }
+    if ($condition_type == 1){
+      $cvalue = ($condition_value)? '1':'0';
+      $criteria->addCondition($db_field." = '"
+              .$cvalue."'");
+    }
+    if ($condition_type == 4){
+      $criteria->addCondition("ISNULL(".$db_field.")");
+    }
+    return false;
+  }
+  
+}
