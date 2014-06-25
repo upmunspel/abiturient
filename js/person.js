@@ -455,8 +455,16 @@ PSN.appendSpec= function(obj, link){
 /**
 * EntranceType Change
 */
- PSN.changeEntranceType = function(obj, link ){
+ PSN.changeEntranceType = function(obj, link, link1 ){
     var EntranceType =  parseInt($(obj,":selected").val());
+     $.ajax({
+    'url': link1,
+    'data': 'id='+EntranceType,
+    'type':'GET',
+    success: function (data) { 
+            $("#Personspeciality_CausalityID").html(data);
+        }
+    });
     switch (EntranceType) {
         case 1:
            $(".examsujects select :first").attr("selected","selected");
@@ -508,6 +516,7 @@ PSN.appendSpec= function(obj, link){
     });
      
  }
+
 String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1).toLowerCase();
 }

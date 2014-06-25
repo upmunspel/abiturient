@@ -59,13 +59,15 @@ $form= new TbActiveForm();
                 </label>
                 
             </div>
-              <?php if (Yii::app()->user->checkAccess("showFullEntrantForm")): ?>
+            <?php if (Yii::app()->user->checkAccess("showSpecEdboID")): ?>
             <div class="span1">
                     <?php echo $form->labelEx($model,'edboID'); ?>
                     <?php echo $form->textField($model,'edboID',array('class'=>"span12")); ?>
                     <?php //echo $form->error($model,'AdditionalBall'); ?>
             </div>
-            <?php //if (Yii::app()->user->checkAccess("showFullEntrantForm")): ?>
+            <?php endif; ?>
+            
+            <?php if (Yii::app()->user->checkAccess("showSpecStatus")): ?>
             <div class="span2">
                     <?php echo $form->labelEx($model,'StatusID'); ?>
                     <?php echo $form->dropDownList($model, 'StatusID', CHtml::listData( Personrequeststatustypes::model()->findAll(), "idPersonRequestStatusType", "PersonRequestStatusTypeName"), array('empty'=>"",'class'=>"span12")); ?>
@@ -89,13 +91,17 @@ $form= new TbActiveForm();
                          </div>
                             <?php //echo $form->error($model,'isCopyEntrantDoc'); ?>
                     </div>
-                    <?php  if (Yii::app()->user->checkAccess("showFullEntrantForm")): ?>
+                    
+                    <?php  if (Yii::app()->user->checkAccess("showSpecEmptyBall")): ?>
                         <div class="span4">
                              <?php echo $form->labelEx($model,'SkipDocumentValue'); ?>
                              <div class="switch" data-on-label="Так" data-off-label="Ні">
                                 <?php echo $form->checkBox($model,'SkipDocumentValue'); ?>
                              </div>
                         </div>
+                    <?php  endif; ?>
+                    
+                    <?php  if (Yii::app()->user->checkAccess("showSpecEdboRequest")): ?>
                         <div class="span4">
                              <?php echo $form->labelEx($model,'RequestFromEB'); ?>
                              <div class="switch" data-on-label="Так" data-off-label="Ні">
@@ -106,13 +112,13 @@ $form= new TbActiveForm();
                 </div>
             </div>
             <div class="span3">
-                <?php  if (Yii::app()->user->checkAccess("showFullEntrantForm")): ?>
+                <?php  $access = Yii::app()->user->checkAccess("editSpecLanguage") ? "":"disabled"; ?>
 		<?php echo $form->labelEx($model,'LanguageID'); ?>
 		<?php echo $form->dropDownList(
                                 $model,'LanguageID', CHtml::listData(Languages::model()->findAll(), 'idLanguages', 'LanguagesName'),
-                                array(  'empty'=>'','class'=>'span12')
+                                array(  'empty'=>'','class'=>'span12', 'disabled'=>$access)
                             ); ?>
-		<?php  endif; ?>
+		
             </div>
             
         </div>
@@ -180,15 +186,18 @@ $form= new TbActiveForm();
             </div>
             
             <div class="span4">
-                    <?php echo $form->labelEx($model,'EntranceTypeID'); ?>
+                    <?php 
+                    if (empty($model->EntranceTypeID)) { $model->EntranceTypeID = 1; }
+                     $url1 = Yii::app()->createUrl("personspeciality/entrance");
+                    echo $form->labelEx($model,'EntranceTypeID'); ?>
                     <?php echo $form->dropDownList($model,'EntranceTypeID',CHtml::listData(Personenterancetypes::model()->findAll(), 'idPersonEnteranceType', 'PersonEnteranceTypeName'),
-                            array('empty'=>'', 'class'=>"span12",'onchange'=>"PSN.changeEntranceType(this, '$url')", )); ?>
+                            array('empty'=>'', 'class'=>"span12",'onchange'=>"PSN.changeEntranceType(this, '$url', '$url1' )", )); ?>
                     <?php //echo $form->error($model,'EntranceTypeID'); ?>
             </div>
             
             <div class="span6">
                     <?php echo $form->labelEx($model,'CausalityID'); ?>
-                    <?php echo $form->dropDownList($model,'CausalityID', CHtml::listData(Causality::model()->findAll(), 'idCausality', 'CausalityName'),
+                    <?php echo $form->dropDownList($model,'CausalityID', CHtml::listData(Causality::model()->findAll("PersonEnteranceTypeID = {$model->EntranceTypeID}"), 'idCausality', 'CausalityName'),
                             array('empty'=>'', 'class'=>"span12 causality",
                                 "disabled"=>$model->EntranceTypeID == 1 ? "disabled":"")); ?>
                     <?php //echo $form->error($model,'CausalityID'); ?>
@@ -196,7 +205,7 @@ $form= new TbActiveForm();
 
 		
 	</div>
-    
+       <?php if (Yii::app()->user->checkAccess("showAddBall")): ?>
         <div class="row-fluid">
 <!--            <div class="span2">
                  <?php //echo $form->labelEx($model,'isTarget'); ?>
@@ -225,6 +234,7 @@ $form= new TbActiveForm();
                     <?php //echo $form->error($model,'AdditionalBall'); ?>
             </div>-->
         </div>
+        <?php endif; ?>
     <!-- ZNO -->	
     <div class="row-fluid" id="subjects-holder">
        <?php $this->renderPartial("_subjects_holder", array("model"=>$model,'specialityid'=>$model->SepcialityID)); ?>
@@ -249,14 +259,14 @@ $form= new TbActiveForm();
         <?php if (Yii::app()->user->checkAccess("showFullEntrantForm")): ?>
           
             <div class="row-fluid">
-
+                <?php if (Yii::app()->user->checkAccess("showSpecOlimpiada")): ?>
                 <div class="span6">
                         <?php echo $form->labelEx($model,'OlympiadID'); ?>
                         <?php echo $form->dropDownList($model,'OlympiadID', Olympiadsawards::DropDown(), array('empty'=>"",'class'=>"span12")); ?>
                         <?php //echo $form->error($model,'CoursedpID'); ?>
                 </div>
-
-                <div class="span3">
+                <?php endif; ?>
+                <!--<div class="span3">
                         <?php  echo $form->labelEx($model,'Quota1'); ?>
                      <div class="switch" data-on-label="Так" data-off-label="Ні">
                         <?php  echo $form->checkBox($model,'Quota1'); ?>
@@ -269,19 +279,20 @@ $form= new TbActiveForm();
                         <?php  echo $form->checkBox($model,'Quota2'); ?>
                      </div>
                         <?php //echo $form->error($model,'isContact'); ?>
-                </div>
+                </div>-->
 
             </div>
        
         </div>
         <div class="span6">
+             <?php if (Yii::app()->user->checkAccess("showBenefits")): ?>
              <div class="row-fluid">
             <?php echo $form->labelEx($model,'benefits'); ?>
                     <?php echo $form->dropDownList($model, 'benefits', 
                             CHtml::listData(Personbenefits::model()->findAll("PersonID = {$model->PersonID}"), "idPersonBenefits", "benefit.BenefitName"), 
                             array('empty'=>"", 'style'=>"width: 100%;", "multiple"=>"multiple")); ?>
              </div>
-                           
+            <?php endif; ?>      
         </div>
          <?php endif; ?>
     </div>    

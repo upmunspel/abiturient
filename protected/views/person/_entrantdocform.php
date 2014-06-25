@@ -97,23 +97,28 @@
             } ?>
           <?php echo $form->dropDownList($model,'[entrantdoc]PersonDocumentsAwardsTypesID', CHtml::listData(Persondocumentsawardstypes::model()->findAll($c), 'idPersonDocumentsAwardsTypes', 'PersonDocumentsAwardsTypesName'),array('empty'=>'','class'=>'span12')); ?>
     </div>
+    
+    <?php if (Yii::app()->user->checkAccess("showForeignDoc")): ?>
     <div class ="span2">
         <?php  echo $form->labelEx($model,'[entrantdoc]isForeinghEntrantDocument'); ?>
         <div class="switch" data-on-label="Так" data-off-label="Ні">
             <?php echo $form->checkBox($model,'[entrantdoc]isForeinghEntrantDocument'); ?>
         </div>
     </div>
+    <?php endif; ?>
+    
+    <?php if (Yii::app()->user->checkAccess("showAtestatNoValid")): ?>
     <div class ="span2">
        <?php  echo $form->labelEx($model,'[entrantdoc]isNotCheckAttestat'); ?>
         <div class="switch" data-on-label="Так" data-off-label="Ні">
             <?php echo $form->checkBox($model,'[entrantdoc]isNotCheckAttestat'); ?>
         </div>
     </div>
-    
+    <?php endif; ?>
     
     <?php 
     // Не отображать ели магистр или специалист
-    if (($user->syspk->QualificationID == 2 || $user->syspk->QualificationID == 3) ):?>
+    if (($user->syspk->QualificationID == 2 || $user->syspk->QualificationID == 3) && Yii::app()->user->checkAccess("showBaseLine") ):?>
     <div class ="span5">
         <?php echo $form->labelEx($model,'[entrantdoc]PersonBaseSpecealityID'); ?>
         <?php echo $form->dropDownList($model, '[entrantdoc]PersonBaseSpecealityID', Personbasespeciality::DropDown(),array('empty'=>"", 'class'=>'span12')); ?>

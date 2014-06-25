@@ -10,20 +10,23 @@
                 array(  'label'=>'Пільги', 
                         'content'=>$this->renderPartial("tabs/_benefits",array("models"=>$model->benefits, 'personid'=>$model->idPerson),true), 
                         'active'=>false, 
-                        'id'=>"benefits"),
+                        'id'=>"benefits", 
+                        'visible'=>Yii::app()->user->checkAccess("showBenefits") ,
+                        ),
                 array(  'label'=>'Спеціальності', 
                         'content'=>$this->renderPartial("tabs/_spec",array('personid'=>$model->idPerson),true), 
-                        'active'=>false, 
+                        'active'=>false,
+                       
                         'id'=>"specs"),
              
                 array(  'label'=>'Документи', 
                         'content'=>$this->renderPartial("tabs/_doc",array('personid'=>$model->idPerson),true), 
                         'active'=>false, 
                         'id'=>"docs"),
-                array(  'label'=>'Олімпіади', 
+               /* array(  'label'=>'Олімпіади', 
                         'content'=>$this->renderPartial("tabs/_olimp",array('personid'=>$model->idPerson),true), 
                         'active'=>false, 
-                        'id'=>"olimps"),
+                        'id'=>"olimps"),*/
     ),
 )); ?>
 

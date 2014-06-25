@@ -53,6 +53,24 @@
                 </div>
             </div>
             <div class="row-fluid">
+                <?php $access = Yii::app()->user->checkAccess("editFioEn") ? "":"disabled"; ?>
+                
+                <div class ="span4">
+                    <?php //echo $form->labelEx($model, 'LastNameEn'); //,array('class'=>'span3'));?>
+                    <?php echo $form->textField($model, 'LastNameEn', array('id' => "LastNameEn", 'disabled'=>$access,  'class' => 'span12', 'maxlength' => 50)); ?>
+                </div>
+
+                <div class ="span4">
+                    <?php //echo $form->labelEx($model, 'FirstNameEn'); //,array('class'=>'span3'));?>
+                    <?php echo $form->textField($model, 'FirstNameEn', array('id' => "FirstNameEn", 'disabled'=>$access, 'class' => 'span12', 'maxlength' => 50)); ?>
+                </div>
+
+                <div class ="span4">
+                    <?php //echo $form->labelEx($model, 'MiddleNameEn'); //,array('class'=>'span3'));?>
+                    <?php echo $form->textField($model, 'MiddleNameEn', array('id' => "MiddleNameEn", 'disabled'=>$access, 'class' => 'span12', 'maxlength' => 50)); ?>
+                </div>
+            </div>
+            <div class="row-fluid">
                 <div class ="span4">
                     <?php echo $form->labelEx($model, 'LastNameR'); //,array('class'=>'span3'));?>
                     <?php echo $form->textField($model, 'LastNameR', array('id' => "LastNameR", 'class' => 'span12', 'maxlength' => 50)); ?>
@@ -68,7 +86,7 @@
                     <?php echo $form->textField($model, 'MiddleNameR', array('id' => "MiddleNameR", 'class' => 'span12', 'maxlength' => 50)); ?>
                 </div>
             </div>
-
+            
             <div class="row-fluid">
                 <div class ="span4">
                     <?php echo $form->labelEx($model, 'Birthday'); ?>
@@ -81,14 +99,18 @@
                     <?php echo $form->dropDownList($model, 'PersonSexID', Personsextypes::DropDown(), array('class' => 'span12')); ?>
 
                 </div>
-
+                <?php if (Yii::app()->user->checkAccess("editResident")): ?>
                 <div class ="span4">
                     <?php echo $form->labelEx($model, 'IsResident'); ?>
+                    <?php $access = Yii::app()->user->checkAccess("editResident") ? "":"disabled"; ?>
+                   
                     <div class="switch" data-on-label="Так" data-off-label="Ні">
-                        <?php echo $form->checkBox($model, 'IsResident'); //, array("Ні", "Так"), array('class'=>'span12')); ?>
+                        <?php echo $form->checkBox($model, 'IsResident', array('disabled'=>$access)); ?>
                     </div>
+                   
 
                 </div>
+                <?php endif; ?>
             </div>
 
             <div class="row-fluid">

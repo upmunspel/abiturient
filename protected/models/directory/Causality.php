@@ -7,6 +7,7 @@
  * @property integer $idCausality
  * @property string $CausalityName
  * @property string $CausalityShortName
+ * @property Personenterancetypes $entranttype 
  *
  * The followings are the available model relations:
  * @property Personspeciality[] $personspecialities
@@ -58,10 +59,14 @@ class Causality extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'personspecialities' => array(self::HAS_MANY, 'Personspeciality', 'CausalityID'),
+                        'entranttype'=>array(self::BELONGS_TO, 'Personenterancetypes', "PersonEnteranceTypeID"),
 		);
 	}
         
-
+        public function getCausalityNameFull(){
+            
+            return $this->CausalityName."(".$this->entranttype->PersonEnteranceTypeName.")";
+        }
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */

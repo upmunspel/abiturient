@@ -20,7 +20,7 @@ class PersonspecialityController extends Controller
 //		);
                 return array(
 			'accessControl', // perform access control for CRUD operations
-                        'ajaxOnly + Refresh, Edboupdate, Studupdate',
+                        'ajaxOnly + Refresh, Edboupdate, Studupdate, Entrance',
 		);
 	}
 
@@ -49,6 +49,7 @@ class PersonspecialityController extends Controller
                                                     'admin',"Edboupdate",
                                                     'Studupdate',
                                                     "Create_electron",
+                                                    "Entrance"
                                                 ),
 				'users'=>array('@'),
 			),
@@ -105,6 +106,17 @@ class PersonspecialityController extends Controller
             foreach($data as $value=>$name)
             {
                 echo CHtml::tag('option', array('value'=>$value), CHtml::encode($name), true);
+            }
+        }
+        public function actionEntrance($id)
+        {
+             $id = intval($id);
+            $data = Causality::model()->findAll("PersonEnteranceTypeID = $id");
+            echo CHtml::tag('option', array('value'=>""), "", true);
+            foreach($data as $obj)
+            {
+                //$obj = new Causality();
+                echo CHtml::tag('option', array('value'=>$obj->idCausality), $obj->CausalityName, true);
             }
         }
 	/**
