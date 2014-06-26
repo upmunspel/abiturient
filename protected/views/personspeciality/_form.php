@@ -68,10 +68,12 @@ $form= new TbActiveForm();
             <?php endif; ?>
             
             <?php if (Yii::app()->user->checkAccess("showSpecStatus")): ?>
+            <?php  $access = Yii::app()->user->checkAccess("editSpecStatus") ? "":"disabled"; ?>
             <div class="span2">
                     <?php echo $form->labelEx($model,'StatusID'); ?>
-                    <?php echo $form->dropDownList($model, 'StatusID', CHtml::listData( Personrequeststatustypes::model()->findAll(), "idPersonRequestStatusType", "PersonRequestStatusTypeName"), array('empty'=>"",'class'=>"span12")); ?>
-                    <?php //echo $form->error($model,'CoursedpID'); ?>
+                    <?php echo $form->dropDownList($model, 'StatusID', CHtml::listData( Personrequeststatustypes::model()->findAll(), "idPersonRequestStatusType", "PersonRequestStatusTypeName"), 
+                            array('empty'=>"",'class'=>"span12", 'disabled'=>$access)); ?>
+                   
             </div>
             <?php  endif; ?>
         </div>
@@ -205,34 +207,19 @@ $form= new TbActiveForm();
 
 		
 	</div>
-       <?php if (Yii::app()->user->checkAccess("showAddBall")): ?>
+        <?php if (Yii::app()->user->checkAccess("showSpecAddBall")): ?>
+        <?php  $access = Yii::app()->user->checkAccess("editSpecAddBall") ? "":"disabled"; ?>
         <div class="row-fluid">
-<!--            <div class="span2">
-                 <?php //echo $form->labelEx($model,'isTarget'); ?>
-                 <div class="switch" data-on-label="Так" data-off-label="Ні">
-                    <?php //echo $form->checkBox($model,'isTarget'); ?>
-                 </div>
-                 <?php //echo $form->error($model,'isTarget'); ?>
-            </div>-->
-
-<!--            <div class="span2">
-                    <?php // echo //$form->labelEx($model,'isContact'); ?>
-                 <div class="switch" data-on-label="Так" data-off-label="Ні">
-                    <?php // echo //$form->checkBox($model,'isContact'); ?>
-                 </div>
-                    <?php //echo $form->error($model,'isContact'); ?>
-            </div>-->
-            
-<!--            <div class="span2">
+            <div class="span2">
                     <?php echo $form->labelEx($model,'AdditionalBall'); ?>
-                    <?php echo $form->textField($model,'AdditionalBall',array('class'=>"span12")); ?>
+                    <?php echo $form->textField($model,'AdditionalBall',array('class'=>"span12", "disabled"=>$access)); ?>
                     <?php //echo $form->error($model,'AdditionalBall'); ?>
             </div>
             <div class="span10">
                     <?php echo $form->labelEx($model,'AdditionalBallComment'); ?>
-                    <?php echo $form->textField($model,'AdditionalBallComment',array('class'=>"span12")); ?>
+                    <?php echo $form->textField($model,'AdditionalBallComment',array('class'=>"span12", "disabled"=>$access)); ?>
                     <?php //echo $form->error($model,'AdditionalBall'); ?>
-            </div>-->
+            </div>
         </div>
         <?php endif; ?>
     <!-- ZNO -->	

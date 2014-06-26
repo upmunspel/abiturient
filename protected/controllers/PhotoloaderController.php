@@ -138,7 +138,7 @@ class PhotoloaderController extends Controller {
             if (!empty($edbeo_file)) {
                 
                 $oldPhoto = $model->PhotoName;
-                $tfio = Transliteration::text($model->FirstName) . "_" . Transliteration::text($model->LastName) . "_" . Transliteration::text($model->MiddleName);
+                $tfio = Transliteration::translit2010($model->FirstName) . "_" . Transliteration::translit2010($model->LastName) . "_" . Transliteration::translit2010($model->MiddleName);
                 $model->PhotoName = "person_$id" . "_$tfio.jpg";
                 $path = Yii::app()->basePath . "/.." . Yii::app()->params['photosPath'];
                 $bigpath = Yii::app()->basePath . "/.." . Yii::app()->params['photosBigPath'];

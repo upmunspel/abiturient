@@ -228,7 +228,7 @@ class Transliteration
     return isset($map[$bank][$langcode][$ord]) ? $map[$bank][$langcode][$ord] : $unknown;
   }
   
-  protected function str_split_unicode($str, $l = 0) {
+  protected static function str_split_unicode($str, $l = 0) {
       if ($l > 0) {
           $ret = array();
           $len = mb_strlen($str, "UTF-8");
@@ -240,7 +240,7 @@ class Transliteration
       return preg_split("//u", $str, -1, PREG_SPLIT_NO_EMPTY);
   }
 
-  protected function ua2translit_letter($letter,$previous_letter=''){
+  protected static function ua2translit_letter($letter,$previous_letter=''){
     $general_translit_assoc = array(
       "а" => 'a',
       "б" => 'b',
@@ -377,13 +377,13 @@ class Transliteration
    *   Текст транслітом
    */
   public static function translit2010($ua_text){
-    $ua_letters = $this->str_split_unicode($ua_text,1);
+    $ua_letters = Transliteration::str_split_unicode($ua_text,1);
     $translit_text = '';
     for ($i = 0; $i < count($ua_letters); $i++){
       if ($i){
-        $translit_text .= $this->ua2translit_letter($ua_letters[$i],$ua_letters[$i-1]);
+        $translit_text .= Transliteration::ua2translit_letter($ua_letters[$i],$ua_letters[$i-1]);
       } else {
-        $translit_text .= $this->ua2translit_letter($ua_letters[$i],'');
+        $translit_text .= Transliteration::ua2translit_letter($ua_letters[$i],'');
       }
     }
     return $translit_text;

@@ -189,12 +189,15 @@
                
             </div>
         </div>
-<?php endif; ?>    
+ <?php endif; ?>    
+
+<?php if (Yii::app()->user->checkAccess("showPersonEntrantDocForm")): ?>
     <p class="help-block" ><strong>Документ про освіту, на основі якого здійснюється вступ</strong></p>
     <hr>
+    <?php echo $this->renderPartial("_entrantdocform", array('model' => $model->entrantdoc, 'form' => $form)); ?>
 
-<?php echo $this->renderPartial("_entrantdocform", array('model' => $model->entrantdoc, 'form' => $form)); ?>
-
+<?php endif; ?>  
+    
     <p class="help-block"><strong>Документ, який посвідчує особу</strong></p>
     <hr>
 

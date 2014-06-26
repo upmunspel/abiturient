@@ -41,7 +41,7 @@ class SBaseController extends CController {
 
 			array('allow', // allow authenticated user to perform xxx
 				'actions'=>array('GetUsers', 'Assign', 'GetRoles','GetTasks','GetOpers','Show',
-                                    'Create','Update',"Delete","Confirm",
+                                    'Create','Update',"Delete","Confirm", "Show",
                                     "List",'Install','Manage','Autocomplete','Assignments',
                                     'ShowAssignments','Scan','AutoDeleteItems','AutoCreateItems','Auto','GetCleverOpers',
                                     'FrontPage','EditAllowed','SaveAllowed','ClearObsolete','DeleteObsolete'),

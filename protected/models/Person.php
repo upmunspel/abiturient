@@ -456,10 +456,12 @@ class Person extends ActiveRecord {
      * @return boolean
      */
     public function loadByUCode($codeu) {
-
+       
         if (!empty($codeu)) {
             $json_string = Yii::app()->session["edboResult"];
+         
             $objarr = CJSON::decode($json_string);
+           
             $obj = null;
             if (count($objarr) > 0) {
                 foreach ($objarr as $item) {
@@ -478,6 +480,11 @@ class Person extends ActiveRecord {
                     $model->LastNameR = $obj->lastName;
                     $model->FirstNameR = $obj->firstName;
                     $model->MiddleNameR = $obj->middleName;
+                    
+                    $model->LastNameEn = $obj->lastNameEn;
+                    $model->FirstNameEn = $obj->firstNameEn;
+                    $model->MiddleNameEn = $obj->middleNameEn;
+                    
                     $model->PersonSexID = $obj->id_PersonSex;
                     $model->Birthday = date("d.m.Y", mktime(0, 0, 0, $obj->birthday['month'] + 1, $obj->birthday['dayOfMonth'], $obj->birthday['year']));
                     $model->IsResident = $obj->resident;
@@ -488,16 +495,21 @@ class Person extends ActiveRecord {
                     // $model->KOATUUCode = '0000000000';
 
 
-                    $code = KoatuuLevel1::model()->findAllByPk($obj->id_KoatuuCode);
+                    $code = KoatuuLevel1::model()->findByPk($obj->id_KoatuuCode);
+                    $scode = "";
+                  
+                    if (!empty($code)) { $scode = $code->KOATUULevel1Code; }
                     if (empty($code)) {
-                        $code = KoatuuLevel2::model()->findAllByPk($obj->id_KoatuuCode);
+                        $code = KoatuuLevel2::model()->findByPk($obj->id_KoatuuCode);
+                        if (!empty($code)) { $scode = $code->KOATUULevel2Code; }
                     }
                     if (empty($code)) {
-                        $code = KoatuuLevel3::model()->findAllByPk($obj->id_KoatuuCode);
+                        $code = KoatuuLevel3::model()->findByPk($obj->id_KoatuuCode);
+                        if (!empty($code)) { $scode = $code->KOATUULevel3Code; }
                     }
 
                     $model->KOATUUCode = $code;
-                    $model->koatu = $obj->id_KoatuuCode . ";" . $code;
+                    $model->koatu = $obj->id_KoatuuCode . ";" . $scode;
                     $model->StreetTypeID = $obj->id_StreetType;
                     $model->Address = $obj->address;
                     $model->PostIndex = $obj->postIndex;

@@ -47,7 +47,7 @@
     <?php else: ?>
         <div class ="span12">
         <?php 
-        if ($model->isNewRecord){
+        if ($model->isNewRecord && empty($model->Issued)){
             $model->Issued = "Державний вищий навчальний заклад 'Запорізький національний університет'";
         }
         //debug($model->Issued );

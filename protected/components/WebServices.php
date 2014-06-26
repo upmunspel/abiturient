@@ -2,7 +2,7 @@
 
 class WebServices {
 
-    static private $searchSrv = "http://10.1.22.177:8080/PersonSearch/";
+    static private $searchSrv = "http://10.1.22.217:8080/PersonSearch/";
     
     static private $MSG_EDBO_ERROR = "Відсутній доступ до сервера ЄДЕБО!";
 

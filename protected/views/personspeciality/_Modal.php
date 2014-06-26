@@ -1,4 +1,5 @@
-<?php $this->beginWidget('bootstrap.widgets.TbModal', array(
+<?php 
+$this->beginWidget('bootstrap.widgets.TbModal', array(
             'id'=>'specModal',
             'htmlOptions'=>array('style'=>'width: 1200px; margin-left: -600px;'),
             )
@@ -25,7 +26,7 @@
 <div class="modal-body <?php echo Yii::app()->user->isShortForm() ? " short":"";?>" id="spec-modal-body">
   
    <?php 
-    
+   
     if ((Yii::app()->user->isShortForm()) ){ 
         $this->renderPartial("_formShort",array('model'=>$model));
     } else {

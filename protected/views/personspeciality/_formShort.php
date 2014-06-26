@@ -52,12 +52,16 @@ $form= new TbActiveForm();
                    <?php // Информация о высшем образовании персоны. echo $model->getAttributeLabel("isNeedHostel"); ?>
                 </label>
             </div>
-            <?php if (Yii::app()->user->checkAccess("showFullEntrantForm")): ?>
+            <?php if (Yii::app()->user->checkAccess("showSpecStatus")): ?>
+            <?php  $access = Yii::app()->user->checkAccess("editSpecStatus") ? "":"disabled"; ?>
             <div class="span2">
                     <?php echo $form->labelEx($model,'StatusID'); ?>
-                    <?php echo $form->dropDownList($model, 'StatusID', CHtml::listData( Personrequeststatustypes::model()->findAll(), "idPersonRequestStatusType", "PersonRequestStatusTypeName"), array('empty'=>"",'class'=>"span12")); ?>
-                    <?php //echo $form->error($model,'CoursedpID'); ?>
+                    <?php echo $form->dropDownList($model, 'StatusID', CHtml::listData( Personrequeststatustypes::model()->findAll(), "idPersonRequestStatusType", "PersonRequestStatusTypeName"), 
+                            array('empty'=>"",'class'=>"span12", 'disabled'=>$access)); ?>
+                   
             </div>
+            <?php endif; ?>
+            <?php if (Yii::app()->user->checkAccess("showSpecEdboID")): ?>
             <div class="span2">
                     <?php echo $form->labelEx($model,'edboID'); ?>
                     <?php echo $form->textField($model,'edboID',array('class'=>"span12")); ?>
@@ -101,12 +105,15 @@ $form= new TbActiveForm();
                          </div>
                             <?php //echo $form->error($model,'isCopyEntrantDoc'); ?>
                     </div>
+                     <?php  if (Yii::app()->user->checkAccess("showSpecEdboRequest")): ?>
                     <div class="span6">
                          <?php echo $form->labelEx($model,'RequestFromEB'); ?>
                          <div class="switch" data-on-label="Так" data-off-label="Ні">
                             <?php echo $form->checkBox($model,'RequestFromEB'); ?>
                          </div>
                     </div>
+                     <?php  endif; ?>
+                    
                 </div>
             </div>
             <div class="span3">
@@ -191,29 +198,23 @@ $form= new TbActiveForm();
             </div>-->
            
         </div>
-	
-        <div class="row-fluid">
-           
-<!--            <div class="span2">
-		<?php //echo $form->hiddenField($model,'QualificationID'); 
-                     //echo $form->labelEx($model,'QualificationID'); ?>
-		<?php //echo $form->dropDownList($model,'QualificationID',CHtml::listData(Qualifications::model()->findAll(), 'idQualification', 'QualificationName'),
-                       // array('empty'=>'', 'disabled'=>!$model->isNewRecord ,'class'=>"span12")); ?>
-		<?php //echo $form->error($model,'QualificationID'); ?>
-            </div>-->
-            
 
+        <?php if (Yii::app()->user->checkAccess("showSpecAddBall")): ?>
+        <?php  $access = Yii::app()->user->checkAccess("editSpecAddBall") ? "":"disabled"; ?>
+        <div class="row-fluid">
             <div class="span2">
                     <?php echo $form->labelEx($model,'AdditionalBall'); ?>
-                    <?php echo $form->textField($model,'AdditionalBall',array('class'=>"span12")); ?>
+                    <?php echo $form->textField($model,'AdditionalBall',array('class'=>"span12", "disabled"=>$access)); ?>
                     <?php //echo $form->error($model,'AdditionalBall'); ?>
             </div>
             <div class="span10">
                     <?php echo $form->labelEx($model,'AdditionalBallComment'); ?>
-                    <?php echo $form->textField($model,'AdditionalBallComment',array('class'=>"span12")); ?>
+                    <?php echo $form->textField($model,'AdditionalBallComment',array('class'=>"span12", "disabled"=>$access)); ?>
                     <?php //echo $form->error($model,'AdditionalBall'); ?>
             </div>
         </div>
+        <?php endif; ?>
+	
     <!-- ZNO -->	
     <div class="row-fluid" id="subjects-holder">
        <?php 
@@ -230,7 +231,7 @@ $form= new TbActiveForm();
     
        
 
-    <?php if (Yii::app()->user->checkAccess("showFullEntrantForm")): ?>
+    <?php if (Yii::app()->user->checkAccess("showBenefits")): ?>
     <hr>
     <div class="row-fluid">
         <div class="span6">
