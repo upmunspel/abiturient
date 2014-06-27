@@ -67,7 +67,7 @@ $data->keyField = "idPerson";
                     'url'=>'Yii::app()->createUrl("person/create", array("personCodeU"=>$data->codeU))',
                     'options'=>array(
                         'class'=>'btn',
-                        "onclick"=>"blockUI()",
+                        //"onclick"=>"blockUI()",
                     ),
                 ),
             ),

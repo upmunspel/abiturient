@@ -1758,6 +1758,7 @@ abstract class CActiveRecord extends CModel
 		$builder=$this->getCommandBuilder();
 		$criteria=$builder->createCriteria($condition,$params);
 		$command=$builder->createDeleteCommand($this->getTableSchema(),$criteria);
+               
 		return $command->execute();
 	}
 

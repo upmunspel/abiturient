@@ -7,8 +7,8 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'Create Personbasespeciality', 'url'=>array('create')),
-	array('label'=>'Manage Personbasespeciality', 'url'=>array('admin')),
+	array('label'=>'Створити', 'url'=>array('create')),
+	array('label'=>'Управління', 'url'=>array('admin')),
 );
 ?>
 

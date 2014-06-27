@@ -22,6 +22,8 @@
  * @property integer $StreetTypeID
  * @property string $Address
  * @property string $HomeNumber
+ * @property string $Apartment
+ * @property string $Housing
  * @property string $PostIndex
  * @property integer $SchoolID
  * @property string $FirstNameR
@@ -188,7 +190,7 @@ class Person extends ActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('HomeNumber, PostIndex, Address,
+            array('HomeNumber,  PostIndex, Address,
                                 FirstName, LastName, FirstNameR, 
                                 LastNameR, LanguageID', 'required'),
             array('PersonSexID, KOATUUCodeL1ID, KOATUUCodeL2ID, 
@@ -197,7 +199,7 @@ class Person extends ActiveRecord {
             array('codeU, edboID', "unique", "allowEmpty" => 'true'),
             array('Address, PhotoName', 'length', 'max' => 250),
             array('HomeNumber, PostIndex', 'length', 'max' => 10),
-            array('Birthday, BirthPlace, isCampus, isSamaSchoolAddrk, CreateDate, isSamaSchoolAddr, koatu', 'safe'),
+            array('Birthday, BirthPlace, isCampus, isSamaSchoolAddrk, CreateDate, isSamaSchoolAddr, koatu, Housing, Apartment,', 'safe'),
             //array('Birthday', 'date', "format"=>'dd.MM.yyyy', 'allowEmpty'=>true ),
             //
 			// The following rule is used by search().
@@ -334,6 +336,9 @@ class Person extends ActiveRecord {
             "FIO" => "ФИО",
             "operatorInfo" => "Оператор",
             "koatu" => "Адреса",
+            "Apartment"=>"Квартира",
+            "HomeNumber"=>"Номер дома", 
+            "Housing"=>"Строение",
         );
     }
 

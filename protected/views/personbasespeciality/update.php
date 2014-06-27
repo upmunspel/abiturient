@@ -9,13 +9,13 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List Personbasespeciality', 'url'=>array('index')),
-	array('label'=>'Create Personbasespeciality', 'url'=>array('create')),
-	array('label'=>'View Personbasespeciality', 'url'=>array('view', 'id'=>$model->idPersonBaseSpeciality)),
-	array('label'=>'Manage Personbasespeciality', 'url'=>array('admin')),
+	array('label'=>'Перелік', 'url'=>array('admin')),
+	array('label'=>'Створити', 'url'=>array('create')),
+	//array('label'=>'View Personbasespeciality', 'url'=>array('view', 'id'=>$model->idPersonBaseSpeciality)),
+	array('label'=>'Управління', 'url'=>array('admin')),
 );
 ?>
 
-<h1>Update Personbasespeciality <?php echo $model->idPersonBaseSpeciality; ?></h1>
+<h1>Оновити Базовий напрям #<?php echo $model->idPersonBaseSpeciality; ?></h1>
 
 <?php echo $this->renderPartial('_form', array('model'=>$model)); ?>

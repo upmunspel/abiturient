@@ -71,7 +71,7 @@ class PersonController extends Controller {
               'roles'=>array('Admins'),
               ), */
             array('allow', // allow admin user to perform 'admin' and 'delete' actions
-                'actions' => array('index', 'view', 'admin', 'create', 'update', "ajaxcreate", "ajaxupdate"),
+                'actions' => array('index', 'view', 'admin', 'create', 'update', "ajaxcreate", "ajaxupdate", "Reloadphoto"),
                 'roles' => array("Root", "Admins", "Operators"),
             ),
             array('deny', // deny all users
@@ -171,16 +171,28 @@ class PersonController extends Controller {
                 $model->mobphone->attributes = $_POST['PersonContacts']['mobphone'];
             }
             //$model->CreateDate = null;
-            if ($model->entrantdoc->validate("ENTRANT") && $model->persondoc->validate() && $model->inndoc->validate("INN") && $model->hospdoc->validate("HOSP") && $model->homephone->validate() && $model->mobphone->validate() && $model->save()) {
+
+            $entrant_valid = true;
+            $showPersonEntrantDocForm = Yii::app()->user->checkAccess("showPersonEntrantDocForm");
+            if ($showPersonEntrantDocForm) {
+                $entrant_valid = $model->entrantdoc->validate("ENTRANT");
+            }
+            if ($entrant_valid && $model->persondoc->validate() && $model->inndoc->validate("INN") && $model->hospdoc->validate("HOSP") && $model->homephone->validate() && $model->mobphone->validate() && $model->save()) {
                 $model->persondoc->PersonID = $model->idPerson;
-                $model->entrantdoc->PersonID = $model->idPerson;
+                if ($showPersonEntrantDocForm) {
+                    $model->entrantdoc->PersonID = $model->idPerson;
+                }
                 $model->inndoc->PersonID = $model->idPerson;
                 $model->hospdoc->PersonID = $model->idPerson;
                 $model->homephone->PersonID = $model->idPerson;
                 $model->mobphone->PersonID = $model->idPerson;
 
                 $model->persondoc->save();
-                $model->entrantdoc->save();
+
+                if ($showPersonEntrantDocForm) {
+                    $model->entrantdoc->save();
+                }
+
                 $model->inndoc->save();
                 $model->hospdoc->save();
                 $model->homephone->save();
@@ -256,12 +268,18 @@ class PersonController extends Controller {
                 $model->mobphone->attributes = $_POST['PersonContacts']['mobphone'];
                 $model->mobphone->PersonID = $model->idPerson;
             }
-
-            if ($model->validate() && $model->persondoc->validate() && $model->entrantdoc->validate("ENTRANT") && $model->inndoc->validate("INN") && $model->hospdoc->validate("HOSP") && $model->homephone->validate() && $model->mobphone->validate()) {
+            $entrant_valid = true;
+            $showPersonEntrantDocForm = Yii::app()->user->checkAccess("showPersonEntrantDocForm");
+            if ($showPersonEntrantDocForm) {
+                $entrant_valid = $model->entrantdoc->validate("ENTRANT");
+            }
+            if ($model->validate() && $model->persondoc->validate() && $entrant_valid && $model->inndoc->validate("INN") && $model->hospdoc->validate("HOSP") && $model->homephone->validate() && $model->mobphone->validate()) {
                 if ($model->save()) {
 
                     $model->persondoc->save();
-                    $model->entrantdoc->save();
+                    if ($showPersonEntrantDocForm) {
+                        $model->entrantdoc->save();
+                    }
                     $model->inndoc->save();
                     $model->hospdoc->save();
                     $model->homephone->save();
@@ -316,6 +334,12 @@ class PersonController extends Controller {
         $this->render('admin', array(
             'model' => $model,
         ));
+    }
+
+    public function actionReloadphoto($id) {
+        $model = $this->loadModel($id);
+        WebServices::getPersonPhotoByCodeU($model->codeU);
+        $this->renderPartial('_photo', array('model' => $model));
     }
 
     /**
