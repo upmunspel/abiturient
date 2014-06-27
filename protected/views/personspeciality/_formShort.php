@@ -93,7 +93,7 @@ $form= new TbActiveForm();
         <div class="row-fluid">
              <div class="span5">
 		<?php echo $form->labelEx($model,'EntrantDocumentID'); ?>
-		<?php echo $form->dropDownList($model,'EntrantDocumentID', Documents::PersonEntrantDocuments($personid),array('empty'=>'','class'=>'span12')); ?>
+		<?php echo $form->dropDownList($model,'EntrantDocumentID', Documents::PersonEntrantDocuments($personid),array('empty'=>'','class'=>'span12', 'onchange'=>"PSN.onFacChange(this, '#".CHtml::activeId($model, "SepcialityID")."','".CController::createUrl('personspeciality/speciality')."');")); ?>
 		<?php //echo $form->error($model,'CourseID'); ?>
             </div>
             <div class="span4">

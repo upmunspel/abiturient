@@ -414,7 +414,8 @@ PSN.onFacChange = function(obj, id, url) {
     var fid = $("#idFacultet :selected").val();
     var formid = $("#Personspeciality_EducationFormID :selected").val();
     var qid = $("#QualificationID :selected").val();
-    data = "idFacultet=" + fid + "&idEducationForm=" + formid + "&QualificationID=" + qid;
+    var base = $("#Personspeciality_EntrantDocumentID :selected").val();
+    data = "idFacultet=" + fid + "&idEducationForm=" + formid + "&QualificationID=" + qid+"&BaseSpec="+base;
     $(id).load(url, data);
 };
 PSN.appendSpec = function(obj, link) {
