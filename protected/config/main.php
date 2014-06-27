@@ -133,8 +133,8 @@ return array(
         // uncomment the following to use a MySQL database
         'db' => array(
             'connectionString' => 'mysql:host=10.1.103.26;dbname=abiturient',
-            'username' => 'edbo',
-            'password' => 'eU7InIl',
+            'username' => '',
+            'password' => '',
             'emulatePrepare' => true,
             'charset' => 'utf8',
             'enableParamLogging' => true,
