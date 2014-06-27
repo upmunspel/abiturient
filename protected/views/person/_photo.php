@@ -14,13 +14,14 @@
 
         </a>
     </div>
-    <div class="span2" style="padding-top: 80px;" >
+    <div class="span2" style="padding-top: 70px;" >
         <?php
         $url = Yii::app()->createUrl("photoloader/reloadphoto", array('id' => $model->idPerson));
         $this->widget('bootstrap.widgets.TbButton', array(
-            'label' => '<<',
+            'label' => '',
             'type' => 'primary', // null, 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
-            'size' => null, // null, 'large', 'small' or 'mini'
+            'size' => null, // null, 'large', 'small' or 'mini' 
+             'icon'=>'arrow-left',
             'loadingText' => '...',
             'htmlOptions' => array('id' => 'addSpec',
                 'onclick' => "PSN.reloadPersonPhote(this,'$url');",
@@ -31,14 +32,16 @@
         <?php
         $url = Yii::app()->createUrl("person/reloadphoto", array('id' => $model->idPerson));
         $this->widget('bootstrap.widgets.TbButton', array(
-            'label' => '<<',
+            'label' => '',
+            'icon'=>'refresh',
             'type' => 'primary', // null, 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
             'size' => null, // null, 'large', 'small' or 'mini'
             'loadingText' => '...',
             'htmlOptions' => array('id' => 'addSpec',
                 'onclick' => "PSN.updatePersonPhote(this,'$url');",
-                'title' => "Замінити існуюче фотографію"
-            ),
+                'title' => "Оновити",
+                 'style'=>"margin-top: 10px;"
+                )
         ));
         ?>
     </div>
