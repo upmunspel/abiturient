@@ -92,7 +92,7 @@
                 'items'=>array(
                     array('label'=>'Головна', 'url'=>array('prices/admin'), "icon"=>"icon-home"),
                     array('label'=>'Ціни за навчання', 'url'=>array('prices/admin'), "icon"=>" icon-shopping-cart"),
-                    array('label'=>'Абітуріенти', 'url'=>array('contracts/index'), "icon"=>"icon-user"),
+                    array('label'=>'Абітурієнти', 'url'=>array('contracts/index'), "icon"=>"icon-user"),
                     array('label'=>'Контракти', 'url'=>array('contracts/admin'), "icon"=>"icon-book"),
                  ),
             ),
