@@ -22,6 +22,8 @@
  * @property integer $StreetTypeID
  * @property string $Address
  * @property string $HomeNumber
+ * @property string $Apartment
+ * @property string $Housing
  * @property string $PostIndex
  * @property integer $SchoolID
  * @property string $FirstNameR
@@ -188,7 +190,7 @@ class Person extends ActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('HomeNumber, PostIndex, Address,
+            array('HomeNumber,  PostIndex, Address,
                                 FirstName, LastName, FirstNameR, 
                                 LastNameR, LanguageID', 'required'),
             array('PersonSexID, KOATUUCodeL1ID, KOATUUCodeL2ID, 
@@ -197,7 +199,7 @@ class Person extends ActiveRecord {
             array('codeU, edboID', "unique", "allowEmpty" => 'true'),
             array('Address, PhotoName', 'length', 'max' => 250),
             array('HomeNumber, PostIndex', 'length', 'max' => 10),
-            array('Birthday, BirthPlace, isCampus, isSamaSchoolAddrk, CreateDate, isSamaSchoolAddr, koatu', 'safe'),
+            array('Birthday, BirthPlace, isCampus, isSamaSchoolAddrk, CreateDate, isSamaSchoolAddr, koatu, Housing, Apartment,', 'safe'),
             //array('Birthday', 'date', "format"=>'dd.MM.yyyy', 'allowEmpty'=>true ),
             //
 			// The following rule is used by search().
@@ -334,6 +336,9 @@ class Person extends ActiveRecord {
             "FIO" => "ФИО",
             "operatorInfo" => "Оператор",
             "koatu" => "Адреса",
+            "Apartment"=>"Квартира",
+            "HomeNumber"=>"Номер дома", 
+            "Housing"=>"Строение",
         );
     }
 
@@ -456,10 +461,12 @@ class Person extends ActiveRecord {
      * @return boolean
      */
     public function loadByUCode($codeu) {
-
+       
         if (!empty($codeu)) {
             $json_string = Yii::app()->session["edboResult"];
+         
             $objarr = CJSON::decode($json_string);
+           
             $obj = null;
             if (count($objarr) > 0) {
                 foreach ($objarr as $item) {
@@ -478,6 +485,11 @@ class Person extends ActiveRecord {
                     $model->LastNameR = $obj->lastName;
                     $model->FirstNameR = $obj->firstName;
                     $model->MiddleNameR = $obj->middleName;
+                    
+                    $model->LastNameEn = $obj->lastNameEn;
+                    $model->FirstNameEn = $obj->firstNameEn;
+                    $model->MiddleNameEn = $obj->middleNameEn;
+                    
                     $model->PersonSexID = $obj->id_PersonSex;
                     $model->Birthday = date("d.m.Y", mktime(0, 0, 0, $obj->birthday['month'] + 1, $obj->birthday['dayOfMonth'], $obj->birthday['year']));
                     $model->IsResident = $obj->resident;
@@ -488,16 +500,21 @@ class Person extends ActiveRecord {
                     // $model->KOATUUCode = '0000000000';
 
 
-                    $code = KoatuuLevel1::model()->findAllByPk($obj->id_KoatuuCode);
+                    $code = KoatuuLevel1::model()->findByPk($obj->id_KoatuuCode);
+                    $scode = "";
+                  
+                    if (!empty($code)) { $scode = $code->KOATUULevel1Code; }
                     if (empty($code)) {
-                        $code = KoatuuLevel2::model()->findAllByPk($obj->id_KoatuuCode);
+                        $code = KoatuuLevel2::model()->findByPk($obj->id_KoatuuCode);
+                        if (!empty($code)) { $scode = $code->KOATUULevel2Code; }
                     }
                     if (empty($code)) {
-                        $code = KoatuuLevel3::model()->findAllByPk($obj->id_KoatuuCode);
+                        $code = KoatuuLevel3::model()->findByPk($obj->id_KoatuuCode);
+                        if (!empty($code)) { $scode = $code->KOATUULevel3Code; }
                     }
 
                     $model->KOATUUCode = $code;
-                    $model->koatu = $obj->id_KoatuuCode . ";" . $code;
+                    $model->koatu = $obj->id_KoatuuCode . ";" . $scode;
                     $model->StreetTypeID = $obj->id_StreetType;
                     $model->Address = $obj->address;
                     $model->PostIndex = $obj->postIndex;

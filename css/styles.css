@@ -4,11 +4,14 @@
 #spec-form-modal {
     margin: 0px;
 }
+.modal-body {
+    max-height: none !important;
+}
 #spec-modal-holder .modal-body {
   min-height: 550px;   
 }
 #spec-modal-holder .short{
-  min-height: 500px;   
+  min-height: 300px;   
 }
 .row-red {
     color: red;

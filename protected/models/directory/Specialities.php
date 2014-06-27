@@ -292,4 +292,13 @@ class Specialities extends CActiveRecord
             unset($data);
             return $d;
         }
+        public static function getAllSpecialityFullNamesWichCodes(){
+            $Data = Specialities::model()->findAll();
+            $res = array();
+            foreach($Data as $record){
+                        $res[$record->idSpeciality] =(!empty($record->SpecialityName)? $record->SpecialityName." " :"" ).$record->SpecialityDirectionName.(!empty($record->SpecialitySpecializationName) ? ": ".$record->SpecialitySpecializationName." ":"")."(".$record->SpecialityClasifierCode.")";
+            }       
+            return $res;
+        }
+        
 }

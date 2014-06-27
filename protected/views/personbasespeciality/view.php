@@ -2,27 +2,30 @@
 /* @var $this PersonbasespecialityController */
 /* @var $model Personbasespeciality */
 
-$this->breadcrumbs=array(
-	'Personbasespecialities'=>array('index'),
-	$model->idPersonBaseSpeciality,
+$this->breadcrumbs = array(
+    'Personbasespecialities' => array('index'),
+    $model->idPersonBaseSpeciality,
 );
 
-$this->menu=array(
-	array('label'=>'List Personbasespeciality', 'url'=>array('index')),
-	array('label'=>'Create Personbasespeciality', 'url'=>array('create')),
-	array('label'=>'Update Personbasespeciality', 'url'=>array('update', 'id'=>$model->idPersonBaseSpeciality)),
-	array('label'=>'Delete Personbasespeciality', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->idPersonBaseSpeciality),'confirm'=>'Are you sure you want to delete this item?')),
-	array('label'=>'Manage Personbasespeciality', 'url'=>array('admin')),
+$this->menu = array(
+    array('label' => 'Перелік записів', 'url' => array('admin')),
+    array('label' => 'Створити', 'url' => array('create')),
+    array('label' => 'Редагувати', 'url' => array('update', 'id' => $model->idPersonBaseSpeciality)),
+    array('label' => 'Видалити', 'url' => '#', 'linkOptions' => array('submit' => array('delete', 'id' => $model->idPersonBaseSpeciality), 'confirm' => 'Are you sure you want to delete this item?')),
+    //array('label' => 'Управління', 'url' => array('admin')),
 );
 ?>
 
-<h1>View Personbasespeciality #<?php echo $model->idPersonBaseSpeciality; ?></h1>
-
-<?php $this->widget('zii.widgets.CDetailView', array(
-	'data'=>$model,
-	'attributes'=>array(
-		'idPersonBaseSpeciality',
-		'PersonBaseSpecialityName',
-		'PersonBaseSpecialityClasifierCode',
-	),
-)); ?>
+<h1>Базовий напрямок  #<?php echo $model->idPersonBaseSpeciality; ?></h1>
+<br/>
+<?php
+$this->widget('bootstrap.widgets.TbDetailView', array(
+    'type' => array('bordered', 'condensed', 'striped'),
+    'data' => $model,
+    'attributes' => array(
+        'idPersonBaseSpeciality',
+        'PersonBaseSpecialityName',
+        'PersonBaseSpecialityClasifierCode',
+    ),
+));
+?>

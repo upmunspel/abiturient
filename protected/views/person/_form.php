@@ -155,7 +155,7 @@
 
 
     <div class="row-fluid" style="margin-top: 10px;">
-        <div class ="span2">
+        <div class ="span1">
             <?php echo $form->labelEx($model, 'PostIndex'); //,array('class'=>'span3')); ?>
             <?php echo $form->textField($model, 'PostIndex', array('class' => 'span12', 'maxlength' => 50)); ?>
         </div>
@@ -163,7 +163,7 @@
             <?php echo $form->labelEx($model, 'StreetTypeID'); ?>
             <?php echo $form->dropDownList($model, 'StreetTypeID', StreetTypes::DropDown(), array('class' => 'span12')); ?>
         </div>
-        <div class ="span6">
+        <div class ="span4">
             <?php echo $form->labelEx($model, 'Address'); //,array('class'=>'span3')); ?>
             <?php echo $form->textField($model, 'Address', array('class' => 'span12', 'maxlength' => 50)); ?>
         </div>
@@ -171,6 +171,18 @@
             <?php echo $form->labelEx($model, 'HomeNumber'); //,array('class'=>'span3')); ?>
             <?php echo $form->textField($model, 'HomeNumber', array('class' => 'span12', 'maxlength' => 50)); ?>
         </div>
+        
+    
+        <div class ="span2">
+            <?php echo $form->labelEx($model, 'Apartment'); //,array('class'=>'span3')); ?>
+            <?php echo $form->textField($model, 'Apartment', array('class' => 'span12', 'maxlength' => 50)); ?>
+        </div>
+        <div class ="span1">
+            <?php echo $form->labelEx($model, 'Housing'); //,array('class'=>'span3')); ?>
+            <?php echo $form->textField($model, 'Housing', array('class' => 'span12', 'maxlength' => 50)); ?>
+        </div>
+        
+        
     </div>
 
 
@@ -189,12 +201,15 @@
                
             </div>
         </div>
-<?php endif; ?>    
+ <?php endif; ?>    
+
+<?php if (Yii::app()->user->checkAccess("showPersonEntrantDocForm")): ?>
     <p class="help-block" ><strong>Документ про освіту, на основі якого здійснюється вступ</strong></p>
     <hr>
+    <?php echo $this->renderPartial("_entrantdocform", array('model' => $model->entrantdoc, 'form' => $form)); ?>
 
-<?php echo $this->renderPartial("_entrantdocform", array('model' => $model->entrantdoc, 'form' => $form)); ?>
-
+<?php endif; ?>  
+    
     <p class="help-block"><strong>Документ, який посвідчує особу</strong></p>
     <hr>
 

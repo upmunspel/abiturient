@@ -25,22 +25,12 @@ return false;
 ");
 ?>
 
-<h1>Довідник Personbasespecialities</h1>
+<h1>Довідник Базові напрямки підготовки</h1>
 
-<p>
-    Можна додати оператор порівняння (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>
-    or <b>=</b>) перед значенням пошуку
-</p>
-
-<?php echo CHtml::link('Розширений пошук','#',array('class'=>'search-button')); ?>
-<div class="search-form" style="display:none">
-    <?php $this->renderPartial('_search',array(
-	'model'=>$model,
-)); ?>
-</div><!-- search-form -->
 
 <?php $this->widget('bootstrap.widgets.TbGridView', array(
 'id'=>'personbasespeciality-grid',
+    'type'=>'striped bordered condensed',
 'dataProvider'=>$model->search(),
 'filter'=>$model,
 'columns'=>array(

@@ -42,7 +42,7 @@ class Specialities extends CActiveRecord {
   public function tableName() {
     return 'specialities';
   }
-
+ 
   /**
    * @return array validation rules for model attributes.
    */

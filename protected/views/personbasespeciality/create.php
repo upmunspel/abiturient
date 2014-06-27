@@ -8,11 +8,11 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List Personbasespeciality', 'url'=>array('index')),
-	array('label'=>'Manage Personbasespeciality', 'url'=>array('admin')),
+	array('label'=>'Перелік записів', 'url'=>array('admin')),
+	//array('label'=>'Управління', 'url'=>array('admin')),
 );
 ?>
 
-<h1>Create Personbasespeciality</h1>
+<h1>Створити Базовий напрямки підготовки</h1>
 
 <?php echo $this->renderPartial('_form', array('model'=>$model)); ?>

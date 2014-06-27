@@ -55,6 +55,9 @@ class PersonbasespecialityController extends Controller
 		if(isset($_POST['Personbasespeciality']))
 		{
 			$model->attributes=$_POST['Personbasespeciality'];
+                        if (empty($_POST['Personbasespeciality']['speciality'])) {
+                            $model->speciality = array();
+                        }
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->idPersonBaseSpeciality));
 		}
@@ -79,6 +82,9 @@ class PersonbasespecialityController extends Controller
 		if(isset($_POST['Personbasespeciality']))
 		{
 			$model->attributes=$_POST['Personbasespeciality'];
+                        if (empty($_POST['Personbasespeciality']['speciality'])) {
+                            $model->speciality = array();
+                        }
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->idPersonBaseSpeciality));
 		}
@@ -107,10 +113,19 @@ class PersonbasespecialityController extends Controller
 	 */
 	public function actionIndex()
 	{
+            $model=new Personsextypes('search');
+		$model->unsetAttributes();  // clear any default values
+		if(isset($_GET['PersonSexTypes']))
+			$model->attributes=$_GET['PersonSexTypes'];
+
+		$this->render('admin',array(
+			'model'=>$model,
+		));
+                /*
 		$dataProvider=new CActiveDataProvider('Personbasespeciality');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
-		));
+		));*/
 	}
 
 	/**
