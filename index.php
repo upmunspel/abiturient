@@ -16,3 +16,4 @@ defined('YII_TRACE_LEVEL') or define('YII_TRACE_LEVEL',2);
 require_once($yii);
 Yii::createWebApplication($config)->run();
 
+
