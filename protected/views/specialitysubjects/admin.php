@@ -43,13 +43,14 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
     $data = $model->search();
     $Specialities = new Specialities();
     $d = $Specialities->getSpecialityFullNames();
-    $this->widget('bootstrap.widgets.TbGridView',array(
+    $this->widget('bootstrap.widgets.TbGroupGridView',array(
 	'id'=>'specialitysubjects-grid',
         'type'=>'striped bordered condensed',
 	'dataProvider'=>$data,
 	'filter'=>$model,
+         'mergeColumns' => array( 'SpecialityID'),
 	'columns'=>array(
-                array('name'=>'id', "htmlOptions"=>array("style"=>"width: 50px")),
+                //array('name'=>'id', "htmlOptions"=>array("style"=>"width: 50px")),
                 array('name'=>'SpecialityID', 'value' => 
                     '$data->speciality->SpecialityDirectionName." ".$data->speciality->SpecialitySpecializationName." (".
                     (($data->speciality->PersonEducationFormID==1)?("денна"):(($data->speciality->PersonEducationFormID==2)?("заочна"):("екстернат"))).")"',
