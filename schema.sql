@@ -1,4 +1,4 @@
--- MySQL dump 10.13  Distrib 5.1.73, for debian-linux-gnu (i486)
+-- MySQL dump 10.13  Distrib 5.6.12, for Win32 (x86)
 --
 -- Host: 10.1.103.26    Database: abiturient
 -- ------------------------------------------------------
@@ -16,17 +16,13 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Temporary table structure for view `TVORCHIJ_KONKURS`
---
-
---
 -- Table structure for table `academicyears`
 --
 
--- DROP TABLE IF EXISTS `academicyears`;
+DROP TABLE IF EXISTS `academicyears`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `academicyears` (
+CREATE TABLE `academicyears` (
   `idAcademicYear` int(11) NOT NULL AUTO_INCREMENT,
   `AcademicYearName` varchar(40) CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`idAcademicYear`)
@@ -34,38 +30,13 @@ CREATE TABLE IF NOT EXISTS `academicyears` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Temporary table structure for view `all_bachelors`
---
-
---
--- Temporary table structure for view `all_counts`
---
-
---
--- Table structure for table `all_dates`
---
-
--- DROP TABLE IF EXISTS `all_dates`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `all_dates` (
-  `cdate` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`cdate`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Temporary table structure for view `all_specialities`
---
-
---
 -- Table structure for table `atestatvalue`
 --
 
--- DROP TABLE IF EXISTS `atestatvalue`;
+DROP TABLE IF EXISTS `atestatvalue`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `atestatvalue` (
+CREATE TABLE `atestatvalue` (
   `code` int(11) NOT NULL AUTO_INCREMENT,
   `AtestatValue` float NOT NULL,
   `ZnoValue` float NOT NULL,
@@ -77,10 +48,10 @@ CREATE TABLE IF NOT EXISTS `atestatvalue` (
 -- Table structure for table `benefit`
 --
 
--- DROP TABLE IF EXISTS `benefit`;
+DROP TABLE IF EXISTS `benefit`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `benefit` (
+CREATE TABLE `benefit` (
   `idBenefit` int(11) NOT NULL,
   `BenefitName` varchar(250) COLLATE utf8_unicode_ci DEFAULT NULL,
   `BenefitKey` char(30) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -98,12 +69,12 @@ CREATE TABLE IF NOT EXISTS `benefit` (
 -- Temporary table structure for view `benefitinfo`
 --
 
--- DROP TABLE IF EXISTS `benefitinfo`;
+DROP TABLE IF EXISTS `benefitinfo`;
 /*!50001 DROP VIEW IF EXISTS `benefitinfo`*/;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
-/*!50001 CREATE TABLE IF NOT EXISTS `benefitinfo` (
- `idBenefit` tinyint NOT NULL,
+/*!50001 CREATE TABLE `benefitinfo` (
+  `idBenefit` tinyint NOT NULL,
   `BenefitName` tinyint NOT NULL,
   `BenefitKey` tinyint NOT NULL,
   `BenefitsGroupsName` tinyint NOT NULL
@@ -114,10 +85,10 @@ SET character_set_client = @saved_cs_client;
 -- Table structure for table `benefitsgroups`
 --
 
--- DROP TABLE IF EXISTS `benefitsgroups`;
+DROP TABLE IF EXISTS `benefitsgroups`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `benefitsgroups` (
+CREATE TABLE `benefitsgroups` (
   `idBenefitsGroups` int(11) NOT NULL,
   `BenefitsGroupsName` varchar(250) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`idBenefitsGroups`)
@@ -128,13 +99,14 @@ CREATE TABLE IF NOT EXISTS `benefitsgroups` (
 -- Table structure for table `causality`
 --
 
--- DROP TABLE IF EXISTS `causality`;
+DROP TABLE IF EXISTS `causality`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `causality` (
+CREATE TABLE `causality` (
   `idCausality` int(11) NOT NULL,
   `CausalityName` varchar(150) COLLATE utf8_unicode_ci DEFAULT NULL,
   `CausalityDescription` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `PersonEnteranceTypeID` int(11) NOT NULL,
   PRIMARY KEY (`idCausality`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='ExaminationCauses в ЄДЕБО';
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -143,10 +115,10 @@ CREATE TABLE IF NOT EXISTS `causality` (
 -- Table structure for table `cnt_bachelor_graduated_2013`
 --
 
--- DROP TABLE IF EXISTS `cnt_bachelor_graduated_2013`;
+DROP TABLE IF EXISTS `cnt_bachelor_graduated_2013`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `cnt_bachelor_graduated_2013` (
+CREATE TABLE `cnt_bachelor_graduated_2013` (
   `FacultetID` int(11) NOT NULL DEFAULT '0',
   `cnt` int(5) NOT NULL DEFAULT '0',
   PRIMARY KEY (`FacultetID`),
@@ -155,101 +127,13 @@ CREATE TABLE IF NOT EXISTS `cnt_bachelor_graduated_2013` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Temporary table structure for view `cnt_dnevn_budget_view`
---
-
---
--- Temporary table structure for view `cnt_dnevn_budgetcount_view`
---
-
---
--- Temporary table structure for view `cnt_dnevn_contract_view`
---
-
---
--- Temporary table structure for view `cnt_dnevn_contractcount_view`
---
-
---
--- Temporary table structure for view `cnt_dnevn_electro_view`
---
-
---
--- Temporary table structure for view `cnt_dnevn_originals_view`
---
-
---
--- Temporary table structure for view `cnt_dnevn_per_dates_view`
---
-
---
--- Temporary table structure for view `cnt_dnevn_pv_view`
---
-
---
--- Temporary table structure for view `cnt_dnevn_pzk_view`
---
-
---
--- Temporary table structure for view `cnt_dnevn_view`
---
-
---
--- Temporary table structure for view `cnt_left_per_dates_view`
---
-
---
--- Temporary table structure for view `cnt_medals_view`
---
-
---
--- Temporary table structure for view `cnt_zaoch_budget_view`
---
-
---
--- Temporary table structure for view `cnt_zaoch_budgetcount_view`
---
-
---
--- Temporary table structure for view `cnt_zaoch_contract_view`
---
-
---
--- Temporary table structure for view `cnt_zaoch_contractcount_view`
---
-
---
--- Temporary table structure for view `cnt_zaoch_electro_view`
---
-
---
--- Temporary table structure for view `cnt_zaoch_originals_view`
---
-
---
--- Temporary table structure for view `cnt_zaoch_per_dates_view`
---
-
---
--- Temporary table structure for view `cnt_zaoch_pv_view`
---
-
---
--- Temporary table structure for view `cnt_zaoch_pzk_view`
---
-
---
--- Temporary table structure for view `cnt_zaoch_view`
---
-
---
 -- Table structure for table `contracts`
 --
 
--- DROP TABLE IF EXISTS `contracts`;
+DROP TABLE IF EXISTS `contracts`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `contracts` (
+CREATE TABLE `contracts` (
   `idContract` int(11) NOT NULL AUTO_INCREMENT,
   `PersonSpecialityID` int(11) NOT NULL,
   `ContractNumber` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -268,10 +152,10 @@ CREATE TABLE IF NOT EXISTS `contracts` (
 -- Table structure for table `contracts_type`
 --
 
--- DROP TABLE IF EXISTS `contracts_type`;
+DROP TABLE IF EXISTS `contracts_type`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `contracts_type` (
+CREATE TABLE `contracts_type` (
   `idcontracts_type` int(100) NOT NULL AUTO_INCREMENT,
   `ContractsTypeName` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`idcontracts_type`)
@@ -282,10 +166,10 @@ CREATE TABLE IF NOT EXISTS `contracts_type` (
 -- Table structure for table `country`
 --
 
--- DROP TABLE IF EXISTS `country`;
+DROP TABLE IF EXISTS `country`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `country` (
+CREATE TABLE `country` (
   `idCountry` int(11) NOT NULL AUTO_INCREMENT,
   `CountryName` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `iso` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
@@ -298,10 +182,10 @@ CREATE TABLE IF NOT EXISTS `country` (
 -- Table structure for table `coursedp`
 --
 
--- DROP TABLE IF EXISTS `coursedp`;
+DROP TABLE IF EXISTS `coursedp`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `coursedp` (
+CREATE TABLE `coursedp` (
   `idCourseDP` int(11) NOT NULL,
   `CourseDPName` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `guid` char(45) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'GUID курсов в ЕДБО',
@@ -313,10 +197,10 @@ CREATE TABLE IF NOT EXISTS `coursedp` (
 -- Table structure for table `courses`
 --
 
--- DROP TABLE IF EXISTS `courses`;
+DROP TABLE IF EXISTS `courses`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `courses` (
+CREATE TABLE `courses` (
   `idCourse` int(11) NOT NULL,
   `CourseName` char(10) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`idCourse`)
@@ -327,10 +211,10 @@ CREATE TABLE IF NOT EXISTS `courses` (
 -- Table structure for table `directories`
 --
 
--- DROP TABLE IF EXISTS `directories`;
+DROP TABLE IF EXISTS `directories`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `directories` (
+CREATE TABLE `directories` (
   `idDirecrtory` int(11) NOT NULL AUTO_INCREMENT,
   `DirectoryName` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `DirectoryInfo` text COLLATE utf8_unicode_ci NOT NULL,
@@ -345,12 +229,12 @@ CREATE TABLE IF NOT EXISTS `directories` (
 -- Temporary table structure for view `document_subjects_view`
 --
 
--- DROP TABLE IF EXISTS `document_subjects_view`;
+DROP TABLE IF EXISTS `document_subjects_view`;
 /*!50001 DROP VIEW IF EXISTS `document_subjects_view`*/;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
-/*!50001 CREATE TABLE IF NOT EXISTS `document_subjects_view` (
- `idDocumentSubject` tinyint NOT NULL,
+/*!50001 CREATE TABLE `document_subjects_view` (
+  `idDocumentSubject` tinyint NOT NULL,
   `DocumentID` tinyint NOT NULL,
   `SubjectValue` tinyint NOT NULL,
   `DateGet` tinyint NOT NULL,
@@ -363,10 +247,10 @@ SET character_set_client = @saved_cs_client;
 -- Table structure for table `documents`
 --
 
--- DROP TABLE IF EXISTS `documents`;
+DROP TABLE IF EXISTS `documents`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `documents` (
+CREATE TABLE `documents` (
   `idDocuments` int(11) NOT NULL AUTO_INCREMENT,
   `PersonID` int(11) DEFAULT NULL,
   `TypeID` int(11) DEFAULT NULL COMMENT 'Тип документа',
@@ -389,22 +273,21 @@ CREATE TABLE IF NOT EXISTS `documents` (
   KEY `fk_documents_2` (`PersonID`),
   CONSTRAINT `fk_Documents_1` FOREIGN KEY (`TypeID`) REFERENCES `persondocumenttypes` (`idPersonDocumentTypes`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_documents_2` FOREIGN KEY (`PersonID`) REFERENCES `person` (`idPerson`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=33746 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=34336 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
-ALTER DATABASE `abiturient` CHARACTER SET utf8 COLLATE utf8_unicode_ci ;
+ALTER DATABASE `abiturient` CHARACTER SET utf8 COLLATE utf8_general_ci ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
 /*!50003 SET character_set_client  = utf8 */ ;
 /*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_unicode_ci */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = '' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER insert_documents BEFORE INSERT ON documents
-FOR EACH ROW BEGIN
-    SET NEW.Modified = NOW();
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER insert_documents BEFORE INSERT ON documents
+FOR EACH ROW BEGIN
+    SET NEW.Modified = NOW();
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -412,19 +295,19 @@ DELIMITER ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
 ALTER DATABASE `abiturient` CHARACTER SET utf8 COLLATE utf8_unicode_ci ;
-ALTER DATABASE `abiturient` CHARACTER SET utf8 COLLATE utf8_unicode_ci ;
+ALTER DATABASE `abiturient` CHARACTER SET utf8 COLLATE utf8_general_ci ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
 /*!50003 SET character_set_client  = utf8 */ ;
 /*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_unicode_ci */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = '' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER update_documents BEFORE UPDATE ON documents
-FOR EACH ROW BEGIN
-    SET NEW.Modified = NOW();
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER update_documents BEFORE UPDATE ON documents
+FOR EACH ROW BEGIN
+    SET NEW.Modified = NOW();
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -437,10 +320,10 @@ ALTER DATABASE `abiturient` CHARACTER SET utf8 COLLATE utf8_unicode_ci ;
 -- Table structure for table `documentsubject`
 --
 
--- DROP TABLE IF EXISTS `documentsubject`;
+DROP TABLE IF EXISTS `documentsubject`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `documentsubject` (
+CREATE TABLE `documentsubject` (
   `idDocumentSubject` int(11) NOT NULL AUTO_INCREMENT,
   `DocumentID` int(11) DEFAULT NULL,
   `SubjectID` int(11) DEFAULT NULL,
@@ -454,21 +337,21 @@ CREATE TABLE IF NOT EXISTS `documentsubject` (
   KEY `fk_DocumentSubject_2` (`SubjectID`),
   CONSTRAINT `fk_DocumentSubject_1` FOREIGN KEY (`DocumentID`) REFERENCES `documents` (`idDocuments`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_DocumentSubject_2` FOREIGN KEY (`SubjectID`) REFERENCES `subjects` (`idSubjects`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=18528 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=18808 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-ALTER DATABASE `abiturient` CHARACTER SET utf8 COLLATE utf8_unicode_ci ;
+ALTER DATABASE `abiturient` CHARACTER SET utf8 COLLATE utf8_general_ci ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
 /*!50003 SET character_set_client  = utf8 */ ;
 /*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_unicode_ci */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = '' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER insert_documentsubject BEFORE INSERT ON documentsubject
-FOR EACH ROW BEGIN
-    SET NEW.Modified = NOW();
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER insert_documentsubject BEFORE INSERT ON documentsubject
+FOR EACH ROW BEGIN
+    SET NEW.Modified = NOW();
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -476,19 +359,19 @@ DELIMITER ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
 ALTER DATABASE `abiturient` CHARACTER SET utf8 COLLATE utf8_unicode_ci ;
-ALTER DATABASE `abiturient` CHARACTER SET utf8 COLLATE utf8_unicode_ci ;
+ALTER DATABASE `abiturient` CHARACTER SET utf8 COLLATE utf8_general_ci ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
 /*!50003 SET character_set_client  = utf8 */ ;
 /*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_unicode_ci */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = '' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER update_documentsubject BEFORE UPDATE ON documentsubject
-FOR EACH ROW BEGIN
-    SET NEW.Modified = NOW();
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER update_documentsubject BEFORE UPDATE ON documentsubject
+FOR EACH ROW BEGIN
+    SET NEW.Modified = NOW();
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -501,10 +384,10 @@ ALTER DATABASE `abiturient` CHARACTER SET utf8 COLLATE utf8_unicode_ci ;
 -- Table structure for table `edbo_data`
 --
 
--- DROP TABLE IF EXISTS `edbo_data`;
+DROP TABLE IF EXISTS `edbo_data`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `edbo_data` (
+CREATE TABLE `edbo_data` (
   `ID` int(9) NOT NULL COMMENT 'Ідентифікатор ЄДЕБО',
   `PIB` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Прізвище, ім''я, по-батькові',
   `EZ` int(2) NOT NULL DEFAULT '0' COMMENT 'Електронна заявка',
@@ -556,10 +439,10 @@ CREATE TABLE IF NOT EXISTS `edbo_data` (
 -- Table structure for table `educationclass`
 --
 
--- DROP TABLE IF EXISTS `educationclass`;
+DROP TABLE IF EXISTS `educationclass`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `educationclass` (
+CREATE TABLE `educationclass` (
   `idEducationClass` int(11) NOT NULL,
   `EducationClassName` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`idEducationClass`)
@@ -570,10 +453,10 @@ CREATE TABLE IF NOT EXISTS `educationclass` (
 -- Table structure for table `educationtype`
 --
 
--- DROP TABLE IF EXISTS `educationtype`;
+DROP TABLE IF EXISTS `educationtype`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `educationtype` (
+CREATE TABLE `educationtype` (
   `idEducationType` int(11) NOT NULL,
   `EducationTypeFullName` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `EducationTypeShortName` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -588,12 +471,12 @@ CREATE TABLE IF NOT EXISTS `educationtype` (
 -- Temporary table structure for view `educationtypeclass`
 --
 
--- DROP TABLE IF EXISTS `educationtypeclass`;
+DROP TABLE IF EXISTS `educationtypeclass`;
 /*!50001 DROP VIEW IF EXISTS `educationtypeclass`*/;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
-/*!50001 CREATE TABLE IF NOT EXISTS `educationtypeclass` (
- `idEducationType` tinyint NOT NULL,
+/*!50001 CREATE TABLE `educationtypeclass` (
+  `idEducationType` tinyint NOT NULL,
   `EducationTypeFullName` tinyint NOT NULL,
   `EducationTypeShortName` tinyint NOT NULL,
   `EducationClassName` tinyint NOT NULL
@@ -604,19 +487,37 @@ SET character_set_client = @saved_cs_client;
 -- Temporary table structure for view `examinations_without_zno`
 --
 
+DROP TABLE IF EXISTS `examinations_without_zno`;
+/*!50001 DROP VIEW IF EXISTS `examinations_without_zno`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE TABLE `examinations_without_zno` (
+  `idPersonMySql` tinyint NOT NULL,
+  `idPersonEdbo` tinyint NOT NULL,
+  `FIO` tinyint NOT NULL,
+  `Speciality` tinyint NOT NULL,
+  `Examination1` tinyint NOT NULL,
+  `Examination2` tinyint NOT NULL,
+  `Examination3` tinyint NOT NULL,
+  `educationFormName` tinyint NOT NULL,
+  `idEducationForm` tinyint NOT NULL
+) ENGINE=MyISAM */;
+SET character_set_client = @saved_cs_client;
+
 --
 -- Table structure for table `facultets`
 --
 
--- DROP TABLE IF EXISTS `facultets`;
+DROP TABLE IF EXISTS `facultets`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `facultets` (
+CREATE TABLE `facultets` (
   `idFacultet` int(11) NOT NULL,
   `FacultetFullName` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `FacultetShortName` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
   `FacultetKode` char(40) COLLATE utf8_unicode_ci DEFAULT NULL,
   `FacultetTypeName` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `FacultetFullNameRP` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Родительный падеж названия факультета',
   PRIMARY KEY (`idFacultet`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -625,14 +526,31 @@ CREATE TABLE IF NOT EXISTS `facultets` (
 -- Temporary table structure for view `graduated_school`
 --
 
+DROP TABLE IF EXISTS `graduated_school`;
+/*!50001 DROP VIEW IF EXISTS `graduated_school`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE TABLE `graduated_school` (
+  `ID_person` tinyint NOT NULL,
+  `PIB` tinyint NOT NULL,
+  `doc_type` tinyint NOT NULL,
+  `Issued` tinyint NOT NULL,
+  `IssuedYear` tinyint NOT NULL,
+  `edu_type` tinyint NOT NULL,
+  `spec` tinyint NOT NULL,
+  `edu_form` tinyint NOT NULL,
+  `status` tinyint NOT NULL
+) ENGINE=MyISAM */;
+SET character_set_client = @saved_cs_client;
+
 --
 -- Table structure for table `koatuulevel1`
 --
 
--- DROP TABLE IF EXISTS `koatuulevel1`;
+DROP TABLE IF EXISTS `koatuulevel1`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `koatuulevel1` (
+CREATE TABLE `koatuulevel1` (
   `idKOATUULevel1` int(11) NOT NULL,
   `KOATUULevel1Code` char(12) COLLATE utf8_unicode_ci DEFAULT NULL,
   `KOATUULevel1FullName` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -646,10 +564,10 @@ CREATE TABLE IF NOT EXISTS `koatuulevel1` (
 -- Table structure for table `koatuulevel2`
 --
 
--- DROP TABLE IF EXISTS `koatuulevel2`;
+DROP TABLE IF EXISTS `koatuulevel2`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `koatuulevel2` (
+CREATE TABLE `koatuulevel2` (
   `idKOATUULevel2` int(11) NOT NULL,
   `KOATUULevel2Code` char(12) COLLATE utf8_unicode_ci DEFAULT NULL,
   `KOATUULevel2FullName` varchar(75) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -667,10 +585,10 @@ CREATE TABLE IF NOT EXISTS `koatuulevel2` (
 -- Table structure for table `koatuulevel3`
 --
 
--- DROP TABLE IF EXISTS `koatuulevel3`;
+DROP TABLE IF EXISTS `koatuulevel3`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `koatuulevel3` (
+CREATE TABLE `koatuulevel3` (
   `idKOATUULevel3` int(11) NOT NULL,
   `KOATUULevel3Code` char(10) COLLATE utf8_unicode_ci DEFAULT NULL,
   `KOATUULevel3FullName` varchar(150) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -688,10 +606,10 @@ CREATE TABLE IF NOT EXISTS `koatuulevel3` (
 -- Table structure for table `languages`
 --
 
--- DROP TABLE IF EXISTS `languages`;
+DROP TABLE IF EXISTS `languages`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `languages` (
+CREATE TABLE `languages` (
   `idLanguages` int(11) NOT NULL,
   `LanguagesCode` char(4) COLLATE utf8_unicode_ci DEFAULT NULL,
   `LanguagesName` char(20) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -703,18 +621,51 @@ CREATE TABLE IF NOT EXISTS `languages` (
 -- Temporary table structure for view `mag_languages`
 --
 
+DROP TABLE IF EXISTS `mag_languages`;
+/*!50001 DROP VIEW IF EXISTS `mag_languages`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE TABLE `mag_languages` (
+  `idFuc` tinyint NOT NULL,
+  `SCode` tinyint NOT NULL,
+  `spec` tinyint NOT NULL,
+  `person_id` tinyint NOT NULL,
+  `surname` tinyint NOT NULL,
+  `name` tinyint NOT NULL,
+  `farthername` tinyint NOT NULL,
+  `langName` tinyint NOT NULL,
+  `eduform` tinyint NOT NULL
+) ENGINE=MyISAM */;
+SET character_set_client = @saved_cs_client;
+
 --
 -- Temporary table structure for view `mag_languages_foreign_filology`
 --
+
+DROP TABLE IF EXISTS `mag_languages_foreign_filology`;
+/*!50001 DROP VIEW IF EXISTS `mag_languages_foreign_filology`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE TABLE `mag_languages_foreign_filology` (
+  `FacultetFullName` tinyint NOT NULL,
+  `spec` tinyint NOT NULL,
+  `ForeignLang` tinyint NOT NULL,
+  `surname` tinyint NOT NULL,
+  `name` tinyint NOT NULL,
+  `farthername` tinyint NOT NULL,
+  `fah` tinyint NOT NULL,
+  `eduform` tinyint NOT NULL
+) ENGINE=MyISAM */;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Table structure for table `olympiadsawards`
 --
 
--- DROP TABLE IF EXISTS `olympiadsawards`;
+DROP TABLE IF EXISTS `olympiadsawards`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `olympiadsawards` (
+CREATE TABLE `olympiadsawards` (
   `idOlimpiad` int(11) NOT NULL COMMENT 'Идентификатор олимпиады',
   `OlimpiadName` varchar(200) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Название олимпиады',
   `OlympiadAwardID` int(11) NOT NULL COMMENT 'Идентификатор поощрения олимпиады',
@@ -728,10 +679,10 @@ CREATE TABLE IF NOT EXISTS `olympiadsawards` (
 -- Table structure for table `parametersquery`
 --
 
--- DROP TABLE IF EXISTS `parametersquery`;
+DROP TABLE IF EXISTS `parametersquery`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `parametersquery` (
+CREATE TABLE `parametersquery` (
   `code` int(11) NOT NULL AUTO_INCREMENT,
   `value` varchar(135) COLLATE utf8_unicode_ci NOT NULL,
   `coment` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -743,40 +694,45 @@ CREATE TABLE IF NOT EXISTS `parametersquery` (
 -- Table structure for table `person`
 --
 
--- DROP TABLE IF EXISTS `person`;
+DROP TABLE IF EXISTS `person`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `person` (
+CREATE TABLE `person` (
   `idPerson` int(11) NOT NULL AUTO_INCREMENT,
-  `Birthday` date DEFAULT NULL,
-  `BirthPlace` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `PersonSexID` int(11) DEFAULT NULL,
-  `FirstName` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `MiddleName` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `LastName` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `KOATUUCodeL1ID` int(11) DEFAULT NULL,
-  `KOATUUCodeL2ID` int(11) DEFAULT NULL,
-  `KOATUUCodeL3ID` int(11) DEFAULT NULL,
-  `IsResident` tinyint(4) DEFAULT NULL,
-  `PersonEducationTypeID` int(11) DEFAULT NULL,
-  `StreetTypeID` int(11) DEFAULT NULL,
-  `Address` varchar(250) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `HomeNumber` char(10) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `PostIndex` char(10) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `SchoolID` int(11) DEFAULT NULL,
-  `FirstNameR` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `MiddleNameR` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `LastNameR` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `LanguageID` int(11) NOT NULL,
-  `CountryID` int(11) NOT NULL,
-  `PhotoName` varchar(250) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `isCampus` tinyint(4) DEFAULT NULL COMMENT '0 - нет необходимости в общежитии,\n1 - есть необходимость в общежитии.',
-  `Modified` datetime DEFAULT NULL,
-  `CreateDate` datetime DEFAULT NULL,
-  `SysUserID` int(11) DEFAULT NULL,
-  `codeU` char(40) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Код персоны в базе данных ЕДБО',
-  `edboID` int(11) DEFAULT NULL COMMENT 'Идентификатор персоны в базе данных ЕДБО',
+  `Birthday` date DEFAULT NULL COMMENT 'Дата народження',
+  `BirthPlace` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Місце народження',
+  `PersonSexID` int(11) DEFAULT NULL COMMENT 'СтатьПерсони',
+  `FirstName` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Ім_я',
+  `MiddleName` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'По-батькові',
+  `LastName` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Прізвище',
+  `KOATUUCodeL1ID` int(11) DEFAULT NULL COMMENT 'АРКрим; Області; МістаІзСпецСтатусом',
+  `KOATUUCodeL2ID` int(11) DEFAULT NULL COMMENT 'МістаОбласногоПідпорядкування; РайониАРКрим; Області; РайониВМістахІзСпеціальнимСтатусом',
+  `KOATUUCodeL3ID` int(11) DEFAULT NULL COMMENT 'МістаРайонногоПідпорядкування; РайониВМістахОбласногоПідпорядкування; СелищаМіськогоТипу; СільськіРади',
+  `IsResident` tinyint(4) DEFAULT NULL COMMENT 'Чи є резидентом',
+  `PersonEducationTypeID` int(11) DEFAULT NULL COMMENT 'Не_використовується(?)',
+  `StreetTypeID` int(11) DEFAULT NULL COMMENT 'ГеонімАдресиПроживання',
+  `Address` varchar(250) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Адреса проживання',
+  `HomeNumber` char(10) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Номер будинку',
+  `PostIndex` char(10) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Поштовий індекс',
+  `SchoolID` int(11) DEFAULT NULL COMMENT 'НавчальнийЗакладЩоЗакінчилаПерсона',
+  `FirstNameR` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Ім_я у родовому відмінку',
+  `MiddleNameR` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'По-батькові у родовому відмінку',
+  `LastNameR` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Прізвище у родовому відмінку',
+  `LanguageID` int(11) NOT NULL COMMENT 'ІноземнаМоваПерсони',
+  `CountryID` int(11) NOT NULL COMMENT 'КраїнаНародженняПерсони',
+  `PhotoName` varchar(250) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Назва файлу з фото',
+  `isCampus` tinyint(4) DEFAULT NULL COMMENT 'Необхідність у гуртожитку (0 або 1)',
+  `Modified` datetime DEFAULT NULL COMMENT 'Дата і час останнього редагування',
+  `CreateDate` datetime DEFAULT NULL COMMENT 'Дата і час створення',
+  `SysUserID` int(11) DEFAULT NULL COMMENT 'Оператор',
+  `codeU` char(40) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Код персони ЄДЕБО',
+  `edboID` int(11) DEFAULT NULL COMMENT 'Ідентифікатор персони у БД ЄДЕБО',
   `isSamaSchoolAddr` tinyint(4) NOT NULL,
+  `KOATUUCodeID` int(11) NOT NULL,
+  `KOATUUCode` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
+  `FirstNameEn` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Имя на английском',
+  `MiddleNameEn` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Отчество на английском',
+  `LastNameEn` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Фамилия на английском',
   PRIMARY KEY (`idPerson`),
   KEY `fk_person_5` (`SchoolID`),
   KEY `fk_Person_1` (`PersonSexID`),
@@ -796,22 +752,22 @@ CREATE TABLE IF NOT EXISTS `person` (
   CONSTRAINT `fk_person_7` FOREIGN KEY (`KOATUUCodeL1ID`) REFERENCES `koatuulevel1` (`idKOATUULevel1`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_person_8` FOREIGN KEY (`LanguageID`) REFERENCES `languages` (`idLanguages`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_person_9` FOREIGN KEY (`SysUserID`) REFERENCES `sys_users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=7124 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7247 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-ALTER DATABASE `abiturient` CHARACTER SET utf8 COLLATE utf8_unicode_ci ;
+ALTER DATABASE `abiturient` CHARACTER SET utf8 COLLATE utf8_general_ci ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
 /*!50003 SET character_set_client  = utf8 */ ;
 /*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_unicode_ci */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = '' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `insert_person` BEFORE INSERT ON `person`
-FOR EACH ROW BEGIN
-    SET NEW.`Modified` = NOW();
-    SET NEW.`CreateDate` = NOW();
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `insert_person` BEFORE INSERT ON `person`
+FOR EACH ROW BEGIN
+    SET NEW.`Modified` = NOW();
+    SET NEW.`CreateDate` = NOW();
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -819,19 +775,19 @@ DELIMITER ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
 ALTER DATABASE `abiturient` CHARACTER SET utf8 COLLATE utf8_unicode_ci ;
-ALTER DATABASE `abiturient` CHARACTER SET utf8 COLLATE utf8_unicode_ci ;
+ALTER DATABASE `abiturient` CHARACTER SET utf8 COLLATE utf8_general_ci ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
 /*!50003 SET character_set_client  = utf8 */ ;
 /*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_unicode_ci */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = '' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `update_person` before update ON `person`
-FOR EACH ROW BEGIN
-    SET NEW.Modified = NOW();
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `update_person` before update ON `person`
+FOR EACH ROW BEGIN
+    SET NEW.Modified = NOW();
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -844,12 +800,12 @@ ALTER DATABASE `abiturient` CHARACTER SET utf8 COLLATE utf8_unicode_ci ;
 -- Temporary table structure for view `person_contacts_view`
 --
 
--- DROP TABLE IF EXISTS `person_contacts_view`;
+DROP TABLE IF EXISTS `person_contacts_view`;
 /*!50001 DROP VIEW IF EXISTS `person_contacts_view`*/;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
-/*!50001 CREATE TABLE IF NOT EXISTS `person_contacts_view` (
- `FIO` tinyint NOT NULL,
+/*!50001 CREATE TABLE `person_contacts_view` (
+  `FIO` tinyint NOT NULL,
   `SepcialityID` tinyint NOT NULL,
   `RequestFromEB` tinyint NOT NULL,
   `EducationFormID` tinyint NOT NULL,
@@ -865,12 +821,12 @@ SET character_set_client = @saved_cs_client;
 -- Temporary table structure for view `person_contract_speciality_view`
 --
 
--- DROP TABLE IF EXISTS `person_contract_speciality_view`;
+DROP TABLE IF EXISTS `person_contract_speciality_view`;
 /*!50001 DROP VIEW IF EXISTS `person_contract_speciality_view`*/;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
-/*!50001 CREATE TABLE IF NOT EXISTS `person_contract_speciality_view` (
- `idPersonSpeciality` tinyint NOT NULL,
+/*!50001 CREATE TABLE `person_contract_speciality_view` (
+  `idPersonSpeciality` tinyint NOT NULL,
   `idPerson` tinyint NOT NULL,
   `FIO` tinyint NOT NULL,
   `SpecCodeName` tinyint NOT NULL,
@@ -883,16 +839,41 @@ SET character_set_client = @saved_cs_client;
 -- Temporary table structure for view `person_list`
 --
 
+DROP TABLE IF EXISTS `person_list`;
+/*!50001 DROP VIEW IF EXISTS `person_list`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE TABLE `person_list` (
+  `sumBall` tinyint NOT NULL,
+  `OlympiadAwardBonus` tinyint NOT NULL,
+  `isCopy` tinyint NOT NULL,
+  `surname` tinyint NOT NULL,
+  `name` tinyint NOT NULL,
+  `fartherName` tinyint NOT NULL,
+  `facultet` tinyint NOT NULL,
+  `eb` tinyint NOT NULL,
+  `idFacultet` tinyint NOT NULL,
+  `spec` tinyint NOT NULL,
+  `status` tinyint NOT NULL,
+  `region` tinyint NOT NULL,
+  `city` tinyint NOT NULL,
+  `cityVillage` tinyint NOT NULL,
+  `edu` tinyint NOT NULL,
+  `homephone` tinyint NOT NULL,
+  `mobile` tinyint NOT NULL
+) ENGINE=MyISAM */;
+SET character_set_client = @saved_cs_client;
+
 --
 -- Temporary table structure for view `person_speciality_view`
 --
 
--- DROP TABLE IF EXISTS `person_speciality_view`;
+DROP TABLE IF EXISTS `person_speciality_view`;
 /*!50001 DROP VIEW IF EXISTS `person_speciality_view`*/;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
-/*!50001 CREATE TABLE IF NOT EXISTS `person_speciality_view` (
- `idPersonSpeciality` tinyint NOT NULL,
+/*!50001 CREATE TABLE `person_speciality_view` (
+  `idPersonSpeciality` tinyint NOT NULL,
   `CreateDate` tinyint NOT NULL,
   `idPerson` tinyint NOT NULL,
   `Birthday` tinyint NOT NULL,
@@ -930,14 +911,26 @@ SET character_set_client = @saved_cs_client;
 -- Temporary table structure for view `person_with1or2_spec`
 --
 
+DROP TABLE IF EXISTS `person_with1or2_spec`;
+/*!50001 DROP VIEW IF EXISTS `person_with1or2_spec`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE TABLE `person_with1or2_spec` (
+  `ПІБ` tinyint NOT NULL,
+  `КІЛЬКІСТЬ ПОДАНИХ ЗАЯВОК` tinyint NOT NULL,
+  `ЗАЯВКИ` tinyint NOT NULL,
+  `КОНТАКТИ` tinyint NOT NULL
+) ENGINE=MyISAM */;
+SET character_set_client = @saved_cs_client;
+
 --
 -- Table structure for table `personbasespeciality`
 --
 
--- DROP TABLE IF EXISTS `personbasespeciality`;
+DROP TABLE IF EXISTS `personbasespeciality`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `personbasespeciality` (
+CREATE TABLE `personbasespeciality` (
   `idPersonBaseSpeciality` int(11) NOT NULL AUTO_INCREMENT,
   `PersonBaseSpecialityName` varchar(150) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Название',
   `PersonBaseSpecialityClasifierCode` char(15) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'код по классификации МОН',
@@ -949,10 +942,10 @@ CREATE TABLE IF NOT EXISTS `personbasespeciality` (
 -- Table structure for table `personbenefitdocument`
 --
 
--- DROP TABLE IF EXISTS `personbenefitdocument`;
+DROP TABLE IF EXISTS `personbenefitdocument`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `personbenefitdocument` (
+CREATE TABLE `personbenefitdocument` (
   `idPersonBenefitDocument` int(11) NOT NULL AUTO_INCREMENT,
   `PersonBenefitID` int(11) DEFAULT NULL,
   `DocumentID` int(11) DEFAULT NULL,
@@ -965,19 +958,19 @@ CREATE TABLE IF NOT EXISTS `personbenefitdocument` (
   CONSTRAINT `fk_PersonBenefitDocument_2` FOREIGN KEY (`DocumentID`) REFERENCES `documents` (`idDocuments`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-ALTER DATABASE `abiturient` CHARACTER SET utf8 COLLATE utf8_unicode_ci ;
+ALTER DATABASE `abiturient` CHARACTER SET utf8 COLLATE utf8_general_ci ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
 /*!50003 SET character_set_client  = utf8 */ ;
 /*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_unicode_ci */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = '' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER inster_personbenefitdocument BEFORE INSERT ON personbenefitdocument
-FOR EACH ROW BEGIN
-    SET NEW.Modified = NOW();
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER inster_personbenefitdocument BEFORE INSERT ON personbenefitdocument
+FOR EACH ROW BEGIN
+    SET NEW.Modified = NOW();
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -985,19 +978,19 @@ DELIMITER ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
 ALTER DATABASE `abiturient` CHARACTER SET utf8 COLLATE utf8_unicode_ci ;
-ALTER DATABASE `abiturient` CHARACTER SET utf8 COLLATE utf8_unicode_ci ;
+ALTER DATABASE `abiturient` CHARACTER SET utf8 COLLATE utf8_general_ci ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
 /*!50003 SET character_set_client  = utf8 */ ;
 /*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_unicode_ci */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = '' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER update_personbenefitdocument BEFORE UPDATE ON personbenefitdocument
-FOR EACH ROW BEGIN
-    SET NEW.Modified = NOW();
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER update_personbenefitdocument BEFORE UPDATE ON personbenefitdocument
+FOR EACH ROW BEGIN
+    SET NEW.Modified = NOW();
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -1010,10 +1003,10 @@ ALTER DATABASE `abiturient` CHARACTER SET utf8 COLLATE utf8_unicode_ci ;
 -- Table structure for table `personbenefits`
 --
 
--- DROP TABLE IF EXISTS `personbenefits`;
+DROP TABLE IF EXISTS `personbenefits`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `personbenefits` (
+CREATE TABLE `personbenefits` (
   `idPersonBenefits` int(11) NOT NULL AUTO_INCREMENT,
   `PersonID` int(11) DEFAULT NULL,
   `BenefitID` int(11) DEFAULT NULL,
@@ -1028,21 +1021,21 @@ CREATE TABLE IF NOT EXISTS `personbenefits` (
   KEY `fk_PersonBenefits_2` (`BenefitID`),
   CONSTRAINT `fk_PersonBenefits_1` FOREIGN KEY (`PersonID`) REFERENCES `person` (`idPerson`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_PersonBenefits_2` FOREIGN KEY (`BenefitID`) REFERENCES `benefit` (`idBenefit`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1190 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1236 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-ALTER DATABASE `abiturient` CHARACTER SET utf8 COLLATE utf8_unicode_ci ;
+ALTER DATABASE `abiturient` CHARACTER SET utf8 COLLATE utf8_general_ci ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
 /*!50003 SET character_set_client  = utf8 */ ;
 /*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_unicode_ci */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = '' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER insert_personbenefits BEFORE INSERT ON personbenefits
-FOR EACH ROW BEGIN
-    SET NEW.Modified = NOW();
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER insert_personbenefits BEFORE INSERT ON personbenefits
+FOR EACH ROW BEGIN
+    SET NEW.Modified = NOW();
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -1050,19 +1043,19 @@ DELIMITER ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
 ALTER DATABASE `abiturient` CHARACTER SET utf8 COLLATE utf8_unicode_ci ;
-ALTER DATABASE `abiturient` CHARACTER SET utf8 COLLATE utf8_unicode_ci ;
+ALTER DATABASE `abiturient` CHARACTER SET utf8 COLLATE utf8_general_ci ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
 /*!50003 SET character_set_client  = utf8 */ ;
 /*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_unicode_ci */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = '' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER update_personbenefits BEFORE UPDATE ON personbenefits
-FOR EACH ROW BEGIN
-    SET NEW.Modified = NOW();
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER update_personbenefits BEFORE UPDATE ON personbenefits
+FOR EACH ROW BEGIN
+    SET NEW.Modified = NOW();
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -1075,10 +1068,10 @@ ALTER DATABASE `abiturient` CHARACTER SET utf8 COLLATE utf8_unicode_ci ;
 -- Table structure for table `personcontacts`
 --
 
--- DROP TABLE IF EXISTS `personcontacts`;
+DROP TABLE IF EXISTS `personcontacts`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `personcontacts` (
+CREATE TABLE `personcontacts` (
   `idPersonContacts` int(11) NOT NULL AUTO_INCREMENT,
   `PersonID` int(11) DEFAULT NULL,
   `PersonContactTypeID` int(11) DEFAULT NULL,
@@ -1090,21 +1083,21 @@ CREATE TABLE IF NOT EXISTS `personcontacts` (
   KEY `fk_PersonContacts_2` (`PersonContactTypeID`),
   CONSTRAINT `fk_PersonContacts_1` FOREIGN KEY (`PersonID`) REFERENCES `person` (`idPerson`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_PersonContacts_2` FOREIGN KEY (`PersonContactTypeID`) REFERENCES `personcontacttypes` (`idPersonContactType`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=14245 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14491 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-ALTER DATABASE `abiturient` CHARACTER SET utf8 COLLATE utf8_unicode_ci ;
+ALTER DATABASE `abiturient` CHARACTER SET utf8 COLLATE utf8_general_ci ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
 /*!50003 SET character_set_client  = utf8 */ ;
 /*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_unicode_ci */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = '' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER insert_personcontacts BEFORE INSERT ON personcontacts
-FOR EACH ROW BEGIN
-    SET NEW.Modified = NOW();
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER insert_personcontacts BEFORE INSERT ON personcontacts
+FOR EACH ROW BEGIN
+    SET NEW.Modified = NOW();
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -1112,19 +1105,19 @@ DELIMITER ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
 ALTER DATABASE `abiturient` CHARACTER SET utf8 COLLATE utf8_unicode_ci ;
-ALTER DATABASE `abiturient` CHARACTER SET utf8 COLLATE utf8_unicode_ci ;
+ALTER DATABASE `abiturient` CHARACTER SET utf8 COLLATE utf8_general_ci ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
 /*!50003 SET character_set_client  = utf8 */ ;
 /*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_unicode_ci */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = '' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER update_personcontacts BEFORE UPDATE ON personcontacts
-FOR EACH ROW BEGIN
-    SET NEW.Modified = NOW();
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER update_personcontacts BEFORE UPDATE ON personcontacts
+FOR EACH ROW BEGIN
+    SET NEW.Modified = NOW();
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -1137,10 +1130,10 @@ ALTER DATABASE `abiturient` CHARACTER SET utf8 COLLATE utf8_unicode_ci ;
 -- Table structure for table `personcontacttypes`
 --
 
--- DROP TABLE IF EXISTS `personcontacttypes`;
+DROP TABLE IF EXISTS `personcontacttypes`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `personcontacttypes` (
+CREATE TABLE `personcontacttypes` (
   `idPersonContactType` int(11) NOT NULL,
   `PersonContactTypeName` char(10) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`idPersonContactType`)
@@ -1151,10 +1144,10 @@ CREATE TABLE IF NOT EXISTS `personcontacttypes` (
 -- Table structure for table `personcoursesdp`
 --
 
--- DROP TABLE IF EXISTS `personcoursesdp`;
+DROP TABLE IF EXISTS `personcoursesdp`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `personcoursesdp` (
+CREATE TABLE `personcoursesdp` (
   `idPersonCourses` int(11) NOT NULL AUTO_INCREMENT,
   `PersonID` int(11) DEFAULT NULL,
   `CourseDPID` int(11) DEFAULT NULL,
@@ -1172,10 +1165,10 @@ CREATE TABLE IF NOT EXISTS `personcoursesdp` (
 -- Table structure for table `persondocumentsawardstypes`
 --
 
--- DROP TABLE IF EXISTS `persondocumentsawardstypes`;
+DROP TABLE IF EXISTS `persondocumentsawardstypes`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `persondocumentsawardstypes` (
+CREATE TABLE `persondocumentsawardstypes` (
   `idPersonDocumentsAwardsTypes` int(11) NOT NULL AUTO_INCREMENT,
   `PersonDocumentsAwardsTypesName` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`idPersonDocumentsAwardsTypes`)
@@ -1186,10 +1179,10 @@ CREATE TABLE IF NOT EXISTS `persondocumentsawardstypes` (
 -- Table structure for table `persondocumenttypes`
 --
 
--- DROP TABLE IF EXISTS `persondocumenttypes`;
+DROP TABLE IF EXISTS `persondocumenttypes`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `persondocumenttypes` (
+CREATE TABLE `persondocumenttypes` (
   `idPersonDocumentTypes` int(11) NOT NULL,
   `PersonDocumentTypesName` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `IsEntrantDocument` int(11) DEFAULT NULL,
@@ -1201,13 +1194,14 @@ CREATE TABLE IF NOT EXISTS `persondocumenttypes` (
 -- Table structure for table `personeducationforms`
 --
 
--- DROP TABLE IF EXISTS `personeducationforms`;
+DROP TABLE IF EXISTS `personeducationforms`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `personeducationforms` (
+CREATE TABLE `personeducationforms` (
   `idPersonEducationForm` int(11) NOT NULL COMMENT 'Идентификатор формы обучения персоны',
   `PersonEducationFormName` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Название формы обучения персоны',
   `isVisible` tinyint(4) DEFAULT NULL COMMENT 'Флаг видимости формы обучения для оператора системы',
+  `PersonEducationFormNameRP` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Родительный падеж названия формы обучения',
   PRIMARY KEY (`idPersonEducationForm`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Таблица хранит формы обучения персоны';
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -1216,10 +1210,10 @@ CREATE TABLE IF NOT EXISTS `personeducationforms` (
 -- Table structure for table `personeducationpaymenttypes`
 --
 
--- DROP TABLE IF EXISTS `personeducationpaymenttypes`;
+DROP TABLE IF EXISTS `personeducationpaymenttypes`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `personeducationpaymenttypes` (
+CREATE TABLE `personeducationpaymenttypes` (
   `idEducationPaymentTypes` int(11) NOT NULL,
   `EducationPaymentTypesName` char(15) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`idEducationPaymentTypes`)
@@ -1230,10 +1224,10 @@ CREATE TABLE IF NOT EXISTS `personeducationpaymenttypes` (
 -- Table structure for table `personeducationtypes`
 --
 
--- DROP TABLE IF EXISTS `personeducationtypes`;
+DROP TABLE IF EXISTS `personeducationtypes`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `personeducationtypes` (
+CREATE TABLE `personeducationtypes` (
   `idPersonEducationTypes` int(11) NOT NULL,
   `PersonEducationTypesName` char(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`idPersonEducationTypes`)
@@ -1244,10 +1238,10 @@ CREATE TABLE IF NOT EXISTS `personeducationtypes` (
 -- Table structure for table `personenterancetypes`
 --
 
--- DROP TABLE IF EXISTS `personenterancetypes`;
+DROP TABLE IF EXISTS `personenterancetypes`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `personenterancetypes` (
+CREATE TABLE `personenterancetypes` (
   `idPersonEnteranceType` int(11) NOT NULL,
   `PersonEnteranceTypeName` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`idPersonEnteranceType`)
@@ -1258,10 +1252,10 @@ CREATE TABLE IF NOT EXISTS `personenterancetypes` (
 -- Table structure for table `personolympiad`
 --
 
--- DROP TABLE IF EXISTS `personolympiad`;
+DROP TABLE IF EXISTS `personolympiad`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `personolympiad` (
+CREATE TABLE `personolympiad` (
   `idPersonOlympiad` int(11) NOT NULL AUTO_INCREMENT,
   `PersonID` int(11) DEFAULT NULL,
   `OlympiadAwarID` int(11) DEFAULT NULL,
@@ -1278,10 +1272,10 @@ CREATE TABLE IF NOT EXISTS `personolympiad` (
 -- Table structure for table `personrequeststatustypes`
 --
 
--- DROP TABLE IF EXISTS `personrequeststatustypes`;
+DROP TABLE IF EXISTS `personrequeststatustypes`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `personrequeststatustypes` (
+CREATE TABLE `personrequeststatustypes` (
   `idPersonRequestStatusType` int(11) NOT NULL COMMENT 'Id_PersonRequestStatusType Идентификатор заявки',
   `PersonRequestStatusCode` varchar(20) NOT NULL COMMENT 'Текстовый код статуса',
   `PersonRequestStatusTypeName` varchar(50) NOT NULL COMMENT 'Название статуса заявки',
@@ -1294,97 +1288,114 @@ CREATE TABLE IF NOT EXISTS `personrequeststatustypes` (
 -- Table structure for table `personsextypes`
 --
 
--- DROP TABLE IF EXISTS `personsextypes`;
+DROP TABLE IF EXISTS `personsextypes`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `personsextypes` (
+CREATE TABLE `personsextypes` (
   `idPersonSexTypes` int(11) NOT NULL,
-  `PersonSexTypesName` char(12) COLLATE utf8_unicode_ci NOT NULL,
+  `PersonSexTypesName` char(12) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Стать персони',
   PRIMARY KEY (`idPersonSexTypes`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Temporary table structure for view `personspec_all`
---
-
-
---
--- Temporary table structure for view `personspec_all_part1`
---
-
---
--- Temporary table structure for view `personspec_all_part2`
---
-
---
--- Temporary table structure for view `personspec_counts`
---
-
---
 -- Temporary table structure for view `personspec_mag`
 --
+
+DROP TABLE IF EXISTS `personspec_mag`;
+/*!50001 DROP VIEW IF EXISTS `personspec_mag`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE TABLE `personspec_mag` (
+  `idPersonSpeciality` tinyint NOT NULL,
+  `FIO` tinyint NOT NULL,
+  `FacultetFullName` tinyint NOT NULL,
+  `Specialnost` tinyint NOT NULL,
+  `Kontrakt` tinyint NOT NULL,
+  `Budget` tinyint NOT NULL,
+  `PersonDocumentTypesName` tinyint NOT NULL,
+  `evaluation` tinyint NOT NULL,
+  `Status` tinyint NOT NULL
+) ENGINE=MyISAM */;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Temporary table structure for view `personspec_specialists`
 --
 
+DROP TABLE IF EXISTS `personspec_specialists`;
+/*!50001 DROP VIEW IF EXISTS `personspec_specialists`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE TABLE `personspec_specialists` (
+  `idPersonSpeciality` tinyint NOT NULL,
+  `FIO` tinyint NOT NULL,
+  `FacultetFullName` tinyint NOT NULL,
+  `Specialnost` tinyint NOT NULL,
+  `Kontrakt` tinyint NOT NULL,
+  `Budget` tinyint NOT NULL,
+  `PersonDocumentTypesName` tinyint NOT NULL,
+  `evaluation` tinyint NOT NULL,
+  `Status` tinyint NOT NULL
+) ENGINE=MyISAM */;
+SET character_set_client = @saved_cs_client;
+
 --
 -- Table structure for table `personspeciality`
 --
 
--- DROP TABLE IF EXISTS `personspeciality`;
+DROP TABLE IF EXISTS `personspeciality`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `personspeciality` (
+CREATE TABLE `personspeciality` (
   `idPersonSpeciality` int(11) NOT NULL AUTO_INCREMENT,
-  `RequestNumber` int(11) NOT NULL,
-  `PersonRequestNumber` int(11) NOT NULL,
-  `PersonID` int(11) DEFAULT NULL,
-  `SepcialityID` int(11) DEFAULT NULL,
+  `RequestNumber` int(11) NOT NULL COMMENT 'Номер заяви на спеціальність',
+  `PersonRequestNumber` int(11) NOT NULL COMMENT 'Порядковий номер абітурієнта',
+  `PersonID` int(11) DEFAULT NULL COMMENT 'Персона',
+  `SepcialityID` int(11) DEFAULT NULL COMMENT 'Спеціальність',
   `PaymentTypeID` int(11) DEFAULT NULL COMMENT 'Не используется',
-  `EducationFormID` int(11) DEFAULT NULL,
-  `QualificationID` int(11) DEFAULT NULL,
-  `EntranceTypeID` int(11) DEFAULT NULL,
-  `CourseID` int(11) DEFAULT NULL,
-  `CausalityID` int(11) DEFAULT NULL,
-  `EntrantDocumentID` int(11) DEFAULT NULL,
-  `CoursedpID` int(11) NOT NULL,
-  `OlympiadID` int(11) NOT NULL,
-  `GraduatedUniversitieID` int(11) NOT NULL,
-  `GraduatedSpecialitieID` int(11) NOT NULL,
+  `EducationFormID` int(11) DEFAULT NULL COMMENT 'Форма навчання',
+  `QualificationID` int(11) DEFAULT NULL COMMENT 'ОсвітньоКваліфікаційнийРівень',
+  `EntranceTypeID` int(11) DEFAULT NULL COMMENT 'ТипВступу',
+  `CourseID` int(11) DEFAULT NULL COMMENT 'Курс',
+  `CausalityID` int(11) DEFAULT NULL COMMENT 'ПричинаВступу',
+  `EntrantDocumentID` int(11) DEFAULT NULL COMMENT 'ВступЗаДокументом',
+  `CoursedpID` int(11) NOT NULL COMMENT 'ПідготовчіКурси',
+  `OlympiadID` int(11) NOT NULL COMMENT 'Олімпіада',
+  `GraduatedUniversitieID` int(11) NOT NULL COMMENT 'ВипускникВНЗ',
+  `GraduatedSpecialitieID` int(11) NOT NULL COMMENT 'СпеціальністьВипускникаВНЗ',
   `GraduatedSpeciality` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `PersonDocumentsAwardsTypesID` int(11) NOT NULL,
-  `isTarget` tinyint(4) DEFAULT NULL,
-  `isContract` tinyint(4) DEFAULT NULL,
-  `isBudget` tinyint(4) NOT NULL,
-  `isNeedHostel` tinyint(4) NOT NULL,
-  `isForeinghEntrantDocument` tinyint(4) NOT NULL,
-  `isNotCheckAttestat` tinyint(4) NOT NULL,
-  `AdditionalBall` float DEFAULT NULL,
-  `CoursedpBall` float DEFAULT NULL,
-  `AdditionalBallComment` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `isCopyEntrantDoc` tinyint(4) DEFAULT NULL,
-  `DocumentSubject1` int(11) DEFAULT NULL,
-  `DocumentSubject2` int(11) DEFAULT NULL,
-  `DocumentSubject3` int(11) DEFAULT NULL,
-  `Exam1ID` int(11) DEFAULT NULL,
-  `Exam1Ball` int(11) DEFAULT NULL,
-  `Exam2ID` int(11) DEFAULT NULL,
-  `Exam2Ball` int(11) DEFAULT NULL,
-  `Exam3ID` int(11) DEFAULT NULL,
-  `Exam3Ball` int(11) DEFAULT NULL,
+  `PersonDocumentsAwardsTypesID` int(11) NOT NULL COMMENT 'ТипНагороди',
+  `isTarget` tinyint(4) DEFAULT NULL COMMENT 'Не використовується',
+  `isContract` tinyint(4) DEFAULT NULL COMMENT 'Заявка на контракт',
+  `isBudget` tinyint(4) NOT NULL COMMENT 'Заявка на бюджет',
+  `isNeedHostel` tinyint(4) NOT NULL COMMENT 'Потребує гуртожиток',
+  `isForeinghEntrantDocument` tinyint(4) NOT NULL COMMENT 'Вступ за іноземним документом',
+  `isNotCheckAttestat` tinyint(4) NOT NULL COMMENT 'Не перевіряти документ про освіту',
+  `AdditionalBall` float DEFAULT NULL COMMENT 'Додаткові бали',
+  `CoursedpBall` float DEFAULT NULL COMMENT 'Бали за курси ДП',
+  `AdditionalBallComment` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Коментар додаткових балів',
+  `isCopyEntrantDoc` tinyint(4) DEFAULT NULL COMMENT 'Подано копію документів',
+  `DocumentSubject1` int(11) DEFAULT NULL COMMENT 'ЗНОПредмет1',
+  `DocumentSubject2` int(11) DEFAULT NULL COMMENT 'ЗНОПредмет2',
+  `DocumentSubject3` int(11) DEFAULT NULL COMMENT 'ЗНОПредмет3',
+  `Exam1ID` int(11) DEFAULT NULL COMMENT 'ВступнийІспит1',
+  `Exam1Ball` int(11) DEFAULT NULL COMMENT 'Бали за перший іспит',
+  `Exam2ID` int(11) DEFAULT NULL COMMENT 'ВступнийІспит2',
+  `Exam2Ball` int(11) DEFAULT NULL COMMENT 'Бали за другий іспит',
+  `Exam3ID` int(11) DEFAULT NULL COMMENT 'ВступнийІспит3',
+  `Exam3Ball` int(11) DEFAULT NULL COMMENT 'Бали за третій іспит',
   `IdPersonRequestExamination1` int(11) DEFAULT NULL COMMENT 'Идентификатор первого экзамена в ЕДБО',
   `IdPersonRequestExamination2` int(11) DEFAULT NULL COMMENT 'Идентификатор второго экзамена в ЕДБО',
   `IdPersonRequestExamination3` int(11) DEFAULT NULL COMMENT 'Идентификатор третьего экзамена в ЕДБО',
   `RequestFromEB` tinyint(4) NOT NULL COMMENT 'Електрона заявка на вступ (0/1 - ні/так)',
   `isHigherEducation` tinyint(4) NOT NULL COMMENT 'Информация о высшем образовании персоны. Возможные значения -1 – не вказано 0 -не отримую, 1 – отримую, 2 – є, 3- немає',
   `SkipDocumentValue` tinyint(4) NOT NULL COMMENT 'Флаг, указывающий что бал документа не учитывается при подсчете конкурсного бала. 1- не учитывается, 0 –учитывается.',
-  `Quota1` tinyint(4) DEFAULT NULL,
-  `Quota2` tinyint(11) DEFAULT NULL,
-  `StatusID` int(11) NOT NULL DEFAULT '1',
-  `CreateDate` datetime DEFAULT NULL,
-  `Modified` datetime DEFAULT NULL COMMENT 'Дата последней модификации',
+  `Quota1` tinyint(4) DEFAULT NULL COMMENT 'Цільовий вступ',
+  `Quota2` tinyint(11) DEFAULT NULL COMMENT 'Вступ на державну службу',
+  `StatusID` int(11) NOT NULL DEFAULT '1' COMMENT 'Статус заявки',
+  `CreateDate` datetime DEFAULT NULL COMMENT 'Дата створення заявки',
+  `Modified` datetime DEFAULT NULL COMMENT 'Дата останньої модифікації',
   `SysUserID` int(11) DEFAULT NULL COMMENT 'Идентификатор пользователя, внесшего последнюю модификацию в таблицу',
   `edboID` int(11) DEFAULT NULL COMMENT 'идентификатор записи в базе ЕДБО',
   `CustomerName` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
@@ -1394,6 +1405,7 @@ CREATE TABLE IF NOT EXISTS `personspeciality` (
   `CustomerPaymentDetails` varchar(250) CHARACTER SET utf8 NOT NULL,
   `DateOfContract` date NOT NULL,
   `PaymentDate` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
+  `LanguageID` int(11) NOT NULL,
   PRIMARY KEY (`idPersonSpeciality`),
   KEY `fk_PersonSepciality_1` (`PersonID`),
   KEY `fk_PersonSepciality_2` (`SepcialityID`),
@@ -1424,22 +1436,22 @@ CREATE TABLE IF NOT EXISTS `personspeciality` (
   CONSTRAINT `fk_personsepciality_7` FOREIGN KEY (`CourseID`) REFERENCES `courses` (`idCourse`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_personsepciality_8` FOREIGN KEY (`CausalityID`) REFERENCES `causality` (`idCausality`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_personsepciality_9` FOREIGN KEY (`DocumentSubject1`) REFERENCES `documentsubject` (`idDocumentSubject`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=14226 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14436 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-ALTER DATABASE `abiturient` CHARACTER SET utf8 COLLATE utf8_unicode_ci ;
+ALTER DATABASE `abiturient` CHARACTER SET utf8 COLLATE utf8_general_ci ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
 /*!50003 SET character_set_client  = utf8 */ ;
 /*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_unicode_ci */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = '' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `insert_personspeciality` BEFORE INSERT ON `personspeciality`
-FOR EACH ROW BEGIN
-    SET NEW.`Modified` = NOW();
-    SET NEW.`CreateDate` = NOW();
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `insert_personspeciality` BEFORE INSERT ON `personspeciality`
+FOR EACH ROW BEGIN
+    SET NEW.`Modified` = NOW();
+    SET NEW.`CreateDate` = NOW();
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -1447,19 +1459,19 @@ DELIMITER ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
 ALTER DATABASE `abiturient` CHARACTER SET utf8 COLLATE utf8_unicode_ci ;
-ALTER DATABASE `abiturient` CHARACTER SET utf8 COLLATE utf8_unicode_ci ;
+ALTER DATABASE `abiturient` CHARACTER SET utf8 COLLATE utf8_general_ci ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
 /*!50003 SET character_set_client  = utf8 */ ;
 /*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_unicode_ci */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = '' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER update_personspeciality BEFORE UPDATE ON personspeciality
-FOR EACH ROW BEGIN
-    SET NEW.Modified = NOW();
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER update_personspeciality BEFORE UPDATE ON personspeciality
+FOR EACH ROW BEGIN
+    SET NEW.Modified = NOW();
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -1467,19 +1479,15 @@ DELIMITER ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
 ALTER DATABASE `abiturient` CHARACTER SET utf8 COLLATE utf8_unicode_ci ;
-
---
--- Temporary table structure for view `personspeciality_counts`
---
 
 --
 -- Table structure for table `personspecialitybenefits`
 --
 
--- DROP TABLE IF EXISTS `personspecialitybenefits`;
+DROP TABLE IF EXISTS `personspecialitybenefits`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `personspecialitybenefits` (
+CREATE TABLE `personspecialitybenefits` (
   `PersonSpecialityID` int(11) NOT NULL,
   `PersonBenefitID` int(11) NOT NULL,
   PRIMARY KEY (`PersonSpecialityID`,`PersonBenefitID`)
@@ -1490,14 +1498,26 @@ CREATE TABLE IF NOT EXISTS `personspecialitybenefits` (
 -- Temporary table structure for view `posvidka`
 --
 
+DROP TABLE IF EXISTS `posvidka`;
+/*!50001 DROP VIEW IF EXISTS `posvidka`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE TABLE `posvidka` (
+  `idPerson` tinyint NOT NULL,
+  `FirstName` tinyint NOT NULL,
+  `MiddleName` tinyint NOT NULL,
+  `LastName` tinyint NOT NULL
+) ENGINE=MyISAM */;
+SET character_set_client = @saved_cs_client;
+
 --
 -- Table structure for table `prices`
 --
 
--- DROP TABLE IF EXISTS `prices`;
+DROP TABLE IF EXISTS `prices`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `prices` (
+CREATE TABLE `prices` (
   `idPrice` int(11) NOT NULL,
   `FacultetID` int(11) NOT NULL,
   `SpecialityID` int(11) NOT NULL,
@@ -1513,10 +1533,10 @@ CREATE TABLE IF NOT EXISTS `prices` (
 -- Table structure for table `qualifications`
 --
 
--- DROP TABLE IF EXISTS `qualifications`;
+DROP TABLE IF EXISTS `qualifications`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `qualifications` (
+CREATE TABLE `qualifications` (
   `idQualification` int(11) NOT NULL,
   `QualificationName` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`idQualification`)
@@ -1527,10 +1547,10 @@ CREATE TABLE IF NOT EXISTS `qualifications` (
 -- Table structure for table `requeststatus`
 --
 
--- DROP TABLE IF EXISTS `requeststatus`;
+DROP TABLE IF EXISTS `requeststatus`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `requeststatus` (
+CREATE TABLE `requeststatus` (
   `idRequestStatus` int(11) NOT NULL,
   `RequestStatusName` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Название',
   `RequestStatusDesription` varchar(150) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Описание',
@@ -1543,30 +1563,46 @@ CREATE TABLE IF NOT EXISTS `requeststatus` (
 -- Temporary table structure for view `resident_list`
 --
 
+DROP TABLE IF EXISTS `resident_list`;
+/*!50001 DROP VIEW IF EXISTS `resident_list`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE TABLE `resident_list` (
+  `surname` tinyint NOT NULL,
+  `name` tinyint NOT NULL,
+  `fartherName` tinyint NOT NULL,
+  `edbo` tinyint NOT NULL,
+  `country` tinyint NOT NULL,
+  `edu` tinyint NOT NULL,
+  `statusname` tinyint NOT NULL,
+  `spec` tinyint NOT NULL
+) ENGINE=MyISAM */;
+SET character_set_client = @saved_cs_client;
+
 --
 -- Table structure for table `schools`
 --
 
--- DROP TABLE IF EXISTS `schools`;
+DROP TABLE IF EXISTS `schools`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `schools` (
+CREATE TABLE `schools` (
   `idSchool` int(11) NOT NULL,
-  `EducationTypeID` int(11) DEFAULT NULL,
-  `Kode_School` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `SchoolName` varchar(250) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `SchoolShortName` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `KOATUUCode` char(10) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `KOATUUFullName` varchar(150) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `StreetTypeID` int(11) DEFAULT NULL,
-  `StreetName` varchar(150) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `HouceNum` char(15) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `SchoolBossLastName` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `SchoolBossFirstName` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `SchoolBossMiddleName` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `SchoolPhone` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `SchoolMobile` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `SchoolEMail` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `EducationTypeID` int(11) DEFAULT NULL COMMENT 'ТипНавчальногоЗакладу',
+  `Kode_School` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Код навчального закладу в ЄДЕБО',
+  `SchoolName` varchar(250) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Назва навчального закладу',
+  `SchoolShortName` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Скорочена назва навчального закладу',
+  `KOATUUCode` char(10) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Код класифікатора об''єктів адміністративно-територіального устрою України',
+  `KOATUUFullName` varchar(150) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Повна назва класифікатор об''єктів адміністративно-територіального устрою України',
+  `StreetTypeID` int(11) DEFAULT NULL COMMENT 'ТипГеонімуМісцяЗнаходженняНЗ',
+  `StreetName` varchar(150) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Назва геоніму',
+  `HouceNum` char(15) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Номер будинку НЗ',
+  `SchoolBossLastName` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Прізвище директора НЗ',
+  `SchoolBossFirstName` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Ім_я директора НЗ',
+  `SchoolBossMiddleName` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'По-батькові директора НЗ',
+  `SchoolPhone` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Контактний номер телефону НЗ',
+  `SchoolMobile` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Номер мобільного телефону НЗ',
+  `SchoolEMail` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Адреса електронної поштової скриньки НЗ',
   PRIMARY KEY (`idSchool`),
   KEY `fk_Schools_1` (`EducationTypeID`),
   KEY `fk_Schools_3` (`StreetTypeID`),
@@ -1579,10 +1615,10 @@ CREATE TABLE IF NOT EXISTS `schools` (
 -- Table structure for table `specialities`
 --
 
--- DROP TABLE IF EXISTS `specialities`;
+DROP TABLE IF EXISTS `specialities`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `specialities` (
+CREATE TABLE `specialities` (
   `idSpeciality` int(11) NOT NULL,
   `SpecialityName` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `SpecialityDirectionName` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -1610,19 +1646,19 @@ CREATE TABLE IF NOT EXISTS `specialities` (
   CONSTRAINT `fk_specialities_2` FOREIGN KEY (`PersonEducationFormID`) REFERENCES `personeducationforms` (`idPersonEducationForm`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-ALTER DATABASE `abiturient` CHARACTER SET utf8 COLLATE utf8_unicode_ci ;
+ALTER DATABASE `abiturient` CHARACTER SET utf8 COLLATE utf8_general_ci ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
 /*!50003 SET character_set_client  = utf8 */ ;
 /*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_unicode_ci */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = '' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER insert_specialities BEFORE INSERT ON specialities
-FOR EACH ROW BEGIN
-    SET NEW.Modified = NOW();
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER insert_specialities BEFORE INSERT ON specialities
+FOR EACH ROW BEGIN
+    SET NEW.Modified = NOW();
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -1630,19 +1666,19 @@ DELIMITER ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
 ALTER DATABASE `abiturient` CHARACTER SET utf8 COLLATE utf8_unicode_ci ;
-ALTER DATABASE `abiturient` CHARACTER SET utf8 COLLATE utf8_unicode_ci ;
+ALTER DATABASE `abiturient` CHARACTER SET utf8 COLLATE utf8_general_ci ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
 /*!50003 SET character_set_client  = utf8 */ ;
 /*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_unicode_ci */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = '' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER update_specialities BEFORE UPDATE ON specialities
-FOR EACH ROW BEGIN
-    SET NEW.Modified = NOW();
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER update_specialities BEFORE UPDATE ON specialities
+FOR EACH ROW BEGIN
+    SET NEW.Modified = NOW();
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -1655,10 +1691,10 @@ ALTER DATABASE `abiturient` CHARACTER SET utf8 COLLATE utf8_unicode_ci ;
 -- Table structure for table `specialitiesplaces`
 --
 
--- DROP TABLE IF EXISTS `specialitiesplaces`;
+DROP TABLE IF EXISTS `specialitiesplaces`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `specialitiesplaces` (
+CREATE TABLE `specialitiesplaces` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `SpecialityID` int(11) NOT NULL,
   `Budget` int(5) NOT NULL,
@@ -1673,10 +1709,10 @@ CREATE TABLE IF NOT EXISTS `specialitiesplaces` (
 -- Table structure for table `specialitysubjects`
 --
 
--- DROP TABLE IF EXISTS `specialitysubjects`;
+DROP TABLE IF EXISTS `specialitysubjects`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `specialitysubjects` (
+CREATE TABLE `specialitysubjects` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `SpecialityID` int(11) DEFAULT NULL COMMENT 'Код специальности',
   `SubjectID` int(11) DEFAULT NULL COMMENT 'Код предмета',
@@ -1693,19 +1729,19 @@ CREATE TABLE IF NOT EXISTS `specialitysubjects` (
   CONSTRAINT `specialitysubjects_ibfk_1` FOREIGN KEY (`LevelID`) REFERENCES `znolevels` (`idLevel`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=408 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-ALTER DATABASE `abiturient` CHARACTER SET utf8 COLLATE utf8_unicode_ci ;
+ALTER DATABASE `abiturient` CHARACTER SET utf8 COLLATE utf8_general_ci ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
 /*!50003 SET character_set_client  = utf8 */ ;
 /*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_unicode_ci */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = '' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER insert_specialitysubjects BEFORE INSERT ON specialitysubjects
-FOR EACH ROW BEGIN
-    SET NEW.Modified = NOW();
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER insert_specialitysubjects BEFORE INSERT ON specialitysubjects
+FOR EACH ROW BEGIN
+    SET NEW.Modified = NOW();
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -1713,19 +1749,19 @@ DELIMITER ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
 ALTER DATABASE `abiturient` CHARACTER SET utf8 COLLATE utf8_unicode_ci ;
-ALTER DATABASE `abiturient` CHARACTER SET utf8 COLLATE utf8_unicode_ci ;
+ALTER DATABASE `abiturient` CHARACTER SET utf8 COLLATE utf8_general_ci ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
 /*!50003 SET character_set_client  = utf8 */ ;
 /*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_unicode_ci */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = '' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER update_specialitysubjects BEFORE UPDATE ON specialitysubjects
-FOR EACH ROW BEGIN
-    SET NEW.Modified = NOW();
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER update_specialitysubjects BEFORE UPDATE ON specialitysubjects
+FOR EACH ROW BEGIN
+    SET NEW.Modified = NOW();
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -1733,23 +1769,15 @@ DELIMITER ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
 ALTER DATABASE `abiturient` CHARACTER SET utf8 COLLATE utf8_unicode_ci ;
-
---
--- Temporary table structure for view `stat_graduated`
---
-
---
--- Temporary table structure for view `stat_graduated_by_f`
---
 
 --
 -- Table structure for table `streettypes`
 --
 
--- DROP TABLE IF EXISTS `streettypes`;
+DROP TABLE IF EXISTS `streettypes`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `streettypes` (
+CREATE TABLE `streettypes` (
   `idStreetTypes` int(11) NOT NULL,
   `StreetTypesFullName` char(15) COLLATE utf8_unicode_ci DEFAULT NULL,
   `StreetTypesShortName` char(15) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -1761,24 +1789,24 @@ CREATE TABLE IF NOT EXISTS `streettypes` (
 -- Table structure for table `studyperiods`
 --
 
--- DROP TABLE IF EXISTS `studyperiods`;
+DROP TABLE IF EXISTS `studyperiods`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `studyperiods` (
+CREATE TABLE `studyperiods` (
   `idStudyPeriod` int(11) NOT NULL AUTO_INCREMENT,
   `StudyPeriodName` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`idStudyPeriod`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `subjects`
 --
 
--- DROP TABLE IF EXISTS `subjects`;
+DROP TABLE IF EXISTS `subjects`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `subjects` (
+CREATE TABLE `subjects` (
   `idSubjects` int(11) NOT NULL,
   `idZNOSubject` int(11) DEFAULT NULL,
   `SubjectName` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -1793,10 +1821,10 @@ CREATE TABLE IF NOT EXISTS `subjects` (
 -- Table structure for table `sys_departments`
 --
 
--- DROP TABLE IF EXISTS `sys_departments`;
+DROP TABLE IF EXISTS `sys_departments`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `sys_departments` (
+CREATE TABLE `sys_departments` (
   `idDepartment` int(11) NOT NULL AUTO_INCREMENT,
   `DepartmentName` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`idDepartment`)
@@ -1807,10 +1835,10 @@ CREATE TABLE IF NOT EXISTS `sys_departments` (
 -- Table structure for table `sys_pk`
 --
 
--- DROP TABLE IF EXISTS `sys_pk`;
+DROP TABLE IF EXISTS `sys_pk`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `sys_pk` (
+CREATE TABLE `sys_pk` (
   `idPk` int(11) NOT NULL AUTO_INCREMENT,
   `PkName` text COLLATE utf8_unicode_ci NOT NULL,
   `DepartmentID` int(11) NOT NULL,
@@ -1833,10 +1861,10 @@ CREATE TABLE IF NOT EXISTS `sys_pk` (
 -- Table structure for table `sys_roleassignments`
 --
 
--- DROP TABLE IF EXISTS `sys_roleassignments`;
+DROP TABLE IF EXISTS `sys_roleassignments`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `sys_roleassignments` (
+CREATE TABLE `sys_roleassignments` (
   `itemname` varchar(64) NOT NULL,
   `userid` varchar(64) NOT NULL,
   `bizrule` text,
@@ -1850,10 +1878,10 @@ CREATE TABLE IF NOT EXISTS `sys_roleassignments` (
 -- Table structure for table `sys_rolechildren`
 --
 
--- DROP TABLE IF EXISTS `sys_rolechildren`;
+DROP TABLE IF EXISTS `sys_rolechildren`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `sys_rolechildren` (
+CREATE TABLE `sys_rolechildren` (
   `parent` varchar(64) NOT NULL,
   `child` varchar(64) NOT NULL,
   PRIMARY KEY (`parent`,`child`),
@@ -1867,10 +1895,10 @@ CREATE TABLE IF NOT EXISTS `sys_rolechildren` (
 -- Table structure for table `sys_roles`
 --
 
--- DROP TABLE IF EXISTS `sys_roles`;
+DROP TABLE IF EXISTS `sys_roles`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `sys_roles` (
+CREATE TABLE `sys_roles` (
   `name` varchar(64) CHARACTER SET utf8 NOT NULL,
   `type` int(11) NOT NULL,
   `description` text COLLATE utf8_unicode_ci,
@@ -1884,10 +1912,10 @@ CREATE TABLE IF NOT EXISTS `sys_roles` (
 -- Table structure for table `sys_users`
 --
 
--- DROP TABLE IF EXISTS `sys_users`;
+DROP TABLE IF EXISTS `sys_users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `sys_users` (
+CREATE TABLE `sys_users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -1895,29 +1923,17 @@ CREATE TABLE IF NOT EXISTS `sys_users` (
   `info` text COLLATE utf8_unicode_ci NOT NULL,
   `SysPkID` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=159 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=163 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Temporary table structure for view `table_personspec_all`
---
-
---
--- Temporary table structure for view `table_personspec_today`
---
-
---
--- Temporary table structure for view `temp`
---
 
 --
 -- Table structure for table `universities`
 --
 
--- DROP TABLE IF EXISTS `universities`;
+DROP TABLE IF EXISTS `universities`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `universities` (
+CREATE TABLE `universities` (
   `idUniversity` int(11) NOT NULL AUTO_INCREMENT,
   `UniversityKode` varchar(36) COLLATE utf8_unicode_ci NOT NULL COMMENT 'GUID НЗ',
   `UniversityName` varchar(200) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Повна назва НЗ',
@@ -1929,36 +1945,39 @@ CREATE TABLE IF NOT EXISTS `universities` (
 -- Temporary table structure for view `village_list`
 --
 
---
--- Temporary table structure for view `vypuskniki_ano_by_f`
---
-
---
--- Temporary table structure for view `vypuskniki_ne_ot_nas_stat`
---
-
---
--- Temporary table structure for view `vypuskniki_stat`
---
-
---
--- Temporary table structure for view `vypuskniki_statx`
---
+DROP TABLE IF EXISTS `village_list`;
+/*!50001 DROP VIEW IF EXISTS `village_list`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE TABLE `village_list` (
+  `surname` tinyint NOT NULL,
+  `name` tinyint NOT NULL,
+  `fartherName` tinyint NOT NULL,
+  `edbo` tinyint NOT NULL,
+  `place` tinyint NOT NULL,
+  `OKR` tinyint NOT NULL,
+  `region` tinyint NOT NULL,
+  `city` tinyint NOT NULL,
+  `cityVillage` tinyint NOT NULL,
+  `spec` tinyint NOT NULL,
+  `edu_form` tinyint NOT NULL,
+  `status` tinyint NOT NULL
+) ENGINE=MyISAM */;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Table structure for table `znolevels`
 --
 
--- DROP TABLE IF EXISTS `znolevels`;
+DROP TABLE IF EXISTS `znolevels`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `znolevels` (
+CREATE TABLE `znolevels` (
   `idLevel` int(11) NOT NULL AUTO_INCREMENT,
   `LevelName` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`idLevel`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
 
 --
 -- Final view structure for view `benefitinfo`
@@ -1971,14 +1990,13 @@ CREATE TABLE IF NOT EXISTS `znolevels` (
 /*!50001 SET @saved_col_connection     = @@collation_connection */;
 /*!50001 SET character_set_client      = utf8 */;
 /*!50001 SET character_set_results     = utf8 */;
-/*!50001 SET collation_connection      = utf8_unicode_ci */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`%` SQL SECURITY DEFINER */
 /*!50001 VIEW `benefitinfo` AS select `benefit`.`idBenefit` AS `idBenefit`,`benefit`.`BenefitName` AS `BenefitName`,`benefit`.`BenefitKey` AS `BenefitKey`,`benefitsgroups`.`BenefitsGroupsName` AS `BenefitsGroupsName` from (`benefit` join `benefitsgroups` on((`benefit`.`BenefitGroupID` = `benefitsgroups`.`idBenefitsGroups`))) order by `benefit`.`BenefitName` */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
-
 
 --
 -- Final view structure for view `document_subjects_view`
@@ -1991,7 +2009,7 @@ CREATE TABLE IF NOT EXISTS `znolevels` (
 /*!50001 SET @saved_col_connection     = @@collation_connection */;
 /*!50001 SET character_set_client      = utf8 */;
 /*!50001 SET character_set_results     = utf8 */;
-/*!50001 SET collation_connection      = utf8_unicode_ci */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`%` SQL SECURITY DEFINER */
 /*!50001 VIEW `document_subjects_view` AS select `documentsubject`.`idDocumentSubject` AS `idDocumentSubject`,`documentsubject`.`DocumentID` AS `DocumentID`,`documentsubject`.`SubjectValue` AS `SubjectValue`,`documentsubject`.`DateGet` AS `DateGet`,`documentsubject`.`edboID` AS `edboID`,`subjects`.`SubjectName` AS `SubjectName` from (`documentsubject` join `subjects` on((`documentsubject`.`SubjectID` = `subjects`.`idSubjects`))) */;
@@ -2010,7 +2028,7 @@ CREATE TABLE IF NOT EXISTS `znolevels` (
 /*!50001 SET @saved_col_connection     = @@collation_connection */;
 /*!50001 SET character_set_client      = utf8 */;
 /*!50001 SET character_set_results     = utf8 */;
-/*!50001 SET collation_connection      = utf8_unicode_ci */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`%` SQL SECURITY DEFINER */
 /*!50001 VIEW `educationtypeclass` AS select `educationtype`.`idEducationType` AS `idEducationType`,`educationtype`.`EducationTypeFullName` AS `EducationTypeFullName`,`educationtype`.`EducationTypeShortName` AS `EducationTypeShortName`,`educationclass`.`EducationClassName` AS `EducationClassName` from (`educationtype` join `educationclass` on((`educationtype`.`EducationTypeClassID` = `educationclass`.`idEducationClass`))) order by `educationtype`.`EducationTypeFullName` */;
@@ -2018,6 +2036,24 @@ CREATE TABLE IF NOT EXISTS `znolevels` (
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
 
+--
+-- Final view structure for view `examinations_without_zno`
+--
+
+/*!50001 DROP TABLE IF EXISTS `examinations_without_zno`*/;
+/*!50001 DROP VIEW IF EXISTS `examinations_without_zno`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`%` SQL SECURITY DEFINER */
+/*!50001 VIEW `examinations_without_zno` AS select `person`.`idPerson` AS `idPersonMySql`,`person`.`edboID` AS `idPersonEdbo`,concat(`person`.`LastName`,' ',`person`.`FirstName`,' ',`person`.`MiddleName`) AS `FIO`,concat(`specialities`.`SpecialityClasifierCode`,': ',`specialities`.`SpecialityName`,' ',`specialities`.`SpecialityDirectionName`,' ',`specialities`.`SpecialitySpecializationName`) AS `Speciality`,(select `subjects`.`SubjectName` from `subjects` where (`subjects`.`idSubjects` = `personspeciality`.`Exam1ID`)) AS `Examination1`,(select `subjects`.`SubjectName` from `subjects` where (`subjects`.`idSubjects` = `personspeciality`.`Exam2ID`)) AS `Examination2`,(select `subjects`.`SubjectName` from `subjects` where (`subjects`.`idSubjects` = `personspeciality`.`Exam3ID`)) AS `Examination3`,`personeducationforms`.`PersonEducationFormName` AS `educationFormName`,`personspeciality`.`EducationFormID` AS `idEducationForm` from (((`person` join `personspeciality` on((`person`.`idPerson` = `personspeciality`.`PersonID`))) join `specialities` on((`personspeciality`.`SepcialityID` = `specialities`.`idSpeciality`))) join `personeducationforms` on((`personspeciality`.`EducationFormID` = `personeducationforms`.`idPersonEducationForm`))) where ((`personspeciality`.`QualificationID` = 1) and ((`personspeciality`.`Exam1ID` is not null) or (`personspeciality`.`Exam2ID` is not null) or (`personspeciality`.`Exam3ID` is not null)) and ((`personspeciality`.`Exam1ID` is not null) or (`personspeciality`.`Exam2ID` is not null) or (`personspeciality`.`Exam3ID` <> 34))) order by concat(`specialities`.`SpecialityClasifierCode`,': ',`specialities`.`SpecialityName`,' ',`specialities`.`SpecialityDirectionName`,' ',`specialities`.`SpecialitySpecializationName`),concat(`person`.`LastName`,' ',`person`.`FirstName`,' ',`person`.`MiddleName`) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
 
 --
 -- Final view structure for view `graduated_school`
@@ -2030,10 +2066,48 @@ CREATE TABLE IF NOT EXISTS `znolevels` (
 /*!50001 SET @saved_col_connection     = @@collation_connection */;
 /*!50001 SET character_set_client      = utf8 */;
 /*!50001 SET character_set_results     = utf8 */;
-/*!50001 SET collation_connection      = utf8_unicode_ci */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `graduated_school` AS select distinct `person`.`idPerson` AS `ID_person`,concat_ws(' ',`person`.`LastName`,`person`.`FirstName`,`person`.`MiddleName`) AS `PIB`,`persondocumenttypes`.`PersonDocumentTypesName` AS `doc_type`,`documents`.`Issued` AS `Issued`,substr(`documents`.`DateGet`,1,4) AS `IssuedYear`,if((`documents`.`Issued` like '%вечірн%'),'вечірня школа',if((`documents`.`Issued` like '%коледж%'),'коледж',if((`documents`.`Issued` like '%училище%'),'училище',if(((`documents`.`Issued` like '%ліцей%') or (`documents`.`Issued` like '%ліцеєм%')),'ліцей',if((`documents`.`Issued` like '%гімназ%'),'гімназія',if(((`documents`.`Issued` like '%комплекс%') or (`documents`.`Issued` like '%НВК%')),'навчально-виховний комплекс',if((`documents`.`Issued` like '%колегіум%'),'колегіум',if(((`documents`.`Issued` like '%спеціалізован%') or (`documents`.`Issued` like '%спецшкол%') or (`documents`.`Issued` like '%спец. школа%')),'спеціалізована школа',if((`documents`.`Issued` like '%технікум%'),'технікум',if(((`documents`.`Issued` like '%загальноосвіт%') or (`documents`.`Issued` like '%ЗОШ%') or (`documents`.`Issued` like '%ЗШ%') or (`documents`.`Issued` like '%середн%') or (`documents`.`Issued` like '%Денн%') or (`documents`.`Issued` like '%ЗОСШ%') or (`documents`.`Issued` like '%СШ%')),'загальноосвітня середня школа (денна)',NULL)))))))))) AS `edu_type`,concat_ws(' ',(case substr(`specialities`.`SpecialityClasifierCode`,1,1) when '6' then `specialities`.`SpecialityDirectionName` else `specialities`.`SpecialityName` end),(case `specialities`.`SpecialitySpecializationName` when '' then '' else concat('(',`specialities`.`SpecialitySpecializationName`,')') end),`specialities`.`SpecialityClasifierCode`) AS `spec`,`personeducationforms`.`PersonEducationFormName` AS `edu_form`,`requeststatus`.`RequestStatusName` AS `status` from ((((((`person` left join `documents` on((`documents`.`PersonID` = `person`.`idPerson`))) join `persondocumenttypes` on((`documents`.`TypeID` = `persondocumenttypes`.`idPersonDocumentTypes`))) left join `personspeciality` on((`personspeciality`.`PersonID` = `person`.`idPerson`))) left join `specialities` on((`personspeciality`.`SepcialityID` = `specialities`.`idSpeciality`))) left join `personeducationforms` on((`specialities`.`PersonEducationFormID` = `personeducationforms`.`idPersonEducationForm`))) left join `requeststatus` on((`personspeciality`.`StatusID` = `requeststatus`.`idRequestStatus`))) where ((`documents`.`TypeID` in (2,10)) and (`personspeciality`.`StatusID` not in (2,3,10)) and (`personspeciality`.`QualificationID` = 1)) order by if((`documents`.`Issued` like '%вечірн%'),'вечірня школа',if((`documents`.`Issued` like '%коледж%'),'коледж',if((`documents`.`Issued` like '%училище%'),'училище',if(((`documents`.`Issued` like '%ліцей%') or (`documents`.`Issued` like '%ліцеєм%')),'ліцей',if((`documents`.`Issued` like '%гімназ%'),'гімназія',if(((`documents`.`Issued` like '%комплекс%') or (`documents`.`Issued` like '%НВК%')),'навчально-виховний комплекс',if((`documents`.`Issued` like '%колегіум%'),'колегіум',if(((`documents`.`Issued` like '%спеціалізован%') or (`documents`.`Issued` like '%спецшкол%') or (`documents`.`Issued` like '%спец. школа%')),'спеціалізована школа',if((`documents`.`Issued` like '%технікум%'),'технікум',if(((`documents`.`Issued` like '%загальноосвіт%') or (`documents`.`Issued` like '%ЗОШ%') or (`documents`.`Issued` like '%ЗШ%') or (`documents`.`Issued` like '%середн%') or (`documents`.`Issued` like '%Денн%') or (`documents`.`Issued` like '%ЗОСШ%') or (`documents`.`Issued` like '%СШ%')),'загальноосвітня середня школа (денна)',NULL)))))))))),concat_ws(' ',`person`.`LastName`,`person`.`FirstName`,`person`.`MiddleName`) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `mag_languages`
+--
+
+/*!50001 DROP TABLE IF EXISTS `mag_languages`*/;
+/*!50001 DROP VIEW IF EXISTS `mag_languages`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `mag_languages` AS select distinct `facultets`.`idFacultet` AS `idFuc`,`specialities`.`SpecialityClasifierCode` AS `SCode`,concat_ws(' ',`specialities`.`SpecialityClasifierCode`,if(isnull(`specialities`.`SpecialityDirectionName`),'',`specialities`.`SpecialityDirectionName`),`specialities`.`SpecialitySpecializationName`,`specialities`.`SpecialityName`) AS `spec`,`person`.`idPerson` AS `person_id`,`person`.`LastName` AS `surname`,`person`.`FirstName` AS `name`,`person`.`MiddleName` AS `farthername`,`languages`.`LanguagesName` AS `langName`,(case `specialities`.`PersonEducationFormID` when 1 then 'денна' when 2 then 'заочна' end) AS `eduform` from ((((`personspeciality` left join `person` on((`person`.`idPerson` = `personspeciality`.`PersonID`))) left join `languages` on((`languages`.`idLanguages` = `person`.`LanguageID`))) left join `specialities` on((`specialities`.`idSpeciality` = `personspeciality`.`SepcialityID`))) left join `facultets` on((`facultets`.`idFacultet` = `specialities`.`FacultetID`))) where ((`personspeciality`.`QualificationID` = 2) and (`personspeciality`.`StatusID` not in (2,3,10)) and 1) order by concat_ws(' ',`specialities`.`SpecialityClasifierCode`,if(isnull(`specialities`.`SpecialityDirectionName`),'',`specialities`.`SpecialityDirectionName`),`specialities`.`SpecialitySpecializationName`,`specialities`.`SpecialityName`),`person`.`LastName`,(case `specialities`.`PersonEducationFormID` when 1 then 'денна' when 2 then 'заочна' end) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `mag_languages_foreign_filology`
+--
+
+/*!50001 DROP TABLE IF EXISTS `mag_languages_foreign_filology`*/;
+/*!50001 DROP VIEW IF EXISTS `mag_languages_foreign_filology`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `mag_languages_foreign_filology` AS select distinct `facultets`.`FacultetFullName` AS `FacultetFullName`,concat_ws(' ',`specialities`.`SpecialityClasifierCode`,if(isnull(`specialities`.`SpecialityDirectionName`),'',`specialities`.`SpecialityDirectionName`),`specialities`.`SpecialitySpecializationName`,`specialities`.`SpecialityName`) AS `spec`,if((`personspeciality`.`Exam1ID` = 40),(select `subjects`.`SubjectName` from `subjects` where (`subjects`.`idSubjects` = `personspeciality`.`Exam2ID`)),(select `subjects`.`SubjectName` from `subjects` where (`subjects`.`idSubjects` = `personspeciality`.`Exam1ID`))) AS `ForeignLang`,`person`.`LastName` AS `surname`,`person`.`FirstName` AS `name`,`person`.`MiddleName` AS `farthername`,`languages`.`LanguagesName` AS `fah`,(case `specialities`.`PersonEducationFormID` when 1 then 'денна' when 2 then 'заочна' end) AS `eduform` from ((((`personspeciality` left join `person` on((`person`.`idPerson` = `personspeciality`.`PersonID`))) left join `languages` on((`languages`.`idLanguages` = `person`.`LanguageID`))) left join `specialities` on((`specialities`.`idSpeciality` = `personspeciality`.`SepcialityID`))) left join `facultets` on((`facultets`.`idFacultet` = `specialities`.`FacultetID`))) where ((`personspeciality`.`QualificationID` = 2) and (`personspeciality`.`StatusID` not in (2,3,10)) and (`specialities`.`FacultetID` = 1638)) order by concat_ws(' ',`specialities`.`SpecialityClasifierCode`,if(isnull(`specialities`.`SpecialityDirectionName`),'',`specialities`.`SpecialityDirectionName`),`specialities`.`SpecialitySpecializationName`,`specialities`.`SpecialityName`),`person`.`LastName`,(case `specialities`.`PersonEducationFormID` when 1 then 'денна' when 2 then 'заочна' end) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -2049,7 +2123,7 @@ CREATE TABLE IF NOT EXISTS `znolevels` (
 /*!50001 SET @saved_col_connection     = @@collation_connection */;
 /*!50001 SET character_set_client      = utf8 */;
 /*!50001 SET character_set_results     = utf8 */;
-/*!50001 SET collation_connection      = utf8_unicode_ci */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`%` SQL SECURITY DEFINER */
 /*!50001 VIEW `person_contacts_view` AS select concat(`person`.`LastName`,' ',`person`.`FirstName`,' ',`person`.`MiddleName`) AS `FIO`,`personspeciality`.`SepcialityID` AS `SepcialityID`,`personspeciality`.`RequestFromEB` AS `RequestFromEB`,`personspeciality`.`EducationFormID` AS `EducationFormID`,`personspeciality`.`RequestNumber` AS `RequestNumber`,`personspeciality`.`isBudget` AS `isBudget`,`personspeciality`.`isContract` AS `isContract`,concat(`specialities`.`SpecialityClasifierCode`,' ',`specialities`.`SpecialityDirectionName`,' ',`specialities`.`SpecialityName`,' ',`specialities`.`SpecialitySpecializationName`) AS `SpecName`,(select group_concat(`personcontacts`.`Value` separator ', ') from `personcontacts` where (`personcontacts`.`PersonID` = `person`.`idPerson`) group by `personcontacts`.`PersonID`) AS `Contacts` from ((`personspeciality` join `person` on((`personspeciality`.`PersonID` = `person`.`idPerson`))) join `specialities` on((`personspeciality`.`SepcialityID` = `specialities`.`idSpeciality`))) order by concat(`specialities`.`SpecialityClasifierCode`,' ',`specialities`.`SpecialityDirectionName`,' ',`specialities`.`SpecialityName`,' ',`specialities`.`SpecialitySpecializationName`),concat(`person`.`LastName`,' ',`person`.`FirstName`,' ',`person`.`MiddleName`) */;
@@ -2068,10 +2142,29 @@ CREATE TABLE IF NOT EXISTS `znolevels` (
 /*!50001 SET @saved_col_connection     = @@collation_connection */;
 /*!50001 SET character_set_client      = utf8 */;
 /*!50001 SET character_set_results     = utf8 */;
-/*!50001 SET collation_connection      = utf8_unicode_ci */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`%` SQL SECURITY DEFINER */
 /*!50001 VIEW `person_contract_speciality_view` AS select `personspeciality`.`idPersonSpeciality` AS `idPersonSpeciality`,`person`.`idPerson` AS `idPerson`,concat(`person`.`LastName`,' ',`person`.`FirstName`,' ',`person`.`MiddleName`) AS `FIO`,concat(`specialities`.`SpecialityClasifierCode`,': ',`specialities`.`SpecialityName`,' ',`specialities`.`SpecialityDirectionName`,' ',`specialities`.`SpecialitySpecializationName`) AS `SpecCodeName`,`personspeciality`.`EducationFormID` AS `EducationFormID`,`personspeciality`.`SepcialityID` AS `SepcialityID` from ((`personspeciality` join `person` on((`person`.`idPerson` = `personspeciality`.`PersonID`))) join `specialities` on((`specialities`.`idSpeciality` = `personspeciality`.`SepcialityID`))) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `person_list`
+--
+
+/*!50001 DROP TABLE IF EXISTS `person_list`*/;
+/*!50001 DROP VIEW IF EXISTS `person_list`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`edbo`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `person_list` AS select (((((((((if((isnull(`documentsubject1`.`SubjectValue`) or (`documentsubject1`.`SubjectValue` = 0)),'0',`documentsubject1`.`SubjectValue`) + if((isnull(`documentsubject2`.`SubjectValue`) or (`documentsubject2`.`SubjectValue` = 0)),'0',`documentsubject2`.`SubjectValue`)) + if((isnull(`documentsubject3`.`SubjectValue`) or (`documentsubject1`.`SubjectValue` = 0)),'0',`documentsubject3`.`SubjectValue`)) + if((isnull(`personspeciality`.`AdditionalBall`) or (`personspeciality`.`AdditionalBall` = 0)),'0',`personspeciality`.`AdditionalBall`)) + if((isnull(`personspeciality`.`CoursedpBall`) or (`personspeciality`.`CoursedpBall` = 0)),'0',`personspeciality`.`CoursedpBall`)) + if((`personspeciality`.`QualificationID` = 1),if((isnull(`documents`.`AtestatValue`) or (`documents`.`AtestatValue` = 0)),'0',if(isnull(`atestatvalue`.`ZnoValue`),'0',`atestatvalue`.`ZnoValue`)),(`documents`.`AtestatValue` * 10))) + if((isnull(`olympiadsawards`.`OlympiadAwardBonus`) or (`olympiadsawards`.`OlympiadAwardBonus` = 0)),0,`olympiadsawards`.`OlympiadAwardBonus`)) + if((isnull(`personspeciality`.`Exam1Ball`) or (`personspeciality`.`Exam1Ball` = 0)),'0',`personspeciality`.`Exam1Ball`)) + if((isnull(`personspeciality`.`Exam2Ball`) or (`personspeciality`.`Exam2Ball` = 0)),'0',`personspeciality`.`Exam2Ball`)) + if((isnull(`personspeciality`.`Exam3Ball`) or (`personspeciality`.`Exam3Ball` = 0)),'0',`personspeciality`.`Exam3Ball`)) AS `sumBall`,`olympiadsawards`.`OlympiadAwardBonus` AS `OlympiadAwardBonus`,if((`personspeciality`.`isCopyEntrantDoc` = 1),'+','-') AS `isCopy`,`person`.`LastName` AS `surname`,`person`.`FirstName` AS `name`,`person`.`MiddleName` AS `fartherName`,`facultets`.`FacultetFullName` AS `facultet`,if((`personspeciality`.`RequestFromEB` = 0),'-','+') AS `eb`,`facultets`.`idFacultet` AS `idFacultet`,concat_ws(' ',`specialities`.`SpecialityClasifierCode`,if(isnull(`specialities`.`SpecialityDirectionName`),'',`specialities`.`SpecialityDirectionName`),`specialities`.`SpecialitySpecializationName`,`specialities`.`SpecialityName`) AS `spec`,`personspeciality`.`StatusID` AS `status`,if(isnull(`koatuulevel2`.`idKOATUULevel2`),'',if((`koatuulevel1`.`idKOATUULevel1` = 135607),'',`koatuulevel1`.`KOATUULevel1FullName`)) AS `region`,if(isnull(`koatuulevel2`.`idKOATUULevel2`),`koatuulevel1`.`KOATUULevel1FullName`,if(isnull(`person`.`KOATUUCodeL3ID`),`koatuulevel2`.`KOATUULevel2Name`,if((`koatuulevel3`.`KOATUULevel3Type` = (select `parametersquery`.`value` from `parametersquery` where (`parametersquery`.`code` = 1))),`koatuulevel2`.`KOATUULevel2Name`,`koatuulevel3`.`KOATUULevel3Name`))) AS `city`,if(isnull(`person`.`KOATUUCodeL3ID`),'',if((`koatuulevel3`.`KOATUULevel3Type` = (select `parametersquery`.`value` from `parametersquery` where (`parametersquery`.`code` = 1))),'',`koatuulevel2`.`KOATUULevel2Name`)) AS `cityVillage`,`personeducationforms`.`PersonEducationFormName` AS `edu`,`homephone`.`Value` AS `homephone`,`mobilephone`.`Value` AS `mobile` from (((((((((((((((`personspeciality` left join `person` on((`person`.`idPerson` = `personspeciality`.`PersonID`))) left join `personeducationforms` on((`personeducationforms`.`idPersonEducationForm` = `personspeciality`.`EducationFormID`))) left join `specialities` on((`specialities`.`idSpeciality` = `personspeciality`.`SepcialityID`))) left join `facultets` on((`facultets`.`idFacultet` = `specialities`.`FacultetID`))) left join `personcontacts` `homephone` on(((`homephone`.`PersonID` = `person`.`idPerson`) and (`homephone`.`PersonContactTypeID` = 1)))) left join `personcontacts` `mobilephone` on(((`mobilephone`.`PersonID` = `person`.`idPerson`) and (`mobilephone`.`PersonContactTypeID` = 2)))) left join `koatuulevel1` on((`koatuulevel1`.`idKOATUULevel1` = `person`.`KOATUUCodeL1ID`))) left join `koatuulevel2` on((`koatuulevel2`.`idKOATUULevel2` = `person`.`KOATUUCodeL2ID`))) left join `koatuulevel3` on((`koatuulevel3`.`idKOATUULevel3` = `person`.`KOATUUCodeL3ID`))) left join `olympiadsawards` on((`olympiadsawards`.`OlympiadAwardID` = `personspeciality`.`OlympiadID`))) left join `documentsubject` `documentsubject1` on((`documentsubject1`.`idDocumentSubject` = `personspeciality`.`DocumentSubject1`))) left join `documentsubject` `documentsubject2` on((`documentsubject2`.`idDocumentSubject` = `personspeciality`.`DocumentSubject2`))) left join `documentsubject` `documentsubject3` on((`documentsubject3`.`idDocumentSubject` = `personspeciality`.`DocumentSubject3`))) left join `documents` on(((`documents`.`PersonID` = `personspeciality`.`PersonID`) and (`documents`.`TypeID` = 2)))) left join `atestatvalue` on((`atestatvalue`.`AtestatValue` = `documents`.`AtestatValue`))) order by `specialities`.`SpecialityClasifierCode`,(((((((((if(isnull(`documentsubject1`.`SubjectValue`),'0',`documentsubject1`.`SubjectValue`) + if(isnull(`documentsubject2`.`SubjectValue`),'0',`documentsubject2`.`SubjectValue`)) + if(isnull(`documentsubject3`.`SubjectValue`),'0',`documentsubject3`.`SubjectValue`)) + if(isnull(`personspeciality`.`AdditionalBall`),'0',`personspeciality`.`AdditionalBall`)) + if(isnull(`personspeciality`.`CoursedpBall`),'0',`personspeciality`.`CoursedpBall`)) + if(isnull(`documents`.`AtestatValue`),'0',if(isnull(`atestatvalue`.`ZnoValue`),'0',`atestatvalue`.`ZnoValue`))) + if(isnull(`olympiadsawards`.`OlympiadAwardBonus`),0,`olympiadsawards`.`OlympiadAwardBonus`)) + if(isnull(`personspeciality`.`Exam1Ball`),'0',`personspeciality`.`Exam1Ball`)) + if(isnull(`personspeciality`.`Exam2Ball`),'0',`personspeciality`.`Exam1Ball`)) + if(isnull(`personspeciality`.`Exam3Ball`),'0',`personspeciality`.`Exam1Ball`)) desc */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -2087,7 +2180,7 @@ CREATE TABLE IF NOT EXISTS `znolevels` (
 /*!50001 SET @saved_col_connection     = @@collation_connection */;
 /*!50001 SET character_set_client      = utf8 */;
 /*!50001 SET character_set_results     = utf8 */;
-/*!50001 SET collation_connection      = utf8_unicode_ci */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`%` SQL SECURITY DEFINER */
 /*!50001 VIEW `person_speciality_view` AS select `personspeciality`.`idPersonSpeciality` AS `idPersonSpeciality`,`personspeciality`.`CreateDate` AS `CreateDate`,`person`.`idPerson` AS `idPerson`,`person`.`Birthday` AS `Birthday`,concat(`person`.`LastName`,' ',`person`.`FirstName`,' ',`person`.`MiddleName`) AS `FIO`,`personspeciality`.`isContract` AS `isContract`,`personspeciality`.`isBudget` AS `isBudget`,concat(`specialities`.`SpecialityClasifierCode`,': ',`specialities`.`SpecialityName`,' ',`specialities`.`SpecialityDirectionName`,' ',`specialities`.`SpecialitySpecializationName`) AS `SpecCodeName`,`personspeciality`.`QualificationID` AS `QualificationID`,`personspeciality`.`CourseID` AS `CourseID`,`personspeciality`.`RequestNumber` AS `RequestNumber`,`personspeciality`.`PersonRequestNumber` AS `PersonRequestNumber`,`person`.`edboID` AS `PersonEdboID`,`personspeciality`.`edboID` AS `SpecEdboID`,`person`.`CreateDate` AS `PersonCreateDate`,`personspeciality`.`DocumentSubject1` AS `DocumentSubject1`,(select `documentsubject`.`SubjectValue` from `documentsubject` where (`documentsubject`.`idDocumentSubject` = `personspeciality`.`DocumentSubject1`)) AS `DocumentSubject1Value`,`personspeciality`.`DocumentSubject2` AS `DocumentSubject2`,(select `documentsubject`.`SubjectValue` from `documentsubject` where (`documentsubject`.`idDocumentSubject` = `personspeciality`.`DocumentSubject2`)) AS `DocumentSubject2Value`,`personspeciality`.`DocumentSubject2` AS `DocumentSubject3`,(select `documentsubject`.`SubjectValue` from `documentsubject` where (`documentsubject`.`idDocumentSubject` = `personspeciality`.`DocumentSubject3`)) AS `DocumentSubject3Value`,`documents`.`PersonDocumentsAwardsTypesID` AS `PersonDocumentsAwardsTypesID`,`personspeciality`.`isCopyEntrantDoc` AS `isCopyEntrantDoc`,`documents`.`AtestatValue` AS `AtestatValue`,`documents`.`TypeID` AS `DocumentTypeID`,`personspeciality`.`CoursedpID` AS `CoursedpID`,`personspeciality`.`OlympiadID` AS `OlympiadID`,`personspeciality`.`StatusID` AS `StatusID`,`personspeciality`.`RequestFromEB` AS `RequestFromEB`,`personspeciality`.`EducationFormID` AS `EducationFormID`,`personspeciality`.`SepcialityID` AS `SepcialityID` from (((`personspeciality` join `person` on((`person`.`idPerson` = `personspeciality`.`PersonID`))) join `specialities` on((`specialities`.`idSpeciality` = `personspeciality`.`SepcialityID`))) join `documents` on((`personspeciality`.`EntrantDocumentID` = `documents`.`idDocuments`))) */;
@@ -2095,5 +2188,127 @@ CREATE TABLE IF NOT EXISTS `znolevels` (
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
 
+--
+-- Final view structure for view `person_with1or2_spec`
+--
 
--- Dump completed on 2014-05-22 15:11:43
+/*!50001 DROP TABLE IF EXISTS `person_with1or2_spec`*/;
+/*!50001 DROP VIEW IF EXISTS `person_with1or2_spec`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `person_with1or2_spec` AS select concat_ws(' ',`person`.`LastName`,`person`.`FirstName`,`person`.`MiddleName`) AS `ПІБ`,count(distinct `personspeciality`.`idPersonSpeciality`) AS `КІЛЬКІСТЬ ПОДАНИХ ЗАЯВОК`,group_concat(concat_ws(' ','факультет:',`facultets`.`FacultetFullName`,', спеціальність: ',`specialities`.`SpecialityClasifierCode`,(case substr(`specialities`.`SpecialityClasifierCode`,1,1) when '6' then `specialities`.`SpecialityDirectionName` else `specialities`.`SpecialityName` end),(case `specialities`.`SpecialitySpecializationName` when '' then '' else concat('(',`specialities`.`SpecialitySpecializationName`,')') end),', форма: ',`personeducationforms`.`PersonEducationFormName`) separator ' | ') AS `ЗАЯВКИ`,concat_ws(' ','тел:',`personcontacts`.`Value`) AS `КОНТАКТИ` from (((((`personspeciality` join `person` on((`personspeciality`.`PersonID` = `person`.`idPerson`))) join `specialities` on((`personspeciality`.`SepcialityID` = `specialities`.`idSpeciality`))) join `facultets` on((`facultets`.`idFacultet` = `specialities`.`FacultetID`))) join `personeducationforms` on((`personspeciality`.`EducationFormID` = `personeducationforms`.`idPersonEducationForm`))) left join `personcontacts` on((`personspeciality`.`PersonID` = `personcontacts`.`PersonID`))) where ((`personspeciality`.`StatusID` not in (2,3,10)) and (`personcontacts`.`PersonContactTypeID` = 2) and (`personspeciality`.`SepcialityID` not in (70694,70692,70691,70690,70696)) and (`personspeciality`.`QualificationID` <> 1)) group by `personcontacts`.`PersonID` having (count(distinct `personspeciality`.`idPersonSpeciality`) in (1,2)) order by concat_ws(' ',`person`.`LastName`,`person`.`FirstName`,`person`.`MiddleName`) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `personspec_mag`
+--
+
+/*!50001 DROP TABLE IF EXISTS `personspec_mag`*/;
+/*!50001 DROP VIEW IF EXISTS `personspec_mag`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `personspec_mag` AS select `personspeciality`.`idPersonSpeciality` AS `idPersonSpeciality`,concat_ws(' ',`person`.`LastName`,`person`.`FirstName`,`person`.`MiddleName`) AS `FIO`,`facultets`.`FacultetFullName` AS `FacultetFullName`,concat_ws(' ',`specialities`.`SpecialityClasifierCode`,(case substr(`specialities`.`SpecialityClasifierCode`,1,1) when '6' then `specialities`.`SpecialityDirectionName` else `specialities`.`SpecialityName` end),(case `specialities`.`SpecialitySpecializationName` when '' then '' else concat('(',`specialities`.`SpecialitySpecializationName`,')') end),concat('(',`personeducationforms`.`PersonEducationFormName`,')')) AS `Specialnost`,(case `personspeciality`.`isContract` when 0 then 'заявка не на контракт' when 1 then 'заявка на контракт' end) AS `Kontrakt`,(case `personspeciality`.`isBudget` when 0 then 'заявка не на бюджет' when 1 then 'заявка на бюджет' end) AS `Budget`,`persondocumenttypes`.`PersonDocumentTypesName` AS `PersonDocumentTypesName`,`documents`.`AtestatValue` AS `evaluation`,`requeststatus`.`RequestStatusName` AS `Status` from (((((((`personspeciality` join `person` on((`personspeciality`.`PersonID` = `person`.`idPerson`))) join `specialities` on((`personspeciality`.`SepcialityID` = `specialities`.`idSpeciality`))) join `facultets` on((`facultets`.`idFacultet` = `specialities`.`FacultetID`))) join `personeducationforms` on((`personspeciality`.`EducationFormID` = `personeducationforms`.`idPersonEducationForm`))) join `requeststatus` on((`requeststatus`.`idRequestStatus` = `personspeciality`.`StatusID`))) left join `documents` on((`documents`.`PersonID` = `personspeciality`.`PersonID`))) left join `persondocumenttypes` on((`documents`.`TypeID` = `persondocumenttypes`.`idPersonDocumentTypes`))) where ((`personspeciality`.`QualificationID` = 2) and (`documents`.`TypeID` in (11,12)) and (`personspeciality`.`StatusID` <> 10)) order by `facultets`.`FacultetFullName`,concat_ws(' ',`specialities`.`SpecialityClasifierCode`,(case substr(`specialities`.`SpecialityClasifierCode`,1,1) when '6' then `specialities`.`SpecialityDirectionName` else `specialities`.`SpecialityName` end),(case `specialities`.`SpecialitySpecializationName` when '' then '' else concat('(',`specialities`.`SpecialitySpecializationName`,')') end),concat('(',`personeducationforms`.`PersonEducationFormName`,')')),`documents`.`AtestatValue` desc */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `personspec_specialists`
+--
+
+/*!50001 DROP TABLE IF EXISTS `personspec_specialists`*/;
+/*!50001 DROP VIEW IF EXISTS `personspec_specialists`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `personspec_specialists` AS select `personspeciality`.`idPersonSpeciality` AS `idPersonSpeciality`,concat_ws(' ',`person`.`LastName`,`person`.`FirstName`,`person`.`MiddleName`) AS `FIO`,`facultets`.`FacultetFullName` AS `FacultetFullName`,concat_ws(' ',`specialities`.`SpecialityClasifierCode`,(case substr(`specialities`.`SpecialityClasifierCode`,1,1) when '6' then `specialities`.`SpecialityDirectionName` else `specialities`.`SpecialityName` end),(case `specialities`.`SpecialitySpecializationName` when '' then '' else concat('(',`specialities`.`SpecialitySpecializationName`,')') end),concat('(',`personeducationforms`.`PersonEducationFormName`,')')) AS `Specialnost`,(case `personspeciality`.`isContract` when 0 then 'заявка не на контракт' when 1 then 'заявка на контракт' end) AS `Kontrakt`,(case `personspeciality`.`isBudget` when 0 then 'заявка не на бюджет' when 1 then 'заявка на бюджет' end) AS `Budget`,`persondocumenttypes`.`PersonDocumentTypesName` AS `PersonDocumentTypesName`,`documents`.`AtestatValue` AS `evaluation`,`requeststatus`.`RequestStatusName` AS `Status` from (((((((`personspeciality` join `person` on((`personspeciality`.`PersonID` = `person`.`idPerson`))) join `specialities` on((`personspeciality`.`SepcialityID` = `specialities`.`idSpeciality`))) join `facultets` on((`facultets`.`idFacultet` = `specialities`.`FacultetID`))) join `personeducationforms` on((`personspeciality`.`EducationFormID` = `personeducationforms`.`idPersonEducationForm`))) join `requeststatus` on((`requeststatus`.`idRequestStatus` = `personspeciality`.`StatusID`))) left join `documents` on((`documents`.`PersonID` = `personspeciality`.`PersonID`))) left join `persondocumenttypes` on((`documents`.`TypeID` = `persondocumenttypes`.`idPersonDocumentTypes`))) where ((`personspeciality`.`QualificationID` = 3) and (`documents`.`TypeID` in (11,12,13)) and (`personspeciality`.`StatusID` <> 10)) order by `facultets`.`FacultetFullName`,concat_ws(' ',`specialities`.`SpecialityClasifierCode`,(case substr(`specialities`.`SpecialityClasifierCode`,1,1) when '6' then `specialities`.`SpecialityDirectionName` else `specialities`.`SpecialityName` end),(case `specialities`.`SpecialitySpecializationName` when '' then '' else concat('(',`specialities`.`SpecialitySpecializationName`,')') end),concat('(',`personeducationforms`.`PersonEducationFormName`,')')),`documents`.`AtestatValue` desc */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `posvidka`
+--
+
+/*!50001 DROP TABLE IF EXISTS `posvidka`*/;
+/*!50001 DROP VIEW IF EXISTS `posvidka`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`edbo`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `posvidka` AS select `person`.`idPerson` AS `idPerson`,`person`.`FirstName` AS `FirstName`,`person`.`MiddleName` AS `MiddleName`,`person`.`LastName` AS `LastName` from (`documents` join `person`) where ((`documents`.`TypeID` = 17) and (`documents`.`PersonID` = `person`.`idPerson`)) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `resident_list`
+--
+
+/*!50001 DROP TABLE IF EXISTS `resident_list`*/;
+/*!50001 DROP VIEW IF EXISTS `resident_list`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`edbo`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `resident_list` AS select `person`.`LastName` AS `surname`,`person`.`FirstName` AS `name`,`person`.`MiddleName` AS `fartherName`,`person`.`idPerson` AS `edbo`,`country`.`CountryName` AS `country`,`personeducationforms`.`PersonEducationFormName` AS `edu`,`requeststatus`.`RequestStatusName` AS `statusname`,concat_ws(' ',`specialities`.`SpecialityClasifierCode`,if(isnull(`specialities`.`SpecialityDirectionName`),'',`specialities`.`SpecialityDirectionName`),`specialities`.`SpecialitySpecializationName`,`specialities`.`SpecialityName`) AS `spec` from (((((`person` left join `country` on((`country`.`idCountry` = `person`.`CountryID`))) left join `personspeciality` on(((`personspeciality`.`PersonID` = `person`.`idPerson`) and (`personspeciality`.`StatusID` <> 3)))) left join `specialities` on((`specialities`.`idSpeciality` = `personspeciality`.`SepcialityID`))) left join `requeststatus` on((`requeststatus`.`idRequestStatus` = `personspeciality`.`StatusID`))) left join `personeducationforms` on((`personeducationforms`.`idPersonEducationForm` = `personspeciality`.`EducationFormID`))) where (`person`.`CountryID` <> 804) order by `person`.`LastName` */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `village_list`
+--
+
+/*!50001 DROP TABLE IF EXISTS `village_list`*/;
+/*!50001 DROP VIEW IF EXISTS `village_list`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `village_list` AS select distinct `person`.`LastName` AS `surname`,`person`.`FirstName` AS `name`,`person`.`MiddleName` AS `fartherName`,`person`.`edboID` AS `edbo`,`koatuulevel3`.`KOATUULevel3Type` AS `place`,`personspeciality`.`QualificationID` AS `OKR`,if(isnull(`koatuulevel2`.`idKOATUULevel2`),'',if((`koatuulevel1`.`idKOATUULevel1` = 135607),'',`koatuulevel1`.`KOATUULevel1FullName`)) AS `region`,if(isnull(`koatuulevel2`.`idKOATUULevel2`),`koatuulevel1`.`KOATUULevel1FullName`,if(isnull(`person`.`KOATUUCodeL3ID`),`koatuulevel2`.`KOATUULevel2Name`,if((`koatuulevel3`.`KOATUULevel3Type` = (select `parametersquery`.`value` from `parametersquery` where (`parametersquery`.`code` = 1))),`koatuulevel2`.`KOATUULevel2Name`,`koatuulevel3`.`KOATUULevel3Name`))) AS `city`,if(isnull(`person`.`KOATUUCodeL3ID`),'',if((`koatuulevel3`.`KOATUULevel3Type` = (select `parametersquery`.`value` from `parametersquery` where (`parametersquery`.`code` = 1))),'',`koatuulevel2`.`KOATUULevel2Name`)) AS `cityVillage`,concat_ws(' ',(case substr(`specialities`.`SpecialityClasifierCode`,1,1) when '6' then `specialities`.`SpecialityDirectionName` else `specialities`.`SpecialityName` end),(case `specialities`.`SpecialitySpecializationName` when '' then '' else concat('(',`specialities`.`SpecialitySpecializationName`,')') end),`specialities`.`SpecialityClasifierCode`) AS `spec`,`personeducationforms`.`PersonEducationFormName` AS `edu_form`,`requeststatus`.`RequestStatusName` AS `status` from ((((((((`person` left join `parametersquery` on((`parametersquery`.`code` = 3))) left join `koatuulevel1` on((`koatuulevel1`.`idKOATUULevel1` = `person`.`KOATUUCodeL1ID`))) left join `koatuulevel2` on((`koatuulevel2`.`idKOATUULevel2` = `person`.`KOATUUCodeL2ID`))) left join `koatuulevel3` on((`koatuulevel3`.`idKOATUULevel3` = `person`.`KOATUUCodeL3ID`))) join `personspeciality` on((`personspeciality`.`PersonID` = `person`.`idPerson`))) left join `specialities` on((`personspeciality`.`SepcialityID` = `specialities`.`idSpeciality`))) left join `personeducationforms` on((`specialities`.`PersonEducationFormID` = `personeducationforms`.`idPersonEducationForm`))) left join `requeststatus` on((`personspeciality`.`StatusID` = `requeststatus`.`idRequestStatus`))) where ((`koatuulevel3`.`idKOATUULevel3` = `person`.`KOATUUCodeL3ID`) and (`koatuulevel3`.`KOATUULevel3Type` = `parametersquery`.`value`)) order by if(isnull(`koatuulevel2`.`idKOATUULevel2`),'',if((`koatuulevel1`.`idKOATUULevel1` = 135607),'',`koatuulevel1`.`KOATUULevel1FullName`)),if(isnull(`person`.`KOATUUCodeL3ID`),'',if((`koatuulevel3`.`KOATUULevel3Type` = (select `parametersquery`.`value` from `parametersquery` where (`parametersquery`.`code` = 1))),'',`koatuulevel2`.`KOATUULevel2Name`)),if(isnull(`koatuulevel2`.`idKOATUULevel2`),`koatuulevel1`.`KOATUULevel1FullName`,if(isnull(`person`.`KOATUUCodeL3ID`),`koatuulevel2`.`KOATUULevel2Name`,if((`koatuulevel3`.`KOATUULevel3Type` = (select `parametersquery`.`value` from `parametersquery` where (`parametersquery`.`code` = 1))),`koatuulevel2`.`KOATUULevel2Name`,`koatuulevel3`.`KOATUULevel3Name`))),`person`.`LastName` */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2014-06-25 15:10:20

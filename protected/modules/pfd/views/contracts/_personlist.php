@@ -3,7 +3,7 @@
 /* @var $model PersonSpecialityView */
 ?>
 <?php Yii::app()->bootstrap->register(); ?>
-<center><h2>Абітуріенти контрактної форми навчання</h2></center>    
+<center><h2>Абітурієнти контрактної форми навчання</h2></center>    
 <?php 
 
 $data = $model->searchPrice();

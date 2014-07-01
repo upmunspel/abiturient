@@ -26,7 +26,7 @@ $this->endWidget('ext.prettyPhoto.PrettyPhoto');
 ?>
 <h1>Статистика</h1>
 <?php
-$url='http://10.1.11.57:8080/request_report-1.0/price_sort_all.jsp&iframe=true&width=1024&height=600';
+$url = Yii::app()->user->getPriceSortAllPrintIP();
 
  $this->widget('bootstrap.widgets.TbButton', array(
     'label'=>'Всі спеціальності',
@@ -42,48 +42,46 @@ $url='http://10.1.11.57:8080/request_report-1.0/price_sort_all.jsp&iframe=true&w
     ));?>
 &nbsp;
 <?php
-$url='http://10.1.11.57:8080/request_report-1.0/price_sort_all_nomoney.jsp&iframe=true&width=1024&height=600';
-
- $this->widget('bootstrap.widgets.TbButton', array(
+$url=Yii::app()->user->getPriceSortAllNoMoneyPrintIP();
+  $this->widget('bootstrap.widgets.TbButton', array(
     'label'=>'Не оплатили',
     //'type'=>'danger', // null, 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
     'size'=>'large', // null, 'large', 'small' or 'mini' 
     'url'=>$url,
     'htmlOptions'=>array(
-                            //'onclick'=>'PSN.printSpec(this); return true;',
-                            'rel'=>"prettyPhoto",
-                            'title'=>"Контракт",
-        ),
+      'rel'=>"prettyPhoto",
+      'title'=>"Контракт",
+    ),
     
-    ));?>
+  ));
+ ?>
 &nbsp;
 <?php $this->widget('bootstrap.widgets.TbButtonGroup', array(
-        //'type'=>'primary', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
         'size'=>'large',
         'htmlOptions'=>array(
-                            'target'=>"_blank",
+          'target'=>"_blank",
         ),
         'buttons'=>array(
             array('label'=>'Звіт', 'items'=>array(
-                array('label'=>'Денна', 'items'=>array(
-                    array('label'=>'Бакалавр', 'url'=>Yii::app()->user->getPrintUrlstatFORM(1,1)),
-                    array('label'=>'Спеціаліст', 'url'=>Yii::app()->user->getPrintUrlstatFORM(1,3)),
-                    array( 'label'=>'Магістр', 'url'=>Yii::app()->user->getPrintUrlstatFORM(1,2)),
-                    array( 'label'=>'Усі рівні кваліфікації', 'url'=>Yii::app()->user->getPrintUrlstatFORM(1,0))),
-                    ),
-                array('label'=>'Заочна','items'=>array(
-                    array('label'=>'Бакалавр', 'url'=>Yii::app()->user->getPrintUrlstatFORM(1,2)),
-                    array('label'=>'Спеціаліст', 'url'=>Yii::app()->user->getPrintUrlstatFORM(3,2)),
-                    array( 'label'=>'Магістр', 'url'=>Yii::app()->user->getPrintUrlstatFORM(2,2)),
-                    array( 'label'=>'Усі рівні кваліфікації', 'url'=>Yii::app()->user->getPrintUrlstatFORM(0,2))),
-                    ),
-                array('label'=>'Денна та заочна','items'=>array(
-                    array('label'=>'Бакалавр', 'url'=>Yii::app()->user->getPrintUrlstat(1)),
-                    array('label'=>'Спеціаліст', 'url'=>Yii::app()->user->getPrintUrlstat(3)),
-                    array('label'=>'Магістр', 'url'=>Yii::app()->user->getPrintUrlstat(2)),
-                    array( 'label'=>'Усі рівні кваліфікації', 'url'=>Yii::app()->user->getPrintUrlstat(0)),         
-                )),
-                )),
+              array('label'=>'Денна', 'items'=>array(
+                  array('label'=>'Бакалавр', 'url'=>Yii::app()->user->getPrintUrlstatFORM(1,1)),
+                  array('label'=>'Спеціаліст', 'url'=>Yii::app()->user->getPrintUrlstatFORM(3,1)),
+                  array( 'label'=>'Магістр', 'url'=>Yii::app()->user->getPrintUrlstatFORM(2,1)),
+                  array( 'label'=>'Усі рівні кваліфікації', 'url'=>Yii::app()->user->getPrintUrlstatFORM(0,1))),
+                  ),
+              array('label'=>'Заочна','items'=>array(
+                  array('label'=>'Бакалавр', 'url'=>Yii::app()->user->getPrintUrlstatFORM(1,2)),
+                  array('label'=>'Спеціаліст', 'url'=>Yii::app()->user->getPrintUrlstatFORM(3,2)),
+                  array( 'label'=>'Магістр', 'url'=>Yii::app()->user->getPrintUrlstatFORM(2,2)),
+                  array( 'label'=>'Усі рівні кваліфікації', 'url'=>Yii::app()->user->getPrintUrlstatFORM(0,2))),
+                  ),
+              array('label'=>'Денна та заочна','items'=>array(
+                  array('label'=>'Бакалавр', 'url'=>Yii::app()->user->getPrintUrlstat(1)),
+                  array('label'=>'Спеціаліст', 'url'=>Yii::app()->user->getPrintUrlstat(3)),
+                  array('label'=>'Магістр', 'url'=>Yii::app()->user->getPrintUrlstat(2)),
+                  array( 'label'=>'Усі рівні кваліфікації', 'url'=>Yii::app()->user->getPrintUrlstat(0)),
+              )),
+            )),
         ),
     )); ?>
 <?php 
@@ -93,46 +91,43 @@ $this->widget('bootstrap.widgets.TbExtendedGridView', array(
     'dataProvider' => $model->search(),
     'template' => "{items}",
     'columns' =>    
-    array_merge( array(array("name"=>"FacultetFullName","header"=>"Назва факультету")), 
-            array(
-                array(
-                    'class'=>'bootstrap.widgets.TbRelationalColumn',
-                    'name' => 'idFacultet',
-                    'header'=>"Деталі",
-                    'url' => $this->createUrl('prices/specialitys_stat'),
-                    'value'=> '"Показати спеціальності"',
-                    'afterAjaxUpdate' => "js:function(tr,rowid,data){
-                            $('.prettyPhoto').prettyPhoto();
-                        }",
-                    "htmlOptions"=>array("style"=>"width: 250px;")
-       
-                     ),
-                        array(
-                'class'=>'bootstrap.widgets.TbButtonColumn',
-                'template'=>'{print}',
-                 "header"=>"Ст-ка",
-                'buttons'=>array
-                (
+    array_merge( 
+      array(array("name"=>"FacultetFullName","header"=>"Назва факультету")), 
+      array(
+          array(
+              'class'=>'bootstrap.widgets.TbRelationalColumn',
+              'name' => 'idFacultet',
+              'header'=>"Деталі",
+              'url' => $this->createUrl('prices/specialitys_stat'),
+              'value'=> '"Показати спеціальності"',
+              'afterAjaxUpdate' => "js:function(tr,rowid,data){
+                      $('.prettyPhoto').prettyPhoto();
+                  }",
+              "htmlOptions"=>array("style"=>"width: 250px;")
 
-                    'print' => array(
-                        'label'=>'Друкувати перелік осіб, що оформили контакт',
-                        'icon'=>'print',
-                        'url'=>'"http://10.1.11.57:8080/request_report-1.0/price_sort_facultet.jsp?idFacultet=".$data->idFacultet."&iframe=true&width=1024&height=600"',
-                        'options'=>array(
-                            'class'=>'btn prettyPhoto',
-                            //'onclick'=>'Yii::app()->user->getPrintSortUrl($data->idSpeciality)',
-                            'rel'=>"prettyPhoto",
-                            'title'=>"Перелік осіб, що оформили контакт",
-                        ),
-                    ),
-                   
+          ),
+          array(
+            'class'=>'bootstrap.widgets.TbButtonColumn',
+            'template'=>'{print}',
+            "header"=>"Ст-ка",
+            'buttons'=>array(
+              'print' => array(
+                'label'=>'Друкувати перелік осіб, що оформили контакт',
+                'icon'=>'print',
+                'url'=>'Yii::app()->user->getPriceSortFacultetPrintIP($data->idFacultet)',
+                'options'=>array(
+                  'class'=>'btn prettyPhoto',
+                  'rel'=>"prettyPhoto",
+                  'title'=>"Перелік осіб, що оформили контакт",
                 ),
-                'htmlOptions'=>array(
-                    'style'=>'width: 30px;',
-                ),
-            )
-                )),
-    
+              ),
+            ),
+            'htmlOptions'=>array(
+              'style'=>'width: 30px;',
+            ),
+          )
+      )
+    ),
 ));
 
 ?>
@@ -140,7 +135,6 @@ $this->widget('bootstrap.widgets.TbExtendedGridView', array(
 <?php 
   $this->beginWidget('ext.prettyPhoto.PrettyPhoto', array(
   'id'=>'pretty_photo',
-  // prettyPhoto options
   'options'=>array(
   'opacity'=>0.60,
   'modal'=>true,

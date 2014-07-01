@@ -44,7 +44,7 @@ array(
 )); ?>
 &nbsp;
 <?php
-$url='http://10.1.22.150:8080/request_report-1.0/price_sort_same.jsp&iframe=true&width=1024&height=600';
+$url=Yii::app()->user->getPriceSortNamePrintIP();
 
  $this->widget('bootstrap.widgets.TbButton', array(
     'label'=>'Контракти більше 1',

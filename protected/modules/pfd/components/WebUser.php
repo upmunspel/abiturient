@@ -66,12 +66,8 @@ class WebUser extends CWebUser {
         if (empty($model->syspk) || empty($model->syspk->searchIP) ) throw new Exception ("Необхідно визначити адресу серверу для пошуку!!");
         return "http://".$model->syspk->searchIP;  
     }
+    
      public function getPrintPriceUrl($specid){
-        
-//        http://10.1.103.26:8080/request_report-1.0/magistr.jsp?PersonID=197&PersonSpecialityID=205  - магистры
-//        http://10.1.103.26:8080/request_report-1.0/bachelor.jsp?PersonID=197&PersonSpecialityID=205 - бакалавры
-            
-            
         $model = $this->getUserModel();
         if (empty($model->syspk) || empty($model->syspk->printIP) ) throw new Exception ("Необхідно визначити адресу серверу друку документів!");
         $ip = $model->syspk->printIP; 
@@ -80,14 +76,10 @@ class WebUser extends CWebUser {
             return "http://".$ip.":8080/request_report-1.0/price_sort.jsp?idSpeciality=$specid&iframe=true&width=1024&height=600";
         return "";
     }   
-     public function getPrintFackultetUrl($fuckultet){
-        
-//        http://10.1.103.26:8080/request_report-1.0/magistr.jsp?PersonID=197&PersonSpecialityID=205  - магистры
-//        http://10.1.103.26:8080/request_report-1.0/bachelor.jsp?PersonID=197&PersonSpecialityID=205 - бакалавры
-            
-            
+    public function getPrintFackultetUrl($fuckultet){
         $model = $this->getUserModel();
-        if (empty($model->syspk) || empty($model->syspk->printIP) ) throw new Exception ("Необхідно визначити адресу серверу друку документів!");
+        if (empty($model->syspk) || empty($model->syspk->printIP) ) 
+          throw new Exception ("Необхідно визначити адресу серверу друку документів!");
         $ip = $model->syspk->printIP; 
         $spec = Facultets::model()->find("idFacultet=$fuckultet");
         if (empty($spec)) throw new Exception ("Необхідно визначити спеціальність!");
@@ -108,16 +100,49 @@ class WebUser extends CWebUser {
         return "http://".$ip.":8080/request_report-1.0/price_sort_specialityEducationForm.jsp?idQualification=$id&idPersonEducationForm=$idform&iframe=true&width=1024&height=600";
 
     }
-    public function getLanguagesUrl($faculty,$lang){
-        $WU = new WebUser();
-        $model = $WU->getUserModel();
-        if (empty($model->syspk) || empty($model->syspk->printIP) ) throw new Exception ("Необхідно визначити адресу серверу друку документів!");
-        $ip = $model->syspk->printIP;  
-        $_faculty = Facultets::model()->find("idFacultet=$faculty");
-        $_lang = Languages::model()->find("idLanguages=$lang");
-        if (empty($_faculty) || (empty($_lang) && $lang != '0')) 
-            throw new Exception ("Помилка вхідних даних!");
-        return "http://".$ip.":8080/request_report-1.0/language.jsp?faculty=$faculty&lang=$lang&iframe=true&width=1024&height=600";
+    
+    public function getPriceSortAllPrintIP(){
+      $model = $this->getUserModel();
+      if (empty($model->syspk) || empty($model->syspk->printIP) ) throw new Exception ("Необхідно визначити адресу серверу друку документів!");
+      $ip = $model->syspk->printIP;  
+      $url='http://'.$ip.':8080/request_report-1.0/price_sort_all.jsp?iframe=true&width=1024&height=600';
+      return $url;
+    }
+
+    public function getPriceSortAllNoMoneyPrintIP(){
+      $model = $this->getUserModel();
+      if (empty($model->syspk) || empty($model->syspk->printIP) ) throw new Exception ("Необхідно визначити адресу серверу друку документів!");
+      $ip = $model->syspk->printIP;  
+      $url='http://'.$ip.':8080/request_report-1.0/price_sort_all_nomoney.jsp&iframe=true&width=1024&height=600';
+      return $url;
+    }
+
+    public function getPriceSortFacultetPrintIP($idFacultet){
+      $model = $this->getUserModel();
+      if (empty($model->syspk) || empty($model->syspk->printIP) ) throw new Exception ("Необхідно визначити адресу серверу друку документів!");
+      $ip = $model->syspk->printIP;  
+      $url='http://'.$ip.':8080/request_report-1.0/price_sort_facultet.jsp?idFacultet='.$idFacultet.'&iframe=true&width=1024&height=600';
+      return $url;
+    }
+    
+    public function getPriceSortNamePrintIP(){
+      $model = $this->getUserModel();
+      if (empty($model->syspk) || empty($model->syspk->printIP) ) throw new Exception ("Необхідно визначити адресу серверу друку документів!");
+      $ip = $model->syspk->printIP;  
+      $url='http://'.$ip.':8080/request_report-1.0/price_sort_same.jsp?iframe=true&width=1024&height=600';
+      return $url;
+    }
+    
+    public function getPricePrintIP($specid){
+      $model = $this->getUserModel();
+      if (empty($model->syspk) || empty($model->syspk->printIP) ) throw new Exception ("Необхідно визначити адресу серверу друку документів!");
+      $ip = $model->syspk->printIP;
+      if (is_numeric($specid)){
+        $url='http://'.$ip.':8080/request_report-1.0/price.jsp?idPersonSpeciality='.$specid.'&iframe=true&width=1024&height=600';
+      } else {
+        $url = "#";
+      }
+      return $url;
     }
     
 }
