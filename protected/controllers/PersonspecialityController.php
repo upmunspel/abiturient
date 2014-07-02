@@ -63,26 +63,30 @@ class PersonspecialityController extends Controller {
 
     public function actionEdboupdate($id) {
         $model = Personspeciality::model()->findByPk($id);
-        try {
-            $link = Yii::app()->user->getEdboSearchUrl() . ":8080/PersonSearch/request.jsp";
+        if (Yii::app()->user->checkAccess("wsAllowEdit")) {
+            try {
 
-            $client = new EHttpClient($link, array('maxredirects' => 30, 'timeout' => 30,));
+                $link = Yii::app()->user->getEdboSearchUrl() . ":8080/PersonSearch/request.jsp";
 
-            $client->setParameterPost(array("personIdMySql" => $model->PersonID, "personSpeciality" => $id));
-            $response = $client->request(EHttpClient::POST);
+                $client = new EHttpClient($link, array('maxredirects' => 30, 'timeout' => 30,));
 
-            if ($response->isSuccessful()) {
-                $obj = (object) CJSON::decode($response->getBody());
-                if ($obj->error) {
-                    Yii::app()->user->setFlash("message", $obj->message);
+                $client->setParameterPost(array("personIdMySql" => $model->PersonID, "personSpeciality" => $id));
+                $response = $client->request(EHttpClient::POST);
+
+                if ($response->isSuccessful()) {
+                    $obj = (object) CJSON::decode($response->getBody());
+                    if ($obj->error) {
+                        Yii::app()->user->setFlash("message", $obj->message);
+                    }
+                } else {
+                    Yii::app()->user->setFlash("message", "Синхронізація не виконана! Спробуйте пізніше.");
                 }
-            } else {
+            } catch (Exception $e) {
                 Yii::app()->user->setFlash("message", "Синхронізація не виконана! Спробуйте пізніше.");
             }
-        } catch (Exception $e) {
-            Yii::app()->user->setFlash("message", "Синхронізація не виконана! Спробуйте пізніше.");
+        } else {
+            Yii::app()->user->setFlash("message", WebServices::$MSG_EDBO_EDIT_DENY);
         }
-
         echo CJSON::encode(array("result" => "success", "data" => ""));
     }
 
@@ -101,7 +105,7 @@ class PersonspecialityController extends Controller {
         $bs = array();
         if (!empty($BaseSpec)) {
             $doc = Documents::model()->findByPk($BaseSpec);
-             
+
             if (!empty($doc->PersonBaseSpecealityID)) {
                 $rel = BasespecialityRelation::model()->findAll("PersonBaseSpecialityID = {$doc->PersonBaseSpecealityID}");
                 foreach ($rel as $item) {
@@ -109,15 +113,14 @@ class PersonspecialityController extends Controller {
                 }
             }
         }
-       
+
         foreach ($data as $value => $name) {
-            if (empty($bs)){
-                    echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
+            if (empty($bs)) {
+                echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
             } else {
-                if (in_array($value, $bs)){
-                     echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
+                if (in_array($value, $bs)) {
+                    echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
                 }
-                
             }
         }
     }
