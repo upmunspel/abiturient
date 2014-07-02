@@ -51,10 +51,11 @@ class WebUser extends CWebUser {
         
         $spec = Personspeciality::model()->find("idPersonSpeciality=$specid");
         if (empty($spec)) throw new Exception ("Необхідно визначити спеціальність!");
+        $TechSecName = urlencode(Yii::app()->user->info);
         if ($spec->QualificationID > 1){
-            return "http://".$ip.":8080/request_report-1.0/magistr.jsp?PersonID=$personid&PersonSpecialityID=$specid&iframe=true&width=1024&height=600";
+            return "http://".$ip.":8080/request_report-1.0/magistr.jsp?PersonID=$personid&PersonSpecialityID=$specid&TechSecName=".$TechSecName."&iframe=true&width=1024&height=600";
         } else {
-            return "http://".$ip.":8080/request_report-1.0/bachelor.jsp?PersonID=$personid&PersonSpecialityID=$specid&iframe=true&width=1024&height=600";
+            return "http://".$ip.":8080/request_report-1.0/bachelor.jsp?PersonID=$personid&PersonSpecialityID=$specid&TechSecName=".$TechSecName."&iframe=true&width=1024&height=600";
         }
         return "";
     }
