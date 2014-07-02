@@ -132,7 +132,7 @@ return array(
           ), */
         // uncomment the following to use a MySQL database
         'db' => array(
-            'connectionString' => 'mysql:host=10.1.10.26;dbname=abiturient',
+            'connectionString' => 'mysql:host=10.1.103.26;dbname=abiturient2014',
             'username' => '',
             'password' => '',
             'emulatePrepare' => true,
