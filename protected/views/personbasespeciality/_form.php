@@ -32,7 +32,7 @@ Yii::app()->clientScript->registerPackage('select2');
     </div>
     <div class="row-fluid">
         <?php echo $form->labelEx($model, 'speciality'); ?>
-        <?php echo $form->dropDownList($model, 'speciality', Specialities::getAllSpecialityFullNamesWichCodes(), array('empty' => "", 'style' => "width: 100%;", "multiple" => "multiple")); ?>
+        <?php echo $form->dropDownList($model, 'speciality', Specialities::DropDown(), array('empty' => "", 'style' => "width: 100%;", "multiple" => "multiple")); ?>
     </div>
 
 
@@ -51,7 +51,7 @@ Yii::app()->clientScript->registerPackage('select2');
     <?php $this->endWidget(); ?>
     <script>
         $("#spec-form-modal .switch").bootstrapSwitch();
-        $('#<?php echo CHtml::activeId($model, "speciality"); ?>').select2({placeholder: "Выбрать льготу", allowClear: true});
+        $('#<?php echo CHtml::activeId($model, "speciality"); ?>').select2({placeholder: "Обрати спеціальності", allowClear: true});
         //PSN.changeEntranceType($('#<?php echo CHtml::activeId($model, 'EntranceTypeID'); ?>').get(0));
     </script>
 </div><!-- form -->
