@@ -2,10 +2,10 @@
 
 class WebServices {
 
-    static private $searchSrv = "http://10.1.22.25:8080/PersonSearch/";
-    static private $MSG_EDBO_ERROR = "Відсутній доступ до сервера ЄДЕБО!";
-    static private $MSG_EDBO_SEARCH_DENY = "Заборонено виконувати пошук у ЄДБО! sdsdsd";
-    static private $MSG_EDBO_EDIT_DENY = "Заборонено виконувати синхронізацію з ЄДБО!aerqwrerwerwer";
+    static private $searchSrv = "http://10.1.22.24:8080/PersonSearch/";
+    static public $MSG_EDBO_ERROR = "Відсутній доступ до сервера ЄДЕБО! ";
+    static public $MSG_EDBO_SEARCH_DENY = "Заборонено виконувати пошук у ЄДБО! ";
+    static public $MSG_EDBO_EDIT_DENY = "Заборонено виконувати синхронізацію з ЄДБО!";
 
     /**
      * Максимальная проолжительность запроса к сервису
@@ -38,7 +38,7 @@ class WebServices {
 
             try {
                 if (empty($codeU)) {
-                    throw new Exception("Пусте значення кода персони!");
+                    throw new Exception("Пусте значення кода персони!111111");
                 }
                 $ctx = stream_context_create(array('http' => array('timeout' => WebServices::$requestTimeout)));
                 $res = @file_get_contents(WebServices::$searchSrv . $script . $codeU, 0, $ctx);
@@ -76,10 +76,12 @@ class WebServices {
      * @throws Exception
      */
     public static function findPerson($series, $number) {
-         Yii::log("asdfsdfsd", CLogger::LEVEL_INFO, 'WebServices::findPerson');
-//        if (!Yii::app()->user->checkAccess("wsAllowSearch")) {
-//            throw new Exception(WebServices::$MSG_EDBO_SEARCH_DENY."asdsa");
-//        }
+
+   
+        if (!Yii::app()->user->checkAccess("wsAllowSearch")) {
+            throw new Exception(WebServices::$MSG_EDBO_SEARCH_DENY);
+        }
+
 
         $series = trim($series);
         $number = trim($number);
@@ -117,9 +119,6 @@ class WebServices {
      * @throws Exception
      */
     public static function findPersonDocumentsByCodeU($codeU) {
-//        if (!Yii::app()->user->checkAccess("wsAllowSearch")) {
-//            throw new Exception(WebServices::$MSG_EDBO_SEARCH_DENY);
-//        }
         $script = "documents.jsp?personCodeU=$codeU";
         $codeU = trim($codeU);
 
@@ -156,9 +155,11 @@ class WebServices {
      * @throws Exception
      */
     public static function findPersonContactsByCodeU($codeU) {
-//        if (!Yii::app()->user->checkAccess("wsAllowSearch")) {
-//            throw new Exception(WebServices::$MSG_EDBO_SEARCH_DENY);
-//        }
+
+        if (!Yii::app()->user->checkAccess("wsAllowSearch")) {
+            throw new Exception(WebServices::$MSG_EDBO_SEARCH_DENY);
+        }
+
         $script = "contacts.jsp?personCodeU=$codeU";
         $codeU = trim($codeU);
 
@@ -195,10 +196,11 @@ class WebServices {
      * Если false - рекомендуется откатить транзакцию или удалить созданную персону
      */
     public function sendEdboRequest($person) {
-//        if (!Yii::app()->user->checkAccess("wsAllowEdit")) {
-//            Yii::app()->user->setFlash("message", '<h3 style="color: red;">' . WebServices::$MSG_EDBO_EDIT_DENY . '</h3>');
-//            return false;
-//        }
+
+        if (!Yii::app()->user->checkAccess("wsAllowSearch")) {
+            throw new Exception(WebServices::$MSG_EDBO_SEARCH_DENY);
+        }
+
 
         $params = array(
             "personIdMySql" => $this->idPerson,
@@ -235,3 +237,4 @@ class WebServices {
     }
 
 }
+

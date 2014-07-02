@@ -685,7 +685,10 @@ class Person extends ActiveRecord {
      */
     public function SendEdboRequest() {
 
-
+        if (!Yii::app()->user->checkAccess("wsAllowEdit")) {
+            Yii::app()->user->setFlash("message", '<h3 style="color: red;">' . WebServices::$MSG_EDBO_EDIT_DENY . '</h3>');
+            return false;
+        }
         $params = array(
             "personIdMySql" => $this->idPerson,
             "entrantDocumentIdMySql" => $this->getEntrantdoc()->idDocuments,
