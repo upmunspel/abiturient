@@ -372,7 +372,7 @@ class Personspeciality extends ActiveRecord {
             "edboID" => "ЄДБО Код",
             "StatusID" => "Статус заявки",
             "benefits" => "Пільги",
-            "LanguageID" => "Іноземна мова",
+            "LanguageExID" => "Іноземна мова",
         );
     }
 
