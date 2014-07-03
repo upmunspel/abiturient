@@ -167,7 +167,7 @@ class Documents extends ActiveRecord {
 // Please remove those attributes that should not be searched.
             array('idDocuments, PersonID, TypeID, Series, Numbers, DateGet, ZNOPin, AtestatValue, Issued, isCopy', 'safe', 'on' => 'search'),
             array('idDocuments, PersonID, TypeID, Series, Numbers, DateGet, ZNOPin, AtestatValue, Issued, isCopy', 'safe', 'on' => 'FULLINPUT'),
-            array('TypeID', 'docTypeValid', 'on' => 'FULLINPUT'),
+            array('PersonBaseSpecealityID', 'docTypeValid', 'on' => 'FULLINPUT'),
         );
     }
 
