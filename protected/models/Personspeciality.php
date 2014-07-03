@@ -59,7 +59,7 @@
  * @property integer $RequestFromEB
  * @property integer $Quota1
  * @property integer $Quota2
- * @property integer $LanguageID
+ * @property integer $LanguageExID
  * 
  */
 class Personspeciality extends ActiveRecord {
@@ -371,7 +371,7 @@ class Personspeciality extends ActiveRecord {
             'RequestFromEB' => 'Эл-на за-ка',
             "edboID" => "ЄДБО Код",
             "StatusID" => "Статус заявки",
-            "benefits" => "Льготы",
+            "benefits" => "Пільги",
             "LanguageID" => "Іноземна мова",
         );
     }

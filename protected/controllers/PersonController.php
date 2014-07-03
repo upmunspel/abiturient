@@ -106,7 +106,7 @@ class PersonController extends Controller {
     public function actionCreate() {
 
         $this->layout = '//layouts/column2_noblock';
-         Yii::log(__LINE__);
+      
         $model = new Person;
 
         $model->Birthday = date("d.m.Y", mktime(0, 0, 0, 1, 1, date('Y') - 18));
@@ -117,8 +117,7 @@ class PersonController extends Controller {
         // Обработка формы поиска
         if (isset($_POST['search'])) {
             $findRes = 0; //$this->FindLocalPersonByDoc($_POST['search']['attestatSeries'],$_POST['search']['attestatNumber']);
-            //debug($findRes);
-             Yii::log(__LINE__);
+        
             try {
                 if ($findRes == 0) {
                     $res = WebServices::findPerson($_POST['search']['series'], $_POST['search']['number']);
@@ -203,7 +202,7 @@ class PersonController extends Controller {
 
 
                 if (isset(Yii::app()->session[$model->codeU . "-documents"])) {
-                    //Documents::loadAndSave($model->idPerson, unserialize(Yii::app()->session[$model->codeU."-documents"]));
+                    Documents::loadAndSave($model->idPerson, unserialize(Yii::app()->session[$model->codeU."-documents"]));
                 }
 //                            debug("model->entrantdoc->AtestatValue = ".$model->entrantdoc->AtestatValue);
 //                            if (!empty($model->entrantdoc->edboID) && (empty($model->entrantdoc->AtestatValue)  || $model->entrantdoc->AtestatValue == 0 )  {

@@ -82,6 +82,9 @@ class SpecialitiesController extends Controller
 		if(isset($_POST['Specialities']))
 		{
 			$model->attributes=$_POST['Specialities'];
+                        if (empty($_POST['Specialities']['basespecialitys'])) {
+                            $model->basespecialitys = array();
+                        }
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->idSpeciality));
 		}
@@ -106,6 +109,9 @@ class SpecialitiesController extends Controller
 		if(isset($_POST['Specialities']))
 		{
 			$model->attributes=$_POST['Specialities'];
+                        if (empty($_POST['Specialities']['basespecialitys'])) {
+                            $model->basespecialitys = array();
+                        }
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->idSpeciality));
 		}

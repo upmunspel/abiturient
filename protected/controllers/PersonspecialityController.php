@@ -99,29 +99,11 @@ class PersonspecialityController extends Controller {
         $this->renderPartial("_subjects_holder", array('model' => $model, 'specialityid' => $model->SepcialityID));
     }
 
-    public function actionSpeciality($idFacultet, $idEducationForm, $QualificationID, $BaseSpec = "") {
-        $data = Specialities::DropDownMask($idFacultet, $idEducationForm, $QualificationID);
+    public function actionSpeciality($idFacultet, $idEducationForm, $QualificationID, $BaseSpecID = "") {
+        $data = Specialities::DropDownMask($idFacultet, $idEducationForm, $QualificationID, $BaseSpecID);
         echo CHtml::tag('option', array('value' => ""), "", true);
-        $bs = array();
-        if (!empty($BaseSpec)) {
-            $doc = Documents::model()->findByPk($BaseSpec);
-
-            if (!empty($doc->PersonBaseSpecealityID)) {
-                $rel = BasespecialityRelation::model()->findAll("PersonBaseSpecialityID = {$doc->PersonBaseSpecealityID}");
-                foreach ($rel as $item) {
-                    $bs[] = $item->SpecialityID;
-                }
-            }
-        }
-
         foreach ($data as $value => $name) {
-            if (empty($bs)) {
-                echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
-            } else {
-                if (in_array($value, $bs)) {
-                    echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
-                }
-            }
+            echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
         }
     }
 
@@ -151,7 +133,10 @@ class PersonspecialityController extends Controller {
 
     protected function _setDefaults($model) {
         if ($model->PersonID > 0) {
-            $model->LanguageID = $model->person->LanguageID;
+            $model->LanguageExID = 
+                    $model->person->LanguageID;
+            $lng = Languages::model()->findAllByPk($model->person->LanguageID);
+            $id = Languagesex::model()->find("LanguageExName=".$lng->LanguagesName);
         }
         //$model = new Personspeciality();
         $user = User::model()->findByPk(Yii::app()->user->id);

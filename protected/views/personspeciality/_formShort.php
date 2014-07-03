@@ -117,10 +117,10 @@ $form= new TbActiveForm();
                 </div>
             </div>
             <div class="span3">
-                <?php  if (Yii::app()->user->checkAccess("showFullEntrantForm")): ?>
-                <?php echo $form->labelEx($model,'LanguageID'); ?>
-                <?php echo $form->dropDownList(
-                                $model,'LanguageID', CHtml::listData(Languages::model()->findAll(), 'idLanguages', 'LanguagesName'),
+                <?php  if (Yii::app()->user->checkAccess("editSpecLanguage")): ?>
+                <?php  echo $form->labelEx($model,'LanguageExID'); ?>
+                <?php  echo $form->dropDownList(
+                                $model,'LanguageExID', CHtml::listData(Languagesex::model()->findAll(), 'idLanguageEx', 'LanguageExName'),
                                 array(  'empty'=>'','class'=>'span12')
                             ); ?>
                 <?php  endif; ?>

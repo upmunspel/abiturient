@@ -39,7 +39,7 @@
 <div class="row-fluid">
     <div class="span6">
             <?php //echo $form->labelEx($model,'Exam3ID'); ?>
-            <?php echo CHtml::activeDropDownList($model,'Exam3ID',Subjects::DropDown( $specialityid, 3),array('empty'=>'','class'=>"span12", "disabled"=>$model->EntranceTypeID == 1 ? "disabled":"")); ?>
+            <?php echo CHtml::activeDropDownList($model,'Exam3ID',Subjects::DropDown( $specialityid, 3),array('empty'=>'','class'=>"span12", "disabled"=> $model->EntranceTypeID == 1 ? "disabled":"")); ?>
             <?php //echo $form->error($model,'Exam3ID'); ?>
     </div>
 
