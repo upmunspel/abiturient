@@ -167,14 +167,30 @@ class Documents extends ActiveRecord {
 // Please remove those attributes that should not be searched.
             array('idDocuments, PersonID, TypeID, Series, Numbers, DateGet, ZNOPin, AtestatValue, Issued, isCopy', 'safe', 'on' => 'search'),
             array('idDocuments, PersonID, TypeID, Series, Numbers, DateGet, ZNOPin, AtestatValue, Issued, isCopy', 'safe', 'on' => 'FULLINPUT'),
-            //array('TypeID', 'docTypeValid', 'on' => 'FULLINPUT'),
-            
+            array('TypeID', 'docTypeValid', 'on' => 'FULLINPUT'),
         );
     }
 
-    public function  docTypeValid($attribute, $params) {
-        if ($this->$attribute == 11){
-            $this->addError($attribute, 'Ura!');
+    public function docTypeValid($attribute, $params) {
+        //11	Диплом бакалавра	1
+        //12	Диплом спеціаліста	1
+        //13	Диплом магістра	1
+
+        if ($this->PersonBaseSpecealityID > 0) {
+            $bs = Personbasespeciality::model()->findByPk($this->PersonBaseSpecealityID);
+            $pos = 0;
+            if ($this->TypeID == 11) {
+                $pos = strpos($bs->PersonBaseSpecialityClasifierCode, "6.");
+            }
+            if ($this->TypeID == 12) {
+                $pos = strpos($bs->PersonBaseSpecialityClasifierCode, "7.");
+            }
+            if ($this->TypeID == 13) {
+                $pos = strpos($bs->PersonBaseSpecialityClasifierCode, "8.");
+            }
+            if ($pos === false && $pos >= 0) {
+                $this->addError($attribute, "Невірний базовий напрям!");
+            }
         }
     }
 
