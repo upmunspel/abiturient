@@ -2,7 +2,7 @@
 
 class WebServices {
 
-    static private $searchSrv = "http://10.1.22.25:8080/PersonSearch/";
+    static private $searchSrv = "http://10.1.103.26:8080/PersonSearch/";
     static public $MSG_EDBO_ERROR = "Відсутній доступ до сервера ЄДЕБО!";
     static public $MSG_EDBO_SEARCH_DENY = "Заборонено виконувати пошук у ЄДБО!";
     static public $MSG_EDBO_EDIT_DENY = "Заборонено виконувати синхронізацію з ЄДБО!";

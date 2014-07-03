@@ -75,8 +75,11 @@ class PersonspecialityController extends Controller {
 
                 if ($response->isSuccessful()) {
                     $obj = (object) CJSON::decode($response->getBody());
+                    Yii::log(print_r($obj,1));
                     if ($obj->error) {
                         Yii::app()->user->setFlash("message", $obj->message);
+                    } else {
+                         Yii::app()->user->setFlash("message", $obj->message);
                     }
                 } else {
                     Yii::app()->user->setFlash("message", "Синхронізація не виконана! Спробуйте пізніше.");
