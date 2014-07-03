@@ -133,10 +133,10 @@ class PersonspecialityController extends Controller {
 
     protected function _setDefaults($model) {
         if ($model->PersonID > 0) {
-            $model->LanguageExID = 
-                    $model->person->LanguageID;
+            
             $lng = Languages::model()->findAllByPk($model->person->LanguageID);
             $id = Languagesex::model()->find("LanguageExName=".$lng->LanguagesName);
+            $model->LanguageExID = $id;
         }
         //$model = new Personspeciality();
         $user = User::model()->findByPk(Yii::app()->user->id);
