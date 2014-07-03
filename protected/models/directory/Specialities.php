@@ -102,7 +102,7 @@ class Specialities extends CActiveRecord {
                         switch ($record->PersonEducationFormID) {
                             case "1": $res[$record->idSpeciality].="(Д)";
                                 break;
-                            case "2": $res[$record->idSpeciality].="(Д)";
+                            case "2": $res[$record->idSpeciality].="(З)";
                                 break;
                             case "3": $res[$record->idSpeciality].="(Е)";
                                 break;
@@ -115,7 +115,7 @@ class Specialities extends CActiveRecord {
                     switch ($record->PersonEducationFormID) {
                         case "1": $res[$record->idSpeciality].="(Д)";
                             break;
-                        case "2": $res[$record->idSpeciality].="(Д)";
+                        case "2": $res[$record->idSpeciality].="(З)";
                             break;
                         case "3": $res[$record->idSpeciality].="(Е)";
                             break;
