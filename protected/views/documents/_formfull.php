@@ -3,6 +3,7 @@
  * @var $form CActiveForm
  */
 //$form = new CActiveForm();
+Yii::app()->clientScript->registerPackage('select2');
 ?>
 <div class="form">
 <?php $form=$this->beginWidget('CActiveForm', array(
@@ -68,14 +69,15 @@ echo $form->errorSummary($model); ?>
         </div>
     </div>
 </div>
-<div class="row-fluid">
-    <div class ="span6">
+<div class="row-fluid" >
+    <div class ="span6" style="margin-top: 4px;">
         <?php echo $form->labelEx($model,'PersonBaseSpecealityID'); ?>
         <?php echo $form->dropDownList($model, 'PersonBaseSpecealityID', Personbasespeciality::DropDown(),array('empty'=>"",'class'=>'span12')); ?>
     </div>   
     <div class="span3">
           <?php echo $form->labelEx($model,'PersonDocumentsAwardsTypesID'); ?>
-          <?php echo $form->dropDownList($model,'PersonDocumentsAwardsTypesID', CHtml::listData(Persondocumentsawardstypes::model()->findAll(), 'idPersonDocumentsAwardsTypes', 'PersonDocumentsAwardsTypesName'),array('empty'=>'','class'=>'span12')); ?>
+          <?php echo $form->dropDownList($model,'PersonDocumentsAwardsTypesID', CHtml::listData(Persondocumentsawardstypes::model()->findAll(), 'idPersonDocumentsAwardsTypes', 'PersonDocumentsAwardsTypesName'),
+                  array('empty'=>'','class'=>'span12', 'style' => "width: 100%;")); ?>
     </div>
 </div>
 
@@ -83,6 +85,7 @@ echo $form->errorSummary($model); ?>
         $('#doc-form-modal .datepicker').datepicker({'format':'dd.mm.yyyy'});
         $('.datepicker').css("z-index","9999");
         $("#doc-form-modal .switch").bootstrapSwitch();
+         $('#<?php echo CHtml::activeId($model, "PersonBaseSpecealityID"); ?>').select2({placeholder: "Обрати спеціальності", allowClear: true});
     </script>
 <?php $this->endWidget(); ?>
 </div>

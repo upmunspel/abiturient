@@ -93,7 +93,7 @@ $form= new TbActiveForm();
         <div class="row-fluid">
              <div class="span5">
 		<?php echo $form->labelEx($model,'EntrantDocumentID'); ?>
-		<?php echo $form->dropDownList($model,'EntrantDocumentID', Documents::PersonEntrantDocuments($personid),
+		<?php echo $form->dropDownList($model,'EntrantDocumentID', Documents::PersonEntrantDocuments($personid,1),
                         array('empty'=>'','class'=>'span12', 
                             'disabled'=>!$model->isNewRecord,
                             'onchange'=>"PSN.onFacChange(this, '#".CHtml::activeId($model, "SepcialityID")."','".CController::createUrl('personspeciality/speciality')."');")); ?>
@@ -120,11 +120,13 @@ $form= new TbActiveForm();
                 </div>
             </div>
             <div class="span3">
-                <?php  if (Yii::app()->user->checkAccess("editSpecLanguage")): ?>
+                <?php  if (Yii::app()->user->checkAccess("showSpecLanguage")): ?>
                 <?php  echo $form->labelEx($model,'LanguageExID'); ?>
                 <?php  echo $form->dropDownList(
                                 $model,'LanguageExID', CHtml::listData(Languagesex::model()->findAll(), 'idLanguageEx', 'LanguageExName'),
-                                array(  'empty'=>'','class'=>'span12')
+                                array(  'empty'=>'',
+                                        'disabled'=>!Yii::app()->user->checkAccess("editSpecLanguage")?"disabled" :"",
+                                        'class'=>'span12')
                             ); ?>
                 <?php  endif; ?>
             </div>

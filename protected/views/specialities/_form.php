@@ -12,16 +12,37 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 ?>
 <div class="form well ">
     <p class="note">Поля, відмічені <span class="required">*</span> обов'язкові для заповнення!</p>
-
+    <h3>Форма навчання:
+        <?php
+        $res = "";
+            if (!empty($model->PersonEducationFormID)) {
+                switch ($model->PersonEducationFormID) {
+                    case "1": $res.="Денна";
+                        break;
+                    case "2": $res.="Заочна";
+                        break;
+                    case "3": $res.="Екстернат";
+                        break;
+                }
+            }
+            echo $res;
+        ?>
+        </h3>
+    <h3>Повна назва:
+        <?php
+        
+            echo $model->SpecialityFullName;
+        ?>
+        </h3>
     <?php echo $form->errorSummary($model); ?>
     <?php //------------------------------------------------------------------------------------------------------------------------------------// ?>
     <div class="row-fluid">
-        <div class ="span4">
-            <?php echo $form->labelEx($model, 'idSpeciality'); ?>
-            <?php echo $form->textField($model, 'idSpeciality', array('class' => 'span12')); ?>
-            <?php echo $form->error($model, 'idSpeciality'); ?>
-        </div>
-        <div class ="span4">
+<!--        <div class ="span4">
+            <?php //echo $form->labelEx($model, 'idSpeciality'); ?>
+            <?php //echo $form->textField($model, 'idSpeciality', array('class' => 'span12')); ?>
+            <?php //echo $form->error($model, 'idSpeciality'); ?>
+        </div>-->
+        <div class ="span8">
             <?php echo $form->labelEx($model, 'SpecialityName'); ?>
             <?php echo $form->textField($model, 'SpecialityName', array('class' => 'span12', 'size' => 60, 'maxlength' => 100)); ?>
             <?php echo $form->error($model, 'SpecialityName'); ?>

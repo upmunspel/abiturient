@@ -93,9 +93,10 @@ class Specialities extends CActiveRecord {
                 }
             }
         }
-
+       //Yii::log(print_r($BaseSpecID,1)); 
+        //Yii::log(print_r($bs,1));                
         foreach ($records as $record) {
-            if (intval($BaseSpecID) > 0) {
+            if (!empty($bs)) {
                 if (in_array($record->idSpeciality, $bs)) {
                     $res[$record->idSpeciality] = (!empty($record->SpecialityName) ? $record->SpecialityName . " " : "" ) . $record->SpecialityDirectionName . (!empty($record->SpecialitySpecializationName) ? ": " . $record->SpecialitySpecializationName . " " : "") . "(" . $record->SpecialityClasifierCode . ")";
                     if (!empty($record->PersonEducationFormID)) {
@@ -137,12 +138,18 @@ class Specialities extends CActiveRecord {
 
         foreach (Specialities::model()->findAll($c) as $record) {
             $res[$record->idSpeciality] = ($res[$record->idSpeciality] = (!empty($record->SpecialityName) ? $record->SpecialityName . " " : "" ) . $record->SpecialityDirectionName . (!empty($record->SpecialitySpecializationName) ? ": " . $record->SpecialitySpecializationName . " " : "") . "(" . $record->SpecialityClasifierCode . ")");
-            if (!empty($record->PersonEducationFormID) && $record->PersonEducationFormID == 1) {
-                $res[$record->idSpeciality].="(Д)";
-            } else {
-                $res[$record->idSpeciality].="(З)";
+            if (!empty($record->PersonEducationFormID)) {
+                switch ($record->PersonEducationFormID) {
+                    case "1": $res[$record->idSpeciality].="(Д)";
+                        break;
+                    case "2": $res[$record->idSpeciality].="(З)";
+                        break;
+                    case "3": $res[$record->idSpeciality].="(Е)";
+                        break;
+                }
             }
         }
+
 
         return $res;
     }
@@ -212,7 +219,7 @@ class Specialities extends CActiveRecord {
             'SemPrice' => "Ціна за семестр",
             "PersonEducationFormID" => "Форма освіти",
             "StudyPeriodID" => "Період",
-            "basespecialitys"=>"Пов'язаний базовий напрям підготовки",
+            "basespecialitys" => "Пов'язаний базовий напрям підготовки",
         );
     }
 
@@ -318,7 +325,7 @@ class Specialities extends CActiveRecord {
             switch ($record->PersonEducationFormID) {
                 case "1": $res.="(Д)";
                     break;
-                case "2": $res.="(Д)";
+                case "2": $res.="(З)";
                     break;
                 case "3": $res.="(Е)";
                     break;

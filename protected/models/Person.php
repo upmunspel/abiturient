@@ -337,8 +337,8 @@ class Person extends ActiveRecord {
             "operatorInfo" => "Оператор",
             "koatu" => "Адреса",
             "Apartment"=>"Квартира",
-            "HomeNumber"=>"Номер дома", 
-            "Housing"=>"Строение",
+            "HomeNumber"=>"Номер будинку", 
+            "Housing"=>"Корпус",
         );
     }
 

@@ -28,3 +28,6 @@
 .row-goldenrod{
     color: goldenrod;
 }
+.select2-container.span12 {
+    margin-left: 0px !important;
+}

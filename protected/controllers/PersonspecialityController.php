@@ -100,6 +100,7 @@ class PersonspecialityController extends Controller {
     }
 
     public function actionSpeciality($idFacultet, $idEducationForm, $QualificationID, $BaseSpecID = "") {
+           //Yii::log(print_r($BaseSpecID,1)); 
         $data = Specialities::DropDownMask($idFacultet, $idEducationForm, $QualificationID, $BaseSpecID);
         echo CHtml::tag('option', array('value' => ""), "", true);
         foreach ($data as $value => $name) {
@@ -137,7 +138,9 @@ class PersonspecialityController extends Controller {
             $lng = Languages::model()->findByPk($model->person->LanguageID);
             if (!empty($lng)){
                 $id = Languagesex::model()->find("LanguageExName='{$lng->LanguagesName}'");
-                $model->LanguageExID = $id;
+                if (!empty($id)){
+                $model->LanguageExID = $id->idLanguageEx;
+                }
             }
         }
         //$model = new Personspeciality();

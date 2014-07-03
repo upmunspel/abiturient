@@ -79,7 +79,9 @@
     <div class="row-fluid">
         <div class="span5">
             <?php echo $form->labelEx($model, 'EntrantDocumentID'); ?>
-            <?php echo $form->dropDownList($model, 'EntrantDocumentID', Documents::PersonEntrantDocuments($personid), array('class' => 'span12')); ?>
+            <?php echo $form->dropDownList($model, 'EntrantDocumentID', Documents::PersonEntrantDocuments($personid), 
+                    array('class' => 'span12',
+                        'disabled' => !$model->isNewRecord,)); ?>
             <?php //echo $form->error($model,'CourseID'); ?>
         </div>
         <div class="span4">
@@ -112,11 +114,13 @@
             </div>
         </div>
         <div class="span3">
-                <?php  if (Yii::app()->user->checkAccess("editSpecLanguage")): ?>
+                <?php  if (Yii::app()->user->checkAccess("showSpecLanguage")): ?>
                 <?php  echo $form->labelEx($model,'LanguageExID'); ?>
                 <?php  echo $form->dropDownList(
                                 $model,'LanguageExID', CHtml::listData(Languagesex::model()->findAll(), 'idLanguageEx', 'LanguageExName'),
-                                array(  'empty'=>'','class'=>'span12')
+                                array(  'empty'=>'',
+                                        'disabled'=>!Yii::app()->user->checkAccess("editSpecLanguage")?"disabled" :"",
+                                        'class'=>'span12')
                             ); ?>
                 <?php  endif; ?>
         </div>
