@@ -245,6 +245,26 @@ class Person extends ActiveRecord {
             $this->KOATUUCodeID = $koatu[0];
             $this->KOATUUCode = $koatu[1];
         }
+        $kk = KoatuuLevel3::model()->findByPk($this->KOATUUCodeID);
+        if (!empty($kk)) {
+            //$kk = new KoatuuLevel3();
+            $this->KOATUUCodeL3ID = $this->KOATUUCodeID;
+            $kk2 = KoatuuLevel2::model()->findByPk($kk->KOATUULevel2ID);
+            $this->KOATUUCodeL2ID = $kk->KOATUULevel2ID;
+            $this->KOATUUCodeL1ID = $kk2->KOATUULevel1ID;
+        } else {
+            $kk = KoatuuLevel2::model()->findByPk($this->KOATUUCodeID);
+            if (!empty($kk)) {
+                $this->KOATUUCodeL2ID = $this->KOATUUCodeID;
+                $this->KOATUUCodeL1ID = $kk->KOATUULevel1ID;
+            } else {
+
+                $kk = KoatuuLevel3::model()->findByPk($this->KOATUUCodeID);
+                if (!empty($kk)) {
+                    $this->KOATUUCodeL1ID = $this->KOATUUCodeID;
+                }
+            }
+        }
 
         if (empty($this->LastNameEn)) {
             $this->LastNameEn = Transliteration::translit2010($this->LastName);
@@ -336,9 +356,9 @@ class Person extends ActiveRecord {
             "FIO" => "ФИО",
             "operatorInfo" => "Оператор",
             "koatu" => "Адреса",
-            "Apartment"=>"Квартира",
-            "HomeNumber"=>"Номер будинку", 
-            "Housing"=>"Корпус",
+            "Apartment" => "Квартира",
+            "HomeNumber" => "Номер будинку",
+            "Housing" => "Корпус",
         );
     }
 
@@ -461,12 +481,12 @@ class Person extends ActiveRecord {
      * @return boolean
      */
     public function loadByUCode($codeu) {
-       
+
         if (!empty($codeu)) {
             $json_string = Yii::app()->session["edboResult"];
-         
+
             $objarr = CJSON::decode($json_string);
-           
+
             $obj = null;
             if (count($objarr) > 0) {
                 foreach ($objarr as $item) {
@@ -485,11 +505,11 @@ class Person extends ActiveRecord {
                     $model->LastNameR = $obj->lastName;
                     $model->FirstNameR = $obj->firstName;
                     $model->MiddleNameR = $obj->middleName;
-                    
+
                     $model->LastNameEn = $obj->lastNameEn;
                     $model->FirstNameEn = $obj->firstNameEn;
                     $model->MiddleNameEn = $obj->middleNameEn;
-                    
+
                     $model->PersonSexID = $obj->id_PersonSex;
                     $model->Birthday = date("d.m.Y", mktime(0, 0, 0, $obj->birthday['month'] + 1, $obj->birthday['dayOfMonth'], $obj->birthday['year']));
                     $model->IsResident = $obj->resident;
@@ -502,15 +522,21 @@ class Person extends ActiveRecord {
 
                     $code = KoatuuLevel1::model()->findByPk($obj->id_KoatuuCode);
                     $scode = "";
-                  
-                    if (!empty($code)) { $scode = $code->KOATUULevel1Code; }
+
+                    if (!empty($code)) {
+                        $scode = $code->KOATUULevel1Code;
+                    }
                     if (empty($code)) {
                         $code = KoatuuLevel2::model()->findByPk($obj->id_KoatuuCode);
-                        if (!empty($code)) { $scode = $code->KOATUULevel2Code; }
+                        if (!empty($code)) {
+                            $scode = $code->KOATUULevel2Code;
+                        }
                     }
                     if (empty($code)) {
                         $code = KoatuuLevel3::model()->findByPk($obj->id_KoatuuCode);
-                        if (!empty($code)) { $scode = $code->KOATUULevel3Code; }
+                        if (!empty($code)) {
+                            $scode = $code->KOATUULevel3Code;
+                        }
                     }
 
                     $model->KOATUUCode = $code;
