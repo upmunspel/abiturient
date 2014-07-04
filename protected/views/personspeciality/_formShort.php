@@ -153,7 +153,7 @@ $form= new TbActiveForm();
                         <?php echo $form->hiddenField($model,'QualificationID'); 
                               echo $form->labelEx($model,'QualificationID'); ?>
                         <?php echo $form->dropDownList($model,'QualificationID',CHtml::listData(Qualifications::model()->findAll("idQualification = 2 or idQualification = 3"), 'idQualification', 'QualificationName'),
-                                array(  'empty'=>'', 
+                                array(  //'empty'=>'', 
                                         'disabled'=>!$model->isNewRecord ,
                                         'class'=>"span12",
                                         'id'=>"QualificationID",
