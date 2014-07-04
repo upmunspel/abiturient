@@ -596,7 +596,8 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                 $data->edbo = EdboData::model()->findByPk($data->edboID);
               }
               if ($data->edbo){
-                $spec_code_ok = (strstr($data->SPEC,$data->edbo->SpecCode) !== FALSE);
+                $spec_code_ok = ((strstr($data->SPEC,$data->edbo->SpecCode) !== FALSE) || 
+                  (strstr($data->SPEC,$data->edbo->SpecialCode) !== FALSE));
                 $speciality_ok = ($data->edbo->Speciality)? 
                         (strstr($data->SPEC,$data->edbo->Speciality) !== FALSE): true;
                 $specialization_ok = ($data->edbo->Specialization)? 
@@ -607,7 +608,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                   . $data->SPEC
                   . "</span>";
                 } else if (!$spec_code_ok){
-                  echo "<span title='В ЄДЕБО код напряму: ".$data->edbo->SpecCode."' style='color: red;'>"
+                  echo "<span title='В ЄДЕБО коди напряму і спеціальності: ".$data->edbo->SpecCode." ; ".$data->edbo->SpecialCode."' style='color: red;'>"
                   . $data->SPEC
                   . "</span>";
                 } else if (!$speciality_ok){

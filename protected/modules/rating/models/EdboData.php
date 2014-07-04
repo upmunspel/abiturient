@@ -47,6 +47,7 @@
  * @property integer $OD
  * @property integer $NeedHostel
  * @property string $EntranceCodes
+ * @property string $Priority
  * 
  * @property file $csv_file File for uploading edbo data
  */
@@ -85,13 +86,13 @@ class EdboData extends CActiveRecord
 			array('Status, Created, EduQualification, SpecCode, SpecialCode, Changed, DocNumber, Honours, Category, Gender, Citizen, TH, Tel, MobTel', 'length', 'max'=>64),
 			array('PersonCase, EduForm, DocSeria', 'length', 'max'=>16),
 			array('Direction, Speciality, Specialization, StructBranch, DetailPoints, DocType, EntranceType, EntranceReason, Language', 'length', 'max'=>128),
-			array('DocDate, EntranceCodes', 'length', 'max'=>32),
+			array('DocDate, EntranceCodes, Priority', 'length', 'max'=>32),
 			array('Country', 'length', 'max'=>192),
       array('csv_file', 'file', 'types' => 'csv', 'maxSize' => 1024 * 1024 * 20, 
           'tooLarge' => 'Перевищена межа у 20MB !', 'on' => 'upload'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('ID, PIB, EZ, Status, Created, PersonCase, Course, EduForm, EduQualification, B, K, RatingPoints, SpecCode, Direction, SpecialCode, Speciality, Specialization, StructBranch, Changed, DetailPoints, DocType, DocSeria, DocNumber, DocPoint, DocDate, Honours, EntranceType, EntranceReason, Benefit, PriorityEntry, Quota, Language, OI, Category, Gender, Citizen, Country, TH, Tel, MobTel, OD, NeedHostel, EntranceCodes', 'safe', 'on'=>'search'),
+			array('ID, PIB, EZ, Status, Created, PersonCase, Course, EduForm, EduQualification, B, K, RatingPoints, SpecCode, Direction, SpecialCode, Speciality, Specialization, StructBranch, Changed, DetailPoints, DocType, DocSeria, DocNumber, DocPoint, DocDate, Honours, EntranceType, EntranceReason, Benefit, PriorityEntry, Quota, Language, OI, Category, Gender, Citizen, Country, TH, Tel, MobTel, OD, NeedHostel, EntranceCodes, Priority', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -154,6 +155,7 @@ class EdboData extends CActiveRecord
   		  'OD' => 'Od',
   		  'NeedHostel' => 'Need Hostel',
   		  'EntranceCodes' => 'Entrance Codes',
+  		  'Priority' => 'Priority',
 		);
 	}
 
@@ -211,6 +213,7 @@ class EdboData extends CActiveRecord
     $criteria->compare('OD',$this->OD);
     $criteria->compare('NeedHostel',$this->NeedHostel);
     $criteria->compare('EntranceCodes',$this->EntranceCodes,true);
+    $criteria->compare('Priority',$this->Priority,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
