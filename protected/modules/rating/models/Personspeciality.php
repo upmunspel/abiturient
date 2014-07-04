@@ -453,6 +453,7 @@ class Personspeciality extends ActiveRecord {
               . " else concat('(',sepciality.SpecialitySpecializationName,')') end)"
               . ",',',concat('форма: ',educationForm.PersonEducationFormName)) AS SPEC"),
       new CDbExpression('(ROUND((
+        IF(ISNULL(docs.AtestatValue),0.0,
         MAX(IF (
           ISNULL( 
             (
@@ -461,13 +462,13 @@ class Personspeciality extends ActiveRecord {
               WHERE ROUND(Atestatvalue,1) IN (ROUND(docs.AtestatValue,1)) 
             ) 
           ),
-          0.0,
+          docs.AtestatValue,
           (
             SELECT ROUND(MAX(Znovalue),2)
             FROM atestatvalue 
             WHERE ROUND(Atestatvalue,1) IN (ROUND(docs.AtestatValue,1)) 
           ) 
-        ))+
+        )))+
         IF(ISNULL(documentSubject1.SubjectValue),0.0,documentSubject1.SubjectValue)+
         IF(ISNULL(documentSubject2.SubjectValue),0.0,documentSubject2.SubjectValue)+
         IF(ISNULL(documentSubject3.SubjectValue),0.0,documentSubject3.SubjectValue)+
@@ -556,7 +557,7 @@ class Personspeciality extends ActiveRecord {
       }
     }
     //вибираємо лише ті документи, у яких є бали (відмітки)
-    $criteria->addCondition('docs.AtestatValue IS NOT NULL');
+    //$criteria->addCondition('docs.AtestatValue IS NOT NULL');
     //якщо поступає на спеціаліста або магістра, то враховувати бали лише диплому,
     //інакше - атестату
     $criteria->addCondition('IF (t.QualificationID IN (2,3), '
