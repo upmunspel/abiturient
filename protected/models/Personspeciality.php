@@ -60,7 +60,7 @@
  * @property integer $Quota1
  * @property integer $Quota2
  * @property integer $LanguageExID
- * 
+ * @property integer $EntrantDocumentID
  */
 class Personspeciality extends ActiveRecord {
 
@@ -144,7 +144,8 @@ class Personspeciality extends ActiveRecord {
             
             // SHORTFORM
             array("Exam1ID", 'required', 'on' => "SHORTFORM"),
-           
+            array("EntrantDocumentID", 'valididateEntrantDoc', 'on' => "SHORTFORM"),
+            array("Exam2ID", 'valididateExam', 'on' => "SHORTFORM"),
             array("EntranceTypeID", "required", "except" => "SHORTFORM"),
             //array("CausalityID",  "default", "value"=>100,"except"=>"SHORTFORM"),
             
@@ -171,6 +172,29 @@ class Personspeciality extends ActiveRecord {
         );
     }
 
+    public function valididateEntrantDoc($attributes) {
+        if (!empty($this->EntrantDocumentID)){
+            $doc = Documents::model()->findByPk($this->EntrantDocumentID);
+            
+            if (empty($doc->PersonBaseSpecealityID)) {
+                 $this->addError($attributes, "Не вказано базовий напрям піготовки документа!");
+            }
+        }
+        return true;
+    }
+    public function valididateExam($attributes) {
+        if ($this->QualificationID == 2 && empty($this->Exam2ID)){
+           
+                 $this->addError($attributes, "Предмет не може бути порожнім!");
+            
+        }
+        if ($this->QualificationID == 3 && !empty($this->Exam2ID)){
+           
+                 $this->addError($attributes, "Предмет повинен бути порожнім!");
+            
+        }
+        return true;
+    }
     public function valididateZnoExam($attributes) {
         switch ($attributes) {
             case "DocumentSubject1":

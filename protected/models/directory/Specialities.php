@@ -74,9 +74,9 @@ class Specialities extends CActiveRecord {
         if ($QualificationID == 1) {
             $mask = "6";
         }
-
+        
         if ($FacultetID == 0 || $EducationFormID == 0 || $QualificationID == 0) {
-            $records = Specialities::model()->findAll("SpecialityClasifierCode like '7%' or SpecialityClasifierCode like '8%'");
+            //$records = Specialities::model()->findAll("SpecialityClasifierCode like '7%' or SpecialityClasifierCode like '8%'");
         } else {
             $records = Specialities::model()->findAll("FacultetID = :FacultetID and PersonEducationFormID = :EducationFormID and SpecialityClasifierCode like '$mask%'", array(":FacultetID" => $FacultetID, ":EducationFormID" => $EducationFormID));
         }
@@ -133,7 +133,7 @@ class Specialities extends CActiveRecord {
         $c = new CDbCriteria();
         $c->order = 'SpecialityDirectionName';
         if ($FacultetID != 0) {
-            $c->compare('FacultetID', $FacultetID);
+            $c->addCondition('FacultetID = '.$FacultetID);
         }
 
         foreach (Specialities::model()->findAll($c) as $record) {

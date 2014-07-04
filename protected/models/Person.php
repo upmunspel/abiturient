@@ -248,6 +248,7 @@ class Person extends ActiveRecord {
         $kk = KoatuuLevel3::model()->findByPk($this->KOATUUCodeID);
         if (!empty($kk)) {
             //$kk = new KoatuuLevel3();
+           // Yii::log($this->KOATUUCodeID);
             $this->KOATUUCodeL3ID = $this->KOATUUCodeID;
             $kk2 = KoatuuLevel2::model()->findByPk($kk->KOATUULevel2ID);
             $this->KOATUUCodeL2ID = $kk->KOATUULevel2ID;
@@ -255,10 +256,11 @@ class Person extends ActiveRecord {
         } else {
             $kk = KoatuuLevel2::model()->findByPk($this->KOATUUCodeID);
             if (!empty($kk)) {
+                 ///Yii::log($this->KOATUUCodeID);
                 $this->KOATUUCodeL2ID = $this->KOATUUCodeID;
                 $this->KOATUUCodeL1ID = $kk->KOATUULevel1ID;
             } else {
-
+                Yii::log($this->KOATUUCodeID);
                 $kk = KoatuuLevel3::model()->findByPk($this->KOATUUCodeID);
                 if (!empty($kk)) {
                     $this->KOATUUCodeL1ID = $this->KOATUUCodeID;
