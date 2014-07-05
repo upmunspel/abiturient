@@ -596,34 +596,35 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                 $data->edbo = EdboData::model()->findByPk($data->edboID);
               }
               if ($data->edbo){
-                $spec_code_ok = ((strstr($data->SPEC,$data->edbo->SpecCode) !== FALSE) || 
-                  (strstr($data->SPEC,$data->edbo->SpecialCode) !== FALSE));
-                $speciality_ok = ($data->edbo->Speciality)? 
-                        (strstr($data->SPEC,$data->edbo->Speciality) !== FALSE): true;
-                $specialization_ok = ($data->edbo->Specialization)? 
-                        (strstr($data->SPEC,$data->edbo->Specialization) !== FALSE): true;
-                $edu_form_ok = (strstr($data->SPEC,$data->edbo->EduForm) !== FALSE);
-                if ($spec_code_ok && $speciality_ok && $specialization_ok && $edu_form_ok){
-                  echo "<span title='співпадає' style='color: green;'>"
-                  . $data->SPEC
-                  . "</span>";
-                } else if (!$spec_code_ok){
-                  echo "<span title='В ЄДЕБО коди напряму і спеціальності: ".$data->edbo->SpecCode." ; ".$data->edbo->SpecialCode."' style='color: red;'>"
-                  . $data->SPEC
-                  . "</span>";
-                } else if (!$speciality_ok){
-                  echo "<span title='В ЄДЕБО спеціальність: ".$data->edbo->Speciality."' style='color: red;'>"
-                  . $data->SPEC
-                  . "</span>";
-                } else if (!$specialization_ok){
-                  echo "<span title='В ЄДЕБО спеціалізація: ".$data->edbo->Specialization."' style='color: red;'>"
-                  . $data->SPEC
-                  . "</span>";
-                } else if (!$edu_form_ok){
-                  echo "<span title='В ЄДЕБО форма навчання: ".$data->edbo->EduForm."' style='color: red;'>"
-                  . $data->SPEC
-                  . "</span>";
-                }
+                // $spec_code_ok = ((strstr($data->SPEC,$data->edbo->SpecCode) !== FALSE) || 
+                  // (strstr($data->SPEC,$data->edbo->SpecialCode) !== FALSE));
+                // $speciality_ok = ($data->edbo->Speciality)? 
+                        // (strstr($data->SPEC,$data->edbo->Speciality) !== FALSE): true;
+                // $specialization_ok = ($data->edbo->Specialization)? 
+                        // (strstr($data->SPEC,$data->edbo->Specialization) !== FALSE): true;
+                // $edu_form_ok = (strstr($data->SPEC,$data->edbo->EduForm) !== FALSE);
+                // if ($spec_code_ok && $speciality_ok && $specialization_ok && $edu_form_ok){
+                  // echo "<span title='співпадає' style='color: green;'>"
+                  // . $data->SPEC
+                  // . "</span>";
+                // } else if (!$spec_code_ok){
+                  // echo "<span title='В ЄДЕБО коди напряму і спеціальності: ".$data->edbo->SpecCode." ; ".$data->edbo->SpecialCode."' style='color: red;'>"
+                  // . $data->SPEC
+                  // . "</span>";
+                // } else if (!$speciality_ok){
+                  // echo "<span title='В ЄДЕБО спеціальність: ".$data->edbo->Speciality."' style='color: red;'>"
+                  // . $data->SPEC
+                  // . "</span>";
+                // } else if (!$specialization_ok){
+                  // echo "<span title='В ЄДЕБО спеціалізація: ".$data->edbo->Specialization."' style='color: red;'>"
+                  // . $data->SPEC
+                  // . "</span>";
+                // } else if (!$edu_form_ok){
+                  // echo "<span title='В ЄДЕБО форма навчання: ".$data->edbo->EduForm."' style='color: red;'>"
+                  // . $data->SPEC
+                  // . "</span>";
+                // }
+                echo $data->SPEC;
               } else {
                 echo $data->SPEC;
               }
