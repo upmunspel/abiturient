@@ -2,7 +2,7 @@
 
 class WebServices {
 
-    static private $searchSrv = "http://10.1.22.25:8080/PersonSearch/";
+    //static private $searchSrv = "http://10.1.22.25:8080/PersonSearch/";
     static public $MSG_EDBO_ERROR = "Відсутній доступ до сервера ЄДЕБО!";
     static public $MSG_EDBO_SEARCH_DENY = "Заборонено виконувати пошук у ЄДБО!";
     static public $MSG_EDBO_EDIT_DENY = "Заборонено виконувати синхронізацію з ЄДБО!";
@@ -76,11 +76,12 @@ class WebServices {
      * @throws Exception
      */
     public static function findPerson($series, $number) {
-        
-        if (!Yii::app()->user->checkAccess("wsAllowSearch")) {
-            throw new Exception(WebServices::$MSG_EDBO_SEARCH_DENY."asdsa");
-        }
 
+        if (!Yii::app()->user->checkAccess("wsAllowSearch")) {
+            throw new Exception(WebServices::$MSG_EDBO_SEARCH_DENY . "asdsa");
+        }
+        $srv = Yii::app()->user->getEdboSearchUrl() . ":8080/PersonSearch/";
+        Yii::log($srv);
         $series = trim($series);
         $number = trim($number);
         $script = "search.jsp?series=$series&number=$number";
@@ -89,13 +90,13 @@ class WebServices {
                 throw new Exception("Відсутні параметри для пошуку111!");
             }
             $ctx = stream_context_create(array('http' => array('timeout' => WebServices::$requestTimeout)));
-            $res = @file_get_contents(WebServices::$searchSrv . $script, 0, $ctx);
+            $res = @file_get_contents($srv . $script, 0, $ctx);
             if ($res === false) {
                 throw new Exception(WebServices::$MSG_EDBO_ERROR);
             }
 
             $error = CJSON::decode($res);
- 
+
             if (is_array($error) && isset($error['error'])) {
                 throw new Exception($error['error']);
             }
@@ -122,13 +123,13 @@ class WebServices {
         }
         $script = "documents.jsp?personCodeU=$codeU";
         $codeU = trim($codeU);
-
+        $srv = Yii::app()->user->getEdboSearchUrl() . ":8080/PersonSearch/";
         try {
             if (empty($codeU)) {
                 throw new Exception("Пусте значення кода персони!");
             }
             $ctx = stream_context_create(array('http' => array('timeout' => WebServices::$requestTimeout)));
-            $res = @file_get_contents(WebServices::$searchSrv . $script, 0, $ctx);
+            $res = @file_get_contents($srv . $script, 0, $ctx);
             if ($res === false) {
                 throw new Exception(WebServices::$MSG_EDBO_ERROR);
             }
@@ -161,13 +162,13 @@ class WebServices {
         }
         $script = "contacts.jsp?personCodeU=$codeU";
         $codeU = trim($codeU);
-
+        $srv = Yii::app()->user->getEdboSearchUrl() . ":8080/PersonSearch/";
         try {
             if (empty($codeU)) {
                 throw new Exception("Пусте значення кода персони!");
             }
             $ctx = stream_context_create(array('http' => array('timeout' => WebServices::$requestTimeout)));
-            $res = @file_get_contents(WebServices::$searchSrv . $script, 0, $ctx);
+            $res = @file_get_contents($srv . $script, 0, $ctx);
             if ($res === false) {
                 throw new Exception(WebServices::$MSG_EDBO_ERROR);
             }
@@ -207,10 +208,10 @@ class WebServices {
         );
 
         $script = "personaddedbo.jsp?personIdMySql={$person->idPerson}&entrantDocumentIdMySql={$person->getEntrantdoc()->idDocuments}&personalDocumentIdMySql={$person->getPersondoc()->idDocuments}";
-
+        $srv = Yii::app()->user->getEdboSearchUrl() . ":8080/PersonSearch/";
         try {
             $ctx = stream_context_create(array('http' => array('timeout' => WebServices::$requestTimeout)));
-            $res = @file_get_contents(WebServices::$searchSrv . $script, 0, $ctx);
+            $res = @file_get_contents($srv . $script, 0, $ctx);
             if ($res === false) {
                 throw new Exception(WebServices::$MSG_EDBO_ERROR);
             }

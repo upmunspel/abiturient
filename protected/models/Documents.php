@@ -298,7 +298,7 @@ class Documents extends ActiveRecord {
                 $doc->AtestatValue = $val->attestatValue;
                 $doc->Numbers = $val->number;
                 $doc->Series = $val->series;
-                $doc->DateGet = date("d.m.Y", mktime(0, 0, 0, $val->dateGet['month'] + 1, $val->dateGet['dayOfMonth'] + 1, $val->dateGet['year']));
+                $doc->DateGet = date("d.m.Y", mktime(0, 0, 0, $val->dateGet['month'] + 1, $val->dateGet['dayOfMonth'], $val->dateGet['year']));
                 $doc->ZNOPin = $val->znoPin;
                 $doc->Issued = $val->issued;
                 $doc->save();
