@@ -60,11 +60,9 @@ class StatController extends Controller {
     $reqQualificationID = Yii::app()->request->getParam('QualificationID',1);
     $reqDate = Yii::app()->request->getParam('Date',date('d.m.Y'));
     $secname = Yii::app()->request->getParam('secname','_');
-    $webuser = new WebUser();
+
     $ip = '10.1.23.223';
-    if ($webuser->syspk){
-      $ip = $webuser->syspk->printIP;  
-    }
+
     $time = strtotime(str_replace('.','-',$reqDate));
     $date = date('Y-m-d',time());
     if ($time !== FALSE){
@@ -151,7 +149,7 @@ class StatController extends Controller {
                     '' : ' ('.$spec->SpecialitySpecializationName. ')');
       $cnt_data[$spec->FacultetID][$spec_name][$spec->PersonEducationFormID] = array(
           'eduform' => ($spec->PersonEducationFormID == 1)? 'денна':"заочна",
-          'cnt_requests_per_day' => ($spec->cnt_requests_per_day)? '<a href="http://'.$ip.'/request_report-1.0/journal.jsp?'
+          'cnt_requests_per_day' => ($spec->cnt_requests_per_day)? '<a href="http://'.$ip.':8080/request_report-1.0/journal.jsp?'
             .'SpecialityID='.$spec->idSpeciality
             .'&idOKR='.(($idOKR))
             .'&eduFormID='.$spec->PersonEducationFormID
