@@ -31,7 +31,7 @@ class WebServices {
             Yii::app()->user->setFlash("photomessage", WebServices::$MSG_EDBO_SEARCH_DENY);
         }
         $script = "getphoto.jsp?personCodeU=";
-
+        $srv = Yii::app()->user->getEdboSearchUrl() . ":8080/PersonSearch/";
 
         $res = Yii::app()->cache->get($codeU);
         if ($res === false) {
@@ -41,7 +41,7 @@ class WebServices {
                     throw new Exception("Пусте значення кода персони!");
                 }
                 $ctx = stream_context_create(array('http' => array('timeout' => WebServices::$requestTimeout)));
-                $res = @file_get_contents(WebServices::$searchSrv . $script . $codeU, 0, $ctx);
+                $res = @file_get_contents($srv. $script . $codeU, 0, $ctx);
                 $tres = trim($res);
 
                 $error = CJSON::decode($res);
