@@ -72,7 +72,7 @@ class WebUser extends CWebUser {
     public function getEdboSearchUrl(){
         $model = $this->getUserModel();
         if (empty($model->syspk) || empty($model->syspk->searchIP) ) throw new Exception ("Необхідно визначити адресу серверу для пошуку!!");
-        return "http://".$model->syspk->searchIP;  
+        return $model->syspk->searchIP;  
     }
     
      public function getPrintPriceUrl($specid){

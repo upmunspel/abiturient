@@ -31,8 +31,8 @@ class WebServices {
             Yii::app()->user->setFlash("photomessage", WebServices::$MSG_EDBO_SEARCH_DENY);
         }
         $script = "getphoto.jsp?personCodeU=";
-        $srv = Yii::app()->user->getEdboSearchUrl() . ":8080/PersonSearch/";
-
+        $srv = Yii::app()->user->getEdboSearchUrl();
+        
         $res = Yii::app()->cache->get($codeU);
         if ($res === false) {
 
@@ -80,7 +80,7 @@ class WebServices {
         if (!Yii::app()->user->checkAccess("wsAllowSearch")) {
             throw new Exception(WebServices::$MSG_EDBO_SEARCH_DENY . "asdsa");
         }
-        $srv = Yii::app()->user->getEdboSearchUrl() . ":8080/PersonSearch/";
+        $srv = Yii::app()->user->getEdboSearchUrl() ;
         //Yii::log($srv);
         $series = trim($series);
         $number = trim($number);
@@ -123,7 +123,7 @@ class WebServices {
         }
         $script = "documents.jsp?personCodeU=$codeU";
         $codeU = trim($codeU);
-        $srv = Yii::app()->user->getEdboSearchUrl() . ":8080/PersonSearch/";
+        $srv = Yii::app()->user->getEdboSearchUrl();
         try {
             if (empty($codeU)) {
                 throw new Exception("Пусте значення кода персони!");
@@ -162,7 +162,7 @@ class WebServices {
         }
         $script = "contacts.jsp?personCodeU=$codeU";
         $codeU = trim($codeU);
-        $srv = Yii::app()->user->getEdboSearchUrl() . ":8080/PersonSearch/";
+        $srv = Yii::app()->user->getEdboSearchUrl() ;
         try {
             if (empty($codeU)) {
                 throw new Exception("Пусте значення кода персони!");
@@ -208,7 +208,7 @@ class WebServices {
         );
 
         $script = "personaddedbo.jsp?personIdMySql={$person->idPerson}&entrantDocumentIdMySql={$person->getEntrantdoc()->idDocuments}&personalDocumentIdMySql={$person->getPersondoc()->idDocuments}";
-        $srv = Yii::app()->user->getEdboSearchUrl() . ":8080/PersonSearch/";
+        $srv = Yii::app()->user->getEdboSearchUrl();
         try {
             $ctx = stream_context_create(array('http' => array('timeout' => WebServices::$requestTimeout)));
             $res = @file_get_contents($srv . $script, 0, $ctx);

@@ -66,7 +66,7 @@ class PersonspecialityController extends Controller {
         if (Yii::app()->user->checkAccess("wsAllowEdit")) {
             try {
 
-                $link = Yii::app()->user->getEdboSearchUrl() . ":8080/PersonSearch/request.jsp";
+                $link = Yii::app()->user->getEdboSearchUrl()."request.jsp";
 
                 $client = new EHttpClient($link, array('maxredirects' => 30, 'timeout' => 30,));
 
@@ -258,7 +258,7 @@ class PersonspecialityController extends Controller {
                 Yii::app()->end();
             }
         }
-        //$link = Yii::app()->user->getEdboSearchUrl().Yii::app()->params["documentSearchURL"];
+   
         //debug($link);
         //print "<script type=\"text/javascript\">prompt('Введдіть ЄДБО Кодi!');</script>";
         //$client = new EHttpClient($link, array('maxredirects' => 30, 'timeout'=> 30,));

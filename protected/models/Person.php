@@ -725,7 +725,7 @@ class Person extends ActiveRecord {
 //            debug($this->idPerson);
 //            debug($this->entrantdoc->idDocuments);
         try {
-            $client = new EHttpClient(Yii::app()->user->getEdboSearchUrl() . Yii::app()->params["personAddURL"], array('maxredirects' => 30, 'timeout' => 5,));
+            $client = new EHttpClient(Yii::app()->user->getEdboSearchUrl()."personaddedbo.jsp", array('maxredirects' => 30, 'timeout' => 5,));
             $client->setParameterPost($params);
             $response = $client->request(EHttpClient::POST);
 

@@ -68,7 +68,7 @@ class DocumentsController extends Controller {
                 try {
                     $personid = $_GET['personid'];
 
-                    $link = Yii::app()->user->getEdboSearchUrl() . ":8080/PersonSearch/persondocumentsaddedbo.jsp";
+                    $link = Yii::app()->user->getEdboSearchUrl()."persondocumentsaddedbo.jsp";
 
                     $client = new EHttpClient($link, array('maxredirects' => 30, 'timeout' => 30,));
 
@@ -91,7 +91,7 @@ class DocumentsController extends Controller {
                 try {
                     $id = $_GET['docid'];
 
-                    $link = Yii::app()->user->getEdboSearchUrl() . ":8080/PersonSearch/editdocumentedbo.jsp";
+                    $link = Yii::app()->user->getEdboSearchUrl()."editdocumentedbo.jsp";
 
                     $client = new EHttpClient($link, array('maxredirects' => 30, 'timeout' => 30,));
 
