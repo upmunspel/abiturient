@@ -149,7 +149,7 @@ class StatController extends Controller {
                     '' : ' ('.$spec->SpecialitySpecializationName. ')');
       $cnt_data[$spec->FacultetID][$spec_name][$spec->PersonEducationFormID] = array(
           'eduform' => ($spec->PersonEducationFormID == 1)? 'денна':"заочна",
-          'cnt_requests_per_day' => ($spec->cnt_requests_per_day)? '<a href="http://'.$ip.'/request_report-1.0/journal.jsp?'
+          'cnt_requests_per_day' => ($spec->cnt_requests_per_day)? '<a href="http://'.$ip.':8080/request_report-1.0/journal.jsp?'
             .'SpecialityID='.$spec->idSpeciality
             .'&idOKR='.(($idOKR))
             .'&eduFormID='.$spec->PersonEducationFormID
