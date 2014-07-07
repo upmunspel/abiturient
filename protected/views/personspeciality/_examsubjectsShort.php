@@ -19,7 +19,7 @@ if (Yii::app()->user->checkAccess("SpecGosSlugba")) {
     $cr->addCondition("idSubjects = 4", "OR");
     $data2 = CHtml::listData(Subjects::model()->findAll($cr), "idSubjects", "SubjectName");
     
-    $data3 = CHtml::listData(Subjects::model()->findAll(), "idSubjects", "SubjectName");       
+    $data3 = array(); //CHtml::listData(Subjects::model()->findAll(), "idSubjects", "SubjectName");       
     
 }
 ?>
@@ -63,7 +63,7 @@ if (Yii::app()->user->checkAccess("SpecGosSlugba")) {
 <div class="row-fluid">
     <div class="span6">
             <?php //echo $form->labelEx($model,'Exam2ID'); ?>
-            <?php echo CHtml::activeDropDownList($model,'Exam3ID',$data3,array('class'=>"span12", "disabled"=>!Yii::app()->user->checkAccess("SpecGosSlugba") || $model->EntranceTypeID == 1 ? "disabled":"")); ?>
+            <?php echo CHtml::activeDropDownList($model,'Exam3ID',$data3, array('class'=>"span12", "disabled"=>!Yii::app()->user->checkAccess("SpecGosSlugba") || $model->EntranceTypeID == 1 ? "disabled":"")); ?>
             <?php //echo $form->error($model,'Exam2ID'); ?>
     </div>
 
