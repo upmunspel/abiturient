@@ -50,7 +50,7 @@ class PersonbenefitsController extends Controller {
     public function actionEdboupdate($personid) {
         if (Yii::app()->user->checkAccess("wsAllowEdit")) {
             try {
-                $link = Yii::app()->user->getEdboSearchUrl() . ":8080/PersonSearch/personbenefitsaddedbo.jsp";
+                $link = Yii::app()->user->getEdboSearchUrl()."personbenefitsaddedbo.jsp";
 
                 $client = new EHttpClient($link, array('maxredirects' => 30, 'timeout' => 30,));
 

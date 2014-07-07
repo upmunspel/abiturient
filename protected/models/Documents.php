@@ -27,6 +27,7 @@ class Documents extends ActiveRecord {
      * @param type $DiplomsOnly = 0
      * @return string
      */
+    public $PersonBaseSpecealityID = 0;
     public static function PersonEntrantDocuments($PersonID, $DiplomsOnly = 0) {
         $res = array();
         $cr = new CDbCriteria();
