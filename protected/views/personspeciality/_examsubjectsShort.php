@@ -6,7 +6,10 @@ if (Yii::app()->user->checkAccess("SpecGosSlugba")) {
    
     $data1 = CHtml::listData(Subjects::model()->findAll($cr), "idSubjects", "SubjectName");
     $data2 = CHtml::listData(Subjects::model()->findAll($cr), "idSubjects", "SubjectName");
-    $data3 = CHtml::listData(Subjects::model()->findAll($cr), "idSubjects", "SubjectName");       
+    $data3 = CHtml::listData(Subjects::model()->findAll($cr), "idSubjects", "SubjectName");     
+    $model->Exam1ID = 40;
+    $model->Exam2ID = 40;
+    $model->Exam3ID = 40;
     
 } else {
     //$res[$record->idSubjects] = $record->SubjectName;
