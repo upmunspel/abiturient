@@ -11,6 +11,7 @@ if (Yii::app()->user->checkAccess("SpecGosSlugba")) {
     $model->Exam2ID = 40;
     $model->Exam3ID = 40;
     
+    
 } else {
     //$res[$record->idSubjects] = $record->SubjectName;
     $cr = new CDbCriteria();
