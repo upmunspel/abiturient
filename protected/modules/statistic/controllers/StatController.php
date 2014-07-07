@@ -60,11 +60,9 @@ class StatController extends Controller {
     $reqQualificationID = Yii::app()->request->getParam('QualificationID',1);
     $reqDate = Yii::app()->request->getParam('Date',date('d.m.Y'));
     $secname = Yii::app()->request->getParam('secname','_');
-    $webuser = new WebUser();
+
     $ip = '10.1.23.223';
-    if ($webuser->syspk){
-      $ip = $webuser->syspk->printIP;  
-    }
+
     $time = strtotime(str_replace('.','-',$reqDate));
     $date = date('Y-m-d',time());
     if ($time !== FALSE){
