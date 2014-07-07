@@ -50,7 +50,7 @@ if (Yii::app()->user->checkAccess("SpecGosSlugba")) {
 <div class="row-fluid">
     <div class="span6">
             <?php //echo $form->labelEx($model,'Exam2ID'); ?>
-            <?php echo CHtml::activeDropDownList($model,'Exam2ID',$data2,array('class'=>"span12", "disabled"=>$model->EntranceTypeID == 1 ? "disabled":"")); ?>
+            <?php echo CHtml::activeDropDownList($model,'Exam2ID',$data2,array('empty'=>'', 'class'=>"span12", "disabled"=>$model->EntranceTypeID == 1 ? "disabled":"")); ?>
             <?php //echo $form->error($model,'Exam2ID'); ?>
     </div>
 
@@ -63,7 +63,7 @@ if (Yii::app()->user->checkAccess("SpecGosSlugba")) {
 <div class="row-fluid">
     <div class="span6">
             <?php //echo $form->labelEx($model,'Exam2ID'); ?>
-            <?php echo CHtml::activeDropDownList($model,'Exam3ID',$data3, array('class'=>"span12", "disabled"=>!Yii::app()->user->checkAccess("SpecGosSlugba") || $model->EntranceTypeID == 1 ? "disabled":"")); ?>
+            <?php echo CHtml::activeDropDownList($model,'Exam3ID',$data3, array('empty'=>'', 'class'=>"span12", "disabled"=>!Yii::app()->user->checkAccess("SpecGosSlugba") || $model->EntranceTypeID == 1 ? "disabled":"")); ?>
             <?php //echo $form->error($model,'Exam2ID'); ?>
     </div>
 
