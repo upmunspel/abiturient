@@ -32,7 +32,7 @@ class StatController extends Controller {
                 'languages','reqstatuses','koatuus','zno',
                 'doctypes','benefitgroups','eduforms','okr',
                 'countries','schools', 
-                'graduated'),
+                'graduated', 'deletegraduated',"statgraduated"),
             'users' => array('@'),
         ),
         array('allow', 
@@ -60,7 +60,11 @@ class StatController extends Controller {
     $reqQualificationID = Yii::app()->request->getParam('QualificationID',1);
     $reqDate = Yii::app()->request->getParam('Date',date('d.m.Y'));
     $secname = Yii::app()->request->getParam('secname','_');
-    
+    $webuser = new WebUser();
+    $ip = '10.1.23.223';
+    if ($webuser->syspk){
+      $ip = $webuser->syspk->printIP;  
+    }
     $time = strtotime(str_replace('.','-',$reqDate));
     $date = date('Y-m-d',time());
     if ($time !== FALSE){
@@ -72,8 +76,7 @@ class StatController extends Controller {
       case 2 : $spec_ident='8'; break;
       case 3 : $spec_ident='7'; break;
     }
-    $statuses = implode(',',
-            array_flip(Personrequeststatustypes::model()->getStatusList()));
+    $statuses = '1,2,4,5,6,7,8,9';
     $criteria = new CDbCriteria();
     $criteria->with = array(
         'facultet',
@@ -100,11 +103,13 @@ class StatController extends Controller {
                 . 'AND "' . $date . ' 23:59:59")) AS cnt_requests'),
         new CDbExpression('((SELECT COUNT(DISTINCT ps.PersonID) FROM personspeciality ps WHERE '
                 . 'ps.QualificationID IN ' . (($reqQualificationID == 1)? '(1)' : '(2,3)') . ' AND '
+                . 'ps.StatusID IN ('.$statuses.') AND '
                 . 'ps.CreateDate BETWEEN '
                 . '"' . $date . ' 00:00:00' . '" '
                 . 'AND "' . $date . ' 23:59:59")) AS cnt_persons_per_day'),
         new CDbExpression('((SELECT COUNT(DISTINCT ps.PersonID) FROM personspeciality ps WHERE '
                 . 'ps.QualificationID IN ' . (($reqQualificationID == 1)? '(1)' : '(2,3)') . ' AND '
+                . 'ps.StatusID IN ('.$statuses.') AND '
                 . 'ps.CreateDate BETWEEN '
                 //. '"'.date('Y').'-07-01 00:00:00' . '" '
                 . '"2013-07-01 00:00:00' . '" '
@@ -146,7 +151,14 @@ class StatController extends Controller {
                     '' : ' ('.$spec->SpecialitySpecializationName. ')');
       $cnt_data[$spec->FacultetID][$spec_name][$spec->PersonEducationFormID] = array(
           'eduform' => ($spec->PersonEducationFormID == 1)? 'денна':"заочна",
-          'cnt_requests_per_day' => ($spec->cnt_requests_per_day)? '<a href="http://10.1.23.223:8080/request_report-1.0/journal.jsp?SpecialityID='.$spec->idSpeciality.'&idOKR='.(($idOKR)).'&eduFormID='.$spec->PersonEducationFormID.'&date='.$date.'&secname='.urlencode($secname).'">'.$spec->cnt_requests_per_day.'</a>' : '0',
+          'cnt_requests_per_day' => ($spec->cnt_requests_per_day)? '<a href="http://'.$ip.'/request_report-1.0/journal.jsp?'
+            .'SpecialityID='.$spec->idSpeciality
+            .'&idOKR='.(($idOKR))
+            .'&eduFormID='.$spec->PersonEducationFormID
+            .'&date='.$date
+            .'&secname='.urlencode($secname).'">'
+              .$spec->cnt_requests_per_day.'</a>' 
+           : '0',
           'cnt_requests' => $spec->cnt_requests,
       );
       $counts_atall[$spec->PersonEducationFormID]['per_day'] += $spec->cnt_requests_per_day;
@@ -650,7 +662,7 @@ class StatController extends Controller {
     $model = new Graduated();
     $reqGraduated = Yii::app()->request->getParam('Graduated',null);
     if ($reqGraduated){
-      $model->SpecialityID = $reqGraduated['SpecialityID'];
+      $model->Speciality = $reqGraduated['Speciality'];
       $model->Year = $reqGraduated['Year'];
       $model->Number = $reqGraduated['Number'];
       if ($model->save()){
@@ -658,11 +670,7 @@ class StatController extends Controller {
       }
     }
     $criteria = new CDbCriteria();
-    $criteria->with = array(
-      'spec',
-      'spec.eduform'
-    );
-    $criteria->together = true;
+
     $criteria->group = 'idGraduated';
     $data = new CActiveDataProvider($model, array(
         'criteria' => $criteria,
@@ -670,9 +678,22 @@ class StatController extends Controller {
             'pageSize' => 10000
         ),
     ));
+    $model->Year = 2014;
     $this->render('/statistic/graduated',array(
       'model' => $model,
       'data' => $data,
+    ));
+  }
+  
+  public function actionDeletegraduated($id){
+    $model = Graduated::model()->findByPk($id);
+    if ($model){
+      $model->delete();
+    }
+  }
+  
+  public function actionStatgraduated(){
+    $this->render('/statistic/statgraduated',array(
     ));
   }
 }
