@@ -38,6 +38,10 @@ class Specialities extends CActiveRecord {
   public $cnt_req_original;
   public $cnt_req_pv;
   public $cnt_req_pzk;
+  
+  public $cnt_requests_from_us;
+  public $cnt_requests_from_aliens;
+  
   public $modes;
   public $statuses;
 

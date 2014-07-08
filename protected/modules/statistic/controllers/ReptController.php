@@ -48,30 +48,31 @@ class ReptController extends Controller {
     $reqExcel = Yii::app()->request->getParam('excel',null);
     //var_dump($reqExcel);exit();
     $fields = array();
-    $fields[] = array('text' => 'ПІБ персони',);
-    $fields[] = array('text' => 'Дата народження',);
-    $fields[] = array('text' => 'Адреса КОАТУУ',);
-    $fields[] = array('text' => 'Країна громадянства',);
-    $fields[] = array('text' => 'Закінчено навчальний заклад',);
-    $fields[] = array('text' => 'Місце народження',);
-    $fields[] = array('text' => 'Іноземна мова',);
-    $fields[] = array('text' => 'Спеціальність',);
-    $fields[] = array('text' => 'Факультет',);
-    $fields[] = array('text' => 'На бюджет',);
-    $fields[] = array('text' => 'На контракт',);
-    $fields[] = array('text' => 'Потрібен гуртожиток',);
-    $fields[] = array('text' => 'Статус заявки',);
-    $fields[] = array('text' => 'Дата створення заявки',);
-    $fields[] = array('text' => 'ЗНО (інформація)',);
-    $fields[] = array('text' => 'Форма навчання',);
-    $fields[] = array('text' => 'Іспити (інформація)',);
-    $fields[] = array('text' => 'ОКР',);
-    $fields[] = array('text' => 'Документи',);
-    $fields[] = array('text' => 'Пільги',);
-    $fields[] = array('text' => 'Тип пільги',);
-    $fields[] = array('text' => 'Першочергово',);
-    $fields[] = array('text' => 'Поза конкурсом',);
-    $fields[] = array('text' => 'Напрям',);
+    $fields[0] = array('text' => 'ПІБ персони',);
+    $fields[1] = array('text' => 'Дата народження',);
+    $fields[2] = array('text' => 'Адреса КОАТУУ',);
+    $fields[3] = array('text' => 'Країна громадянства',);
+    $fields[4] = array('text' => 'Закінчено навчальний заклад',);
+    $fields[5] = array('text' => 'Місце народження',);
+    $fields[6] = array('text' => 'Іноземна мова',);
+    $fields[7] = array('text' => 'Спеціальність',);
+    $fields[8] = array('text' => 'Факультет',);
+    $fields[9] = array('text' => 'На бюджет',);
+    $fields[10] = array('text' => 'На контракт',);
+    $fields[11] = array('text' => 'Потрібен гуртожиток',);
+    $fields[12] = array('text' => 'Статус заявки',);
+    $fields[13] = array('text' => 'Дата створення заявки',);
+    $fields[14] = array('text' => 'ЗНО (інформація)',);
+    $fields[15] = array('text' => 'Форма навчання',);
+    $fields[16] = array('text' => 'Іспити (інформація)',);
+    $fields[17] = array('text' => 'ОКР',);
+    $fields[18] = array('text' => 'Документи',);
+    $fields[19] = array('text' => 'Пільги',);
+    $fields[20] = array('text' => 'Тип пільги',);
+    $fields[21] = array('text' => 'Першочергово',);
+    $fields[22] = array('text' => 'Поза конкурсом',);
+    $fields[23] = array('text' => 'Напрям',);
+    $fields[24] = array('text' => 'Тип документа',);
     
     if (!is_string($reqFields)){
       throw new CHttpException(400,'Помилка. Невірний запит.');
@@ -952,6 +953,35 @@ class ReptController extends Controller {
             $criteria
           );
           ////////////////////////////////////////////
+          break;
+        case 24:
+          $rels = array(
+              array('name' => 'person', 'select' => true),
+              array('name' => 'person.docs', 'select' => false),
+              array('name' => 'person.docs.type', 'select' => false),
+          );
+          $sel = array(
+              'to_select' => $to_select,
+              'db_field_id' => 'docs.TypeID',
+              'sql_as' => 'DOCTYPES',
+              'sql_expr' => 'type.PersonDocumentTypesName',
+              'group_concat' => true,
+          );
+          $widget_column = array('name' => 'DOCTYPES', 
+                        'header' => $header,
+                        'value' => 
+            function ($data){
+              echo $data->DOCTYPES;
+            }
+          );
+          $field_num_index = ($to_select)? $field_num_indexes[$i]:0;
+          $this->ProcessFieldTextAlternative($with_rel, $rels, 
+            $select, $sel, 
+            $widget_columns, $widget_column, $field_num_index,
+            $condition_type, $condition_value, $alternative_condition_value,
+            $criteria
+          );
+          ///////////////////////////////////////
           break;
       }
     }

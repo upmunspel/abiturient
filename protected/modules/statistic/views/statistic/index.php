@@ -640,7 +640,7 @@ Yii::app()->clientScript->registerPackage('select2');
         <input type='search' name="fields" id="fields" class="span11" />
       </div>
       <div id='selectx'></div>
-      <?php for ($i = 0; $i < 24; $i++){ 
+      <?php for ($i = 0; $i < 25; $i++){ 
           $is_date = ($i == 13 || $i == 1);
           $is_checkbox = (($i >= 9 && $i <= 11) || ($i >= 21 && $i <= 22));
           $is_koatuu = ($i == 2);
@@ -747,23 +747,73 @@ Yii::app()->clientScript->registerPackage('select2');
 <!-- ----------------------------------------------------------------------- -->
  <hr/>
 
+<!-- Статистика заяв на старші курси -->
+<div class="row-fluid">
+<div class="well well-large span11">
+  <h3 id="elderstat">Статистика заяв на старші курси</h3>
 
-<?php
-      Yii::app()->user->setFlash('warning', 'Модуль для статистики та звітів допрацьовується.');
-      $this->widget('bootstrap.widgets.TbAlert', array(
-              'fade'=>true, // use transitions?
-              'block'=>true,
-              'closeText'=>'&times;', // close link text - if set to false, no close link is displayed
-              'alerts'=>array( // configurations per alert type
-                  'warning'=>array('block'=>true, 'fade'=>true, 'closeText'=>'&times;'), // success, info, warning, error or danger
-              ),
-              'htmlOptions' => array(
-                  'style' =>''
-                  . 'font-family: "Tahoma";'
-                  . 'font-size: 12pt;'
-              )
-          )); 
-?>
+  <div class="form" id="fullstat_block" >
+    <?php
+
+    $statdetail_act = Yii::app()->createUrl("statistic/stat/statgraduated");
+    /* @var $statdetail_form TbActiveForm */
+    $statdetail_form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
+        'id' => 'statgr',
+        'enableAjaxValidation' => false,
+        'method' => "GET",
+        'action' => $statdetail_act,
+    ));
+    ?>
+    <div class="row-fluid">
+      <div class="span4">
+        <?php echo Chtml::label("ОКР", 'QualificationID'); ?>
+        <?php
+        echo CHtml::dropDownList(
+                'QualificationID', 
+                "", 
+                array("3" => "Спеціаліст", "2" => "Магістр"), 
+                array('empty' => '','class'=>'span12'));
+        ?>
+      </div>
+
+      <div class='span4'>
+        <?php echo CHtml::label("Від дати", 'DateFrom'); ?>
+        <?php
+        echo CHtml::textField(
+                'DateFrom', 
+                date('d.m.Y'), 
+                array('class' => 'datepicker span12'));
+        ?>
+
+      </div>
+      <div class='span4'>
+        <?php echo CHtml::label("До дати", 'DateTo'); ?>
+        <?php
+        echo CHtml::textField(
+                'DateTo', 
+                date('d.m.Y'), 
+                array('class' => 'datepicker span12'));
+        ?>
+
+      </div>
+    </div>
+
+    <div class="row-fluid">
+      <?php
+      $this->widget("bootstrap.widgets.TbButton", array(
+          'buttonType' => 'submit',
+          'type' => 'primary',
+          "size" => "large",
+          'label' => 'Показати',
+      ));
+      ?>
+    </div>
+  <?php $this->endWidget(); ?>
+  </div>
+</div>
+</div>
+
+<!-- ----------------------------------------------------------------------- -->
 
 <script>
     $(document).ready(function(){

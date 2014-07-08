@@ -203,12 +203,12 @@ class EdbodataController extends Controller
       }
       //дані для виведення (асинхронно)
       $data[] = array(
-          'name' => $model->csv_file->name,
+          'name' => $message,
           'type' => $model->csv_file->type,
           'size' => $model->csv_file->size,
           'uploaded' => $message,
-          'delete_url' => $this->createUrl('/edbodata/deletecsv',array('path' => $file)),
-          'delete_type' => 'POST');
+          'delete_url' => Yii::app()->CreateUrl('/rating/edbodata/deletecsv',array('path' => $file)),
+          'delete_type' => 'GET');
     } else {
       //якщо файл не пройшов валідацію
       if ($model->hasErrors('csv_file')) {
@@ -225,7 +225,7 @@ class EdbodataController extends Controller
    * Метод видалення CSV-файлу (асинхронно)
    */
   public function actionDeletecsv(){
-    if (Yii::app()->request->isPostRequest){
+    //if (Yii::app()->request->isGetRequest){
       $path = Yii::app()->request->getParam('path',null);
       if ($path){
         unlink($path);
@@ -233,7 +233,7 @@ class EdbodataController extends Controller
         $data[] = array('error', 'No path');
         echo json_encode($data);
       }
-    }
+    //}
   }
   
   /**
