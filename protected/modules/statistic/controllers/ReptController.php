@@ -1273,8 +1273,8 @@ class ReptController extends Controller {
       $criteria->addCondition($db_field." = '' OR ISNULL(".$db_field.")");
     }
     if ($condition_type == 5 && $condition_value && $alternative_condition_value){
-      $condition_date1 = date('Y-m-d',strtotime(str_replace('.','-',$condition_value)));
-      $condition_date2 = date('Y-m-d',strtotime(str_replace('.','-',$alternative_condition_value)));
+      $condition_date1 = date('Y-m-d',strtotime(str_replace('.','-',$condition_value))) . ' 00:00:00';
+      $condition_date2 = date('Y-m-d',strtotime(str_replace('.','-',$alternative_condition_value))) . '23:59:59';
       $criteria->addCondition($db_field." BETWEEN '".$condition_date1."' "
               . "AND '".$condition_date2."'");
     }
