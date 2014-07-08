@@ -889,19 +889,22 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                       .'</span>'
                       . '</a><div class="clear"></div>' ;
               
-?> <div style="display:none;" id="id_<?php echo $data->idPersonSpeciality; ?>">  <?php
+?> <div id="id_<?php echo $data->idPersonSpeciality; ?>">  <?php
               $span_class = 'label-info';
               $add_string = '';
               if ($data->edbo){
                 $span_class = ((float)$data->edbo->DocPoint == (float)$doc_val)?
                         'label-success' : 'label-important';
-                $add_string = ' (в даних ЄДЕБО: '. $data->edbo->DocPoint . ')';
+                $add_string = '<span class=\'label label-info\' 
+                  title="В даних ЄДЕБО"
+                  style=\'margin-bottom: 3px; font-size: 8pt; margin-left: 2px;\'>' 
+                  . $data->edbo->DocPoint . '</span>';
               }
               
               echo '<div style=\'width: 70px !important;float:left;\' title=\''.$doc_desc.'\'>'.$doc_name.' : </div>' . (($doc_val_zno)? 
                       '<span class=\'label '.$span_class.'\' style=\'margin-bottom: 3px;font-size: 8pt;\''
-                      . ' title="Значення в документі : '.$doc_val . $add_string . '">'.
-                      $doc_val_zno . '</span><div class="clear"></div>' : 
+                      . ' title="Значення в документі : '.$doc_val . '">'.
+                      $doc_val_zno . '</span>' . (($data->edbo)? $add_string : '') . '<div class="clear"></div>' : 
                 
                       '<span class=\'label label-red\' style=\'margin-bottom: 3px;font-size: 8pt;\'>'.
                       'н/з' . '</span><div class="clear"></div>');
