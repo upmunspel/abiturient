@@ -72,7 +72,7 @@ class PersonspecialityController extends Controller {
 
                 $client->setParameterPost(array("personIdMySql" => $model->PersonID, "personSpeciality" => $id));
                 $response = $client->request(EHttpClient::POST);
-
+                
                 if ($response->isSuccessful()) {
                     $obj = (object) CJSON::decode($response->getBody());
                     Yii::log(print_r($obj,1));

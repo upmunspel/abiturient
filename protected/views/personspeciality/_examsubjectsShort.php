@@ -20,7 +20,7 @@ if (Yii::app()->user->checkAccess("SpecGosSlugba")) {
     
     $cr = new CDbCriteria();
     $cr->addCondition("idSubjects = 3");
-    $cr->addCondition("idSubjects = 4", "OR");
+    //$cr->addCondition("idSubjects = 4", "OR");
     $data2 = CHtml::listData(Subjects::model()->findAll($cr), "idSubjects", "SubjectName");
     
     $data3 = array(); //CHtml::listData(Subjects::model()->findAll(), "idSubjects", "SubjectName");       

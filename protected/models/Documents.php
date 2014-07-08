@@ -290,20 +290,26 @@ class Documents extends ActiveRecord {
                     }
                 }
             }
-            if (!Yii::app()->user->checkAccess("showPersonEntrantDocForm") && ($val->id_Type == 11 || $val->id_Type == 12 || $val->id_Type == 13 || $val->id_Type == 2)) {
-                $doc = new Documents();
-                $doc->scenario = "FULLINPUT";
-                $doc->PersonID = $personid;
-                $doc->TypeID = $val->id_Type;
-                $doc->edboID = $val->id_Document;
-                $doc->AtestatValue = $val->attestatValue;
-                $doc->Numbers = $val->number;
-                $doc->Series = $val->series;
-                $doc->DateGet = date("d.m.Y", mktime(0, 0, 0, $val->dateGet['month'] + 1, $val->dateGet['dayOfMonth'], $val->dateGet['year']));
-                $doc->ZNOPin = $val->znoPin;
-                $doc->Issued = $val->issued;
-                $doc->save();
-            }
+            if ($val->id_Type == 11 || $val->id_Type == 12 || $val->id_Type == 13 || $val->id_Type == 2) {
+                $exdoc = Documents::model()->find("PersonID = ".$personid." and TypeID = ".$val->id_Type);
+                if (empty($exdoc)){
+                    $doc = new Documents();
+                    $doc->scenario = "FULLINPUT";
+                    $doc->PersonID = $personid;
+                    $doc->TypeID = $val->id_Type;
+                    $doc->edboID = $val->id_Document;
+                    $doc->AtestatValue = $val->attestatValue;
+                    $doc->Numbers = $val->number;
+                    $doc->Series = $val->series;
+                    $doc->DateGet = date("d.m.Y", mktime(0, 0, 0, $val->dateGet['month'] + 1, $val->dateGet['dayOfMonth'], $val->dateGet['year']));
+                    $doc->ZNOPin = $val->znoPin;
+                    $doc->Issued = $val->issued;
+                    $doc->save();
+                }
+            } 
+            
+            
+            
         }
     }
 
