@@ -49,7 +49,7 @@ class SpecialitiesController extends Controller
 			),*/
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
 				'actions'=>array('index','view','admin','delete','create','update', "ajaxcreate","ajaxupdate"),
-				'roles'=>array("Root","Admin"),
+				'roles'=>array("Root","Admins"),
 			),
 			array('deny',  // deny all users
 				'users'=>array('*'),
