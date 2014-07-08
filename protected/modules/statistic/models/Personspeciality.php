@@ -76,6 +76,7 @@ class Personspeciality extends ActiveRecord {
   public $DOCS;
   public $BENEFITS;
   public $BENTYPES;
+  public $DOCTYPES;
   public $DIRECTION;
   
   /**

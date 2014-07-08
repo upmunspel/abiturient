@@ -466,6 +466,7 @@ class StatController extends Controller {
     $fields[] = array('text' => 'ЗНО (інформація)', 'id' => 14);
     $fields[] = array('text' => 'Іспити (інформація)', 'id' => 16);
     $fields[] = array('text' => 'Документи', 'id' => 18);
+    $fields[] = array('text' => 'Тип документа', 'id' => 24);
     $fields[] = array('text' => 'Пільги', 'id' => 19);
     $fields[] = array('text' => 'Тип пільги', 'id' => 20);
     $fields[] = array('text' => 'Першочергово', 'id' => 21);
@@ -691,7 +692,160 @@ class StatController extends Controller {
   }
   
   public function actionStatgraduated(){
+    /* @var $reqQualifictionID integer */
+    $reqQualificationID = Yii::app()->request->getParam('QualificationID',1);
+    $reqDateFrom = Yii::app()->request->getParam('DateFrom',date('d.m.Y'));
+    $reqDateTo = Yii::app()->request->getParam('DateTo',date('d.m.Y'));
+
+    
+    $statuses = '1,2,4,5,6,7,8,9';
+    if (isset($reqSpecialities['statuses']) && !empty($reqSpecialities['statuses'])){
+      $statuses = implode(',',$reqSpecialities['statuses']);
+    }
+    if (!is_numeric($reqQualificationID)){
+      $reqQualificationID = 3;
+    }
+    
+    $timeFrom = strtotime(str_replace('.','-',$reqDateFrom));
+    $dateFrom = date('Y-m-d',time());
+    if ($timeFrom !== FALSE){
+      $dateFrom = date('Y-m-d',$timeFrom);
+    }
+    $timeTo = strtotime(str_replace('.','-',$reqDateTo));
+    $dateTo = date('Y-m-d',time());
+    if ($timeTo !== FALSE){
+      $dateTo = date('Y-m-d',$timeTo);
+    }
+    $spec_ident = '7';
+    switch ($reqQualificationID){
+      case 2 : $spec_ident='8'; break;
+      case 3 : $spec_ident='7'; break;
+    }
+    
+    $criteria = new CDbCriteria();
+    $criteria->with = array(
+        'facultet',
+        'eduform'
+    );
+    $criteria->addCondition('t.PersonEducationFormID IN(1,2,3)');
+    $criteria->addCondition('SUBSTR(t.SpecialityClasifierCode,1,1) LIKE '
+            . '"'.$spec_ident.'"');
+    $date_segment = '"' . $dateFrom . ' 00:00:00' . '" '
+                . 'AND "' . $dateTo . ' 23:59:59"';
+    $ZNU = "Запорізький національний університет";
+    $ZNU1 = "Запорізьким національним університетом";
+    $ZNU2 = "Запорізького національного університету";
+    $ZNUshort = "ЗНУ";
+    $criteria->select = array('*',
+        new CDbExpression('((SELECT COUNT(DISTINCT ps5.idPersonSpeciality) FROM personspeciality ps5'
+                .' WHERE '
+                . 'ps5.SepcialityID=t.idSpeciality AND '
+                . 'ps5.QualificationID ='.$reqQualificationID.' AND '
+                . 'ps5.StatusID IN ('.$statuses.') AND '
+                . 'ps5.CreateDate BETWEEN '
+                . $date_segment
+                . ')) AS cnt_requests_from_aliens'),
+        new CDbExpression('((SELECT COUNT(DISTINCT ps4.idPersonSpeciality)'
+                .' FROM personspeciality ps4'
+                .' LEFT OUTER JOIN documents docs4 ON ps4.PersonID = docs4.PersonID WHERE '
+                . 'ps4.SepcialityID=t.idSpeciality AND '
+                . 'ps4.QualificationID = '.$reqQualificationID.' AND '
+                . 'ps4.StatusID IN ('.$statuses.') AND '
+                . '(docs4.Issued LIKE "%'.$ZNU.'%" OR '
+                  .'docs4.Issued LIKE "%'.$ZNU1.'%" OR '
+                  .'docs4.Issued LIKE "%'.$ZNU2.'%" OR '
+                  .'docs4.Issued LIKE "%'.$ZNUshort.'%") AND '
+                . 'docs4.TypeID IN (11,12) AND '
+                . 'ps4.CreateDate BETWEEN '
+                . $date_segment
+                . ' )) AS cnt_requests_from_us'),
+    );
+    $criteria->group = 'idSpeciality';
+    $criteria->order = 'facultet.FacultetFullName,SpecialityDirectionName,SpecialityName';
+    $specs = Specialities::model()->findAll($criteria);
+    
+    $cnt_data = array();
+    $i=0;
+    $gmodels = Graduated::model()->findAll('Year = '.date('Y'));
+    $gnums = array();
+    foreach ($gmodels as $gmodel){
+      $_info = array();
+      $_info['num'] = $gmodel->Number;
+      $_info['spec_tokens'] = array();
+      $tokens = explode(' ',$gmodel->Speciality);
+      foreach ($tokens as $toks){
+        foreach (explode('(',$toks) as $_toks){ 
+          foreach (explode(')',$_toks) as $tok){
+            if ($tok){
+              $_info['spec_tokens'][] = $tok;
+            }
+          }
+        }
+      }
+      $gnums[] = $_info;
+    }
+    
+    foreach ($specs as $spec){
+      /* @var $spec Specialities */
+      if (!isset($cnt_data[$spec->FacultetID])){
+        $cnt_data[$spec->FacultetID] = array();
+      }
+      if (!isset($cnt_data[$spec->FacultetID]['name'])){
+        $cnt_data[$spec->FacultetID]['name'] = $spec->facultet->FacultetFullName;
+      }
+      $lspec_ident = mb_substr($spec->SpecialityClasifierCode,0,1,'utf-8');
+      $spec_name = $spec->SpecialityClasifierCode . ' ' . (($lspec_ident == '6')?
+                    $spec->SpecialityDirectionName : $spec->SpecialityName )
+            . (($spec->SpecialitySpecializationName == '')? 
+                    '' : ' ('.$spec->SpecialitySpecializationName. ')');
+      $edu_form = $spec->eduform->PersonEducationFormName;
+      $search_spec_name = $spec_name . ' , форма: '.$edu_form;
+      $graduated_num = 0;
+      $num_for_this_spec = true;
+      foreach ($gnums as $gindex => $gnum){
+        $is_prykladn = false;
+        $num_for_this_spec = true;
+        foreach ($gnum['spec_tokens'] as $tok){
+          if (strstr($tok,"прикладн") !== FALSE){
+            $is_prykladn = true;
+          }
+          if (strstr($search_spec_name,trim($tok)) === FALSE && $tok !== 'Екстернат'){
+            $num_for_this_spec = false;
+            break;
+          }
+        }
+        if (strstr($search_spec_name,"прикладн") !== FALSE && !$is_prykladn){
+          continue;
+        }
+        if ($num_for_this_spec){
+          $graduated_num += $gnum['num'];
+          unset($gnums[$gindex]);
+          continue;
+        }
+      }
+      $cnt_requests_from_us = $spec->cnt_requests_from_us;
+      $cnt_requests_from_aliens = $spec->cnt_requests_from_aliens - $spec->cnt_requests_from_us;
+      $ngrauated = $graduated_num;
+      // if (isset($cnt_data[$spec->FacultetID][trim($spec_name)][$spec->PersonEducationFormID])){
+        // $cnt_requests_from_us += $cnt_data[$spec->FacultetID][trim($spec_name)][$spec->PersonEducationFormID]['cnt_requests_from_us'];
+        // $cnt_requests_from_aliens += $cnt_data[$spec->FacultetID][trim($spec_name)][$spec->PersonEducationFormID]['cnt_requests_from_aliens'];
+        // $ngrauated = $cnt_data[$spec->FacultetID][trim($spec_name)][$spec->PersonEducationFormID]['graduated'];
+      // }
+      $cnt_data[$spec->FacultetID][trim($spec_name)][$spec->PersonEducationFormID] = array(
+          'eduform' => $edu_form,
+          'idSpec' => $spec->idSpeciality,
+          'cnt_requests_from_us' => $cnt_requests_from_us,
+          'cnt_requests_from_aliens' => $cnt_requests_from_aliens,
+          'graduated' => $ngrauated,
+      );
+      $i++;
+    }
+    $this->layout = '//layouts/clear';
     $this->render('/statistic/statgraduated',array(
+      'cnt_data' => $cnt_data,
+      'DateFrom' => $reqDateFrom,
+      'DateTo' => $reqDateTo,
+      'Qualification' => ($reqQualificationID == 2)? 'Магістр':'Спеціаліст',
     ));
   }
 }
