@@ -52,7 +52,7 @@ $dataProvider=new CActiveDataProvider( "Personspeciality", array('criteria'=>arr
                     if($user->syspk->SpecMask != "1"){
                     $us=1;    
                     }
-                    $url2 = Yii::app()->createUrl("personspeciality/create_electron",array('personid'=>$personid));
+                    $url2 = Yii::app()->createUrl("personspeciality/create",array('personid'=>$personid));
                     $this->widget('bootstrap.widgets.TbButton', array(
                     'buttonType'=>'submit',
                     'label'=>'Додати електронну заяву',
@@ -64,6 +64,7 @@ $dataProvider=new CActiveDataProvider( "Personspeciality", array('criteria'=>arr
                         ),
                     )); 
                 ?>
+        <?php echo CHtml::textField("idRequest"); ?>
     </div>
     <hr>
     <?php endif; ?>

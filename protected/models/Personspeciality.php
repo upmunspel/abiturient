@@ -468,5 +468,63 @@ class Personspeciality extends ActiveRecord {
           }
           } */
     }
+    
+    public function loadRequestFromJsqon($jsondata, $sbj){
+        $data = CJSON::decode($jsondata);
+        if (empty($data)) {
+            throw new Exception("Заявку не знайдено!");
+        }
+        
+        
+        $data = (object)$data[0];
+        $this->RequestFromEB = 1;
+        $this->edboID = $data->idPersonRequest;
+        $this->isBudget = $data->isBudget;
+        $this->isContract = $data->isContract;
+        $this->isNeedHostel = $data->isNeedHostel;
+        $this->StatusID = $data->idPersonRequestStatusTypeName;
+        $doc = Documents::model()->find("edboID=".$data->idPersonDocument);
+        if (empty($doc)) {
+            throw new Exception("Документ для вступу відсутный або не синхронізований!");
+        }
+        $this->EntrantDocumentID = $doc->idDocuments;
+        $this->EducationFormID = $data->idPersonEducationForm;
+        $this->QualificationID = $data->idQualification;
+        $spec = Specialities::model()->find("SpecialityKode = '".$data->universitySpecialitiesKode."'");
+        if (empty($spec)) {
+             //throw new Exception("Пропозиція відсутня");
+             $this->SepcialityID = 153677;
+        } else {
+        $this->SepcialityID = $spec->idSpeciality;
+        
+        }
+        Yii::log($this->SepcialityID);
+        $this->LanguageExID = $data->idLanguageEx;
+        $this->EntranceTypeID = $data->idPersonEnteranceTypes;
+        $this->CausalityID = $data->idPersonRequestExaminationCause;
+        $this->SkipDocumentValue = $data->skipDocumentValue;
+        
+        // Load subjects
+        $sdata = CJSON::decode($sbj);
+        if (empty($data)) {
+            throw new Exception("Не задано передмети!");
+        }
+        $s1 = (object)$sdata[0];
+        $doc = Documents::model()->find("edboID=".$s1->idPersonDocument);
+        $subj1 = Documentsubject::model()->find("DocumentID = {$doc->idDocuments} and SubjectID = {$s1->idSubject}");
+        $this->DocumentSubject1 = $subj1->idDocumentSubject;
+       
+        $s1 = (object)$sdata[1];
+        $doc = Documents::model()->find("edboID=".$s1->idPersonDocument);
+        $subj1 = Documentsubject::model()->find("DocumentID = {$doc->idDocuments} and SubjectID = {$s1->idSubject}");
+        $this->DocumentSubject2 = $subj1->idDocumentSubject;
+         
+        $s1 = (object)$sdata[2];
+        $doc = Documents::model()->find("edboID=".$s1->idPersonDocument);
+        $subj1 = Documentsubject::model()->find("DocumentID = {$doc->idDocuments} and SubjectID = {$s1->idSubject}");
+        $this->DocumentSubject3 = $subj1->idDocumentSubject;
+        Yii::log(print_r($this->DocumentSubject1.$this->DocumentSubject2.$this->DocumentSubject3,1));
+        
+    }
 
 }

@@ -234,5 +234,73 @@ class WebServices {
 //            
         return true;
     }
+    
+    public static function findRequestsByCodeU($codeU, $idRequest = 0) {
+        if (!Yii::app()->user->checkAccess("wsAllowSearch")) {
+            throw new Exception(WebServices::$MSG_EDBO_SEARCH_DENY);
+        }
+        $script = "requestload.jsp?personCodeU=$codeU&idRequest=$idRequest";
+        $codeU = trim($codeU);
+        $srv = "http://10.1.22.25:8080/PersonSearchTest/";
+                //Yii::app()->user->getEdboSearchUrl() ;
+        
+        try {
+            if (empty($codeU)) {
+                throw new Exception("Пусте значення кода персони!");
+            }
+            $ctx = stream_context_create(array('http' => array('timeout' => WebServices::$requestTimeout)));
+            $res = @file_get_contents($srv . $script, 0, $ctx);
+            if ($res === false) {
+                throw new Exception(WebServices::$MSG_EDBO_ERROR);
+            }
+
+            $error = CJSON::decode($res);
+
+            if (is_array($error) && isset($error['error'])) {
+                throw new Exception($error['error']);
+            }
+        } catch (Exception $ex) {
+            if (defined('YII_DEBUG')) {
+                Yii::log($ex->getMessage(), CLogger::LEVEL_INFO, 'WebServices::findRequestsByCodeU');
+            }
+            throw $ex;
+        }
+
+
+        return $res;
+    }
+    public static function findRequestsSubjects($idRequest = 0) {
+        if (!Yii::app()->user->checkAccess("wsAllowSearch")) {
+            throw new Exception(WebServices::$MSG_EDBO_SEARCH_DENY);
+        }
+        $script = "requestsubjects.jsp?idRequest=$idRequest";
+        
+        $srv = "http://10.1.22.25:8080/PersonSearchTest/";
+                //Yii::app()->user->getEdboSearchUrl() ;
+        
+        try {
+           
+            $ctx = stream_context_create(array('http' => array('timeout' => WebServices::$requestTimeout)));
+            $res = @file_get_contents($srv . $script, 0, $ctx);
+            if ($res === false) {
+                throw new Exception(WebServices::$MSG_EDBO_ERROR);
+            }
+
+            $error = CJSON::decode($res);
+
+            if (is_array($error) && isset($error['error'])) {
+                throw new Exception($error['error']);
+            }
+        } catch (Exception $ex) {
+            if (defined('YII_DEBUG')) {
+                Yii::log($ex->getMessage(), CLogger::LEVEL_INFO, 'WebServices::findRequestsSubjects');
+            }
+            throw $ex;
+        }
+
+
+        return $res;
+    }
+    
 
 }

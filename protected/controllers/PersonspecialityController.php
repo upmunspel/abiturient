@@ -75,7 +75,7 @@ class PersonspecialityController extends Controller {
                 
                 if ($response->isSuccessful()) {
                     $obj = (object) CJSON::decode($response->getBody());
-                    Yii::log(print_r($obj,1));
+                    //Yii::log(print_r($obj,1));
                     if ($obj->error) {
                         Yii::app()->user->setFlash("message", $obj->message);
                     } else {
@@ -169,6 +169,20 @@ class PersonspecialityController extends Controller {
         $model->PersonID = (int) $personid;
         $this->_setDefaults($model);
         $valid = true;
+        
+        if (isset($_GET['idRequest'])){
+            try {
+                $pr = Person::model()->findByPk($personid);
+                $idReq = intval($_GET['idRequest']);
+                $res = WebServices::findRequestsByCodeU($pr->codeU, $idReq );
+                $sbj = WebServices::findRequestsSubjects($idReq);
+                $model->loadRequestFromJsqon($res,$sbj);
+            } catch (Exception $ex) {
+                Yii::log($ex->getMessage());
+                Yii::app()->user->setFlash("specmessage", $ex->getMessage());
+                
+            }
+        }
 
         if (isset($_GET['Personspeciality'])) {
             $renderForm = "_form";

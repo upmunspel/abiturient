@@ -396,19 +396,23 @@ PSN.addSpec = function(obj, url) {
         $("#specModal").modal("show");
     });
 };
-PSN.addSpec_electron = function(obj, url, us) {
-    uname = 0;
-    if (us != 1) {
-        uname = parseInt(prompt('Введдіть ЄДБО Код '))
-    }
+PSN.addSpec_electron = function(obj, url) {
     var btn = $(obj);
     btn.button('loading'); // call the loading function
-    //var data = $("#benefit-form").serialize(); 
-    $("#spec_electron-modal-holder").load(url + "&spec=" + uname, function() {
-        //alert(url+"&id="+uname);
+    var data = $("#idRequest").val(); 
+    if (data === "") {
+        alert("Вкажіть ідентифікатор заявки!");
         btn.button('reset');
-        $("#spec_electronModal").modal("show");
+        return false;
+    }
+    url=url+"&idRequest="+data;
+    $("#spec-modal-holder").load(url, function() {
+        //alert("ok");//
+        btn.button('reset');
+        $("#specModal").modal("show");
     });
+    
+    
 };
 PSN.onFacChange = function(obj, id, url) {
     var fid = $("#idFacultet :selected").val();

@@ -25,6 +25,9 @@ $this->beginWidget('bootstrap.widgets.TbModal', array(
 </div>
 
 <div class="modal-body <?php echo Yii::app()->user->isShortForm() ? " short" : ""; ?>" id="spec-modal-body">
+    <?php if (Yii::app()->user->hasFlash("specmessage")): ?>
+    <div class="row-fluid" style="color: red; font-weight: bold;font-size: 20px;margin-bottom: 10px;"><?php echo  Yii::app()->user->getFlash("specmessage"); ?></div>
+    <?php endif; ?>
 
     <?php
     if (Yii::app()->user->isShortForm()) {

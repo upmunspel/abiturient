@@ -169,6 +169,7 @@ class Documents extends ActiveRecord {
             array('idDocuments, PersonID, TypeID, Series, Numbers, DateGet, ZNOPin, AtestatValue, Issued, isCopy', 'safe', 'on' => 'search'),
             array('idDocuments, PersonID, TypeID, Series, Numbers, DateGet, ZNOPin, AtestatValue, Issued, isCopy', 'safe', 'on' => 'FULLINPUT'),
             array('PersonBaseSpecealityID', 'docTypeValid', 'on' => 'FULLINPUT'),
+            
         );
     }
 
@@ -262,6 +263,7 @@ class Documents extends ActiveRecord {
     }
 
     public static function loadAndSave($personid, $objarr) {
+        
         foreach ($objarr as $item) {
             $val = (object) $item;
 
@@ -291,10 +293,11 @@ class Documents extends ActiveRecord {
                 }
             }
             if ($val->id_Type == 11 || $val->id_Type == 12 || $val->id_Type == 13 || $val->id_Type == 2) {
-                $exdoc = Documents::model()->find("PersonID = ".$personid." and TypeID = ".$val->id_Type);
+                $exdoc = null;//Documents::model()->find("PersonID = ".$personid." and TypeID = ".$val->id_Type);
+                Yii::log($val->id_Type."-".$val->number);
                 if (empty($exdoc)){
                     $doc = new Documents();
-                    $doc->scenario = "FULLINPUT";
+                    //$doc->scenario = "FULLINPUT";
                     $doc->PersonID = $personid;
                     $doc->TypeID = $val->id_Type;
                     $doc->edboID = $val->id_Document;
