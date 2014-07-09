@@ -65,7 +65,7 @@ $dataProvider = new CActiveDataProvider("Personspeciality", array('criteria' => 
                         'onclick' => "PSN.addSpec_electron(this,'$url2','$us');",
                     ),
                 ));
-                echo CHtml::textField("idRequest");
+                echo CHtml::textField("idRequest","",array('style'=>"margin-left:20px;","placeholder"=>"Код електронної заявки"));
 
             endif;
             ?>

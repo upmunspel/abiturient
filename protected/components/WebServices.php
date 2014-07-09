@@ -234,7 +234,13 @@ class WebServices {
 //            
         return true;
     }
-    
+    /**
+     * 
+     * @param type $codeU
+     * @param type $idRequest
+     * @return type
+     * @throws Exception
+     */
     public static function findRequestsByCodeU($codeU, $idRequest = 0) {
         if (!Yii::app()->user->checkAccess("wsAllowSearch")) {
             throw new Exception(WebServices::$MSG_EDBO_SEARCH_DENY);
@@ -246,6 +252,9 @@ class WebServices {
         try {
             if (empty($codeU)) {
                 throw new Exception("Пусте значення кода персони!");
+            }
+            if (intval($idRequest) == 0) {
+                throw new Exception("Невірне значення коду заявки!");
             }
             $ctx = stream_context_create(array('http' => array('timeout' => WebServices::$requestTimeout)));
             $res = @file_get_contents($srv . $script, 0, $ctx);
@@ -268,6 +277,12 @@ class WebServices {
 
         return $res;
     }
+    /**
+     * 
+     * @param type $idRequest
+     * @return type
+     * @throws Exception
+     */
     public static function findRequestsSubjects($idRequest = 0) {
         if (!Yii::app()->user->checkAccess("wsAllowSearch")) {
             throw new Exception(WebServices::$MSG_EDBO_SEARCH_DENY);
