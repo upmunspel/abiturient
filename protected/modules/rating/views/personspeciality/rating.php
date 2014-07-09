@@ -379,6 +379,68 @@ echo $form->hiddenField($model, 'SepcialityID', array(
       ?>
     </div>
   </div>
+    <!-- ----- -->
+  <div class='span12'>  
+    <div class="span6">
+      <?php
+      echo $form->label($model, 'QualificationID', array(
+          'style' => 'font-size: 8pt; font-family: Tahoma; text-align: left;'
+      ));
+      ?>
+      <?php
+      echo $form->dropDownList($model, 'QualificationID', 
+        array(""=>"", "1" => "Бакалавр", "2" => "Магістр", "3" => "Спеціаліст"), 
+        array(
+          'style' => 'font-family: Tahoma; '
+      ));
+      ?>
+    </div>
+
+    <div class="span6">
+      <?php
+      echo $form->label($model, 'CourseID', array(
+          'style' => 'font-size: 8pt; font-family: Tahoma; text-align: left;'
+      ));
+      ?>
+      <?php
+      echo $form->dropDownList($model, 'CourseID', 
+        array_merge(array(0=>""),CHtml::listData(Courses::model()->findAll(),'idCourse','CourseName')), 
+        array(
+          'style' => 'font-family: Tahoma;'
+      ));
+      ?>
+    </div>
+  </div>
+    <!-- ----- -->
+  <div class='span12'>  
+    <div class="span6">
+      <?php
+      echo $form->label($model, 'DateFrom', array(
+          'style' => 'font-size: 8pt; font-family: Tahoma; text-align: left;'
+      ));
+      ?>
+      <?php
+      echo $form->textField($model, 'DateFrom', array(
+          'style' => 'font-size: 8pt; font-family: Tahoma; height: 12px;',
+          'class' => 'datepicker',
+      ));
+      ?>
+    </div>
+
+    <div class="span6">
+      <?php
+      echo $form->label($model, 'DateTo', array(
+          'style' => 'font-size: 8pt; font-family: Tahoma; text-align: left;'
+      ));
+      ?>
+      <?php
+      echo $form->textField($model, 'DateTo', array(
+          'style' => 'font-size: 8pt; font-family: Tahoma; height: 12px;',
+          'class' => 'datepicker',
+      ));
+      ?>
+    </div>
+  </div>
   </div>
   
   <div class="span12">
@@ -562,6 +624,10 @@ $this->widget('bootstrap.widgets.TbGridView', array(
               echo 'id_персони: <span class=\'label label-info\'>'.$data->PersonID.
                       '</span><hr style=\'margin: 5px !important;\'/>';
               echo 'id_ЄДЕБО: <span class=\'label label-info\'>'.$data->edboID.
+                      '</span><hr style=\'margin: 5px !important;\'/>';
+?> </div> <?php
+?> <div id='r_<?php echo $row; ?>' style='font-size:8pt;'> <?php
+              echo 'Дата заявки: <span class=\'label label-red\'>'.date('d.m.Y',strtotime($data->CreateDate)).
                       '</span><hr style=\'margin: 5px !important;\'/>';
 ?> </div> <?php
             }
@@ -997,3 +1063,10 @@ echo CHtml::link('Усі посилання',Yii::app()->CreateUrl('/rating/rati
 ));
 
 ?>
+
+<script>
+    $(document).ready(function(){
+        
+       $(".datepicker").datepicker({'format':"dd.mm.yyyy"});
+    });
+</script>

@@ -93,6 +93,8 @@ class Personspeciality extends ActiveRecord {
   public $NAME;
   public $SPEC;
   public $ComputedPoints;
+  public $DateFrom;
+  public $DateTo;
   
   public $rating_order_mode;
   public $status_confirmed;
@@ -352,6 +354,8 @@ class Personspeciality extends ActiveRecord {
         "SPEC" => "Ключові слова через пробіл для вибірки за спеціальністю",
         "searchID" => "ID персони чи заявки або ж статус заявки",
         "NAME" => "ПІБ : ключові слова через пробіл",
+        "DateFrom" => "Від дати",
+        "DateTo" => "До дати",
     );
   }
 
@@ -589,6 +593,20 @@ class Personspeciality extends ActiveRecord {
               . 'LIKE "%'.$key.'%"');
       }
     }
+    
+    if (is_numeric($this->QualificationID) && $this->QualificationID > 0 && !$rating_order_mode){
+      $criteria->compare('t.QualificationID',$this->QualificationID);
+    }
+    if (is_numeric($this->CourseID) && $this->CourseID > 0 && !$rating_order_mode){
+      $criteria->compare('t.CourseID',$this->CourseID);
+    }    
+    if ($this->DateFrom && $this->DateTo && !$rating_order_mode){
+      $condition_date1 = date('Y-m-d',strtotime(str_replace('.','-',$this->DateFrom))) . ' 00:00:00';
+      $condition_date2 = date('Y-m-d',strtotime(str_replace('.','-',$this->DateTo))) . ' 23:59:59';
+      $criteria->addCondition("t.CreateDate BETWEEN '".$condition_date1."' "
+              . "AND '".$condition_date2."'");
+    }
+    
     if ($this->SPEC && !$rating_order_mode){
       //пошук спеціальності та спеціалізації
       $keys = explode(' ',$this->SPEC);

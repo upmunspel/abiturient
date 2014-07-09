@@ -88,6 +88,18 @@ class RatingController extends Controller {
     if (isset($reqPersonspeciality['SPEC']) && !$model->rating_order_mode){
       $model->SPEC = $reqPersonspeciality['SPEC'];
     }
+    if (isset($reqPersonspeciality['QualificationID']) && !$model->rating_order_mode){
+      $model->QualificationID = $reqPersonspeciality['QualificationID'];
+    }
+    if (isset($reqPersonspeciality['CourseID']) && !$model->rating_order_mode){
+      $model->CourseID = $reqPersonspeciality['CourseID'];
+    }
+    if (isset($reqPersonspeciality['DateFrom']) && !$model->rating_order_mode){
+      $model->DateFrom = $reqPersonspeciality['DateFrom'];
+    }
+    if (isset($reqPersonspeciality['DateTo']) && !$model->rating_order_mode){
+      $model->DateTo = $reqPersonspeciality['DateTo'];
+    }
     if (isset($reqPersonspeciality['status_confirmed'])){
       $model->status_confirmed = $reqPersonspeciality['status_confirmed'];
     }
