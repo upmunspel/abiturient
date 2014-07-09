@@ -165,13 +165,12 @@ $(function (){
       $('#Facultets_FacultetFullName').attr('readonly',true);
       $('#Personspeciality_NAME').attr('readonly',true);
       $('#Benefit_BenefitName').attr('readonly',true);
+      $('#Personspeciality_ext_param').attr('readonly',true);
+      $('#Personspeciality_QualificationID').attr('readonly',true);
+      $('#Personspeciality_CourseID').attr('readonly',true);
+      $('#Personspeciality_DateFrom').attr('readonly',true);
+      $('#Personspeciality_DateTo').attr('readonly',true);
       
-      $('#Personspeciality_mistakes_only').slideUp();
-      $('#Personspeciality_mistakes_only').attr('checked',false);
-      $('#for_mistakes_only').slideUp();
-      $('#Personspeciality_edbo_mode').slideUp();
-      $('#Personspeciality_edbo_mode').attr('checked',false);
-      $('#for_edbo_mode').slideUp();
       
       $('#statuses').slideDown();
       if (!$('#hidden_spec_id').val()){
@@ -189,11 +188,11 @@ $(function (){
       $('#Facultets_FacultetFullName').attr('readonly',false);
       $('#Personspeciality_NAME').attr('readonly',false);
       $('#Benefit_BenefitName').attr('readonly',false);
-      
-      $('#Personspeciality_mistakes_only').slideDown();
-      $('#for_mistakes_only').slideDown();
-      $('#for_edbo_mode').slideDown();
-      $('#Personspeciality_edbo_mode').slideDown();
+      $('#Personspeciality_ext_param').attr('readonly',false);
+      $('#Personspeciality_QualificationID').attr('readonly',false);
+      $('#Personspeciality_CourseID').attr('readonly',false);
+      $('#Personspeciality_DateFrom').attr('readonly',false);
+      $('#Personspeciality_DateTo').attr('readonly',false);
       
       $('#statuses').slideUp();
       $('#RatingButton').slideDown();
@@ -266,22 +265,6 @@ $(function (){
     
   </div>
 
-<?php echo $form->checkBox($model, 'mistakes_only', array(
-    'style' => 'float:left;margin-right: 10px;'
-)); ?>
-<?php echo $form->label($model, 'mistakes_only', array(
-    'style' => 'font-size: 8pt; font-family: Tahoma; text-align: left;',
-    'id' => 'for_mistakes_only',
-)); ?>
-
-  
-<?php echo $form->checkBox($model, 'edbo_mode', array(
-    'style' => 'float:left;margin-right: 10px;'
-)); ?>
-<?php echo $form->label($model, 'edbo_mode', array(
-    'style' => 'font-size: 8pt; font-family: Tahoma; text-align: left;',
-    'id' => 'for_edbo_mode',
-)); ?>
   <div class="span12">
     <div class="span6">
       <?php
@@ -322,6 +305,49 @@ echo $form->hiddenField($model, 'SepcialityID', array(
   </div>
   <div class='row-fluid' style='display: none;' id='another_parameters'>
   <div class='span12'></div>
+  <div class='span12'>
+    <?php
+      echo $form->dropDownListRow($model,'ext_param',
+        array('0'=>"",
+          '1'=>"Неспівпадання з даними ЄДЕБО",
+          '2'=>"Немає в даних ЄДЕБО, але є в даних 'Абітурієнта'",
+          '3'=>"Є в даних 'Абітурієнта' і є в даних ЄДЕБО",
+        ),
+        array('class' => 'span11'));
+    ?>
+  </div>
+    <!-- ----- -->
+  <div class='span12'>  
+    <div class="span6">
+      <?php
+      echo $form->label($model, 'QualificationID', array(
+          'style' => 'font-size: 8pt; font-family: Tahoma; text-align: left;'
+      ));
+      ?>
+      <?php
+      echo $form->dropDownList($model, 'QualificationID', 
+        array(""=>"", "1" => "Бакалавр", "2" => "Магістр", "3" => "Спеціаліст"), 
+        array(
+          'style' => 'font-family: Tahoma; '
+      ));
+      ?>
+    </div>
+
+    <div class="span6">
+      <?php
+      echo $form->label($model, 'CourseID', array(
+          'style' => 'font-size: 8pt; font-family: Tahoma; text-align: left;'
+      ));
+      ?>
+      <?php
+      echo $form->dropDownList($model, 'CourseID', 
+        array_merge(array(0=>""),CHtml::listData(Courses::model()->findAll(),'idCourse','CourseName')), 
+        array(
+          'style' => 'font-family: Tahoma;'
+      ));
+      ?>
+    </div>
+  </div>
   <div class="span12">
     <div class="span6">
       <?php
@@ -375,38 +401,6 @@ echo $form->hiddenField($model, 'SepcialityID', array(
       <?php
       echo $form->textField($model->searchBenefit, 'BenefitName', array(
           'style' => 'font-size: 8pt; font-family: Tahoma; height: 12px;',
-      ));
-      ?>
-    </div>
-  </div>
-    <!-- ----- -->
-  <div class='span12'>  
-    <div class="span6">
-      <?php
-      echo $form->label($model, 'QualificationID', array(
-          'style' => 'font-size: 8pt; font-family: Tahoma; text-align: left;'
-      ));
-      ?>
-      <?php
-      echo $form->dropDownList($model, 'QualificationID', 
-        array(""=>"", "1" => "Бакалавр", "2" => "Магістр", "3" => "Спеціаліст"), 
-        array(
-          'style' => 'font-family: Tahoma; '
-      ));
-      ?>
-    </div>
-
-    <div class="span6">
-      <?php
-      echo $form->label($model, 'CourseID', array(
-          'style' => 'font-size: 8pt; font-family: Tahoma; text-align: left;'
-      ));
-      ?>
-      <?php
-      echo $form->dropDownList($model, 'CourseID', 
-        array_merge(array(0=>""),CHtml::listData(Courses::model()->findAll(),'idCourse','CourseName')), 
-        array(
-          'style' => 'font-family: Tahoma;'
       ));
       ?>
     </div>
@@ -828,7 +822,6 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                 $data->edbo = EdboData::model()->findByPk($data->edboID);
               }
               
-              $docvalues= explode(';',$data->DocValues);
               $doctypes = explode(';',$data->DocTypes);
               $points = array();
               
@@ -836,31 +829,14 @@ $this->widget('bootstrap.widgets.TbGridView', array(
               $DocTypes = Personspeciality::getPersonDocTypes();
               
               foreach ($doctypes as $id => $doctype){
-                $points[$doctype]['val'] = $docvalues[$id];
                 $points[$doctype]['type'] = $DocTypes[$doctype];
               }
               
               $is_elder = (mb_substr($data->sepciality->SpecialityClasifierCode,0,1,'utf-8') != '6');
-              $doc_val = 0.0;
-              $doc_val_zno = 0.0;
+              $doc_val = round($data->PointDocValue,2);
+              $doc_val_zno = round($data->ZnoDocValue,2);
               $doc_name = 'Документ';
               $doc_desc = 'Документ';
-              foreach ($points as $type => $point){
-                if ($is_elder && !in_array($type,array(11,12))){
-                  continue;
-                }
-                if ($point['val'] > 0.0){
-                  $doc_val = round($point['val'],1);
-                  if (isset($PointMap[(string)$doc_val])){
-                    $doc_val_zno = $PointMap[(string)$doc_val];
-                  }
-                  else {
-                    $doc_val_zno = $doc_val;
-                  } 
-                  $doc_desc = $point['type'];
-                  break;
-                }
-              }
 
               $Total += $doc_val_zno;
               $Total += (($data->documentSubject1)? (float)$data->documentSubject1->SubjectValue : 0.0);
@@ -1059,6 +1035,9 @@ $this->widget('bootstrap.widgets.TbGridView', array(
 ));
         
 echo CHtml::link('Усі посилання',Yii::app()->CreateUrl('/rating/rating/ratinglinks'),array(
+   'target' => '_blank'
+)); echo '<hr/>';
+echo CHtml::link('Є в ЄДЕБО, немає в БД "Абітурієнт"',Yii::app()->CreateUrl('/rating/edbodata/admin'),array(
    'target' => '_blank'
 ));
 

@@ -71,10 +71,10 @@
  * @property integer $status_confirmed - прапорець: вибрати лише зі статусом "допущено"
  * @property integer $status_committed - прапорець: вибрати лише зі статусом "рекомендовано"
  * @property integer $status_submitted - прапорець: вибрати лише зі статусом "до наказу"
- * @property integer $edbo_mode - прапорець: вибрати дані, у яких є зв"язок із таблицею edbo_data
+ * @property integer $ext_param - 1=> вибрати лише ті дані, що не співпадають з даними із edbo_data,
+ *                                2=> вибрати лише ті дані, у яких немає зв"язку із таблицею edbo_data,
+ *                                3=> вибрати дані, у яких є зв"язок із таблицею edbo_data;
  * @property integer $page_size - кількість записів, що відображаються на одній сторінці
- * @property integer $mistakes_only - прапорець: вибрати лише ті дані, що не співпадають з даними із edbo_data
- * @property string $DocValues - дані про відмітки в документах (розділені через ;)
  * @property string $DocTypes - типи документів (розділені через ;)
  * @property string $BenefitList - дані про пільги (розділені через ;;)
  * @property string $idBenefitList - ІН пільг (розділені через ;;)
@@ -95,16 +95,16 @@ class Personspeciality extends ActiveRecord {
   public $ComputedPoints;
   public $DateFrom;
   public $DateTo;
+  public $ZnoDocValue;
+  public $PointDocValue;
   
   public $rating_order_mode;
   public $status_confirmed;
   public $status_committed;
   public $status_submitted;
   
-  public $edbo_mode;
+  public $ext_param;
   public $page_size;
-  public $mistakes_only;
-  public $DocValues;
   public $DocTypes;
   public $BenefitList;
   public $idBenefitList;
@@ -348,8 +348,7 @@ class Personspeciality extends ActiveRecord {
         "status_confirmed" => "Допущено",
         "status_committed" => "Рекомендовано",
         "status_submitted" => "До наказу",
-        "edbo_mode" => "Вибрати тільки ті дані, що завантажені з таблиці ЄДЕБО",
-        "mistakes_only" => "Вибрати лише неспівпадання з таблицею ЄДЕБО",
+        "ext_param" => "Додаткові умови вибірки",
         "page_size" => "Кількість рядків (елементів) для однієї сторінки у таблиці заявок",
         "SPEC" => "Ключові слова через пробіл для вибірки за спеціальністю",
         "searchID" => "ID персони чи заявки або ж статус заявки",
@@ -456,23 +455,40 @@ class Personspeciality extends ActiveRecord {
               . "(case sepciality.SpecialitySpecializationName when '' then '' "
               . " else concat('(',sepciality.SpecialitySpecializationName,')') end)"
               . ",',',concat('форма: ',educationForm.PersonEducationFormName)) AS SPEC"),
-      new CDbExpression('(ROUND((
-        IF(ISNULL(docs.AtestatValue),0.0,
-        MAX(IF (
+      new CDbExpression('ROUND(MAX(IF (
           ISNULL( 
             (
-              SELECT ROUND(MAX(Znovalue),2)
+              SELECT Znovalue
               FROM atestatvalue 
               WHERE ROUND(Atestatvalue,1) IN (ROUND(docs.AtestatValue,1)) 
             ) 
           ),
-          docs.AtestatValue,
+          IF(ISNULL(docs.AtestatValue),0.0,docs.AtestatValue),
           (
             SELECT ROUND(MAX(Znovalue),2)
             FROM atestatvalue 
             WHERE ROUND(Atestatvalue,1) IN (ROUND(docs.AtestatValue,1)) 
           ) 
-        )))+
+        )),2) AS ZnoDocValue'),
+      new CDbExpression('ROUND(MAX(
+            IF(ISNULL(docs.AtestatValue),0.0,docs.AtestatValue)
+          ),2) AS PointDocValue'),
+      new CDbExpression('(ROUND((
+        MAX(IF (
+          ISNULL( 
+            (
+              SELECT Znovalue
+              FROM atestatvalue 
+              WHERE ROUND(Atestatvalue,1) IN (ROUND(docs.AtestatValue,1)) 
+            ) 
+          ),
+          IF(ISNULL(docs.AtestatValue),0.0,docs.AtestatValue),
+          (
+            SELECT ROUND(MAX(Znovalue),2)
+            FROM atestatvalue 
+            WHERE ROUND(Atestatvalue,1) IN (ROUND(docs.AtestatValue,1)) 
+          ) 
+        ))+
         IF(ISNULL(documentSubject1.SubjectValue),0.0,documentSubject1.SubjectValue)+
         IF(ISNULL(documentSubject2.SubjectValue),0.0,documentSubject2.SubjectValue)+
         IF(ISNULL(documentSubject3.SubjectValue),0.0,documentSubject3.SubjectValue)+
@@ -487,8 +503,6 @@ class Personspeciality extends ActiveRecord {
               . 'ORDER BY benefit.BenefitName ASC SEPARATOR \';;\') AS BenefitList'),
       new CDbExpression('GROUP_CONCAT(benefit.idBenefit '
               . 'ORDER BY benefit.BenefitName ASC SEPARATOR \';;\') AS idBenefitList'),
-      new CDbExpression('GROUP_CONCAT( IF ((docs.AtestatValue IS NULL), 0.0, docs.AtestatValue) '
-              . 'ORDER BY docs.AtestatValue DESC SEPARATOR \';\') AS DocValues'),
       new CDbExpression('GROUP_CONCAT(docs.TypeID ORDER BY docs.AtestatValue DESC SEPARATOR \';\') AS DocTypes'),
       new CDbExpression('if(sum(benefit.isPZK)>0,1,0) AS isOutOfComp'),
       new CDbExpression('if(sum(benefit.isPV)>0,1,0) AS isExtraEntry'),
@@ -512,22 +526,24 @@ class Personspeciality extends ActiveRecord {
     $criteria->compare('facultet.FacultetFullName', $this->searchFaculty->FacultetFullName,true);
     
     //якщо встановлений прапорець, щоб шукати лише неточності (неспівпадання у нас і даними ЄДЕБО)
-    if ($this->mistakes_only){
+    if ($this->ext_param == 1){
       // тоді додаткові умови ::
       //  щоб відмітка у документі (атестат або диплом) не співпадала
       //  щоб відмітка першочерговості не співпадала
       //  щоб відмітка позаконкурсного вступу не співпадала
       //  щоб відмітка вступу за цільовим направленням не співпадала
+      /*
+      Вставити в умову, якщо потрібно вибрати неточності по першочерговості вступу
+      OR (edbo.PriorityEntry <> IF(((SELECT MAX(b.isPV) FROM personbenefits pb LEFT JOIN benefit b ON pb.BenefitID = b.idBenefit 
+        WHERE t.PersonID=pb.PersonID AND b.isPV IS NOT NULL)) IS NULL, 0, 
+        ((SELECT MAX(b.isPV) FROM personbenefits pb LEFT JOIN benefit b ON pb.BenefitID = b.idBenefit 
+          WHERE t.PersonID=pb.PersonID AND b.isPV IS NOT NULL))))
+      */
       $criteria->addCondition('(
       (concat_ws(\' \',trim(person.LastName),trim(person.FirstName),person.MiddleName) NOT LIKE edbo.PIB)
       
       OR (edbo.DocPoint NOT IN ((SELECT documents.AtestatValue FROM documents WHERE documents.PersonID = t.PersonID 
         AND documents.AtestatValue IS NOT NULL))) 
-
-      OR (edbo.PriorityEntry <> IF(((SELECT MAX(b.isPV) FROM personbenefits pb LEFT JOIN benefit b ON pb.BenefitID = b.idBenefit 
-        WHERE t.PersonID=pb.PersonID AND b.isPV IS NOT NULL)) IS NULL, 0, 
-        ((SELECT MAX(b.isPV) FROM personbenefits pb LEFT JOIN benefit b ON pb.BenefitID = b.idBenefit 
-          WHERE t.PersonID=pb.PersonID AND b.isPV IS NOT NULL))))
 
       OR (edbo.Benefit <> IF(((SELECT MAX(b.isPZK) FROM personbenefits pb LEFT JOIN benefit b ON pb.BenefitID = b.idBenefit 
         WHERE t.PersonID=pb.PersonID AND b.isPZK IS NOT NULL )) IS NULL, 0, 
@@ -568,9 +584,13 @@ class Personspeciality extends ActiveRecord {
             . '(docs.TypeID IN (11,12,13)), '
             . '(docs.TypeID = 2) )');
     
-    if ($this->edbo_mode){
+    if ($this->ext_param == 3){
       //якщо потрібно вибрати тільки ті дані, що відповідають даним з таблиці edbo_data
       $criteria->addCondition('edbo.ID IS NOT NULL');
+    }
+    if ($this->ext_param == 2){
+      //якщо потрібно вибрати тільки ті дані, що не відповідають даним з таблиці edbo_data
+      $criteria->addCondition('edbo.ID IS NULL');
     }
 
     

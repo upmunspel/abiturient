@@ -9,59 +9,27 @@ $this->menu=array(
 
 ?>
 
-<h1>Edbo Datas</h1>
+<h1>ЄДЕБО-дані</h1>
 
 
 <?php 
 $this->widget('bootstrap.widgets.TbGridView', array(
   'id' => 'edbo-data-grid',
-  'dataProvider'=>$model->search(),
+  'dataProvider'=>$model->search_rel(),
   'filter'=>$model,
   'columns'=>array(
     'ID',
     'PIB',
-    'EZ',
     'Status',
     'Created',
-    'PersonCase',
-
-    'Course',
-    'EduForm',
-    'EduQualification',
-    'B',
-    'K',
     'RatingPoints',
     'SpecCode',
     'Direction',
     'SpecialCode',
     'Speciality',
     'Specialization',
-    'StructBranch',
-    'Changed',
-    'DetailPoints',
-    'DocType',
-    'DocSeria',
-    'DocNumber',
     'DocPoint',
-    'DocDate',
-    'Honours',
-    'EntranceType',
-    'EntranceReason',
-    'Benefit',
-    'PriorityEntry',
-    'Quota',
-    'Language',
-    'OI',
-    'Category',
-    'Gender',
-    'Citizen',
-    'Country',
-    'TH',
-    'Tel',
-    'MobTel',
     'OD',
-    'NeedHostel',
-    'EntranceCodes',
     array(
       'class'=>'bootstrap.widgets.TbButtonColumn',
     ),

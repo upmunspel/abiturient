@@ -53,122 +53,134 @@
  */
 class EdboData extends CActiveRecord
 {
-	/**
-	 * Returns the static model of the specified AR class.
-	 * @param string $className active record class name.
-	 * @return EdboData the static model class
-	 */
+  /**
+   * Returns the static model of the specified AR class.
+   * @param string $className active record class name.
+   * @return EdboData the static model class
+   */
   
   public $csv_file;
   
-	public static function model($className=__CLASS__){
-		return parent::model($className);
-	}
+  public static function model($className=__CLASS__){
+    return parent::model($className);
+  }
 
-	/**
-	 * @return string the associated database table name
-	 */
-	public function tableName(){
-		return 'edbo_data';
-	}
+  /**
+   * @return string the associated database table name
+   */
+  public function tableName(){
+    return 'edbo_data';
+  }
 
-	/**
-	 * @return array validation rules for model attributes.
-	 */
-	public function rules(){
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
-		return array(
-			array('ID', 'required'),
-			array('ID, EZ, Course, B, K, Benefit, PriorityEntry, Quota, OI, OD, NeedHostel', 'numerical', 'integerOnly'=>true),
-			array('RatingPoints, DocPoint', 'numerical'),
-			array('PIB', 'length', 'max'=>255),
-			array('Status, Created, EduQualification, SpecCode, SpecialCode, Changed, DocNumber, Honours, Category, Gender, Citizen, TH, Tel, MobTel', 'length', 'max'=>64),
-			array('PersonCase, EduForm, DocSeria', 'length', 'max'=>16),
-			array('Direction, Speciality, Specialization, StructBranch, DetailPoints, DocType, EntranceType, EntranceReason, Language', 'length', 'max'=>128),
-			array('DocDate, EntranceCodes, Priority', 'length', 'max'=>32),
-			array('Country', 'length', 'max'=>192),
+  /**
+   * @return array validation rules for model attributes.
+   */
+  public function rules(){
+    // NOTE: you should only define rules for those attributes that
+    // will receive user inputs.
+    return array(
+      array('ID', 'required'),
+      array('ID, EZ, Course, B, K, Benefit, PriorityEntry, Quota, OI, OD, NeedHostel', 'numerical', 'integerOnly'=>true),
+      array('RatingPoints, DocPoint', 'numerical'),
+      array('PIB', 'length', 'max'=>255),
+      array('Status, Created, EduQualification, SpecCode, SpecialCode, Changed, DocNumber, Honours, Category, Gender, Citizen, TH, Tel, MobTel', 'length', 'max'=>64),
+      array('PersonCase, EduForm, DocSeria', 'length', 'max'=>16),
+      array('Direction, Speciality, Specialization, StructBranch, DetailPoints, DocType, EntranceType, EntranceReason, Language', 'length', 'max'=>128),
+      array('DocDate, EntranceCodes, Priority', 'length', 'max'=>32),
+      array('Country', 'length', 'max'=>192),
       array('csv_file', 'file', 'types' => 'csv', 'maxSize' => 1024 * 1024 * 20, 
           'tooLarge' => 'Перевищена межа у 20MB !', 'on' => 'upload'),
-			// The following rule is used by search().
-			// Please remove those attributes that should not be searched.
-			array('ID, PIB, EZ, Status, Created, PersonCase, Course, EduForm, EduQualification, B, K, RatingPoints, SpecCode, Direction, SpecialCode, Speciality, Specialization, StructBranch, Changed, DetailPoints, DocType, DocSeria, DocNumber, DocPoint, DocDate, Honours, EntranceType, EntranceReason, Benefit, PriorityEntry, Quota, Language, OI, Category, Gender, Citizen, Country, TH, Tel, MobTel, OD, NeedHostel, EntranceCodes, Priority', 'safe', 'on'=>'search'),
-		);
-	}
+      // The following rule is used by search().
+      // Please remove those attributes that should not be searched.
+      array('ID, PIB, EZ, Status, Created, PersonCase, Course, EduForm, EduQualification, B, K, RatingPoints, SpecCode, Direction, SpecialCode, Speciality, Specialization, StructBranch, Changed, DetailPoints, DocType, DocSeria, DocNumber, DocPoint, DocDate, Honours, EntranceType, EntranceReason, Benefit, PriorityEntry, Quota, Language, OI, Category, Gender, Citizen, Country, TH, Tel, MobTel, OD, NeedHostel, EntranceCodes, Priority', 'safe', 'on'=>'search'),
+    );
+  }
 
-	/**
-	 * @return array relational rules.
-	 */
-	public function relations(){
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
-		return array(
-		);
-	}
+  /**
+   * @return array relational rules.
+   */
+  public function relations(){
+    // NOTE: you may need to adjust the relation name and the related
+    // class name for the relations automatically generated below.
+    return array(
+      'ps' => array(self::HAS_MANY, 'Personspeciality', 'edboID'),
+    );
+  }
         
 
-	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
-	public function attributeLabels(){
-		return array(
-  		  'ID' => 'ID',
-  		  'PIB' => 'Pib',
-  		  'EZ' => 'Ez',
-  		  'Status' => 'Status',
-  		  'Created' => 'Created',
-  		  'PersonCase' => 'Person Case',
-  		  'Course' => 'Course',
-  		  'EduForm' => 'Edu Form',
-  		  'EduQualification' => 'Edu Qualification',
-  		  'B' => 'B',
-  		  'K' => 'K',
-  		  'RatingPoints' => 'Rating Points',
-  		  'SpecCode' => 'Spec Code',
-  		  'Direction' => 'Direction',
-  		  'SpecialCode' => 'Special Code',
-  		  'Speciality' => 'Speciality',
-  		  'Specialization' => 'Specialization',
-  		  'StructBranch' => 'Struct Branch',
-  		  'Changed' => 'Changed',
-  		  'DetailPoints' => 'Detail Points',
-  		  'DocType' => 'Doc Type',
-  		  'DocSeria' => 'Doc Seria',
-  		  'DocNumber' => 'Doc Number',
-  		  'DocPoint' => 'Doc Point',
-  		  'DocDate' => 'Doc Date',
-  		  'Honours' => 'Honours',
-  		  'EntranceType' => 'Entrance Type',
-  		  'EntranceReason' => 'Entrance Reason',
-  		  'Benefit' => 'Benefit',
-  		  'PriorityEntry' => 'Priority Entry',
-  		  'Quota' => 'Quota',
-  		  'Language' => 'Language',
-  		  'OI' => 'Oi',
-  		  'Category' => 'Category',
-  		  'Gender' => 'Gender',
-  		  'Citizen' => 'Citizen',
-  		  'Country' => 'Country',
-  		  'TH' => 'Th',
-  		  'Tel' => 'Tel',
-  		  'MobTel' => 'Mob Tel',
-  		  'OD' => 'Od',
-  		  'NeedHostel' => 'Need Hostel',
-  		  'EntranceCodes' => 'Entrance Codes',
-  		  'Priority' => 'Priority',
-		);
-	}
+  /**
+   * @return array customized attribute labels (name=>label)
+   */
+  public function attributeLabels(){
+    return array(
+        'ID' => 'ID',
+        'PIB' => 'ПІБ',
+        'Status' => 'Статус',
+        'Created' => 'Створено',
+        'Course' => 'Курс',
+        'EduForm' => 'Форма навчання',
+        'EduQualification' => 'ОКР',
+        'RatingPoints' => 'Бали',
+        'SpecCode' => 'Код напряму',
+        'Direction' => 'Напрям',
+        'SpecialCode' => 'Код спеціальності',
+        'Speciality' => 'Спеціальність',
+        'Specialization' => 'Спеціалізація',
+        'DocPoint' => 'Бал документа',
+        'OD' => 'Оригінал',
+    );
+  }
 
-	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
-	 */
-	public function search()
-	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
+  /**
+   * Retrieves a list of models based on the current search/filter conditions.
+   * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+   */
+  public function search_rel($all = false)
+  {
+    // Warning: Please modify the following code to remove attributes that
+    // should not be searched.
 
-		$criteria=new CDbCriteria;
+    $criteria=new CDbCriteria;
+    $criteria->with = array(
+      'ps' => array('select' => false)
+    );
+    $criteria->together = true;
+    $criteria->group = 't.ID';
+    
+    $criteria->compare('t.ID',$this->ID);
+    $criteria->compare('t.PIB',$this->PIB,true);
+    $criteria->compare('t.Status',$this->Status,true);
+    $criteria->compare('t.Created',$this->Created,true);
+    $criteria->compare('t.Course',$this->Course);
+    $criteria->compare('t.EduForm',$this->EduForm);
+    $criteria->compare('EduQualification',$this->EduQualification);
+    $criteria->compare('t.RatingPoints',$this->RatingPoints);
+    $criteria->compare('t.SpecCode',$this->SpecCode,true);
+    $criteria->compare('t.Direction',$this->Direction,true);
+    $criteria->compare('t.SpecialCode',$this->SpecialCode,true);
+    $criteria->compare('t.Speciality',$this->Speciality,true);
+    $criteria->compare('t.Specialization',$this->Specialization,true);
+    $criteria->compare('t.DocPoint',$this->DocPoint);
+    $criteria->compare('t.OD',$this->OD);
+    if (!$all){
+      $criteria->addCondition('ps.edboID IS NULL');
+    }
+
+    return new CActiveDataProvider($this, array(
+      'criteria'=>$criteria,
+    ));
+  }
+  
+  /**
+   * Retrieves a list of models based on the current search/filter conditions.
+   * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+   */
+  public function search()
+  {
+    // Warning: Please modify the following code to remove attributes that
+    // should not be searched.
+
+    $criteria=new CDbCriteria;
 
     $criteria->compare('ID',$this->ID);
     $criteria->compare('PIB',$this->PIB,true);
@@ -215,8 +227,8 @@ class EdboData extends CActiveRecord
     $criteria->compare('EntranceCodes',$this->EntranceCodes,true);
     $criteria->compare('Priority',$this->Priority,true);
 
-		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
-		));
-	}
+    return new CActiveDataProvider($this, array(
+      'criteria'=>$criteria,
+    ));
+  }
 }

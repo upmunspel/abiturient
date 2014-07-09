@@ -109,11 +109,8 @@ class RatingController extends Controller {
     if (isset($reqPersonspeciality['status_submitted'])){
       $model->status_submitted = $reqPersonspeciality['status_submitted'];
     }
-    if (isset($reqPersonspeciality['mistakes_only']) && !$model->rating_order_mode){
-      $model->mistakes_only = $reqPersonspeciality['mistakes_only'];
-    }
-    if (isset($reqPersonspeciality['edbo_mode']) && !$model->rating_order_mode){
-      $model->edbo_mode = $reqPersonspeciality['edbo_mode'];
+    if (isset($reqPersonspeciality['ext_param']) && !$model->rating_order_mode){
+      $model->ext_param = $reqPersonspeciality['ext_param'];
     }
     if (isset($reqPersonspeciality['page_size']) && !$model->rating_order_mode){
       $model->page_size = $reqPersonspeciality['page_size'];
