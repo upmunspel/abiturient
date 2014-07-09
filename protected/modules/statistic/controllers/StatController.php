@@ -727,7 +727,7 @@ class StatController extends Controller {
         'facultet',
         'eduform'
     );
-    $criteria->addCondition('t.PersonEducationFormID IN(1,2,3)');
+    $criteria->addCondition('t.PersonEducationFormID IN(1,2)');
     $criteria->addCondition('SUBSTR(t.SpecialityClasifierCode,1,1) LIKE '
             . '"'.$spec_ident.'"');
     $date_segment = '"' . $dateFrom . ' 00:00:00' . '" '
@@ -784,7 +784,15 @@ class StatController extends Controller {
       }
       $gnums[] = $_info;
     }
-    
+    $cnt_atall = array();
+    $cnt_atall[1] = array();
+    $cnt_atall[2] = array();
+    $cnt_atall[1][0] = 0;
+    $cnt_atall[1][1] = 0;
+    $cnt_atall[1][2] = 0;
+    $cnt_atall[2][0] = 0;
+    $cnt_atall[2][1] = 0;
+    $cnt_atall[2][2] = 0;
     foreach ($specs as $spec){
       /* @var $spec Specialities */
       if (!isset($cnt_data[$spec->FacultetID])){
@@ -826,6 +834,9 @@ class StatController extends Controller {
       $cnt_requests_from_us = $spec->cnt_requests_from_us;
       $cnt_requests_from_aliens = $spec->cnt_requests_from_aliens - $spec->cnt_requests_from_us;
       $ngrauated = $graduated_num;
+      $cnt_atall[$spec->PersonEducationFormID][0] += $cnt_requests_from_us;
+      $cnt_atall[$spec->PersonEducationFormID][1] += $cnt_requests_from_aliens;
+      $cnt_atall[$spec->PersonEducationFormID][2] += $spec->cnt_requests_from_aliens;
       // if (isset($cnt_data[$spec->FacultetID][trim($spec_name)][$spec->PersonEducationFormID])){
         // $cnt_requests_from_us += $cnt_data[$spec->FacultetID][trim($spec_name)][$spec->PersonEducationFormID]['cnt_requests_from_us'];
         // $cnt_requests_from_aliens += $cnt_data[$spec->FacultetID][trim($spec_name)][$spec->PersonEducationFormID]['cnt_requests_from_aliens'];
@@ -843,6 +854,7 @@ class StatController extends Controller {
     $this->layout = '//layouts/clear';
     $this->render('/statistic/statgraduated',array(
       'cnt_data' => $cnt_data,
+      'cnt_atall' => $cnt_atall,
       'DateFrom' => $reqDateFrom,
       'DateTo' => $reqDateTo,
       'Qualification' => ($reqQualificationID == 2)? 'Магістр':'Спеціаліст',
