@@ -492,8 +492,8 @@ class Personspeciality extends ActiveRecord {
         $this->QualificationID = $data->idQualification;
         $spec = Specialities::model()->find("SpecialityKode = '".$data->universitySpecialitiesKode."'");
         if (empty($spec)) {
-             //throw new Exception("Пропозиція відсутня");
-             $this->SepcialityID = 153677;
+             throw new Exception("Пропозиція відсутня");
+             //$this->SepcialityID = 153677;
         } else {
         $this->SepcialityID = $spec->idSpeciality;
         
@@ -523,7 +523,7 @@ class Personspeciality extends ActiveRecord {
         $doc = Documents::model()->find("edboID=".$s1->idPersonDocument);
         $subj1 = Documentsubject::model()->find("DocumentID = {$doc->idDocuments} and SubjectID = {$s1->idSubject}");
         $this->DocumentSubject3 = $subj1->idDocumentSubject;
-        Yii::log(print_r($this->DocumentSubject1.$this->DocumentSubject2.$this->DocumentSubject3,1));
+        //Yii::log(print_r($this->DocumentSubject1.$this->DocumentSubject2.$this->DocumentSubject3,1));
         
     }
 
