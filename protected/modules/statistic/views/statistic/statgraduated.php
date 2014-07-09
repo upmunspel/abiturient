@@ -83,7 +83,7 @@ foreach ($cnt_data as $row){
     }
     echo "<td>".$key."</td>";
     
-    echo "<td>".((isset($data[1]))? 
+    echo "<td style='color: grey;'>".((isset($data[1]))? 
             $data[1]['graduated'] : '0') ."</td>";
     echo "<td>".((isset($data[1]))? 
             $data[1]['cnt_requests_from_us'] : '0') ."</td>";
@@ -92,7 +92,7 @@ foreach ($cnt_data as $row){
     echo "<td style='border-right: 5px solid grey;'>".((isset($data[1]))? 
             ($data[1]['cnt_requests_from_us']+$data[1]['cnt_requests_from_aliens']) : '0') ."</td>";
             
-    echo "<td>".((isset($data[2]))? 
+    echo "<td style='color: grey;'>".((isset($data[2]))? 
             $data[2]['graduated'] : '0') ."</td>";
     echo "<td>".((isset($data[2]))? 
             $data[2]['cnt_requests_from_us'] : '0') ."</td>";
