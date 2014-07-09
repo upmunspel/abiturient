@@ -241,8 +241,7 @@ class WebServices {
         }
         $script = "requestload.jsp?personCodeU=$codeU&idRequest=$idRequest";
         $codeU = trim($codeU);
-        $srv = "http://10.1.22.25:8080/PersonSearchTest/";
-                //Yii::app()->user->getEdboSearchUrl() ;
+        $srv = Yii::app()->user->getEdboSearchUrl() ;
         
         try {
             if (empty($codeU)) {
@@ -275,8 +274,7 @@ class WebServices {
         }
         $script = "requestsubjects.jsp?idRequest=$idRequest";
         
-        $srv = "http://10.1.22.25:8080/PersonSearchTest/";
-                //Yii::app()->user->getEdboSearchUrl() ;
+        $srv = Yii::app()->user->getEdboSearchUrl() ;
         
         try {
            

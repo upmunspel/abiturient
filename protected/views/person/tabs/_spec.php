@@ -1,154 +1,156 @@
-<?php  /* END PRINT SPEC LIST */ 
+<?php
+/* END PRINT SPEC LIST */
 $cond = "PersonID=$personid and StatusID <> 3 ";
 if (Yii::app()->user->checkAccess("updateAllPost")) {
     $cond = "PersonID=$personid";
 }
-$dataProvider=new CActiveDataProvider( "Personspeciality", array('criteria'=>array(
-    'condition'=>$cond,
-    //'order'=>'RequestNumber DESC',
-    'with'=>array('sepciality',"educationForm"),
+$dataProvider = new CActiveDataProvider("Personspeciality", array('criteria' => array(
+        'condition' => $cond,
+        //'order'=>'RequestNumber DESC',
+        'with' => array('sepciality', "educationForm"),
     ),
-    'sort' =>array(
-            'attributes' =>array( "",
+    'sort' => array(
+        'attributes' => array("",
 //                    'sepciality'=>array(
 //                                    'asc'=>'sepciality.SpecialityDirectionName',
 //                                    'desc'=>'sepciality.SpecialityDirectionName DESC',
 //                            ),
 //                    '*',
-            ),
         ),
-    'pagination'=>array(
-        'pageSize'=>50,
+    ),
+    'pagination' => array(
+        'pageSize' => 50,
     )
-));
-
+        ));
 ?>
 <div class="form">
     <?php
-    
-    $count  = 0;
-    foreach ($dataProvider->getData() as $obj){
+    $count = 0;
+    foreach ($dataProvider->getData() as $obj) {
         if (!($obj->StatusID == 10 || $obj->StatusID == 3)) {
             $count++;
         }
     }
-    if ($count<6 || Yii::app()->user->checkAccess("updateAllPost")): ?>
-    <div class="row-fluid">
-                <?php
-                    $url = Yii::app()->createUrl("personspeciality/create",array('personid'=>$personid));
-                    $this->widget('bootstrap.widgets.TbButton', array(
-                    'label'=>'Додати спеціальність',
-                    'type'=>'primary', // null, 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
+    if ($count < 6 || Yii::app()->user->checkAccess("updateAllPost")):
+        ?>
+        <div class="row-fluid">
+            <?php
+            $url = Yii::app()->createUrl("personspeciality/create", array('personid' => $personid));
+            $this->widget('bootstrap.widgets.TbButton', array(
+                'label' => 'Додати спеціальність',
+                'type' => 'primary', // null, 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
+                'size' => null, // null, 'large', 'small' or 'mini'
+                'loadingText' => 'Зачекайте...',
+                'htmlOptions' => array('id' => 'addSpec',
+                    'onclick' => "PSN.addSpec(this,'$url');",
+                ),
+            ));
+            ?>
+            &nbsp;
+            <?php
+            if (Yii::app()->user->checkAccess("showSpecEdboRequest")):
+                $user = Yii::app()->user->getUserModel();
+                $us = 0;
+                if ($user->syspk->SpecMask != "1") {
+                    $us = 1;
+                }
+                $url2 = Yii::app()->createUrl("personspeciality/create", array('personid' => $personid));
+                $this->widget('bootstrap.widgets.TbButton', array(
+                    'buttonType' => 'submit',
+                    'label' => 'Додати електронну заяву',
+                    'type' => 'primary', // null, 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
                     'size' => null, // null, 'large', 'small' or 'mini'
-                    'loadingText'=>'Зачекайте...',
-                    'htmlOptions'=>array('id'=>'addSpec',
-                        'onclick'=>"PSN.addSpec(this,'$url');",
-                        ),
-                )); ?>
-        &nbsp;
-                <?php
-                    $user = Yii::app()->user->getUserModel();
-                    $us=0;
-                    if($user->syspk->SpecMask != "1"){
-                    $us=1;    
-                    }
-                    $url2 = Yii::app()->createUrl("personspeciality/create",array('personid'=>$personid));
-                    $this->widget('bootstrap.widgets.TbButton', array(
-                    'buttonType'=>'submit',
-                    'label'=>'Додати електронну заяву',
-                    'type'=>'primary', // null, 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
-                    'size' => null, // null, 'large', 'small' or 'mini'
-                    'loadingText'=>'Зачекайте...',
-                    'htmlOptions'=>array('id'=>'addSpec_electron',
-                        'onclick'=>"PSN.addSpec_electron(this,'$url2','$us');",
-                        ),
-                    )); 
-                ?>
-        <?php echo CHtml::textField("idRequest"); ?>
-    </div>
-    <hr>
+                    'loadingText' => 'Зачекайте...',
+                    'htmlOptions' => array('id' => 'addSpec_electron',
+                        'onclick' => "PSN.addSpec_electron(this,'$url2','$us');",
+                    ),
+                ));
+                echo CHtml::textField("idRequest");
+
+            endif;
+            ?>
+        </div>
+        <hr>
     <?php endif; ?>
     <?php if (Yii::app()->user->hasFlash("message")): ?>
-    <div class="row-fluid" ><h3 style="color: red;"><?php echo  Yii::app()->user->getFlash("message"); ?></h3></div>
+        <div class="row-fluid" ><h3 style="color: red;"><?php echo Yii::app()->user->getFlash("message"); ?></h3></div>
     <?php endif; ?>
-<?php  
- $this->widget('bootstrap.widgets.TbGridView', array(
-    'type'=>'striped bordered condensed',
-    'dataProvider'=>$dataProvider,
-    'template'=>"{items}",
-    'rowCssClassExpression'=>'$data->getRowClass()',
-    'columns'=>array(
-        //"idPersonSpeciality",
-        array('name'=>'PersonRequestNumber', "htmlOptions"=>array("style"=>"width: 120px"),  'value' => '$data->RequestPrefix.str_pad($data->PersonRequestNumber, 5, "0", STR_PAD_LEFT)'),
-        array('name'=>'RequestNumber', "htmlOptions"=>array("style"=>"width: 120px"),  'value' => 'str_pad($data->RequestNumber, 5, "0", STR_PAD_LEFT)'),
-        //array('name'=>'typename', 'header'=>'typename',  ),
-        array('name'=>'sepcialityCode', 'header'=>'Код спец-ті', "htmlOptions"=>array("style"=>"width: 120px"), 'value' => '$data->sepciality->SpecialityClasifierCode' ),
-        array('name'=>'sepciality', 'header'=>'Спеціальність', 
-             'value' =>'(!empty($data->sepciality->SpecialityName)? $data->sepciality->SpecialityName." " :"" ).$data->sepciality->SpecialityDirectionName.(!empty($data->sepciality->SpecialitySpecializationName) ? ": ".$data->sepciality->SpecialitySpecializationName." ":"")'
-                //'value' => '!empty($data->sepciality->SpecialityName) ? $data->sepciality->SpecialityName : $data->sepciality->SpecialityDirectionName' 
-             ),
-        array('name'=>'educationForm', 'header'=>'Форма навчання', 'value' => '$data->educationForm->PersonEducationFormName '  ),
-       
-        array('name'=>'isCopyEntrantDoc', 'header'=>'Копия', 
-             'value' =>'($data->isCopyEntrantDoc) ? "Так":"Ні"',
-                ),
-        array('name'=>'status', 'header'=>'Статус', 
-             'value' =>'$data->status->PersonRequestStatusTypeName',
-                ),
-        array('name'=>'CreateDate', 'header'=>'Дата', 
-             'value' =>'$data->CreateDate',
-                ),
-        array(
-                'class'=>'bootstrap.widgets.TbButtonColumn',
-                'template'=>'{update} {trash} {print} {titul} {sinchr}',
-                'buttons'=>array
-                (
-
+    <?php
+    $this->widget('bootstrap.widgets.TbGridView', array(
+        'type' => 'striped bordered condensed',
+        'dataProvider' => $dataProvider,
+        'template' => "{items}",
+        'rowCssClassExpression' => '$data->getRowClass()',
+        'columns' => array(
+            //"idPersonSpeciality",
+            array('name' => 'PersonRequestNumber', "htmlOptions" => array("style" => "width: 120px"), 'value' => '$data->RequestPrefix.str_pad($data->PersonRequestNumber, 5, "0", STR_PAD_LEFT)'),
+            array('name' => 'RequestNumber', "htmlOptions" => array("style" => "width: 120px"), 'value' => 'str_pad($data->RequestNumber, 5, "0", STR_PAD_LEFT)'),
+            //array('name'=>'typename', 'header'=>'typename',  ),
+            array('name' => 'sepcialityCode', 'header' => 'Код спец-ті', "htmlOptions" => array("style" => "width: 120px"), 'value' => '$data->sepciality->SpecialityClasifierCode'),
+            array('name' => 'sepciality', 'header' => 'Спеціальність',
+                'value' => '(!empty($data->sepciality->SpecialityName)? $data->sepciality->SpecialityName." " :"" ).$data->sepciality->SpecialityDirectionName.(!empty($data->sepciality->SpecialitySpecializationName) ? ": ".$data->sepciality->SpecialitySpecializationName." ":"")'
+            //'value' => '!empty($data->sepciality->SpecialityName) ? $data->sepciality->SpecialityName : $data->sepciality->SpecialityDirectionName' 
+            ),
+            array('name' => 'educationForm', 'header' => 'Форма навчання', 'value' => '$data->educationForm->PersonEducationFormName '),
+            array('name' => 'isCopyEntrantDoc', 'header' => 'Копия',
+                'value' => '($data->isCopyEntrantDoc) ? "Так":"Ні"',
+            ),
+            array('name' => 'status', 'header' => 'Статус',
+                'value' => '$data->status->PersonRequestStatusTypeName',
+            ),
+            array('name' => 'CreateDate', 'header' => 'Дата',
+                'value' => '$data->CreateDate',
+            ),
+            array(
+                'class' => 'bootstrap.widgets.TbButtonColumn',
+                'template' => '{update} {trash} {print} {titul} {sinchr}',
+                'buttons' => array
+                    (
                     'update' => array(
-                        'label'=>'Редагувати',
-                        'icon'=>'pencil',
-                        'url'=>'Yii::app()->createUrl("personspeciality/update",array("id"=>$data->idPersonSpeciality))',
-                        'options'=>array(
-                            'class'=>'btn',
-                            'onclick'=>"PSN.editSpec(this); return false;",
+                        'label' => 'Редагувати',
+                        'icon' => 'pencil',
+                        'url' => 'Yii::app()->createUrl("personspeciality/update",array("id"=>$data->idPersonSpeciality))',
+                        'options' => array(
+                            'class' => 'btn',
+                            'onclick' => "PSN.editSpec(this); return false;",
                         ),
-                     ),
-                   'trash' => array(
-                        'label'=>'Видалити',
-                        'icon'=>'trash',
-                        'url'=>'Yii::app()->createUrl("personspeciality/delete",array("id"=>$data->idPersonSpeciality))',
-                        'options'=>array(
-                            'class'=>'btn',
-                            'onclick'=>"PSN.delSpec(this); return false;",
+                    ),
+                    'trash' => array(
+                        'label' => 'Видалити',
+                        'icon' => 'trash',
+                        'url' => 'Yii::app()->createUrl("personspeciality/delete",array("id"=>$data->idPersonSpeciality))',
+                        'options' => array(
+                            'class' => 'btn',
+                            'onclick' => "PSN.delSpec(this); return false;",
                         ),
                     ),
                     'print' => array(
-                        'label'=>'Друкувати',
-                        'icon'=>'print',
-                        'url'=>  'Yii::app()->user->getPrintUrl($data->PersonID, $data->idPersonSpeciality)',
-                        'options'=>array(
-                            'class'=>'btn',
-                            'rel'=>"prettyPhoto",
-                            'title'=>"Друкувати заявку",
+                        'label' => 'Друкувати',
+                        'icon' => 'print',
+                        'url' => 'Yii::app()->user->getPrintUrl($data->PersonID, $data->idPersonSpeciality)',
+                        'options' => array(
+                            'class' => 'btn',
+                            'rel' => "prettyPhoto",
+                            'title' => "Друкувати заявку",
                         ),
                     ),
                     'titul' => array(
-                        'label'=>'Друкувати титульний лист',
-                        'icon'=>'file',
-                        'url'=> 'Yii::app()->user->getTitulUrl($data->idPersonSpeciality)',
-                        'options'=>array(
-                            'class'=>'btn',
-                            'title'=>"Друкувати титульний лист",
+                        'label' => 'Друкувати титульний лист',
+                        'icon' => 'file',
+                        'url' => 'Yii::app()->user->getTitulUrl($data->idPersonSpeciality)',
+                        'options' => array(
+                            'class' => 'btn',
+                            'title' => "Друкувати титульний лист",
                         ),
                     ),
                     'sinchr' => array(
-                        'label'=>'Синхронізувати',
-                        'icon'=>'icon-refresh',
-                        'url'=> 'Yii::app()->createUrl("personspeciality/edboupdate",array("id"=>$data->idPersonSpeciality))',
-                        'options'=>array(
-                            'class'=>'btn',
-                            'onclick'=>"PSN.edboSpecsUpdate(this); return false;",
-                            'title'=>"Синхронізувати",
+                        'label' => 'Синхронізувати',
+                        'icon' => 'icon-refresh',
+                        'url' => 'Yii::app()->createUrl("personspeciality/edboupdate",array("id"=>$data->idPersonSpeciality))',
+                        'options' => array(
+                            'class' => 'btn',
+                            'onclick' => "PSN.edboSpecsUpdate(this); return false;",
+                            'title' => "Синхронізувати",
                         ),
                     ),
 //                    'printa' => array(
@@ -162,19 +164,17 @@ $dataProvider=new CActiveDataProvider( "Personspeciality", array('criteria'=>arr
 //                            'title'=>"Друкувати аркуш вступних випробувань",
 //                        ),
 //                    ),
-                    
-                    
                 ),
-                'htmlOptions'=>array(
-                    'style'=>'width: 218px;',
+                'htmlOptions' => array(
+                    'style' => 'width: 218px;',
                 ),
             )
         ),
-    )
-); 
-?>   
-<hr>
-<div style="font-weight: bold;">Статуси заявок:</div>
+            )
+    );
+    ?>   
+    <hr>
+    <div style="font-weight: bold;">Статуси заявок:</div>
     <ul>
         <li>Не синхронізована</li>
         <li style="color: green;">Синхронізована</li>
@@ -184,8 +184,8 @@ $dataProvider=new CActiveDataProvider( "Personspeciality", array('criteria'=>arr
     </ul>
 </div><!-- form -->
 <script type="text/javascript">
-/*<![CDATA[*/
-jQuery('#pretty_photo a').attr('rel','prettyPhoto');
-jQuery('a[rel^="prettyPhoto"]').prettyPhoto({'opacity':0.6,'modal':true,'theme':'facebook'});
-/*]]>*/
+    /*<![CDATA[*/
+    jQuery('#pretty_photo a').attr('rel', 'prettyPhoto');
+    jQuery('a[rel^="prettyPhoto"]').prettyPhoto({'opacity': 0.6, 'modal': true, 'theme': 'facebook'});
+    /*]]>*/
 </script>
