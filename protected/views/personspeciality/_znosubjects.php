@@ -10,7 +10,7 @@
     <?php 
 $config_dd = array('class'=>"span12");
 if ($model->EntranceTypeID == 2 ) {
-    $config_dd["disabled"]="disabled";
+    //$config_dd["disabled"]="disabled";
     $config_dd["empty"]="";
 }
 if ( $model->EntranceTypeID == 3) {
