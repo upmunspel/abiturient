@@ -73,7 +73,10 @@
  * @property integer $status_submitted - прапорець: вибрати лише зі статусом "до наказу"
  * @property integer $ext_param - 1=> вибрати лише ті дані, що не співпадають з даними із edbo_data,
  *                                2=> вибрати лише ті дані, у яких немає зв"язку із таблицею edbo_data,
- *                                3=> вибрати дані, у яких є зв"язок із таблицею edbo_data;
+ *                                3=> вибрати дані, у яких є зв"язок із таблицею edbo_data,
+ *                                4=> Неспівпадання з даними ЄДЕБО : лише копія/оригінал,
+ *                                5=> Неспівпадання з даними ЄДЕБО : лише бали (зн. документа),
+ *                                6=> Неспівпадання з даними ЄДЕБО : лише відмітки пільгового вступу,
  * @property integer $page_size - кількість записів, що відображаються на одній сторінці
  * @property string $DocTypes - типи документів (розділені через ;)
  * @property string $BenefitList - дані про пільги (розділені через ;;)
@@ -525,13 +528,15 @@ class Personspeciality extends ActiveRecord {
     //пошук факультету з використанням частини рядка його назви
     $criteria->compare('facultet.FacultetFullName', $this->searchFaculty->FacultetFullName,true);
     
-    //якщо встановлений прапорець, щоб шукати лише неточності (неспівпадання у нас і даними ЄДЕБО)
-    if ($this->ext_param == 1){
+    switch ($this->ext_param){
+      case 1: 
+      //якщо встановлений прапорець, щоб шукати лише неточності (неспівпадання у нас і даними ЄДЕБО)
       // тоді додаткові умови ::
       //  щоб відмітка у документі (атестат або диплом) не співпадала
       //  щоб відмітка першочерговості не співпадала
       //  щоб відмітка позаконкурсного вступу не співпадала
       //  щоб відмітка вступу за цільовим направленням не співпадала
+      //  щоб відмітка копії/оригінала не співпадала
       /*
       Вставити в умову, якщо потрібно вибрати неточності по першочерговості вступу
       OR (edbo.PriorityEntry <> IF(((SELECT MAX(b.isPV) FROM personbenefits pb LEFT JOIN benefit b ON pb.BenefitID = b.idBenefit 
@@ -540,22 +545,57 @@ class Personspeciality extends ActiveRecord {
           WHERE t.PersonID=pb.PersonID AND b.isPV IS NOT NULL))))
       */
       $criteria->addCondition('(
-      (concat_ws(\' \',trim(person.LastName),trim(person.FirstName),person.MiddleName) NOT LIKE edbo.PIB)
-      
-      OR (edbo.DocPoint NOT IN ((SELECT documents.AtestatValue FROM documents WHERE documents.PersonID = t.PersonID 
-        AND documents.AtestatValue IS NOT NULL))) 
+        (concat_ws(\' \',trim(person.LastName),trim(person.FirstName),person.MiddleName) NOT LIKE edbo.PIB)
+        
+        OR (edbo.DocPoint NOT IN ((SELECT documents.AtestatValue FROM documents WHERE documents.PersonID = t.PersonID 
+          AND documents.AtestatValue IS NOT NULL))) 
 
-      OR (edbo.Benefit <> IF(((SELECT MAX(b.isPZK) FROM personbenefits pb LEFT JOIN benefit b ON pb.BenefitID = b.idBenefit 
-        WHERE t.PersonID=pb.PersonID AND b.isPZK IS NOT NULL )) IS NULL, 0, 
-        ((SELECT MAX(b.isPZK) FROM personbenefits pb LEFT JOIN benefit b ON pb.BenefitID = b.idBenefit 
-          WHERE t.PersonID=pb.PersonID AND b.isPZK IS NOT NULL ))))
+        OR (edbo.Benefit <> IF(((SELECT MAX(b.isPZK) FROM personbenefits pb LEFT JOIN benefit b ON pb.BenefitID = b.idBenefit 
+          WHERE t.PersonID=pb.PersonID AND b.isPZK IS NOT NULL )) IS NULL, 0, 
+          ((SELECT MAX(b.isPZK) FROM personbenefits pb LEFT JOIN benefit b ON pb.BenefitID = b.idBenefit 
+            WHERE t.PersonID=pb.PersonID AND b.isPZK IS NOT NULL ))))
 
-      OR (edbo.Quota=0 AND t.Quota1=1)
-      OR (edbo.Quota=1 AND (t.Quota1 IS NULL OR t.Quota1 = 0))
-      
-      OR (edbo.OD=1 AND t.isCopyEntrantDoc=1)
-      OR (edbo.OD=0 AND (t.isCopyEntrantDoc IS NULL OR t.isCopyEntrantDoc = 0))
-   )');
+        OR (edbo.Quota=0 AND t.Quota1=1)
+        OR (edbo.Quota=1 AND (t.Quota1 IS NULL OR t.Quota1 = 0))
+        
+        OR (edbo.OD=1 AND t.isCopyEntrantDoc=1)
+        OR (edbo.OD=0 AND (t.isCopyEntrantDoc IS NULL OR t.isCopyEntrantDoc = 0)))'
+      );
+      break;
+      case 4: 
+      //якщо встановлений прапорець, щоб шукати лише неточності в оригіналах
+      // тоді додаткові умови ::
+      //  щоб відмітка копії/оригінала не співпадала
+      $criteria->addCondition('(
+       (edbo.OD=1 AND t.isCopyEntrantDoc=1)
+          OR (edbo.OD=0 AND (t.isCopyEntrantDoc IS NULL OR t.isCopyEntrantDoc = 0)))'
+      );
+      break;
+      case 5: 
+      //якщо встановлений прапорець, щоб шукати лише неточності в балах
+      // тоді додаткові умови ::
+      //  щоб відмітка у документі (атестат або диплом) не співпадала
+      $criteria->addCondition('(
+        (edbo.DocPoint NOT IN ((SELECT documents.AtestatValue FROM documents WHERE documents.PersonID = t.PersonID 
+          AND documents.AtestatValue IS NOT NULL))))'
+      );
+      break;
+      case 6: 
+      //якщо встановлений прапорець, щоб шукати лише неточності у відмітках пільгового вступу
+      // тоді додаткові умови ::
+      //  ??????щоб відмітка першочерговості не співпадала
+      //  щоб відмітка позаконкурсного вступу не співпадала
+      //  щоб відмітка вступу за цільовим направленням не співпадала
+      $criteria->addCondition('(
+        (edbo.Benefit <> IF(((SELECT MAX(b.isPZK) FROM personbenefits pb LEFT JOIN benefit b ON pb.BenefitID = b.idBenefit 
+          WHERE t.PersonID=pb.PersonID AND b.isPZK IS NOT NULL )) IS NULL, 0, 
+          ((SELECT MAX(b.isPZK) FROM personbenefits pb LEFT JOIN benefit b ON pb.BenefitID = b.idBenefit 
+            WHERE t.PersonID=pb.PersonID AND b.isPZK IS NOT NULL ))))
+
+        OR (edbo.Quota=0 AND t.Quota1=1)
+        OR (edbo.Quota=1 AND (t.Quota1 IS NULL OR t.Quota1 = 0)))'
+      );
+      break;
     }
     
     if ($rating_order_mode){
