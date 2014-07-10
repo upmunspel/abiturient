@@ -55,7 +55,7 @@ class WebUser extends CWebUser {
         if ($spec->QualificationID > 1){
             return "http://".$ip.":8080/request_report-1.0/magistr.jsp?PersonID=$personid&PersonSpecialityID=$specid&TechSecName=".$TechSecName."&iframe=true&width=1024&height=600";
         } else {
-            return "http://".$ip.":8080/request_report-1.0/bachelor.jsp?PersonID=$personid&PersonSpecialityID=$specid&TechSecName=".$TechSecName."&iframe=true&width=1024&height=600";
+            return "http://".$ip.":8080/request_report-1.0-test/bachelor.jsp?PersonID=$personid&PersonSpecialityID=$specid&TechSecName=".$TechSecName."&iframe=true&width=1024&height=600";
         }
         return "";
     }
