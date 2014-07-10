@@ -74,7 +74,7 @@ $this->widget('bootstrap.widgets.TbGroupGridView', array(
                 //array('name'=>'DocumentSubject2Value', 'htmlOptions'=>array('style'=>'width: 50px'),),   
                 //array('name'=>'DocumentSubject3Value', 'htmlOptions'=>array('style'=>'width: 50px'),),   
     
-              //array('name'=>'AtestatValue', 'htmlOptions'=>array('style'=>'width: 50px'),),   
+                array('name'=>'AtestatValue', 'htmlOptions'=>array('style'=>'width: 50px'),),   
 		
 		/*
 		'isBudget',
