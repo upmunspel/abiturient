@@ -29,6 +29,8 @@ class PersonSpecialityView extends CActiveRecord
 	 * @param string $className active record class name.
 	 * @return PersonSpecialityView the static model class
 	 */
+        public $Facultet;
+        
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
@@ -98,7 +100,7 @@ class PersonSpecialityView extends CActiveRecord
 			array('CreateDate, Birthday, isCopyEntrantDoc, AtestatValue,  DocumentSubject1Value,  DocumentSubject2Value,  DocumentSubject3Value, CoursedpID, OlympiadID, OlympiadID', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('idPersonSpeciality, CreateDate, idPerson, Birthday, FIO, isContract, isBudget, SpecCodeName, QualificationID, CourseID, RequestNumber, PersonRequestNumber, CoursedpID, OlympiadID, RequestFromEB, SepcialityID, EducationFormID', 'safe', 'on'=>'search'),
+			array('idPersonSpeciality, CreateDate, idPerson, Birthday, FIO, isContract, isBudget, SpecCodeName, QualificationID, CourseID, RequestNumber, PersonRequestNumber, CoursedpID, OlympiadID, RequestFromEB, SepcialityID, EducationFormID, Facultet', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -114,6 +116,7 @@ class PersonSpecialityView extends CActiveRecord
                       'olympiad'=> array(self::BELONGS_TO, 'Olympiadsawards', 'OlympiadID'),
                       'qualification'=> array(self::BELONGS_TO, 'Qualifications', 'QualificationID'),
                       'educationform'=>array(self::BELONGS_TO, 'Personeducationforms', 'EducationFormID'),
+                      'speciality'=>array(self::BELONGS_TO, 'Specialities', "SepcialityID")
 		);
 	}
         
@@ -147,6 +150,7 @@ class PersonSpecialityView extends CActiveRecord
                     "RequestFromEB"=>"Ел. заява",
                     "SepcialityID"=>"Спеціальність",
                     "EducationFormID"=>"Форма",
+                    "Facultet"=>"Факультет",
 		);
 	}
 
@@ -165,7 +169,8 @@ class PersonSpecialityView extends CActiveRecord
                 $user = Yii::app()->user->getUserModel();
                 
 		$criteria=new CDbCriteria;
-
+                
+                
                
 		$criteria->compare('idPersonSpeciality',$this->idPersonSpeciality);
 		$criteria->compare('CreateDate',$this->CreateDate,true);
@@ -211,7 +216,14 @@ class PersonSpecialityView extends CActiveRecord
                 $user = Yii::app()->user->getUserModel();
                 
 		$criteria=new CDbCriteria;
-
+                $in = array();
+                if (!empty($this->Facultet)){
+                    $inspec = Specialities::model()->findAll("FacultetID = ".$this->Facultet);
+                   foreach( $inspec as $item){
+                       $in[] = $item->idSpeciality; 
+                   }
+                }
+                //Yii::log(print_r($in,1));
                
 		$criteria->compare('idPersonSpeciality',$this->idPersonSpeciality);
 		$criteria->compare('CreateDate',$this->CreateDate,true);
@@ -234,7 +246,9 @@ class PersonSpecialityView extends CActiveRecord
                 $criteria->compare('EducationFormID',$this->EducationFormID);
                 $criteria->addCondition('StatusID<>10');
                 $criteria->addCondition('StatusID<>3');
-                
+                if (!empty($in)){
+                    $criteria->addInCondition("SepcialityID", $in);
+                }
                 
                 $criteria->compare('AtestatValue',$this->AtestatValue);
               
