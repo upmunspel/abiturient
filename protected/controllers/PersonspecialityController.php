@@ -204,9 +204,9 @@ class PersonspecialityController extends Controller {
                 $model->Exam3Ball = null;
                 $model->CausalityID = null;
             } elseif (intval($model->EntranceTypeID) == 2) {
-                $model->DocumentSubject1 = null;
-                $model->DocumentSubject2 = null;
-                $model->DocumentSubject3 = null;
+//                $model->DocumentSubject1 = null;
+//                $model->DocumentSubject2 = null;
+//                $model->DocumentSubject3 = null;
             }
 
             $valid = $model->validate() && $valid;
@@ -330,9 +330,9 @@ class PersonspecialityController extends Controller {
                 $model->Exam3Ball = null;
                 $model->CausalityID = null;
             } elseif (intval($model->EntranceTypeID) == 2) {
-                $model->DocumentSubject1 = null;
-                $model->DocumentSubject2 = null;
-                $model->DocumentSubject3 = null;
+//                $model->DocumentSubject1 = null;
+//                $model->DocumentSubject2 = null;
+//                $model->DocumentSubject3 = null;
             }
             $valid = $model->validate() && $valid;
             try {
