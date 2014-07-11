@@ -192,14 +192,14 @@ class Person extends ActiveRecord {
         return array(
             array('HomeNumber,  PostIndex, Address,
                                 FirstName, LastName, FirstNameR, 
-                                LastNameR, LanguageID', 'required'),
+                                LastNameR, LanguageID, koatu', 'required'),
             array('PersonSexID, KOATUUCodeL1ID, KOATUUCodeL2ID, 
                                 KOATUUCodeL3ID, IsResident, PersonEducationTypeID, StreetTypeID, SchoolID, LanguageID, CountryID', 'numerical', 'integerOnly' => true),
             array('FirstName, MiddleName, LastName, FirstNameR, MiddleNameR, LastNameR, codeU, FirstNameEn, MiddleNameEn, LastNameEn', 'length', 'max' => 100),
             array('codeU, edboID', "unique", "allowEmpty" => 'true'),
             array('Address, PhotoName', 'length', 'max' => 250),
             array('HomeNumber, PostIndex', 'length', 'max' => 10),
-            array('Birthday, BirthPlace, isCampus, isSamaSchoolAddrk, CreateDate, isSamaSchoolAddr, koatu, Housing, Apartment,', 'safe'),
+            array('Birthday, BirthPlace, isCampus, isSamaSchoolAddrk, CreateDate, isSamaSchoolAddr, Housing, Apartment,', 'safe'),
             //array('Birthday', 'date', "format"=>'dd.MM.yyyy', 'allowEmpty'=>true ),
             //
 			// The following rule is used by search().
