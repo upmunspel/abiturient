@@ -49,7 +49,7 @@
 <?php $this->endWidget(); ?>
 
 <?php if (!empty($searchres)): ?>
- <h4>Результати пошуку у базі ЄДБО за серією та номером документа</h4>   
+ <h4>Результати пошуку у базі ЄДБО за серією та номером документа або ФІО</h4>   
     
 <?php $data = new CArrayDataProvider($searchres);
 $data->keyField = "idPerson";
