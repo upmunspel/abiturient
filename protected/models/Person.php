@@ -285,7 +285,7 @@ class Person extends ActiveRecord {
                 $this->IsResident = 1;
             }
         }
-
+        if ($this->edboID == 0) $this->edboID = "";
         parent::beforeSave();
         return true;
     }
