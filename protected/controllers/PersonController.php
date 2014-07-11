@@ -120,7 +120,13 @@ class PersonController extends Controller {
         
             try {
                 if ($findRes == 0) {
+                    $fio = trim($_POST['search']['fio']);
+                    if (empty($fio)){
                     $res = WebServices::findPerson($_POST['search']['series'], $_POST['search']['number']);
+                    } else {
+                       $res = WebServices::findPersonByFio($_POST['search']['fio']); 
+                        
+                    }
                     $searchRes = Person::JsonDataAsArray($res);
                 } else {
                     Yii::app()->user->setFlash("message", "Персона вже існує в системі з кодом $findRes");

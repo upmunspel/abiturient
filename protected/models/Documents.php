@@ -121,6 +121,9 @@ class Documents extends ActiveRecord {
         } else {
             $this->DateGet = NULL;
         }
+        if (!empty($this->ZNOPin)){
+            $this->ZNOPin = str_pad($this->ZNOPin, 4, "0", STR_PAD_LEFT);
+        }
         parent::afterFind();
         return true;
     }

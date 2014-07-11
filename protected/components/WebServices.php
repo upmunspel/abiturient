@@ -76,18 +76,18 @@ class WebServices {
      * @throws Exception
      */
     public static function findPerson($series, $number) {
-
+   
         if (!Yii::app()->user->checkAccess("wsAllowSearch")) {
             throw new Exception(WebServices::$MSG_EDBO_SEARCH_DENY . "asdsa");
         }
         $srv = Yii::app()->user->getEdboSearchUrl() ;
         //Yii::log($srv);
-        $series = trim($series);
+        $series = "";//trim($series);
         $number = trim($number);
         $script = "search.jsp?series=$series&number=$number";
         try {
             if (empty($series) && empty($number)) {
-                throw new Exception("Відсутні параметри для пошуку111!");
+                throw new Exception("Відсутні параметри для пошуку!");
             }
             $ctx = stream_context_create(array('http' => array('timeout' => WebServices::$requestTimeout)));
             $res = @file_get_contents($srv . $script, 0, $ctx);
@@ -103,6 +103,56 @@ class WebServices {
         } catch (Exception $ex) {
             if (defined('YII_DEBUG')) {
                 Yii::log($ex->getMessage(), CLogger::LEVEL_INFO, 'WebServices::findPerson');
+            }
+            throw $ex;
+        }
+
+
+        return $res;
+    }
+    
+    public static function findPersonByFio($fio) {
+   
+        if (!Yii::app()->user->checkAccess("wsAllowSearch")) {
+            throw new Exception(WebServices::$MSG_EDBO_SEARCH_DENY . "asdsa");
+        }
+        $srv = Yii::app()->user->getEdboSearchUrl() ;
+      
+        $fio= trim($fio);
+        $script = "search_by_fio.jsp";
+        $params = array(
+            "fio" => $fio,
+        );
+        try {
+            if (empty($fio)) {
+                
+                throw new Exception("Відсутні параметри для пошуку!");
+            }
+            $client = new EHttpClient($srv.$script, array('maxredirects' => 30, 'timeout' => 5,));
+            $client->setParameterPost($params);
+            $response = $client->request(EHttpClient::POST);
+
+            if ($response->isSuccessful()) {
+              
+                $res = $response->getBody();
+                
+            } else {
+                throw new Exception(WebServices::$MSG_EDBO_ERROR);
+            }
+            
+          
+            if ($res === false) {
+                throw new Exception(WebServices::$MSG_EDBO_ERROR);
+            }
+            ///Yii::log($srv.$script.$res);
+            $error = CJSON::decode($res);
+
+            if (is_array($error) && isset($error['error'])) {
+                throw new Exception($error['error']);
+            }
+        } catch (Exception $ex) {
+            if (defined('YII_DEBUG')) {
+                Yii::log($ex->getMessage(), CLogger::LEVEL_INFO, 'WebServices::findPersonByFio');
             }
             throw $ex;
         }

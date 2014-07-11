@@ -26,6 +26,16 @@
     </div>
 </div>
 <hr>
+<h4>Пошук абітурієнта за ФІО</h4>
+<div class="row-fluid form">
+    <div class="span12">
+        <?php echo CHtml::label("Фио:","search[fio]");?>
+	<?php echo CHtml::textField("search[fio]","",array("class"=>"span12"));?>
+    </div>
+    
+</div>
+Поиск персон по маске ФИО в базе ЕДБО. При этом латинские символы c, C, i, I и кириллические символы с, С, і, І меняются на ? (знак вопроса - произвольный символ); пробелы на * - произвольный набор символов. 
+<hr>
 <div class="row-fluid form">
     <div class="span2">
         <?php $this->widget('bootstrap.widgets.TbButton', array(
