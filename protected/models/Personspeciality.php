@@ -486,7 +486,8 @@ class Personspeciality extends ActiveRecord {
         $this->isBudget = $data->isBudget;
         $this->isContract = $data->isContract;
         $this->isNeedHostel = $data->isNeedHostel;
-        $this->StatusID = $data->idPersonRequestStatusTypeName;
+        $this->StatusID = $data->idPersonRequestStatusType;
+        Yii::log($this->StatusID);
         $doc = Documents::model()->find("edboID=".$data->idPersonDocument);
         if (empty($doc)) {
             throw new Exception("Документ для вступу відсутный або не синхронізований!");
@@ -527,7 +528,7 @@ class Personspeciality extends ActiveRecord {
         $doc = Documents::model()->find("edboID=".$s1->idPersonDocument);
         $subj1 = Documentsubject::model()->find("DocumentID = {$doc->idDocuments} and SubjectID = {$s1->idSubject}");
         $this->DocumentSubject3 = $subj1->idDocumentSubject;
-        //Yii::log(print_r($this->DocumentSubject1.$this->DocumentSubject2.$this->DocumentSubject3,1));
+        Yii::log(print_r($this->DocumentSubject1." ".$this->DocumentSubject2." ".$this->DocumentSubject3,1));
         
     }
 
