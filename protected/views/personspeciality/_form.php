@@ -254,6 +254,13 @@
                 </div>
             </div>
 
+            <div class="row-fluid">
+                <div class="span12">
+                    <?php //echo $form->labelEx($model, 'CoursedpDocument'); ?>
+                    <?php echo $form->textField($model, 'CoursedpDocument', array('class' => "span12", "placeholder"=>$model->getAttributeLabel("CoursedpDocument"))); ?>
+                    <?php //echo $form->error($model,'AdditionalBall');   ?>
+                </div>
+            </div>
 
 
             <div class="row-fluid">

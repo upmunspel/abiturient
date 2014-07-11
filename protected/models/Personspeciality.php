@@ -15,6 +15,7 @@
  * @property integer $CourseID
  * @property integer $CausalityID
  * @property integer $CoursedpID
+ * @property string  $CoursedpDocument
  * @property integer $OlympiadID
  * @property integer $GraduatedUniversitieID
  * @property integer $GraduatedSpecialitieID
@@ -398,6 +399,7 @@ class Personspeciality extends ActiveRecord {
             "StatusID" => "Статус заявки",
             "benefits" => "Пільги",
             "LanguageExID" => "Іноземна мова",
+            "CoursedpDocument"=>"Серія номер та ким виданий документ",
         );
     }
 
