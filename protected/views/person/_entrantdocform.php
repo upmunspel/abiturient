@@ -18,21 +18,21 @@
     </div>    
     <div class ="span1">
         <?php echo $form->labelEx($model,'[entrantdoc]Series'); ?>
-        <?php echo $form->textField($model,'[entrantdoc]Series',array('class'=>'span12 series','maxlength'=>10)); ?>
+        <?php echo $form->textField($model,'[entrantdoc]Series',array('class'=>'span12 series','maxlength'=>10, 'readonly'=>!empty($model->edboID)?"readonly":"" )); ?>
     </div>    
     <div class ="span2">
         <?php echo $form->labelEx($model,'[entrantdoc]Numbers'); ?>
-        <?php echo $form->textField($model,'[entrantdoc]Numbers',array('class'=>'span12','maxlength'=>15)); ?>
+        <?php echo $form->textField($model,'[entrantdoc]Numbers',array('class'=>'span12','maxlength'=>15, 'readonly'=>!empty($model->edboID)?"readonly":"")); ?>
     </div>    
     <div class ="span2">
         <?php echo $form->labelEx($model,'[entrantdoc]DateGet'); ?>
-        <?php echo $form->textField($model,'[entrantdoc]DateGet', array('class'=>'span12 datepicker')); ?>
+        <?php echo $form->textField($model,'[entrantdoc]DateGet', array('class'=>empty($model->edboID)?"span12 datepicker":"span12", 'readonly'=>!empty($model->edboID)?"readonly":"")); ?>
         <?php //echo $form->textFieldRow($model,'ZNOPin',array('class'=>'span5')); ?>
         <?php //echo $form->textFieldRow($model,'AtestatValue',array('class'=>'span5','maxlength'=>10)); ?>
     </div> 
     <div class ="span2">
         <?php echo $form->labelEx($model,'[entrantdoc]AtestatValue'); ?>
-        <?php echo $form->textField($model,'[entrantdoc]AtestatValue', array('class'=>'span12')); ?>
+        <?php echo $form->textField($model,'[entrantdoc]AtestatValue', array('class'=>'span12', 'readonly'=>!empty($model->edboID)?"readonly":"")); ?>
         <?php //echo $form->textFieldRow($model,'ZNOPin',array('class'=>'span5')); ?>
         <?php //echo $form->textFieldRow($model,'AtestatValue',array('class'=>'span5','maxlength'=>10)); ?>
     </div> 
@@ -42,7 +42,7 @@
     <?php if (!($user->syspk->QualificationID == 2 || $user->syspk->QualificationID == 3) ) :?>
         <div class ="span11">
             <?php echo $form->labelEx($model,'[entrantdoc]Issued'); ?>
-            <?php echo $form->textField($model,'[entrantdoc]Issued',array('class'=>'span12 entrantissued','maxlength'=>250)); ?>
+            <?php echo $form->textField($model,'[entrantdoc]Issued',array('class'=>'span12 entrantissued','maxlength'=>250, 'readonly'=>!empty($model->edboID)?"readonly":"")); ?>
         </div> 
     <?php else: ?>
         <div class ="span12">
@@ -52,7 +52,7 @@
         }
         //debug($model->Issued );
         echo $form->labelEx($model,'[entrantdoc]Issued'); 
-        echo $form->textField($model,'[entrantdoc]Issued',array('class'=>'span12 entrantissued','maxlength'=>250)); ?>
+        echo $form->textField($model,'[entrantdoc]Issued',array('class'=>'span12 entrantissued','maxlength'=>250, 'readonly'=>!empty($model->edboID)?"readonly":"")); ?>
         <?php  /*$this->widget('bootstrap.widgets.TbTypeahead', array(
                     'name'=>  CHtml::activeName($model,'[entrantdoc]Issued'),
                     'htmlOptions'=>array("class"=>"span12"),

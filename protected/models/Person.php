@@ -722,9 +722,9 @@ class Person extends ActiveRecord {
             "entrantDocumentIdMySql" => $this->getEntrantdoc()->idDocuments,
             "personalDocumentIdMySql" => $this->getPersondoc()->idDocuments
         );
-        //Yii::log("ID =  ".$this->idPerson);
-        //Yii::log("E = ".$this->getEntrantdoc()->idDocuments);
-        //Yii::log("P = ".$this->getPersondoc()->idDocuments);
+        Yii::log("ID =  ".$this->idPerson);
+        Yii::log("E = ".$this->getEntrantdoc()->idDocuments);
+        Yii::log("P = ".$this->getPersondoc()->idDocuments);
 //            debug($this->idPerson);
 //            debug($this->entrantdoc->idDocuments);
         try {
