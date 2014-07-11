@@ -72,7 +72,6 @@ class Personspeciality extends ActiveRecord {
     public $isCopyEntrantDoc = 1;
     public $benefits = array();
 
-
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
@@ -142,24 +141,22 @@ class Personspeciality extends ActiveRecord {
                                Exam1ID, Exam1Ball, Exam2ID, Exam2Ball,
                                Exam3ID, Exam3Ball, isHigherEducation, SkipDocumentValue', 'numerical', 'integerOnly' => true),
             array("AdditionalBallComment,  CoursedpID, Quota1,Quota2, OlympiadID, isNotCheckAttestat, isForeinghEntrantDocument, PersonDocumentsAwardsTypesID, edboID, RequestFromEB, StatusID, benefits", 'safe'),
-            
             // SHORTFORM
             array("Exam1ID", 'required', 'on' => "SHORTFORM"),
             array("EntrantDocumentID", 'valididateEntrantDoc', 'on' => "SHORTFORM"),
             array("Exam2ID", 'valididateExam', 'on' => "SHORTFORM"),
             array("EntranceTypeID", "required", "except" => "SHORTFORM"),
             //array("CausalityID",  "default", "value"=>100,"except"=>"SHORTFORM"),
-            
             array("Exam1Ball, Exam2Ball, Exam3Ball", 'numerical',
                 "max" => 200, "min" => 0, "allowEmpty" => true, 'except' => 'ZNOEXAM, EXAM'),
             array("AdditionalBall, CoursedpBall", 'numerical',
                 "max" => 200, "min" => 0, "allowEmpty" => true),
             array('PersonID, SepcialityID,  EducationFormID, 
                                QualificationID,  CourseID, isContract, 
-                               isCopyEntrantDoc, EntrantDocumentID, isNeedHostel', "required"),
+                               isCopyEntrantDoc, EntrantDocumentID, isNeedHostel, LanguageExID', "required"),
             array("DocumentSubject1, DocumentSubject2, DocumentSubject3", "required", "on" => "ZNO"),
-           // array("Exam1ID, Exam2ID, Exam3ID, CausalityID", "required", "on" => "EXAM"),
-           // array("Exam1Ball, Exam2Ball, Exam3Ball", 'numerical', "max" => 200, "min" => 1,  /*"allowEmpty" => true,*/ "valididateZnoExam", "on" => "EXAM"),
+            // array("Exam1ID, Exam2ID, Exam3ID, CausalityID", "required", "on" => "EXAM"),
+            // array("Exam1Ball, Exam2Ball, Exam3Ball", 'numerical', "max" => 200, "min" => 1,  /*"allowEmpty" => true,*/ "valididateZnoExam", "on" => "EXAM"),
             array("CausalityID", "required", "on" => "ZNOEXAM, EXAM"),
             array("Exam1ID, Exam2ID, Exam3ID, DocumentSubject1, DocumentSubject2, DocumentSubject3", "valididateZnoExam", "on" => "EXAM"),
             array("Exam1ID, Exam2ID, Exam3ID, DocumentSubject1, DocumentSubject2, DocumentSubject3", "valididateZnoExam", "on" => "ZNOEXAM"),
@@ -170,34 +167,34 @@ class Personspeciality extends ActiveRecord {
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('idPersonSpeciality, PersonID, SepcialityID,  EducationFormID, QualificationID, EntranceTypeID, CourseID, CausalityID, isContract, AdditionalBall, isCopyEntrantDoc, DocumentSubject1, DocumentSubject2, DocumentSubject3, Exam1ID, Exam1Ball, Exam2ID, Exam2Ball, Exam3ID, Exam3Ball', 'safe', 'on' => 'search'),
-            array('CustomerName,DocCustumer,AcademicSemesterID,CustomerAddress,CustomerPaymentDetails,DateОfСontract,PaymentDate, LanguageExID, CoursedpDocument', 'safe'),
+            array('CustomerName,DocCustumer,AcademicSemesterID,CustomerAddress,CustomerPaymentDetails,DateОfСontract,PaymentDate,  CoursedpDocument', 'safe'),
             array('PersonID+SepcialityID+StatusID', 'ext.uniqueMultiColumnValidator', 'message' => "Заявка на дану спеціальність вже додано!"),
         );
     }
 
     public function valididateEntrantDoc($attributes) {
-        if (!empty($this->EntrantDocumentID)){
+        if (!empty($this->EntrantDocumentID)) {
             $doc = Documents::model()->findByPk($this->EntrantDocumentID);
-            
+
             if (empty($doc->PersonBaseSpecealityID)) {
-                 $this->addError($attributes, "Не вказано базовий напрям піготовки документа!");
+                $this->addError($attributes, "Не вказано базовий напрям піготовки документа!");
             }
         }
         return true;
     }
+
     public function valididateExam($attributes) {
-        if ($this->QualificationID == 2 && empty($this->Exam2ID)){
-           
-                 $this->addError($attributes, "Предмет не може бути порожнім!");
-            
+        if ($this->QualificationID == 2 && empty($this->Exam2ID)) {
+
+            $this->addError($attributes, "Предмет не може бути порожнім!");
         }
-        if ($this->QualificationID == 3 && !empty($this->Exam2ID)){
-           
-                 $this->addError($attributes, "Предмет повинен бути порожнім!");
-            
+        if ($this->QualificationID == 3 && !empty($this->Exam2ID)) {
+
+            $this->addError($attributes, "Предмет повинен бути порожнім!");
         }
         return true;
     }
+
     public function valididateZnoExam($attributes) {
         switch ($attributes) {
             case "DocumentSubject1":
@@ -287,7 +284,7 @@ class Personspeciality extends ActiveRecord {
 
         return parent::beforeSave();
     }
-        
+
     public function afterSave() {
 
         // Сохраняем массив льгот привязанных к специальности
@@ -317,8 +314,8 @@ class Personspeciality extends ActiveRecord {
             $this->benefits[] = $item->PersonBenefitID;
         }
         //if ($this->isNewRecord || empty($this->LanguageID) )    $this->LanguageID = $this->person->LanguageID; 
-        
-        
+
+
         return parent::afterFind();
     }
 
@@ -400,7 +397,7 @@ class Personspeciality extends ActiveRecord {
             "StatusID" => "Статус заявки",
             "benefits" => "Пільги",
             "LanguageExID" => "Іноземна мова",
-            "CoursedpDocument"=>"Серія номер та ким виданий документ",
+            "CoursedpDocument" => "Серія номер та ким виданий документ",
         );
     }
 
@@ -472,15 +469,15 @@ class Personspeciality extends ActiveRecord {
           }
           } */
     }
-    
-    public function loadRequestFromJsqon($jsondata, $sbj){
+
+    public function loadRequestFromJsqon($jsondata, $sbj) {
         $data = CJSON::decode($jsondata);
         if (empty($data)) {
             throw new Exception("Заявку не знайдено!");
         }
-        
-        
-        $data = (object)$data[0];
+
+
+        $data = (object) $data[0];
         $this->RequestFromEB = 1;
         $this->edboID = $data->idPersonRequest;
         $this->isBudget = $data->isBudget;
@@ -488,48 +485,50 @@ class Personspeciality extends ActiveRecord {
         $this->isNeedHostel = $data->isNeedHostel;
         $this->StatusID = $data->idPersonRequestStatusType;
         Yii::log($this->StatusID);
-        $doc = Documents::model()->find("edboID=".$data->idPersonDocument);
+        $doc = Documents::model()->find("edboID=" . $data->idPersonDocument);
         if (empty($doc)) {
             throw new Exception("Документ для вступу відсутный або не синхронізований!");
         }
         $this->EntrantDocumentID = $doc->idDocuments;
         $this->EducationFormID = $data->idPersonEducationForm;
         $this->QualificationID = $data->idQualification;
-        $spec = Specialities::model()->find("SpecialityKode = '".$data->universitySpecialitiesKode."'");
+        $spec = Specialities::model()->find("SpecialityKode = '" . $data->universitySpecialitiesKode . "'");
         if (empty($spec)) {
-             throw new Exception("Пропозиція відсутня");
-             //$this->SepcialityID = 153677;
+            throw new Exception("Пропозиція відсутня");
+            //$this->SepcialityID = 153677;
         } else {
-        $this->SepcialityID = $spec->idSpeciality;
-        
+            $this->SepcialityID = $spec->idSpeciality;
         }
         Yii::log($this->SepcialityID);
         $this->LanguageExID = $data->idLanguageEx;
         $this->EntranceTypeID = $data->idPersonEnteranceTypes;
         $this->CausalityID = $data->idPersonRequestExaminationCause;
         $this->SkipDocumentValue = $data->skipDocumentValue;
-        
+
         // Load subjects
         $sdata = CJSON::decode($sbj);
         if (empty($data)) {
             throw new Exception("Не задано передмети!");
         }
-        $s1 = (object)$sdata[0];
-        $doc = Documents::model()->find("edboID=".$s1->idPersonDocument);
-        $subj1 = Documentsubject::model()->find("DocumentID = {$doc->idDocuments} and SubjectID = {$s1->idSubject}");
-        $this->DocumentSubject1 = $subj1->idDocumentSubject;
-       
-        $s1 = (object)$sdata[1];
-        $doc = Documents::model()->find("edboID=".$s1->idPersonDocument);
-        $subj1 = Documentsubject::model()->find("DocumentID = {$doc->idDocuments} and SubjectID = {$s1->idSubject}");
-        $this->DocumentSubject2 = $subj1->idDocumentSubject;
-         
-        $s1 = (object)$sdata[2];
-        $doc = Documents::model()->find("edboID=".$s1->idPersonDocument);
-        $subj1 = Documentsubject::model()->find("DocumentID = {$doc->idDocuments} and SubjectID = {$s1->idSubject}");
-        $this->DocumentSubject3 = $subj1->idDocumentSubject;
-        Yii::log(print_r($this->DocumentSubject1." ".$this->DocumentSubject2." ".$this->DocumentSubject3,1));
-        
+        if (!empty($sdata[0])) {
+            $s1 = (object) $sdata[0];
+            $doc = Documents::model()->find("edboID=" . $s1->idPersonDocument);
+            $subj1 = Documentsubject::model()->find("DocumentID = {$doc->idDocuments} and SubjectID = {$s1->idSubject}");
+            $this->DocumentSubject1 = $subj1->idDocumentSubject;
+        }
+        if (!empty($sdata[1])) {
+            $s1 = (object) $sdata[1];
+            $doc = Documents::model()->find("edboID=" . $s1->idPersonDocument);
+            $subj1 = Documentsubject::model()->find("DocumentID = {$doc->idDocuments} and SubjectID = {$s1->idSubject}");
+            $this->DocumentSubject2 = $subj1->idDocumentSubject;
+        }
+        if (!empty($sdata[1])) {
+            $s1 = (object) $sdata[2];
+            $doc = Documents::model()->find("edboID=" . $s1->idPersonDocument);
+            $subj1 = Documentsubject::model()->find("DocumentID = {$doc->idDocuments} and SubjectID = {$s1->idSubject}");
+            $this->DocumentSubject3 = $subj1->idDocumentSubject;
+        }
+        Yii::log(print_r($this->DocumentSubject1 . " " . $this->DocumentSubject2 . " " . $this->DocumentSubject3, 1));
     }
 
 }

@@ -623,7 +623,7 @@ class Person extends ActiveRecord {
                 $model->entrantdoc->ZNOPin = $val->znoPin;
                 $model->entrantdoc->Issued = $val->issued;
             }
-            if ($val->id_Type == 12) {
+            if ($val->id_Type == 12 ) {
                 $model->entrantdoc = new Documents();
                 $model->entrantdoc->TypeID = $val->id_Type;
                 $model->entrantdoc->edboID = $val->id_Document;
@@ -648,7 +648,7 @@ class Person extends ActiveRecord {
                 $model->persondoc->ZNOPin = $val->znoPin;
                 $model->persondoc->Issued = $val->issued;
             }
-            if ($val->id_Type == 3) {
+            if ($val->id_Type == 3 || $val->id_Type == 17) {
                 $model->persondoc = new Documents();
                 $model->persondoc->TypeID = $val->id_Type;
                 $model->persondoc->edboID = $val->id_Document;

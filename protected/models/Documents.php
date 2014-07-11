@@ -295,7 +295,7 @@ class Documents extends ActiveRecord {
                     }
                 }
             }
-            if ($val->id_Type == 11 || $val->id_Type == 12 || $val->id_Type == 13 || $val->id_Type == 2) {
+            if ($val->id_Type == 11 || $val->id_Type == 12 || $val->id_Type == 13 || $val->id_Type == 2 ) {
                 $exdoc = null;//Documents::model()->find("PersonID = ".$personid." and TypeID = ".$val->id_Type);
                 Yii::log($val->id_Type."-".$val->number);
                 if (empty($exdoc)){
