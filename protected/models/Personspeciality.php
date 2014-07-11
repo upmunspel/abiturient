@@ -522,7 +522,7 @@ class Personspeciality extends ActiveRecord {
             $subj1 = Documentsubject::model()->find("DocumentID = {$doc->idDocuments} and SubjectID = {$s1->idSubject}");
             $this->DocumentSubject2 = $subj1->idDocumentSubject;
         }
-        if (!empty($sdata[1])) {
+        if (!empty($sdata[2])) {
             $s1 = (object) $sdata[2];
             $doc = Documents::model()->find("edboID=" . $s1->idPersonDocument);
             $subj1 = Documentsubject::model()->find("DocumentID = {$doc->idDocuments} and SubjectID = {$s1->idSubject}");
