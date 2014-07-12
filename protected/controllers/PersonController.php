@@ -128,6 +128,7 @@ class PersonController extends Controller {
                         
                     }
                     $searchRes = Person::JsonDataAsArray($res);
+                    Yii::app()->session['searchRes'] = $searchRes;
                 } else {
                     Yii::app()->user->setFlash("message", "Персона вже існує в системі з кодом $findRes");
                     $this->redirect(Yii::app()->createUrl("person/update", array("id" => $findRes)));
@@ -135,6 +136,10 @@ class PersonController extends Controller {
             } catch (Exception $e) {
                 Yii::app()->user->setFlash("message", $e->getMessage());
             }
+            
+        }
+        if (isset($_GET['page'])) {
+             $searchRes = Yii::app()->session['searchRes'];
         }
 
         if (isset($_GET['personCodeU'])) {
@@ -154,6 +159,7 @@ class PersonController extends Controller {
                 Yii::app()->user->setFlash("message", $e->getMessage());
             }
         }
+        
 
         if (isset($_POST['Person'])) {
             $model->attributes = $_POST['Person'];

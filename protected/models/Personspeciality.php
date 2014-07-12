@@ -169,6 +169,7 @@ class Personspeciality extends ActiveRecord {
             array('idPersonSpeciality, PersonID, SepcialityID,  EducationFormID, QualificationID, EntranceTypeID, CourseID, CausalityID, isContract, AdditionalBall, isCopyEntrantDoc, DocumentSubject1, DocumentSubject2, DocumentSubject3, Exam1ID, Exam1Ball, Exam2ID, Exam2Ball, Exam3ID, Exam3Ball', 'safe', 'on' => 'search'),
             array('CustomerName,DocCustumer,AcademicSemesterID,CustomerAddress,CustomerPaymentDetails,DateОfСontract,PaymentDate,  CoursedpDocument', 'safe'),
             array('PersonID+SepcialityID+StatusID', 'ext.uniqueMultiColumnValidator', 'message' => "Заявка на дану спеціальність вже додано!"),
+             array('PersonID+SepcialityID+StatusID', 'ext.uniqueMultiColumnValidator', 'message' => "Заявка на дану спеціальність вже додано!"),
         );
     }
 
@@ -178,6 +179,7 @@ class Personspeciality extends ActiveRecord {
 
             if (empty($doc->PersonBaseSpecealityID)) {
                 $this->addError($attributes, "Не вказано базовий напрям піготовки документа!");
+                return false;
             }
         }
         return true;
@@ -187,10 +189,12 @@ class Personspeciality extends ActiveRecord {
         if ($this->QualificationID == 2 && empty($this->Exam2ID)) {
 
             $this->addError($attributes, "Предмет не може бути порожнім!");
+            return false;
         }
         if ($this->QualificationID == 3 && !empty($this->Exam2ID)) {
 
             $this->addError($attributes, "Предмет повинен бути порожнім!");
+            return false;
         }
         return true;
     }

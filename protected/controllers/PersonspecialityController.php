@@ -373,7 +373,7 @@ class PersonspecialityController extends Controller {
                 }
                 $model->StatusID = 10;
                 if (!$model->save()) {
-                    debug(print_r($model->getErrors(), true));
+                   Yii::log(print_r($model->getErrors(), true));
                 }
             } else {
                 Yii::app()->user->setFlash("message", "Заборонено видаляти заявку!");
