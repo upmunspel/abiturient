@@ -38,6 +38,9 @@ class Specialities extends CActiveRecord {
   public $cnt_req_original;
   public $cnt_req_pv;
   public $cnt_req_pzk;
+  public $cnt_req_Donetsk;
+  public $cnt_req_Lugansk;
+  public $cnt_req_Crimea;
   
   public $cnt_requests_from_us;
   public $cnt_requests_from_aliens;

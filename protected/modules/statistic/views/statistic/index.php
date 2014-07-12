@@ -539,7 +539,11 @@ Yii::app()->clientScript->registerPackage('select2');
           'pv'=>'Вступ першочергово',
           'pzk'=>'Вступ поза конкурсом',
           'electro'=>'Електронні заявки',
-          'originals'=>'Оригінали')
+          'originals'=>'Оригінали',
+          'Donetsk' => "Донецька обл.",
+          'Lugansk' => "Луганська обл.",
+          'Crimea' => "Крим",
+            )
         ); 
   ?>
     </div>

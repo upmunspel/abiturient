@@ -659,18 +659,19 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                 $data->edbo = EdboData::model()->findByPk($data->edboID);
               }
               if ($data->edbo){
-                $edboSpecCode = (!$data->edbo->SpecCode)? "none":$data->edbo->SpecCode;
-                $edboSpecialCode = (!$data->edbo->SpecialCode)? "none":$data->edbo->SpecialCode;
-                $edboSpeciality = (!$data->edbo->Speciality)? "none":$data->edbo->Speciality;
+                $edboSpecCode = (!$data->edbo->SpecCode)? "":$data->edbo->SpecCode;
+                $edboSpecialCode = (!$data->edbo->SpecialCode)? "":$data->edbo->SpecialCode;
+                $edboSpeciality = (!$data->edbo->Speciality)? "":$data->edbo->Speciality;
+                $edboSpecialization = (!$data->edbo->Specialization)? "":$data->edbo->Specialization;
                 
-                $spec_code_ok = ((strstr($data->SPEC,$edboSpecCode) !== FALSE) || 
-                  (strstr($data->SPEC,$edboSpecialCode) !== FALSE));
-                  
+                $spec_code_ok = (
+                  (($edboSpecCode)? (strstr($data->SPEC,$edboSpecCode) !== FALSE) : false) || 
+                  (($edboSpecialCode)? (strstr($data->SPEC,$edboSpecialCode) !== FALSE) : false)
+                );
                 $speciality_ok = ($edboSpeciality)? 
                         (strstr($data->SPEC,$edboSpeciality) !== FALSE): true;
-                        
-                $specialization_ok = ($data->edbo->Specialization)? 
-                        (strstr($data->SPEC,$data->edbo->Specialization) !== FALSE): true;
+                $specialization_ok = ($edboSpecialization)? 
+                        (strstr($data->SPEC,$edboSpecialization) !== FALSE): true;
                 $edu_form_ok = (strstr($data->SPEC,$data->edbo->EduForm) !== FALSE);
                 
                 if ($spec_code_ok && $speciality_ok && $specialization_ok && $edu_form_ok){
@@ -714,8 +715,21 @@ $this->widget('bootstrap.widgets.TbGridView', array(
               }
               $color = 'black';
               if ($data->edbo){
-                $color = ($data->NAME == $data->edbo->PIB) ? 'green' : 'red';
-                if ($data->NAME != $data->edbo->PIB){
+                $name_parts = array_diff(explode(' ', $data->NAME),array(''));
+                $edbo_name_parts = array_diff(explode(' ', $data->edbo->PIB),array(''));
+                $name_ok = true;
+                if (count($edbo_name_parts) != count($name_parts)){
+                  $name_ok = false;
+                } else {
+                  foreach ($edbo_name_parts as $nm_part){
+                    if (!in_array($nm_part,$name_parts)){
+                      $name_ok = false;
+                      break;
+                    }
+                  }
+                }
+                $color = ($name_ok) ? 'green' : 'red';
+                if (!$name_ok){
                   echo '<div style=\'color: #BBDDBB; font-size: 8pt;\''
                   . ' title=\'Такі дані в ЄДЕБО.\'>'.$data->edbo->PIB.'</div>';
                 }

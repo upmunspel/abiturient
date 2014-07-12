@@ -8,7 +8,31 @@ class StatController extends Controller {
    */
   //public $layout='//layouts/column2';
   public $defaultAction = 'index';
-
+  public $ip = '10.1.23.223';
+  
+  protected function getKoatuuComparatorQuery($token, $QualificationID, $statuses, $date_segment, $sql_as){
+    $sql_str = '((SELECT COUNT(DISTINCT ps8.idPersonSpeciality) FROM personspeciality ps8 '
+                . 'LEFT JOIN person ON ps8.PersonID=person.idPerson '
+                . 'LEFT JOIN koatuulevel3 k3 ON k3.idKOATUULevel3=person.KOATUUCodeID '
+                . 'LEFT JOIN koatuulevel2 k2 ON k2.idKOATUULevel2=person.KOATUUCodeID '
+                . 'LEFT JOIN koatuulevel1 k1 ON k1.idKOATUULevel1=person.KOATUUCodeID '
+                . ' WHERE '
+                . 'ps8.SepcialityID=t.idSpeciality AND '
+                . 'ps8.QualificationID = ' . $QualificationID . ' AND '
+                . 'ps8.StatusID IN ('.$statuses.') AND '
+                . 'IF('
+                    . 'ISNULL(person.KOATUUCodeID),0,'
+                    . '(IF(k3.KOATUULevel3FullName IS NOT NULL,k3.KOATUULevel3FullName LIKE "%'.$token.'%",0) OR '
+                    . 'IF(k2.KOATUULevel2FullName IS NOT NULL,k2.KOATUULevel2FullName LIKE "%'.$token.'%",0) OR '
+                    . 'IF(k1.KOATUULevel1FullName IS NOT NULL,k1.KOATUULevel1FullName LIKE "%'.$token.'%",0)'
+                    . ')'
+                . ') AND '
+                . 'ps8.CreateDate BETWEEN '
+                . $date_segment
+                . ')) AS '.$sql_as;
+    return $sql_str;
+  }
+  
   /**
    * @return array action filters
    */
@@ -60,8 +84,6 @@ class StatController extends Controller {
     $reqQualificationID = Yii::app()->request->getParam('QualificationID',1);
     $reqDate = Yii::app()->request->getParam('Date',date('d.m.Y'));
     $secname = Yii::app()->request->getParam('secname','_');
-
-    $ip = '10.1.23.223';
 
     $time = strtotime(str_replace('.','-',$reqDate));
     $date = date('Y-m-d',time());
@@ -149,7 +171,7 @@ class StatController extends Controller {
                     '' : ' ('.$spec->SpecialitySpecializationName. ')');
       $cnt_data[$spec->FacultetID][$spec_name][$spec->PersonEducationFormID] = array(
           'eduform' => ($spec->PersonEducationFormID == 1)? 'денна':"заочна",
-          'cnt_requests_per_day' => ($spec->cnt_requests_per_day)? '<a href="http://'.$ip.':8080/request_report-1.0/journal.jsp?'
+          'cnt_requests_per_day' => ($spec->cnt_requests_per_day)? '<a href="http://'.$this->ip.':8080/request_report-1.0/journal.jsp?'
             .'SpecialityID='.$spec->idSpeciality
             .'&idOKR='.(($idOKR))
             .'&eduFormID='.$spec->PersonEducationFormID
@@ -195,6 +217,9 @@ class StatController extends Controller {
     $reqPzkColumn = 0;
     $reqElectroColumn = 0;
     $reqOriginalsColumn = 0;
+    $reqDonetskColumn = 0;
+    $reqLuganskColumn = 0;
+    $reqCrimeaColumn = 0;
     $statuses = implode(',',
             array_flip(Personrequeststatustypes::model()->getStatusList()));
     if (isset($reqSpecialities['modes'])){
@@ -217,6 +242,15 @@ class StatController extends Controller {
             break;
           case 'originals':
             $reqOriginalsColumn = 1;
+            break;
+          case 'Donetsk':
+            $reqDonetskColumn = 1;
+            break;
+          case 'Lugansk':
+            $reqLuganskColumn = 1;
+            break;
+          case 'Crimea':
+            $reqCrimeaColumn = 1;
             break;
         }
       }
@@ -318,6 +352,12 @@ class StatController extends Controller {
                 . 'ps7.CreateDate BETWEEN '
                 . $date_segment
                 . ')) AS cnt_req_pzk') : 'idSpeciality' ),
+        (($reqDonetskColumn) ? new CDbExpression(
+          $this->getKoatuuComparatorQuery("ДОНЕЦЬК", $reqQualificationID, $statuses, $date_segment, 'cnt_req_Donetsk')) : 'idSpeciality' ),
+        (($reqLuganskColumn) ? new CDbExpression(
+          $this->getKoatuuComparatorQuery("ЛУГАНСЬК", $reqQualificationID, $statuses, $date_segment, 'cnt_req_Lugansk')) : 'idSpeciality' ),
+        (($reqCrimeaColumn) ? new CDbExpression(
+          $this->getKoatuuComparatorQuery("КРИМ", $reqQualificationID, $statuses, $date_segment, 'cnt_req_Crimea')) : 'idSpeciality' ),
     );
     $criteria->group = 'idSpeciality';
     $criteria->order = 'facultet.FacultetFullName,SpecialityDirectionName,SpecialityName';
@@ -347,6 +387,9 @@ class StatController extends Controller {
           'cnt_req_originals' => $spec->cnt_req_original,
           'cnt_req_pv' => $spec->cnt_req_pv,
           'cnt_req_pzk' => $spec->cnt_req_pzk,
+          'cnt_req_Donetsk' => $spec->cnt_req_Donetsk,
+          'cnt_req_Lugansk' => $spec->cnt_req_Lugansk,
+          'cnt_req_Crimea' => $spec->cnt_req_Crimea,
           'cnt_requests' => $spec->cnt_requests,
       );
       $i++;
@@ -363,6 +406,9 @@ class StatController extends Controller {
         'cpzk' => $reqPzkColumn,
         'celectro' => $reqElectroColumn,
         'coriginals' => $reqOriginalsColumn,
+        'cDonetsk' => $reqDonetskColumn,
+        'cLugansk' => $reqLuganskColumn,
+        'cCrimea' => $reqCrimeaColumn,
     ));
   }
   
