@@ -169,8 +169,40 @@ class Personspeciality extends ActiveRecord {
             array('idPersonSpeciality, PersonID, SepcialityID,  EducationFormID, QualificationID, EntranceTypeID, CourseID, CausalityID, isContract, AdditionalBall, isCopyEntrantDoc, DocumentSubject1, DocumentSubject2, DocumentSubject3, Exam1ID, Exam1Ball, Exam2ID, Exam2Ball, Exam3ID, Exam3Ball', 'safe', 'on' => 'search'),
             array('CustomerName,DocCustumer,AcademicSemesterID,CustomerAddress,CustomerPaymentDetails,DateОfСontract,PaymentDate,  CoursedpDocument', 'safe'),
             array('PersonID+SepcialityID+StatusID', 'ext.uniqueMultiColumnValidator', 'message' => "Заявка на дану спеціальність вже додано!"),
-             array('PersonID+SepcialityID+StatusID', 'ext.uniqueMultiColumnValidator', 'message' => "Заявка на дану спеціальність вже додано!"),
+            array('isCopyEntrantDoc', 'valididateCopyEntrantDoc'),
+            array('CoursedpDocument', 'valididateCoursedpDocument'),
         );
+    }
+
+    public function valididateCopyEntrantDoc($attributes) {
+
+        if ($this->isCopyEntrantDoc == 1) {
+            return true;
+        }
+        $count = Personspeciality::model()->count("PersonID = {$this->PersonID} and isCopyEntrantDoc = 0");
+        if ($count > 0) {
+            $this->addError($attributes, "В іншій заявці вже вказано оригінал документу!");
+            return false;
+        }
+
+        return true;
+    }
+
+    public function valididateCoursedpDocument($attributes) {
+
+        if ($this->CoursedpID > 0) {
+            $this->CoursedpDocument = trim($this->CoursedpDocument);
+            if (empty($this->CoursedpDocument)) {
+                $this->addError("CoursedpDocument", "Необхідно вказати серію, номер та ким виданий документ!");
+                return false;
+            }
+            $this->CoursedpBall = trim($this->CoursedpBall);
+            if ($this->CoursedpBall === "") {
+                $this->addError("CoursedpBall", "Необхідно вказати балл за курси або 0!");
+            }
+        }
+
+        return true;
     }
 
     public function valididateEntrantDoc($attributes) {
