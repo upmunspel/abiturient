@@ -156,6 +156,7 @@ class Personspeciality extends ActiveRecord {
         'olymp' => array(self::BELONGS_TO, 'Olympiadsawards', 'OlympiadID'),
         'status' => array(self::BELONGS_TO, 'Personrequeststatustypes', 'StatusID'),
         'edbo' => array(self::BELONGS_TO, 'EdboData', 'edboID'),
+        'coursedp' => array(self::BELONGS_TO, 'Coursedp', 'CoursedpID'),
 //                     
     );
   }
