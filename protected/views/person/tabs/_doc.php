@@ -70,7 +70,7 @@ $dataProvider=new CActiveDataProvider('Documents', array('criteria'=>array(
     
     array(
             'class'=>'bootstrap.widgets.TbButtonColumn',
-            'template'=>'{update}{trash}',//{sinchr}',
+            'template'=>'{update}{trash}{sinchr}',
             'buttons'=>array
             (
                 
@@ -92,17 +92,19 @@ $dataProvider=new CActiveDataProvider('Documents', array('criteria'=>array(
                         'onclick'=>"PSN.delDoc(this); return false;",
                     ),
                 ),
-//                  'sinchr' => array(
-//                        'label'=>'Синхронізувати',
-//                        'icon'=>'icon-refresh',
-//                        'url'=> 'Yii::app()->createUrl("documents/edboupdate",array("docid"=>$data->idDocuments))',
-//                        'options'=>array(
-//                            'class'=>'btn',
-//                            'onclick'=>"PSN.edboAnDocUpdate(this); return false;",
-//                            //'rel'=>"prettyPhoto",
-//                            'title'=>"Оновити в ЭДБО",
-//                        ),
-//                    ),
+                  'sinchr' => array(
+                        'label'=>'Синхронізувати',
+                        'icon'=>'icon-refresh',
+                        
+                        'url'=> 'Yii::app()->createUrl("documents/edboupdate",array("docid"=>$data->idDocuments))',
+                        'options'=>array(
+                            'class'=>'btn',
+                            'onclick'=>"PSN.edboAnDocUpdate(this); return false;",
+                            //'rel'=>"prettyPhoto",
+                            'title'=>"Оновити в ЭДБО",
+                            "style"=>!Yii::app()->user->checkAccess("editSincDocuments")?"display:none;":"",
+                        ),
+                    ),
             ),
             'htmlOptions'=>array(
                 'style'=>'width: 120px;',
