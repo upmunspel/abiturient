@@ -66,113 +66,121 @@ class DirectoryController extends Controller {
         echo CJSON::encode($result);
         Yii::app()->end();
     }
+
     /**
      * Контроллер для работы выбора школ при редактировании персоны
      */
-    public function actionSchool($q, $page_limit, $page, $area) {
-     
+    public function actionSchool($q, $page_limit, $page, $area = "") {
+
         $result = array("more" => false, 'results' => array());
         $count = 0;
         $subcount = 0;
-        $req = explode(";", $area);
+
         $text = "";
-        $criteria=$this->getSearchCondition("SchoolName", $q, $page_limit, $page);
-        $criteria->addSearchCondition("KOATUUCode", substr($req[1],0,2));
-        if (count($req) > 1 && $req[0] > 0) {
-             $criteria->addSearchCondition("KOATUUCode", substr($req[1],0,2));
-        }
+        $criteria = $this->getSearchCondition("SchoolName", $q, $page_limit, $page);
         
+        if (!empty($area)) {
+            $req = explode(";", $area);
+            $criteria->addSearchCondition("KOATUUCode", substr($req[1], 0, 2));
+            if (count($req) > 1 && $req[0] > 0) {
+                $criteria->addSearchCondition("KOATUUCode", substr($req[1], 0, 2));
+            }
+        }
+
         $model = Schools::model()->findall($criteria);
         $criteria->offset = -1;
         $criteria->limit = -1;
         $count += Schools::model()->count("SchoolName LIKE  '%" . $q . "%'");
         $subcount +=($page - 1) * $page_limit + count($model);
         foreach ($model as $val) {
-            
+
             $result['results'][] = array("id" => $val->idSchool, "text" => $val->SchoolName);
         }
-        
+
         if ($count > $subcount) {
             $result['more'] = true;
         }
         $result['count'] = $count;
         $result['subcount'] = $subcount;
-        
-       
+
+
         echo CJSON::encode($result);
     }
-     /**
+
+    /**
      * Контроллер для работы выбора школ при редактировании персоны
      */
     public function actionSchoolr($id) {
 
-             
+
         $result = array();
         $text = "";
         $model = Schools::model()->find("idSchool = $id");
         if (!empty($model)) {
             $text = $model->SchoolName;
         }
-                    
+
         $result = array("id" => $id, 'text' => $text);
-        
+
         echo CJSON::encode($result);
     }
-     /**
+
+    /**
      * Контроллер для работы выбора адреса при редактировании персоны
      */
     public function actionKoatur($id) {
 
         $req = explode(";", $id);
-       
+
         $result = array();
         $text = "";
-        
+
         if (count($req) > 1 && $req[0] > 0) {
-           //PC::debug($req[0] );
+            //PC::debug($req[0] );
             $model = KoatuuLevel1::model()->find("idKOATUULevel1 = {$req[0]}");
             if (!empty($model)) {
                 $text = $model->KOATUULevel1FullName;
-                 // PC::debug($text);
+                // PC::debug($text);
             }
-           
+
             if (empty($model)) {
                 $model = KoatuuLevel2::model()->find("idKOATUULevel2 = {$req[0]}");
                 if (!empty($model)) {
                     $text = $model->KOATUULevel2FullName;
-                     //PC::debug($text);
+                    //PC::debug($text);
                 }
                 if (empty($model)) {
                     $model = KoatuuLevel3::model()->find("idKOATUULevel3 = {$req[0]}");
                     if (!empty($model)) {
                         $text = $model->KOATUULevel3FullName;
-                         //PC::debug($text);
+                        //PC::debug($text);
                     }
                 }
-            } 
-            
+            }
+
             $result = array("id" => $id, 'text' => $text);
         }
         echo CJSON::encode($result);
     }
-    protected function  getSearchCondition($field, $q, $page_limit, $page ){
-        $criteria=new CDbCriteria();
+
+    protected function getSearchCondition($field, $q, $page_limit, $page) {
+        $criteria = new CDbCriteria();
         $q = trim($q);
-        
+
         if (substr_count($q, " ", 0) > 0) {// нсколько слов
             $q = explode(" ", $q);
-            foreach ($q as $v){
+            foreach ($q as $v) {
                 $criteria->addSearchCondition($field, trim($v));
             }
         } else {
             $criteria->addSearchCondition($field, $q);
         }
-        
+
         $criteria->limit = $page_limit;
-        $criteria->offset =($page - 1)*$page_limit;
-        
-       //PC::debug($criteria->condition.print_r($criteria->params,1));
-        
+        $criteria->offset = ($page - 1) * $page_limit;
+
+        //PC::debug($criteria->condition.print_r($criteria->params,1));
+
         return $criteria;
     }
 
@@ -180,33 +188,33 @@ class DirectoryController extends Controller {
      * Контроллер для работы выбора адреса при редактировании персоны
      */
     public function actionKoatu($q, $page_limit, $page) {
-       
+
         $result = array("more" => false, 'results' => array());
         $count = 0;
         $subcount = 0;
-        
-        $criteria=$this->getSearchCondition("KOATUULevel1FullName", $q, $page_limit, $page);
+
+        $criteria = $this->getSearchCondition("KOATUULevel1FullName", $q, $page_limit, $page);
         $model = KoatuuLevel1::model()->findall($criteria);
         $criteria->offset = -1;
         $criteria->limit = -1;
         $count += KoatuuLevel1::model()->count($criteria);
         $subcount+=($page - 1) * $page_limit + count($model);
-        
+
         foreach ($model as $val) {
-           
+
             $result['results'][] = array("id" => $val->idKOATUULevel1 . ";" . $val->KOATUULevel1Code, "text" => $val->KOATUULevel1FullName);
         }
-        $criteria=$this->getSearchCondition("KOATUULevel2FullName", $q, $page_limit, $page);
+        $criteria = $this->getSearchCondition("KOATUULevel2FullName", $q, $page_limit, $page);
         $model = KoatuuLevel2::model()->findall($criteria);
         $criteria->offset = -1;
         $criteria->limit = -1;
         $count += KoatuuLevel2::model()->count($criteria);
         $subcount+=($page - 1) * $page_limit + count($model);
         foreach ($model as $val) {
-          
+
             $result['results'][] = array("id" => $val->idKOATUULevel2 . ";" . $val->KOATUULevel2Code, "text" => $val->KOATUULevel2FullName);
         }
-        $criteria=$this->getSearchCondition("KOATUULevel3FullName", $q, $page_limit, $page);
+        $criteria = $this->getSearchCondition("KOATUULevel3FullName", $q, $page_limit, $page);
         $model = KoatuuLevel3::model()->findall($criteria);
         $criteria->offset = -1;
         $criteria->limit = -1;
