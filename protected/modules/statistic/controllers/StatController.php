@@ -56,11 +56,12 @@ class StatController extends Controller {
                 'languages','reqstatuses','koatuus','zno',
                 'doctypes','benefitgroups','eduforms','okr',
                 'countries','schools', 
-                'graduated', 'deletegraduated',"statgraduated"),
+                "statgraduated"),
             'users' => array('@'),
         ),
         array('allow', 
-            'actions' => array("contacts"),
+            'actions' => array("contacts","sysreport","deletesysreport",
+              'graduated','deletegraduated'),
             'roles' => array('Root','Admin'),),
         array('deny', // deny all users
             'users' => array('*'),
@@ -222,7 +223,7 @@ class StatController extends Controller {
     $reqCrimeaColumn = 0;
     $statuses = implode(',',
             array_flip(Personrequeststatustypes::model()->getStatusList()));
-    if (isset($reqSpecialities['modes'])){
+    if (isset($reqSpecialities['modes']) && !empty($reqSpecialities['modes'])){
       foreach ($reqSpecialities['modes'] as $val){
         switch ( $val ) {
           case 'budget':
@@ -352,6 +353,11 @@ class StatController extends Controller {
                 . 'ps7.CreateDate BETWEEN '
                 . $date_segment
                 . ')) AS cnt_req_pzk') : 'idSpeciality' ),
+        new CDbExpression('((SELECT COUNT(DISTINCT ps.PersonID) FROM personspeciality ps WHERE '
+                . 'ps.QualificationID = ' . $reqQualificationID . ' AND '
+                . 'ps.StatusID IN ('.$statuses.') AND '
+                . 'ps.CreateDate BETWEEN '
+                . $date_segment. ')) AS cnt_persons'),
         (($reqDonetskColumn) ? new CDbExpression(
           $this->getKoatuuComparatorQuery("ДОНЕЦЬК", $reqQualificationID, $statuses, $date_segment, 'cnt_req_Donetsk')) : 'idSpeciality' ),
         (($reqLuganskColumn) ? new CDbExpression(
@@ -365,6 +371,31 @@ class StatController extends Controller {
     
     $cnt_data = array();
     $i=0;
+    $cnt_atall = array();
+    $cnt_atall[1] = array(
+          'cnt_req_budget' => 0,
+          'cnt_req_contract' => 0,
+          'cnt_req_electro' => 0,
+          'cnt_req_originals' => 0,
+          'cnt_req_pv' => 0,
+          'cnt_req_pzk' => 0,
+          'cnt_req_Donetsk' => 0,
+          'cnt_req_Lugansk' => 0,
+          'cnt_req_Crimea' => 0,
+          'cnt_requests' => 0,
+    );
+    $cnt_atall[2] = array(
+          'cnt_req_budget' => 0,
+          'cnt_req_contract' => 0,
+          'cnt_req_electro' => 0,
+          'cnt_req_originals' => 0,
+          'cnt_req_pv' => 0,
+          'cnt_req_pzk' => 0,
+          'cnt_req_Donetsk' => 0,
+          'cnt_req_Lugansk' => 0,
+          'cnt_req_Crimea' => 0,
+          'cnt_requests' => 0,
+    );
     foreach ($specs as $spec){
       /* @var $spec Specialities */
       if (!isset($cnt_data[$spec->FacultetID])){
@@ -392,6 +423,16 @@ class StatController extends Controller {
           'cnt_req_Crimea' => $spec->cnt_req_Crimea,
           'cnt_requests' => $spec->cnt_requests,
       );
+      $cnt_atall[$spec->PersonEducationFormID]['cnt_req_budget'] += $spec->cnt_req_budget;
+      $cnt_atall[$spec->PersonEducationFormID]['cnt_req_contract'] += $spec->cnt_req_contract;
+      $cnt_atall[$spec->PersonEducationFormID]['cnt_req_electro'] += $spec->cnt_req_electro;
+      $cnt_atall[$spec->PersonEducationFormID]['cnt_req_originals'] += $spec->cnt_req_original;
+      $cnt_atall[$spec->PersonEducationFormID]['cnt_req_pv'] += $spec->cnt_req_pv;
+      $cnt_atall[$spec->PersonEducationFormID]['cnt_req_pzk'] += $spec->cnt_req_pzk;
+      $cnt_atall[$spec->PersonEducationFormID]['cnt_req_Donetsk'] += $spec->cnt_req_Donetsk;
+      $cnt_atall[$spec->PersonEducationFormID]['cnt_req_Lugansk'] += $spec->cnt_req_Lugansk;
+      $cnt_atall[$spec->PersonEducationFormID]['cnt_req_Crimea'] += $spec->cnt_req_Crimea;
+      $cnt_atall[$spec->PersonEducationFormID]['cnt_requests'] += $spec->cnt_requests;
       $i++;
     }
     $this->layout = '//layouts/clear';
@@ -409,6 +450,8 @@ class StatController extends Controller {
         'cDonetsk' => $reqDonetskColumn,
         'cLugansk' => $reqLuganskColumn,
         'cCrimea' => $reqCrimeaColumn,
+        'cnt_person' => isset($specs[0])? $specs[0]->cnt_persons : 0,
+        'cnt_atall' => $cnt_atall,
     ));
   }
   
@@ -805,6 +848,22 @@ class StatController extends Controller {
                 . 'ps4.CreateDate BETWEEN '
                 . $date_segment
                 . ' )) AS cnt_requests_from_us'),
+        new CDbExpression('((SELECT COUNT(ps1.idPersonSpeciality) FROM personspeciality ps1 WHERE '
+                . 'ps1.SepcialityID=t.idSpeciality AND '
+                . 'ps1.QualificationID = ' . $reqQualificationID . ' AND '
+                . 'ps1.StatusID IN ('.$statuses.') AND '
+                . 'ps1.isBudget = 1 AND '
+                . 'ps1.CreateDate BETWEEN '
+                . $date_segment
+                . ')) AS cnt_req_budget'),
+        new CDbExpression('((SELECT COUNT(ps3.idPersonSpeciality) FROM personspeciality ps3 WHERE '
+                . 'ps3.SepcialityID=t.idSpeciality AND '
+                . 'ps3.QualificationID = ' . $reqQualificationID . ' AND '
+                . 'ps3.StatusID IN ('.$statuses.') AND '
+                . 'ps3.isCopyEntrantDoc <> 1 AND '
+                . 'ps3.CreateDate BETWEEN '
+                . $date_segment
+                . ')) AS cnt_req_original')
     );
     $criteria->group = 'idSpeciality';
     $criteria->order = 'facultet.FacultetFullName,SpecialityDirectionName,SpecialityName';
@@ -836,9 +895,13 @@ class StatController extends Controller {
     $cnt_atall[1][0] = 0;
     $cnt_atall[1][1] = 0;
     $cnt_atall[1][2] = 0;
+    $cnt_atall[1][3] = 0;
+    $cnt_atall[1][4] = 0;
     $cnt_atall[2][0] = 0;
     $cnt_atall[2][1] = 0;
     $cnt_atall[2][2] = 0;
+    $cnt_atall[2][3] = 0;
+    $cnt_atall[2][4] = 0;
     foreach ($specs as $spec){
       /* @var $spec Specialities */
       if (!isset($cnt_data[$spec->FacultetID])){
@@ -883,6 +946,8 @@ class StatController extends Controller {
       $cnt_atall[$spec->PersonEducationFormID][0] += $cnt_requests_from_us;
       $cnt_atall[$spec->PersonEducationFormID][1] += $cnt_requests_from_aliens;
       $cnt_atall[$spec->PersonEducationFormID][2] += $spec->cnt_requests_from_aliens;
+      $cnt_atall[$spec->PersonEducationFormID][3] += $spec->SpecialityBudgetCount;
+      $cnt_atall[$spec->PersonEducationFormID][4] += $spec->cnt_req_original;
       // if (isset($cnt_data[$spec->FacultetID][trim($spec_name)][$spec->PersonEducationFormID])){
         // $cnt_requests_from_us += $cnt_data[$spec->FacultetID][trim($spec_name)][$spec->PersonEducationFormID]['cnt_requests_from_us'];
         // $cnt_requests_from_aliens += $cnt_data[$spec->FacultetID][trim($spec_name)][$spec->PersonEducationFormID]['cnt_requests_from_aliens'];
@@ -894,6 +959,8 @@ class StatController extends Controller {
           'cnt_requests_from_us' => $cnt_requests_from_us,
           'cnt_requests_from_aliens' => $cnt_requests_from_aliens,
           'graduated' => $ngrauated,
+          'cnt_req_budget' => $spec->SpecialityBudgetCount,
+          'cnt_req_originals' => $spec->cnt_req_original,
       );
       $i++;
     }
@@ -906,4 +973,35 @@ class StatController extends Controller {
       'Qualification' => ($reqQualificationID == 2)? 'Магістр':'Спеціаліст',
     ));
   }
+  
+  public function actionSysreport(){
+    $model = new SysReport();
+    $reqSysReport = Yii::app()->request->getParam('SysReport',null);
+    if ($reqSysReport){
+      $model->compar_type = $reqSysReport['compar_type'];
+      $model->name = $reqSysReport['name'];
+      $model->db_rels = $reqSysReport['db_rels'];
+      $model->db_attrname = $reqSysReport['db_attrname'];
+      $model->db_alterattr = $reqSysReport['db_alterattr'];
+      $model->db_attr = $reqSysReport['db_attr'];
+      $model->db_group_concat = $reqSysReport['db_group_concat'];
+      $model->view_value = $reqSysReport['view_value'];
+      if ($model->save()){
+         $this->redirect(Yii::app()->CreateUrl('/statistic/stat/sysreport'));
+      }
+    }
+
+    $this->render('/statistic/sysreport',array(
+      'model' => $model,
+      'data' => $model->search(),
+    ));
+  }
+  
+  public function actionDeletesysreport($id){
+    $model = SysReport::model()->findByPk($id);
+    if ($model){
+      $model->delete();
+    }
+  }
+  
 }

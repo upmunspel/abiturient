@@ -122,7 +122,7 @@ foreach ($cnt_data as $row){
       continue;
     }
     echo "<td>".$key."</td>";
-    echo "<td>".((isset($data[1]))? 
+    echo "<td style=' font-weight: bold;'>".((isset($data[1]))? 
             $data[1]['cnt_requests'] : '0') ."</td>";
     if ($cbudget){
       echo "<td>".((isset($data[1]))? 
@@ -154,7 +154,7 @@ foreach ($cnt_data as $row){
     }
     
     
-    echo "<td style='border-left: 3px solid grey;'> ".((isset($data[2]))? 
+    echo "<td style='border-left: 3px solid grey; font-weight: bold;'> ".((isset($data[2]))? 
             $data[2]['cnt_requests'] : '0') ."</td>";
     if ($cbudget){
       echo "<td>".((isset($data[2]))? 
@@ -190,7 +190,103 @@ foreach ($cnt_data as $row){
   }  
 }
 ?>
-
+<tr>
+    <td colspan="2"><p>Всього заявок</p></td>
+<?php
+    echo "<td>".((isset($cnt_atall[1]))? 
+            $cnt_atall[1]['cnt_requests'] : '0') ."</td>";
+    if ($cbudget){
+      echo "<td>".((isset($cnt_atall[1]))? 
+              $cnt_atall[1]['cnt_req_budget'] : '0') ."</td>";
+    } if ($ccontract){
+      echo "<td>".((isset($cnt_atall[1]))? 
+              $cnt_atall[1]['cnt_req_contract'] : '0') ."</td>";
+    } if ($cpv){
+      echo "<td>".((isset($cnt_atall[1]))? 
+              $cnt_atall[1]['cnt_req_pv'] : '0') ."</td>";
+    } if ($cpzk){
+      echo "<td>".((isset($cnt_atall[1]))? 
+              $cnt_atall[1]['cnt_req_pzk'] : '0') ."</td>";
+    } if ($celectro){
+      echo "<td>".((isset($cnt_atall[1]))? 
+              $cnt_atall[1]['cnt_req_electro'] : '0') ."</td>";
+    } if ($coriginals){
+      echo "<td>".((isset($cnt_atall[1]))? 
+              $cnt_atall[1]['cnt_req_originals'] : '0') ."</td>";
+    } if ($cDonetsk){
+      echo "<td>".((isset($cnt_atall[1]))? 
+              $cnt_atall[1]['cnt_req_Donetsk'] : '0') ."</td>";
+    } if ($cLugansk){
+      echo "<td>".((isset($cnt_atall[1]))? 
+              $cnt_atall[1]['cnt_req_Lugansk'] : '0') ."</td>";
+    } if ($cCrimea){
+      echo "<td> ".((isset($cnt_atall[1]))? 
+              $cnt_atall[1]['cnt_req_Crimea'] : '0') ."</td>";
+    }
+    
+    
+    echo "<td style='border-left: 3px solid grey;'> ".((isset($cnt_atall[2]))? 
+            $cnt_atall[2]['cnt_requests'] : '0') ."</td>";
+    if ($cbudget){
+      echo "<td>".((isset($cnt_atall[2]))? 
+              $cnt_atall[2]['cnt_req_budget'] : '0') ."</td>";
+    } if ($ccontract){
+      echo "<td>".((isset($cnt_atall[2]))? 
+              $cnt_atall[2]['cnt_req_contract'] : '0') ."</td>";
+    } if ($cpv){
+      echo "<td>".((isset($cnt_atall[2]))? 
+              $cnt_atall[2]['cnt_req_pv'] : '0') ."</td>";
+    } if ($cpzk){
+      echo "<td>".((isset($cnt_atall[2]))? 
+              $cnt_atall[2]['cnt_req_pzk'] : '0') ."</td>";
+    } if ($celectro){
+      echo "<td>".((isset($cnt_atall[2]))? 
+              $cnt_atall[2]['cnt_req_electro'] : '0') ."</td>";
+    } if ($coriginals){
+      echo "<td>".((isset($cnt_atall[2]))? 
+              $cnt_atall[2]['cnt_req_originals'] : '0') ."</td>";
+    } if ($cDonetsk){
+      echo "<td>".((isset($cnt_atall[2]))? 
+              $cnt_atall[2]['cnt_req_Donetsk'] : '0') ."</td>";
+    } if ($cLugansk){
+      echo "<td>".((isset($cnt_atall[2]))? 
+              $cnt_atall[2]['cnt_req_Lugansk'] : '0') ."</td>";
+    } if ($cCrimea){
+      echo "<td>".((isset($cnt_atall[2]))? 
+              $cnt_atall[2]['cnt_req_Crimea'] : '0') ."</td>";
+    }
+?>
+</tr>
+<tr>
+<td colspan="2">
+    <p>
+        Всього абітурієнтів
+    </p>
+</td>
+<?php
+    $colspan = 2;
+    if ($cbudget){
+      $colspan+=2;
+    } if ($ccontract){
+      $colspan+=2;
+    } if ($cpv){
+      $colspan+=2;
+    } if ($cpzk){
+      $colspan+=2;
+    } if ($celectro){
+      $colspan+=2;
+    } if ($coriginals){
+      $colspan+=2;
+    } if ($cDonetsk){
+      $colspan+=2;
+    } if ($cLugansk){
+      $colspan+=2;
+    } if ($cCrimea){
+      $colspan+=2;
+    }
+?>  
+  <td style="text-align: center;" colspan="<?php echo $colspan; ?>"><?php echo $cnt_person; ?></td>
+</tr>
 </table>
 </center>
 
