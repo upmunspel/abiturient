@@ -7,14 +7,11 @@
 /* @var $_pzk_counter integer */
 /* @var $_quota_counter integer */
 /* @var $toexcel integer */
-?>
-
-<?php
-if ($toexcel) {
   header('Content-Type: text/html; charset=windows-1251');
   header('Cache-Control: no-store, no-cache, must-revalidate');
   header('Cache-Control: post-check=0, pre-check=0', FALSE);
   header('Pragma: no-cache');
+if ($toexcel) {
   header('Content-transfer-encoding: binary');
   header('Content-Disposition: attachment; filename=' . iconv("windows-1251", "utf-8",str_replace(array(' ', ':', '.', ',_', '__'), '_', $Speciality) . '.xls'));
   header('Content-Type: application/x-unknown');
@@ -24,43 +21,86 @@ if ($toexcel) {
   <head>
     <meta charset="windows-1251">
     <title><?php echo $Speciality; ?></title>
-  </head>
-<style id="rating_style">
-  TD {
+    <style id="rating_style">
+  .faculty {
+    font-size: 8pt;
+    padding: 3px;
+    font-family: 'Tahoma';
+    vertical-align: middle;
+    border-left:solid 1px black;
+    border-right:solid 1px black;
+    border-top:solid 1px black;
+  }
+  
+  .direction, .license_count, .budget_count, .quota_count {
+    font-size: 8pt;
+    padding: 3px;
+    font-family: 'Tahoma';
+    vertical-align: middle;
+    border-left:solid 1px black;
+    border-right:solid 1px black;
+  }
+  
+  
+  .number_header , .original_header , .original_header {
+    font-size: 8pt;
+    font-weight: bold;
+    padding: 3px;
+    font-family: 'Tahoma';
+    vertical-align: middle;
+    border:solid 1px black;
+  }
+  
+  .person_header , .points_header {
+    font-size: 10pt;
+    font-weight: bold;
+    padding: 3px;
+    font-family: 'Tahoma';
+    vertical-align: middle;
+    border:solid 1px black;
+  }
+  
+  .pzk_header , .pv_header {
+    font-size: 7pt;
+    padding: 3px;
+    font-family: 'Tahoma';
+    vertical-align: middle;
+    border:solid 1px black;
+  }
+  .wave_header {
+    font-size: 6pt;
+    padding: 3px;
+    font-family: 'Tahoma';
+    vertical-align: middle;
+    border:solid 1px black;
+  }
+  
+  .target_committee , .pzk_committee , .budget_committee , .contract_committee, .fatal_line{
+    font-size: 10pt;
+    font-weight: bold;
+    padding: 5px;
+    font-family: 'Tahoma';
+    border-left:solid 1px black;
+    border-right:solid 1px black;
+  }
+  
+  .num , .pzk , .pv , .original , .wave {
     font-size: 8pt;
     padding: 3px;
     font-family: 'Tahoma';
     vertical-align: middle;
     border:solid 1px black;
   }
-  H1 {
-    font-size: 16pt;
+  
+  .person , .points {
+    font-size: 10pt;
+    padding: 3px;
+    font-family: 'Tahoma';
+    vertical-align: middle;
+    border:solid 1px black;
   }
-
-  .faculty {
-    border:solid 0px black;
-  }
-
-  .direction {
-    border:solid 0px black;
-  }
-
-  .license_count {
-    border:solid 0px black;
-  }
-
-  .budget_count {
-    border:solid 0px black;
-  }
-
-  .quota_count {
-    border:solid 0px black;
-  }
-
-  .wave_header {
-    font-size: 6pt;
-  }
-</style>
+    </style>
+  </head>
 <?php
 ?>
 <body>
@@ -90,15 +130,15 @@ if ($toexcel) {
     <TR>
       <TD colspan='7' class="budget_count">
         <?php echo iconv("utf-8", "windows-1251", 'Обсяг державного замовлення: ');
-        echo $_budget_counter; ?>
+        echo (0+$_budget_counter); ?>
       </TD>
     </TR>
     <TR>
       <TD colspan='7' class="quota_count">
         <?php echo iconv("utf-8", "windows-1251", 'з них квота пільговиків: '); ?>
-        <?php echo $_pzk_counter; ?>
+        <?php echo (0+$_pzk_counter); ?>
         <?php echo iconv("utf-8", "windows-1251", ', квота цільовиків: '); ?>
-<?php echo $_quota_counter; ?>
+<?php echo (0+$_quota_counter); ?>
       </TD>
     </TR>
     <TR>
@@ -279,7 +319,7 @@ if ($toexcel) {
         <TR>
           <TD colspan='7' class="fatal_line">
         <center>
-          =====================================================================
+          =============================================
         </center>
       </TD>
     </TR>

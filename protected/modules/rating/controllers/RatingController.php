@@ -172,7 +172,7 @@ class RatingController extends Controller {
         $_data = $this->CreateRatingData($models);
         $_data['toexcel'] = $reqToExcel;
         $this->layout = '//layouts/clear';
-        $this->render('/personspeciality/excelrating',$_data);
+        $this->renderPartial('/personspeciality/excelrating',$_data);
     } else {
         echo 'Помилка - немає даних!';
     }
