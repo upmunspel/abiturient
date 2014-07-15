@@ -101,6 +101,12 @@
                 'class' => 'bootstrap.widgets.TbMenu',
                 'htmlOptions' => array('class' => 'pull-right'),
                 'items' => array(
+                    array('label' => 'ЄДЕБО', 'visible' => Yii::app()->user->checkAccess('showProperties'), 'url' => "#", "icon" => "icon-wrench",
+                        'items' => array(
+                            array('label' => 'Зміна статусу заявок', 'url' => Yii::app()->createUrl("edebo/index"), "icon" => " icon-user",),
+                           
+                        )
+                    ),
                     array('label' => 'Налаштування', 'visible' => Yii::app()->user->checkAccess('showProperties'), 'url' => "#", "icon" => "icon-wrench",
                         'items' => array(
                             array('label' => 'Користувачі', 'url' => Yii::app()->createUrl("user"), "icon" => " icon-user",),
@@ -109,7 +115,7 @@
                         )
                     ),
                     array('label' => 'Авторизуватися', 'url' => array('/site/login'), 'visible' => Yii::app()->user->isGuest, 'icon' => "icon-user"),
-                    array('label' => 'Вийти з системи (' . Yii::app()->user->name . (empty($pkname) ? "" : "/" . $pkname) . ')', 'url' => array('/site/logout'), 'visible' => !Yii::app()->user->isGuest, 'icon' => "icon-user")
+                    array('label' => 'Вийти з системи (' . Yii::app()->user->name .')', 'url' => array('/site/logout'), 'visible' => !Yii::app()->user->isGuest, 'icon' => "icon-user","itemOptions"=> array("title"=>empty($pkname) ? "" :  $pkname))
                 ),
             ),
         ),

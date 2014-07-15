@@ -365,5 +365,60 @@ class WebServices {
         return $res;
     }
     
+    public static function getRequestsByStatus($idStatus, $idQualification, $createDate) {
+       
+        $script = "requestsbystatus.jsp?idStatus=$idStatus&idQualification=$idQualification&createDate=$createDate";
+        $srv = "http://10.1.22.25:8080/PersonSearch/"; //Yii::app()->user->getEdboSearchUrl() ;
+        Yii::log($script);
+        try {
+            
+            $ctx = stream_context_create(array('http' => array('timeout' => WebServices::$requestTimeout)));
+            $res = @file_get_contents($srv . $script, 0, $ctx);
+            if ($res === false) {
+                throw new Exception(WebServices::$MSG_EDBO_ERROR);
+            }
 
+            $error = CJSON::decode($res);
+
+            if (is_array($error) && isset($error['error'])) {
+                throw new Exception($error['error']);
+            }
+        } catch (Exception $ex) {
+            if (defined('YII_DEBUG')) {
+                Yii::log($ex->getMessage(), CLogger::LEVEL_INFO, 'WebServices::getRequestsByStatus');
+            }
+            throw $ex;
+        }
+
+
+        return $res;
+    }
+public static function RequestStatusChange($idPersonRequest, $idStatus, $numberProtocol, $dateProtocol) {
+       
+        $script = "requeststatuschange.jsp?idPersonRequest=$idPersonRequest&idStatus=$idStatus&numberProtocol=$numberProtocol&dateProtocol=$dateProtocol";
+        $srv = "http://10.1.22.25:8080/PersonSearch/"; //Yii::app()->user->getEdboSearchUrl() ;
+        Yii::log($script);
+        try {
+            
+            $ctx = stream_context_create(array('http' => array('timeout' => WebServices::$requestTimeout)));
+            $res = @file_get_contents($srv . $script, 0, $ctx);
+            if ($res === false) {
+                throw new Exception(WebServices::$MSG_EDBO_ERROR);
+            }
+
+//            $error = CJSON::decode($res);
+//
+//            if (is_array($error) && isset($error['error'])) {
+//                throw new Exception($error['error']);
+//            }
+        } catch (Exception $ex) {
+            if (defined('YII_DEBUG')) {
+                Yii::log($ex->getMessage(), CLogger::LEVEL_INFO, 'WebServices::getRequestsByStatus');
+            }
+            throw $ex;
+        }
+
+
+        return $res;
+    }
 }
