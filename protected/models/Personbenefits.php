@@ -46,13 +46,18 @@ class Personbenefits extends ActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('Series, Numbers, Issued, Numbers','required'),
+			//array('Series, Numbers, Issued, Numbers','required'),
+                        array('Series, Numbers, Issued, Numbers','required', "except"=>'CONVERT'),
 			array('PersonID, BenefitID', 'numerical', 'integerOnly'=>true),
 			array('Series, Numbers', 'length', 'max'=>50),
 			array('Issued', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('idPersonBenefits, PersonID, BenefitID, Series, Numbers, Issued, Modified, SysUserID', 'safe', 'on'=>'search'),
+                        array('PersonID, BenefitID, Series, Numbers, Issued, ', 'safe', 'on'=>'CONVERT'),
+                        array('PersonID+BenefitID', 'ext.uniqueMultiColumnValidator', 'on'=>'CONVERT'),
+                        
+                    
 		);
 	}
 

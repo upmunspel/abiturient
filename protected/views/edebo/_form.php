@@ -61,7 +61,7 @@ $form = new TbActiveForm();
     
 </div>
 <div class="row-fluid">
-    <?php echo CHtml::submitButton('Розпочати'); ?>
+    <?php echo CHtml::submitButton('Знайти заявки'); ?>
 </div>
 
 

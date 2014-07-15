@@ -26,7 +26,7 @@
                 )); ?>
         </div>
          <div class="span8">    
-            <p> Синхронізація виконуэ перевірку та додання всіх документів до бази ЄДБО. Завантажує або перевіряє предмети ЗНО згідно даних з ЄДБО.</p>
+            <p> Синхронізація виконує перевірку та додання всіх документів до бази ЄДБО. Завантажує або перевіряє предмети ЗНО згідно даних з ЄДБО.</p>
         </div>
         
     </div>
@@ -101,7 +101,7 @@ $dataProvider=new CActiveDataProvider('Documents', array('criteria'=>array(
                             'class'=>'btn',
                             'onclick'=>"PSN.edboAnDocUpdate(this); return false;",
                             //'rel'=>"prettyPhoto",
-                            'title'=>"Оновити в ЭДБО",
+                            'title'=>"Оновити в ЄДЕБО",
                             "style"=>!Yii::app()->user->checkAccess("editSincDocuments")?"display:none;":"",
                         ),
                     ),

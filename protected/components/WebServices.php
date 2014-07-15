@@ -32,7 +32,7 @@ class WebServices {
         }
         $script = "getphoto.jsp?personCodeU=";
         $srv = Yii::app()->user->getEdboSearchUrl();
-        
+
         $res = Yii::app()->cache->get($codeU);
         if ($res === false) {
 
@@ -41,7 +41,7 @@ class WebServices {
                     throw new Exception("Пусте значення кода персони!");
                 }
                 $ctx = stream_context_create(array('http' => array('timeout' => WebServices::$requestTimeout)));
-                $res = @file_get_contents($srv. $script . $codeU, 0, $ctx);
+                $res = @file_get_contents($srv . $script . $codeU, 0, $ctx);
                 $tres = trim($res);
 
                 $error = CJSON::decode($res);
@@ -69,20 +69,20 @@ class WebServices {
     }
 
     /**
-     * findPerson виконуэ пошук персоны за номером та серією будь-якого докамента
+     * findPerson виконує пошук персоны за номером та серією будь-якого докамента
      * @param string $series
      * @param string $number
      * @return string
      * @throws Exception
      */
     public static function findPerson($series, $number) {
-   
+
         if (!Yii::app()->user->checkAccess("wsAllowSearch")) {
             throw new Exception(WebServices::$MSG_EDBO_SEARCH_DENY . "asdsa");
         }
-        $srv = Yii::app()->user->getEdboSearchUrl() ;
+        $srv = Yii::app()->user->getEdboSearchUrl();
         //Yii::log($srv);
-        $series = "";//trim($series);
+        $series = ""; //trim($series);
         $number = trim($number);
         $script = "search.jsp?series=$series&number=$number";
         try {
@@ -110,37 +110,36 @@ class WebServices {
 
         return $res;
     }
-    
+
     public static function findPersonByFio($fio) {
-   
+
         if (!Yii::app()->user->checkAccess("wsAllowSearch")) {
             throw new Exception(WebServices::$MSG_EDBO_SEARCH_DENY . "asdsa");
         }
-        $srv = Yii::app()->user->getEdboSearchUrl() ;
-      
-        $fio= trim($fio);
+        $srv = Yii::app()->user->getEdboSearchUrl();
+
+        $fio = trim($fio);
         $script = "search_by_fio.jsp";
         $params = array(
             "fio" => $fio,
         );
         try {
             if (empty($fio)) {
-                
+
                 throw new Exception("Відсутні параметри для пошуку!");
             }
-            $client = new EHttpClient($srv.$script, array('maxredirects' => 30, 'timeout' => 5,));
+            $client = new EHttpClient($srv . $script, array('maxredirects' => 30, 'timeout' => 5,));
             $client->setParameterPost($params);
             $response = $client->request(EHttpClient::POST);
 
             if ($response->isSuccessful()) {
-              
+
                 $res = $response->getBody();
-                
             } else {
                 throw new Exception(WebServices::$MSG_EDBO_ERROR);
             }
-            
-          
+
+
             if ($res === false) {
                 throw new Exception(WebServices::$MSG_EDBO_ERROR);
             }
@@ -212,7 +211,7 @@ class WebServices {
         }
         $script = "contacts.jsp?personCodeU=$codeU";
         $codeU = trim($codeU);
-        $srv = Yii::app()->user->getEdboSearchUrl() ;
+        $srv = Yii::app()->user->getEdboSearchUrl();
         try {
             if (empty($codeU)) {
                 throw new Exception("Пусте значення кода персони!");
@@ -284,6 +283,7 @@ class WebServices {
 //            
         return true;
     }
+
     /**
      * 
      * @param type $codeU
@@ -297,8 +297,8 @@ class WebServices {
         }
         $script = "requestload.jsp?personCodeU=$codeU&idRequest=$idRequest";
         $codeU = trim($codeU);
-        $srv = Yii::app()->user->getEdboSearchUrl() ;
-        
+        $srv = Yii::app()->user->getEdboSearchUrl();
+
         try {
             if (empty($codeU)) {
                 throw new Exception("Пусте значення кода персони!");
@@ -327,6 +327,7 @@ class WebServices {
 
         return $res;
     }
+
     /**
      * 
      * @param type $idRequest
@@ -338,11 +339,11 @@ class WebServices {
             throw new Exception(WebServices::$MSG_EDBO_SEARCH_DENY);
         }
         $script = "requestsubjects.jsp?idRequest=$idRequest";
-        
-        $srv = Yii::app()->user->getEdboSearchUrl() ;
-        
+
+        $srv = Yii::app()->user->getEdboSearchUrl();
+
         try {
-           
+
             $ctx = stream_context_create(array('http' => array('timeout' => WebServices::$requestTimeout)));
             $res = @file_get_contents($srv . $script, 0, $ctx);
             if ($res === false) {
@@ -364,14 +365,22 @@ class WebServices {
 
         return $res;
     }
-    
+
+    /**
+     * 
+     * @param type $idStatus
+     * @param type $idQualification
+     * @param type $createDate
+     * @return type
+     * @throws Exception
+     */
     public static function getRequestsByStatus($idStatus, $idQualification, $createDate) {
-       
+
         $script = "requestsbystatus.jsp?idStatus=$idStatus&idQualification=$idQualification&createDate=$createDate";
-        $srv = "http://10.1.22.25:8080/PersonSearch/"; //Yii::app()->user->getEdboSearchUrl() ;
-        Yii::log($script);
+        $srv = Yii::app()->user->getEdboSearchUrl();
+
         try {
-            
+
             $ctx = stream_context_create(array('http' => array('timeout' => WebServices::$requestTimeout)));
             $res = @file_get_contents($srv . $script, 0, $ctx);
             if ($res === false) {
@@ -393,27 +402,32 @@ class WebServices {
 
         return $res;
     }
-public static function RequestStatusChange($idPersonRequest, $idStatus, $numberProtocol, $dateProtocol) {
-       
-        $script = "requeststatuschange.jsp?idPersonRequest=$idPersonRequest&idStatus=$idStatus&numberProtocol=$numberProtocol&dateProtocol=$dateProtocol";
-        $srv = "http://10.1.22.25:8080/PersonSearch/"; //Yii::app()->user->getEdboSearchUrl() ;
-        Yii::log($script);
+
+    /**
+     * 
+     * @param type $idPersonRequest
+     * @param type $idStatus
+     * @param type $numberProtocol
+     * @param type $dateProtocol
+     * @return type
+     * @throws Exception
+     */
+    public static function RequestStatusChange($idPersonRequest, $idStatus, $numberProtocol, $dateProtocol) {
+
+        $script = "requeststatuschange.jsp?idPersonRequest=$idPersonRequest&idStatus=$idStatus&numberProtocol=$numberProtocol&dateProtocol=" . urlencode($dateProtocol);
+        $srv = Yii::app()->user->getEdboSearchUrl();
+        //Yii::log($srv.$script);
         try {
-            
+
             $ctx = stream_context_create(array('http' => array('timeout' => WebServices::$requestTimeout)));
-            $res = @file_get_contents($srv . $script, 0, $ctx);
+            $res = file_get_contents($srv . $script, 0, $ctx);
+            // Yii::log($res);
             if ($res === false) {
                 throw new Exception(WebServices::$MSG_EDBO_ERROR);
             }
-
-//            $error = CJSON::decode($res);
-//
-//            if (is_array($error) && isset($error['error'])) {
-//                throw new Exception($error['error']);
-//            }
         } catch (Exception $ex) {
             if (defined('YII_DEBUG')) {
-                Yii::log($ex->getMessage(), CLogger::LEVEL_INFO, 'WebServices::getRequestsByStatus');
+                Yii::log($ex->getMessage(), CLogger::LEVEL_INFO, 'WebServices::RequestStatusChange');
             }
             throw $ex;
         }
@@ -421,4 +435,5 @@ public static function RequestStatusChange($idPersonRequest, $idStatus, $numberP
 
         return $res;
     }
+
 }

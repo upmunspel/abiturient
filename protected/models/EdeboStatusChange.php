@@ -42,7 +42,7 @@ class EdeboStatusChange extends CFormModel {
      */
     public function attributeLabels() {
         return array(
-            'StatusID' => 'Статус заявки',
+            'StatusID' => 'Статус заяви',
             'QualificationID' => 'Кваліфікація',
             "Data" => 'Дата',
             "ProtocolData"=>"Дата протокола",

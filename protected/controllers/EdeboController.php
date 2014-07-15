@@ -2,6 +2,8 @@
 
 class EdeboController extends Controller {
 
+    public $layout = '//layouts/main_noblock';
+
     public function filters() {
         return array(
             'accessControl', // perform access control for CRUD operations
@@ -55,12 +57,70 @@ class EdeboController extends Controller {
                 }
             }
         }
-        $res = array(1,2,3,4,5,6,7,8,9,10);
+        //$res =  CJSON::encode(array(1,2,3,4,5,6,7,8,9,10));
         $this->render('index', array('model' => $model, 'res' => $res));
     }
-    public function actionChangestatus() {
-        echo "ok!";
+
+    public function actionChangestatus($idPersonRequest, $idStatus, $numberProtocol, $dateProtocol) {
+        try {
+            $res = WebServices::RequestStatusChange($idPersonRequest, $idStatus, $numberProtocol, $dateProtocol);
+            $res = CJSON::decode($res);
+            if ($res["error"]) {
+                throw new Exception(" Помилка - " . $res["message"]);
+            } else {
+                echo "<span style='color: green;'> " . $res["message"] . "</span>";
+            }
+        } catch (Exception $exc) {
+            echo "<span style='color: red;'> " . $exc->getMessage() . "</span>";
+        }
     }
 
+    public function actionConvert() {
+        /*
+          $spec = Personspeciality::model()->findAll("CoursedpID > 0");
+          if (!empty($spec)) {
+          $i = 1;
+          foreach ($spec as $item) {
+          //$item = new Personspeciality();
+          echo $i . ". " . $item->PersonID . " : " . $item->idPersonSpeciality;
+          //Personbenefits::model()->deleteAll("PersonID = {$item->PersonID} and BenefitID = 41");
+          $ben = new Personbenefits('CONVERT');
+
+          $ben->PersonID = $item->PersonID;
+          $ben->BenefitID = 41;
+          if ($ben->save()) {
+          echo " додано пільгу " . $ben->idPersonBenefits;
+          $sb = new Personspecialitybenefits();
+          $sb->PersonBenefitID = $ben->idPersonBenefits;
+          $sb->PersonSpecialityID = $item->idPersonSpeciality;
+          if ($sb->save()) {
+          echo " додано пільгу до заявки " . $ben->idPersonBenefits;
+          }
+          } else {
+          echo " Помилка персони! - пільга вже існує! ";
+          $ben = Personbenefits::model()->find("PersonID = {$item->PersonID} and BenefitID = 41");
+
+          $sb = Personspecialitybenefits::model()->find("PersonBenefitID = {$ben->idPersonBenefits} and PersonSpecialityID = {$item->idPersonSpeciality}");
+          if (empty($sb)) {
+          $sb = new Personspecialitybenefits();
+
+          $sb->PersonBenefitID = $ben->idPersonBenefits;
+          $sb->PersonSpecialityID = $item->idPersonSpeciality;
+          if ($sb->save()) {
+          echo " додано пільгу до заявки " . $ben->idPersonBenefits;
+          }
+          } else {
+          echo " Помилка заявки! - Пільга вже існує " . $ben->idPersonBenefits;
+          }
+          //print_r($ben->getErrors());
+          }
+
+          echo "<br>";
+          $i++;
+          }
+
+          }
+         */
+    }
 
 }

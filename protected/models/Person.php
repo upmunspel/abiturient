@@ -355,7 +355,7 @@ class Person extends ActiveRecord {
             "edboID" => "Ідентифікатор ЄДБО",
             'BirthPlace' => 'Місце народження',
             'CreateDate' => 'Дата додання',
-            "FIO" => "ФИО",
+            "FIO" => "ПІБ",
             "operatorInfo" => "Оператор",
             "koatu" => "Адреса",
             "Apartment" => "Квартира",
@@ -746,11 +746,11 @@ class Person extends ActiveRecord {
                     //debug("Cинхронизаниция выполнена");
                 }
             } else {
-                Yii::app()->user->setFlash("message", '<h3 style="color: red;">Помилка! Спробуйте пізніще!</h3>');
+                Yii::app()->user->setFlash("message", '<h3 style="color: red;">Помилка! Спробуйте пізніше!</h3>');
                 //debug($response->getRawBody());
             }
         } catch (Exception $e) {
-            Yii::app()->user->setFlash("message", '<h3 style="color: red;">Помилка! Спробуйте пізніще!</h3>');
+            Yii::app()->user->setFlash("message", '<h3 style="color: red;">Помилка! Спробуйте пізніше!</h3>');
             //debug($e->getMessage());
         }
 

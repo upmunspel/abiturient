@@ -199,7 +199,7 @@ class Personspeciality extends ActiveRecord {
         'OlympiadId' => 'Олімпіади',
         'Quota1' => 'Квота (с-ка міс-ть)',
         'Quota2' => 'Квота (держ. сл-ба)',
-        'RequestNumber' => "Номер заявки",
+        'RequestNumber' => "Номер заяви",
         'PersonRequestNumber' => "Номер справи",
         "PersonDocumentsAwardsTypesID" => "Відзнака",
         'isForeinghEntrantDocument' => "Іноземн. док-т",
@@ -210,7 +210,7 @@ class Personspeciality extends ActiveRecord {
         "GraduatedSpeciality" => "Напрямок (спеціальність), яку закінчив",
         'RequestFromEB' => 'Эл-на за-ка',
         "edboID" => "ЄДБО Код",
-        "StatusID" => "Статус заявки",
+        "StatusID" => "Статус заяви",
         "SPEC" => "Ключові слова через пробіл для вибірки за спеціальністю",
         "NAME" => "ПІБ : ключові слова через пробіл",
     );

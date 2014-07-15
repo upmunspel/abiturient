@@ -147,7 +147,7 @@ class Person extends ActiveRecord {
         "edboID" => "Ідентифікатор ЄДБО",
         'BirthPlace' => 'Місце народження',
         'CreateDate' => 'Дата додання',
-        "FIO" => "ФИО",
+        "FIO" => "ПІБ",
         "operatorInfo" => "Оператор",
     );
   }

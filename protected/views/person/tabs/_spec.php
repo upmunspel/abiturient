@@ -92,7 +92,7 @@ $dataProvider = new CActiveDataProvider("Personspeciality", array('criteria' => 
             //'value' => '!empty($data->sepciality->SpecialityName) ? $data->sepciality->SpecialityName : $data->sepciality->SpecialityDirectionName' 
             ),
             array('name' => 'educationForm', 'header' => 'Форма навчання', 'value' => '$data->educationForm->PersonEducationFormName '),
-            array('name' => 'isCopyEntrantDoc', 'header' => 'Копия',
+            array('name' => 'isCopyEntrantDoc', 'header' => 'Копія',
                 'value' => '($data->isCopyEntrantDoc) ? "Так":"Ні"',
             ),
             array('name' => 'status', 'header' => 'Статус',

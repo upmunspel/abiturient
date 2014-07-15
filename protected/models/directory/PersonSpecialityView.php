@@ -131,7 +131,7 @@ class PersonSpecialityView extends CActiveRecord
                     'CreateDate' => 'Дата створення',
                     'idPerson' => 'Код',
                     'Birthday' => 'Дата нар-ня',
-                    'FIO' => 'ФИО',
+                    'FIO' => 'ПІБ',
                     'isContract' => 'Контракт',
                     'isBudget' => 'Бюджет',
                     'SpecCodeName' => 'Спеціальність',

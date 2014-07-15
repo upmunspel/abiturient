@@ -171,9 +171,25 @@ class Personspeciality extends ActiveRecord {
             //array('PersonID+SepcialityID+StatusID', 'ext.uniqueMultiColumnValidator', 'message' => "Заявка на дану спеціальність вже додано!"),
             array('isCopyEntrantDoc', 'valididateCopyEntrantDoc'),
             array('CoursedpDocument', 'valididateCoursedpDocument'),
+            array('CoursedpID', 'valididateCoursedpID'),
         );
     }
 
+    public function valididateCoursedpID($attributes) {
+
+        if (!$this->CoursedpID > 0 ) {
+            
+            $ben = Personbenefits::model()->find("PersonID = {$this->PersonID} and BenefitID = 41");
+            if (!empty($ben)){
+                if (in_array($ben->idPersonBenefits, $this->benefits)){
+                    $this->addError($attributes, "Вже існує пільга по курсам! Зверніться до адміністратора!");
+                }
+            }
+        }
+        
+
+        return true;
+    }
     public function valididateCopyEntrantDoc($attributes) {
 
         if ($this->isCopyEntrantDoc == 1) {
@@ -317,11 +333,29 @@ class Personspeciality extends ActiveRecord {
                 $this->PersonRequestNumber = $res->currentMaxPersonRequestNumber + 1;
             }
         }
+        
+        
 
         return parent::beforeSave();
     }
 
     public function afterSave() {
+        // автоматическое добавление льготы 
+        if ($this->CoursedpID > 0) {
+            $ben = Personbenefits::model()->find("PersonID = {$this->PersonID} and BenefitID = 41");
+            if (empty($ben)){
+                $ben = new Personbenefits("CONVERT");
+                $ben->PersonID = $this->PersonID;
+                $ben->BenefitID = 41;
+                $ben->save();
+            };
+                
+            if (!in_array($ben->idPersonBenefits, $this->benefits)){
+                $this->benefits[] = $ben->idPersonBenefits;
+            }
+        } else {
+            
+        }
 
         // Сохраняем массив льгот привязанных к специальности
         Personspecialitybenefits::model()->deleteAll("PersonSpecialityID = {$this->idPersonSpeciality}");
@@ -419,7 +453,7 @@ class Personspeciality extends ActiveRecord {
             'OlympiadId' => 'Олімпіади',
             'Quota1' => 'Квота (с-ка міс-ть)',
             'Quota2' => 'Квота (держ. сл-ба)',
-            'RequestNumber' => "Номер заявки",
+            'RequestNumber' => "Номер заяви",
             'PersonRequestNumber' => "Номер справи",
             "PersonDocumentsAwardsTypesID" => "Відзнака",
             'isForeinghEntrantDocument' => "Іноземн. док-т",
@@ -430,7 +464,7 @@ class Personspeciality extends ActiveRecord {
             "GraduatedSpeciality" => "Напрямок (спеціальність), яку закінчив",
             'RequestFromEB' => 'Эл-на за-ка',
             "edboID" => "ЄДБО Код",
-            "StatusID" => "Статус заявки",
+            "StatusID" => "Статус заяви",
             "benefits" => "Пільги",
             "LanguageExID" => "Іноземна мова",
             "CoursedpDocument" => "Серія номер та ким виданий документ",

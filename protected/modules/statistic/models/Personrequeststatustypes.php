@@ -62,7 +62,7 @@ class Personrequeststatustypes extends CActiveRecord {
     return array(
         'idPersonRequestStatusType' => 'Id Person Request Status Type',
         'PersonRequestStatusCode' => 'Код статусу заявки',
-        'PersonRequestStatusTypeName' => 'Статус заявки',
+        'PersonRequestStatusTypeName' => 'Статус заяви',
         'PersonRequestStatusTypeDescription' => 'Person Request Status Type Description',
     );
   }
