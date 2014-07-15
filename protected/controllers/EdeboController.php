@@ -51,10 +51,11 @@ class EdeboController extends Controller {
                 try {
                     $res = WebServices::getRequestsByStatus($model->StatusID, $model->QualificationID, date("Y-m-d", strtotime($model->Data)));
                 } catch (Exception $exc) {
-                    echo $exc->getTraceAsString();
+                    Yii::log($exc->getTraceAsString());
                 }
             }
         }
+        $res = array(1,2,3,4,5,6,7,8,9,10);
         $this->render('index', array('model' => $model, 'res' => $res));
     }
     public function actionChangestatus() {

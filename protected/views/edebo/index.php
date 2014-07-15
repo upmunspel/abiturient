@@ -40,7 +40,7 @@ $this->beginWidget('bootstrap.widgets.TbHeroUnit', array(
     var EDBO = EDBO || {};
 
     EDBO.url = '<?php echo Yii::app()->createUrl("edebo/changestatus"); ?>';
-    EDBO.requests = <?php echo $res ?>;
+    EDBO.requests = <?php echo empty($res)?"[]":$res; ?>;
 
     $(document).ready(function() {
         if (EDBO.requests.length > 0) {
