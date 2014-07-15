@@ -1,0 +1,21 @@
+table.striped{border: 1px solid #666;border-spacing:0px}
+* html table.striped{border-collapse:collapse}
+table.striped tr td{text-align:left;font-family:tahoma,verdana,sans-serif;font-size:8pt;padding:2px 7px;background:#fff}
+table.striped thead td{color:#fff;background-color:#8BADE1;font-size:10pt;font-weight:bold;border-bottom:1px solid #999}
+table.striped thead td div{padding:4px;font-weight:bold;font-size:20px}
+table.striped thead td div b{padding:0 4px 0 4px;background-color:#69F;border:1px solid #FFF}
+table.striped tbody td{border-left:1px solid #DDD;border-bottom:1px solid #DDD}
+table.selectable tbody tr{cursor:pointer}
+table.selectable tbody tr.disabled{font-style:italic;color:#999;cursor:default}
+table.striped tbody tr.even td{background:#eee;border-bottom:1px solid #DDD}
+table.striped tbody tr.selected td{background:#48D;color:#fff;border-left:1px solid #36B;border-bottom:1px solid #7AE}
+table.striped tbody tr.ruled td{color:#000;background-color:#CDF;border-left:1px solid #DDD}
+/*Operafix*/
+head:first-child+body table.striped tr.ruled td{background-color:#CDF}
+table.striped tbody tr.selected a{background-color:inherit;color:#DDD}
+table.striped tbody tr.ruled a,table.striped tbody a:link,table.striped tbody a:visited{background-color:inherit;color:#124}
+table.striped tbody a:active,table.striped tbody a:hover{background-color:inherit;color:#000}
+.stripe_button{padding:3px;border:1px solid #666;background-color:#CDF;cursor:pointer}
+table.sortable a.sortheader{background-color:inherit;color:#FFF;font-weight:bold;text-decoration:none;display:block}
+table.sortable a.sortheader:hover{background-color:inherit;color:#CDF}
+table.sortable span.sortarrow{background-color:inherit;color:#CCC;text-decoration:none}

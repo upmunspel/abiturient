@@ -625,7 +625,7 @@ class Personspeciality extends ActiveRecord {
       if ($status_in != '()'){
        $criteria->addCondition('t.StatusID IN '.$status_in);
       } else {
-        $criteria->addCondition('t.StatusID IN (1,2,4,5,6,7,8,9)');
+        $criteria->addCondition('t.StatusID IN (1,4,5,7,8)');
       }
     }
     
