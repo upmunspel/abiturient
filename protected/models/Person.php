@@ -59,7 +59,7 @@ class Person extends ActiveRecord {
 
     public function getFIO() {
         $en = $this->LastNameEn . " " . $this->FirstNameEn . " " . $this->MiddleNameEn;
-        return mb_strtoupper($this->LastName . " " . $this->FirstName . " " . $this->MiddleName . " / " . $en, 'UTF-8');
+        return $this->LastName . " " . $this->FirstName . " " . $this->MiddleName . " / " . $en;
     }
 
     public function getOperatorInfo() {

@@ -73,6 +73,7 @@ class ReptController extends Controller {
     $fields[22] = array('text' => 'Поза конкурсом',);
     $fields[23] = array('text' => 'Напрям',);
     $fields[24] = array('text' => 'Тип документа',);
+    $fields[25] = array('text' => 'Курси ДП',);
     
     if (!is_string($reqFields)){
       throw new CHttpException(400,'Помилка. Невірний запит.');
@@ -982,6 +983,30 @@ class ReptController extends Controller {
             $criteria
           );
           ///////////////////////////////////////
+          break;
+        case 25:
+          $rels = array(
+              array('name' => 'coursedp', 'select' => true),
+          );
+          $sel = array(
+              'to_select' => $to_select,
+              'db_field' => 'coursedp.CourseDPName',
+          );
+          $widget_column = array('name' => 'NAME', 
+            'header' => $header,
+            'value' => 
+            function ($data){
+              echo $data->coursedp->CourseDPName;
+            }
+          );
+          $field_num_index = ($to_select)? $field_num_indexes[$i]:0;
+          $this->ProcessFieldTextOnly($with_rel, $rels, 
+            $select, $sel, 
+            $widget_columns, $widget_column, $field_num_index,
+            $condition_type, $condition_value,
+            $criteria
+          );
+          ////////////////////////////////////////////
           break;
       }
     }
