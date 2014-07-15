@@ -11,7 +11,7 @@
 <title>СТАТИСТИКА ВСТУПУ ВИПУСКНИКІВ</title>
 <style media="print">
 TD {
-  font-size: 7pt;
+  font-size: 15pt;
   border: 1px solid black;
 }
 TH {
@@ -85,7 +85,7 @@ foreach ($cnt_data as $row){
       $i++;
       continue;
     }
-    echo "<td>".$key."</td>";
+    echo "<td style='font-size: 10pt;'>".$key."</td>";
     
     echo "<td style='color: grey;'>".((isset($data[1]))? 
             $data[1]['graduated'] : '0') ."</td>";
@@ -96,7 +96,7 @@ foreach ($cnt_data as $row){
     echo "<td>".((isset($data[1]))? 
             ($data[1]['cnt_requests_from_us']+$data[1]['cnt_requests_from_aliens']) : '0') ."</td>";
     echo "<td style='font-style: italic;'>".((isset($data[1]))? 
-            $data[1]['cnt_req_budget'] : '0') ."</td>";
+            0+$data[1]['cnt_req_budget'] : '0') ."</td>";
     echo "<td style='border-right: 5px solid grey;'>".((isset($data[1]))? 
             $data[1]['cnt_req_originals'] : '0') ."</td>";
             
@@ -109,7 +109,7 @@ foreach ($cnt_data as $row){
     echo "<td>".((isset($data[2]))? 
             ($data[2]['cnt_requests_from_us']+$data[2]['cnt_requests_from_aliens']) : '0') ."</td>";
     echo "<td style='font-style: italic;'>".((isset($data[2]))? 
-            $data[2]['cnt_req_budget'] : '0') ."</td>";
+            0+$data[2]['cnt_req_budget'] : '0') ."</td>";
     echo "<td>".((isset($data[2]))? 
             $data[2]['cnt_req_originals'] : '0') ."</td>";
     echo "</tr>";
@@ -133,6 +133,7 @@ foreach ($cnt_data as $row){
     <?php echo $cnt_atall[1][2]; ?>
   </th>
   <th>
+    <?php echo $cnt_atall[1][3]; ?>
   </th>
   <th style='border-right: 5px solid grey;'>
     <?php echo $cnt_atall[1][4]; ?>
@@ -149,6 +150,7 @@ foreach ($cnt_data as $row){
     <?php echo $cnt_atall[2][2]; ?>
   </th>
   <th>
+    <?php echo $cnt_atall[2][3]; ?>
   </th>
   <th>
     <?php echo $cnt_atall[2][4]; ?>

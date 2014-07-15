@@ -729,7 +729,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                   }
                 }
                 $color = ($name_ok) ? 'green' : 'red';
-                if (!$name_ok){
+                if (!($data->edbo->PIB == $data->NAME)){
                   echo '<div style=\'color: #BBDDBB; font-size: 8pt;\''
                   . ' title=\'Такі дані в ЄДЕБО.\'>'.$data->edbo->PIB.'</div>';
                 }
@@ -838,22 +838,10 @@ $this->widget('bootstrap.widgets.TbGridView', array(
               if (!$data->edbo && $data->edboID){
                 $data->edbo = EdboData::model()->findByPk($data->edboID);
               }
-              
-              $doctypes = explode(';',$data->DocTypes);
-              $points = array();
-              
-              $PointMap = Personspeciality::getPointMap();
-              $DocTypes = Personspeciality::getPersonDocTypes();
-              
-              foreach ($doctypes as $id => $doctype){
-                $points[$doctype]['type'] = $DocTypes[$doctype];
-              }
-              
-              $is_elder = (mb_substr($data->sepciality->SpecialityClasifierCode,0,1,'utf-8') != '6');
               $doc_val = round($data->PointDocValue,2);
               $doc_val_zno = round($data->ZnoDocValue,2);
               $doc_name = 'Документ';
-              $doc_desc = 'Документ';
+              $doc_desc = ($data->entrantdoc)? $data->entrantdoc->type->PersonDocumentTypesName : "Відсутній";
 
               $Total += $doc_val_zno;
               $Total += (($data->documentSubject1)? (float)$data->documentSubject1->SubjectValue : 0.0);
@@ -926,7 +914,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                       . 'Першочерговий вступ'
                       .'</span>'
                       .'<div class="clear"></div>' ;            
-              } else if ((isset($data->edbo->PriorityEntry)? ($data->edbo->PriorityEntry == '1') : false)){
+              } else if ((isset($data->edbo->PriorityEntry)? ($data->edbo->PriorityEntry == '1' && empty($data->edbo->Honours)) : false)){
                 echo "<div style=\"color:red;\" title='У Абітурієнті відсутня'>"
                 . "В ЄДЕБО є відмітка першочергового вступу. </div>";
               }

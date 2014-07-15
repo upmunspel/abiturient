@@ -103,6 +103,7 @@ class StatController extends Controller {
         'facultet',
     );
     $criteria->addCondition('t.PersonEducationFormID IN(1,2)');
+    $criteria->addCondition('t.idSpeciality NOT IN(162738)');
     $criteria->addCondition('SUBSTR(t.SpecialityClasifierCode,1,1) LIKE '
             . '"'.$spec_ident.'"');
     
@@ -285,6 +286,7 @@ class StatController extends Controller {
         'facultet',
     );
     $criteria->addCondition('t.PersonEducationFormID IN(1,2)');
+    $criteria->addCondition('t.idSpeciality NOT IN(162738)');
     $criteria->addCondition('SUBSTR(t.SpecialityClasifierCode,1,1) LIKE '
             . '"'.$spec_ident.'"');
     
@@ -866,6 +868,7 @@ class StatController extends Controller {
                 . $date_segment
                 . ')) AS cnt_req_original')
     );
+    $criteria->addCondition('t.idSpeciality NOT IN(162738)');
     $criteria->group = 'idSpeciality';
     $criteria->order = 'facultet.FacultetFullName,SpecialityDirectionName,SpecialityName';
     $specs = Specialities::model()->findAll($criteria);
