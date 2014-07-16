@@ -101,6 +101,7 @@ class Personspeciality extends ActiveRecord {
   public $ZnoDocValue;
   public $PointDocValue;
   public $AnyOriginal;
+  public $ZNOSum;
   
   public $rating_order_mode;
   public $status_confirmed;
@@ -496,6 +497,9 @@ class Personspeciality extends ActiveRecord {
               . 'ORDER BY benefit.BenefitName ASC SEPARATOR \';;\') AS isExtraEntryList'),
       new CDbExpression('(SELECT SUM(IF((ISNULL(prsp.isCopyEntrantDoc) OR prsp.isCopyEntrantDoc = 0),1,0)) 
         FROM personspeciality prsp WHERE prsp.PersonID=t.PersonID) AS AnyOriginal'),
+      new CDbExpression('(IF(ISNULL(documentSubject1.SubjectValue),0.0,documentSubject1.SubjectValue)+
+        IF(ISNULL(documentSubject2.SubjectValue),0.0,documentSubject2.SubjectValue)+
+        IF(ISNULL(documentSubject3.SubjectValue),0.0,documentSubject3.SubjectValue)) AS ZNOSum'),
     );
     //оформлення єдиного запиту на вибірку
     $criteria->together = true;
@@ -608,6 +612,16 @@ class Personspeciality extends ActiveRecord {
 
         OR (edbo.Quota=0 AND t.Quota1=1)
         OR (edbo.Quota=1 AND (t.Quota1 IS NULL OR t.Quota1 = 0)))'
+      );
+      break;
+      case 7: 
+      //якщо встановлений прапорець, щоб шукати лише неточності в сумі балів ЗНО
+      // тоді додаткові умови ::
+      // 
+      $criteria->addCondition('(
+        edbo.DetailPoints NOT LIKE CONCAT("%ЗНО:",(IF(ISNULL(documentSubject1.SubjectValue),0.0,documentSubject1.SubjectValue)+
+        IF(ISNULL(documentSubject2.SubjectValue),0.0,documentSubject2.SubjectValue)+
+        IF(ISNULL(documentSubject3.SubjectValue),0.0,documentSubject3.SubjectValue)),"%"))'
       );
       break;
     }

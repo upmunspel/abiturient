@@ -315,6 +315,7 @@ echo $form->hiddenField($model, 'SepcialityID', array(
           '4'=>"Неспівпадання з даними ЄДЕБО : лише копія/оригінал",
           '5'=>"Неспівпадання з даними ЄДЕБО : лише бали (зн. документа)",
           '6'=>"Неспівпадання з даними ЄДЕБО : лише відмітки пільгового вступу",
+          '7'=>"Неспівпадання з даними ЄДЕБО : лише сума балів ЗНО",
         ),
         array('class' => 'span11'));
     ?>
@@ -958,6 +959,8 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                   title="В даних ЄДЕБО"
                   style=\'margin-bottom: 3px; font-size: 8pt; margin-left: 2px;\'>' 
                   . $data->edbo->DocPoint . '</span>';
+                $c = preg_match('/ЗНО:([0-9\.]+)\+/',$data->edbo->DetailPoints,$matches);
+                $edboZNO = (isset($matches[1]))? $matches[1] : 0.0;
               }
               
               echo '<div style=\'width: 70px !important;float:left;\' title=\''.$doc_desc.'\'>'.$doc_name.' : </div>' . (($doc_val_zno)? 
@@ -968,7 +971,9 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                       '<span class=\'label label-red\' style=\'margin-bottom: 3px;font-size: 8pt;\'>'.
                       'н/з' . '</span><div class="clear"></div>');
               
-              echo '<div style=\'width: 70px !important;float:left;\'>ЗНО : </div>' . (($data->documentSubject1)? 
+              echo '<div style=\'width: 70px !important;float:left;color:'.(($data->edbo)? 
+                (($data->ZNOSum != $edboZNO)? 'red': 'green') :'black')
+              .'\' title="Сума: '.$data->ZNOSum.(($data->edbo)? ', у ЄДЕБО : '.$edboZNO : '').'">ЗНО : </div>' . (($data->documentSubject1)? 
                       '<span class=\'label label-info\' '
                       . 'style=\'margin-bottom: 3px; font-size: 8pt; font-family: Tahoma;\' '
                       . 'title=\''.(($data->documentSubject1->subject1) ? $data->documentSubject1->subject1->SubjectName : '').'\'>'.
