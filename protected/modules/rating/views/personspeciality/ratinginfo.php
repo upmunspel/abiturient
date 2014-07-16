@@ -27,7 +27,7 @@
 <div class="row"><div class="col"><center>
   <h1>Рейтинг</h1>
   <TABLE cellspacing="0" border="0"
-         class="striped" width='65%'>
+         class="striped" width='73%'>
     <TR>
       <TD colspan='1' class="faculty">
         <?php echo 'Факультет:'; ?> 
@@ -64,7 +64,7 @@
       </TD>
     </TR>
   </TABLE>
-<table class="striped" border="0" cellpadding="0" cellspacing="0" width="65%"><thead><tr>
+<table class="striped" border="0" cellpadding="0" cellspacing="0" width="73%"><thead><tr>
 <td><div><b>#</b></div></td>
 <td title="Прізвище, ім&#39;я, по-батькові абітурієнта"><div><b>ПІБ</b></div></td>
 <td title="Сума всіх балів"><div><b>&#931;</b></div></td>
@@ -80,6 +80,7 @@
 <td title="Оригінали документів є взагалі"><div><b>ІД</b></div></td>
 </tr></thead>
   <tbody>
+  <?php if (!empty($data)){ ?>
     <!-- Цільовики-->
 <?php for ($i = 1; $i < count($data['quota']) + 1; $i++) { ?>
       <TR data-id="<?php echo $data['quota'][$i]['idPersonSpeciality']; ?>">
@@ -303,6 +304,10 @@
   <?php echo $data['below'][$i]['AnyOriginal']; ?>
         </TD>
       </TR>
+<?php } ?>
+
+<?php } else { ?>
+  <tr><td colspan=13>Немає даних</td></tr>
 <?php } ?>
   </tbody>
 </table>

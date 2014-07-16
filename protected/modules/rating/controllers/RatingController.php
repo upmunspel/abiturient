@@ -227,7 +227,36 @@ class RatingController extends Controller {
         $this->layout = '//layouts/clear';
         $this->renderPartial('/personspeciality/ratinginfo',$_data);
     } else {
-        echo 'Помилка - немає даних!';
+        $criteria = new CDbCriteria();
+        $criteria->compare('idSpeciality',$reqPersonspeciality['SepcialityID']);
+        $criteria->with = array('eduform','facultet');
+        $criteria->select = array(
+                new CDbExpression("concat_ws(' ',"
+              . "SpecialityClasifierCode,"
+              . "(case substr(SpecialityClasifierCode,1,1) when '6' then "
+              . "SpecialityDirectionName else SpecialityName end),"
+              . "(case SpecialitySpecializationName when '' then '' "
+              . " else concat('(',SpecialitySpecializationName,')') end)"
+              . ",',',concat('форма: ',eduform.PersonEducationFormName)) AS tSPEC"),
+        );
+        $criteria->together = true;
+        $spec = Specialities::model()->find($criteria);
+        $Speciality = $spec->tSPEC;
+        $Faculty = $spec->facultet->FacultetFullName;
+        $_contract_counter = $spec->SpecialityContractCount;
+        $_budget_counter = $spec->SpecialityBudgetCount;
+        $_pzk_counter = $spec->Quota1;
+        $_quota_counter = $spec->Quota2;
+        $this->layout = '//layouts/clear';
+        $this->renderPartial('/personspeciality/ratinginfo',array(
+          'Speciality' => $Speciality,
+          'Faculty' => $Faculty,
+          '_contract_counter' => $_contract_counter,
+          '_budget_counter' => $_budget_counter,
+          '_pzk_counter' => $_pzk_counter,
+          '_quota_counter' => $_quota_counter,
+          'data' => array(),
+        ));
     }
   }
   
@@ -467,7 +496,7 @@ class RatingController extends Controller {
           $info_row['isExtra'] = ($model->isExtraEntry)? 'V': '—';
           $info_row['isQuota'] = ($model->Quota1)? 'V': '—';
           $info_row['isOriginal'] = (!$model->isCopyEntrantDoc)? 'V': '—';
-          $info_row['AnyOriginal'] = ($model->AnyOriginal)? 'V': '—';
+          $info_row['AnyOriginal'] = ($model->AnyOriginal && $model->isCopyEntrantDoc)? 'V': '—';
           $info_row['idPersonSpeciality'] = $model->idPersonSpeciality;
           $was = 0;
           if ((Personspeciality::$is_rating_order) && $model->Quota1){
