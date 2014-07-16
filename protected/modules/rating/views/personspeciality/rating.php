@@ -614,18 +614,24 @@ $this->widget('bootstrap.widgets.TbGridView', array(
               '</span><br/>';
       echo 'статус заявки: <span class=\'label badge req-status-'.$data->StatusID.'\'>'
             . $data->status->PersonRequestStatusTypeName
-            . '</span><hr style=\'margin: 5px !important;\'/>';
+            . '</span><hr style=\'margin: 3px !important;\'/>';
 ?> <div id='row_<?php echo $row; ?>' style='display:none; font-size:8pt;'> <?php
               echo 'id_заявки: <span class=\'label label-info\'>'.$data->idPersonSpeciality.
-                      '</span><hr style=\'margin: 5px !important;\'/>';
+                      '</span><hr style=\'margin: 3px !important;\'/>';
               echo 'id_персони: <span class=\'label label-info\'>'.$data->PersonID.
-                      '</span><hr style=\'margin: 5px !important;\'/>';
+                      '</span><hr style=\'margin: 3px !important;\'/>';
               echo 'id_ЄДЕБО: <span class=\'label label-info\'>'.$data->edboID.
-                      '</span><hr style=\'margin: 5px !important;\'/>';
+                      '</span><hr style=\'margin: 3px !important;\'/>';
 ?> </div> <?php
 ?> <div id='r_<?php echo $row; ?>' style='font-size:8pt;'> <?php
               echo 'Дата заявки: <span class=\'label label-red\'>'.date('d.m.Y',strtotime($data->CreateDate)).
-                      '</span><hr style=\'margin: 5px !important;\'/>';
+                      '</span><hr style=\'margin: 2px !important;\'/>';
+              $edbo_case = (($data->edbo)? $data->edbo->PersonCase:'');
+              $our_case = str_pad($data->RequestNumber, 5, "0", STR_PAD_LEFT);
+              echo '№ заяви: <span class=\'label label-'.(($data->edbo)?(($edbo_case != $our_case)? 'important':'success'):'red')
+                .'\' title="'.$edbo_case.'">'
+                .trim($our_case).
+                      '</span><hr style=\'margin: 3px !important;\'/>';
 ?> </div> <?php
             }
         ),
