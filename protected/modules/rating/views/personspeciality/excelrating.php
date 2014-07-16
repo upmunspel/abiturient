@@ -310,11 +310,8 @@ if ($toexcel) {
 
     <!-- НЕ ПРОХОДЯТЬ ЗА КОНКУРСОМ -->
     <?php
-    for ($i = 1; $i < count($data['below']) + 1; $i++) {
-      if (!isset($data['below'][$i])) {
-        continue;
-      }
-      if ($i == 1) {
+    for ($i = 0; $i < count($data['below']); $i++) {
+      if ($i == 0) {
         ?>
         <TR>
           <TD colspan='7' class="fatal_line">
@@ -328,7 +325,7 @@ if ($toexcel) {
   ?>
   <TR data-id="<?php echo $data['below'][$i]['idPersonSpeciality']; ?>" class="below_row">
     <TD class="num">
-      <?php echo ($i); ?>
+      <?php echo ($i+1); ?>
     </TD>
     <TD class="person">
       <?php echo $data['below'][$i]['PIB']; ?>
