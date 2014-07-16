@@ -86,6 +86,7 @@
  * @property integer $isExtraEntry - чи є заявка з пільгою першочергового вступу
  * @property integer[] $rating_counter - статичний масив лічильників для формування рейтингу
  * @property integer $is_rating_order = $rating_order_mode (статична)
+ * @property integer $AnyOriginal чи є у персони хоча б один оригінал
  */
 class Personspeciality extends ActiveRecord {
   public $searchFaculty;
@@ -99,6 +100,7 @@ class Personspeciality extends ActiveRecord {
   public $DateTo;
   public $ZnoDocValue;
   public $PointDocValue;
+  public $AnyOriginal;
   
   public $rating_order_mode;
   public $status_confirmed;
@@ -492,6 +494,8 @@ class Personspeciality extends ActiveRecord {
               . 'ORDER BY benefit.BenefitName ASC SEPARATOR \';;\') AS isOutOfCompList'),
       new CDbExpression('GROUP_CONCAT(benefit.isPV '
               . 'ORDER BY benefit.BenefitName ASC SEPARATOR \';;\') AS isExtraEntryList'),
+      new CDbExpression('(SELECT SUM(IF((ISNULL(prsp.isCopyEntrantDoc) OR prsp.isCopyEntrantDoc = 0),1,0)) 
+        FROM personspeciality prsp WHERE prsp.PersonID=t.PersonID) AS AnyOriginal'),
     );
     //оформлення єдиного запиту на вибірку
     $criteria->together = true;

@@ -467,6 +467,7 @@ class RatingController extends Controller {
           $info_row['isExtra'] = ($model->isExtraEntry)? 'V': '—';
           $info_row['isQuota'] = ($model->Quota1)? 'V': '—';
           $info_row['isOriginal'] = (!$model->isCopyEntrantDoc)? 'V': '—';
+          $info_row['AnyOriginal'] = ($model->AnyOriginal)? 'V': '—';
           $info_row['idPersonSpeciality'] = $model->idPersonSpeciality;
           $was = 0;
           if ((Personspeciality::$is_rating_order) && $model->Quota1){
@@ -658,7 +659,9 @@ class RatingController extends Controller {
     echo "<html><meta charset='utf8'><head></head><body><ul>";
     foreach (Specialities::model()->findAll($criteria) as $spec){
       $href = 'http://'.$_SERVER['SERVER_ADDR'].':'.$_SERVER['SERVER_PORT'].'/abiturient/rating/rating/ratinginfo?&Personspeciality%5BSepcialityID%5D='.$spec->idSpeciality.'&Personspeciality%5Brating_order_mode%5D=1'; 
-      echo "<li><a href='".$href."' target='_blank'>".$spec->tSPEC."</a></li>";
+      echo "<li><a href='".$href."' target='_blank'>".$spec->tSPEC." ("
+        .Personspeciality::model()->count('(SepcialityID='.$spec->idSpeciality . ' AND StatusID IN (1,4,5,7,8))')
+        .")</a></li>";
     }
     echo "</ul></body></html>";
   }

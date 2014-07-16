@@ -25,6 +25,7 @@
 <body>
 
 <div class="row"><div class="col"><center>
+  <h1>Рейтинг</h1>
   <TABLE cellspacing="0" border="0"
          class="striped" width='65%'>
     <TR>
@@ -75,7 +76,8 @@
 <td title="Право на позаконкурсний вступ"><div><b>ПК</b></div></td>
 <td title="Право на першочерговий вступ"><div><b>ПЧ</b></div></td>
 <td title="Цільове направлення"><div><b>Ц</b></div></td>
-<td title="Оригінали документів"><div><b>Д</b></div></td>
+<td title="Оригінали документів на цю спеціальність"><div><b>Д</b></div></td>
+<td title="Оригінали документів є взагалі"><div><b>ІД</b></div></td>
 </tr></thead>
   <tbody>
     <!-- Цільовики-->
@@ -116,6 +118,9 @@
         </TD>
         <TD>
   <?php echo $data['quota'][$i]['isOriginal']; ?>
+        </TD>
+        <TD>
+  <?php echo $data['quota'][$i]['AnyOriginal']; ?>
         </TD>
       </TR>
 <?php } ?>
@@ -158,6 +163,9 @@
         <TD>
   <?php echo $data['pzk'][$i]['isOriginal']; ?>
         </TD>
+        <TD>
+  <?php echo $data['pzk'][$i]['AnyOriginal']; ?>
+        </TD>
       </TR>
 <?php } ?>
     <!-- За кошти держ. бюджету -->
@@ -198,6 +206,9 @@
         </TD>
         <TD>
   <?php echo $data['budget'][$i]['isOriginal']; ?>
+        </TD>
+        <TD>
+  <?php echo $data['budget'][$i]['AnyOriginal']; ?>
         </TD>
       </TR>
 <?php } ?>
@@ -240,17 +251,20 @@
         <TD>
   <?php echo $data['contract'][$i]['isOriginal']; ?>
         </TD>
+        <TD>
+  <?php echo $data['contract'][$i]['AnyOriginal']; ?>
+        </TD>
       </TR>
 <?php } ?>
     <!-- ... -->
-<?php for ($i = 1; $i < count($data['below']) + 1; $i++) { 
-  if (!isset($data['below'][$i])){
-    continue;
-  }
+<?php for ($i = 0; $i < count($data['below']) ; $i++) { 
+  // if (!isset($data['below'][$i])){
+    // continue;
+  // }
 ?>
       <TR data-id="<?php echo $data['below'][$i]['idPersonSpeciality']; ?>">
         <TD>
-  <?php echo ($i+count($data['quota'])+count($data['pzk'])+count($data['budget'])+count($data['contract'])); ?>
+  <?php echo ($i+count($data['quota'])+count($data['pzk'])+count($data['budget'])+count($data['contract'])+1); ?>
         </TD>
         <TD>
   <?php echo $data['below'][$i]['PIB']; ?>
@@ -285,10 +299,18 @@
         <TD>
   <?php echo $data['below'][$i]['isOriginal']; ?>
         </TD>
+        <TD>
+  <?php echo $data['below'][$i]['AnyOriginal']; ?>
+        </TD>
       </TR>
 <?php } ?>
   </tbody>
 </table>
 </center></div></div>
+<br/>
+
+<footer style="font-size: 8pt;">Сторінку створено <?php echo date('d.m.Y H:i:s'); ?> в ІС "Абітурієнт". <br/>
+  Дизайн : <a href="http://vstup.info/">vstup.info</a>
+</footer>
 </body>
 </html>
