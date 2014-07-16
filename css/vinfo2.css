@@ -1,6 +1,6 @@
 table.striped{border: 1px solid #666;border-spacing:0px}
 * html table.striped{border-collapse:collapse}
-table.striped tr td{text-align:left;font-family:tahoma,verdana,sans-serif;font-size:8pt;padding:2px 7px;background:#fff}
+table.striped tr td{text-align:left;font-family:tahoma,verdana,sans-serif;font-size:11pt;padding:2px 7px;background:#fff}
 table.striped thead td{color:#fff;background-color:#8BADE1;font-size:10pt;font-weight:bold;border-bottom:1px solid #999}
 table.striped thead td div{padding:4px;font-weight:bold;font-size:20px}
 table.striped thead td div b{padding:0 4px 0 4px;background-color:#69F;border:1px solid #FFF}
