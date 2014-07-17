@@ -122,6 +122,7 @@ $dataProvider = new CActiveDataProvider("Personspeciality", array('criteria' => 
                         'options' => array(
                             'class' => 'btn',
                             'onclick' => "PSN.delSpec(this); return false;",
+                            "style"=>Yii::app()->user->checkAccess("denySpecDel")?"display:none;":"",
                         ),
                     ),
                     'print' => array(
