@@ -28,6 +28,7 @@
 class Specialities extends CActiveRecord {
 
     public $basespecialitys = array();
+    public $SPEC;
 
     public function afterSave() {
 
@@ -240,8 +241,25 @@ class Specialities extends CActiveRecord {
         // should not be searched.
 
         $criteria = new CDbCriteria;
-
-        $criteria->compare('idSpeciality', $this->idSpeciality);
+        $criteria->with = array('eduform');
+        $criteria->select = array('*',
+          new CDbExpression("concat_ws(' ',"
+                    . "SpecialityClasifierCode,"
+                    . "(case substr(SpecialityClasifierCode,1,1) when '6' then "
+                    . "SpecialityDirectionName else SpecialityName end),"
+                    . "(case SpecialitySpecializationName when '' then '' "
+                    . " else concat('(',SpecialitySpecializationName,')') end)"
+                    . ",',',concat('форма: ',eduform.PersonEducationFormName)) AS SPEC"),
+        );
+        $criteria->together = true;
+        $criteria->compare("concat_ws(' ',"
+                    . "SpecialityClasifierCode,"
+                    . "(case substr(SpecialityClasifierCode,1,1) when '6' then "
+                    . "SpecialityDirectionName else SpecialityName end),"
+                    . "(case SpecialitySpecializationName when '' then '' "
+                    . " else concat('(',SpecialitySpecializationName,')') end)"
+                    . ",',',concat('форма: ',eduform.PersonEducationFormName))", $this->SPEC);
+        $criteria->compare('SpecialityName', $this->SpecialityName, true);
         $criteria->compare('SpecialityName', $this->SpecialityName, true);
         $criteria->compare('SpecialityKode', $this->SpecialityKode, true);
         $criteria->compare('FacultetID', $this->FacultetID);
@@ -257,7 +275,7 @@ class Specialities extends CActiveRecord {
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
             'pagination' => array(
-                'pageSize' => 200,
+                'pageSize' => 50,
             ),
         ));
     }
