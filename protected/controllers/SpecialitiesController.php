@@ -51,6 +51,11 @@ class SpecialitiesController extends Controller
         'actions'=>array('index','view','admin','delete','create','update', "ajaxcreate","ajaxupdate",'xedit'),
         'roles'=>array("Root","Admins"),
       ),
+      array('allow', 
+        'actions'=>array('index','admin','xedit'),
+        'users'=>array("munspel","igor","pfd"),
+      ),
+      
       array('deny',  // deny all users
         'users'=>array('*'),
       ),
@@ -127,6 +132,15 @@ class SpecialitiesController extends Controller
    */
   public function actionXedit(){
     Yii::import('bootstrap.widgets.TbEditableSaver');
+    $reqField = Yii::app()->request->getParam('field',null);
+    $reqValue = Yii::app()->request->getParam('value',null);
+    $reqId = Yii::app()->request->getParam('pk',null);
+    if ($reqField == 'YearPrice'){
+      $model = Specialities::model()->findByPk($reqId);
+      $num = 0.0 + $reqValue;
+      $model->WordPrice = $model->num2str($num);
+      $model->save();
+    }
     $es = new TbEditableSaver('Specialities'); 
     $es->update();
   }
