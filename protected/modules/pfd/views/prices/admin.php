@@ -30,6 +30,7 @@ $this->endWidget('ext.prettyPhoto.PrettyPhoto');
 $this->widget('bootstrap.widgets.TbExtendedGridView', array(
     //'filter'=>$model,
     'type'=>'striped bordered',
+    'id' => 'speciality-price-grid',
     'dataProvider' => $model->search(),
     'template' => "{items}",
     'columns' =>    
