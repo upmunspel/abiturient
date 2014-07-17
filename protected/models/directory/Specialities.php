@@ -11,13 +11,16 @@
  * @property string $SpecialityClasifierCode
  * @property integer $SpecialityBudgetCount
  * @property integer $SpecialityContractCount
+ * @property integer $Quota1
+ * @property integer $Quota2
  * @property integer $isZaoch
+ * @property integer $PersonEducationFormID
  * @property integer $isPublishIn
- * @property string $YearPrice	
+ * @property string $YearPrice
  * @property string $SemPrice
- * @property string $WordPrice	
+ * @property string $WordPrice
  * @property integer $StudyPeriodID
- * @property string $SpecialityDirectionName	
+ * @property string $SpecialityDirectionName
  * The followings are the available model relations:
  * @property Personsepciality[] $personsepcialities
  * @property Facultets $facultet
@@ -180,10 +183,11 @@ class Specialities extends CActiveRecord {
             array('SpecialityClasifierCode', 'length', 'max' => 12),
             array("WordPrice, StudyPeriodID, basespecialitys", "safe"),
             array("YearPrice, SemPrice", 'numerical', 'integerOnly' => false),
+            array("Quota1, Quota2, PersonEducationFormID", 'numerical', 'integerOnly' => false),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('idSpeciality, SpecialityName, SpecialityKode, 
-                            FacultetID, SpecialityClasifierCode, SpecialityBudgetCount, SpecialityContractCount, isZaoch, isPublishIn, 
+                            FacultetID, SpecialityClasifierCode, SpecialityBudgetCount, SpecialityContractCount, isZaoch, isPublishIn, Quota1, Quota2,
                             WordPrice, YearPrice', 'safe', 'on' => 'search'),
         );
     }
@@ -197,6 +201,7 @@ class Specialities extends CActiveRecord {
         return array(
             'personsepcialities' => array(self::HAS_MANY, 'Personsepciality', 'SepcialityID'),
             'facultet' => array(self::BELONGS_TO, 'Facultets', 'FacultetID'),
+            'eduform' => array(self::BELONGS_TO, 'Personeducationforms', 'PersonEducationFormID'),
         );
     }
 
@@ -210,9 +215,10 @@ class Specialities extends CActiveRecord {
             'SpecialityKode' => 'Speciality Kode',
             'FacultetID' => 'Facultet',
             'SpecialityClasifierCode' => 'Speciality Clasifier Code',
-            'SpecialityBudgetCount' => 'Speciality Budget Count',
-            'SpecialityContractCount' => 'Speciality Contract Count',
+            'SpecialityBudgetCount' => 'К-сть бюджетних місць',
+            'SpecialityContractCount' => 'К-сть контрактних місць',
             'isZaoch' => 'Is Zaoch',
+            'PersonEducationFormID' => 'Форма навчання',
             'isPublishIn' => 'Is Publish In',
             'WordPrice' => "Загальна вартість прописом",
             'YearPrice' => "Загальна вартість",
@@ -220,6 +226,8 @@ class Specialities extends CActiveRecord {
             "PersonEducationFormID" => "Форма освіти",
             "StudyPeriodID" => "Період",
             "basespecialitys" => "Пов'язаний базовий напрям підготовки",
+            "Quota1" => "Квота \"ПозаКонкурсом\"",
+            "Quota2" => "Квота \"ЦільовеНаправлення\"",
         );
     }
 
@@ -240,11 +248,17 @@ class Specialities extends CActiveRecord {
         $criteria->compare('SpecialityClasifierCode', $this->SpecialityClasifierCode, true);
         $criteria->compare('SpecialityBudgetCount', $this->SpecialityBudgetCount);
         $criteria->compare('SpecialityContractCount', $this->SpecialityContractCount);
+        $criteria->compare('Quota1', $this->Quota1);
+        $criteria->compare('Quota2', $this->Quota2);
         $criteria->compare('isZaoch', $this->isZaoch);
+        $criteria->compare('PersonEducationFormID', $this->PersonEducationFormID);
         $criteria->compare('isPublishIn', $this->isPublishIn);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
+            'pagination' => array(
+                'pageSize' => 200,
+            ),
         ));
     }
 
@@ -262,6 +276,7 @@ class Specialities extends CActiveRecord {
         $criteria->compare('SpecialityBudgetCount', $this->SpecialityBudgetCount);
         $criteria->compare('SpecialityContractCount', $this->SpecialityContractCount);
         $criteria->compare('isZaoch', $this->isZaoch);
+        $criteria->compare('PersonEducationFormID', $this->PersonEducationFormID);
         $criteria->compare('isPublishIn', $this->isPublishIn);
         $criteria->compare('YearPrice', $this->YearPrice);
         $criteria->compare('WordPrice', $this->WordPrice);
