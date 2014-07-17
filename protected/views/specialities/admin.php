@@ -75,19 +75,19 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                   'placement'  => 'right',
                   'inputclass' => 'span3',
               ),
-           'headerHtmlOptions' => array('title' => 'Квота для тих, хто поступає за цільовим направленням'),
+           'headerHtmlOptions' => array('title' => 'Квота для тих, хто поступає поза конкурсом'),
            'htmlOptions' => array('class' => 'span1'),
         ),
         array(
           'class' => 'bootstrap.widgets.TbEditableColumn',
           'name' => 'Quota2',
-          'header' => 'СМ',
+          'header' => 'ЦН',
           'editable' => array(
             'url'        => $this->createUrl('specialities/xedit'),
             'placement'  => 'right',
             'inputclass' => 'span3',
           ),
-          'headerHtmlOptions' => array('title' => 'Квота для тих, хто поступає із сільської місцевості'),
+          'headerHtmlOptions' => array('title' => 'Квота для тих, хто поступає за цільовим направленням'),
           'htmlOptions' => array('class' => 'span1'),
         ),
         array(
