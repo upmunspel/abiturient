@@ -12,33 +12,10 @@ $this->menu = array(
     array('label' => 'Додати запис', 'url' => array('create'), 'icon' => "icon-plus"),
 );
 
-/* Yii::app()->clientScript->registerScript('search', "
-  $('.search-button').click(function(){
-  $('.search-form').toggle();
-  return false;
-  });
-  $('.search-form form').submit(function(){
-  $.fn.yiiGridView.update('specialities-grid', {
-  data: $(this).serialize()
-  });
-  return false;
-  });
-  "); */
 ?>
 
 <h1>Довідник "Спеціальності"</h1>
 
-<p>
-    Можна додати оператор порівняння (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>
-    or <b>=</b>) перед значенням пошуку
-</p>
-<?php //echo CHtml::link('Розширений пошук','#',array('class'=>'search-button btn btn-primary')); ?>
-<!--<div class="search-form" style="display:none; margin-top: 20px;">
-<?php /* $this->renderPartial('_search',array(
-  'model'=>$model,
-  )); */ ?>
-</div>-->
-<!-- search-form -->
 
 <?php
 $this->widget('bootstrap.widgets.TbGridView', array(
@@ -47,83 +24,79 @@ $this->widget('bootstrap.widgets.TbGridView', array(
     'dataProvider' => $model->search(),
     'filter' => $model,
     'columns' => array(
-        //'idSpeciality',
-        //'SpecialityFullName',
-        //'SpecialityKode',
-        //'FacultetID',
-        //'SpecialityClasifierCode',
-        //'SpecialityBudgetCount',
-        //	'SpecialityContractCount',
         array('name' => 'SpecialityName',
             'header' => 'Назва спеціальності',
-            //'filter' => CHtml::listData(Facultets::model()->findAll(), "idFacultet", "FacultetFullName"),
-            'value' => '$data->SpecialityFullName'),
+            'value' => '$data->SpecialityFullName',
+            'htmlOptions' => array('class' => 'span6'),
+        ),
         array('name' => 'FacultetID',
             'header' => 'Факультет',
             'filter' => CHtml::listData(Facultets::model()->findAll(), "idFacultet", "FacultetFullName"),
-            'value' => '$data->facultet->FacultetFullName'),
-//        array('name' => 'isZaoch',
-//            'header' => 'Заочне',
-//            'filter' => array('1' => 'так', '0' => 'ні'),
-//            'value' => '($data->isZaoch=="1")?("так"):("ні")'),
-//        array('name' => 'isPublishIn',
-//            'header' => 'isPublishIn',
-//            'filter' => array('1' => 'так', '0' => 'ні'),
-//            'value' => '($data->isPublishIn=="1")?("так"):("ні")'),
+            'value' => '$data->facultet->FacultetFullName',
+            'htmlOptions' => array('class' => 'span2'),
+        ),
+        array('name' => 'PersonEducationFormID',
+            'header' => 'Форма',
+            'filter' => CHtml::listData(PersonEducationForms::model()->findAll(), 
+              "idPersonEducationForm", "PersonEducationFormName"),
+            'value' => '$data->eduform->PersonEducationFormName',
+            'htmlOptions' => array('class' => 'span1'),
+        ),
         array(
-            'class' => 'bootstrap.widgets.TbButtonColumn',
-            'htmlOptions' => array('style' => 'width: 68px',
-                //'data-toggle' => 'modal',
-                //'data-target' => '#myModal',
-            ),
-            'template' => '{view} {update} {delete}', // {Print}',
-            'buttons' => array(
-//            'Print' => array(
-//                'label' => 'Друк документів',
-//                'url' => 'modal',
-//                'icon'=>"icon-print", 
-//                     ),
-            ),
+           'class' => 'bootstrap.widgets.TbEditableColumn',
+           'name' => 'SpecialityBudgetCount',
+           'header' => 'Б',
+           'editable' => array(
+                  'url'        => $this->createUrl('specialities/xedit'),
+                  'placement'  => 'right',
+                  'inputclass' => 'span3',
+              ),
+           'headerHtmlOptions' => array('title' => 'Кількість бюджетних місць'),
+           'htmlOptions' => array('class' => 'span1'),
+        ),
+        array(
+           'class' => 'bootstrap.widgets.TbEditableColumn',
+           'name' => 'SpecialityContractCount',
+           'header' => 'К',
+           'editable' => array(
+                  'url'        => $this->createUrl('specialities/xedit'),
+                  'placement'  => 'right',
+                  'inputclass' => 'span3',
+              ),
+           'headerHtmlOptions' => array('title' => 'Кількість контракних місць'),
+           'htmlOptions' => array('class' => 'span1'),
+        ),
+        array(
+           'class' => 'bootstrap.widgets.TbEditableColumn',
+           'name' => 'Quota1',
+           'header' => 'ПК',
+           'editable' => array(
+                  'url'        => $this->createUrl('specialities/xedit'),
+                  'placement'  => 'right',
+                  'inputclass' => 'span3',
+              ),
+           'headerHtmlOptions' => array('title' => 'Квота для тих, хто поступає за цільовим направленням'),
+           'htmlOptions' => array('class' => 'span1'),
+        ),
+        array(
+          'class' => 'bootstrap.widgets.TbEditableColumn',
+          'name' => 'Quota2',
+          'header' => 'СМ',
+          'editable' => array(
+            'url'        => $this->createUrl('specialities/xedit'),
+            'placement'  => 'right',
+            'inputclass' => 'span3',
+          ),
+          'headerHtmlOptions' => array('title' => 'Квота для тих, хто поступає із сільської місцевості'),
+          'htmlOptions' => array('class' => 'span1'),
+        ),
+        array(
+          'class' => 'bootstrap.widgets.TbButtonColumn',
+          'template' => '{view} {update} {delete}',
+          'buttons' => array(
+          ),
+          'htmlOptions' => array('class' => 'span1'),
         ),
     ),
 ));
 ?>
-<?php $this->beginWidget('bootstrap.widgets.TbModal', array('id' => 'myModal')); ?>
-
-<div class="modal-header">
-    <a class="close" data-dismiss="modal">&times;</a>
-    <h4>Друк документів</h4>
-</div>
-
-<div class="modal-body">
-    <form action="checkbox-form.php" method="post">
-        <br />
-        <input type="checkbox" name="formDoor[]" value="A" />1<br />
-
-        <input type="checkbox" name="formDoor[]" value="B" />Brown Hall<br />
-        <input type="checkbox" name="formDoor[]" value="C" />Carnegie Complex<br />
-
-        <input type="checkbox" name="formDoor[]" value="D" />Drake Commons<br />
-        <input type="checkbox" name="formDoor[]" value="E" />Elliot House
-
-    </form> 
-    <?php
-    $this->widget('bootstrap.widgets.TbButton', array(
-        'type' => 'primary',
-        'label' => 'ОКDA',
-        'url' => '#',
-    ));
-    ?>
-</div>
-
-<div class="modal-footer">
-    <?php
-    $this->widget('bootstrap.widgets.TbButton', array(
-        'label' => 'Close',
-        'url' => '#',
-        'htmlOptions' => array('data-dismiss' => 'modal'),
-    ));
-    ?>
-</div>
-
-<?php $this->endWidget(); ?>
