@@ -74,6 +74,7 @@ class ReptController extends Controller {
     $fields[23] = array('text' => 'Напрям',);
     $fields[24] = array('text' => 'Тип документа',);
     $fields[25] = array('text' => 'Курси ДП',);
+    $fields[26] = array('text' => 'Номер справи',);
     
     if (!is_string($reqFields)){
       throw new CHttpException(400,'Помилка. Невірний запит.');
@@ -1008,6 +1009,34 @@ class ReptController extends Controller {
           );
           ////////////////////////////////////////////
           break;
+        case 26:
+          $rels = array(
+          );
+          $sel = array(
+              'to_select' => $to_select,
+              'sql_as' => 'PersonCase',
+              'sql_expr' => "CONCAT((CASE t.QualificationID 
+                WHEN 1 THEN 'Б' 
+                WHEN 2 THEN 'СМ' 
+                WHEN 3 THEN 'СМ' 
+                WHEN 4 THEN 'МС' END), t.CourseID, '-', LPAD(t.PersonRequestNumber,5,'0'))",
+          );
+          $widget_column = array('name' => 'PersonCase', 
+            'header' => $header,
+            'value' => 
+            function ($data){
+              echo $data->PersonCase;
+            }
+          );
+          $field_num_index = ($to_select)? $field_num_indexes[$i]:0;
+          $this->ProcessFieldTextOnly($with_rel, $rels, 
+            $select, $sel, 
+            $widget_columns, $widget_column, $field_num_index,
+            $condition_type, $condition_value,
+            $criteria
+          );
+          ////////////////////////////////////////////
+          break;
       }
     }
     $criteria->select = $select;
@@ -1047,6 +1076,10 @@ class ReptController extends Controller {
                 'DOCS' => array(
                     'asc' => 'DOCS',
                     'desc' => 'DOCS DESC',
+                ),
+                'PersonCase' => array(
+                    'asc' => 'PersonCase',
+                    'desc' => 'PersonCase DESC',
                 ),
                 'status.PersonRequestStatusTypeName' => array(
                     'asc' => 'status.PersonRequestStatusTypeName',

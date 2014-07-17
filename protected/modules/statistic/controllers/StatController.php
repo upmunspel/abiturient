@@ -546,12 +546,13 @@ class StatController extends Controller {
     $fields[] = array('text' => 'На контракт', 'id' => 10);
     $fields[] = array('text' => 'Потрібен гуртожиток', 'id' => 11);
     $fields[] = array('text' => 'Статус заявки', 'id' => 12);
+    $fields[] = array('text' => 'Номер справи', 'id' => 26);
     $fields[] = array('text' => 'Дата створення заявки', 'id' => 13);
     $fields[] = array('text' => 'Спеціальність', 'id' => 7);
     $fields[] = array('text' => 'Дата народження', 'id' => 1);
     $fields[] = array('text' => 'Адреса КОАТУУ', 'id' => 2);
     $fields[] = array('text' => 'Країна громадянства', 'id' => 3);
-    $fields[] = array('text' => 'Закінчено навчальний заклад', 'id' => 4);
+    //$fields[] = array('text' => 'Закінчено навчальний заклад', 'id' => 4);
     $fields[] = array('text' => 'Курси ДП', 'id' => 25);
     $fields[] = array('text' => 'Місце народження', 'id' => 5);
     $fields[] = array('text' => 'Іноземна мова', 'id' => 6);

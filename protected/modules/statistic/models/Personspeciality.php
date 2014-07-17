@@ -78,6 +78,8 @@ class Personspeciality extends ActiveRecord {
   public $BENTYPES;
   public $DOCTYPES;
   public $DIRECTION;
+  public $PersonCase;
+  
   
   /**
    * Returns the static model of the specified AR class.
@@ -91,6 +93,27 @@ class Personspeciality extends ActiveRecord {
   public function tableName() {
     return 'personspeciality';
   }
+  
+    /**
+     * @return string Префікс у номері справи
+     */
+    public function getRequestPrefix() {
+        $prefix = "";
+        switch ($this->QualificationID) {
+            case 1: $prefix = "Б";
+                break;
+            case 2: $prefix = "CМ";
+                break;
+            case 3: $prefix = "СМ";
+                break;
+            case 4: $prefix = "МС";
+                break;
+        }
+
+        $prefix .= $this->CourseID . "-";
+
+        return $prefix;
+    }
 
   /**
    * @return array validation rules for model attributes.
