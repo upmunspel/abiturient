@@ -177,29 +177,39 @@ class Personspeciality extends ActiveRecord {
 
     public function valididateCoursedpID($attributes) {
 
-        if (!$this->CoursedpID > 0 ) {
-            
+        if (!$this->CoursedpID > 0) {
+
             $ben = Personbenefits::model()->find("PersonID = {$this->PersonID} and BenefitID = 41");
-            if (!empty($ben)){
-                if (in_array($ben->idPersonBenefits, $this->benefits)){
+            if (!empty($ben)) {
+                if (in_array($ben->idPersonBenefits, $this->benefits)) {
                     $this->addError($attributes, "Вже існує пільга по курсам! Зверніться до адміністратора!");
                 }
             }
         }
-        
+
 
         return true;
     }
+
     public function valididateCopyEntrantDoc($attributes) {
 
         if ($this->isCopyEntrantDoc == 1) {
             return true;
         }
         $count = Personspeciality::model()->count("PersonID = {$this->PersonID} and isCopyEntrantDoc = 0");
-        if ($count > 0) {
-            $this->addError($attributes, "В іншій заявці вже вказано оригінал документу!");
-            return false;
+        if ($this->isNewRecord) {
+            if ($count > 0) {
+                $this->addError($attributes, "В іншій заявці вже вказано оригінал документу!");
+                return false;
+            }
+        } else {
+            $model = Personspeciality::model()->findByPk($this->idPersonSpeciality);
+            if ($model->isCopyEntrantDoc == 1 && $count > 0) {
+                $this->addError($attributes, "В іншій заявці вже вказано оригінал документу!");
+                return false;
+            }
         }
+
 
         return true;
     }
@@ -333,8 +343,8 @@ class Personspeciality extends ActiveRecord {
                 $this->PersonRequestNumber = $res->currentMaxPersonRequestNumber + 1;
             }
         }
-        
-        
+
+
 
         return parent::beforeSave();
     }
@@ -343,14 +353,14 @@ class Personspeciality extends ActiveRecord {
         // автоматическое добавление льготы 
         if ($this->CoursedpID > 0) {
             $ben = Personbenefits::model()->find("PersonID = {$this->PersonID} and BenefitID = 41");
-            if (empty($ben)){
+            if (empty($ben)) {
                 $ben = new Personbenefits("CONVERT");
                 $ben->PersonID = $this->PersonID;
                 $ben->BenefitID = 41;
                 $ben->save();
             };
-                
-            if (!in_array($ben->idPersonBenefits, $this->benefits)){
+
+            if (!in_array($ben->idPersonBenefits, $this->benefits)) {
                 $this->benefits[] = $ben->idPersonBenefits;
             }
         } else {

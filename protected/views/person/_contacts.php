@@ -1,5 +1,6 @@
 <?php  
 
+
 if ($model->PersonContactTypeID == 1) {
     $type = "homephone";
     $label = "Стаціонарний телефон";

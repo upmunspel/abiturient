@@ -192,7 +192,7 @@ class Person extends ActiveRecord {
         return array(
             array('HomeNumber,  PostIndex, Address,
                                 FirstName, LastName, FirstNameR, 
-                                LastNameR, LanguageID, koatu', 'required'),
+                                LastNameR, koatu', 'required'),
             array('PersonSexID, KOATUUCodeL1ID, KOATUUCodeL2ID, 
                                 KOATUUCodeL3ID, IsResident, PersonEducationTypeID, StreetTypeID, SchoolID, LanguageID, CountryID', 'numerical', 'integerOnly' => true),
             array('FirstName, MiddleName, LastName, FirstNameR, MiddleNameR, LastNameR, codeU, FirstNameEn, MiddleNameEn, LastNameEn', 'length', 'max' => 100),
@@ -209,6 +209,10 @@ class Person extends ActiveRecord {
                             IsResident, PersonEducationTypeID, StreetTypeID, Address, HomeNumber, 
                             PostIndex, SchoolID, FirstNameR, MiddleNameR, LastNameR,  
                             CountryID, PersonDocumentID, EntrantDocumentID', 'safe', 'on' => 'search'),
+            
+            array('LanguageID', "required", 'except' => 'EDBOREQ'),
+            array('LanguageID', "safe", 'on' => 'EDBOREQ'),
+            
             array('PhotoName', 'file', 'types' => 'jpg, gif, png', 'maxSize' => 5048576, 'on' => 'PHOTO'),
         );
     }

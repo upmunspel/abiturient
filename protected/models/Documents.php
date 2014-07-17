@@ -28,6 +28,7 @@ class Documents extends ActiveRecord {
      * @return string
      */
     public $PersonBaseSpecealityID = 0;
+
     public static function PersonEntrantDocuments($PersonID, $DiplomsOnly = 0) {
         $res = array();
         $cr = new CDbCriteria();
@@ -121,7 +122,7 @@ class Documents extends ActiveRecord {
         } else {
             $this->DateGet = NULL;
         }
-        if (!empty($this->ZNOPin)){
+        if (!empty($this->ZNOPin)) {
             $this->ZNOPin = str_pad($this->ZNOPin, 4, "0", STR_PAD_LEFT);
         }
         parent::afterFind();
@@ -172,7 +173,6 @@ class Documents extends ActiveRecord {
             array('idDocuments, PersonID, TypeID, Series, Numbers, DateGet, ZNOPin, AtestatValue, Issued, isCopy', 'safe', 'on' => 'search'),
             array('idDocuments, PersonID, TypeID, Series, Numbers, DateGet, ZNOPin, AtestatValue, Issued, isCopy', 'safe', 'on' => 'FULLINPUT'),
             array('PersonBaseSpecealityID', 'docTypeValid', 'on' => 'FULLINPUT'),
-            
         );
     }
 
@@ -266,7 +266,7 @@ class Documents extends ActiveRecord {
     }
 
     public static function loadAndSave($personid, $objarr) {
-        
+
         foreach ($objarr as $item) {
             $val = (object) $item;
 
@@ -294,28 +294,50 @@ class Documents extends ActiveRecord {
                         $subj->save();
                     }
                 }
-            }
-            if ($val->id_Type == 11 || $val->id_Type == 12 || $val->id_Type == 13 || $val->id_Type == 2 ) {
-                $exdoc = null;//Documents::model()->find("PersonID = ".$personid." and TypeID = ".$val->id_Type);
-                Yii::log($val->id_Type."-".$val->number);
-                if (empty($exdoc)){
-                    $doc = new Documents();
-                    //$doc->scenario = "FULLINPUT";
-                    $doc->PersonID = $personid;
-                    $doc->TypeID = $val->id_Type;
-                    $doc->edboID = $val->id_Document;
-                    $doc->AtestatValue = $val->attestatValue;
-                    $doc->Numbers = $val->number;
-                    $doc->Series = $val->series;
-                    $doc->DateGet = date("d.m.Y", mktime(0, 0, 0, $val->dateGet['month'] + 1, $val->dateGet['dayOfMonth'], $val->dateGet['year']));
-                    $doc->ZNOPin = $val->znoPin;
-                    $doc->Issued = $val->issued;
-                    $doc->save();
+            } else {
+                if ($val->id_Type == 11 || $val->id_Type == 12 || $val->id_Type == 13 || $val->id_Type == 2) {
+                    $exdoc = null; 
+                    try {
+
+                        if (empty($exdoc)) {
+                            $doc = new Documents();
+                            //$doc->scenario = "FULLINPUT";
+                            $doc->PersonID = $personid;
+                            $doc->TypeID = $val->id_Type;
+                            $doc->edboID = $val->id_Document;
+                            $doc->AtestatValue = $val->attestatValue;
+                            $doc->Numbers = $val->number;
+                            $doc->Series = $val->series;
+                            $doc->DateGet = date("d.m.Y", mktime(0, 0, 0, $val->dateGet['month'] + 1, $val->dateGet['dayOfMonth'], $val->dateGet['year']));
+                            //$doc->ZNOPin = $val->znoPin;
+                            $doc->Issued = $val->issued;
+                            $doc->save();
+                        }
+                    } catch (Exception $exc) {
+                        Yii::log($exc->getTraceAsString());
+                    }
+                } else if (Yii::app()->user->checkAccess("asEDBOReqOperator")) {
+                    try {
+
+                        if (empty($exdoc)) {
+                            $doc = new Documents();
+                            $doc->scenario = "FULLINPUT";
+                            $doc->PersonID = $personid;
+                            $doc->TypeID = $val->id_Type;
+                            $doc->edboID = $val->id_Document;
+                            $doc->AtestatValue = $val->attestatValue;
+                            $doc->Numbers = $val->number;
+                            $doc->Series = $val->series;
+                            $doc->DateGet = date("d.m.Y", mktime(0, 0, 0, $val->dateGet['month'] + 1, $val->dateGet['dayOfMonth'], $val->dateGet['year']));
+                            //$doc->ZNOPin = $val->znoPin;
+                            $doc->Issued = $val->issued;
+                            $doc->save();
+                        }
+                    } catch (Exception $exc) {
+                        Yii::log($exc->getTraceAsString());
+                    }
                 }
-            } 
-            
-            
-            
+            }
         }
     }
 

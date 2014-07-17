@@ -51,10 +51,10 @@ class PersonController extends Controller {
      */
     public function accessRules() {
         return array(
-            array('allow', // allow all users to perform 'index' and 'view' actions
-                'actions' => array('index', 'view'),
-                'users' => array('*'),
-            ),
+            /* array('allow', // allow all users to perform 'index' and 'view' actions
+              'actions' => array('index', 'view'),
+              'users' => array('*'),
+              ), */
             /* array('allow', // allow authenticated user to perform 'create' and 'update' actions
               'actions'=>array('create','update'),
               'users'=>array('@'),
@@ -106,7 +106,7 @@ class PersonController extends Controller {
     public function actionCreate() {
 
         $this->layout = '//layouts/column2_noblock';
-      
+
         $model = new Person;
 
         $model->Birthday = date("d.m.Y", mktime(0, 0, 0, 1, 1, date('Y') - 18));
@@ -115,17 +115,17 @@ class PersonController extends Controller {
 
 
         // Обработка формы поиска
+
         if (isset($_POST['search'])) {
             $findRes = 0; //$this->FindLocalPersonByDoc($_POST['search']['attestatSeries'],$_POST['search']['attestatNumber']);
-        
+
             try {
                 if ($findRes == 0) {
                     $fio = trim($_POST['search']['fio']);
-                    if (empty($fio)){
-                    $res = WebServices::findPerson($_POST['search']['series'], $_POST['search']['number']);
+                    if (empty($fio)) {
+                        $res = WebServices::findPerson($_POST['search']['series'], $_POST['search']['number']);
                     } else {
-                       $res = WebServices::findPersonByFio($_POST['search']['fio']); 
-                        
+                        $res = WebServices::findPersonByFio($_POST['search']['fio']);
                     }
                     $searchRes = Person::JsonDataAsArray($res);
                     Yii::app()->session['searchRes'] = $searchRes;
@@ -136,12 +136,13 @@ class PersonController extends Controller {
             } catch (Exception $e) {
                 Yii::app()->user->setFlash("message", $e->getMessage());
             }
-            
         }
+        // Обработка пролистывания найденных персон
         if (isset($_GET['page'])) {
-             $searchRes = Yii::app()->session['searchRes'];
+            $searchRes = Yii::app()->session['searchRes'];
         }
 
+        // Загрузка данный из ЕДЕБО по коду персоны
         if (isset($_GET['personCodeU'])) {
 
             try {
@@ -159,7 +160,7 @@ class PersonController extends Controller {
                 Yii::app()->user->setFlash("message", $e->getMessage());
             }
         }
-        
+
 
         if (isset($_POST['Person'])) {
             $model->attributes = $_POST['Person'];
@@ -186,51 +187,61 @@ class PersonController extends Controller {
 
             $entrant_valid = true;
             $showPersonEntrantDocForm = Yii::app()->user->checkAccess("showPersonEntrantDocForm");
+            // Проверять или нет доцумент поступающего
             if ($showPersonEntrantDocForm) {
                 $entrant_valid = $model->entrantdoc->validate("ENTRANT");
             }
-            if ($entrant_valid && $model->persondoc->validate() && $model->inndoc->validate("INN") && $model->hospdoc->validate("HOSP") && $model->homephone->validate() && $model->mobphone->validate() && $model->save()) {
-                $model->persondoc->PersonID = $model->idPerson;
-                if ($showPersonEntrantDocForm) {
-                    $model->entrantdoc->PersonID = $model->idPerson;
+            $asEDBOReqOperator = Yii::app()->user->checkAccess("asEDBOReqOperator");
+            // Обробка для електронных заяв
+            if ($asEDBOReqOperator) {
+                $model->scenario = "EDBOREQ";
+                if ($model->LanguageID == 0) {
+                    $model->LanguageID = 2;
                 }
-                $model->inndoc->PersonID = $model->idPerson;
-                $model->hospdoc->PersonID = $model->idPerson;
-                $model->homephone->PersonID = $model->idPerson;
-                $model->mobphone->PersonID = $model->idPerson;
+                if ($model->homephone->validate() && $model->mobphone->validate() && $model->save()) {
 
-                $model->persondoc->save();
+                    $model->homephone->PersonID = $model->idPerson;
+                    $model->mobphone->PersonID = $model->idPerson;
+                    $model->homephone->save();
+                    $model->mobphone->save();
 
-                if ($showPersonEntrantDocForm) {
-                    $model->entrantdoc->save();
+                    if (isset(Yii::app()->session[$model->codeU . "-documents"])) {
+                        Documents::loadAndSave($model->idPerson, unserialize(Yii::app()->session[$model->codeU . "-documents"]));
+                    }
+
+                    $this->redirect(array('view', 'id' => $model->idPerson));
                 }
+            } else { // Обробка обычной заявки
+                if ($entrant_valid && $model->persondoc->validate() && $model->inndoc->validate("INN") && $model->hospdoc->validate("HOSP") && $model->homephone->validate() && $model->mobphone->validate() && $model->save()) {
+                    $model->persondoc->PersonID = $model->idPerson;
+                    if ($showPersonEntrantDocForm) {
+                        $model->entrantdoc->PersonID = $model->idPerson;
+                    }
+                    $model->inndoc->PersonID = $model->idPerson;
+                    $model->hospdoc->PersonID = $model->idPerson;
+                    $model->homephone->PersonID = $model->idPerson;
+                    $model->mobphone->PersonID = $model->idPerson;
 
-                $model->inndoc->save();
-                $model->hospdoc->save();
-                $model->homephone->save();
-                $model->mobphone->save();
+                    $model->persondoc->save();
+
+                    if ($showPersonEntrantDocForm) {
+                        $model->entrantdoc->save();
+                    }
+
+                    $model->inndoc->save();
+                    $model->hospdoc->save();
+                    $model->homephone->save();
+                    $model->mobphone->save();
 
 
 
 
-                if (isset(Yii::app()->session[$model->codeU . "-documents"])) {
-                    Documents::loadAndSave($model->idPerson, unserialize(Yii::app()->session[$model->codeU."-documents"]));
+                    if (isset(Yii::app()->session[$model->codeU . "-documents"])) {
+                        Documents::loadAndSave($model->idPerson, unserialize(Yii::app()->session[$model->codeU . "-documents"]));
+                    }
+
+                    $this->redirect(array('view', 'id' => $model->idPerson));
                 }
-//                            debug("model->entrantdoc->AtestatValue = ".$model->entrantdoc->AtestatValue);
-//                            if (!empty($model->entrantdoc->edboID) && (empty($model->entrantdoc->AtestatValue)  || $model->entrantdoc->AtestatValue == 0 )  {
-//                                  debug("model->entrantdoc->AtestatValue = ".$model->entrantdoc->AtestatValue);
-//                                  $old = Yii::app()->user->getFlash("message");
-//                                  Yii::app()->user->setFlash("message",$old." Необхідно ввести середный бал документа про освіту з номером:".$model->entrantdoc->Numbers."!" );
-//                            }
-                /*
-                  if (!$model->SendEdboRequest()){
-                  $model->delete();
-                  $this->render('create',array('model'=>$model,"searchres"=>$searchRes));
-                  Yii::app()->end();
-                  }
-                 */
-
-                $this->redirect(array('view', 'id' => $model->idPerson));
             }
         }
 
