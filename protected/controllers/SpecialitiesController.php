@@ -165,7 +165,9 @@ class SpecialitiesController extends Controller
     $model->unsetAttributes();  // clear any default values
     if(isset($_GET['Specialities']))
       $model->attributes=$_GET['Specialities'];
-
+    if (isset($_GET['Specialities']['SPEC'])){
+      $model->SPEC = $_GET['Specialities']['SPEC'];
+    }
     $this->render('admin',array(
       'model'=>$model,
     ));
