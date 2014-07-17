@@ -24,9 +24,9 @@ $this->widget('bootstrap.widgets.TbGridView', array(
     'dataProvider' => $model->search(),
     'filter' => $model,
     'columns' => array(
-        array('name' => 'SpecialityName',
+        array('name' => 'SPEC',
             'header' => 'Назва спеціальності',
-            'value' => '$data->SpecialityFullName',
+            'value' => '$data->SPEC',
             'htmlOptions' => array('class' => 'span6'),
         ),
         array('name' => 'FacultetID',
