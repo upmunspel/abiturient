@@ -258,7 +258,7 @@ class Specialities extends CActiveRecord {
                     . "SpecialityDirectionName else SpecialityName end),"
                     . "(case SpecialitySpecializationName when '' then '' "
                     . " else concat('(',SpecialitySpecializationName,')') end)"
-                    . ",',',concat('форма: ',eduform.PersonEducationFormName))", $this->SPEC);
+                    . ",',',concat('форма: ',eduform.PersonEducationFormName))", $this->SPEC,true);
         $criteria->compare('SpecialityName', $this->SpecialityName, true);
         $criteria->compare('SpecialityName', $this->SpecialityName, true);
         $criteria->compare('SpecialityKode', $this->SpecialityKode, true);
