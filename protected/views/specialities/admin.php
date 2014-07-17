@@ -37,7 +37,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
         ),
         array('name' => 'PersonEducationFormID',
             'header' => 'Форма',
-            'filter' => CHtml::listData(PersonEducationForms::model()->findAll(), 
+            'filter' => CHtml::listData(Personeducationforms::model()->findAll(), 
               "idPersonEducationForm", "PersonEducationFormName"),
             'value' => '$data->eduform->PersonEducationFormName',
             'htmlOptions' => array('class' => 'span1'),
