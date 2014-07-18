@@ -24,8 +24,8 @@
 ?>
 <body>
 
-<div class="row"><div class="col"><center><?php /* ?>
-  <h1>Рейтинг</h1>
+<div class="row"><div class="col"><center>
+  <h1>Інформація про подані абітурієнтами заяви</h1>
   <TABLE cellspacing="0" border="0"
          class="striped" width='73%'>
     <TR>
@@ -63,7 +63,7 @@
         <?php echo (0+$_quota_counter); ?>
       </TD>
     </TR>
-  </TABLE><?php */ ?>
+  </TABLE>
 <table class="striped" border="0" cellpadding="0" cellspacing="0" width="73%"><thead><tr>
 <td><div><b>#</b></div></td>
 <td title="Прізвище, ім&#39;я, по-батькові абітурієнта"><div><b>ПІБ</b></div></td>
