@@ -18,19 +18,19 @@
     <title><?php echo $Speciality; ?></title>
     <link rel="stylesheet" href="<?php echo Yii::app()->CreateUrl('css/vinfo1.css'); ?>" type="text/css">
     <link rel="stylesheet" href="<?php echo Yii::app()->CreateUrl('css/vinfo2.css'); ?>" type="text/css" media="screen">
-  
+
   </head>
 <?php
 ?>
 <body>
 
-<div class="row"><div class="col"><center>
+<div class="row"><div class="col"><center><?php /* ?>
   <h1>Рейтинг</h1>
   <TABLE cellspacing="0" border="0"
          class="striped" width='73%'>
     <TR>
       <TD colspan='1' class="faculty">
-        <?php echo 'Факультет:'; ?> 
+        <?php echo 'Факультет:'; ?>
         <?php echo $Faculty; ?>
       </TD>
     </TR>
@@ -63,7 +63,7 @@
         <?php echo (0+$_quota_counter); ?>
       </TD>
     </TR>
-  </TABLE>
+  </TABLE><?php */ ?>
 <table class="striped" border="0" cellpadding="0" cellspacing="0" width="73%"><thead><tr>
 <td><div><b>#</b></div></td>
 <td title="Прізвище, ім&#39;я, по-батькові абітурієнта"><div><b>ПІБ</b></div></td>
@@ -258,7 +258,7 @@
       </TR>
 <?php } ?>
     <!-- ... -->
-<?php for ($i = 0; $i < count($data['below']) ; $i++) { 
+<?php for ($i = 0; $i < count($data['below']) ; $i++) {
   // if (!isset($data['below'][$i])){
     // continue;
   // }
