@@ -740,7 +740,7 @@ Yii::app()->clientScript->registerPackage('select2');
     <?php 
       foreach (Facultets::model()->findAll('1 ORDER BY FacultetFullName') as $faculty){
         echo '<li>'.CHtml::link($faculty->FacultetFullName,
-                Yii::app()->CreateUrl("statistic/stat/contacts?FacultyID=".$faculty->idFacultet));
+                Yii::app()->CreateUrl("rating/rating/ratingcontacts",array('id'=>$faculty->idFacultet)));
         echo '</li>';
       }
     ?>

@@ -41,6 +41,12 @@ class RatingController extends Controller {
             ),
             'users' => array('@'),
         ),
+        array('allow',
+            'actions' => array(
+                "ratingcontacts"
+            ),
+            'users' => array('nas150','igor','munspel'),
+        ),
         array('deny', // deny all users
             'users' => array('*'),
         ),
@@ -179,7 +185,50 @@ class RatingController extends Controller {
     } else {
         echo 'Помилка - немає даних!';
     }
-  }  
+  }
+
+  /**
+   * Формування XLS-файлу з рейтингом для усіх спеціальностей факультету
+   */
+  public function actionRatingcontacts($id){
+    $reqToExcel = Yii::app()->request->getParam('toexcel',1);
+    $specs_of_faculty = array();
+    $faculty_model = false;
+    if (is_numeric($id) && $id > 0){
+      $fcriteria = new CDbCriteria();
+      $fcriteria->compare('FacultetID',$id);
+      $fcriteria->order = 'SpecialityName ASC, SpecialityDirectionName ASC, PersonEducationFormID ASC';
+      $specs_of_faculty = Specialities::model()->findAll($fcriteria);
+      $faculty_model = Facultets::model()->findByPk($id);
+    }
+    if (empty($specs_of_faculty) || !$faculty_model){
+      throw new Exception ("Помилка: для факультета з ID = ".$id
+              .' не знайшлося напрямів або такий не існує.');
+    }
+    $this->renderPartial('/personspeciality/ratingcontacts_header',
+            array('Faculty'=>$faculty_model->FacultetFullName));
+    foreach ($specs_of_faculty as $spec_model){
+      $model = new Personspeciality();
+      $model->rating_order_mode = 1;
+      $model->SepcialityID = $spec_model->idSpeciality;
+      $faculty = new Facultets('search');
+      $benefit = new Benefit('search');
+      $model->searchFaculty = $faculty;
+      $model->searchBenefit = $benefit;
+
+      //повертається масив моделей
+      $models = $model->search_rel(true);
+      if (count($models)){
+          $_data = $this->CreateRatingData($models);
+          $_data['toexcel'] = $reqToExcel;
+          $_data['contacts'] = (in_array('Root',Yii::app()->user->getUserRoles())) 
+                  ? 1 : 0;
+          $this->layout = '//layouts/clear';
+          $this->renderPartial('/personspeciality/rating_contacts',$_data);
+      }
+    }
+    $this->renderPartial('/personspeciality/ratingcontacts_footer',array());
+  }
   
   /**
    * Формування рейтингів конкретної спеціальності у стилі ВступІнфо

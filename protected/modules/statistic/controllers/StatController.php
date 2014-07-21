@@ -499,7 +499,7 @@ class StatController extends Controller {
       $criteria->compare('sepciality.FacultetID',$reqFacultyID);
     }
     $criteria->group = 't.idPerson';
-    $criteria->order = 'NAME ASC, sepciality.SpecialityName, sepciality.SpecialityDirectionName, status.idPersonRequestStatusType';
+    $criteria->order = 'sepciality.SpecialityName, sepciality.SpecialityDirectionName, NAME ASC';//, status.idPersonRequestStatusType';
     //$criteria->limit = '100';
     $models = Person::model()->findAll($criteria);
     $contact_data = array();
