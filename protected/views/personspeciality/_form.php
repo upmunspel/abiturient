@@ -52,7 +52,7 @@
         <div class="span4">
 
             <label for="<?php echo CHtml::activeId($model, 'isHigherEducation'); ?>" >
-                <?php echo $form->radioButton ListRow($model,'isHigherEducation',array(0=>'не отримую', 1=>'отримую' , 2=>"є",3=>'немає'));  ?>  
+                <?php echo $form->radioButtonListRow($model,'isHigherEducation',array(0=>'не отримую', 1=>'отримую' , 2=>"є",3=>'немає'));  ?>  
                 <?php // Информация о высшем образовании персоны. echo $model->getAttributeLabel("isNeedHostel");  ?>
             </label>
 
