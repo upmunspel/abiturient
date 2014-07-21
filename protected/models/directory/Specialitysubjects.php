@@ -8,7 +8,7 @@
  * @property integer $SpecialityID
  * @property integer $SubjectID
  * @property integer $LevelID
- *
+ *@property integer $isProfile
  * The followings are the available model relations:
  * @property Specialities $speciality
  * @property Subjects $subject

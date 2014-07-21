@@ -172,7 +172,69 @@ class Personspeciality extends ActiveRecord {
             array('isCopyEntrantDoc', 'valididateCopyEntrantDoc'),
             array('CoursedpDocument', 'valididateCoursedpDocument'),
             array('CoursedpID', 'valididateCoursedpID'),
+            array('EntranceTypeID', 'valididateEntranceTypeID'),
+            array("DocumentSubject1", "valididateDocumentSubject"),
         );
+    }
+
+    public function valididateDocumentSubject($attributes) {
+        if ($this->EntranceTypeID == 1) {
+            $s1 = Documentsubject::model()->findByPk($this->DocumentSubject1);
+            $s2 = Documentsubject::model()->findByPk($this->DocumentSubject2);
+            $s3 = Documentsubject::model()->findByPk($this->DocumentSubject3);
+            $profball = 0;
+            $nprof1 = 0;
+            $nprof2 = 0;
+            if (!empty($s1) && !empty($s2) && !empty($s3)) {
+                $ss1 = Specialitysubjects::model()->find("SpecialityID = {$this->SepcialityID} and SubjectID = {$s1->SubjectID}");
+                $ss2 = Specialitysubjects::model()->find("SpecialityID = {$this->SepcialityID} and SubjectID = {$s2->SubjectID}");
+                $ss3 = Specialitysubjects::model()->find("SpecialityID = {$this->SepcialityID} and SubjectID = {$s3->SubjectID}");
+                $profball = $s2->SubjectValue;
+                $nprof1 = $s1->SubjectValue;
+                $nprof2 = $s3->SubjectValue;
+                
+                if ($ss1->isProfile) {
+                    $profball = $s1->SubjectValue;
+                    $nprof1 = $s2->SubjectValue;
+                    $nprof2 = $s3->SubjectValue;
+                }
+                if ($ss2->isProfile) {
+                    $profball = $s2->SubjectValue;
+                    $nprof1 = $s1->SubjectValue;
+                    $nprof2 = $s3->SubjectValue;
+                }
+                if ($ss3->isProfile) {
+                    $profball = $s3->SubjectValue;
+                    $nprof1 = $s1->SubjectValue;
+                    $nprof2 = $s2->SubjectValue;
+                }
+                if ($profball < 140) {
+                    $this->addError($attributes, "Профільний предмет не може бути нижчім за 140 балів!");
+                    return false;
+                }
+                if (($profball >= 140 && $profball < 170) && ($nprof1 < 124 || $nprof2 < 124 )) {
+                    $this->addError($attributes, "Недопустимі для вступу бали непрофільних предметів!");
+                    return false;
+                }
+
+            }
+        }
+
+
+        return true;
+    }
+
+    public function valididateEntranceTypeID($attributes) {
+        $model = Specialities::model()->findByPk($this->SepcialityID);
+        if (!empty($model)) {
+            if ($model->isArtExam && $this->EntranceTypeID == 1) {
+                $this->addError($attributes, "На дану спеціальність заборонена така форма вступу!");
+                return false;
+            }
+        }
+
+
+        return true;
     }
 
     public function valididateCoursedpID($attributes) {

@@ -244,7 +244,9 @@ class PersonController extends Controller {
                 }
             }
         }
-
+        if (empty($model->LanguageID)) {
+            $model->LanguageID = 2;
+        }
         $this->render('create', array('model' => $model, "searchres" => $searchRes));
     }
 

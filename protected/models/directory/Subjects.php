@@ -108,13 +108,13 @@ class Subjects extends CActiveRecord
 	 */
 	public function attributeLabels()
 	{
-		return array(
-    'idSubjects' => 'Код предмета',
-    'idZNOSubject' => 'Id Znosubject',
-    'SubjectName' => 'Назва предмета',
-   'ParentSubject' => 'Parent Subject',
-    'SubjectKey' => 'Ключ предмета',
-		);
+            return array(
+                'idSubjects' => 'Код предмета',
+                'idZNOSubject' => 'Id Znosubject',
+                'SubjectName' => 'Назва предмета',
+                'ParentSubject' => 'Parent Subject',
+                'SubjectKey' => 'Ключ предмета',
+            );
 	}
 
 	/**
