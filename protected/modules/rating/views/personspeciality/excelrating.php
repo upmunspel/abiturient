@@ -208,7 +208,7 @@ if ($toexcel) {
             $model = Personspeciality::model()->findByPk($data['quota'][$i]['idPersonSpeciality']);
             $array_contacts = array();
             foreach ($model->person->contacts as $mcontact){
-              $array_contacts[] = iconv("utf-8", "windows-1251", $mcontact->Value);
+              $array_contacts[] = iconv("utf-8", "windows-1251", 'т:'.$mcontact->Value);
             }
             echo implode(';<br/>',$array_contacts);
           } 
@@ -252,7 +252,7 @@ if ($toexcel) {
             $model = Personspeciality::model()->findByPk($data['pzk'][$i]['idPersonSpeciality']);
             $array_contacts = array();
             foreach ($model->person->contacts as $mcontact){
-              $array_contacts[] = iconv("utf-8", "windows-1251", $mcontact->Value);
+              $array_contacts[] = iconv("utf-8", "windows-1251", 'т:'.$mcontact->Value);
             }
             echo implode(';<br/>',$array_contacts);
           } 
@@ -296,7 +296,7 @@ if ($toexcel) {
             $model = Personspeciality::model()->findByPk($data['budget'][$i]['idPersonSpeciality']);
             $array_contacts = array();
             foreach ($model->person->contacts as $mcontact){
-              $array_contacts[] = iconv("utf-8", "windows-1251", $mcontact->Value);
+              $array_contacts[] = iconv("utf-8", "windows-1251", 'т:'.$mcontact->Value);
             }
             echo implode(';<br/>',$array_contacts);
           } 
@@ -339,7 +339,7 @@ if ($toexcel) {
             $model = Personspeciality::model()->findByPk($data['contract'][$i]['idPersonSpeciality']);
             $array_contacts = array();
             foreach ($model->person->contacts as $mcontact){
-              $array_contacts[] = iconv("utf-8", "windows-1251", $mcontact->Value);
+              $array_contacts[] = iconv("utf-8", "windows-1251", 'т:'.$mcontact->Value);
             }
             echo implode(';<br/>',$array_contacts);
           } 
@@ -387,7 +387,7 @@ if ($toexcel) {
             $model = Personspeciality::model()->findByPk($data['below'][$i]['idPersonSpeciality']);
             $array_contacts = array();
             foreach ($model->person->contacts as $mcontact){
-              $array_contacts[] = iconv("utf-8", "windows-1251", $mcontact->Value);
+              $array_contacts[] = iconv("utf-8", "windows-1251", 'т:'.$mcontact->Value);
             }
             echo implode(';<br/>',$array_contacts);
           } 
