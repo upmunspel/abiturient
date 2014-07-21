@@ -741,6 +741,8 @@ Yii::app()->clientScript->registerPackage('select2');
       foreach (Facultets::model()->findAll('1 ORDER BY FacultetFullName') as $faculty){
         echo '<li>'.CHtml::link($faculty->FacultetFullName,
                 Yii::app()->CreateUrl("rating/rating/ratingcontacts",array('id'=>$faculty->idFacultet)));
+        echo ' ('. CHtml::link('У форматі Excel - html',
+                Yii::app()->CreateUrl("rating/rating/ratingcontacts",array('id'=>$faculty->idFacultet,'toexcel' => 1))).')';
         echo '</li>';
       }
     ?>

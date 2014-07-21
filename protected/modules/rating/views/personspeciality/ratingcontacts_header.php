@@ -3,7 +3,7 @@
   header('Cache-Control: no-store, no-cache, must-revalidate');
   header('Cache-Control: post-check=0, pre-check=0', FALSE);
   header('Pragma: no-cache');
-if (1) {
+if ($toexcel) {
   header('Content-transfer-encoding: binary');
   header('Content-Disposition: attachment; filename=' . iconv("windows-1251", "utf-8",str_replace(array(' ', ':', '.', ',_', '__'), '_', $Faculty) . '.xls'));
   header('Content-Type: application/x-unknown');

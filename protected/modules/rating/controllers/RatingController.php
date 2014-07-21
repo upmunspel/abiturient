@@ -191,7 +191,7 @@ class RatingController extends Controller {
    * Формування XLS-файлу з рейтингом для усіх спеціальностей факультету
    */
   public function actionRatingcontacts($id){
-    $reqToExcel = Yii::app()->request->getParam('toexcel',1);
+    $reqToExcel = Yii::app()->request->getParam('toexcel',0);
     $specs_of_faculty = array();
     $faculty_model = false;
     if (is_numeric($id) && $id > 0){
@@ -206,7 +206,8 @@ class RatingController extends Controller {
               .' не знайшлося напрямів або такий не існує.');
     }
     $this->renderPartial('/personspeciality/ratingcontacts_header',
-            array('Faculty'=>$faculty_model->FacultetFullName));
+            array('Faculty'=>$faculty_model->idFacultet,
+               'toexcel' => $reqToExcel));
     foreach ($specs_of_faculty as $spec_model){
       $model = new Personspeciality();
       $model->rating_order_mode = 1;

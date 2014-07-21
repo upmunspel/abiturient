@@ -8,6 +8,7 @@
 /* @var $_quota_counter integer */
 /* @var $toexcel integer */
 /* @var $contacts integer */
+$k = 1;
 ?>
 
     <TR>
@@ -82,7 +83,7 @@
 <?php for ($i = 1; $i < count($data['quota']) + 1; $i++) { ?>
       <TR data-id="<?php echo $data['quota'][$i]['idPersonSpeciality']; ?>" class="target_row">
         <TD class="num">
-  <?php echo ($i); ?>
+  <?php echo ($k++); ?>
         </TD>
         <TD class="person">
   <?php echo $data['quota'][$i]['PIB']; ?>
@@ -125,7 +126,7 @@
 <?php for ($i = 1; $i < count($data['pzk']) + 1; $i++) { ?>
       <TR data-id="<?php echo $data['pzk'][$i]['idPersonSpeciality']; ?>" class="pzk_row">
         <TD class="num">
-  <?php echo ($i); ?>
+  <?php echo ($k++); ?>
         </TD>
         <TD class="person">
   <?php echo $data['pzk'][$i]['PIB']; ?>
@@ -168,7 +169,7 @@
 <?php for ($i = 1; $i < count($data['budget']) + 1; $i++) { ?>
       <TR data-id="<?php echo $data['budget'][$i]['idPersonSpeciality']; ?>" class="budget_row">
         <TD class="num">
-  <?php echo ($i); ?>
+  <?php echo ($k++); ?>
         </TD>
         <TD class="person">
   <?php echo $data['budget'][$i]['PIB']; ?>
@@ -210,7 +211,7 @@
 <?php for ($i = 1; $i < count($data['contract']) + 1; $i++) { ?>
       <TR data-id="<?php echo $data['contract'][$i]['idPersonSpeciality']; ?>" class="contract_row">
         <TD class="num">
-  <?php echo ($i); ?>
+  <?php echo ($k++); ?>
         </TD>
         <TD class="person">
   <?php echo $data['contract'][$i]['PIB']; ?>
@@ -257,7 +258,7 @@
   ?>
   <TR data-id="<?php echo $data['below'][$i]['idPersonSpeciality']; ?>" class="below_row">
     <TD class="num">
-      <?php echo ($i+1); ?>
+      <?php echo ($k++); ?>
     </TD>
     <TD class="person">
       <?php echo $data['below'][$i]['PIB']; ?>
