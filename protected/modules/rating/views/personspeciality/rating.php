@@ -244,23 +244,32 @@ $(function (){
   
   <div id="statuses" style='display: none;'>
 <?php echo $form->checkBox($model, 'status_confirmed', array(
-    'style' => 'float:left;margin-right: 10px;', 'checked' => 'checked',
+    'style' => 'float:left;margin-right: 10px;',
 )); ?>
 <?php echo $form->label($model, 'status_confirmed', array(
     'style' => 'font-size: 8pt; font-family: Tahoma; text-align: left;'
 )); ?>
 <?php echo $form->checkBox($model, 'status_committed', array(
-    'style' => 'float:left;margin-right: 10px;', 'checked' => 'checked',
+    'style' => 'float:left;margin-right: 10px;',
 )); ?>
 <?php echo $form->label($model, 'status_committed', array(
     'style' => 'font-size: 8pt; font-family: Tahoma; text-align: left;'
 )); ?>
 <?php echo $form->checkBox($model, 'status_submitted', array(
-    'style' => 'float:left;margin-right: 10px;', 'checked' => 'checked',
+    'style' => 'float:left;margin-right: 10px;',
 )); ?>
 <?php echo $form->label($model, 'status_submitted', array(
     'style' => 'font-size: 8pt; font-family: Tahoma; text-align: left;'
 )); ?>
+<?php if (in_array('Root',Yii::app()->user->getUserRoles())) {
+  echo CHtml::checkBox('contacts', true, array(
+    'id' => 'ch_contacts',
+    'style' => 'float:left;margin-right: 10px;'
+  )); ?>
+  <?php echo CHtml::label('Відобразити контакти', 'ch_contacts', array(
+    'style' => 'font-size: 8pt; font-family: Tahoma; text-align: left;'
+  )); 
+} ?>
     
     
   </div>

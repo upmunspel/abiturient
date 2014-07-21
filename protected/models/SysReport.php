@@ -25,31 +25,6 @@ class SysReport extends CActiveRecord
     return parent::model($className);
   }
   
-  protected function beforeSave() {
-    if (!empty($this->db_rels)){
-      $JSONencoded = CJSON::encode($this->db_rels);
-      if ($JSONencoded){
-        $this->db_rels = $JSONencoded;
-      } else {
-        $this->db_rels = '';
-      }
-    }
-    parent::beforeSave();
-  }
-  
-  protected function beforeFind() {
-    if (!empty($this->db_rels)){
-      $expr = eval($this->db-rels);
-      $JSONdecoded = CJSON::decode($expr);
-      if ($JSONdecoded){
-        $this->db_rels = $JSONdecoded;
-      } else {
-        $this->db_rels = '';
-      }
-    }
-    parent::beforeFind();
-  }
-
   /**
    * @return string the associated database table name
    */

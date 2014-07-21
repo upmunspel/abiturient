@@ -149,7 +149,7 @@ class ReptController extends Controller {
             'header' => $header,
             'value' => 
             function ($data){
-              echo $data->person->Birthday;
+              echo (!empty($data->person))? $data->person->Birthday: "";
             }
           );
           $field_num_index = ($to_select)? $field_num_indexes[$i]:0;
@@ -175,14 +175,15 @@ class ReptController extends Controller {
                   . "IF (ISNULL(".$KOATUU1_sql."),NULL,".$KOATUU1_sql."),"
                   .$KOATUU2_sql."),"
                   .$KOATUU3_sql.")";
-          array_push($keys,'KOATUU');
+          $field_num_index = ($to_select)? $field_num_indexes[$i]:0;
           if ($to_select){
             array_push($select, 
                     new CDbExpression($KOATUU_sql." AS KOATUU"));
-            $widget_columns[$field_num_indexes[$i]] =
+            $widget_columns[$field_num_index] =
                     array('name' => 'KOATUU', 
                         'header' => $header,
-                        'value' => '$data->KOATUU');
+                        'value' => function ($data){ echo $data->KOATUU;}
+                    );
           }
           if ($condition_type == 1 && $alternative_condition_value){
             $criteria->addCondition("person.KOATUUCodeID = '"
