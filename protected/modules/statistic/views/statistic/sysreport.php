@@ -54,7 +54,57 @@
                   array('class' => 'span12'));
           ?>
         </div>
+      </div>
+      <div class="row-fluid">
+        <div class='span6'>
+          <?php
+          echo $form->textFieldRow(
+                  $model, 
+                  'db_attrname',
+                  array('class' => 'span12'));
+          ?>
         </div>
+        <div class='span6'>
+          <?php
+          echo $form->textFieldRow(
+                  $model, 
+                  'db_alterattr', 
+                  array('class' => 'span12'));
+          ?>
+        </div>
+      </div>
+      <div class="row-fluid">
+        <div class='span12'>
+          <?php
+          echo $form->textAreaRow(
+                  $model, 
+                  'view_value',
+                  array('class' => 'span12'));
+          ?>
+        </div>
+      </div>
+      <div class="row-fluid">
+        <div class='span12'>
+          <?php
+          echo $form->checkBoxRow(
+                  $model, 
+                  'db_group_concat',
+                  array('class' => 'span12'));
+          ?>
+        </div>
+      </div>
+      <div class='row-fluid'>
+        <div class='span12' style='text-align: center;'>
+        <?php
+        $this->widget("bootstrap.widgets.TbButton", array(
+            'buttonType' => 'submit',
+            'type' => 'primary',
+            "size" => "large",
+            'label' => 'Зберегти',
+        ));
+        ?>
+        </div>
+      </div>
     </div>
     </div>
     <?php $this->endWidget(); ?>
@@ -67,7 +117,7 @@
       'dataProvider'=>$data,
       'filter'=>NULL,
       'columns' => array(
-        'id',
+        'compar_type',
         'name',
         'db_attrname',      
         'db_alterattr',      
@@ -99,6 +149,3 @@
     ));
     ?>
   </div>
-
-  </div>
-</div>

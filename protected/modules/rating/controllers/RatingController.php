@@ -529,7 +529,7 @@ class RatingController extends Controller {
               $data['pzk'][$local_counter] = $info_row;
               $qpzk++;
             } else {
-              $info_row['isPZK'] = 'Z';
+              $info_row['isPZK'] = 'V';
               if ($u == 0){
                 $u_max_info_row = $info_row;
               } else if ( (float)$u_max_info_row['Points'] < (float)$info_row['Points'] ){
@@ -673,6 +673,8 @@ class RatingController extends Controller {
     $criteria = new CDbCriteria();
     $criteria->with = array('eduform');
     $criteria->together = true;
+    $criteria->addCondition('eduform.idPersonEducationForm IN (1,2)');
+    $criteria->addCondition('idSpeciality NOT IN(162738)');
     $criteria->select = array(
        'idSpeciality',
         new CDbExpression("concat_ws(' ',"
@@ -684,9 +686,14 @@ class RatingController extends Controller {
                 . ",',',concat('форма: ',eduform.PersonEducationFormName)) AS tSPEC"
         ),
     );
-    $criteria->order = 'SpecialityName ASC,SpecialityDirectionName ASC,SpecialityClasifierCode ASC';
+    $criteria->order = 'SpecialityName ASC,SpecialityDirectionName ASC,SpecialityClasifierCode ASC, eduform.PersonEducationFormName ASC';
     echo "<html><meta charset='utf8'><head></head><body><h1 style='text-align: center;'>Інформація про подані абітурієнтами заяви</h1><ul>";
+    $is_elder = false;
     foreach (Specialities::model()->findAll($criteria) as $spec){
+      if ((mb_substr($spec->tSPEC,0,1,'utf-8') == '7' || mb_substr($spec->tSPEC,0,1,'utf-8') == '8') && (!$is_elder)){
+        echo '<hr/>';
+        $is_elder= true;
+      }
       $href = 'http://'.$_SERVER['SERVER_ADDR'].':'.$_SERVER['SERVER_PORT'].'/abiturient/rating/rating/ratinginfo?&Personspeciality%5BSepcialityID%5D='.$spec->idSpeciality.'&Personspeciality%5Brating_order_mode%5D=1'; 
       echo "<li><a href='".$href."' target='_blank'>".$spec->tSPEC." ("
         .Personspeciality::model()->count('(SepcialityID='.$spec->idSpeciality . ' AND StatusID IN (1,4,5,7,8))')
