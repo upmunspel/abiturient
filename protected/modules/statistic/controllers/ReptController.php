@@ -413,7 +413,7 @@ class ReptController extends Controller {
               'to_select' => $to_select,
               'db_field' => 'facultet.FacultetFullName',
           );
-          $widget_column = array('name' => 'person.BirthPlace', 
+          $widget_column = array('name' => 'facultet.FacultetFullName', 
             'header' => $header,
             'value' => 
             function ($data){
@@ -994,11 +994,11 @@ class ReptController extends Controller {
               'to_select' => $to_select,
               'db_field' => 'coursedp.CourseDPName',
           );
-          $widget_column = array('name' => 'NAME', 
+          $widget_column = array('name' => 'CourseDPName', 
             'header' => $header,
             'value' => 
             function ($data){
-              echo $data->coursedp->CourseDPName;
+              echo (!$data->coursedp)? "":$data->coursedp->CourseDPName;
             }
           );
           $field_num_index = ($to_select)? $field_num_indexes[$i]:0;
@@ -1209,7 +1209,10 @@ class ReptController extends Controller {
               $widget_column;
     }
     if ($condition_type == 1 && $condition_value){
-      $criteria->addCondition($sql_expr." LIKE '"
+      if ($sql_expr){
+        $db_field = $sql_expr;
+      }
+      $criteria->addCondition($db_field." LIKE '"
               .$condition_value."'");
     }
     if (($condition_type == 2 || $condition_type == 3) && $condition_value){
