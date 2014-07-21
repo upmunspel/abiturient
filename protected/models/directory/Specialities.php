@@ -21,6 +21,7 @@
  * @property string $SemPrice
  * @property string $WordPrice
  * @property integer $StudyPeriodID
+ * @property integer $isArtExam
  * @property string $SpecialityDirectionName
  * The followings are the available model relations:
  * @property Personsepciality[] $personsepcialities
@@ -179,7 +180,7 @@ class Specialities extends CActiveRecord {
         return array(
             array('idSpeciality', 'required'),
             array('idSpeciality, FacultetID, SpecialityBudgetCount, 
-                              SpecialityContractCount, isZaoch, isPublishIn', 'numerical', 'integerOnly' => true),
+                              SpecialityContractCount, isZaoch, isPublishIn, isArtExam', 'numerical', 'integerOnly' => true),
             array('SpecialityName', 'length', 'max' => 100),
             array('SpecialityLicenseName', 'length', 'max' => 300),
             array('SpecialityKode', 'length', 'max' => 40),
@@ -232,6 +233,7 @@ class Specialities extends CActiveRecord {
             "basespecialitys" => "Пов'язаний базовий напрям підготовки",
             "Quota1" => "Квота \"ПозаКонкурсом\"",
             "Quota2" => "Квота \"ЦільовеНаправлення\"",
+            "isArtExam"=>"Вступ з творчим конкурсом"
         );
     }
 

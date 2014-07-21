@@ -82,6 +82,16 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
     <?php //------------------------------------------------------------------------------------------------------------------------------------// ?>
     <div class="row-fluid">
         <div class="span12">
+            <?php echo $form->labelEx($model, 'isArtExam'); ?>
+            <div class="switch" data-on-label="Так" data-off-label="Ні">
+                <?php echo $form->checkBox($model, 'isArtExam'); ?>
+            </div> 
+        </div>   
+    </div>
+    
+    <?php //------------------------------------------------------------------------------------------------------------------------------------// ?>
+    <div class="row-fluid">
+        <div class="span12">
             <?php echo $form->labelEx($model, 'isZaoch'); ?>
             <div class="switch" data-on-label="Так" data-off-label="Ні">
                 <?php echo $form->checkBox($model, 'isZaoch'); ?>
