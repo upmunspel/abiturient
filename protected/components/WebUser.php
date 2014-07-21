@@ -97,5 +97,21 @@ class WebUser extends CWebUser {
             throw new Exception ("Помилка вхідних даних!");
         return "http://".$ip.":8080/request_report-1.0/language.jsp?faculty=$faculty&lang=$lang&iframe=true&width=1024&height=600";
     }
+    
+    /**
+    * Retunr an array with the roles
+    */
+   function getUserRoles(){
+    $roles = array();
+    $criteria=new CDbCriteria;
+    $criteria->condition='userid=:id';
+    $criteria->params=array(':id'=>Yii::app()->user->id);
+    $Rol = Sysroleassignments::model()->findAll($criteria);
+    $indexArray = 0;
+    foreach ($Rol as $item){
+            $roles[$indexArray++] = $item->itemname;
+    }
+    return $roles;
+   }
 }
 ?>

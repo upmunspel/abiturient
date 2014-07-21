@@ -7,6 +7,7 @@
 /* @var $_pzk_counter integer */
 /* @var $_quota_counter integer */
 /* @var $toexcel integer */
+/* @var $contacts integer */
   header('Content-Type: text/html; charset=windows-1251');
   header('Cache-Control: no-store, no-cache, must-revalidate');
   header('Cache-Control: post-check=0, pre-check=0', FALSE);
@@ -42,7 +43,7 @@ if ($toexcel) {
   }
   
   
-  .number_header , .original_header , .original_header {
+  .number_header , .original_header , .original_header , .contacts_header {
     font-size: 8pt;
     font-weight: bold;
     padding: 3px;
@@ -160,9 +161,16 @@ if ($toexcel) {
       <TD class="original_header">
 <?php echo iconv("utf-8", "windows-1251", 'Оригінал'); ?>
       </TD>
+<?php if (!$contacts){ ?>
       <TD class="wave_header">
 <?php echo iconv("utf-8", "windows-1251", 'Зарах за хвилею'); ?>
       </TD>
+<?php } else { ?>
+      <TD class="contacts_header">
+<?php echo iconv("utf-8", "windows-1251", 'Контакти'); ?>
+      </TD>
+
+<?php } ?>
     </TR>
 
 
@@ -196,7 +204,15 @@ if ($toexcel) {
   <?php echo $data['quota'][$i]['isOriginal']; ?>
         </TD>
         <TD class="wave">
-
+          <?php if ($contacts){
+            $model = Personspeciality::model()->findByPk($data['quota'][$i]['idPersonSpeciality']);
+            $array_contacts = array();
+            foreach ($model->person->contacts as $mcontact){
+              $array_contacts[] = iconv("utf-8", "windows-1251", $mcontact->Value);
+            }
+            echo implode(';<br/>',$array_contacts);
+          } 
+          ?>
         </TD>
       </TR>
 <?php } ?>
@@ -232,7 +248,15 @@ if ($toexcel) {
   <?php echo $data['pzk'][$i]['isOriginal']; ?>
         </TD>
         <TD class="wave">
-
+          <?php if ($contacts){
+            $model = Personspeciality::model()->findByPk($data['pzk'][$i]['idPersonSpeciality']);
+            $array_contacts = array();
+            foreach ($model->person->contacts as $mcontact){
+              $array_contacts[] = iconv("utf-8", "windows-1251", $mcontact->Value);
+            }
+            echo implode(';<br/>',$array_contacts);
+          } 
+          ?>
         </TD>
       </TR>
 <?php } ?>
@@ -268,7 +292,15 @@ if ($toexcel) {
   <?php echo $data['budget'][$i]['isOriginal']; ?>
         </TD>
         <TD class="wave">
-
+          <?php if ($contacts){
+            $model = Personspeciality::model()->findByPk($data['budget'][$i]['idPersonSpeciality']);
+            $array_contacts = array();
+            foreach ($model->person->contacts as $mcontact){
+              $array_contacts[] = iconv("utf-8", "windows-1251", $mcontact->Value);
+            }
+            echo implode(';<br/>',$array_contacts);
+          } 
+          ?>
         </TD>
       </TR>
     <?php } ?>
@@ -303,7 +335,15 @@ if ($toexcel) {
   <?php echo $data['contract'][$i]['isOriginal']; ?>
         </TD>
         <TD class="wave">
-
+          <?php if ($contacts){
+            $model = Personspeciality::model()->findByPk($data['contract'][$i]['idPersonSpeciality']);
+            $array_contacts = array();
+            foreach ($model->person->contacts as $mcontact){
+              $array_contacts[] = iconv("utf-8", "windows-1251", $mcontact->Value);
+            }
+            echo implode(';<br/>',$array_contacts);
+          } 
+          ?>
         </TD>
       </TR>
 <?php } ?>
@@ -343,7 +383,15 @@ if ($toexcel) {
   <?php echo $data['below'][$i]['isOriginal']; ?>
     </TD>
     <TD class="wave">
-
+          <?php if ($contacts){
+            $model = Personspeciality::model()->findByPk($data['below'][$i]['idPersonSpeciality']);
+            $array_contacts = array();
+            foreach ($model->person->contacts as $mcontact){
+              $array_contacts[] = iconv("utf-8", "windows-1251", $mcontact->Value);
+            }
+            echo implode(';<br/>',$array_contacts);
+          } 
+          ?>
     </TD>
   </TR>
 <?php } ?>

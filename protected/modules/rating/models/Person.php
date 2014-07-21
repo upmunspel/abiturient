@@ -94,6 +94,7 @@ class Person extends ActiveRecord {
         'znos' => array(self::HAS_MANY, 'Documents', 'PersonID', 'on' => 'znos.TypeID=4'),
         'specs' => array(self::HAS_MANY, 'Personspeciality', 'PersonID'),
         'docs' => array(self::HAS_MANY, 'Documents', 'PersonID'),
+        'contacts' => array(self::HAS_MANY, 'PersonContacts', 'PersonID'),
     );
   }
 

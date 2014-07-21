@@ -133,6 +133,7 @@ class RatingController extends Controller {
     $reqFaculty = Yii::app()->request->getParam('Facultets',null);
     $reqBenefits = Yii::app()->request->getParam('Benefit',null);
     $reqToExcel = Yii::app()->request->getParam('toexcel',1);
+    $reqViewContacts = Yii::app()->request->getParam('contacts',null);
 
     $model = new Personspeciality();
     if (isset($reqPersonspeciality['rating_order_mode'])){
@@ -172,6 +173,7 @@ class RatingController extends Controller {
     if (count($models)){
         $_data = $this->CreateRatingData($models);
         $_data['toexcel'] = $reqToExcel;
+        $_data['contacts'] = (in_array('Root',Yii::app()->user->getUserRoles())) ? $reqViewContacts : 0;
         $this->layout = '//layouts/clear';
         $this->renderPartial('/personspeciality/excelrating',$_data);
     } else {
@@ -687,7 +689,8 @@ class RatingController extends Controller {
         ),
     );
     $criteria->order = 'SpecialityName ASC,SpecialityDirectionName ASC,SpecialityClasifierCode ASC, eduform.PersonEducationFormName ASC';
-    echo "<html><meta charset='utf8'><head></head><body><h1 style='text-align: center;'>Інформація про подані абітурієнтами заяви</h1><ul>";
+    echo "<html><meta charset='utf8'><head></head><body><h1 style='text-align: center;'>Інформація про подані абітурієнтами заяви</h1>";
+    echo "<ul>";
     $is_elder = false;
     foreach (Specialities::model()->findAll($criteria) as $spec){
       if ((mb_substr($spec->tSPEC,0,1,'utf-8') == '7' || mb_substr($spec->tSPEC,0,1,'utf-8') == '8') && (!$is_elder)){
