@@ -46,7 +46,7 @@ class ReptController extends Controller {
     $reqAcondval = Yii::app()->request->getParam('acondval',null);
     $reqCondval = Yii::app()->request->getParam('condval',null);
     $reqExcel = Yii::app()->request->getParam('excel',null);
-    //var_dump($reqExcel);exit();
+    //var_dump($reqCondval);exit();
     $fields = array();
     $fields[0] = array('text' => 'ПІБ персони',);
     $fields[1] = array('text' => 'Дата народження',);
@@ -75,6 +75,7 @@ class ReptController extends Controller {
     $fields[24] = array('text' => 'Тип документа',);
     $fields[25] = array('text' => 'Курси ДП',);
     $fields[26] = array('text' => 'Номер справи',);
+    $fields[27] = array('text' => 'Копія',);
     
     if (!is_string($reqFields)){
       throw new CHttpException(400,'Помилка. Невірний запит.');
@@ -95,7 +96,7 @@ class ReptController extends Controller {
       if (isset($reqCondval[$i])){
         $condition_value = $reqCondval[$i];
       } else {
-        $condition_value = true;
+        $condition_value = "none";
       }
       if (isset($reqAcondval[$i])){
         $alternative_condition_value = $reqAcondval[$i];
@@ -1038,6 +1039,27 @@ class ReptController extends Controller {
           );
           ////////////////////////////////////////////
           break;
+        case 27:
+          $group = 't.idPersonSpeciality';
+          $sel = array(
+              'to_select' => $to_select,
+              'db_field' => 't.isCopyEntrantDoc',
+          );
+          $widget_column = array('name' => 't.isCopyEntrantDoc', 
+            'header' => $header,
+            'value' => 
+            function ($data){
+              echo ($data->isCopyEntrantDoc)? "так":"ні";
+            }
+          );
+          $field_num_index = ($to_select)? $field_num_indexes[$i]:0;
+          $this->ProcessFieldCheckboxOnly($with_rel, $rels, 
+            $sel, $widget_columns, $widget_column, 
+            $field_num_index,
+            $condition_type, $condition_value,
+            $criteria);
+          ////////////////////////////////////////////
+          break;
       }
     }
     $criteria->select = $select;
@@ -1366,8 +1388,12 @@ class ReptController extends Controller {
     }
     if ($condition_type == 1){
       $cvalue = ($condition_value)? '1':'0';
-      $criteria->addCondition($db_field." = '"
-              .$cvalue."'");
+      if ($condition_value === "none"){
+          $criteria->addCondition("ISNULL(".$db_field.") OR ".$db_field." = '0'");
+      } else {
+        $criteria->addCondition($db_field." = '"
+                .$cvalue."'");
+      }
     }
     if ($condition_type == 4){
       $criteria->addCondition("ISNULL(".$db_field.")");

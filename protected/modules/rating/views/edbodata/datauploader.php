@@ -22,7 +22,7 @@
               'attribute' => 'csv_file', // see the attribute?
               'multiple' => true,
               'options' => array(
-                'maxFileSize' => 200000000,
+                'maxFileSize' => 900000000,
                 'acceptFileTypes' => 'js:/(\.|\/)(csv)$/i',
           )));
     ?>

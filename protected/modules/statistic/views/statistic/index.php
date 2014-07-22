@@ -308,7 +308,8 @@ Yii::app()->clientScript->registerPackage('select2');
       
       is_date = (window.id_num == 13 || window.id_num == 1);
       is_checkbox = ((window.id_num >=9 && window.id_num <=11) || 
-              (window.id_num >=21 && window.id_num <=22));
+              (window.id_num >=21 && window.id_num <=22) || 
+              (window.id_num == 27));
       
       if (fieldName === 'Спеціальність' && (value == 1) &&
             (!anelement)) {
@@ -644,9 +645,9 @@ Yii::app()->clientScript->registerPackage('select2');
         <input type='search' name="fields" id="fields" class="span11" />
       </div>
       <div id='selectx'></div>
-      <?php for ($i = 0; $i < 27; $i++){ 
+      <?php for ($i = 0; $i < 28; $i++){ 
           $is_date = ($i == 13 || $i == 1);
-          $is_checkbox = (($i >= 9 && $i <= 11) || ($i >= 21 && $i <= 22));
+          $is_checkbox = (($i >= 9 && $i <= 11) || ($i >= 21 && $i <= 22) || ($i == 27));
           $is_koatuu = ($i == 2);
           ?>
         <div id="condition-container-<?php echo $i; ?>" style="display:none;" class="span12">

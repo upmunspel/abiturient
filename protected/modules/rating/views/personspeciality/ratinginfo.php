@@ -313,7 +313,22 @@
 </table>
 </center></div></div>
 <br/>
-
+<center>
+<table  cellspacing="0" border="0"
+         class="striped" width='73%'>
+<tr><td>ПІБ</td><td title="">Прізвище, ім&#39;я, по-батькові абітурієнта</td></tr>
+<tr><td>&#931;</td><td title="">Сума всіх балів</td></tr>
+<tr><td>С</td><td title="">Середній бал документа про освіту</td></tr>
+<tr><td>ЗНО</td><td title="">Бали сертифікатів ЗНО</td></tr>
+<tr><td>Е</td><td title="">Бали екзаменів</td></tr>
+<tr><td>О</td><td title="">Додаткові бали за диплом Всеукраїнської олімпіади або за диплом конкурсу МАН</td></tr>
+<tr><td>П</td><td title="">Додаткові бали для випускника підготовчого відділення</td></tr>
+<tr><td>ПК</td><td title="">Право на позаконкурсний вступ</td></tr>
+<tr><td>ПЧ</td><td title="">Право на першочерговий вступ</td></tr>
+<tr><td>Ц</td><td title="">Цільове направлення</td></tr>
+<tr><td>Д</td><td title="">Оригінали документів на цю спеціальність</td></tr>
+<tr><td>ІД</td><td title="">Оригінали документів на іншій спеціальності</td></tr>
+</table></center>
 <footer style="font-size: 8pt;">Сторінку створено <?php echo date('d.m.Y H:i:s'); ?> в ІС "Абітурієнт". <br/>
   Дизайн : <a href="http://vstup.info/">vstup.info</a>
 </footer>

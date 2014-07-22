@@ -564,6 +564,7 @@ class StatController extends Controller {
     $fields[] = array('text' => 'Тип пільги', 'id' => 20);
     $fields[] = array('text' => 'Першочергово', 'id' => 21);
     $fields[] = array('text' => 'Поза конкурсом', 'id' => 22);
+    $fields[] = array('text' => 'Копія', 'id' => 27);
     
     if (!$q){
       $result = $fields;
