@@ -31,3 +31,7 @@
 .select2-container.span12 {
     margin-left: 0px !important;
 }
+.line-radio .radio {
+    float: left;
+    margin: 6px 20px 5px 0px;
+}

@@ -193,17 +193,17 @@ class Personspeciality extends ActiveRecord {
                 $nprof1 = $s1->SubjectValue;
                 $nprof2 = $s3->SubjectValue;
                 
-                if ($ss1->isProfile) {
+                if (!empty($ss1) && $ss1->isProfile) {
                     $profball = $s1->SubjectValue;
                     $nprof1 = $s2->SubjectValue;
                     $nprof2 = $s3->SubjectValue;
                 }
-                if ($ss2->isProfile) {
+                if (!empty($ss2) && $ss2->isProfile) {
                     $profball = $s2->SubjectValue;
                     $nprof1 = $s1->SubjectValue;
                     $nprof2 = $s3->SubjectValue;
                 }
-                if ($ss3->isProfile) {
+                if (!empty($ss3) && $ss3->isProfile) {
                     $profball = $s3->SubjectValue;
                     $nprof1 = $s1->SubjectValue;
                     $nprof2 = $s2->SubjectValue;
