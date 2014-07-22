@@ -532,7 +532,23 @@ class Personspeciality extends ActiveRecord {
           WHERE t.PersonID=pb.PersonID AND b.isPV IS NOT NULL))))
       */
       $criteria->addCondition('(
-        (REPLACE( REPLACE( REPLACE( concat_ws(\' \',trim(person.LastName),trim(person.FirstName),trim(person.MiddleName)), "  ", " " ), "  ", " " ), "  ", " " ) 
+        (ROUND((
+                ROUND(
+                IF(ISNULL(entrantdoc.AtestatValue),0.0, 
+                  IF((entrantdoc.AtestatValue > 12), 
+                    entrantdoc.AtestatValue ,5 * entrantdoc.AtestatValue)
+                ),2)+
+                IF(ISNULL(documentSubject1.SubjectValue),0.0,documentSubject1.SubjectValue)+
+                IF(ISNULL(documentSubject2.SubjectValue),0.0,documentSubject2.SubjectValue)+
+                IF(ISNULL(documentSubject3.SubjectValue),0.0,documentSubject3.SubjectValue)+
+                IF(ISNULL(t.AdditionalBall),0.0,t.AdditionalBall)+
+                IF(ISNULL(t.CoursedpBall),0.0,t.CoursedpBall)+
+                IF(ISNULL(olymp.OlympiadAwardBonus),0.0,olymp.OlympiadAwardBonus)+
+                IF(ISNULL(t.Exam1Ball),0.0,t.Exam1Ball)+
+                IF(ISNULL(t.Exam2Ball),0.0,t.Exam2Ball)+
+                IF(ISNULL(t.Exam3Ball),0.0,t.Exam3Ball)),2)) <> edbo.RatingPoints
+
+        OR (REPLACE( REPLACE( REPLACE( concat_ws(\' \',trim(person.LastName),trim(person.FirstName),trim(person.MiddleName)), "  ", " " ), "  ", " " ), "  ", " " ) 
         NOT LIKE REPLACE( REPLACE( REPLACE( edbo.PIB, "  ", " " ), "  ", " " ), "  ", " " ))
         
         OR (ROUND(edbo.DocPoint,2) <> ROUND(
