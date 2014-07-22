@@ -311,10 +311,12 @@ class Documents extends ActiveRecord {
                             $doc->DateGet = date("d.m.Y", mktime(0, 0, 0, $val->dateGet['month'] + 1, $val->dateGet['dayOfMonth'], $val->dateGet['year']));
                             //$doc->ZNOPin = $val->znoPin;
                             $doc->Issued = $val->issued;
-                            $doc->save();
+                            if (!$doc->save()) {
+                               throw new Exception(print_r($doc->getErrors(),1)); 
+                            }
                         }
                     } catch (Exception $exc) {
-                        Yii::log($exc->getTraceAsString());
+                        Yii::log($exc->getMessage());
                     }
                 } else if (Yii::app()->user->checkAccess("asEDBOReqOperator")) {
                     try {
@@ -331,10 +333,12 @@ class Documents extends ActiveRecord {
                             $doc->DateGet = date("d.m.Y", mktime(0, 0, 0, $val->dateGet['month'] + 1, $val->dateGet['dayOfMonth'], $val->dateGet['year']));
                             //$doc->ZNOPin = $val->znoPin;
                             $doc->Issued = $val->issued;
-                            $doc->save();
+                             if (!$doc->save()) {
+                               throw new Exception(print_r($doc->getErrors())); 
+                            }
                         }
                     } catch (Exception $exc) {
-                        Yii::log($exc->getTraceAsString());
+                        Yii::log($exc->getMessage());
                     }
                 }
             }
