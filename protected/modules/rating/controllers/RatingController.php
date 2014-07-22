@@ -354,7 +354,7 @@ class RatingController extends Controller {
           $info_row['isOriginal'] = (!$model->isCopyEntrantDoc)? '+': '';
           $info_row['idPersonSpeciality'] = $model->idPersonSpeciality;
           $was = 0;
-          if ((Personspeciality::$is_rating_order) && $model->Quota1){
+          if ((Personspeciality::$is_rating_order) && $model->Quota1 && $model->isBudget){
             //цільовики
             $was = Personspeciality::decrementCounter(Personspeciality::$C_QUOTA);    
             if ($was){
@@ -375,7 +375,8 @@ class RatingController extends Controller {
             }
           }
 
-          if ((Personspeciality::$is_rating_order) && $model->isOutOfComp && !$model->Quota1){
+          if ((Personspeciality::$is_rating_order) && $model->isOutOfComp && !$model->Quota1
+                  && $model->isBudget){
             //поза конкурсом
             $was = Personspeciality::decrementCounter(Personspeciality::$C_OUTOFCOMPETITION);
             if ($was){
@@ -398,7 +399,7 @@ class RatingController extends Controller {
 
           if ( (Personspeciality::$is_rating_order) && (
                   ( $model->isBudget && !$model->isOutOfComp && !$model->Quota1 ) || 
-                  (!empty($data['u']) && !$model->isOutOfComp && !$model->Quota1 )) ){
+                  (!empty($data['u']) && !$model->isOutOfComp && !$model->Quota1 && $model->isBudget)) ){
             //на бюджет
             while (!empty($data['u']) && ( (float)$u_max_info_row['Points'] > (float)$info_row['Points'])){
               $was = Personspeciality::decrementCounter(Personspeciality::$C_BUDGET);
@@ -551,7 +552,7 @@ class RatingController extends Controller {
           $info_row['AnyOriginal'] = ($model->AnyOriginal && $model->isCopyEntrantDoc)? 'V': '—';
           $info_row['idPersonSpeciality'] = $model->idPersonSpeciality;
           $was = 0;
-          if ((Personspeciality::$is_rating_order) && $model->Quota1){
+          if ((Personspeciality::$is_rating_order) && $model->Quota1 && $model->isBudget){
             //цільовики
             $was = Personspeciality::decrementCounter(Personspeciality::$C_QUOTA);    
             if ($was){
@@ -572,7 +573,8 @@ class RatingController extends Controller {
             }
           }
 
-          if ((Personspeciality::$is_rating_order) && $model->isOutOfComp && !$model->Quota1){
+          if ((Personspeciality::$is_rating_order) && $model->isOutOfComp && !$model->Quota1
+                  && $model->isBudget){
             //поза конкурсом
             $was = Personspeciality::decrementCounter(Personspeciality::$C_OUTOFCOMPETITION);
             if ($was){
@@ -595,7 +597,7 @@ class RatingController extends Controller {
 
           if ( (Personspeciality::$is_rating_order) && (
                   ( $model->isBudget && !$model->isOutOfComp && !$model->Quota1 ) || 
-                  (!empty($data['u']) && !$model->isOutOfComp && !$model->Quota1 )) ){
+                  (!empty($data['u']) && !$model->isOutOfComp && !$model->Quota1 && $model->isBudget)) ){
             //на бюджет
             while (!empty($data['u']) && ( (float)$u_max_info_row['Points'] > (float)$info_row['Points'])){
               $was = Personspeciality::decrementCounter(Personspeciality::$C_BUDGET);
