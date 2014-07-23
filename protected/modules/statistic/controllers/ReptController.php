@@ -727,9 +727,9 @@ class ReptController extends Controller {
           break;
         case 19:
           $rels = array(
-              array('name' => 'person', 'select' => true),
-              array('name' => 'person.benefits', 'select' => false),
-              array('name' => 'person.benefits.benefit', 'select' => false),
+              array('name' => 'pbenefits', 'select' => false),
+              array('name' => 'pbenefits.psbenefit', 'select' => false),
+              array('name' => 'pbenefits.psbenefit.benefit', 'select' => false),
           );
           $sel = array(
               'to_select' => $to_select,
@@ -738,10 +738,10 @@ class ReptController extends Controller {
                 concat(
                     benefit.BenefitName,
                     ': ',
-                    IF(ISNULL(benefits.Series),'',concat('серія: ',benefits.Series)),' ',
-                    IF(ISNULL(benefits.Numbers),'',concat('номер: ',benefits.Numbers,' ')),
-                    IF((ISNULL(benefits.Issued) OR benefits.Issued=''),
-                      '',concat('видано: ',benefits.Issued,', ')),
+                    IF(ISNULL(psbenefit.Series),'',concat('серія: ',psbenefit.Series)),' ',
+                    IF(ISNULL(psbenefit.Numbers),'',concat('номер: ',psbenefit.Numbers,' ')),
+                    IF((ISNULL(psbenefit.Issued) OR psbenefit.Issued=''),
+                      '',concat('видано: ',psbenefit.Issued,', ')),
                     IF ((benefit.isPV = 1),' (першочергово)',''),
                     IF ((benefit.isPZK = 1),' (поза конкурсом)','')
                   )",
@@ -778,13 +778,13 @@ class ReptController extends Controller {
           break;
         case 20:
           $rels = array(
-              array('name' => 'person', 'select' => true),
-              array('name' => 'person.benefits', 'select' => false),
-              array('name' => 'person.benefits.benefit', 'select' => false),
+              array('name' => 'pbenefits', 'select' => false),
+              array('name' => 'pbenefits.psbenefit', 'select' => false),
+              array('name' => 'pbenefits.psbenefit.benefit', 'select' => false),
           );
           $sel = array(
               'to_select' => $to_select,
-              'db_field_id' => 'benefits.BenefitID',
+              'db_field_id' => 'psbenefit.BenefitID',
               'sql_as' => 'BENTYPES',
               'sql_expr' => 'benefit.BenefitName',
               'group_concat' => true,
@@ -807,9 +807,9 @@ class ReptController extends Controller {
           break;
         case 21:
           $rels = array(
-              array('name' => 'person', 'select' => true),
-              array('name' => 'person.benefits', 'select' => false),
-              array('name' => 'person.benefits.benefit', 'select' => false),
+              array('name' => 'pbenefits', 'select' => false),
+              array('name' => 'pbenefits.psbenefit', 'select' => false),
+              array('name' => 'pbenefits.psbenefit.benefit', 'select' => false),
           );
           $sel = array(
               'to_select' => $to_select,
@@ -819,11 +819,11 @@ class ReptController extends Controller {
             'header' => $header,
             'value' => 
             function ($data){
-              if (!empty($data->person->benefits)){
+              if (!empty($data->pbenefits)){
                 $echo = 'ні';
-                foreach ($data->person->benefits as $ben){
-                  if ($ben->benefit->isPV){
-                    $echo = 'так';
+                foreach ($data->pbenefits as $pben){
+                  if ($pben->psbenefit->benefit->isPV){
+                      $echo = 'так';
                   }
                 }
                 echo $echo;
@@ -840,9 +840,9 @@ class ReptController extends Controller {
           break;
         case 22:
           $rels = array(
-              array('name' => 'person', 'select' => true),
-              array('name' => 'person.benefits', 'select' => false),
-              array('name' => 'person.benefits.benefit', 'select' => false),
+              array('name' => 'pbenefits', 'select' => false),
+              array('name' => 'pbenefits.psbenefit', 'select' => false),
+              array('name' => 'pbenefits.psbenefit.benefit', 'select' => false),
           );
           $sel = array(
               'to_select' => $to_select,
@@ -852,11 +852,11 @@ class ReptController extends Controller {
             'header' => $header,
             'value' => 
             function ($data){
-              if (!empty($data->person->benefits)){
+              if (!empty($data->pbenefits)){
                 $echo = 'ні';
-                foreach ($data->person->benefits as $ben){
-                  if ($ben->benefit->isPZK){
-                    $echo = 'так';
+                foreach ($data->pbenefits as $pben){
+                  if ($pben->psbenefit->benefit->isPZK){
+                      $echo = 'так';
                   }
                 }
                 echo $echo;

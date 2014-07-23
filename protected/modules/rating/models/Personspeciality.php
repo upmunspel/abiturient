@@ -77,6 +77,8 @@
  *                                4=> Неспівпадання з даними ЄДЕБО : лише копія/оригінал,
  *                                5=> Неспівпадання з даними ЄДЕБО : лише бали (зн. документа),
  *                                6=> Неспівпадання з даними ЄДЕБО : лише відмітки пільгового вступу,
+ *                                7=> Неспівпадання з даними ЄДЕБО : лише сума балів ЗНО,
+ *                                8=> Неспівпадання з даними ЄДЕБО : лише країна громадянства,
  * @property integer $page_size - кількість записів, що відображаються на одній сторінці
  * @property string $BenefitList - дані про пільги (розділені через ;;)
  * @property string $idBenefitList - ІН пільг (розділені через ;;)
@@ -102,6 +104,7 @@ class Personspeciality extends ActiveRecord {
   public $PointDocValue;
   public $AnyOriginal;
   public $ZNOSum;
+  public $ForeignOnly;
   
   public $rating_order_mode;
   public $status_confirmed;
@@ -361,6 +364,7 @@ class Personspeciality extends ActiveRecord {
         "NAME" => "ПІБ : ключові слова через пробіл",
         "DateFrom" => "Від дати",
         "DateTo" => "До дати",
+        "ForeignOnly" => "Обрати лише іноземців",
     );
   }
 
@@ -436,6 +440,7 @@ class Personspeciality extends ActiveRecord {
     array_push($with_rel, 'documentSubject3.subject3');
     
     $with_rel['sepciality.facultet'] = array('select' => false);
+    $with_rel['person.country'] = array('select' => false);
     $with_rel['status'] = array('select' => false);
     $with_rel['pbenefits'] = array('select' => false);
     $with_rel['pbenefits.psbenefit'] = array('select' => false);
@@ -519,11 +524,16 @@ class Personspeciality extends ActiveRecord {
       case 1: 
       //якщо встановлений прапорець, щоб шукати лише неточності (неспівпадання у нас і даними ЄДЕБО)
       // тоді додаткові умови ::
+      //  щоб сума усіх балів не співпадала
+      //  щоб ПІБ не співпадало
+      //  щоб країна громадянства не співпадала
       //  щоб відмітка у документі (атестат або диплом) не співпадала
+      //  щоб номер документа (атестата або диплому) не співпадав
       //  щоб відмітка першочерговості не співпадала
       //  щоб відмітка позаконкурсного вступу не співпадала
       //  щоб відмітка вступу за цільовим направленням не співпадала
       //  щоб відмітка копії/оригінала не співпадала
+      //  щоб напрям або спеціальність або форма не співпадали
       /*
       Вставити в умову, якщо потрібно вибрати неточності по першочерговості вступу
       OR (edbo.PriorityEntry <> IF(((SELECT MAX(b.isPV) FROM personbenefits pb LEFT JOIN benefit b ON pb.BenefitID = b.idBenefit 
@@ -551,8 +561,12 @@ class Personspeciality extends ActiveRecord {
         OR (REPLACE( REPLACE( REPLACE( concat_ws(\' \',trim(person.LastName),trim(person.FirstName),trim(person.MiddleName)), "  ", " " ), "  ", " " ), "  ", " " ) 
         NOT LIKE REPLACE( REPLACE( REPLACE( edbo.PIB, "  ", " " ), "  ", " " ), "  ", " " ))
         
+        OR (edbo.Country NOT LIKE country.CountryName) 
+            
         OR (ROUND(edbo.DocPoint,2) <> ROUND(
             IF(ISNULL(entrantdoc.AtestatValue),0.0,entrantdoc.AtestatValue),2)) 
+            
+        OR (edbo.DocNumber NOT LIKE entrantdoc.Numbers) 
 
         OR (edbo.Benefit <> IF(((SELECT MAX(b.isPZK) FROM personbenefits pb LEFT JOIN benefit b ON pb.BenefitID = b.idBenefit 
           WHERE pb.idPersonBenefits IN 
@@ -578,7 +592,13 @@ class Personspeciality extends ActiveRecord {
         OR (edbo.Quota=1 AND (t.Quota1 IS NULL OR t.Quota1 = 0))
         
         OR (edbo.OD=1 AND t.isCopyEntrantDoc=1)
-        OR (edbo.OD=0 AND (t.isCopyEntrantDoc IS NULL OR t.isCopyEntrantDoc = 0)))'
+        OR (edbo.OD=0 AND (t.isCopyEntrantDoc IS NULL OR t.isCopyEntrantDoc = 0))
+        OR ((edbo.EduForm NOT LIKE educationForm.PersonEducationFormName) OR 
+            (edbo.Direction NOT LIKE sepciality.SpecialityDirectionName AND t.QualificationID = 1) OR
+            (edbo.Speciality NOT LIKE sepciality.SpecialityName AND t.QualificationID > 1) OR
+            (sepciality.SpecialitySpecializationName NOT LIKE CONCAT("%",edbo.Specialization,"%"))
+            )
+        )'
       );
       break;
       case 4: 
@@ -640,6 +660,13 @@ class Personspeciality extends ActiveRecord {
         IF(ISNULL(documentSubject3.SubjectValue),0.0,documentSubject3.SubjectValue)),"%"))'
       );
       break;
+      case 8: 
+      //якщо встановлений прапорець, щоб шукати лише неточності для країни громадянства
+      // тоді додаткові умови ::
+      // 
+      $criteria->addCondition('(edbo.Country NOT LIKE country.CountryName)'
+      );
+      break;
     }
     
     if ($rating_order_mode){
@@ -671,8 +698,11 @@ class Personspeciality extends ActiveRecord {
       //якщо потрібно вибрати тільки ті дані, що не відповідають даним з таблиці edbo_data
       $criteria->addCondition('edbo.ID IS NULL');
     }
-
     
+    if ($this->ForeignOnly){
+      $criteria->addCondition('country.CountryName NOT LIKE "Україна"');
+    }
+
     if (is_numeric($this->searchBenefit->BenefitName)){
       //якщо частина назви пільги - число, то сприймати це як кількість пільг
       $criteria->having = 'cntBenefit='.$this->searchBenefit->BenefitName;

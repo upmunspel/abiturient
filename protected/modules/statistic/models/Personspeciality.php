@@ -180,6 +180,7 @@ class Personspeciality extends ActiveRecord {
         'status' => array(self::BELONGS_TO, 'Personrequeststatustypes', 'StatusID'),
         'edbo' => array(self::BELONGS_TO, 'EdboData', 'edboID'),
         'coursedp' => array(self::BELONGS_TO, 'Coursedp', 'CoursedpID'),
+        'pbenefits' => array(self::HAS_MANY, 'Personspecialitybenefits', 'PersonSpecialityID'),
 //                     
     );
   }

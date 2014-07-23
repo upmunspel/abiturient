@@ -34,6 +34,7 @@
  * @property Documents $persondoc
  * @property Documents $edboID
  * @property string $CreateDate
+ * @property Country $country
  */
 class Person extends ActiveRecord {
 
@@ -95,6 +96,7 @@ class Person extends ActiveRecord {
         'specs' => array(self::HAS_MANY, 'Personspeciality', 'PersonID'),
         'docs' => array(self::HAS_MANY, 'Documents', 'PersonID'),
         'contacts' => array(self::HAS_MANY, 'PersonContacts', 'PersonID'),
+        'country' => array(self::BELONGS_TO, 'Country', 'CountryID'),
     );
   }
 

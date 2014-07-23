@@ -119,6 +119,9 @@ class RatingController extends Controller {
     if (isset($reqPersonspeciality['ext_param']) && !$model->rating_order_mode){
       $model->ext_param = $reqPersonspeciality['ext_param'];
     }
+    if (isset($reqPersonspeciality['ForeignOnly']) && !$model->rating_order_mode){
+      $model->ForeignOnly = $reqPersonspeciality['ForeignOnly'];
+    }
     if (isset($reqPersonspeciality['page_size']) && !$model->rating_order_mode){
       $model->page_size = $reqPersonspeciality['page_size'];
     }

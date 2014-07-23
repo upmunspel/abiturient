@@ -273,7 +273,12 @@ $(function (){
     
     
   </div>
-
+<?php echo $form->checkBox($model, 'ForeignOnly', array(
+    'style' => 'float:left;margin-right: 10px;'
+)); ?>
+<?php echo $form->label($model, 'ForeignOnly', array(
+    'style' => 'font-size: 8pt; font-family: Tahoma; text-align: left;'
+)); ?>
   <div class="span12">
     <div class="span6">
       <?php
@@ -325,6 +330,7 @@ echo $form->hiddenField($model, 'SepcialityID', array(
           '5'=>"Неспівпадання з даними ЄДЕБО : лише бали (зн. документа)",
           '6'=>"Неспівпадання з даними ЄДЕБО : лише відмітки пільгового вступу",
           '7'=>"Неспівпадання з даними ЄДЕБО : лише сума балів ЗНО",
+          '8'=>"Неспівпадання з даними ЄДЕБО : лише країна громадянства",
         ),
         array('class' => 'span11'));
     ?>
@@ -675,39 +681,39 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                 $data->edbo = EdboData::model()->findByPk($data->edboID);
               }
               if ($data->edbo){
-                $edboSpecCode = (!$data->edbo->SpecCode)? "":$data->edbo->SpecCode;
-                $edboSpecialCode = (!$data->edbo->SpecialCode)? "":$data->edbo->SpecialCode;
-                $edboSpeciality = (!$data->edbo->Speciality)? "":$data->edbo->Speciality;
-                $edboSpecialization = (!$data->edbo->Specialization)? "":$data->edbo->Specialization;
-                
-                $spec_code_ok = (
-                  (($edboSpecCode)? (strstr($data->SPEC,$edboSpecCode) !== FALSE) : false) || 
-                  (($edboSpecialCode)? (strstr($data->SPEC,$edboSpecialCode) !== FALSE) : false)
+                $direction_ok = (
+                  ($data->QualificationID > 1)? true:$data->sepciality->SpecialityDirectionName == $data->edbo->Direction
                 );
-                $speciality_ok = ($edboSpeciality)? 
-                        (strstr($data->SPEC,$edboSpeciality) !== FALSE): true;
-                $specialization_ok = ($edboSpecialization)? 
-                        (strstr($data->SPEC,$edboSpecialization) !== FALSE): true;
-                $edu_form_ok = (strstr($data->SPEC,$data->edbo->EduForm) !== FALSE);
+                $speciality_ok = (
+                  ($data->QualificationID == 1)? true:$data->sepciality->SpecialityName == $data->edbo->Speciality
+                );
+                $specialization_ok = ((!$data->edbo->Specialization)? true:
+                  (strstr($data->sepciality->SpecialitySpecializationName, $data->edbo->Specialization) !== FALSE)
+                );
+                $edu_form_ok = ($data->educationForm->PersonEducationFormName == $data->edbo->EduForm);
                 
-                if ($spec_code_ok && $speciality_ok && $specialization_ok && $edu_form_ok){
+                if ($direction_ok && $speciality_ok && $specialization_ok && $edu_form_ok){
                   echo "<span title='співпадає' style='color: green;'>"
                   . $data->SPEC
                   . "</span>";
-                } else if (!$spec_code_ok){
-                  echo "<span title='В ЄДЕБО коди напряму і спеціальності: \"".$edboSpecCode."\" ; \"".$edboSpecialCode."\"' style='color: red;'>"
+                } else if (!$direction_ok){
+                  echo "<span title='В ЄДЕБО напрям: \"".$data->edbo->Direction."\", "
+                    . "а в Абітурієнті: \"".$data->sepciality->SpecialityDirectionName."\"' style='color: red;'>"
                   . $data->SPEC
                   . "</span>";
                 } else if (!$speciality_ok){
-                  echo "<span title='В ЄДЕБО спеціальність: ".$edboSpeciality."' style='color: red;'>"
+                  echo "<span title='В ЄДЕБО спеціальність: \"".$data->edbo->Speciality."\", "
+                    . "а в Абітурієнті: \"".$data->sepciality->SpecialityName."\"' style='color: red;'>"
                   . $data->SPEC
                   . "</span>";
                 } else if (!$specialization_ok){
-                  echo "<span title='В ЄДЕБО спеціалізація: ".$data->edbo->Specialization."' style='color: red;'>"
+                  echo "<span title='В ЄДЕБО спеціалізація: \"".$data->edbo->Specialization."\", "
+                    . "а в Абітурієнті: \"".$data->sepciality->SpecialitySpecializationName."\"' style='color: red;'>"
                   . $data->SPEC
                   . "</span>";
                 } else if (!$edu_form_ok){
-                  echo "<span title='В ЄДЕБО форма навчання: ".$data->edbo->EduForm."' style='color: red;'>"
+                  echo "<span title='В ЄДЕБО форма навчання: \"".$data->edbo->EduForm."\", "
+                    . "а в Абітурієнті: \"".$data->educationForm->PersonEducationFormName."\"' style='color: red;'>"
                   . $data->SPEC
                   . "</span>";
                 }
@@ -960,9 +966,15 @@ $this->widget('bootstrap.widgets.TbGridView', array(
               
 ?> <div id="id_<?php echo $data->idPersonSpeciality; ?>">  <?php
               $span_class = 'label-info';
+              $country_span_class = 'label-info';
+              $docnum_span_class = 'label-info';
               $add_string = '';
               if ($data->edbo){
                 $span_class = ((float)$data->edbo->DocPoint == (float)$doc_val)?
+                        'label-success' : 'label-important';
+                $country_span_class = ($data->edbo->Country == $data->person->country->CountryName)?
+                        'label-success' : 'label-important';
+                $docnum_span_class = ($data->edbo->DocNumber == $data->entrantdoc->Numbers)?
                         'label-success' : 'label-important';
                 $add_string = '<span class=\'label label-info\' 
                   title="В даних ЄДЕБО"
@@ -979,6 +991,11 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                 
                       '<span class=\'label label-red\' style=\'margin-bottom: 3px;font-size: 8pt;\'>'.
                       'н/з' . '</span><div class="clear"></div>');
+              
+              echo '<div style=\'width: 70px !important;float:left;\' title=\''.$doc_desc.'\'>№ док. : </div>' .
+                      '<span class=\'label '.$docnum_span_class.'\' style=\'margin-bottom: 3px;font-size: 8pt;\''
+                      . ' title="'.(($data->edbo)? 'Значення в ЄДЕБО: '.$data->edbo->DocNumber : '').'">'.
+                      (($data->entrantdoc) ? $data->entrantdoc->Numbers : 'н/з') . '</span>' . '<div class="clear"></div>';
               
               echo '<div style=\'width: 70px !important;float:left;color:'.(($data->edbo)? 
                 (($data->ZNOSum != $edboZNO)? 'red': 'green') :'black')
@@ -1048,6 +1065,10 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                 
                       '<span class=\'label label-red\' style=\'margin-bottom: 3px; font-size: 8pt; font-family: Tahoma;\'>'.
                       'н/з' . '</span><div class="clear"></div>');
+              echo '<div style=\'width: 70px !important;float:left;\'>Країна : </div>' .
+                      '<span class=\'label '.$country_span_class.'\' style=\'margin-bottom: 3px;font-size: 8pt;\''
+                      . ' title="'.(($data->edbo)? 'Значення в ЄДЕБО: '.$data->edbo->Country : '').'">'.
+                      $data->person->country->CountryName . '</span>' . '<div class="clear"></div>';
 ?> </div><div clas='clear'></div>  <?php
             }
         ),
