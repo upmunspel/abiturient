@@ -507,8 +507,8 @@ class Personspeciality extends ActiveRecord {
       new CDbExpression('(IF(ISNULL(documentSubject1.SubjectValue),0.0,documentSubject1.SubjectValue)+
         IF(ISNULL(documentSubject2.SubjectValue),0.0,documentSubject2.SubjectValue)+
         IF(ISNULL(documentSubject3.SubjectValue),0.0,documentSubject3.SubjectValue)) AS ZNOSum'),
-      new CDbExpression('lower(IF(ISNULL(edbo.DocSeria),"none",transliterate(edbo.DocSeria))) AS tDocSeria'),
-      new CDbExpression('lower(IF(ISNULL(entrantdoc.Series),"none",transliterate(entrantdoc.Series))) AS tDocSeries'),
+      //new CDbExpression('lower(IF(ISNULL(edbo.DocSeria),"none",transliterate(edbo.DocSeria))) AS tDocSeria'),
+      //new CDbExpression('lower(IF(ISNULL(entrantdoc.Series),"none",transliterate(entrantdoc.Series))) AS tDocSeries'),
     );
     //оформлення єдиного запиту на вибірку
     $criteria->together = true;
@@ -539,11 +539,8 @@ class Personspeciality extends ActiveRecord {
       //  щоб відмітка копії/оригінала не співпадала
       //  щоб напрям або спеціальність або форма не співпадали
       /*
-      Вставити в умову, якщо потрібно вибрати неточності по першочерговості вступу
-      OR (edbo.PriorityEntry <> IF(((SELECT MAX(b.isPV) FROM personbenefits pb LEFT JOIN benefit b ON pb.BenefitID = b.idBenefit 
-        WHERE t.PersonID=pb.PersonID AND b.isPV IS NOT NULL)) IS NULL, 0, 
-        ((SELECT MAX(b.isPV) FROM personbenefits pb LEFT JOIN benefit b ON pb.BenefitID = b.idBenefit 
-          WHERE t.PersonID=pb.PersonID AND b.isPV IS NOT NULL))))
+      Вставити в умову, якщо потрібно вибрати неточності по серії
+      OR (IF(ISNULL(edbo.DocSeria),FALSE,transliterate(edbo.DocSeria) NOT LIKE transliterate(entrantdoc.Series))) 
       */
       $criteria->addCondition('(
         (ROUND((
@@ -571,7 +568,7 @@ class Personspeciality extends ActiveRecord {
             IF(ISNULL(entrantdoc.AtestatValue),0.0,entrantdoc.AtestatValue),2)) 
             
         OR (edbo.DocNumber NOT LIKE entrantdoc.Numbers) 
-        OR (IF(ISNULL(edbo.DocSeria),FALSE,transliterate(edbo.DocSeria) NOT LIKE transliterate(entrantdoc.Series))) 
+        
         
         OR (edbo.Benefit <> IF(((SELECT MAX(b.isPZK) FROM personbenefits pb LEFT JOIN benefit b ON pb.BenefitID = b.idBenefit 
           WHERE pb.idPersonBenefits IN 

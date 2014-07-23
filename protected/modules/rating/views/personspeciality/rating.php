@@ -968,6 +968,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
               $span_class = 'label-info';
               $country_span_class = 'label-info';
               $docnum_span_class = 'label-info';
+              $docseria_span_class = 'label-info';
               $add_string = '';
               if ($data->edbo){
                 $span_class = ((float)$data->edbo->DocPoint == (float)$doc_val)?
@@ -976,8 +977,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                         'label-success' : 'label-important';
                 $docnum_span_class = ($data->edbo->DocNumber == $data->entrantdoc->Numbers)?
                         'label-success' : 'label-important';
-                $docseria_span_class = ($data->tDocSeria == $data->tDocSeries)?
-                        'label-success' : 'label-important';
+                $docseria_span_class = 'label-info';
                 $add_string = '<span class=\'label label-info\' 
                   title="В даних ЄДЕБО"
                   style=\'margin-bottom: 3px; font-size: 8pt; margin-left: 2px;\'>' 
