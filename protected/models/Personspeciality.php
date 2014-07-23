@@ -178,49 +178,49 @@ class Personspeciality extends ActiveRecord {
     }
 
     public function valididateDocumentSubject($attributes) {
-        if ($this->EntranceTypeID == 1) {
-            $s1 = Documentsubject::model()->findByPk($this->DocumentSubject1);
-            $s2 = Documentsubject::model()->findByPk($this->DocumentSubject2);
-            $s3 = Documentsubject::model()->findByPk($this->DocumentSubject3);
-            $profball = 0;
-            $nprof1 = 0;
-            $nprof2 = 0;
-            if (!empty($s1) && !empty($s2) && !empty($s3)) {
-                $ss1 = Specialitysubjects::model()->find("SpecialityID = {$this->SepcialityID} and SubjectID = {$s1->SubjectID}");
-                $ss2 = Specialitysubjects::model()->find("SpecialityID = {$this->SepcialityID} and SubjectID = {$s2->SubjectID}");
-                $ss3 = Specialitysubjects::model()->find("SpecialityID = {$this->SepcialityID} and SubjectID = {$s3->SubjectID}");
-                $profball = $s2->SubjectValue;
-                $nprof1 = $s1->SubjectValue;
-                $nprof2 = $s3->SubjectValue;
-                
-                if (!empty($ss1) && $ss1->isProfile) {
-                    $profball = $s1->SubjectValue;
-                    $nprof1 = $s2->SubjectValue;
-                    $nprof2 = $s3->SubjectValue;
-                }
-                if (!empty($ss2) && $ss2->isProfile) {
+        if (Yii::app()->user->checkAccess("validateZnoBall")) {
+
+            if ($this->EntranceTypeID == 1) {
+                $s1 = Documentsubject::model()->findByPk($this->DocumentSubject1);
+                $s2 = Documentsubject::model()->findByPk($this->DocumentSubject2);
+                $s3 = Documentsubject::model()->findByPk($this->DocumentSubject3);
+                $profball = 0;
+                $nprof1 = 0;
+                $nprof2 = 0;
+                if (!empty($s1) && !empty($s2) && !empty($s3)) {
+                    $ss1 = Specialitysubjects::model()->find("SpecialityID = {$this->SepcialityID} and SubjectID = {$s1->SubjectID}");
+                    $ss2 = Specialitysubjects::model()->find("SpecialityID = {$this->SepcialityID} and SubjectID = {$s2->SubjectID}");
+                    $ss3 = Specialitysubjects::model()->find("SpecialityID = {$this->SepcialityID} and SubjectID = {$s3->SubjectID}");
                     $profball = $s2->SubjectValue;
                     $nprof1 = $s1->SubjectValue;
                     $nprof2 = $s3->SubjectValue;
-                }
-                if (!empty($ss3) && $ss3->isProfile) {
-                    $profball = $s3->SubjectValue;
-                    $nprof1 = $s1->SubjectValue;
-                    $nprof2 = $s2->SubjectValue;
-                }
-                if ($profball < 140) {
-                    $this->addError($attributes, "Профільний предмет не може бути нижчім за 140 балів!");
-                    return false;
-                }
-                if (($profball >= 140 && $profball < 170) && ($nprof1 < 124 || $nprof2 < 124 )) {
-                    $this->addError($attributes, "Недопустимі для вступу бали непрофільних предметів!");
-                    return false;
-                }
 
+                    if (!empty($ss1) && $ss1->isProfile) {
+                        $profball = $s1->SubjectValue;
+                        $nprof1 = $s2->SubjectValue;
+                        $nprof2 = $s3->SubjectValue;
+                    }
+                    if (!empty($ss2) && $ss2->isProfile) {
+                        $profball = $s2->SubjectValue;
+                        $nprof1 = $s1->SubjectValue;
+                        $nprof2 = $s3->SubjectValue;
+                    }
+                    if (!empty($ss3) && $ss3->isProfile) {
+                        $profball = $s3->SubjectValue;
+                        $nprof1 = $s1->SubjectValue;
+                        $nprof2 = $s2->SubjectValue;
+                    }
+                    if ($profball < 140) {
+                        $this->addError($attributes, "Профільний предмет не може бути нижчім за 140 балів!");
+                        return false;
+                    }
+                    if (($profball >= 140 && $profball < 170) && ($nprof1 < 124 || $nprof2 < 124 )) {
+                        $this->addError($attributes, "Недопустимі для вступу бали непрофільних предметів!");
+                        return false;
+                    }
+                }
             }
         }
-
-
         return true;
     }
 

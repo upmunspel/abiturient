@@ -70,9 +70,9 @@ $this->widget('bootstrap.widgets.TbGroupGridView', array(
     
                 //array('name'=>'isContract', 'htmlOptions'=>array('style'=>'width: 70px'), 'filter'=>array('1'=>'так','0'=>'ні'), 'value'=>'($data->isContract=="1")?("так"):("ні")'), 
 		//array('name'=>'isBudget', 'htmlOptions'=>array('style'=>'width: 70px'), 'filter'=>array('1'=>'так','0'=>'ні'), 'value'=>'($data->isBudget=="1")?("так"):("ні")'), 
-		//array('name'=>'DocumentSubject1Value', 'htmlOptions'=>array('style'=>'width: 50px'),),   
-                //array('name'=>'DocumentSubject2Value', 'htmlOptions'=>array('style'=>'width: 50px'),),   
-                //array('name'=>'DocumentSubject3Value', 'htmlOptions'=>array('style'=>'width: 50px'),),   
+		array('name'=>'DocumentSubject1Value', 'htmlOptions'=>array('style'=>'width: 50px'),),   
+                array('name'=>'DocumentSubject2Value', 'htmlOptions'=>array('style'=>'width: 50px'),),   
+                array('name'=>'DocumentSubject3Value', 'htmlOptions'=>array('style'=>'width: 50px'),),   
     
                 array('name'=>'AtestatValue', 'htmlOptions'=>array('style'=>'width: 50px'),),   
 		
