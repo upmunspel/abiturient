@@ -976,6 +976,8 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                         'label-success' : 'label-important';
                 $docnum_span_class = ($data->edbo->DocNumber == $data->entrantdoc->Numbers)?
                         'label-success' : 'label-important';
+                $docseria_span_class = ($data->tDocSeria == $data->tDocSeries)?
+                        'label-success' : 'label-important';
                 $add_string = '<span class=\'label label-info\' 
                   title="В даних ЄДЕБО"
                   style=\'margin-bottom: 3px; font-size: 8pt; margin-left: 2px;\'>' 
@@ -992,10 +994,15 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                       '<span class=\'label label-red\' style=\'margin-bottom: 3px;font-size: 8pt;\'>'.
                       'н/з' . '</span><div class="clear"></div>');
               
-              echo '<div style=\'width: 70px !important;float:left;\' title=\''.$doc_desc.'\'>№ док. : </div>' .
-                      '<span class=\'label '.$docnum_span_class.'\' style=\'margin-bottom: 3px;font-size: 8pt;\''
-                      . ' title="'.(($data->edbo)? 'Значення в ЄДЕБО: '.$data->edbo->DocNumber : '').'">'.
-                      (($data->entrantdoc) ? $data->entrantdoc->Numbers : 'н/з') . '</span>' . '<div class="clear"></div>';
+              echo '<div style=\'width: 70px !important;float:left;\' title=\''.$doc_desc.'\'>серія,№ : </div>' .
+                '<span class=\'label '.$docseria_span_class.'\' style=\'margin-bottom: 3px;font-size: 8pt;\''
+                . ' title="'.(($data->edbo)? 'Значення в ЄДЕБО: '.$data->edbo->DocSeria : '').'">'.
+                (($data->entrantdoc) ? $data->entrantdoc->Series : 'н/з') . '</span>' 
+                .'<span class=\'label '.$docnum_span_class.'\' style=\'margin-left: 4px; '
+                    . ' margin-bottom: 3px;font-size: 8pt;\''
+                . ' title="'.(($data->edbo)? 'Значення в ЄДЕБО: '.$data->edbo->DocNumber : '').'">'.
+                (($data->entrantdoc) ? $data->entrantdoc->Numbers : 'н/з') . '</span>' 
+                . '<div class="clear"></div>';
               
               echo '<div style=\'width: 70px !important;float:left;color:'.(($data->edbo)? 
                 (($data->ZNOSum != $edboZNO)? 'red': 'green') :'black')

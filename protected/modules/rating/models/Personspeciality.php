@@ -119,6 +119,8 @@ class Personspeciality extends ActiveRecord {
   public $isExtraEntryList;
   public $isOutOfComp;
   public $isExtraEntry;
+  public $tDocSeria;
+  public $tDocSeries;
   
   private static $rating_counter = array();
   public static $is_rating_order = false;
@@ -415,7 +417,7 @@ class Personspeciality extends ActiveRecord {
   public function search_rel($return_array_of_models = false){
 
     $rating_order_mode = 0;
-    $page_size = 15;
+    $page_size = 200;
     if (is_numeric($this->rating_order_mode)){
       $rating_order_mode = $this->rating_order_mode;
     }
@@ -505,6 +507,8 @@ class Personspeciality extends ActiveRecord {
       new CDbExpression('(IF(ISNULL(documentSubject1.SubjectValue),0.0,documentSubject1.SubjectValue)+
         IF(ISNULL(documentSubject2.SubjectValue),0.0,documentSubject2.SubjectValue)+
         IF(ISNULL(documentSubject3.SubjectValue),0.0,documentSubject3.SubjectValue)) AS ZNOSum'),
+      new CDbExpression('lower(IF(ISNULL(edbo.DocSeria),"none",transliterate(edbo.DocSeria))) AS tDocSeria'),
+      new CDbExpression('lower(IF(ISNULL(entrantdoc.Series),"none",transliterate(entrantdoc.Series))) AS tDocSeries'),
     );
     //оформлення єдиного запиту на вибірку
     $criteria->together = true;
@@ -528,7 +532,7 @@ class Personspeciality extends ActiveRecord {
       //  щоб ПІБ не співпадало
       //  щоб країна громадянства не співпадала
       //  щоб відмітка у документі (атестат або диплом) не співпадала
-      //  щоб номер документа (атестата або диплому) не співпадав
+      //  щоб номер і серія документа (атестата або диплому) не співпадали
       //  щоб відмітка першочерговості не співпадала
       //  щоб відмітка позаконкурсного вступу не співпадала
       //  щоб відмітка вступу за цільовим направленням не співпадала
@@ -557,7 +561,7 @@ class Personspeciality extends ActiveRecord {
                 IF(ISNULL(t.Exam1Ball),0.0,t.Exam1Ball)+
                 IF(ISNULL(t.Exam2Ball),0.0,t.Exam2Ball)+
                 IF(ISNULL(t.Exam3Ball),0.0,t.Exam3Ball)),2)) <> edbo.RatingPoints
-
+            
         OR (REPLACE( REPLACE( REPLACE( concat_ws(\' \',trim(person.LastName),trim(person.FirstName),trim(person.MiddleName)), "  ", " " ), "  ", " " ), "  ", " " ) 
         NOT LIKE REPLACE( REPLACE( REPLACE( edbo.PIB, "  ", " " ), "  ", " " ), "  ", " " ))
         
@@ -567,7 +571,8 @@ class Personspeciality extends ActiveRecord {
             IF(ISNULL(entrantdoc.AtestatValue),0.0,entrantdoc.AtestatValue),2)) 
             
         OR (edbo.DocNumber NOT LIKE entrantdoc.Numbers) 
-
+        OR (IF(ISNULL(edbo.DocSeria),FALSE,transliterate(edbo.DocSeria) NOT LIKE transliterate(entrantdoc.Series))) 
+        
         OR (edbo.Benefit <> IF(((SELECT MAX(b.isPZK) FROM personbenefits pb LEFT JOIN benefit b ON pb.BenefitID = b.idBenefit 
           WHERE pb.idPersonBenefits IN 
           (SELECT personspecialitybenefits.PersonBenefitID FROM personspecialitybenefits 
