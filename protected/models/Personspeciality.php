@@ -62,6 +62,7 @@
  * @property integer $Quota2
  * @property integer $LanguageExID
  * @property integer $EntrantDocumentID
+ * @property integer $QuotaID
  */
 class Personspeciality extends ActiveRecord {
 
@@ -140,7 +141,7 @@ class Personspeciality extends ActiveRecord {
                                DocumentSubject2, DocumentSubject3, 
                                Exam1ID, Exam1Ball, Exam2ID, Exam2Ball,
                                Exam3ID, Exam3Ball, isHigherEducation, SkipDocumentValue', 'numerical', 'integerOnly' => true),
-            array("AdditionalBallComment,  CoursedpID, Quota1,Quota2, OlympiadID, isNotCheckAttestat, isForeinghEntrantDocument, PersonDocumentsAwardsTypesID, edboID, RequestFromEB, StatusID, benefits", 'safe'),
+            array("AdditionalBallComment,  CoursedpID, Quota1,Quota2, OlympiadID, isNotCheckAttestat, isForeinghEntrantDocument, PersonDocumentsAwardsTypesID, edboID, RequestFromEB, StatusID, benefits, QuotaID", 'safe'),
             // SHORTFORM
             array("Exam1ID", 'required', 'on' => "SHORTFORM"),
             array("EntrantDocumentID", 'valididateEntrantDoc', 'on' => "SHORTFORM"),
@@ -540,6 +541,7 @@ class Personspeciality extends ActiveRecord {
             "benefits" => "Пільги",
             "LanguageExID" => "Іноземна мова",
             "CoursedpDocument" => "Серія номер та ким виданий документ",
+            "QuotaID"=>"Квота",
         );
     }
 
