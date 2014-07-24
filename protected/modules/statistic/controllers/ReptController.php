@@ -1076,7 +1076,9 @@ class ReptController extends Controller {
             'value' => 
             function ($data){
               if (!empty($data->entrantdoc)){
-                echo $data->entrantdoc->docaward->PersonDocumentsAwardsTypesName;
+                if (!empty($data->entrantdoc->docaward)){
+                  echo $data->entrantdoc->docaward->PersonDocumentsAwardsTypesName;
+                }
               }
             }
           );
