@@ -381,6 +381,13 @@ Yii::app()->clientScript->registerPackage('select2');
         '.');
       } //end if
       
+      if (fieldName === 'Відзнака' && (value == 1) &&
+            (!anelement)) {
+        Textfield2Selectbox("condval-"+window.id_num,
+        '<?php echo Yii::app()->CreateUrl('/statistic/stat/awards'); ?>',
+        '.');
+      } //end if
+      
       if (fieldName === 'Адреса КОАТУУ' && (value == 1) &&
             (xelement)) {
         //якщо треба вибрати конкретне значення КОАТУУ,
@@ -645,7 +652,7 @@ Yii::app()->clientScript->registerPackage('select2');
         <input type='search' name="fields" id="fields" class="span11" />
       </div>
       <div id='selectx'></div>
-      <?php for ($i = 0; $i < 28; $i++){ 
+      <?php for ($i = 0; $i < 29; $i++){ 
           $is_date = ($i == 13 || $i == 1);
           $is_checkbox = (($i >= 9 && $i <= 11) || ($i >= 21 && $i <= 22) || ($i == 27));
           $is_koatuu = ($i == 2);

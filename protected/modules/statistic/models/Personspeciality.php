@@ -171,6 +171,7 @@ class Personspeciality extends ActiveRecord {
         'educationForm' => array(self::BELONGS_TO, 'Personeducationforms', 'EducationFormID'),
         'qualification' => array(self::BELONGS_TO, 'Qualifications', 'QualificationID'),
         'entranceType' => array(self::BELONGS_TO, 'Personenterancetypes', 'EntranceTypeID'),
+        'entrantdoc' => array(self::BELONGS_TO, 'Documents', 'EntrantDocumentID'),
         'course' => array(self::BELONGS_TO, 'Courses', 'CourseID'),
         'causality' => array(self::BELONGS_TO, 'Causality', 'CausalityID'),
         'documentSubject1' => array(self::BELONGS_TO, 'Documentsubject', 'DocumentSubject1'),

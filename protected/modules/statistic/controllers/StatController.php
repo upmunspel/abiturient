@@ -56,7 +56,7 @@ class StatController extends Controller {
                 'languages','reqstatuses','koatuus','zno',
                 'doctypes','benefitgroups','eduforms','okr',
                 'countries','schools', 
-                "statgraduated"),
+                "statgraduated", 'awards'),
             'users' => array('@'),
         ),
         array('allow', 
@@ -565,6 +565,7 @@ class StatController extends Controller {
     $fields[] = array('text' => 'Першочергово', 'id' => 21);
     $fields[] = array('text' => 'Поза конкурсом', 'id' => 22);
     $fields[] = array('text' => 'Копія', 'id' => 27);
+    $fields[] = array('text' => 'Відзнака', 'id' => 28);
     
     if (!$q){
       $result = $fields;
@@ -747,6 +748,17 @@ class StatController extends Controller {
           /* @var $model Schools */
           $result[] = array('text' => str_replace('"', "'", $model->SchoolName), 
               'id' => $model->idSchool);
+      }
+      echo CJSON::encode($result);
+  }
+  
+  public function actionAwards(){
+      $models = Persondocumentsawardstypes::model()->findAll('1 ORDER BY PersonDocumentsAwardsTypesName');
+      $result = array();
+      foreach ($models as $model){
+          /* @var $model Schools */
+          $result[] = array('text' => str_replace('"', "'", $model->PersonDocumentsAwardsTypesName), 
+              'id' => $model->idPersonDocumentsAwardsTypes);
       }
       echo CJSON::encode($result);
   }

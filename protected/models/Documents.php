@@ -18,6 +18,7 @@
  * @property integer $isNotCheckAttestat
  * @property integer $PersonDocumentsAwardsTypesID
  * @property integer $PersonBaseSpecealityID
+ * @property Persondocumentsawardstypes $docaward
  */
 class Documents extends ActiveRecord {
 
@@ -208,6 +209,7 @@ class Documents extends ActiveRecord {
         return array(
             "subjects" => array(self::HAS_MANY, "Documentsubject", "DocumentID"),
             "type" => array(self::BELONGS_TO, "PersonDocumentTypes", "TypeID"),
+            "docaward" => array(self::BELONGS_TO, "Persondocumentsawardstypes", "PersonDocumentsAwardsTypesID"),
         );
     }
 

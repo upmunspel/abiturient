@@ -76,6 +76,7 @@ class ReptController extends Controller {
     $fields[25] = array('text' => 'Курси ДП',);
     $fields[26] = array('text' => 'Номер справи',);
     $fields[27] = array('text' => 'Копія',);
+    $fields[28] = array('text' => 'Відзнака',);
     
     if (!is_string($reqFields)){
       throw new CHttpException(400,'Помилка. Невірний запит.');
@@ -1057,6 +1058,33 @@ class ReptController extends Controller {
             $sel, $widget_columns, $widget_column, 
             $field_num_index,
             $condition_type, $condition_value,
+            $criteria);
+          ////////////////////////////////////////////
+          break;
+        case 28:
+          $rels = array(
+              array('name' => 'entrantdoc', 'select' => true),
+              array('name' => 'entrantdoc.docaward', 'select' => true),
+          );
+          $sel = array(
+              'to_select' => $to_select,
+              'db_field_id' => 'entrantdoc.PersonDocumentsAwardsTypesID',
+              'db_field' => 'docaward.PersonDocumentsAwardsTypesName',
+          );
+          $widget_column = array('name' => 'docaward.PersonDocumentsAwardsTypesName', 
+            'header' => $header,
+            'value' => 
+            function ($data){
+              if (!empty($data->entrantdoc)){
+                echo $data->entrantdoc->docaward->PersonDocumentsAwardsTypesName;
+              }
+            }
+          );
+          $field_num_index = ($to_select)? $field_num_indexes[$i]:0;
+          $this->ProcessFieldTextAlternative($with_rel, $rels, 
+            $select, $sel, 
+            $widget_columns, $widget_column, $field_num_index,
+            $condition_type, $condition_value, $alternative_condition_value,
             $criteria);
           ////////////////////////////////////////////
           break;
