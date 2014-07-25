@@ -700,9 +700,11 @@ class RatingController extends Controller {
           }
           $i++;
         }
-        foreach ($data['u'] as $dblw){
-            //додаємо залишок
-            $data['below'][$below_counter++] = $dblw;
+        if (!empty($data['u'])){
+            foreach ($data['u'] as $dblw){
+                //додаємо залишок
+                $data['below'][$below_counter++] = $dblw;
+            }
         }
         return array('data'=>$data,
             'Speciality'=>$Speciality,
