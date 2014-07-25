@@ -548,7 +548,7 @@ class RatingController extends Controller {
           $info_row['ExamsPoints'] = $ExamsPoints;
           $info_row['OlympsPoints'] = 0+((!empty($model->olymp))? $model->olymp->OlympiadAwardBonus : 0);
           $info_row['CoursesPoints'] = 0+$model->CoursedpBall;
-          $info_row['isPZK'] = ($model->isOutOfComp || $model->Quota1)? 'V': '—';
+          $info_row['isPZK'] = ($model->isOutOfComp)? 'V': '—';
           $info_row['isExtra'] = ($model->isExtraEntry)? 'V': '—';
           $info_row['isQuota'] = ($model->Quota1)? 'V': '—';
           $info_row['isOriginal'] = (!$model->isCopyEntrantDoc)? 'V': '—';
@@ -564,7 +564,7 @@ class RatingController extends Controller {
               $data['quota'][$local_counter] = $info_row;
               $qpzk++;
             } else {
-              $info_row['isPZK'] = 'Z';
+              $info_row['isPZK'] = '';
               if ($u == 0){
                 $u_max_info_row = $info_row;
               } else if ( (float)$u_max_info_row['Points'] < (float)$info_row['Points'] ){
@@ -691,6 +691,7 @@ class RatingController extends Controller {
             $data['below'][$below_counter++] = $info_row;
           }
           $i++;
+          if ($i == 328 && ($model->sepciality->idSpeciality == 153901)){break;}
         }
         return array('data'=>$data,
             'Speciality'=>$Speciality,
