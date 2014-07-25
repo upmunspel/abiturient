@@ -56,7 +56,7 @@ class StatController extends Controller {
                 'languages','reqstatuses','koatuus','zno',
                 'doctypes','benefitgroups','eduforms','okr',
                 'countries','schools', 
-                "statgraduated", 'awards'),
+                "statgraduated", 'awards', 'personstatgraduated'),
             'users' => array('@'),
         ),
         array('allow', 
@@ -990,6 +990,65 @@ class StatController extends Controller {
       'DateTo' => $reqDateTo,
       'Qualification' => ($reqQualificationID == 2)? 'Магістр':'Спеціаліст',
     ));
+  }
+  
+  public function actionPersonstatgraduated(){
+      $criteria = new CDbCriteria();
+      $criteria->with = array(
+        'facultet',
+      );
+      
+      $criteria->addCondition('t.SpecialityClasifierCode LIKE "%7.%" OR '
+        . 't.SpecialityClasifierCode LIKE "%8.%"');
+        $ZNU = "Запорізький національний університет";
+        $ZNU1 = "Запорізьким національним університетом";
+        $ZNU2 = "Запорізького національного університету";
+        $ZNUshort = "ЗНУ";
+        $statuses = '1,4,5,7,8,9';
+      $criteria->select = array('*',
+        new CDbExpression('(IF(ISNULL((SELECT SUM(gr.Number) FROM graduated gr WHERE gr.Speciality LIKE '
+          . 'CONCAT(IF((t.SpecialitySpecializationName = ""),t.SpecialityName,t.SpecialitySpecializationName),"%")) '
+          . '),0,'
+          . '(SELECT SUM(gr.Number) FROM graduated gr WHERE gr.Speciality LIKE '
+          . 'CONCAT(IF((t.SpecialitySpecializationName = ""),t.SpecialityName,t.SpecialitySpecializationName),"%")) '
+          . ')) AS cnt_grad'),
+        new CDbExpression('IF((t.SpecialitySpecializationName = ""),t.SpecialityName,t.SpecialitySpecializationName) '
+          . 'AS tSPEC'),
+        new CDbExpression('0+((SELECT COUNT(DISTINCT ps4.PersonID)'
+                .' FROM personspeciality ps4'
+                .' LEFT OUTER JOIN documents docs4 ON ps4.EntrantDocumentID = docs4.idDocuments WHERE '
+                . 'ps4.SepcialityID IN (SELECT spc.idSpeciality FROM specialities spc WHERE '
+          . 't.SpecialityName LIKE spc.SpecialityName AND '
+          . 't.SpecialitySpecializationName LIKE spc.SpecialitySpecializationName) AND '
+                . 'ps4.StatusID IN ('.$statuses.') AND '
+                . '(docs4.Issued LIKE "%'.$ZNU.'%" OR '
+                  .'docs4.Issued LIKE "%'.$ZNU1.'%" OR '
+                  .'docs4.Issued LIKE "%'.$ZNU2.'%" OR '
+                  .'docs4.Issued LIKE "%'.$ZNUshort.'%") AND (docs4.DateGet LIKE "'.date('Y').'-%") '
+                . ' )) AS cnt_requests_from_us'),
+      );
+      $criteria->group = 'IF((t.SpecialitySpecializationName = ""),t.SpecialityName,t.SpecialitySpecializationName)';
+      $criteria->order = 'facultet.FacultetFullName,IF((t.SpecialitySpecializationName = ""),'
+        . 't.SpecialityName,t.SpecialitySpecializationName) ASC';
+      $criteria->together = true;
+      $models = Specialities::model()->findAll($criteria);
+      
+        header("Content-type: text/csv");
+        header("Content-Disposition: attachment; filename=file.csv");
+        header("Pragma: no-cache");
+        header("Expires: 0");
+        $output = fopen("php://output", "w");
+        fputcsv($output,array(iconv('UTF-8','Windows-1251','Факультет') , 
+            iconv('UTF-8','Windows-1251',"Напрям/спеціалізація") , 
+            iconv('UTF-8','Windows-1251',"Випуск ".date('Y')) , 
+            iconv('UTF-8','Windows-1251',"ЗНУ ".date('Y'))),';');
+        foreach ($models as $model){
+            fputcsv($output,array(iconv('UTF-8','Windows-1251',$model->facultet->FacultetFullName) , 
+              iconv('UTF-8','Windows-1251',$model->tSPEC) , 
+              iconv('UTF-8','Windows-1251',$model->cnt_grad) , 
+              iconv('UTF-8','Windows-1251',$model->cnt_requests_from_us)),';');
+        }
+        fclose($output);
   }
   
   public function actionSysreport(){

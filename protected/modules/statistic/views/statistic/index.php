@@ -828,7 +828,39 @@ Yii::app()->clientScript->registerPackage('select2');
 </div>
 
 <!-- ----------------------------------------------------------------------- -->
+<!-- Статистика заяв окремих персон на старші курси -->
+<div class="row-fluid">
+<div class="well well-large span11">
+  <h3 id="elderstat">Статистика абітурієнтів на ОКР "Спеціаліст" і "Магістр"</h3>
+  <div class="form" >
+      Повертає CSV-файл (відкривається через Excel). Поля: 
+      <ol><li>факультет, </li>
+          <li>напрям/спеціалізація, </li>
+          <li>к-сть випускників <?php echo date('Y'); ?> року для даного напряму сумарно по усім формам навчання,</li>
+          <li>к-сть абітурієнтів, у яких диплом видано ЗНУ того ж року, сумарно по усім формам начання і ОКР.</li>
+      </ol>
+    <?php
 
+    $personstatdetail_act = Yii::app()->createUrl("statistic/stat/personstatgraduated");
+    ?>
+
+    <div class="row-fluid" style="text-align: center;">
+      <?php
+      $this->widget("bootstrap.widgets.TbButton", array(
+          'buttonType' => 'link',
+          'url' => $personstatdetail_act,
+          'type' => 'primary',
+          "size" => "large",
+          'label' => 'Сформувати файл',
+          'icon' => 'star',
+      ));
+      ?>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ----------------------------------------------------------------------- -->
 <script>
     $(document).ready(function(){
         

@@ -44,6 +44,7 @@ class Specialities extends CActiveRecord {
   
   public $cnt_requests_from_us;
   public $cnt_requests_from_aliens;
+  public $cnt_grad;
   
   public $modes;
   public $statuses;
