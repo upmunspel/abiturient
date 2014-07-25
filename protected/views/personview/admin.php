@@ -43,6 +43,8 @@ $edt = CHtml::listData(Personeducationforms::model()->findAll(), 'idPersonEducat
 
 $facs = CHtml::listData(Facultets::model()->findAll(), 'idFacultet','FacultetFullName');
 
+$status = CHtml::listData(Personrequeststatustypes::model()->findAll(), 'idPersonRequestStatusType','PersonRequestStatusTypeName');
+
 
 $this->widget('bootstrap.widgets.TbGroupGridView', array(
 'id'=>'person-speciality-view-grid',
@@ -63,9 +65,12 @@ $this->widget('bootstrap.widgets.TbGroupGridView', array(
 		
 		//'CreateDate',
 		//'idPerson',
-    
+                array('name'=>'CreateDate', 'htmlOptions'=>array('style'=>'width: 100px')), 
+
+                array('name'=>'StatusID', 'htmlOptions'=>array(/*'style'=>'width: 70px'*/), 'filter'=>$status, 'value'=>'$data->status->PersonRequestStatusTypeName'), 
+
                 array('name'=>'isCopyEntrantDoc', 'htmlOptions'=>array('style'=>'width: 70px'), 'filter'=>array('1'=>'так','0'=>'ні'), 'value'=>'($data->isCopyEntrantDoc=="1")?("так"):("ні")'), 
-		array('name'=>'Facultet', 'htmlOptions'=>array('style'=>'width: 250px'), 'filter'=>$facs, 'value'=>'$data->speciality->facultet->FacultetFullName'), 
+		array('name'=>'Facultet', 'htmlOptions'=>array('style'=>'width: 150px'), 'filter'=>$facs, 'value'=>'$data->speciality->facultet->FacultetFullName'), 
 		
     
                 //array('name'=>'isContract', 'htmlOptions'=>array('style'=>'width: 70px'), 'filter'=>array('1'=>'так','0'=>'ні'), 'value'=>'($data->isContract=="1")?("так"):("ні")'), 
