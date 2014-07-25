@@ -691,7 +691,6 @@ class RatingController extends Controller {
             $data['below'][$below_counter++] = $info_row;
           }
           $i++;
-          if ($i == 328 && ($model->sepciality->idSpeciality == 153901)){break;}
         }
         return array('data'=>$data,
             'Speciality'=>$Speciality,
@@ -754,9 +753,15 @@ class RatingController extends Controller {
         $is_elder= true;
       }
       $href = 'http://'.$_SERVER['SERVER_ADDR'].':'.$_SERVER['SERVER_PORT'].'/abiturient/rating/rating/ratinginfo?&Personspeciality%5BSepcialityID%5D='.$spec->idSpeciality.'&Personspeciality%5Brating_order_mode%5D=1'; 
-      echo "<li><a href='".$href."' target='_blank'>".$spec->tSPEC." ("
-        .Personspeciality::model()->count('(SepcialityID='.$spec->idSpeciality . ' AND StatusID IN (1,4,5,7,8))')
-        .")</a></li>";
+      if ($spec->idSpeciality == 153901){
+        echo "<li><span style='color: grey;'>".$spec->tSPEC." ("
+          .Personspeciality::model()->count('(SepcialityID='.$spec->idSpeciality . ' AND StatusID IN (1,4,5,7,8))')
+          .") - інформація на даний момент недоступна</span></li>";
+      } else {
+        echo "<li><a href='".$href."' target='_blank'>".$spec->tSPEC." ("
+          .Personspeciality::model()->count('(SepcialityID='.$spec->idSpeciality . ' AND StatusID IN (1,4,5,7,8))')
+          .")</a></li>";
+      }
     }
     echo "</ul><footer style='text-align: center;'>ЗНУ, Лабораторія ІС та КТ</footer></body></html>";
   }
