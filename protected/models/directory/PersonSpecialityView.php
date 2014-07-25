@@ -19,8 +19,9 @@
  * @property integer $OlympiadAwardID
  * @property integer $CoursedpID
  * @property integer $SepcialityID
- * CoursedpID
- * RequestFromEB
+ * @property integer $CoursedpID
+ * @property integer $RequestFromEB
+ * @property integer #StatusID
  */
 class PersonSpecialityView extends CActiveRecord
 {
@@ -84,6 +85,11 @@ class PersonSpecialityView extends CActiveRecord
 	{
 		return 'person_speciality_view';
 	}
+        public function afterFind() {
+            $this->CreateDate = date("d.m.Y", strtotime($this->CreateDate));
+            parent::afterFind();
+        }
+
 
 	/**
 	 * @return array validation rules for model attributes.
@@ -100,7 +106,7 @@ class PersonSpecialityView extends CActiveRecord
 			array('CreateDate, Birthday, isCopyEntrantDoc, AtestatValue,  DocumentSubject1Value,  DocumentSubject2Value,  DocumentSubject3Value, CoursedpID, OlympiadID, OlympiadID', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('idPersonSpeciality, CreateDate, idPerson, Birthday, FIO, isContract, isBudget, SpecCodeName, QualificationID, CourseID, RequestNumber, PersonRequestNumber, CoursedpID, OlympiadID, RequestFromEB, SepcialityID, EducationFormID, Facultet', 'safe', 'on'=>'search'),
+			array('idPersonSpeciality, CreateDate, idPerson, Birthday, FIO, isContract, isBudget, SpecCodeName, QualificationID, CourseID, RequestNumber, PersonRequestNumber, CoursedpID, OlympiadID, RequestFromEB, SepcialityID, EducationFormID, Facultet, StatusID', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -116,7 +122,8 @@ class PersonSpecialityView extends CActiveRecord
                       'olympiad'=> array(self::BELONGS_TO, 'Olympiadsawards', 'OlympiadID'),
                       'qualification'=> array(self::BELONGS_TO, 'Qualifications', 'QualificationID'),
                       'educationform'=>array(self::BELONGS_TO, 'Personeducationforms', 'EducationFormID'),
-                      'speciality'=>array(self::BELONGS_TO, 'Specialities', "SepcialityID")
+                      'speciality'=>array(self::BELONGS_TO, 'Specialities', "SepcialityID"),
+                      'status'=>array(self::BELONGS_TO, 'Personrequeststatustypes', "StatusID"),
 		);
 	}
         
@@ -128,22 +135,22 @@ class PersonSpecialityView extends CActiveRecord
 	{
 		return array(
                     'idPersonSpeciality' => 'Код',
-                    'CreateDate' => 'Дата створення',
+                    'CreateDate' => 'Cnворена',
                     'idPerson' => 'Код',
                     'Birthday' => 'Дата нар-ня',
                     'FIO' => 'ПІБ',
                     'isContract' => 'Контракт',
                     'isBudget' => 'Бюджет',
-                    'SpecCodeName' => 'Спеціальність',
+                    'SpecCodeName' => 'Спец-ть',
                     'QualificationID' => 'Qualification',
                     'CourseID' => 'Курс',
                     'RequestNumber' => 'Справа',
                     'PersonRequestNumber' => 'Особ. справа',
                     "isCopyEntrantDoc"=>"Копія",
-                    "DocumentSubject1Value"=>"ЗНО 1",
-                    "DocumentSubject2Value"=>"ЗНО 2",
-                    "DocumentSubject3Value"=>"ЗНО 3",
-                    "AtestatValue"=>"Атестат",
+                    "DocumentSubject1Value"=>"З1",
+                    "DocumentSubject2Value"=>"З2",
+                    "DocumentSubject3Value"=>"З3",
+                    "AtestatValue"=>"Ат-т",
                     "CoursedpID"=>"Курси",
                     "OlympiadID"=>"Олімпіади",
                     'QualificationID'=>'Рівень',
@@ -151,6 +158,7 @@ class PersonSpecialityView extends CActiveRecord
                     "SepcialityID"=>"Спеціальність",
                     "EducationFormID"=>"Форма",
                     "Facultet"=>"Факультет",
+                    "StatusID"=>"Статус",
 		);
 	}
 
@@ -223,10 +231,14 @@ class PersonSpecialityView extends CActiveRecord
                        $in[] = $item->idSpeciality; 
                    }
                 }
+                if (!empty($this->CreateDate)){
+                    Yii::log($this->CreateDate);
+                    $criteria->addBetweenCondition('CreateDate', date('Y-m-d', strtotime($this->CreateDate)), date('Y-m-d', strtotime($this->CreateDate))." 23:59:59");
+                }
                 //Yii::log(print_r($in,1));
                
 		$criteria->compare('idPersonSpeciality',$this->idPersonSpeciality);
-		$criteria->compare('CreateDate',$this->CreateDate,true);
+		//$criteria->compare('CreateDate',$this->CreateDate,true);
 		$criteria->compare('idPerson',$this->idPerson);
 		$criteria->compare('Birthday',$this->Birthday,true);
 		$criteria->compare('FIO',$this->FIO,true);
@@ -244,6 +256,7 @@ class PersonSpecialityView extends CActiveRecord
                 $criteria->compare('RequestFromEB',$this->RequestFromEB);
                 $criteria->compare('SepcialityID',$this->SepcialityID);
                 $criteria->compare('EducationFormID',$this->EducationFormID);
+                 $criteria->compare('StatusID',$this->StatusID);
                 $criteria->addCondition('StatusID<>10');
                 $criteria->addCondition('StatusID<>3');
                 if (!empty($in)){
