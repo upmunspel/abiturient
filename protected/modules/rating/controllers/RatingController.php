@@ -564,7 +564,6 @@ class RatingController extends Controller {
               $data['quota'][$local_counter] = $info_row;
               $qpzk++;
             } else {
-              $info_row['isPZK'] = '';
               if ($u == 0){
                 $u_max_info_row = $info_row;
               } else if ( (float)$u_max_info_row['Points'] < (float)$info_row['Points'] ){
@@ -672,25 +671,38 @@ class RatingController extends Controller {
               continue;
             }
           }
-          
           if (!$was){
-            while (!empty($data['u']) && ( (float)$u_max_info_row['Points'] > (float)$info_row['Points'])){
+            //усі інші
+            $iter = 0;
+            while (!empty($data['u']) && ( ( (float)$u_max_info_row['Points'] > (float)$info_row['Points'] ) || 
+              ( (float)$u_max_info_row['Points'] == (float)$info_row['Points'] && $u_max_info_row['isExtra'] == 'V') ||
+              ( (float)$u_max_info_row['Points'] == (float)$info_row['Points'] && $u_max_info_row['isPZK'] == 'V') )
+              && ($iter < 2000)
+              ){
               $data['below'][$below_counter++] = $u_max_info_row;
-              $p_max = 0.0;
               foreach ($data['u'] as $u_id => $d_u){
                 if ($d_u['PIB'] == $u_max_info_row['PIB'] && $d_u['Points'] == $u_max_info_row['Points']){
                   unset($data['u'][$u_id]);
-                  continue;
+                  $iter++;
+                  break;
                 }
-                if ((float)$d_u['Points'] > $p_max){
-                  $p_max = (float)$d_u['Points'];
+                $iter++;
+              }
+              $p_max = 0.0;
+              foreach ($data['u'] as $u_id => $d_u){
+                if ( (float)$d_u['Points'] > $p_max ){
                   $u_max_info_row = $d_u;
+                  $p_max = (float)$d_u['Points'];
                 }
               }
             }
             $data['below'][$below_counter++] = $info_row;
           }
           $i++;
+        }
+        foreach ($data['u'] as $dblw){
+            //додаємо залишок
+            $data['below'][$below_counter++] = $dblw;
         }
         return array('data'=>$data,
             'Speciality'=>$Speciality,
@@ -753,15 +765,9 @@ class RatingController extends Controller {
         $is_elder= true;
       }
       $href = 'http://'.$_SERVER['SERVER_ADDR'].':'.$_SERVER['SERVER_PORT'].'/abiturient/rating/rating/ratinginfo?&Personspeciality%5BSepcialityID%5D='.$spec->idSpeciality.'&Personspeciality%5Brating_order_mode%5D=1'; 
-      if ($spec->idSpeciality == 153901){
-        echo "<li><span style='color: grey;'>".$spec->tSPEC." ("
-          .Personspeciality::model()->count('(SepcialityID='.$spec->idSpeciality . ' AND StatusID IN (1,4,5,7,8))')
-          .") - інформація на даний момент недоступна</span></li>";
-      } else {
-        echo "<li><a href='".$href."' target='_blank'>".$spec->tSPEC." ("
-          .Personspeciality::model()->count('(SepcialityID='.$spec->idSpeciality . ' AND StatusID IN (1,4,5,7,8))')
-          .")</a></li>";
-      }
+      echo "<li><a href='".$href."' target='_blank'>".$spec->tSPEC." ("
+        .Personspeciality::model()->count('(SepcialityID='.$spec->idSpeciality . ' AND StatusID IN (1,4,5,7,8))')
+        .")</a></li>";
     }
     echo "</ul><footer style='text-align: center;'>ЗНУ, Лабораторія ІС та КТ</footer></body></html>";
   }
