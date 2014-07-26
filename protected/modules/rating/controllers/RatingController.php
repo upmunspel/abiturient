@@ -774,12 +774,18 @@ class RatingController extends Controller {
         ),
     );
     $criteria->order = 'SpecialityName ASC,SpecialityDirectionName ASC,SpecialityClasifierCode ASC, eduform.PersonEducationFormName ASC';
-    echo "<html><meta charset='utf8'><head></head><body><h1 style='text-align: center;'>Інформація про подані абітурієнтами заяви</h1>";
+    echo "<html><meta charset='utf8'><head></head><body>";
+    echo "<p style='text-align: right; font-family: \"Courier New\"; font-size: 8pt;'>Дані сформовано ".date('d.m.Y H:i')."</p>";
+    echo "<h1 style='text-align: center;'>Інформація про подані абітурієнтами заяви</h1>";
+    echo "<h3 style='text-align: center;'>Заяви на ОКР \"Бакалавр\"</h3>";
     echo "<ul>";
     $is_elder = false;
     foreach (Specialities::model()->findAll($criteria) as $spec){
       if ((mb_substr($spec->tSPEC,0,1,'utf-8') == '7' || mb_substr($spec->tSPEC,0,1,'utf-8') == '8') && (!$is_elder)){
+        echo "</ul>";
         echo '<hr/>';
+        echo "<h3 style='text-align: center;'>Заяви на ОКР \"Спеціаліст\" і \"Магістр\"</h3>";
+        echo "<ul>";
         $is_elder= true;
       }
       $href = 'http://'.$_SERVER['SERVER_ADDR'].':'.$_SERVER['SERVER_PORT'].'/abiturient/rating/rating/ratinginfo?&Personspeciality%5BSepcialityID%5D='.$spec->idSpeciality.'&Personspeciality%5Brating_order_mode%5D=1'; 
