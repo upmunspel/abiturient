@@ -468,7 +468,9 @@ echo $form->hiddenField($model, 'SepcialityID', array(
                 'id' => 'RatingButton',
                 'class' => 'span9',
                 'onclick' => '$(\'#rating-params-form\').attr(\'action\',\''.Yii::app()->createUrl($this->route).'\');'
-                  . '$(\'#rating-params-form\').submit();return false;',
+                  . 'if($("#Personspeciality_DateFrom").val().length > 0 && $("#Personspeciality_DateTo").val().length > 0)'
+                . '{$(\'#rating-params-form\').submit();}else{alert("Вкажіть проміжок часу (дати).");}'
+                . 'return false;',
                ),
               'label'=>'Створити вибірку',
         )
