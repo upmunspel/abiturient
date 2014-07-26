@@ -1006,20 +1006,14 @@ class StatController extends Controller {
         $ZNUshort = "ЗНУ";
         $statuses = '1,4,5,7,8,9';
       $criteria->select = array('*',
-        new CDbExpression('(IF(ISNULL((SELECT SUM(gr.Number) FROM graduated gr WHERE gr.Speciality LIKE '
-          . 'CONCAT(IF((t.SpecialitySpecializationName = ""),t.SpecialityName,t.SpecialitySpecializationName),"%")) '
-          . '),0,'
-          . '(SELECT SUM(gr.Number) FROM graduated gr WHERE gr.Speciality LIKE '
-          . 'CONCAT(IF((t.SpecialitySpecializationName = ""),t.SpecialityName,t.SpecialitySpecializationName),"%")) '
-          . ')) AS cnt_grad'),
-        new CDbExpression('IF((t.SpecialitySpecializationName = ""),t.SpecialityName,t.SpecialitySpecializationName) '
-          . 'AS tSPEC'),
+        new CDbExpression('(SELECT SUM(gr.Number) FROM graduated gr WHERE gr.FacultyID = '
+          . ' t.FacultetID '
+          . ') AS cnt_grad'),
         new CDbExpression('0+((SELECT COUNT(DISTINCT ps4.PersonID)'
                 .' FROM personspeciality ps4'
                 .' LEFT OUTER JOIN documents docs4 ON ps4.EntrantDocumentID = docs4.idDocuments WHERE '
                 . 'ps4.SepcialityID IN (SELECT spc.idSpeciality FROM specialities spc WHERE '
-          . 't.SpecialityName LIKE spc.SpecialityName AND '
-          . 't.SpecialitySpecializationName LIKE spc.SpecialitySpecializationName) AND '
+          . 't.FacultetID = spc.FacultetID) AND '
                 . 'ps4.StatusID IN ('.$statuses.') AND '
                 . '(docs4.Issued LIKE "%'.$ZNU.'%" OR '
                   .'docs4.Issued LIKE "%'.$ZNU1.'%" OR '
@@ -1027,9 +1021,8 @@ class StatController extends Controller {
                   .'docs4.Issued LIKE "%'.$ZNUshort.'%") AND (docs4.DateGet LIKE "'.date('Y').'-%") '
                 . ' )) AS cnt_requests_from_us'),
       );
-      $criteria->group = 'IF((t.SpecialitySpecializationName = ""),t.SpecialityName,t.SpecialitySpecializationName)';
-      $criteria->order = 'facultet.FacultetFullName,IF((t.SpecialitySpecializationName = ""),'
-        . 't.SpecialityName,t.SpecialitySpecializationName) ASC';
+      $criteria->group = 't.FacultetID';
+      $criteria->order = 'facultet.FacultetFullName';
       $criteria->together = true;
       $models = Specialities::model()->findAll($criteria);
       
@@ -1039,12 +1032,10 @@ class StatController extends Controller {
         header("Expires: 0");
         $output = fopen("php://output", "w");
         fputcsv($output,array(iconv('UTF-8','Windows-1251','Факультет') , 
-            iconv('UTF-8','Windows-1251',"Напрям/спеціалізація") , 
             iconv('UTF-8','Windows-1251',"Випуск ".date('Y')) , 
             iconv('UTF-8','Windows-1251',"ЗНУ ".date('Y'))),';');
         foreach ($models as $model){
-            fputcsv($output,array(iconv('UTF-8','Windows-1251',$model->facultet->FacultetFullName) , 
-              iconv('UTF-8','Windows-1251',$model->tSPEC) , 
+            fputcsv($output,array(iconv('UTF-8','Windows-1251',$model->facultet->FacultetFullName) ,
               iconv('UTF-8','Windows-1251',$model->cnt_grad) , 
               iconv('UTF-8','Windows-1251',$model->cnt_requests_from_us)),';');
         }

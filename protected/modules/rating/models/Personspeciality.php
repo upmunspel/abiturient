@@ -538,6 +538,7 @@ class Personspeciality extends ActiveRecord {
       //  щоб відмітка вступу за цільовим направленням не співпадала
       //  щоб відмітка копії/оригінала не співпадала
       //  щоб напрям або спеціальність або форма не співпадали
+      //  щоб статус заяви не співпадав
       /*
       Вставити в умову, якщо потрібно вибрати неточності по серії
       OR (IF(ISNULL(edbo.DocSeria),FALSE,transliterate(edbo.DocSeria) NOT LIKE transliterate(entrantdoc.Series))) 
@@ -600,6 +601,7 @@ class Personspeciality extends ActiveRecord {
             (edbo.Speciality NOT LIKE sepciality.SpecialityName AND t.QualificationID > 1) OR
             (sepciality.SpecialitySpecializationName NOT LIKE CONCAT("%",edbo.Specialization,"%"))
             )
+        OR (MID(status.PersonRequestStatusTypeName,1,6) COLLATE utf8_unicode_ci NOT LIKE MID(edbo.Status,1,6))
         )'
       );
       break;
@@ -657,7 +659,8 @@ class Personspeciality extends ActiveRecord {
       // тоді додаткові умови ::
       // 
       $criteria->addCondition('(
-        edbo.DetailPoints NOT LIKE CONCAT("%ЗНО:",(IF(ISNULL(documentSubject1.SubjectValue),0.0,documentSubject1.SubjectValue)+
+        edbo.DetailPoints NOT LIKE CONCAT("%ЗНО:",
+        (IF(ISNULL(documentSubject1.SubjectValue),0.0,documentSubject1.SubjectValue)+
         IF(ISNULL(documentSubject2.SubjectValue),0.0,documentSubject2.SubjectValue)+
         IF(ISNULL(documentSubject3.SubjectValue),0.0,documentSubject3.SubjectValue)),"%"))'
       );

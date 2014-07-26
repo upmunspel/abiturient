@@ -628,7 +628,11 @@ $this->widget('bootstrap.widgets.TbGridView', array(
       }
       echo '<span class=\'label '.$span_class.'\'>'.$doc_orig.
               '</span><br/>';
-      echo 'статус заявки: <span class=\'label badge req-status-'.$data->StatusID.'\'>'
+      echo 'статус заявки: <span title="'.(($data->edbo)? 'У ЄДЕБО: '.$data->edbo->Status:'')
+          .'" class=\'label badge req-status-'.$data->StatusID.'\''
+        . ' style="border: 1px solid '.(($data->edbo)? 
+        ((mb_substr($data->edbo->Status,0,6,'utf-8') == mb_substr($data->status->PersonRequestStatusTypeName,0,6,'utf-8'))? 
+        'green':'red'):'white').';">'
             . $data->status->PersonRequestStatusTypeName
             . '</span><hr style=\'margin: 3px !important;\'/>';
 ?> <div id='row_<?php echo $row; ?>' style='display:none; font-size:8pt;'> <?php
