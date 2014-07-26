@@ -632,7 +632,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
               '</span><br/>';
       echo 'статус заявки: <span title="'.(($data->edbo)? 'У ЄДЕБО: '.$data->edbo->Status:'')
           .'" class=\'label badge req-status-'.$data->StatusID.'\''
-        . ' style="border: 1px solid '.(($data->edbo)? 
+        . ' style="border: 3px solid '.(($data->edbo)? 
         ((mb_substr($data->edbo->Status,0,6,'utf-8') == mb_substr($data->status->PersonRequestStatusTypeName,0,6,'utf-8'))? 
         'green':'red'):'white').';">'
             . $data->status->PersonRequestStatusTypeName
