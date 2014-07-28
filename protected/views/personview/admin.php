@@ -50,7 +50,7 @@ $this->widget('bootstrap.widgets.TbGroupGridView', array(
 'id'=>'person-speciality-view-grid',
     'type'=>'striped bordered condensed',
 'dataProvider'=>$model->search(),
- 'rowCssClassExpression'=>'empty($data->SpecEdboID) && empty($data->PersonEdboID) ?"row-red":"row-green"',
+'rowCssClassExpression'=>'$data->getRowStyle()',
 'filter'=>$model,
     'mergeColumns' => array('FIO', 'Birthday',"PersonRequestNumber", 'idPerson'),
 'columns'=>array(
