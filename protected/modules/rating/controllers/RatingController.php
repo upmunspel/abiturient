@@ -45,7 +45,7 @@ class RatingController extends Controller {
             'actions' => array(
                 "ratingcontacts"
             ),
-            'users' => array('nas150','igor','munspel'),
+            'roles' => array('Root','Admin'),
         ),
         array('deny', // deny all users
             'users' => array('*'),
