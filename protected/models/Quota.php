@@ -7,31 +7,27 @@
  * @property integer $idQuota
  * @property string $QuotaName
  */
-class Quota extends CActiveRecord
-{
+class Quota extends CActiveRecord{
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
 	 * @return Quota the static model class
 	 */
-	public static function model($className=__CLASS__)
-	{
+	public static function model($className=__CLASS__){
 		return parent::model($className);
 	}
 
 	/**
 	 * @return string the associated database table name
 	 */
-	public function tableName()
-	{
+	public function tableName(){
 		return 'quota';
 	}
 
 	/**
 	 * @return array validation rules for model attributes.
 	 */
-	public function rules()
-	{
+	public function rules(){
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
@@ -47,8 +43,7 @@ class Quota extends CActiveRecord
 	/**
 	 * @return array relational rules.
 	 */
-	public function relations()
-	{
+	public function relations(){
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
@@ -59,11 +54,10 @@ class Quota extends CActiveRecord
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
-	public function attributeLabels()
-	{
+	public function attributeLabels(){
 		return array(
-    'idQuota' => 'Id Quota',
-    'QuotaName' => 'Quota Name',
+    'idQuota' => 'ID',
+    'QuotaName' => 'Назва квоти',
 		);
 	}
 
@@ -71,18 +65,24 @@ class Quota extends CActiveRecord
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
-	public function search()
-	{
+	public function search(){
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 
 		$criteria=new CDbCriteria;
-
 		$criteria->compare('idQuota',$this->idQuota);
 		$criteria->compare('QuotaName',$this->QuotaName,true);
-
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
 	}
+  
+  public static function getAllQuota() {
+      $Data = Quota::model()->findAll();
+      $res = array();
+      foreach ($Data as $record) {
+        $res[$record->idQuota] = $record->QuotaName;
+      }
+      return $res;
+  }
 }

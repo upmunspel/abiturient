@@ -206,6 +206,8 @@ class Specialities extends CActiveRecord {
             'personsepcialities' => array(self::HAS_MANY, 'Personsepciality', 'SepcialityID'),
             'facultet' => array(self::BELONGS_TO, 'Facultets', 'FacultetID'),
             'eduform' => array(self::BELONGS_TO, 'Personeducationforms', 'PersonEducationFormID'),
+            'specquotes' => array(self::HAS_MANY, 'Specialityquotes', 'SpecialityID'),
+            'quotas' => array(self::HAS_MANY, 'Quota', 'QuotaID', 'through' => 'specquotes'),
         );
     }
 
@@ -371,6 +373,31 @@ class Specialities extends CActiveRecord {
             }
         }
         return $res;
+    }
+    
+    public static function getAllSpecs(){
+      $spec_sql = "concat_ws(' ',"
+        . "SpecialityClasifierCode,"
+        . "(case substr(SpecialityClasifierCode,1,1) when '6' then "
+        . "SpecialityDirectionName else SpecialityName end),"
+        . "(case SpecialitySpecializationName when '' then '' "
+        . " else concat('(',SpecialitySpecializationName,')') end)"
+        . ",concat('(',MID(eduform.PersonEducationFormName,1,1),')'))";
+      $criteria = new CDbCriteria();
+      $criteria->select = array('idSpeciality','PersonEducationFormID',
+        $spec_sql.' AS SPEC'
+      );
+      $criteria->with = array('eduform');
+      $criteria->together = true;
+      $criteria->group = 'idSpeciality';
+      $criteria->order = 'SpecialityName ASC,SpecialityDirectionName ASC,SpecialityClasifierCode ASC, '
+             . 'eduform.PersonEducationFormName ASC';
+      $Data = Specialities::model()->findAll($criteria);
+      $result = array();
+      foreach ($Data as $rec){
+        $result[$rec->idSpeciality] = $rec->SPEC;
+      }
+      return $result;
     }
     
   /**
