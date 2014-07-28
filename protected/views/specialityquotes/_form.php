@@ -21,14 +21,16 @@
 	<div class="row-fluid">
     <div class="span12">
       <?php echo $form->labelEx($model,'SpecialityID'); ?>
-      <?php echo $form->dropDownList($model, 'SpecialityID', Specialities::getAllSpecs()); ?>
+      <?php echo $form->dropDownList($model, 'SpecialityID', 
+        Specialities::getAllSpecs(), array('class'=>'span12')); ?>
       <?php echo $form->error($model,'SpecialityID'); ?>
     </div>
   </div>
 	<div class="row-fluid">
     <div class="span12">
       <?php echo $form->labelEx($model,'QuotaID'); ?>
-      <?php echo $form->dropDownList($model, 'QuotaID', Quota::getAllQuota()); ?>
+      <?php echo $form->dropDownList($model, 'QuotaID', 
+        Quota::getAllQuota(), array('class'=>'span12')); ?>
       <?php echo $form->error($model,'QuotaID'); ?>
     </div>
   </div>

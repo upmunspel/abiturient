@@ -102,9 +102,13 @@ class Specialityquotes extends CActiveRecord{
 			'criteria'=>$criteria,
       'sort' => array(
         'defaultOrder' => array(
-            'idSpecialityQuotes' => CSort::SORT_ASC,
+            'idSpecialityQuotes' => CSort::SORT_DESC,
         ),
         'attributes' => array(
+          'idSpecialityQuotes' => array(
+            'asc' => 'idSpecialityQuotes ASC',
+            'desc' => 'idSpecialityQuotes DESC',
+          ),
           'SpecialityID' => array(
             'asc' => 'spec.SpecialityName ASC,spec.SpecialityDirectionName ASC,spec.SpecialityClasifierCode ASC, '
              . 'eduform.PersonEducationFormName ASC',

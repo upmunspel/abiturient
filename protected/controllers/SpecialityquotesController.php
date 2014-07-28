@@ -117,6 +117,11 @@ class SpecialityquotesController extends Controller{
 		if(isset($_GET['Specialityquotes'])){
 			$model->attributes=$_GET['Specialityquotes'];
     }
+    if (isset($_POST['SpecialityQuotesCreate'])){
+      $cmodel = new Specialityquotes();
+      $cmodel->attributes=$_POST['Specialityquotes'];
+      $cmodel->save();
+    }
 		$this->render('admin',array(
 			'model'=>$model,
 		));
