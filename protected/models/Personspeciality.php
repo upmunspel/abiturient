@@ -139,8 +139,8 @@ class Personspeciality extends ActiveRecord {
                                QualificationID, EntranceTypeID, CourseID, CausalityID, 
                                isContract, isBudget, isCopyEntrantDoc, DocumentSubject1, 
                                DocumentSubject2, DocumentSubject3, 
-                               Exam1ID, Exam1Ball, Exam2ID, Exam2Ball,
-                               Exam3ID, Exam3Ball, isHigherEducation, SkipDocumentValue', 'numerical', 'integerOnly' => true),
+                               Exam1ID,  Exam2ID, 
+                               Exam3ID,  isHigherEducation, SkipDocumentValue', 'numerical', 'integerOnly' => true),
             array("AdditionalBallComment,  CoursedpID, Quota1,Quota2, OlympiadID, isNotCheckAttestat, isForeinghEntrantDocument, PersonDocumentsAwardsTypesID, edboID, RequestFromEB, StatusID, benefits, QuotaID", 'safe'),
             // SHORTFORM
             array("Exam1ID", 'required', 'on' => "SHORTFORM"),
