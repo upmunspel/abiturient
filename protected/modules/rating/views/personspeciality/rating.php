@@ -981,8 +981,13 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                         'label-success' : 'label-important';
                 $country_span_class = ($data->edbo->Country == $data->person->country->CountryName)?
                         'label-success' : 'label-important';
-                $docnum_span_class = ($data->edbo->DocNumber == $data->entrantdoc->Numbers)?
+                if (!empty($data->entrantdoc)){
+                  $docnum_span_class = ($data->edbo->DocNumber == $data->entrantdoc->Numbers)?
                         'label-success' : 'label-important';
+                } else {
+                  $docnum_span_class = ($data->edbo->DocNumber == "")?
+                        'label-success' : 'label-important';
+                }
                 $docseria_span_class = 'label-info';
                 $add_string = '<span class=\'label label-info\' 
                   title="В даних ЄДЕБО"

@@ -26,6 +26,8 @@
  * The followings are the available model relations:
  * @property Personsepciality[] $personsepcialities
  * @property Facultets $facultet
+ * @property Quota $quotas
+ * @property Specialityquotes $specquotes
  */
 class Specialities extends CActiveRecord {
 
