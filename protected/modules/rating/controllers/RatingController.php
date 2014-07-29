@@ -404,7 +404,12 @@ class RatingController extends Controller {
                   ( $model->isBudget && !$model->isOutOfComp && !$model->Quota1 ) || 
                   (!empty($data['u']) && !$model->isOutOfComp && !$model->Quota1 && $model->isBudget)) ){
             //на бюджет
-            while (!empty($data['u']) && ( (float)$u_max_info_row['Points'] > (float)$info_row['Points'])){
+            $iter = 0;
+            while (!empty($data['u']) && ( ( (float)$u_max_info_row['Points'] > (float)$info_row['Points'] ) || 
+              ( (float)$u_max_info_row['Points'] == (float)$info_row['Points'] && $u_max_info_row['isExtra'] == 'V') ||
+              ( (float)$u_max_info_row['Points'] == (float)$info_row['Points'] && $u_max_info_row['isPZK'] == 'V') )
+              && ($iter < 2000)
+              ){
               $was = Personspeciality::decrementCounter(Personspeciality::$C_BUDGET);
               if ($was){
                 $local_counter = 1 + $_budget_counter - $was - $qpzk;
@@ -420,17 +425,21 @@ class RatingController extends Controller {
                   break;
                 }
               }
-              $p_max = 0.0;
               foreach ($data['u'] as $u_id => $d_u){
                 if ($d_u['PIB'] == $u_max_info_row['PIB'] && $d_u['Points'] == $u_max_info_row['Points']){
                   unset($data['u'][$u_id]);
-                  continue;
-                }
-                if ((float)$d_u['Points'] > $p_max){
-                  $p_max = (float)$d_u['Points'];
-                  $u_max_info_row = $d_u;
+                  $iter++;
+                  break;
                 }
               }
+              $p_max = 0.0;
+              foreach ($data['u'] as $u_id => $d_u){
+                if ( (float)$d_u['Points'] > $p_max ){
+                  $u_max_info_row = $d_u;
+                  $p_max = (float)$d_u['Points'];
+                }
+              }
+              $iter++;
             }
             $was = Personspeciality::decrementCounter(Personspeciality::$C_BUDGET);
             if ($was){
@@ -445,7 +454,13 @@ class RatingController extends Controller {
                   ((!$model->isBudget && !$model->isOutOfComp && !$model->Quota1) || 
                   (!$was && $model->isBudget && !$model->isOutOfComp && !$model->Quota1) )){
             //на контракт
-            while (!empty($data['u']) && ( (float)$u_max_info_row['Points'] > (float)$info_row['Points'])){
+            $iter = 0;
+            $continue = false;
+            while (!empty($data['u']) && ( ( (float)$u_max_info_row['Points'] > (float)$info_row['Points'] ) || 
+              ( (float)$u_max_info_row['Points'] == (float)$info_row['Points'] && $u_max_info_row['isExtra'] == 'V') ||
+              ( (float)$u_max_info_row['Points'] == (float)$info_row['Points'] && $u_max_info_row['isPZK'] == 'V') )
+              && ($iter < 2000)
+              ){
               $was = Personspeciality::decrementCounter(Personspeciality::$C_CONTRACT);
               if ($was){
                 $local_counter = 1 + $_contract_counter - $was;
@@ -453,25 +468,32 @@ class RatingController extends Controller {
               }
               if (!$was){
                 break;
+                $continue = true;
               }
-              $p_max = 0.0;
               foreach ($data['u'] as $u_id => $d_u){
                 if ($d_u['PIB'] == $u_max_info_row['PIB'] && $d_u['Points'] == $u_max_info_row['Points']){
                   unset($data['u'][$u_id]);
-                  continue;
-                }
-                if ((float)$d_u['Points'] > $p_max){
-                  $p_max = (float)$d_u['Points'];
-                  $u_max_info_row = $d_u;
+                  $iter++;
+                  break;
                 }
               }
+              $p_max = 0.0;
+              foreach ($data['u'] as $u_id => $d_u){
+                if ( (float)$d_u['Points'] > $p_max ){
+                  $u_max_info_row = $d_u;
+                  $p_max = (float)$d_u['Points'];
+                }
+              }
+              $iter++;
             }
+            if (!$continue){
             $was = Personspeciality::decrementCounter(Personspeciality::$C_CONTRACT);
             if ($was){
               $local_counter = 1 + $_contract_counter - $was;
               $data['contract'][$local_counter] = $info_row;
               $i++;
               continue;
+            }
             }
           }
           
@@ -617,7 +639,12 @@ class RatingController extends Controller {
                   ( $model->isBudget && !$model->isOutOfComp && !$model->Quota1 ) || 
                   (!empty($data['u']) && !$model->isOutOfComp && !$model->Quota1 && $model->isBudget)) ){
             //на бюджет
-            while (!empty($data['u']) && ( (float)$u_max_info_row['Points'] > (float)$info_row['Points'])){
+            $iter = 0;
+            while (!empty($data['u']) && ( ( (float)$u_max_info_row['Points'] > (float)$info_row['Points'] ) || 
+              ( (float)$u_max_info_row['Points'] == (float)$info_row['Points'] && $u_max_info_row['isExtra'] == 'V') ||
+              ( (float)$u_max_info_row['Points'] == (float)$info_row['Points'] && $u_max_info_row['isPZK'] == 'V') )
+              && ($iter < 2000)
+              ){
               $was = Personspeciality::decrementCounter(Personspeciality::$C_BUDGET);
               if ($was){
                 $local_counter = 1 + $_budget_counter - $was - $qpzk;
@@ -633,17 +660,21 @@ class RatingController extends Controller {
                   break;
                 }
               }
-              $p_max = 0.0;
               foreach ($data['u'] as $u_id => $d_u){
                 if ($d_u['PIB'] == $u_max_info_row['PIB'] && $d_u['Points'] == $u_max_info_row['Points']){
                   unset($data['u'][$u_id]);
-                  continue;
-                }
-                if ((float)$d_u['Points'] > $p_max){
-                  $p_max = (float)$d_u['Points'];
-                  $u_max_info_row = $d_u;
+                  $iter++;
+                  break;
                 }
               }
+              $p_max = 0.0;
+              foreach ($data['u'] as $u_id => $d_u){
+                if ( (float)$d_u['Points'] > $p_max ){
+                  $u_max_info_row = $d_u;
+                  $p_max = (float)$d_u['Points'];
+                }
+              }
+              $iter++;
             }
             $was = Personspeciality::decrementCounter(Personspeciality::$C_BUDGET);
             if ($was){
@@ -658,7 +689,13 @@ class RatingController extends Controller {
                   ((!$model->isBudget && !$model->isOutOfComp && !$model->Quota1) || 
                   (!$was && $model->isBudget && !$model->isOutOfComp && !$model->Quota1) )){
             //на контракт
-            while (!empty($data['u']) && ( (float)$u_max_info_row['Points'] > (float)$info_row['Points'])){
+            $iter = 0;
+            $continue = false;
+            while (!empty($data['u']) && ( ( (float)$u_max_info_row['Points'] > (float)$info_row['Points'] ) || 
+              ( (float)$u_max_info_row['Points'] == (float)$info_row['Points'] && $u_max_info_row['isExtra'] == 'V') ||
+              ( (float)$u_max_info_row['Points'] == (float)$info_row['Points'] && $u_max_info_row['isPZK'] == 'V') )
+              && ($iter < 2000)
+              ){
               $was = Personspeciality::decrementCounter(Personspeciality::$C_CONTRACT);
               if ($was){
                 $local_counter = 1 + $_contract_counter - $was;
@@ -666,25 +703,32 @@ class RatingController extends Controller {
               }
               if (!$was){
                 break;
+                $continue = true;
               }
-              $p_max = 0.0;
               foreach ($data['u'] as $u_id => $d_u){
                 if ($d_u['PIB'] == $u_max_info_row['PIB'] && $d_u['Points'] == $u_max_info_row['Points']){
                   unset($data['u'][$u_id]);
-                  continue;
-                }
-                if ((float)$d_u['Points'] > $p_max){
-                  $p_max = (float)$d_u['Points'];
-                  $u_max_info_row = $d_u;
+                  $iter++;
+                  break;
                 }
               }
+              $p_max = 0.0;
+              foreach ($data['u'] as $u_id => $d_u){
+                if ( (float)$d_u['Points'] > $p_max ){
+                  $u_max_info_row = $d_u;
+                  $p_max = (float)$d_u['Points'];
+                }
+              }
+              $iter++;
             }
+            if (!$continue){
             $was = Personspeciality::decrementCounter(Personspeciality::$C_CONTRACT);
             if ($was){
               $local_counter = 1 + $_contract_counter - $was;
               $data['contract'][$local_counter] = $info_row;
               $i++;
               continue;
+            }
             }
           }
           if (!$was){

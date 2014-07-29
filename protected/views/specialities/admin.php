@@ -18,6 +18,7 @@ $this->menu = array(
 
 
 <?php
+$controller = $this;
 $this->widget('bootstrap.widgets.TbGridView', array(
     'id' => 'specialities-grid',
     'type' => 'striped bordered condensed',
@@ -79,14 +80,27 @@ $this->widget('bootstrap.widgets.TbGridView', array(
            'htmlOptions' => array('class' => 'span1'),
         ),
         array(
-          'class' => 'bootstrap.widgets.TbEditableColumn',
-          'name' => 'Quota2',
           'header' => 'ЦН',
-          'editable' => array(
-            'url'        => $this->createUrl('specialities/xedit'),
-            'placement'  => 'right',
-            'inputclass' => 'span3',
-          ),
+          'value' => function ($data) use ($controller) {
+            /* @var $data Specialities */
+            $types = array('info','warning','success','important','inverse');
+            $i = 0;
+            foreach ($data->specquotes as $squota){
+              echo '<a href="'
+               .Yii::app()->CreateUrl('specialityquotes/update',array('id' => $squota->idSpecialityQuotes))
+               .'" target="_blank" >';
+              $controller->widget('bootstrap.widgets.TbLabel', array(
+                'type'=> $types[$i],
+                'label'=>$squota->BudgetPlaces,
+                'htmlOptions' => array(
+                  'title' => $squota->quota->QuotaName,
+                  'style' => 'font-size: 12pt !important; width: 21px; text-align: center; font-family: Verdana;',
+                )
+              )); 
+              echo "</a> &nbsp;";
+              $i++;
+            }
+          },
           'headerHtmlOptions' => array('title' => 'Квота для тих, хто поступає за цільовим направленням'),
           'htmlOptions' => array('class' => 'span1'),
         ),

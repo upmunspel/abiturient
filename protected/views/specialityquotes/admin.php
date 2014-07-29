@@ -30,16 +30,16 @@ array('label'=>'Додати запис', 'url'=>array('create'),'icon'=>"icon-p
   Поля, відмічені <span class="required">*</span> обов'язкові для заповнення!</p>
 	<?php echo $form->errorSummary($model); ?>
 	<div class="row-fluid">
-    <div class="span6">
+    <div class="span4">
       <?php echo $form->labelEx($model,'SpecialityID'); ?>
       <?php echo $form->dropDownList($model, 'SpecialityID', 
-        Specialities::getAllSpecs(), array('class'=>'span12')); ?>
+        Specialities::getAllSpecs(), array('class'=>'span12', 'style' => 'font-size: 8pt;')); ?>
       <?php echo $form->error($model,'SpecialityID'); ?>
     </div>
-    <div class="span3">
+    <div class="span5">
       <?php echo $form->labelEx($model,'QuotaID'); ?>
       <?php echo $form->dropDownList($model, 'QuotaID', 
-        Quota::getAllQuota(), array('class' => 'span12')); ?>
+        Quota::getAllQuota(), array('class' => 'span12', 'style' => 'font-size: 8pt;')); ?>
       <?php echo $form->error($model,'QuotaID'); ?>
     </div>
     <div class="span2">
