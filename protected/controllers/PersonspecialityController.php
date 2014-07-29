@@ -317,7 +317,7 @@ class PersonspecialityController extends Controller {
             }
             $model->attributes = $_GET['Personspeciality'];
 
-            if (empty($_GET['Personspeciality']['benefits'])) {
+            if (empty($_GET['Personspeciality']['benefits']) && Yii::app()->user->checkAccess("showBenefits")) {
                 $model->benefits = array();
             }
 
