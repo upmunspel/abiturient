@@ -362,6 +362,7 @@ class Personspeciality extends ActiveRecord {
     }
 
     public function beforeSave() {
+        $this->SysUserID = Yii::app()->user->id;
         if ($this->isNewRecord) {
             $c = new CDbCriteria();
             $c->compare("SepcialityID", $this->SepcialityID);
