@@ -118,9 +118,18 @@ class SpecialityquotesController extends Controller{
 			$model->attributes=$_GET['Specialityquotes'];
     }
     if (isset($_POST['SpecialityQuotesCreate'])){
-      $cmodel = new Specialityquotes();
-      $cmodel->attributes=$_POST['Specialityquotes'];
-      $cmodel->save();
+      $cres = Specialityquotes::model()->count('SpecialityID='.$_POST['Specialityquotes']['SpecialityID']
+        .' AND QuotaID='.$_POST['Specialityquotes']['QuotaID']);
+      if (!$cres){
+        $cmodel = new Specialityquotes();
+        $cmodel->attributes=$_POST['Specialityquotes'];
+        if (!$cmodel->save()){
+          $model->addErrors($cmodel->errors);
+        }
+      } else {
+        $model->addError('SpecialityID', 'Повторення даних: квота і спеціальність. Це заборонено.');
+        $model->addError('QuotaID', 'Повторення даних: квота і спеціальність. Це заборонено.');
+      }
     }
 		$this->render('admin',array(
 			'model'=>$model,
