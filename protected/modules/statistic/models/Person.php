@@ -4,37 +4,8 @@
  * This is the model class for table "person".
  *
  * The followings are the available columns in table 'person':
- * @property integer $idPerson
- * @property string $Birthday
- * @property string $BirthPlace
- * @property integer $PersonSexID
- * @property string $FirstName
- * @property string $MiddleName
- * @property string $LastName
- * @property integer $KOATUUCodeL1ID
- * @property integer $KOATUUCodeL2ID
- * @property integer $KOATUUCodeL3ID
- * @property integer $IsResident
- * @property integer $PersonEducationTypeID
- * @property integer $StreetTypeID
- * @property string $Address
- * @property string $HomeNumber
- * @property string $PostIndex
- * @property integer $SchoolID
- * @property string $FirstNameR
- * @property string $MiddleNameR
- * @property string $LastNameR
- * @property integer $LanguageID
- * @property integer $CountryID
- * @property string  $PhotoName
- * @property integer $isCampus
- * @property integer $SysUserID
- * @property integer $isSamaSchoolAddr
- * @property Documents $entrantdoc
- * @property Documents $persondoc
- * @property Documents $edboID
- * @property string $CreateDate
- * @property integer $KOATUUCodeID
+ * @property string $NAME ПІБ персони
+
  */
 class Person extends ActiveRecord {
   public $NAME;

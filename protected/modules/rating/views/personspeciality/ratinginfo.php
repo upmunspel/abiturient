@@ -2,10 +2,7 @@
 /* @var $data array */
 /* @var $Speciality string */
 /* @var $Faculty string */
-/* @var $_contract_counter integer */
-/* @var $_budget_counter integer */
-/* @var $_pzk_counter integer */
-/* @var $_quota_counter integer */
+/* @var $license_info array */
 /* @var $toexcel integer */
 
   ?>
@@ -42,22 +39,32 @@
     <TR>
       <TD colspan='1' class="license_count">
         <?php echo 'Ліцензійний обсяг: ';
-        echo $_contract_counter + $_budget_counter;
+        echo ($license_info[2][1] + $license_info[1][1]);
         ?>
       </TD>
     </TR>
     <TR>
       <TD colspan='1' class="budget_count">
         <?php echo 'Обсяг державного замовлення: ';
-        echo (0+$_budget_counter); ?>
+        echo $license_info[2][1]; ?>
       </TD>
     </TR>
     <TR>
       <TD colspan='1' class="quota_count">
         <?php echo 'з них квота пільговиків: '; ?>
-        <?php echo (0+$_pzk_counter); ?>
+        <?php echo $license_info[3][1]; ?>
         <?php echo ', квота цільовиків: '; ?>
-        <?php echo (0+$_quota_counter); ?>
+        <?php $count_q = 0; 
+        foreach ($license_info as $key => $info){
+          if ($key > 3){
+            echo '<br/>' . $info[0] . ' : '. $info[1];
+            $count_q++;
+          }
+        }     
+        if (!$count_q){
+          echo '0';
+        } 
+       ?>
       </TD>
     </TR>
   </TABLE>
@@ -78,230 +85,52 @@
 </tr></thead>
   <tbody>
   <?php if (!empty($data)){ ?>
-    <!-- Цільовики-->
-<?php for ($i = 1; $i < count($data['quota']) + 1; $i++) { ?>
-      <TR data-id="<?php echo $data['quota'][$i]['idPersonSpeciality']; ?>">
+  
+<?php $counter = 1; foreach ($data as $key => $list) { if (!count($list)){continue;} ?>
+<?php for ($i = 0; $i < count($list); $i++) { ?>
+      <TR data-id="<?php echo $list[$i]['idPersonSpeciality']; ?>">
         <TD>
-  <?php echo ($i); ?>
+  <?php echo ($counter++); ?>
         </TD>
         <TD>
-  <?php echo $data['quota'][$i]['PIB']; ?>
+  <?php echo $list[$i]['PIB']; ?>
         </TD>
         <TD>
-  <?php echo $data['quota'][$i]['Points']; ?>
+  <?php echo $list[$i]['Points']; ?>
         </TD>
         <TD>
-  <?php echo $data['quota'][$i]['DocPoints']; ?>
+  <?php echo $list[$i]['DocPoints']; ?>
         </TD>
         <TD>
-  <?php echo $data['quota'][$i]['ZNO']; ?>
+  <?php echo $list[$i]['ZNO']; ?>
         </TD>
         <TD>
-  <?php echo $data['quota'][$i]['ExamsPoints']; ?>
+  <?php echo $list[$i]['ExamsPoints']; ?>
         </TD>
         <TD>
-  <?php echo $data['quota'][$i]['OlympsPoints']; ?>
+  <?php echo $list[$i]['OlympsPoints']; ?>
         </TD>
         <TD>
-  <?php echo $data['quota'][$i]['CoursesPoints']; ?>
+  <?php echo $list[$i]['CoursesPoints']; ?>
         </TD>
         <TD>
-  <?php echo $data['quota'][$i]['isPZK']; ?>
+  <?php echo $list[$i]['isPZK']; ?>
         </TD>
         <TD>
-  <?php echo $data['quota'][$i]['isExtra']; ?>
+  <?php echo $list[$i]['isExtra']; ?>
         </TD>
         <TD>
-  <?php echo $data['quota'][$i]['isQuota']; ?>
+  <?php echo $list[$i]['isQuota']; ?>
         </TD>
         <TD>
-  <?php echo $data['quota'][$i]['isOriginal']; ?>
+  <?php echo $list[$i]['isOriginal']; ?>
         </TD>
         <TD>
-  <?php echo $data['quota'][$i]['AnyOriginal']; ?>
-        </TD>
-      </TR>
-<?php } ?>
-    <!-- Поза конкурсом -->
-<?php for ($i = 1; $i < count($data['pzk']) + 1; $i++) { ?>
-      <TR data-id="<?php echo $data['pzk'][$i]['idPersonSpeciality']; ?>">
-        <TD>
-  <?php echo ($i+count($data['quota'])); ?>
-        </TD>
-        <TD>
-  <?php echo $data['pzk'][$i]['PIB']; ?>
-        </TD>
-        <TD>
-  <?php echo $data['pzk'][$i]['Points']; ?>
-        </TD>
-        <TD>
-  <?php echo $data['pzk'][$i]['DocPoints']; ?>
-        </TD>
-        <TD>
-  <?php echo $data['pzk'][$i]['ZNO']; ?>
-        </TD>
-        <TD>
-  <?php echo $data['pzk'][$i]['ExamsPoints']; ?>
-        </TD>
-        <TD>
-  <?php echo $data['pzk'][$i]['OlympsPoints']; ?>
-        </TD>
-        <TD>
-  <?php echo $data['pzk'][$i]['CoursesPoints']; ?>
-        </TD>
-        <TD>
-  <?php echo $data['pzk'][$i]['isPZK']; ?>
-        </TD>
-        <TD>
-  <?php echo $data['pzk'][$i]['isExtra']; ?>
-        </TD>
-        <TD>
-  <?php echo $data['pzk'][$i]['isQuota']; ?>
-        </TD>
-        <TD>
-  <?php echo $data['pzk'][$i]['isOriginal']; ?>
-        </TD>
-        <TD>
-  <?php echo $data['pzk'][$i]['AnyOriginal']; ?>
+  <?php echo $list[$i]['AnyOriginal']; ?>
         </TD>
       </TR>
-<?php } ?>
-    <!-- За кошти держ. бюджету -->
-<?php for ($i = 1; $i < count($data['budget']) + 1; $i++) { ?>
-      <TR data-id="<?php echo $data['budget'][$i]['idPersonSpeciality']; ?>">
-        <TD>
-  <?php echo ($i+count($data['quota'])+count($data['pzk'])); ?>
-        </TD>
-        <TD>
-  <?php echo $data['budget'][$i]['PIB']; ?>
-        </TD>
-        <TD>
-  <?php echo $data['budget'][$i]['Points']; ?>
-        </TD>
-        <TD>
-  <?php echo $data['budget'][$i]['DocPoints']; ?>
-        </TD>
-        <TD>
-  <?php echo $data['budget'][$i]['ZNO']; ?>
-        </TD>
-        <TD>
-  <?php echo $data['budget'][$i]['ExamsPoints']; ?>
-        </TD>
-        <TD>
-  <?php echo $data['budget'][$i]['OlympsPoints']; ?>
-        </TD>
-        <TD>
-  <?php echo $data['budget'][$i]['CoursesPoints']; ?>
-        </TD>
-        <TD>
-  <?php echo $data['budget'][$i]['isPZK']; ?>
-        </TD>
-        <TD>
-  <?php echo $data['budget'][$i]['isExtra']; ?>
-        </TD>
-        <TD>
-  <?php echo $data['budget'][$i]['isQuota']; ?>
-        </TD>
-        <TD>
-  <?php echo $data['budget'][$i]['isOriginal']; ?>
-        </TD>
-        <TD>
-  <?php echo $data['budget'][$i]['AnyOriginal']; ?>
-        </TD>
-      </TR>
-<?php } ?>
-    <!-- На контрактній основі -->
-<?php for ($i = 1; $i < count($data['contract']) + 1; $i++) { ?>
-      <TR data-id="<?php echo $data['contract'][$i]['idPersonSpeciality']; ?>">
-        <TD>
-  <?php echo ($i+count($data['quota'])+count($data['pzk'])+count($data['budget'])); ?>
-        </TD>
-        <TD>
-  <?php echo $data['contract'][$i]['PIB']; ?>
-        </TD>
-        <TD>
-  <?php echo $data['contract'][$i]['Points']; ?>
-        </TD>
-        <TD>
-  <?php echo $data['contract'][$i]['DocPoints']; ?>
-        </TD>
-        <TD>
-  <?php echo $data['contract'][$i]['ZNO']; ?>
-        </TD>
-        <TD>
-  <?php echo $data['contract'][$i]['ExamsPoints']; ?>
-        </TD>
-        <TD>
-  <?php echo $data['contract'][$i]['OlympsPoints']; ?>
-        </TD>
-        <TD>
-  <?php echo $data['contract'][$i]['CoursesPoints']; ?>
-        </TD>
-        <TD>
-  <?php echo $data['contract'][$i]['isPZK']; ?>
-        </TD>
-        <TD>
-  <?php echo $data['contract'][$i]['isExtra']; ?>
-        </TD>
-        <TD>
-  <?php echo $data['contract'][$i]['isQuota']; ?>
-        </TD>
-        <TD>
-  <?php echo $data['contract'][$i]['isOriginal']; ?>
-        </TD>
-        <TD>
-  <?php echo $data['contract'][$i]['AnyOriginal']; ?>
-        </TD>
-      </TR>
-<?php } ?>
-    <!-- ... -->
-<?php for ($i = 0; $i < count($data['below']) ; $i++) {
-  // if (!isset($data['below'][$i])){
-    // continue;
-  // }
-?>
-      <TR data-id="<?php echo $data['below'][$i]['idPersonSpeciality']; ?>">
-        <TD>
-  <?php echo ($i+count($data['quota'])+count($data['pzk'])+count($data['budget'])+count($data['contract'])+1); ?>
-        </TD>
-        <TD>
-  <?php echo $data['below'][$i]['PIB']; ?>
-        </TD>
-        <TD>
-  <?php echo $data['below'][$i]['Points']; ?>
-        </TD>
-        <TD>
-  <?php echo $data['below'][$i]['DocPoints']; ?>
-        </TD>
-        <TD>
-  <?php echo $data['below'][$i]['ZNO']; ?>
-        </TD>
-        <TD>
-  <?php echo $data['below'][$i]['ExamsPoints']; ?>
-        </TD>
-        <TD>
-  <?php echo $data['below'][$i]['OlympsPoints']; ?>
-        </TD>
-        <TD>
-  <?php echo $data['below'][$i]['CoursesPoints']; ?>
-        </TD>
-        <TD>
-  <?php echo $data['below'][$i]['isPZK']; ?>
-        </TD>
-        <TD>
-  <?php echo $data['below'][$i]['isExtra']; ?>
-        </TD>
-        <TD>
-  <?php echo $data['below'][$i]['isQuota']; ?>
-        </TD>
-        <TD>
-  <?php echo $data['below'][$i]['isOriginal']; ?>
-        </TD>
-        <TD>
-  <?php echo $data['below'][$i]['AnyOriginal']; ?>
-        </TD>
-      </TR>
-<?php } ?>
+<?php } // end for $list ?>
+<?php } // end foreach $data  ?>
 
 <?php } else { ?>
   <tr><td colspan=13>Немає даних</td></tr>

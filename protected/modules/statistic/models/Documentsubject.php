@@ -3,19 +3,6 @@
 /**
  * This is the model class for table "documentsubject".
  *
- * The followings are the available columns in table 'documentsubject':
- * @property integer $idDocumentSubject
- * @property integer $DocumentID
- * @property integer $SubjectID
- * @property double $SubjectValue
- * @property string $DateGet
- *
- * The followings are the available model relations:
- * @property Documents $document
- * @property Subjects $subject
- * @property Personsepciality[] $personsepcialities
- * @property Personsepciality[] $personsepcialities1
- * @property Personsepciality[] $personsepcialities2
  */
 class Documentsubject extends ActiveRecord
 {

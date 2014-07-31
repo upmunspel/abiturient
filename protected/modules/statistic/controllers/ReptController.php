@@ -77,6 +77,7 @@ class ReptController extends Controller {
     $fields[26] = array('text' => 'Номер справи',);
     $fields[27] = array('text' => 'Копія',);
     $fields[28] = array('text' => 'Відзнака',);
+    $fields[29] = array('text' => 'Номер заяви',);
     
     if (!is_string($reqFields)){
       throw new CHttpException(400,'Помилка. Невірний запит.');
@@ -533,7 +534,7 @@ class ReptController extends Controller {
             'header' => $header,
             'value' => 
             function ($data){
-              echo date('d.m.Y',strtotime($data->CreateDate));
+              echo date('d.m.Y H:i:s',strtotime($data->CreateDate));
             }
           );
           $field_num_index = ($to_select)? $field_num_indexes[$i]:0;
@@ -1088,6 +1089,30 @@ class ReptController extends Controller {
             $widget_columns, $widget_column, $field_num_index,
             $condition_type, $condition_value, $alternative_condition_value,
             $criteria);
+          ////////////////////////////////////////////
+          break;
+        case 29:
+          $rels = array(
+          );
+          $sel = array(
+              'to_select' => $to_select,
+              'sql_as' => 'ReqCase',
+              'sql_expr' => "LPAD(t.RequestNumber,5,'0')",
+          );
+          $widget_column = array('name' => 'ReqCase', 
+            'header' => $header,
+            'value' => 
+            function ($data){
+              echo $data->ReqCase;
+            }
+          );
+          $field_num_index = ($to_select)? $field_num_indexes[$i]:0;
+          $this->ProcessFieldTextOnly($with_rel, $rels, 
+            $select, $sel, 
+            $widget_columns, $widget_column, $field_num_index,
+            $condition_type, $condition_value,
+            $criteria
+          );
           ////////////////////////////////////////////
           break;
       }
