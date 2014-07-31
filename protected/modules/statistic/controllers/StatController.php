@@ -56,7 +56,7 @@ class StatController extends Controller {
                 'languages','reqstatuses','koatuus','zno',
                 'doctypes','benefitgroups','eduforms','okr',
                 'countries','schools', 
-                "statgraduated", 'awards', 'personstatgraduated'),
+                "statgraduated", 'awards', 'personstatgraduated','exlanguages'),
             'users' => array('@'),
         ),
         array('allow', 
@@ -557,6 +557,7 @@ class StatController extends Controller {
     $fields[] = array('text' => 'Курси ДП', 'id' => 25);
     $fields[] = array('text' => 'Місце народження', 'id' => 5);
     $fields[] = array('text' => 'Іноземна мова', 'id' => 6);
+    $fields[] = array('text' => 'Іноземна мова заяви', 'id' => 30);
     $fields[] = array('text' => 'ЗНО (інформація)', 'id' => 14);
     $fields[] = array('text' => 'Іспити (інформація)', 'id' => 16);
     $fields[] = array('text' => 'Документи', 'id' => 18);
@@ -590,6 +591,19 @@ class StatController extends Controller {
       foreach ($models as $model){
           /* @var $model Languages */
           $result[] = array('text' => $model->LanguagesName, 'id' => $model->idLanguages);
+      }
+      echo CJSON::encode($result);
+  }
+  
+  /**
+   * Метод асинхронно повертає усі іноземні мови заяви
+   */
+  public function actionExlanguages(){
+      $models = Languagesex::model()->findAll('1 ORDER BY LanguageExName ASC');
+      $result = array();
+      foreach ($models as $model){
+          /* @var $model Languages */
+          $result[] = array('text' => $model->LanguageExName, 'id' => $model->idLanguageEx);
       }
       echo CJSON::encode($result);
   }

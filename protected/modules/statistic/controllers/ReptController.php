@@ -78,6 +78,7 @@ class ReptController extends Controller {
     $fields[27] = array('text' => 'Копія',);
     $fields[28] = array('text' => 'Відзнака',);
     $fields[29] = array('text' => 'Номер заяви',);
+    $fields[30] = array('text' => 'Іноземна мова заяви',);
     
     if (!is_string($reqFields)){
       throw new CHttpException(400,'Помилка. Невірний запит.');
@@ -1113,6 +1114,32 @@ class ReptController extends Controller {
             $condition_type, $condition_value,
             $criteria
           );
+          ////////////////////////////////////////////
+          break;
+        case 30:
+          $rels = array(
+              array('name' => 'xlang', 'select' => true),
+          );
+          $sel = array(
+              'to_select' => $to_select,
+              'db_field_id' => 'LanguageExID',
+              'db_field' => 'xlang.LanguageExName',
+          );
+          $widget_column = array('name' => 'xlang.LanguageExName', 
+            'header' => $header,
+            'value' => 
+            function ($data){
+              if (!empty($data->person->language)){
+                echo $data->xlang->LanguageExName;
+              }
+            }
+          );
+          $field_num_index = ($to_select)? $field_num_indexes[$i]:0;
+          $this->ProcessFieldTextAlternative($with_rel, $rels, 
+            $select, $sel, 
+            $widget_columns, $widget_column, $field_num_index,
+            $condition_type, $condition_value, $alternative_condition_value,
+            $criteria);
           ////////////////////////////////////////////
           break;
       }

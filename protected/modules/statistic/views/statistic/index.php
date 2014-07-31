@@ -325,6 +325,13 @@ Yii::app()->clientScript->registerPackage('select2');
         '.');
       } //end if
       
+      if (fieldName === 'Іноземна мова заяви' && (value == 1) &&
+            (!anelement)) {
+        Textfield2Selectbox("condval-"+window.id_num,
+        '<?php echo Yii::app()->CreateUrl('/statistic/stat/exlanguages'); ?>',
+        '.');
+      } //end if
+      
       if (fieldName === 'Статус заявки' && (value == 1) &&
             (!anelement)) {
         Textfield2Selectbox("condval-"+window.id_num,
@@ -652,7 +659,7 @@ Yii::app()->clientScript->registerPackage('select2');
         <input type='search' name="fields" id="fields" class="span11" />
       </div>
       <div id='selectx'></div>
-      <?php for ($i = 0; $i < 30; $i++){ 
+      <?php for ($i = 0; $i < 31; $i++){ 
           $is_date = ($i == 13 || $i == 1);
           $is_checkbox = (($i >= 9 && $i <= 11) || ($i >= 21 && $i <= 22) || ($i == 27));
           $is_koatuu = ($i == 2);
