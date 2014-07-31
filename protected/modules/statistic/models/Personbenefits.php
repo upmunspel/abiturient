@@ -19,4 +19,8 @@ class Personbenefits extends ActiveRecord{
       'benefit' => array(self::BELONGS_TO, 'Benefit', 'BenefitID'),
     );
   }
+  
+    public function tableName() {
+        return 'personbenefits';
+    }
 }

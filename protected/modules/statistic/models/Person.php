@@ -18,6 +18,11 @@ class Person extends ActiveRecord {
     public static function model($className = __CLASS__) {
         return parent::model($className);
     }
+    
+    public function tableName() {
+        return 'person';
+    }
+    
   /**
    * @return array relational rules.
    */

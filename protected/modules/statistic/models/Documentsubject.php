@@ -31,5 +31,9 @@ class Documentsubject extends ActiveRecord{
       'personsepcialities2' => array(self::HAS_MANY, 'Personsepciality', 'DocumentSubject1'),
     );
   }
+  
+    public function tableName() {
+        return 'documentsubject';
+    }
 
 }

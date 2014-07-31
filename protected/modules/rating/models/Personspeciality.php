@@ -95,6 +95,10 @@ class Personspeciality extends ActiveRecord {
     return parent::model($className);
   }
   
+  public function tableName() {
+      return 'personspeciality';
+  }
+  
   public static function getPointMap(){
     //таблиця відповідностей значення у 12-бальній шкалі значенню у 200-бальній шкалі
     if (empty(Personspeciality::model()->PointMap)){

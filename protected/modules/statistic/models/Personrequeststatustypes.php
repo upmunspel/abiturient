@@ -23,5 +23,9 @@ class Personrequeststatustypes extends CActiveRecord {
     }
     return $list;
   }
+  
+    public function tableName() {
+        return 'personrequeststatustypes';
+    }
 
 }
