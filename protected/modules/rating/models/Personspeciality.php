@@ -85,7 +85,7 @@ class Personspeciality extends ActiveRecord {
   
   public static $PointMap = array();
   public static $DocTypeNames = array();
-  
+    
   /**
    * Returns the static model of the specified AR class.
    * @param string $className active record class name.
@@ -93,10 +93,6 @@ class Personspeciality extends ActiveRecord {
    */
   public static function model($className = __CLASS__) {
     return parent::model($className);
-  }
-  
-  public function tableName() {
-      return 'personspeciality';
   }
   
   public static function getPointMap(){
@@ -149,11 +145,86 @@ class Personspeciality extends ActiveRecord {
   }
   
   /**
-   * Повертає значення лічильників для рейтингу у вигляді масиву.
+   * Повертає значення лічильників для рейтингу у вигляді асиву.
    * @return integer[]
    */
   public static function getCounters(){
     return Personspeciality::$rating_counter;
+  }
+
+
+  public function tableName() {
+    return 'personspeciality';
+  }
+
+  /**
+   * @return array validation rules for model attributes.
+   */
+  public function rules() {
+    // NOTE: you should only define rules for those attributes that
+    // will receive user inputs.
+    return array(
+        array('PersonID, SepcialityID,  EducationFormID, 
+                               QualificationID, EntranceTypeID, CourseID, CausalityID, 
+                               isContract, isBudget, isCopyEntrantDoc, DocumentSubject1, 
+                               DocumentSubject2, DocumentSubject3, 
+                               Exam1ID, Exam1Ball, Exam2ID, Exam2Ball,
+                               Exam3ID, Exam3Ball, isHigherEducation, SkipDocumentValue', 'numerical', 'integerOnly' => true),
+        array("AdditionalBallComment,  CoursedpID, Quota1,Quota2, OlympiadID, isNotCheckAttestat, isForeinghEntrantDocument, PersonDocumentsAwardsTypesID, edboID, RequestFromEB, StatusID", 'safe'),
+        array("Exam1ID", 'required', 'on' => "SHORTFORM"),
+        array("EntranceTypeID", "required", "except" => "SHORTFORM"),
+        //array("CausalityID",  "default", "value"=>100,"except"=>"SHORTFORM"),
+        array("Exam1Ball, Exam2Ball, Exam3Ball", 'numerical',
+            "max" => 200, "min" => 1, "allowEmpty" => true, 'except' => 'ZNOEXAM, EXAM'),
+        array("AdditionalBall, CoursedpBall", 'numerical',
+            "max" => 200, "min" => 1, "allowEmpty" => true),
+        array('PersonID, SepcialityID,  EducationFormID, 
+                               QualificationID,  CourseID, isContract, 
+                               isCopyEntrantDoc, EntrantDocumentID, isNeedHostel', "required"),
+        array("DocumentSubject1, DocumentSubject2, DocumentSubject3", "required", "on" => "ZNO"),
+        array("Exam1ID, Exam2ID, Exam3ID, CausalityID", "required", "on" => "EXAM"),
+        array("Exam1Ball, Exam2Ball, Exam3Ball", 'numerical', "max" => 200, "min" => 1, "allowEmpty" => true, "on" => "EXAM"),
+        array("CausalityID", "required", "on" => "ZNOEXAM"),
+        array("Exam1ID, Exam2ID, Exam3ID, DocumentSubject1, DocumentSubject2, DocumentSubject3", "valididateZnoExam", "on" => "ZNOEXAM"),
+        array("Exam1Ball, Exam2Ball, Exam3Ball", 'numerical', "max" => 200, "min" => 1, "allowEmpty" => true, "on" => "ZNOEXAM"),
+        // DocumentSubject1, DocumentSubject2, DocumentSubject3, 
+        //  Exam1ID, Exam1Ball, Exam2ID, Exam2Ball, Exam3ID, Exam3Ball', 'numerical', 'integerOnly'=>true),
+        //array('AdditionalBall', 'numerical'),
+        // The following rule is used by search().
+        // Please remove those attributes that should not be searched.
+        array('idPersonSpeciality, PersonID, SepcialityID,  EducationFormID, QualificationID, EntranceTypeID, CourseID, CausalityID, isContract, AdditionalBall, isCopyEntrantDoc, DocumentSubject1, DocumentSubject2, DocumentSubject3, Exam1ID, Exam1Ball, Exam2ID, Exam2Ball, Exam3ID, Exam3Ball', 'safe', 'on' => 'search'),
+        array('CustomerName,DocCustumer,AcademicSemesterID,CustomerAddress,CustomerPaymentDetails,DateОfСontract,PaymentDate', 'safe'),
+    );
+  }
+
+  public function valididateZnoExam($attributes) {
+    switch ($attributes) {
+      case "DocumentSubject1":
+      case "Exam1ID":
+        if ((empty($this->DocumentSubject1) && empty($this->Exam1ID)) || (!empty($this->DocumentSubject1) && !empty($this->Exam1ID))) {
+          $this->addError("$attributes", "Потрібно обрати сертифікат або предмт");
+
+          return false;
+        }
+        break;
+      case "DocumentSubject2":
+      case "Exam2ID":
+        if ((empty($this->DocumentSubject2) && empty($this->Exam2ID)) || (!empty($this->DocumentSubject2) && !empty($this->Exam2ID))) {
+          $this->addError("$attributes", "Потрібно обрати сертифікат або предмт");
+
+          return false;
+        }
+        break;
+      case "DocumentSubject3":
+      case "Exam3ID":
+
+        if ((empty($this->DocumentSubject3) && empty($this->Exam3ID)) || (!empty($this->DocumentSubject3) && !empty($this->Exam3ID))) {
+          $this->addError("$attributes", "Потрібно обрати сертифікат або предмет");
+
+          return false;
+        }
+    }
+    return true;
   }
 
   /**
@@ -182,6 +253,7 @@ class Personspeciality extends ActiveRecord {
         'status' => array(self::BELONGS_TO, 'Personrequeststatustypes', 'StatusID'),
         'edbo' => array(self::BELONGS_TO, 'EdboData', 'edboID'),
         'pbenefits' => array(self::HAS_MANY, 'Personspecialitybenefits', 'PersonSpecialityID'),
+//                     
     );
   }
 
@@ -190,6 +262,8 @@ class Personspeciality extends ActiveRecord {
    */
   public function attributeLabels() {
     return array(
+        'idPersonSpeciality' => 'Id Person Speciality',
+        'PersonID' => 'Person',
         'SepcialityID' => 'Спеціальність',
         'PaymentTypeID' => 'Форма оплати',
         'EducationFormID' => 'Форма навчання',
@@ -204,16 +278,33 @@ class Personspeciality extends ActiveRecord {
         'AdditionalBall' => 'Додатковий бал',
         'EntrantDocumentID' => 'Документ-основа вступу',
         'isCopyEntrantDoc' => 'Копія',
+        'DocumentSubject1' => 'Предмет сертифікату',
+        'DocumentSubject2' => 'Предмет сертифікату',
+        'DocumentSubject3' => 'Предмет сертифікату',
+        'Exam1ID' => 'Екзамен 1',
+        'Exam1Ball' => 'Бал 1',
+        'Exam2ID' => 'Екзамен 2',
+        'Exam2Ball' => 'Бал 2',
+        'Exam3ID' => 'Екзамен 3',
+        'Exam3Ball' => 'Бал 3',
         'isHigherEducation' => 'Освіта аналогічного кваліфікаційного рівня',
         'SkipDocumentValue' => 'Бал док-та не враховується',
         'AdditionalBallComment' => 'Коментар до додаткового балу',
         'CoursedpID' => 'Курси довузівської підготовки',
         'CoursedpBall' => 'Бал за курси',
         'OlympiadId' => 'Олімпіади',
+        'Quota1' => 'Квота (с-ка міс-ть)',
+        'Quota2' => 'Квота (держ. сл-ба)',
         'RequestNumber' => "Номер заяви",
         'PersonRequestNumber' => "Номер справи",
         "PersonDocumentsAwardsTypesID" => "Відзнака",
         'isForeinghEntrantDocument' => "Іноземн. док-т",
+        'OlympiadID' => "Олимпиада",
+        'isNotCheckAttestat' => "Не перевіряти",
+        'GraduatedUniversitieID' => "ВНЗ, який закінчив",
+        'GraduatedSpecialitieID' => "Напрямок (спеціальність), яку закінчив",
+        "GraduatedSpeciality" => "Напрямок (спеціальність), яку закінчив",
+        'RequestFromEB' => 'Эл-на за-ка',
         "edboID" => "ЄДБО Код",
         "StatusID" => "Статус заяви",
         "rating_order_mode" => "Сортування у режимі 'РЕЙТИНГ' (за балами)",
@@ -229,6 +320,44 @@ class Personspeciality extends ActiveRecord {
         "DateTo" => "До дати",
         "ForeignOnly" => "Обрати лише іноземців",
     );
+  }
+
+  /**
+   * Retrieves a list of models based on the current search/filter conditions.
+   * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+   */
+  public function search() {
+    // Warning: Please modify the following code to remove attributes that
+    // should not be searched.
+
+    $criteria = new CDbCriteria;
+
+    $criteria->compare('idPersonSpeciality', $this->idPersonSpeciality);
+    $criteria->compare('PersonID', $this->PersonID);
+    $criteria->compare('SepcialityID', $this->SepcialityID);
+    $criteria->compare('PaymentTypeID', $this->PaymentTypeID);
+    $criteria->compare('EducationFormID', $this->EducationFormID);
+    $criteria->compare('QualificationID', $this->QualificationID);
+    $criteria->compare('EntranceTypeID', $this->EntranceTypeID);
+    $criteria->compare('CourseID', $this->CourseID);
+    $criteria->compare('CausalityID', $this->CausalityID);
+    $criteria->compare('isTarget', $this->isTarget);
+    $criteria->compare('isContact', $this->isContact);
+    $criteria->compare('AdditionalBall', $this->AdditionalBall);
+    $criteria->compare('isCopyEntrantDoc', $this->isCopyEntrantDoc);
+    $criteria->compare('DocumentSubject1', $this->DocumentSubject1);
+    $criteria->compare('DocumentSubject2', $this->DocumentSubject2);
+    $criteria->compare('DocumentSubject3', $this->DocumentSubject3);
+    $criteria->compare('Exam1ID', $this->Exam1ID);
+    $criteria->compare('Exam1Ball', $this->Exam1Ball);
+    $criteria->compare('Exam2ID', $this->Exam2ID);
+    $criteria->compare('Exam2Ball', $this->Exam2Ball);
+    $criteria->compare('Exam3ID', $this->Exam3ID);
+    $criteria->compare('Exam3Ball', $this->Exam3Ball);
+
+    return new CActiveDataProvider($this, array(
+        'criteria' => $criteria,
+    ));
   }
   
   /**

@@ -17,19 +17,7 @@
  * @property string $PersonCase - номер справи
 
  */
-class Personspeciality extends CActiveRecord {
-    /**
-     * Returns the static model of the specified AR class.
-     * @param string $className active record class name.
-     * @return Documents the static model class
-     */
-    public static function model($className = __CLASS__) {
-        return parent::model($className);
-    }
-    
-    public function tableName() {
-        return 'personspeciality';
-    }
+class Personspeciality extends ActiveRecord {
   
   public $NAME;
   public $SPEC;
@@ -42,6 +30,20 @@ class Personspeciality extends CActiveRecord {
   public $DOCTYPES;
   public $DIRECTION;
   public $PersonCase;
+  
+  
+  /**
+   * Returns the static model of the specified AR class.
+   * @param string $className active record class name.
+   * @return Personspeciality the static model class
+   */
+  public static function model($className = __CLASS__) {
+    return parent::model($className);
+  }
+
+  public function tableName() {
+    return 'personspeciality';
+  }
   
     /**
      * @return string Префікс у номері справи
@@ -63,6 +65,46 @@ class Personspeciality extends CActiveRecord {
 
         return $prefix;
     }
+
+  /**
+   * @return array validation rules for model attributes.
+   */
+  public function rules() {
+    // NOTE: you should only define rules for those attributes that
+    // will receive user inputs.
+    return array(
+        array('PersonID, SepcialityID,  EducationFormID, 
+                               QualificationID, EntranceTypeID, CourseID, CausalityID, 
+                               isContract, isBudget, isCopyEntrantDoc, DocumentSubject1, 
+                               DocumentSubject2, DocumentSubject3, 
+                               Exam1ID, Exam1Ball, Exam2ID, Exam2Ball,
+                               Exam3ID, Exam3Ball, isHigherEducation, SkipDocumentValue', 'numerical', 'integerOnly' => true),
+        array("AdditionalBallComment,  CoursedpID, Quota1,Quota2, OlympiadID, isNotCheckAttestat, isForeinghEntrantDocument, PersonDocumentsAwardsTypesID, edboID, RequestFromEB, StatusID", 'safe'),
+        array("Exam1ID", 'required', 'on' => "SHORTFORM"),
+        array("EntranceTypeID", "required", "except" => "SHORTFORM"),
+        //array("CausalityID",  "default", "value"=>100,"except"=>"SHORTFORM"),
+        array("Exam1Ball, Exam2Ball, Exam3Ball", 'numerical',
+            "max" => 200, "min" => 1, "allowEmpty" => true, 'except' => 'ZNOEXAM, EXAM'),
+        array("AdditionalBall, CoursedpBall", 'numerical',
+            "max" => 200, "min" => 1, "allowEmpty" => true),
+        array('PersonID, SepcialityID,  EducationFormID, 
+                               QualificationID,  CourseID, isContract, 
+                               isCopyEntrantDoc, EntrantDocumentID, isNeedHostel', "required"),
+        array("DocumentSubject1, DocumentSubject2, DocumentSubject3", "required", "on" => "ZNO"),
+        array("Exam1ID, Exam2ID, Exam3ID, CausalityID", "required", "on" => "EXAM"),
+        array("Exam1Ball, Exam2Ball, Exam3Ball", 'numerical', "max" => 200, "min" => 1, "allowEmpty" => true, "on" => "EXAM"),
+        array("CausalityID", "required", "on" => "ZNOEXAM"),
+        array("Exam1ID, Exam2ID, Exam3ID, DocumentSubject1, DocumentSubject2, DocumentSubject3", "valididateZnoExam", "on" => "ZNOEXAM"),
+        array("Exam1Ball, Exam2Ball, Exam3Ball", 'numerical', "max" => 200, "min" => 1, "allowEmpty" => true, "on" => "ZNOEXAM"),
+        // DocumentSubject1, DocumentSubject2, DocumentSubject3, 
+        //  Exam1ID, Exam1Ball, Exam2ID, Exam2Ball, Exam3ID, Exam3Ball', 'numerical', 'integerOnly'=>true),
+        //array('AdditionalBall', 'numerical'),
+        // The following rule is used by search().
+        // Please remove those attributes that should not be searched.
+        array('idPersonSpeciality, PersonID, SepcialityID,  EducationFormID, QualificationID, EntranceTypeID, CourseID, CausalityID, isContract, AdditionalBall, isCopyEntrantDoc, DocumentSubject1, DocumentSubject2, DocumentSubject3, Exam1ID, Exam1Ball, Exam2ID, Exam2Ball, Exam3ID, Exam3Ball', 'safe', 'on' => 'search'),
+        array('CustomerName,DocCustumer,AcademicSemesterID,CustomerAddress,CustomerPaymentDetails,DateОfСontract,PaymentDate', 'safe'),
+    );
+  }
 
   /**
    * @return array relational rules.
@@ -91,6 +133,7 @@ class Personspeciality extends CActiveRecord {
         'edbo' => array(self::BELONGS_TO, 'EdboData', 'edboID'),
         'coursedp' => array(self::BELONGS_TO, 'Coursedp', 'CoursedpID'),
         'pbenefits' => array(self::HAS_MANY, 'Personspecialitybenefits', 'PersonSpecialityID'),
+//                     
     );
   }
 
@@ -148,4 +191,79 @@ class Personspeciality extends CActiveRecord {
         "NAME" => "ПІБ : ключові слова через пробіл",
     );
   }
+
+  /**
+   * Retrieves a list of models based on the current search/filter conditions.
+   * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+   */
+  public function search() {
+    // Warning: Please modify the following code to remove attributes that
+    // should not be searched.
+
+    $criteria = new CDbCriteria;
+
+    $criteria->compare('idPersonSpeciality', $this->idPersonSpeciality);
+    $criteria->compare('PersonID', $this->PersonID);
+    $criteria->compare('SepcialityID', $this->SepcialityID);
+    $criteria->compare('PaymentTypeID', $this->PaymentTypeID);
+    $criteria->compare('EducationFormID', $this->EducationFormID);
+    $criteria->compare('QualificationID', $this->QualificationID);
+    $criteria->compare('EntranceTypeID', $this->EntranceTypeID);
+    $criteria->compare('CourseID', $this->CourseID);
+    $criteria->compare('CausalityID', $this->CausalityID);
+    $criteria->compare('isTarget', $this->isTarget);
+    $criteria->compare('isContact', $this->isContact);
+    $criteria->compare('AdditionalBall', $this->AdditionalBall);
+    $criteria->compare('isCopyEntrantDoc', $this->isCopyEntrantDoc);
+    $criteria->compare('DocumentSubject1', $this->DocumentSubject1);
+    $criteria->compare('DocumentSubject2', $this->DocumentSubject2);
+    $criteria->compare('DocumentSubject3', $this->DocumentSubject3);
+    $criteria->compare('Exam1ID', $this->Exam1ID);
+    $criteria->compare('Exam1Ball', $this->Exam1Ball);
+    $criteria->compare('Exam2ID', $this->Exam2ID);
+    $criteria->compare('Exam2Ball', $this->Exam2Ball);
+    $criteria->compare('Exam3ID', $this->Exam3ID);
+    $criteria->compare('Exam3Ball', $this->Exam3Ball);
+
+    return new CActiveDataProvider($this, array(
+        'criteria' => $criteria,
+    ));
+  }
+  
+  /**
+   * Я не знаю, для чого це. Валєра знає.
+   * @param type $lol WTF
+   * @author Veleriy Efimov <valera_e@ukr.net>
+   */
+  public function loadOnlineStatementFromJSON($lol) {
+    //$json_string = preg_replace("/[+-]?\d+\.\d+/", '"\0"', $json_string ); 
+
+    /* $objarr = CJSON::decode($json_string);
+
+      if (!empty($this->codeU)){
+      Yii::app()->session[$this->codeU."-documents"] = serialize($objarr);
+      }
+
+      if ( trim($json_string) == "0" && empty($json_string) && count($objarr) == 0) return;
+
+      foreach($objarr as $item){
+      $val = (object)$item; */
+    $model = $this;
+//1	Код ЄДБО
+
+    $model->edboID = $lol;
+    /* if ($val->id_Type == 7)   {
+      $model->entrantdoc = new Documents();
+      $model->entrantdoc->TypeID = $val->id_Type;
+      $model->entrantdoc->edboID = $val->id_Document;
+      $model->entrantdoc->AtestatValue=$val->attestatValue;
+      $model->entrantdoc->Numbers=$val->number;
+      $model->entrantdoc->Series=$val->series;
+      $model->entrantdoc->DateGet=date("d.m.Y",mktime(0, 0, 0, $val->dateGet['month']+1,  $val->dateGet['dayOfMonth'],  $val->dateGet['year']));
+      $model->entrantdoc->ZNOPin = $val->znoPin;
+      $model->entrantdoc->Issued = $val->issued;
+      }
+      } */
+  }
+
 }
