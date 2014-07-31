@@ -9,29 +9,42 @@ $this->beginWidget('bootstrap.widgets.TbModal', array(
 <div class="modal-header">
     <a class="close" data-dismiss="modal">&times;</a>
     <h4><?php echo $model->isNewRecord ? "Нова спеціальність" : "Редагування спеціальності"; ?></h4>
+    <?php
+    if ($model->isNewRecord) {
+        // empty
+    } else {
+        $umodel = User::model()->findByPk($model->SysUserID);
+        ?>
+        <div style="float: right;  font-weight: bold; margin-right: 0px; margin-left: 20px;">
+            Користувач: <span style=" font-weight: normal; color: #aaa;"><?php echo $umodel->info; ?></span>
+        </div>
+        <?php
+    }
+    ?>
     <div style="float: right; font-weight: bold">
         Статус: <span style=" color: red;"><?php echo $model->status->PersonRequestStatusTypeName; ?></span>
     </div>
     <div style="float: right; color: red; font-weight: bold; margin-right: 20px;">
-<?php echo $model->RequestFromEB == 1 ? "Електронна заява" : "Заява створена оператором ЗНУ"; ?>
+        <?php echo $model->RequestFromEB == 1 ? "Електронна заява" : "Заява створена оператором ЗНУ"; ?>
     </div>
 
-<?php if (!$model->isNewRecord): ?>
+
+    <?php if (!$model->isNewRecord): ?>
         <div style="float: right; font-weight: bold; margin-right: 20px;">
             Номер справи: <span><?php echo str_pad($model->RequestNumber, 5, '0', STR_PAD_LEFT); ?></span>
         </div>
-<?php endif; ?>
+    <?php endif; ?>
     Поля з <span class ="required">*</span> необхідно заповнити.
 </div>
 
 <div class="modal-body <?php echo Yii::app()->user->isShortForm() ? " short" : ""; ?>" id="spec-modal-body">
     <?php if (Yii::app()->user->hasFlash("specmessage")): ?>
-    <div class="row-fluid" style="color: red; font-weight: bold;font-size: 20px;margin-bottom: 10px;"><?php echo  Yii::app()->user->getFlash("specmessage"); ?></div>
+        <div class="row-fluid" style="color: red; font-weight: bold;font-size: 20px;margin-bottom: 10px;"><?php echo Yii::app()->user->getFlash("specmessage"); ?></div>
     <?php endif; ?>
 
     <?php
     if (Yii::app()->user->isShortForm()) {
-        if ($model->isNewRecord || (!$model->isNewRecord&& $model->QualificationID > 1)) {
+        if ($model->isNewRecord || (!$model->isNewRecord && $model->QualificationID > 1)) {
             $this->renderPartial("_formShort", array('model' => $model));
         } else {
             $this->renderPartial("_form", array('model' => $model));
