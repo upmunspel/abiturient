@@ -4,25 +4,7 @@
  * This is the model class for table "specialities".
  *
  * The followings are the available columns in table 'specialities':
- * @property integer $idSpeciality
- * @property string $SpecialityName
- * @property string $SpecialityKode
- * @property integer $FacultetID
- * @property string $SpecialityClasifierCode
- * @property integer $SpecialityBudgetCount
- * @property integer $SpecialityContractCount
- * @property integer $isZaoch
- * @property integer $isPublishIn
- * @property string $YearPrice	
- * @property string $SemPrice
- * @property string $WordPrice	
- * @property integer $StudyPeriodID
- * @property string $SpecialityDirectionName
- * @property integer $PersonEducationFormID
- * The followings are the available model relations:
- * @property Personsepciality[] $personsepcialities
- * @property Facultets $facultet
- * @property Personeducationforms $eduform
+
  */
 class Specialities extends CActiveRecord {
 
@@ -146,5 +128,4 @@ class Specialities extends CActiveRecord {
         'criteria' => $criteria,
     ));
   }
-
 }

@@ -547,6 +547,7 @@ class StatController extends Controller {
     $fields[] = array('text' => 'Потрібен гуртожиток', 'id' => 11);
     $fields[] = array('text' => 'Статус заявки', 'id' => 12);
     $fields[] = array('text' => 'Номер справи', 'id' => 26);
+    $fields[] = array('text' => 'Номер заяви', 'id' => 29);
     $fields[] = array('text' => 'Дата створення заявки', 'id' => 13);
     $fields[] = array('text' => 'Спеціальність', 'id' => 7);
     $fields[] = array('text' => 'Дата народження', 'id' => 1);

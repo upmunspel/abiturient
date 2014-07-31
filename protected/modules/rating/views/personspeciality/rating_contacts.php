@@ -2,10 +2,7 @@
 /* @var $data array */
 /* @var $Speciality string */
 /* @var $Faculty string */
-/* @var $_contract_counter integer */
-/* @var $_budget_counter integer */
-/* @var $_pzk_counter integer */
-/* @var $_quota_counter integer */
+/* @var $license_info array */
 /* @var $toexcel integer */
 /* @var $contacts integer */
 $k = 1;
@@ -14,36 +11,45 @@ $k = 1;
     <TR>
       <TD colspan='7' class="faculty">
         <?php echo iconv("utf-8", "windows-1251", 'Факультет:'); ?> 
-        <?php echo $Faculty; ?>
+        <?php echo iconv("utf-8", "windows-1251",$Faculty); ?>
       </TD>
     </TR>
     <TR>
       <TD colspan='7' class="direction">
         <?php echo iconv("utf-8", "windows-1251", 'Напрям підготовки: '); ?>
         <?php
-        echo $Speciality;
+        echo iconv("utf-8", "windows-1251",$Speciality);
         ?>
       </TD>
     </TR>
     <TR>
       <TD colspan='7' class="license_count">
         <?php echo iconv("utf-8", "windows-1251", 'Ліцензійний обсяг: ');
-        echo $_contract_counter + $_budget_counter;
+        echo ($license_info[2][1] + $license_info[1][1]);
         ?>
       </TD>
     </TR>
     <TR>
       <TD colspan='7' class="budget_count">
         <?php echo iconv("utf-8", "windows-1251", 'Обсяг державного замовлення: ');
-        echo (0+$_budget_counter); ?>
+        echo $license_info[2][1]; ?>
       </TD>
     </TR>
     <TR>
       <TD colspan='7' class="quota_count">
         <?php echo iconv("utf-8", "windows-1251", 'з них квота пільговиків: '); ?>
-        <?php echo (0+$_pzk_counter); ?>
+        <?php echo $license_info[3][1]; ?>
         <?php echo iconv("utf-8", "windows-1251", ', квота цільовиків: '); ?>
-<?php echo (0+$_quota_counter); ?>
+<?php $count_q = 0; foreach ($license_info as $key => $info){
+    if ($key > 3){
+      echo iconv("utf-8", "windows-1251", '<br/>' . $info[0] . ' : '. $info[1]);
+      $count_q++;
+    }
+}     
+if (!$count_q){
+      echo '0';
+} 
+ ?>
       </TD>
     </TR>
     <TR>
@@ -57,236 +63,68 @@ $k = 1;
 <?php echo iconv("utf-8", "windows-1251", 'Бал'); ?>
       </TD>
       <TD class="pzk_header">
-<?php echo iconv("utf-8", "windows-1251", 'ПЗК'); ?>
+<?php echo iconv("utf-8", "windows-1251", 'Поза конкурс.'); ?>
       </TD>
       <TD class="pv_header">
-<?php echo iconv("utf-8", "windows-1251", 'ПЧ'); ?>
+<?php echo iconv("utf-8", "windows-1251", 'Першочерг.'); ?>
       </TD>
       <TD class="original_header">
-<?php echo iconv("utf-8", "windows-1251", 'О'); ?>
+<?php echo iconv("utf-8", "windows-1251", 'Оригінал'); ?>
       </TD>
+<?php if (!$contacts){ ?>
+      <TD class="wave_header">
+<?php echo iconv("utf-8", "windows-1251", 'Зарах за хвилею'); ?>
+      </TD>
+<?php } else { ?>
       <TD class="contacts_header">
 <?php echo iconv("utf-8", "windows-1251", 'Контакти'); ?>
       </TD>
+
+<?php } ?>
     </TR>
 
 
-<?php if (count($data['quota']) > 0) { ?>
+<?php $counter = 1; foreach ($data as $key => $list) { if (!count($list)){continue;} ?>
       <TR>
         <TD colspan='7' class="target_committee">
-  <?php echo iconv("utf-8", "windows-1251", 'ЦІЛЬОВИЙ ПРИЙОМ'); ?>
+  <?php echo iconv("utf-8", "windows-1251", $key); ?>
         </TD>
       </TR>
-<?php } ?>
-
-    <!-- Цільовики-->
-<?php for ($i = 1; $i < count($data['quota']) + 1; $i++) { ?>
-      <TR data-id="<?php echo $data['quota'][$i]['idPersonSpeciality']; ?>" class="target_row">
+<?php for ($i = 0; $i < count($list); $i++) { ?>
+      <TR data-id="<?php echo $list[$i]['idPersonSpeciality']; ?>" class="target_row">
         <TD class="num">
-  <?php echo ($k++); ?>
+  <?php echo ($counter++); ?>
         </TD>
         <TD class="person">
-  <?php echo $data['quota'][$i]['PIB']; ?>
+  <?php echo iconv("utf-8", "windows-1251",$list[$i]['PIB']); ?>
         </TD>
         <TD class="points">
-  <?php echo $data['quota'][$i]['Points']; ?>
+  <?php echo $list[$i]['Points']; ?>
         </TD>
         <TD class="pzk">
-  <?php echo $data['quota'][$i]['isPZK']; ?>
+  <?php echo iconv("utf-8", "windows-1251",$list[$i]['isPZK']); ?>
         </TD>
         <TD class="pv">
-  <?php echo $data['quota'][$i]['isExtra']; ?>
+  <?php echo iconv("utf-8", "windows-1251",$list[$i]['isExtra']); ?>
         </TD>
         <TD class="original">
-  <?php echo $data['quota'][$i]['isOriginal']; ?>
+  <?php echo iconv("utf-8", "windows-1251",$list[$i]['isOriginal']); ?>
         </TD>
         <TD class="contacts">
-        <?php
-          $model = Personspeciality::model()->findByPk($data['quota'][$i]['idPersonSpeciality']);
-          $array_contacts = array();
-          foreach ($model->person->contacts as $mcontact){
-            $array_contacts[] = iconv("utf-8", "windows-1251", 'т:'.$mcontact->Value);
-          }
-          echo implode(';<br/>',$array_contacts);
-        ?>
+          <?php if ($contacts){
+            $model = Personspeciality::model()->findByPk($list[$i]['idPersonSpeciality']);
+            $array_contacts = array();
+            foreach ($model->person->contacts as $mcontact){
+              $array_contacts[] = iconv("utf-8", "windows-1251", 'т:'.$mcontact->Value);
+            }
+            echo implode(';<br/>',$array_contacts);
+          } 
+          ?>
         </TD>
       </TR>
-<?php } ?>
+<?php } // end for $list ?>
+<?php } // end foreach $data ?>
 
-
-<?php if (count($data['pzk']) > 0) { ?>
-      <TR>
-        <TD colspan='7' class="pzk_committee">
-  <?php echo iconv("utf-8", "windows-1251", 'ПОЗА КОНКУРСОМ'); ?>
-        </TD>
-      </TR>
-<?php } ?>
-
-    <!-- ПОЗА КОНКУРСОМ-->
-<?php for ($i = 1; $i < count($data['pzk']) + 1; $i++) { ?>
-      <TR data-id="<?php echo $data['pzk'][$i]['idPersonSpeciality']; ?>" class="pzk_row">
-        <TD class="num">
-  <?php echo ($k++); ?>
-        </TD>
-        <TD class="person">
-  <?php echo $data['pzk'][$i]['PIB']; ?>
-        </TD>
-        <TD class="points">
-  <?php echo $data['pzk'][$i]['Points']; ?>
-        </TD>
-        <TD class="pzk">
-  <?php echo $data['pzk'][$i]['isPZK']; ?>
-        </TD>
-        <TD class="pv">
-  <?php echo $data['pzk'][$i]['isExtra']; ?>
-        </TD>
-        <TD class="original">
-  <?php echo $data['pzk'][$i]['isOriginal']; ?>
-        </TD>
-        <TD class="contacts">
-        <?php
-          $model = Personspeciality::model()->findByPk($data['pzk'][$i]['idPersonSpeciality']);
-          $array_contacts = array();
-          foreach ($model->person->contacts as $mcontact){
-            $array_contacts[] = iconv("utf-8", "windows-1251", 'т:'.$mcontact->Value);
-          }
-          echo implode(';<br/>',$array_contacts);
-        ?>
-        </TD>
-      </TR>
-<?php } ?>
-
-
-<?php if (count($data['budget']) > 0) { ?>
-      <TR>
-        <TD colspan='7' class="budget_committee">
-  <?php echo iconv("utf-8", "windows-1251", 'ДЕРЖ. ЗАМОВЛЕННЯ'); ?>
-        </TD>
-      </TR>
-<?php } ?>
-
-    <!-- ДЕРЖ. ЗАМОВЛЕННЯ-->
-<?php for ($i = 1; $i < count($data['budget']) + 1; $i++) { ?>
-      <TR data-id="<?php echo $data['budget'][$i]['idPersonSpeciality']; ?>" class="budget_row">
-        <TD class="num">
-  <?php echo ($k++); ?>
-        </TD>
-        <TD class="person">
-  <?php echo $data['budget'][$i]['PIB']; ?>
-        </TD>
-        <TD class="points">
-  <?php echo $data['budget'][$i]['Points']; ?>
-        </TD>
-        <TD class="pzk">
-  <?php echo $data['budget'][$i]['isPZK']; ?>
-        </TD>
-        <TD class="pv">
-  <?php echo $data['budget'][$i]['isExtra']; ?>
-        </TD>
-        <TD class="original">
-  <?php echo $data['budget'][$i]['isOriginal']; ?>
-        </TD>
-        <TD class="contacts">
-        <?php
-          $model = Personspeciality::model()->findByPk($data['budget'][$i]['idPersonSpeciality']);
-          $array_contacts = array();
-          foreach ($model->person->contacts as $mcontact){
-            $array_contacts[] = iconv("utf-8", "windows-1251", 'т:'.$mcontact->Value);
-          }
-          echo implode(';<br/>',$array_contacts);
-        ?>
-        </TD>
-      </TR>
-    <?php } ?>
-
-<?php if (count($data['contract']) > 0) { ?>
-      <TR>
-        <TD colspan='7' class="contract_committee">
-  <?php echo iconv("utf-8", "windows-1251", 'ЗА КОНТРАКТОМ'); ?>
-        </TD>
-      </TR>
-<?php } ?>
-
-    <!-- ЗА КОНТРАКТОМ-->
-<?php for ($i = 1; $i < count($data['contract']) + 1; $i++) { ?>
-      <TR data-id="<?php echo $data['contract'][$i]['idPersonSpeciality']; ?>" class="contract_row">
-        <TD class="num">
-  <?php echo ($k++); ?>
-        </TD>
-        <TD class="person">
-  <?php echo $data['contract'][$i]['PIB']; ?>
-        </TD>
-        <TD class="points">
-  <?php echo $data['contract'][$i]['Points']; ?>
-        </TD>
-        <TD class="pzk">
-  <?php echo $data['contract'][$i]['isPZK']; ?>
-        </TD>
-        <TD class="pv">
-  <?php echo $data['contract'][$i]['isExtra']; ?>
-        </TD>
-        <TD class="original">
-  <?php echo $data['contract'][$i]['isOriginal']; ?>
-        </TD>
-        <TD class="contacts">
-        <?php
-          $model = Personspeciality::model()->findByPk($data['contract'][$i]['idPersonSpeciality']);
-          $array_contacts = array();
-          foreach ($model->person->contacts as $mcontact){
-            $array_contacts[] = iconv("utf-8", "windows-1251", 'т:'.$mcontact->Value);
-          }
-          echo implode(';<br/>',$array_contacts);
-        ?>
-        </TD>
-      </TR>
-<?php } ?>
-
-    <!-- НЕ ПРОХОДЯТЬ ЗА КОНКУРСОМ -->
-    <?php
-    for ($i = 0; $i < count($data['below']); $i++) {
-      if ($i == 0) {
-        ?>
-        <TR>
-        <TD colspan='7' class="fatal_line">
-        <center>
-          =============================================
-        </center>
-        </TD>
-        </TR>
-    <?php
-  }
-  ?>
-  <TR data-id="<?php echo $data['below'][$i]['idPersonSpeciality']; ?>" class="below_row">
-    <TD class="num">
-      <?php echo ($k++); ?>
-    </TD>
-    <TD class="person">
-      <?php echo $data['below'][$i]['PIB']; ?>
-    </TD>
-    <TD class="points">
-      <?php echo $data['below'][$i]['Points']; ?>
-    </TD>
-    <TD class="pzk">
-      <?php echo $data['below'][$i]['isPZK']; ?>
-    </TD>
-    <TD class="pv">
-      <?php echo $data['below'][$i]['isExtra']; ?>
-    </TD>
-    <TD class="original">
-  <?php echo $data['below'][$i]['isOriginal']; ?>
-    </TD>
-    <TD class="contacts">
-    <?php 
-      $model = Personspeciality::model()->findByPk($data['below'][$i]['idPersonSpeciality']);
-      $array_contacts = array();
-      foreach ($model->person->contacts as $mcontact){
-        $array_contacts[] = iconv("utf-8", "windows-1251", 'т:'.$mcontact->Value);
-      }
-      echo implode(';<br/>',$array_contacts);
-    ?>
-    </TD>
-  </TR>
-<?php } ?>
   <TR>
   <TD colspan='7' class="fatal_line">
   <center>
