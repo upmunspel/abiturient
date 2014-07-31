@@ -2,6 +2,12 @@
 
 /**
  * This is the model class for table "personrequeststatustypes".
+ *
+ * The followings are the available columns in table 'personrequeststatustypes':
+ * @property integer $idPersonRequestStatusType
+ * @property string $PersonRequestStatusCode
+ * @property string $PersonRequestStatusTypeName
+ * @property string $PersonRequestStatusTypeDescription
  */
 class Personrequeststatustypes extends CActiveRecord {
 

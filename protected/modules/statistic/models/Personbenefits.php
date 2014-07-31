@@ -3,8 +3,20 @@
 /**
  * This is the model class for table "personbenefits".
  *
+ * The followings are the available columns in table 'personbenefits':
+ * @property integer $idPersonBenefits
+ * @property integer $PersonID
+ * @property integer $BenefitID
+ * @property string $Series
+ * @property string $Numbers
+ * @property string $Issued
+ * @property string $Modified
+ * @property integer $SysUserID
+ *
  * The followings are the available model relations:
  * @property Personbenefitdocument[] $personbenefitdocuments
+ * @property Person $person
+ * @property Benefit $benefit
  */
 class Personbenefits extends ActiveRecord
 {

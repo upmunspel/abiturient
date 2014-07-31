@@ -161,23 +161,14 @@ $(function (){
       $('#Personspeciality_page_size').val('автоматично');
       $('#Personspeciality_page_size').attr('readonly',true);
       
-      $('#Personspeciality_searchID').val("");
       $('#Personspeciality_searchID').attr('readonly',true);
-      $('#Facultets_FacultetFullName').val('');
       $('#Facultets_FacultetFullName').attr('readonly',true);
-      $('#Personspeciality_NAME').val('');
       $('#Personspeciality_NAME').attr('readonly',true);
-      $('#Benefit_BenefitName').val('');
       $('#Benefit_BenefitName').attr('readonly',true);
-      $('#Personspeciality_ext_param').val('');
       $('#Personspeciality_ext_param').attr('readonly',true);
-      $('#Personspeciality_QualificationID').val('');
       $('#Personspeciality_QualificationID').attr('readonly',true);
-      $('#Personspeciality_CourseID').val('');
       $('#Personspeciality_CourseID').attr('readonly',true);
-      $('#Personspeciality_DateFrom').val('');
       $('#Personspeciality_DateFrom').attr('readonly',true);
-      $('#Personspeciality_DateTo').val('');
       $('#Personspeciality_DateTo').attr('readonly',true);
       
       
@@ -190,7 +181,7 @@ $(function (){
         $('#RatingExcel').slideDown();
       }
     } else {
-      $('#Personspeciality_page_size').val('5000');
+      $('#Personspeciality_page_size').val('15');
       $('#Personspeciality_page_size').attr('readonly',false);
       
       $('#Personspeciality_searchID').attr('readonly',false);
@@ -297,8 +288,7 @@ $(function (){
       ?>
       <?php
       echo $form->textField($model, 'page_size', array(
-          'style' => 'font-size: 8pt; font-family: Tahoma; height: 12px;',
-          'value' => '5000',
+          'style' => 'font-size: 8pt; font-family: Tahoma; height: 12px;'
       ));
       ?>
     </div>
@@ -470,44 +460,48 @@ echo $form->hiddenField($model, 'SepcialityID', array(
     <div class="span6">
     <?php
     $this->widget("bootstrap.widgets.TbButton", array(
-      'buttonType'=>'submit',
-      'type'=>'primary',
-      "size"=>"small",
-      "icon" => "eye-open white",
-      'htmlOptions' => array(
-        'id' => 'RatingButton',
-        'class' => 'span9',
-        'onclick' => '$(\'#rating-params-form\').attr(\'action\',\''.Yii::app()->createUrl($this->route).'\');'
-          . 'if(($("#Personspeciality_DateFrom").val().length > 0 '
-            .'&& $("#Personspeciality_DateTo").val().length > 0) '
-            .'|| ($("#Personspeciality_rating_order_mode").is(":checked")))'
-        . '{$(\'#rating-params-form\').submit();}else{alert("Вкажіть проміжок часу (дати).");}'
-        . 'return false;',
-       ),
-      'label'=>'Створити вибірку',
-    )); ?>
+              'buttonType'=>'submit',
+              'type'=>'primary',
+              "size"=>"small",
+              "icon" => "eye-open white",
+              'htmlOptions' => array(
+                'id' => 'RatingButton',
+                'class' => 'span9',
+                'onclick' => '$(\'#rating-params-form\').attr(\'action\',\''.Yii::app()->createUrl($this->route).'\');'
+                  . 'if($("#Personspeciality_DateFrom").val().length > 0 && $("#Personspeciality_DateTo").val().length > 0)'
+                . '{$(\'#rating-params-form\').submit();}else{alert("Вкажіть проміжок часу (дати).");}'
+                . 'return false;',
+               ),
+              'label'=>'Створити вибірку',
+        )
+    ); 
+    ?>
     </div>
     <div class="span6">
     <?php
     $this->widget("bootstrap.widgets.TbButton", array(
-      'buttonType'=>'sumbit',
-      'type'=>'primary',
-      "size"=>"small",
-      "icon"=>"file white",
-      'htmlOptions' => array(
-        'id' => 'RatingExcel',
-        'class' => 'span9',
-        'onclick' => '$(\'#rating-params-form\').attr(\'action\',\''.Yii::app()->CreateUrl('/rating/rating/excelrating').'\');'
-          . '$(\'#rating-params-form\').submit();return false;',
-        'style' => 'display: none;',  
-       ),
-      'label'=>'Сформувати Excel-файл',
-    )); ?>
+              'buttonType'=>'sumbit',
+              'type'=>'primary',
+              "size"=>"small",
+              "icon"=>"file white",
+              'htmlOptions' => array(
+                'id' => 'RatingExcel',
+                'class' => 'span9',
+                'onclick' => '$(\'#rating-params-form\').attr(\'action\',\''.Yii::app()->CreateUrl('/rating/rating/excelrating').'\');'
+                  . '$(\'#rating-params-form\').submit();return false;',
+                'style' => 'display: none;',  
+               ),
+              'label'=>'Сформувати Excel-файл',
+        )
+    ); 
+    ?>
     </div>
   </div>
 </div>
 
+
 <?php $this->endWidget(); ?>
+
 
 <?php
 
@@ -534,150 +528,133 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                 $_budget_counter = $data->sepciality->SpecialityBudgetCount;
                 $_pzk_counter = $data->sepciality->Quota1;
                 $_quota_counter = $data->sepciality->Quota2;
-                Personspeciality::setCounters($_contract_counter, $_budget_counter, 
-                  $_pzk_counter, $_quota_counter);
-              } ?> 
-              <a href='#'  
-                 onclick="$('#row_<?php echo $row; ?>').slideToggle();return false;">
-                <i class="icon-white icon-info-sign" 
-                style="background-color: #05B2D2; border-radius: 10px;"></i>
-             <?php 
-             $local_counter = 0;
-              if ((Personspeciality::$is_rating_order) && $data->Quota1){
-                //цільовики
-                $was = Personspeciality::decrementCounter(Personspeciality::$C_QUOTA);
-                if ($was){
-                  Personspeciality::decrementCounter(Personspeciality::$C_BUDGET);
-                  $local_counter = 1 + $data->sepciality->Quota2 - $was;
-                  echo '<span '
-                  . ' title="Місце у рейтингу цільового прийому за попередньою інформацією." '
-                  . ' style="color: #F89406; font-size: 14pt; font-family: Oreos;"> '
-                  . $local_counter
-                  . '</span>';
-                } else {
-                  echo '<span '
-                  . ' title="Має право приймати участь у конкурсі, але не за цільовим прийомом." '
-                  . ' style="color: #CA0EE3;">'
-                  . 'Не проходить'
-                  . '</span>';
-                }
+                Personspeciality::setCounters($_contract_counter, $_budget_counter, $_pzk_counter, $_quota_counter);
               }
-              if ((Personspeciality::$is_rating_order) && $data->isOutOfComp && !$data->Quota1){
-                //поза конкурсом
-                $was = Personspeciality::decrementCounter(Personspeciality::$C_OUTOFCOMPETITION);
-                if ($was){
-                 Personspeciality::decrementCounter(Personspeciality::$C_BUDGET);
-                 $local_counter = 1 + $data->sepciality->Quota1 - $was;
-                 echo '<span '
-                 . ' title="Місце у рейтингу прийому поза конкурсом за попередньою інформацією." '
-                 . ' style="color: #05B2D2; font-size: 14pt; font-family: Oreos;"> '
-                 . $local_counter
-                 . '</span>';
-                } else {
-                 echo '<span '
-                 . ' title="Має право приймати участь у конкурсі, 
-                    але без права на позаконкурсний прийом." '
-                 . ' style="color: #CA0EE3;">'
-                 . 'Не проходить'
-                 . '</span>';
-                }
-              }
-              if ((Personspeciality::$is_rating_order) 
-                && $data->isBudget && !$data->isOutOfComp && !$data->Quota1){
-                //на бюджет
-                $was = Personspeciality::decrementCounter(Personspeciality::$C_BUDGET);
-                if ($was){
-                 $local_counter = 1 + $data->sepciality->SpecialityBudgetCount - $was;
-                 echo '<span '
-                 . ' title="Місце у рейтингу прийому за кошти держ. бюджету за попередньою інформацією." '
-                 . ' style="color: lightgreen; font-size: 14pt; font-family: Oreos;"> '
-                 . $local_counter
-                 . '</span>';
-                }
-              }
-              if ((Personspeciality::$is_rating_order) && 
-                     ((!$data->isBudget && !$data->isOutOfComp && !$data->Quota1) || 
-                     (!$was && $data->isBudget && !$data->isOutOfComp && !$data->Quota1) )){
-                //на контракт
-                $was = Personspeciality::decrementCounter(Personspeciality::$C_CONTRACT);
-                if ($was){
-                 $local_counter = 1 + $data->sepciality->SpecialityContractCount - $was;
-                 echo '<span '
-                 . ' title="Місце у рейтингу на контракт за попередньою інформацією." '
-                 . ' style="color: #ad6704; font-size: 14pt; font-family: Oreos;"> '
-                 . $local_counter
-                 . '</span>';
-                } else {
-                 echo '<span '
-                 . ' title="...за попередньою інформацією." '
-                 . ' style="color: red;">'
-                 . 'Не проходить'
-                 . '</span>';
-                }
-              }
-              //var_dump($data->rating_order_mode);
-              if (!Personspeciality::$is_rating_order){
-                echo $data->edboID;
-              }
-              ?></a> <?php
-              $doc_orig = 'Копія';
-              $is_orig = 0;
-              if (!$data->isCopyEntrantDoc){
-                $doc_orig = 'Оригінал';
-                $is_orig = 1;
-              }
-              $span_class = 'label-info';
-              if (($data->edbo)? ($data->edbo->OD == $is_orig): false){
-                $span_class = 'label-success';
-              }
-              if (($data->edbo)? ($data->edbo->OD != $is_orig): false){
-                $span_class = 'label-important';
-              } ?>
-              <!-- Виведення інформації про оригінальність вступних документів -->
-              <span class="label <?php echo $span_class; ?>"> <?php echo $doc_orig; ?>
-              </span><br/>
-              <!-- Виведення статусу заявки -->
-              статус заявки: 
-              <span 
-                title = "<?php echo ($data->edbo)? 'У ЄДЕБО: '.$data->edbo->Status:''; ?>"
-                class="label badge req-status-<?php echo $data->StatusID; ?>"
-                style="border: 3px solid <?php echo ($data->edbo)? 
-                  ((mb_substr($data->edbo->Status,0,6,'utf-8') == 
-                    mb_substr($data->status->PersonRequestStatusTypeName,0,6,'utf-8'))? 
-                  'green':'red')
-                  :'white'; ?>">
-               <?php echo $data->status->PersonRequestStatusTypeName; ?>
-              </span><hr style="margin: 3px !important;"/>
-              <!-- Виведення системних ідентифікаторів -->
-              <div id='row_<?php echo $row; ?>' style='display:none; font-size:8pt;'> <?php
-                    echo 'id_заявки: <span class=\'label label-info\'>'.$data->idPersonSpeciality.
-                            '</span><hr style=\'margin: 3px !important;\'/>';
-                    echo 'id_персони: <span class=\'label label-info\'>'.$data->PersonID.
-                            '</span><hr style=\'margin: 3px !important;\'/>';
-                    echo 'id_ЄДЕБО: <span class=\'label label-info\'>'.$data->edboID.
-                            '</span><hr style=\'margin: 3px !important;\'/>';
-              ?> 
-              </div> 
-              <div id='r_<?php echo $row; ?>' style='font-size:8pt;'>
-                <!-- Виведення дати заяви -->
-                Дата заяви: 
-                <span class="label label-red">
-                  <?php echo date('d.m.Y',strtotime($data->CreateDate)); ?>
-                </span>
-                <hr style="margin: 2px !important;"/>
-                <?php
-                $edbo_case = (($data->edbo)? $data->edbo->PersonCase:'');
-                $our_case = str_pad($data->RequestNumber, 5, "0", STR_PAD_LEFT);
-                ?>
-                <!-- Виведення № заяви -->
-                № заяви: 
-                <span 
-                  class="label label-<?php echo ($data->edbo)?(($edbo_case != $our_case)? 'important':'success'):'red'; ?>"
-                  title="<?php echo $edbo_case; ?>">
-                  <?php echo trim($our_case); ?>
-                </span>
-                <hr style="margin: 3px !important;"/>
-              </div> <?php
+?> <a href='#'  
+     onclick="$('#row_<?php echo $row; ?>').slideToggle();return false;">
+     <i class="icon-white icon-info-sign" style="background-color: #05B2D2; border-radius: 10px;"></i>
+     <?php 
+     
+     $local_counter = 0;
+     if ((Personspeciality::$is_rating_order) && $data->Quota1){
+       //цільовики
+       $was = Personspeciality::decrementCounter(Personspeciality::$C_QUOTA);
+       if ($was){
+         Personspeciality::decrementCounter(Personspeciality::$C_BUDGET);
+         $local_counter = 1 + $data->sepciality->Quota2 - $was;
+         echo '<span '
+         . ' title="Місце у рейтингу цільового прийому за попередньою інформацією." '
+         . ' style="color: #F89406; font-size: 14pt; font-family: Oreos;"> '
+         . $local_counter
+         . '</span>';
+       } else {
+         echo '<span '
+         . ' title="Має право приймати участь у конкурсі, але не за цільовим прийомом." '
+         . ' style="color: #CA0EE3;">'
+         . 'Не проходить'
+         . '</span>';
+       }
+     }
+     
+     if ((Personspeciality::$is_rating_order) && $data->isOutOfComp && !$data->Quota1){
+       //поза конкурсом
+       $was = Personspeciality::decrementCounter(Personspeciality::$C_OUTOFCOMPETITION);
+       if ($was){
+         Personspeciality::decrementCounter(Personspeciality::$C_BUDGET);
+         $local_counter = 1 + $data->sepciality->Quota1 - $was;
+         echo '<span '
+         . ' title="Місце у рейтингу прийому поза конкурсом за попередньою інформацією." '
+         . ' style="color: #05B2D2; font-size: 14pt; font-family: Oreos;"> '
+         . $local_counter
+         . '</span>';
+       } else {
+         echo '<span '
+         . ' title="Має право приймати участь у конкурсі, але без права на позаконкурсний прийом." '
+         . ' style="color: #CA0EE3;">'
+         . 'Не проходить'
+         . '</span>';
+       }
+     }
+     
+     if ((Personspeciality::$is_rating_order) && $data->isBudget && !$data->isOutOfComp && !$data->Quota1){
+       //на бюджет
+       $was = Personspeciality::decrementCounter(Personspeciality::$C_BUDGET);
+       if ($was){
+         $local_counter = 1 + $data->sepciality->SpecialityBudgetCount - $was;
+         echo '<span '
+         . ' title="Місце у рейтингу прийому за кошти держ. бюджету за попередньою інформацією." '
+         . ' style="color: lightgreen; font-size: 14pt; font-family: Oreos;"> '
+         . $local_counter
+         . '</span>';
+       }
+     }
+     
+     if ((Personspeciality::$is_rating_order) && 
+             ((!$data->isBudget && !$data->isOutOfComp && !$data->Quota1) || 
+             (!$was && $data->isBudget && !$data->isOutOfComp && !$data->Quota1) )){
+       //на контракт
+       $was = Personspeciality::decrementCounter(Personspeciality::$C_CONTRACT);
+       if ($was){
+         $local_counter = 1 + $data->sepciality->SpecialityContractCount - $was;
+         echo '<span '
+         . ' title="Місце у рейтингу на контракт за попередньою інформацією." '
+         . ' style="color: #ad6704; font-size: 14pt; font-family: Oreos;"> '
+         . $local_counter
+         . '</span>';
+       } else {
+         echo '<span '
+         . ' title="...за попередньою інформацією." '
+         . ' style="color: red;">'
+         . 'Не проходить'
+         . '</span>';
+       }
+     }
+     //var_dump($data->rating_order_mode);
+     if (!Personspeciality::$is_rating_order){
+       echo $data->edboID;
+     }
+     ?></a> <?php
+     
+      $doc_orig = 'Копія';
+      $is_orig = 0;
+      if (!$data->isCopyEntrantDoc){
+        $doc_orig = 'Оригінал';
+        $is_orig = 1;
+      }
+      $span_class = 'label-info';
+      if (($data->edbo)? ($data->edbo->OD == $is_orig): false){
+        $span_class = 'label-success';
+      }
+      if (($data->edbo)? ($data->edbo->OD != $is_orig): false){
+        $span_class = 'label-important';
+      }
+      echo '<span class=\'label '.$span_class.'\'>'.$doc_orig.
+              '</span><br/>';
+      echo 'статус заявки: <span title="'.(($data->edbo)? 'У ЄДЕБО: '.$data->edbo->Status:'')
+          .'" class=\'label badge req-status-'.$data->StatusID.'\''
+        . ' style="border: 3px solid '.(($data->edbo)? 
+        ((mb_substr($data->edbo->Status,0,6,'utf-8') == mb_substr($data->status->PersonRequestStatusTypeName,0,6,'utf-8'))? 
+        'green':'red'):'white').';">'
+            . $data->status->PersonRequestStatusTypeName
+            . '</span><hr style=\'margin: 3px !important;\'/>';
+?> <div id='row_<?php echo $row; ?>' style='display:none; font-size:8pt;'> <?php
+              echo 'id_заявки: <span class=\'label label-info\'>'.$data->idPersonSpeciality.
+                      '</span><hr style=\'margin: 3px !important;\'/>';
+              echo 'id_персони: <span class=\'label label-info\'>'.$data->PersonID.
+                      '</span><hr style=\'margin: 3px !important;\'/>';
+              echo 'id_ЄДЕБО: <span class=\'label label-info\'>'.$data->edboID.
+                      '</span><hr style=\'margin: 3px !important;\'/>';
+?> </div> <?php
+?> <div id='r_<?php echo $row; ?>' style='font-size:8pt;'> <?php
+              echo 'Дата заявки: <span class=\'label label-red\'>'.date('d.m.Y',strtotime($data->CreateDate)).
+                      '</span><hr style=\'margin: 2px !important;\'/>';
+              $edbo_case = (($data->edbo)? $data->edbo->PersonCase:'');
+              $our_case = str_pad($data->RequestNumber, 5, "0", STR_PAD_LEFT);
+              echo '№ заяви: <span class=\'label label-'.(($data->edbo)?(($edbo_case != $our_case)? 'important':'success'):'red')
+                .'\' title="'.$edbo_case.'">'
+                .trim($our_case).
+                      '</span><hr style=\'margin: 3px !important;\'/>';
+?> </div> <?php
             }
         ),
 
@@ -720,33 +697,32 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                   (strstr($data->sepciality->SpecialitySpecializationName, $data->edbo->Specialization) !== FALSE)
                 );
                 $edu_form_ok = ($data->educationForm->PersonEducationFormName == $data->edbo->EduForm);
-                $spec_title = "";
-                $spec_style = "";
+                
                 if ($direction_ok && $speciality_ok && $specialization_ok && $edu_form_ok){
-                  $spec_title = 'співпадає';
-                  $spec_style= 'color: green;';
+                  echo "<span title='співпадає' style='color: green;'>"
+                  . $data->SPEC
+                  . "</span>";
                 } else if (!$direction_ok){
-                  $spec_title = 'В ЄДЕБО напрям: "'.$data->edbo->Direction .'",
-                     а в Абітурієнті: "'.$data->sepciality->SpecialityDirectionName.'"';
-                  $spec_style='color: red;';
+                  echo "<span title='В ЄДЕБО напрям: \"".$data->edbo->Direction."\", "
+                    . "а в Абітурієнті: \"".$data->sepciality->SpecialityDirectionName."\"' style='color: red;'>"
+                  . $data->SPEC
+                  . "</span>";
                 } else if (!$speciality_ok){
-                  $spec_title = 'В ЄДЕБО спеціальність: "'.$data->edbo->Speciality .'",
-                     а в Абітурієнті: "'.$data->sepciality->SpecialityName.'"';
-                  $spec_style='color: red;';
+                  echo "<span title='В ЄДЕБО спеціальність: \"".$data->edbo->Speciality."\", "
+                    . "а в Абітурієнті: \"".$data->sepciality->SpecialityName."\"' style='color: red;'>"
+                  . $data->SPEC
+                  . "</span>";
                 } else if (!$specialization_ok){
-                  $spec_title = 'В ЄДЕБО спеціалізація: "'.$data->edbo->Specialization .'",
-                     а в Абітурієнті: "'.$data->sepciality->SpecialitySpecializationName.'"';
-                  $spec_style='color: red;';
+                  echo "<span title='В ЄДЕБО спеціалізація: \"".$data->edbo->Specialization."\", "
+                    . "а в Абітурієнті: \"".$data->sepciality->SpecialitySpecializationName."\"' style='color: red;'>"
+                  . $data->SPEC
+                  . "</span>";
                 } else if (!$edu_form_ok){
-                  $spec_title = 'В ЄДЕБО форма навчання: "'.$data->edbo->EduForm .'",
-                     а в Абітурієнті: "'.$data->educationForm->PersonEducationFormName.'"';
-                  $spec_style='color: red;';
-                } ?>
-                <span 
-                  title='<?php echo $spec_title; ?>'
-                  style='<?php echo $spec_style; ?>'>
-                <?php echo $data->SPEC; ?>
-                </span> <?php
+                  echo "<span title='В ЄДЕБО форма навчання: \"".$data->edbo->EduForm."\", "
+                    . "а в Абітурієнті: \"".$data->educationForm->PersonEducationFormName."\"' style='color: red;'>"
+                  . $data->SPEC
+                  . "</span>";
+                }
               } else {
                 echo $data->SPEC;
               }
@@ -754,104 +730,100 @@ $this->widget('bootstrap.widgets.TbGridView', array(
         ),
         
         array(
-          'name' => 'NAME',
-          'header' => 'ПІБ',
-          'filter' => false,
-          'htmlOptions' => array(
-              'style' => 'font-size: 10pt;'
-          ),
-          'value' => function ($data){
-            /* @var $data Personspeciality */
-            if (!$data->edbo && $data->edboID){
-              $data->edbo = EdboData::model()->findByPk($data->edboID);
-            }
-            $color = 'black';
-            if ($data->edbo){
-              $name_parts = array_diff(explode(' ', $data->NAME),array(''));
-              $edbo_name_parts = array_diff(explode(' ', $data->edbo->PIB),array(''));
-              $name_ok = true;
-              if (count($edbo_name_parts) != count($name_parts)){
-                $name_ok = false;
-              } else {
-                foreach ($edbo_name_parts as $nm_part){
-                  if (!in_array($nm_part,$name_parts)){
-                    $name_ok = false;
-                    break;
+            'name' => 'NAME',
+            'header' => 'ПІБ',
+            'filter' => false,      
+            'htmlOptions' => array(
+                'style' => 'font-size: 10pt;'
+            ),
+            'value' => function ($data){
+              /* @var $data Personspeciality */
+              if (!$data->edbo && $data->edboID){
+                $data->edbo = EdboData::model()->findByPk($data->edboID);
+              }
+              $color = 'black';
+              if ($data->edbo){
+                $name_parts = array_diff(explode(' ', $data->NAME),array(''));
+                $edbo_name_parts = array_diff(explode(' ', $data->edbo->PIB),array(''));
+                $name_ok = true;
+                if (count($edbo_name_parts) != count($name_parts)){
+                  $name_ok = false;
+                } else {
+                  foreach ($edbo_name_parts as $nm_part){
+                    if (!in_array($nm_part,$name_parts)){
+                      $name_ok = false;
+                      break;
+                    }
                   }
                 }
+                $color = ($name_ok) ? 'green' : 'red';
+                if (!($data->edbo->PIB == $data->NAME)){
+                  echo '<div style=\'color: #BBDDBB; font-size: 8pt;\''
+                  . ' title=\'Такі дані в ЄДЕБО.\'>'.$data->edbo->PIB.'</div>';
+                }
               }
-              $color = ($name_ok) ? 'green' : 'red';
-              if (!($data->edbo->PIB == $data->NAME)){ ?>
-                <div 
-                  style='color: #BBDDBB; font-size: 8pt;'
-                  title='Такі дані в ЄДЕБО.'> <?php echo $data->edbo->PIB; ?>
-                </div> <?php
-              }
-            } ?>
-            <A HREF='<?php echo Yii::app()->createUrl('/person/'.$data->PersonID) ;?>'
-              TARGET="_blank">
-              <div style='color: <?php echo $color; ?>;'>
-                <?php echo $data->NAME; ?>
-              </div>
-            </A> <?php
-          }
+              echo '<A HREF=\''.Yii::app()->createUrl('/person/'.$data->PersonID).'\' '
+                      . ' TARGET="_blank">'
+                      . '<div style=\'color: '.$color.';\'>'.$data->NAME.'</div>'
+                      . '</A>';
+            }
+                    
         ),
-        
+                
         array(
-          'header' => 'Пільги',
-          'name' => 'benefit.BenefitName',
-          'filter' => false,
-          'htmlOptions' => array(
-              'style' => 'width: 130px;'
-          ),
-          'headerHtmlOptions' => array(
-              'style' => 'width: 130px;'
-          ),
-          'value' => function ($data){
-            /* @var $data Personspeciality */
-            $_benefits =  explode(';;',$data->BenefitList);
-            $id_benefits =  explode(';;',$data->idBenefitList);
-            $is_out_of_comp_list = explode(';;', $data->isOutOfCompList);
-            $is_extra_entry_list = explode(';;', $data->isExtraEntryList);
-            $benefits = array();
-            foreach ($_benefits as $id => $benefit){
-              if (!$benefit){
-                continue;
+            'header' => 'Пільги',
+            'name' => 'benefit.BenefitName',
+            'filter' => false,
+            'htmlOptions' => array(
+                'style' => 'width: 130px;'
+            ),
+            'headerHtmlOptions' => array(
+                'style' => 'width: 130px;'
+            ),
+            'value' => function ($data){
+              /* @var $data Personspeciality */
+              $_benefits =  explode(';;',$data->BenefitList);
+              $id_benefits =  explode(';;',$data->idBenefitList);
+              $is_out_of_comp_list = explode(';;', $data->isOutOfCompList);
+              $is_extra_entry_list = explode(';;', $data->isExtraEntryList);
+              $benefits = array();
+              foreach ($_benefits as $id => $benefit){
+                if (!$benefit){
+                  continue;
+                }
+                $benefits[$id_benefits[$id]]['name'] = $benefit;
+                $benefits[$id_benefits[$id]]['isPV'] = $is_extra_entry_list[$id];
+                $benefits[$id_benefits[$id]]['isPZK'] = $is_out_of_comp_list[$id];
               }
-              $benefits[$id_benefits[$id]]['name'] = $benefit;
-              $benefits[$id_benefits[$id]]['isPV'] = $is_extra_entry_list[$id];
-              $benefits[$id_benefits[$id]]['isPZK'] = $is_out_of_comp_list[$id];
-            }
-            $cnt_benefits = count($benefits);
-            if ($cnt_benefits == 1 && $benefits[$id_benefits[0]] == ''){
-              return ;
-            }
-            if ($cnt_benefits > 0){
-              $active_text = "";
-              switch ($cnt_benefits){
-                case 1:
-                  $active_text = "Є одна пільга";
-                  break;
-                case 2:
-                  $active_text = "Є дві пільги";
-                  break;
-                case 3:
-                  $active_text = "Є три пільги";
-                  break;
-                default :
-                  $active_text = "Кількість пільг : " . $cnt_benefits;
-                  break;
+              $cnt_benefits = count($benefits);
+              if ($cnt_benefits == 1 && $benefits[$id_benefits[0]] == ''){
+                return ;
               }
-              ?> 
-              <a href="#" 
-                onclick="$('#benefit_<?php 
-                  echo $data->idPersonSpeciality; ?>').slideToggle(); return false;">
-                  <span class="label label-info">
-                    <i class="icon-white icon-info-sign"></i>
-                    <?php echo $active_text; ?>
-                  </span></a>
-              <div style="display:none;" 
-                id="benefit_<?php echo $data->idPersonSpeciality; ?>"> <?php
+
+              if ($cnt_benefits > 0){
+                $active_text = "";
+                switch ($cnt_benefits){
+                  case 1:
+                    $active_text = "Є одна пільга";
+                    break;
+                  case 2:
+                    $active_text = "Є дві пільги";
+                    break;
+                  case 3:
+                    $active_text = "Є три пільги";
+                    break;
+                  default :
+                    $active_text = "Кількість пільг : " . $cnt_benefits;
+                    break;
+                }
+?> 
+<a href="#" onclick="$('#benefit_<?php echo $data->idPersonSpeciality; ?>').slideToggle(); return false;">
+    <span class="label label-info">
+      <i class="icon-white icon-info-sign"></i>
+      <?php echo $active_text; ?>
+    </span></a>
+<div style="display:none;" id="benefit_<?php echo $data->idPersonSpeciality; ?>"> <?php
+                
                 foreach ($benefits as $id => $benefit){
                   /* @var $benefit Personbenefits */
                   $bgcolor = 'white';
@@ -863,21 +835,22 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                   if ($benefit['isPZK']){
                     $bgcolor = '#CCDDCC';
                     $title .= '(абітурієнт має право на вступ ПОЗА КОНКУРСОМ)';
-                  } ?>
-                  <div class='well well-small'
-                    style='margin-bottom: 3px; width: 125px !important;
-                           height: 140px !important;
-                           font-size: 7pt;
-                           overflow-wrap: break-word;
-                           overflow-y: auto;
-                           background-color: <?php echo $bgcolor; ?> ;'
-                    title='<?php echo $title; ?>' >
-                    <?php echo $benefit['name']; ?>
-                  </div> <?php
-                } ?> 
-              </div> <?php
+                  }
+                  echo '<div class=\'well well-small\' '
+                  . 'style=\'margin-bottom: 3px; width: 125px !important; '
+                          . 'height: 140px !important;'
+                          . 'font-size: 7pt;'
+                          . 'overflow-wrap: break-word;'
+                          . 'overflow-y: auto;'
+                          . 'background-color: ' . $bgcolor . ';'
+                          . '\' '
+                  . 'title=\''.$title.'\'>'
+                  .  $benefit['name']
+                  . "</div>";
+                }
+?> </div> <?php
+              }
             }
-          }
         ),
 
         array(
@@ -897,6 +870,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
               $doc_val_zno = round($data->ZnoDocValue,2);
               $doc_name = 'Документ';
               $doc_desc = ($data->entrantdoc)? $data->entrantdoc->type->PersonDocumentTypesName : "Відсутній";
+
               $Total += $doc_val_zno;
               $Total += (($data->documentSubject1)? (float)$data->documentSubject1->SubjectValue : 0.0);
               $Total += (($data->documentSubject2)? (float)$data->documentSubject2->SubjectValue : 0.0);
@@ -907,29 +881,29 @@ $this->widget('bootstrap.widgets.TbGridView', array(
               $Total += (float)$data->Exam1Ball;
               $Total += (float)$data->Exam2Ball;
               $Total += (float)$data->Exam3Ball;
-              //виведення відмітки цільового вступу
-              if ($data->QuotaID){
+              
+              if ($data->Quota1){
                 $span_class = 'label-info';
                 $info_title = '';
                 if ($data->edbo){
-                  $span_class = ($data->QuotaID > 0 && $data->edbo->Quota == '1')? 
+                  $span_class = ($data->Quota1 != '0' && $data->edbo->Quota == '1')? 
                           'label-success' : 'label-important';
-                  $info_title = ($data->QuotaID > 0 && $data->edbo->Quota == '1')?
+                  $info_title = ($data->Quota1 != '0' && $data->edbo->Quota == '1')?
                           "" : 'В даних ЄДЕБО цей параметр ВІДСУТНІЙ';
-                } ?>
-                <span class='label <?php echo $span_class; ?>' 
-                  style='margin-bottom: 3px;
-                         font-size: 8pt; font-family: Tahoma; padding: 4px;'
-                  title='<?php echo $info_title; ?>' >
-                  Цільовий вступ
-                </span>
-                <div class="clear"></div> <?php            
-              } else if ((isset($data->edbo->Quota)? ($data->edbo->Quota == '1') : false)){ ?>
-                <div style="color:red;" title='У Абітурієнті відсутня'>
-                  В ЄДЕБО є відмітка цільового вступу
-                </div> <?php
+                }
+                echo ' ' 
+                      . '<span class=\'label '.$span_class.'\' style=\'margin-bottom: 3px;'
+                      . ' font-size: 8pt; font-family: Tahoma; padding: 4px;\''
+                      . ' title=\''.$info_title.'\'>'
+                      . 'Цільовий вступ'
+                      .'</span>'
+                      .'<div class="clear"></div>' ;            
+              } else if ((isset($data->edbo->Quota)? ($data->edbo->Quota == '1') : false)){
+                echo "<div style=\"color:red;\" title='У Абітурієнті відсутня'>"
+                . "В ЄДЕБО є відмітка цільового вступу. </div>";
+
               }
-              //виведення відмітки вступу поза куонкурсом
+              
               if ($data->isOutOfComp){
                 $span_class = 'label-info';
                 $info_title = '';
@@ -938,19 +912,20 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                           'label-success' : 'label-important';
                   $info_title = ($data->isOutOfComp != '0' && $data->edbo->Benefit == '1')?
                           "" : 'В даних ЄДЕБО цей параметр ВІДСУТНІЙ';
-                } ?>
-                <span class='label <?php echo $span_class; ?>' 
-                  style='margin-bottom: 3px; font-size: 8pt; font-family: Tahoma; padding: 4px;'
-                  title='<?php echo $info_title; ?>'>
-                  Поза конкурсом
-                </span>
-                <div class="clear"></div> <?php
-              } else if ((isset($data->edbo->Benefit)? ($data->edbo->Benefit == '1') : false)){ ?>
-                <div style="color:red;" title='У Абітурієнті відсутня'>
-                  В ЄДЕБО є відмітка вступу поза куонкурсом
-                </div> <?php
+                }
+                echo ' ' 
+                      . '<span class=\'label '.$span_class.'\' style=\'margin-bottom: 3px;'
+                      . ' font-size: 8pt; font-family: Tahoma; padding: 4px;\''
+                      . ' title=\''.$info_title.'\'>'
+                      . 'Поза конкурсом'
+                      .'</span>'
+                      .'<div class="clear"></div>' ;            
+              } else if ((isset($data->edbo->Benefit)? ($data->edbo->Benefit == '1') : false)){
+                echo "<div style=\"color:red;\" title='У Абітурієнті відсутня'>"
+                . "В ЄДЕБО є відмітка вступу поза конкурсом. </div>";
+
               }
-              //виведення відмітки першочергового вступу
+              
               if ($data->isExtraEntry){
                 $span_class = 'label-info';
                 $info_title = '';
@@ -959,20 +934,21 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                           'label-success' : 'label-important';
                   $info_title = ($data->isExtraEntry != '0' && $data->edbo->PriorityEntry == '1')?
                           '' : 'В даних ЄДЕБО цей параметр ВІДСУТНІЙ';
-                } ?>
-                <span class='label <?php echo $span_class; ?>' 
-                  style='margin-bottom: 3px; font-size: 8pt; font-family: Tahoma; padding: 4px;'
-                  title='<?php echo $info_title; ?>'>
-                  Першочерговий вступ
-                </span>
-                <div class="clear"></div> <?php           
-              } else if ((isset($data->edbo->PriorityEntry)? 
-                  ($data->edbo->PriorityEntry == '1' && empty($data->edbo->Honours)) : false)){ ?>
-                <div style="color:red;" title='У Абітурієнті відсутня'>
-                  В ЄДЕБО є відмітка першочергового вступу
-                </div> <?php
+                }
+                echo ' ' 
+                      . '<span class=\'label '.$span_class.'\' style=\'margin-bottom: 3px;'
+                      . ' font-size: 8pt; font-family: Tahoma; padding: 4px;\''
+                      . ' title=\''.$info_title.'\'>'
+                      . 'Першочерговий вступ'
+                      .'</span>'
+                      .'<div class="clear"></div>' ;            
+              } else if ((isset($data->edbo->PriorityEntry)? ($data->edbo->PriorityEntry == '1' && empty($data->edbo->Honours)) : false)){
+                echo "<div style=\"color:red;\" title='У Абітурієнті відсутня'>"
+                . "В ЄДЕБО є відмітка першочергового вступу. </div>";
               }
-              //виведення балів
+
+
+              
               $span_class = 'label-info';
               $add_string = '';
               if ($data->edbo){
@@ -980,21 +956,21 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                         'label-success' : 'label-important';
                 $add_string = ' (в даних ЄДЕБО: '. $data->edbo->RatingPoints .')';
               }
-              $add_string .= ' | computed: '.$data->ComputedPoints; ?>
-              <div style='width: 70px !important;float:left;'>Разом : </div>
-              <a href='#'
-                style='margin-left: 5px;'
-                onclick='$("#id_<?php echo $data->idPersonSpeciality; ?>").slideToggle(); return false;'
-                title='<?php echo $add_string; ?>'>
-                <span class='label <?php echo $span_class; ?>' 
-                  style='margin-bottom: 3px;
-                    font-size: 10pt; font-family: Tahoma; padding: 4px;'>
-                  <i class='icon-white icon-info-sign'></i>
-                  <?php echo $Total; ?>
-                </span>
-              </a>
-              <div class="clear"></div>
-              <div id="id_<?php echo $data->idPersonSpeciality; ?>">  <?php
+              $add_string .= ' | computed: '.$data->ComputedPoints;
+              echo '<div style=\'width: 70px !important;float:left;\'>Разом : </div>' 
+                      . '<a href=\'#\' '
+                      . ' style=\'margin-left: 5px;\''
+                      . ' onclick=\'$("#id_'.$data->idPersonSpeciality.'").slideToggle(); return false;\''
+                      . ' title=\''.$add_string.'\'>'
+                      . '<span class=\'label '.$span_class.'\' style=\'margin-bottom: 3px;'
+                      . ' font-size: 10pt; font-family: Tahoma; padding: 4px;\''
+                      . ' >'
+                      . '<i class=\'icon-white icon-info-sign\'></i> '
+                      . $Total
+                      .'</span>'
+                      . '</a><div class="clear"></div>' ;
+              
+?> <div id="id_<?php echo $data->idPersonSpeciality; ?>">  <?php
               $span_class = 'label-info';
               $country_span_class = 'label-info';
               $docnum_span_class = 'label-info';
@@ -1012,8 +988,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                   $docnum_span_class = ($data->edbo->DocNumber == "")?
                         'label-success' : 'label-important';
                 }
-                $docseria_span_class = ($data->tDocSeria == $data->tDocSeries)?
-                        'label-success' : 'label-important';
+                $docseria_span_class = 'label-info';
                 $add_string = '<span class=\'label label-info\' 
                   title="В даних ЄДЕБО"
                   style=\'margin-bottom: 3px; font-size: 8pt; margin-left: 2px;\'>' 
@@ -1032,7 +1007,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
               
               echo '<div style=\'width: 70px !important;float:left;\' title=\''.$doc_desc.'\'>серія,№ : </div>' .
                 '<span class=\'label '.$docseria_span_class.'\' style=\'margin-bottom: 3px;font-size: 8pt;\''
-                . ' title="'.(($data->edbo)? 'Значення в ЄДЕБО: '.$data->edbo->DocSeria . "; $data->tDocSeries <=> $data->tDocSeria" : '').'">'.
+                . ' title="'.(($data->edbo)? 'Значення в ЄДЕБО: '.$data->edbo->DocSeria : '').'">'.
                 (($data->entrantdoc) ? $data->entrantdoc->Series : 'н/з') . '</span>' 
                 .'<span class=\'label '.$docnum_span_class.'\' style=\'margin-left: 4px; '
                     . ' margin-bottom: 3px;font-size: 8pt;\''
@@ -1111,8 +1086,8 @@ $this->widget('bootstrap.widgets.TbGridView', array(
               echo '<div style=\'width: 70px !important;float:left;\'>Країна : </div>' .
                       '<span class=\'label '.$country_span_class.'\' style=\'margin-bottom: 3px;font-size: 8pt;\''
                       . ' title="'.(($data->edbo)? 'Значення в ЄДЕБО: '.$data->edbo->Country : '').'">'.
-                      $data->person->country->CountryName . '</span>' . '<div class="clear"></div>'; ?> 
-              </div><div clas='clear'></div>  <?php
+                      $data->person->country->CountryName . '</span>' . '<div class="clear"></div>';
+?> </div><div clas='clear'></div>  <?php
             }
         ),
 

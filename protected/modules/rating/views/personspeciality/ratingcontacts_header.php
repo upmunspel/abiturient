@@ -5,14 +5,14 @@
   header('Pragma: no-cache');
 if ($toexcel) {
   header('Content-transfer-encoding: binary');
-  header('Content-Disposition: attachment; filename=' . str_replace(array(' ', ':', '.', ',_', '__'), '_', $Faculty) . '.xls');
+  header('Content-Disposition: attachment; filename=' . iconv("windows-1251", "utf-8",str_replace(array(' ', ':', '.', ',_', '__'), '_', $Faculty) . '.xls'));
   header('Content-Type: application/x-unknown');
 }
   ?>
 <html>
   <head>
     <meta charset="windows-1251">
-    <title><?php echo iconv("utf-8", "windows-1251",$Faculty); ?></title>
+    <title><?php echo iconv("windows-1251","utf-8",$Faculty); ?></title>
     <style id="rating_style">
   .faculty {
     font-size: 8pt;

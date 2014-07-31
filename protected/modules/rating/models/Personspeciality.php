@@ -3,6 +3,63 @@
 /**
  * This is the model class for table "personspeciality".
  *
+ * The followings are the available columns in table 'personspeciality':
+ * @property integer $idPersonSpeciality
+ * @property integer $RequestNumber
+ * @property integer $PersonID
+ * @property integer $SepcialityID
+ * @property integer $PaymentTypeID
+ * @property integer $EducationFormID
+ * @property integer $QualificationID
+ * @property integer $EntranceTypeID
+ * @property integer $CourseID
+ * @property integer $CausalityID
+ * @property integer $CoursedpID
+ * @property integer $OlympiadID
+ * @property integer $GraduatedUniversitieID
+ * @property integer $GraduatedSpecialitieID
+ * @property string  $GraduatedSpeciality
+ * @property integer $PersonDocumentsAwardsTypesID
+ * @property integer $isTarget
+ * @property integer $isContract
+ * @property integer $isBudget
+ * @property integer $isNeedHostel
+ * @property integer $isNotCheckAttestat
+ * @property integer $isForeinghEntrantDocument
+ * @property double  $AdditionalBall
+ * @property double  $CoursedpBall
+ * @property integer $isCopyEntrantDoc
+ * @property integer $DocumentSubject1
+ * @property integer $DocumentSubject2
+ * @property integer $DocumentSubject3
+ * @property integer $Exam1ID
+ * @property integer $Exam1Ball
+ * @property integer $Exam2ID
+ * @property integer $Exam2Ball
+ * @property integer $Exam3ID
+ * @property integer $Exam3Ball
+ *
+ * The followings are the available model relations:
+ * @property Person $person
+ * @property Documentsubject $documentSubject1
+ * @property Documentsubject $documentSubject2
+ * @property Documentsubject $documentSubject3
+ * @property Subjects $exam1
+ * @property Subjects $exam2
+ * @property Subjects $exam3
+ * @property Olympiadsawards $olymp
+ * @property Specialities $sepciality
+ * @property Personeducationpaymenttypes $paymentType
+ * @property Personeducationforms $educationForm
+ * @property Qualifications $qualification
+ * @property Personenterancetypes $entranceType
+ * @property Courses $course
+ * @property Causality $causality
+ * @property integer $StatusID
+ * @property Personrequeststatustypes $status
+ * @property integer $RequestFromEB
+ * @property integer $Quota1
+ * @property integer $Quota2
  * 
  * Параметри, що опосередковано відносяться до БД
  * @property Facultets $searchFaculty - модель для пошуку факультета
@@ -10,15 +67,7 @@
  * @property mixed $searchID - ІД персони або заявки, або ЄДЕБО чи статус заявки
  * @property string $NAME - ПІБ з видаленими незначущими пробілами
  * @property string $SPEC - Спеціальність (разом із спеціалізацією і формою навчання)
- * @property string $ComputedPoints - загальна сума рейтингових балів
- * @property string $DateFrom - початок календарного проміжку для пошуку
- * @property string $DateTo - кінець календарного проміжку для пошуку
- * @property string $ZnoDocValue - значення документа у специфічній шкалі ЄДЕБО
- * @property string $PointDocValue - значення документа, округлене до двох знаків після коми
  * @property integer $rating_order_mode - прапорець: чи потрібно сортувати для рейтингу
- * @property integer $AnyOriginal - чи є у персони хоча б один оригінал
- * @property integer $ZNOSum - сума балів ЗНО
- * @property integer $ForeignOnly - шукати лише іноземців (країна громадянства - не Україна)
  * @property integer $status_confirmed - прапорець: вибрати лише зі статусом "допущено"
  * @property integer $status_committed - прапорець: вибрати лише зі статусом "рекомендовано"
  * @property integer $status_submitted - прапорець: вибрати лише зі статусом "до наказу"
@@ -37,11 +86,9 @@
  * @property string $isExtraEntryList - дані про те, чи надає пільга право вступу першочергово (розділені через ;;)
  * @property integer $isOutOfComp - чи є заявка з пільгою позаконкурсного вступу
  * @property integer $isExtraEntry - чи є заявка з пільгою першочергового вступу
- * @property integer $tDocSeria - перероблена серія документа вступу в ЄДЕБО англійськими малими літерами для порівняння
- * @property integer $tDocSeries - перероблена серія документа вступу в Абітурієнті англійськими малими літерами для порівняння
- * @property integer $ProfileSubjectValue - бал профільного предмету ЗНО
  * @property integer[] $rating_counter - статичний масив лічильників для формування рейтингу
  * @property integer $is_rating_order = $rating_order_mode (статична)
+ * @property integer $AnyOriginal чи є у персони хоча б один оригінал
  */
 class Personspeciality extends ActiveRecord {
   public $searchFaculty;
@@ -74,18 +121,19 @@ class Personspeciality extends ActiveRecord {
   public $isExtraEntry;
   public $tDocSeria;
   public $tDocSeries;
-  public $ProfileSubjectValue;
   
   private static $rating_counter = array();
   public static $is_rating_order = false;
+
   public static $C_QUOTA = 3;
   public static $C_OUTOFCOMPETITION = 2;
   public static $C_BUDGET = 1;
   public static $C_CONTRACT = 0;
   
+  
   public static $PointMap = array();
   public static $DocTypeNames = array();
-    
+  
   /**
    * Returns the static model of the specified AR class.
    * @param string $className active record class name.
@@ -367,14 +415,16 @@ class Personspeciality extends ActiveRecord {
    * @return \CActiveDataProvider
    */
   public function search_rel($return_array_of_models = false){
+
     $rating_order_mode = 0;
-    $page_size = 3;
+    $page_size = 200;
     if (is_numeric($this->rating_order_mode)){
       $rating_order_mode = $this->rating_order_mode;
     }
     if (is_numeric($this->page_size) && $this->page_size > 0){
       $page_size = $this->page_size;
     }
+    
     $criteria = new CDbCriteria();
     //З якими відношеннями маємо справу
     $with_rel = array();
@@ -442,17 +492,6 @@ class Personspeciality extends ActiveRecord {
         IF(ISNULL(t.Exam2Ball),0.0,t.Exam2Ball)+
         IF(ISNULL(t.Exam3Ball),0.0,t.Exam3Ball)),2)) AS ComputedPoints'), 
       new CDbExpression('COUNT(DISTINCT benefit.idBenefit) AS cntBenefit'),
-      new CDbExpression('IF(documentSubject1.SubjectID 
-        IN(SELECT ssj.SubjectID FROM specialitysubjects ssj WHERE ssj.isProfile=1 AND ssj.SpecialityID=t.SepcialityID),
-          documentSubject1.SubjectValue,
-          IF(documentSubject2.SubjectID 
-            IN(SELECT ssj.SubjectID FROM specialitysubjects ssj WHERE ssj.isProfile=1 AND ssj.SpecialityID=t.SepcialityID),
-            documentSubject2.SubjectValue,
-            IF(documentSubject3.SubjectID 
-              IN(SELECT ssj.SubjectID FROM specialitysubjects ssj WHERE ssj.isProfile=1 AND ssj.SpecialityID=t.SepcialityID),documentSubject3.SubjectValue, 0
-            )
-          )
-      ) AS ProfileSubjectValue'),
       new CDbExpression('GROUP_CONCAT(benefit.BenefitName '
               . 'ORDER BY benefit.BenefitName ASC SEPARATOR \';;\') AS BenefitList'),
       new CDbExpression('GROUP_CONCAT(benefit.idBenefit '
@@ -468,8 +507,8 @@ class Personspeciality extends ActiveRecord {
       new CDbExpression('(IF(ISNULL(documentSubject1.SubjectValue),0.0,documentSubject1.SubjectValue)+
         IF(ISNULL(documentSubject2.SubjectValue),0.0,documentSubject2.SubjectValue)+
         IF(ISNULL(documentSubject3.SubjectValue),0.0,documentSubject3.SubjectValue)) AS ZNOSum'),
-      new CDbExpression('lower(IF(ISNULL(edbo.DocSeria),"none",transliterate(edbo.DocSeria))) AS tDocSeria'),
-      new CDbExpression('lower(IF(ISNULL(entrantdoc.Series),"none",transliterate(entrantdoc.Series))) AS tDocSeries'),
+      //new CDbExpression('lower(IF(ISNULL(edbo.DocSeria),"none",transliterate(edbo.DocSeria))) AS tDocSeria'),
+      //new CDbExpression('lower(IF(ISNULL(entrantdoc.Series),"none",transliterate(entrantdoc.Series))) AS tDocSeries'),
     );
     //оформлення єдиного запиту на вибірку
     $criteria->together = true;
@@ -531,14 +570,29 @@ class Personspeciality extends ActiveRecord {
             
         OR (edbo.DocNumber NOT LIKE entrantdoc.Numbers) 
         
-        OR (edbo.Benefit <> 
-          if(isnull(benefit.isPZK),0,benefit.isPZK))
+        
+        OR (edbo.Benefit <> IF(((SELECT MAX(b.isPZK) FROM personbenefits pb LEFT JOIN benefit b ON pb.BenefitID = b.idBenefit 
+          WHERE pb.idPersonBenefits IN 
+          (SELECT personspecialitybenefits.PersonBenefitID FROM personspecialitybenefits 
+            WHERE t.idPersonSpeciality=personspecialitybenefits.PersonSpecialityID) 
+          AND b.isPZK IS NOT NULL )) IS NULL, 0, 
+          ((SELECT MAX(b.isPZK) FROM personbenefits pb LEFT JOIN benefit b ON pb.BenefitID = b.idBenefit 
+            WHERE pb.idPersonBenefits IN 
+            (SELECT personspecialitybenefits.PersonBenefitID FROM personspecialitybenefits 
+              WHERE t.idPersonSpeciality=personspecialitybenefits.PersonSpecialityID) AND b.isPZK IS NOT NULL ))))
             
-        OR (IF((edbo.Honours IS NULL),edbo.PriorityEntry <> 
-          if(isnull(benefit.isPV),0,benefit.isPV),FALSE))
+        OR (IF((edbo.Honours IS NULL),edbo.PriorityEntry <> IF(((SELECT MAX(b.isPV) FROM personbenefits pb LEFT JOIN benefit b ON pb.BenefitID = b.idBenefit 
+          WHERE pb.idPersonBenefits IN 
+          (SELECT personspecialitybenefits.PersonBenefitID FROM personspecialitybenefits 
+            WHERE t.idPersonSpeciality=personspecialitybenefits.PersonSpecialityID)
+          AND b.isPV IS NOT NULL)) IS NULL, 0, 
+          ((SELECT MAX(b.isPV) FROM personbenefits pb LEFT JOIN benefit b ON pb.BenefitID = b.idBenefit 
+            WHERE pb.idPersonBenefits IN 
+            (SELECT personspecialitybenefits.PersonBenefitID FROM personspecialitybenefits 
+              WHERE t.idPersonSpeciality=personspecialitybenefits.PersonSpecialityID) AND b.isPV IS NOT NULL))),FALSE))
 
-        OR (edbo.Quota=0 AND t.QuotaID > 0)
-        OR (edbo.Quota=1 AND (t.QuotaID IS NULL OR t.QuotaID = 0))
+        OR (edbo.Quota=0 AND t.Quota1=1)
+        OR (edbo.Quota=1 AND (t.Quota1 IS NULL OR t.Quota1 = 0))
         
         OR (edbo.OD=1 AND t.isCopyEntrantDoc=1)
         OR (edbo.OD=0 AND (t.isCopyEntrantDoc IS NULL OR t.isCopyEntrantDoc = 0))
@@ -547,10 +601,8 @@ class Personspeciality extends ActiveRecord {
             (edbo.Speciality NOT LIKE sepciality.SpecialityName AND t.QualificationID > 1) OR
             (sepciality.SpecialitySpecializationName NOT LIKE CONCAT("%",edbo.Specialization,"%"))
             )
-        OR (MID(status.PersonRequestStatusTypeName,1,6) COLLATE utf8_unicode_ci NOT LIKE MID(edbo.Status,1,6)) 
-        OR (lower(IF(ISNULL(entrantdoc.Series),"none",transliterate(entrantdoc.Series))) COLLATE utf8_unicode_ci
-          NOT LIKE lower(IF(ISNULL(edbo.DocSeria),"none",transliterate(edbo.DocSeria))) COLLATE utf8_unicode_ci)
-        ) AND edbo.ID IS NOT NULL'
+        OR (MID(status.PersonRequestStatusTypeName,1,6) COLLATE utf8_unicode_ci NOT LIKE MID(edbo.Status,1,6))
+        )'
       );
       break;
       case 4: 
@@ -578,14 +630,28 @@ class Personspeciality extends ActiveRecord {
       //  щоб відмітка позаконкурсного вступу не співпадала
       //  щоб відмітка вступу за цільовим направленням не співпадала
       $criteria->addCondition('(
-        (edbo.Benefit <> 
-          if(isnull(benefit.isPZK),0,benefit.isPZK))
+        (edbo.Benefit <> IF(((SELECT MAX(b.isPZK) FROM personbenefits pb LEFT JOIN benefit b ON pb.BenefitID = b.idBenefit 
+          WHERE pb.idPersonBenefits IN 
+          (SELECT personspecialitybenefits.PersonBenefitID FROM personspecialitybenefits 
+            WHERE t.idPersonSpeciality=personspecialitybenefits.PersonSpecialityID) 
+          AND b.isPZK IS NOT NULL )) IS NULL, 0, 
+          ((SELECT MAX(b.isPZK) FROM personbenefits pb LEFT JOIN benefit b ON pb.BenefitID = b.idBenefit 
+            WHERE pb.idPersonBenefits IN 
+            (SELECT personspecialitybenefits.PersonBenefitID FROM personspecialitybenefits 
+              WHERE t.idPersonSpeciality=personspecialitybenefits.PersonSpecialityID) AND b.isPZK IS NOT NULL ))))
             
-        OR (IF((edbo.Honours IS NULL),edbo.PriorityEntry <> 
-          if(isnull(benefit.isPV),0,benefit.isPV),FALSE))
+        OR (IF((edbo.Honours IS NULL),edbo.PriorityEntry <> IF(((SELECT MAX(b.isPV) FROM personbenefits pb LEFT JOIN benefit b ON pb.BenefitID = b.idBenefit 
+          WHERE pb.idPersonBenefits IN 
+          (SELECT personspecialitybenefits.PersonBenefitID FROM personspecialitybenefits 
+            WHERE t.idPersonSpeciality=personspecialitybenefits.PersonSpecialityID)
+          AND b.isPV IS NOT NULL)) IS NULL, 0, 
+          ((SELECT MAX(b.isPV) FROM personbenefits pb LEFT JOIN benefit b ON pb.BenefitID = b.idBenefit 
+            WHERE pb.idPersonBenefits IN 
+            (SELECT personspecialitybenefits.PersonBenefitID FROM personspecialitybenefits 
+              WHERE t.idPersonSpeciality=personspecialitybenefits.PersonSpecialityID) AND b.isPV IS NOT NULL))),FALSE))
 
-        OR (edbo.Quota=0 AND t.QuotaID > 0)
-        OR (edbo.Quota=1 AND (t.QuotaID IS NULL OR t.QuotaID = 0)))'
+        OR (edbo.Quota=0 AND t.Quota1=1)
+        OR (edbo.Quota=1 AND (t.Quota1 IS NULL OR t.Quota1 = 0)))'
       );
       break;
       case 7: 
@@ -697,7 +763,7 @@ class Personspeciality extends ActiveRecord {
     $rating_order = 'isOutOfComp DESC,'//спочатку обираються ті, що поза конкурсом
             . 'IF (t.Quota1 IS NULL, 0, t.Quota1) DESC,'//потім - цільовики
             . 'ComputedPoints DESC,'//усі дані впорядковуються за рейтинговими балами
-            . 'IF(SUM(benefit.isPV)>0,1,0) DESC, ProfileSubjectValue DESC';//якщо є відмітка першочергового вступу - що ж... нехай щастить!
+            . 'IF(SUM(benefit.isPV)>0,1,0) DESC';//якщо є відмітка першочергового вступу - що ж... нехай щастить!
     if ($rating_order_mode > 0){
       //якщо сортувати треба для формування рейтингу
       $criteria->order = $rating_order;
@@ -710,7 +776,7 @@ class Personspeciality extends ActiveRecord {
       return Personspeciality::model()->findAll($criteria);
     }
     //стандартно повертається джерело даних
-    $dataProvider = new CActiveDataProvider($this, array(
+    return new CActiveDataProvider($this, array(
         'criteria' => $criteria,
         'sort' => array(
             'defaultOrder' => array(
@@ -740,8 +806,54 @@ class Personspeciality extends ActiveRecord {
             'pageSize' => $page_size
         ),
     ));
-    //$dataProvider->setTotalItemCount(count($this->findAll($criteria)));
-    return $dataProvider;
+  }
+
+  /**
+   * Максимально повний пошук із врахування зовнішніх реляційних відношень.
+   * Можливі гальма.
+   * @param bool $return_array_of_models default false
+   * @return \CActiveDataProvider
+   * @todo Please do it! JUST DO IT!!!!!!
+   */
+  public function search_all_rel($return_array_of_models = false){
+    
+  }
+  
+  
+  /**
+   * Я не знаю, для чого це. Валєра знає.
+   * @param type $lol WTF
+   * @author Veleriy Efimov <valera_e@ukr.net>
+   */
+  public function loadOnlineStatementFromJSON($lol) {
+    //$json_string = preg_replace("/[+-]?\d+\.\d+/", '"\0"', $json_string ); 
+
+    /* $objarr = CJSON::decode($json_string);
+
+      if (!empty($this->codeU)){
+      Yii::app()->session[$this->codeU."-documents"] = serialize($objarr);
+      }
+
+      if ( trim($json_string) == "0" && empty($json_string) && count($objarr) == 0) return;
+
+      foreach($objarr as $item){
+      $val = (object)$item; */
+    $model = $this;
+//1	Код ЄДБО
+
+    $model->edboID = $lol;
+    /* if ($val->id_Type == 7)   {
+      $model->entrantdoc = new Documents();
+      $model->entrantdoc->TypeID = $val->id_Type;
+      $model->entrantdoc->edboID = $val->id_Document;
+      $model->entrantdoc->AtestatValue=$val->attestatValue;
+      $model->entrantdoc->Numbers=$val->number;
+      $model->entrantdoc->Series=$val->series;
+      $model->entrantdoc->DateGet=date("d.m.Y",mktime(0, 0, 0, $val->dateGet['month']+1,  $val->dateGet['dayOfMonth'],  $val->dateGet['year']));
+      $model->entrantdoc->ZNOPin = $val->znoPin;
+      $model->entrantdoc->Issued = $val->issued;
+      }
+      } */
   }
 
 }

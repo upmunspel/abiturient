@@ -3,18 +3,67 @@
 /**
  * This is the model class for table "personspeciality".
  *
+ * The followings are the available columns in table 'personspeciality':
+ * @property integer $idPersonSpeciality
+ * @property integer $RequestNumber
+ * @property integer $PersonID
+ * @property integer $SepcialityID
+ * @property integer $PaymentTypeID
+ * @property integer $EducationFormID
+ * @property integer $QualificationID
+ * @property integer $EntranceTypeID
+ * @property integer $CourseID
+ * @property integer $CausalityID
+ * @property integer $CoursedpID
+ * @property integer $OlympiadID
+ * @property integer $GraduatedUniversitieID
+ * @property integer $GraduatedSpecialitieID
+ * @property string  $GraduatedSpeciality
+ * @property integer $PersonDocumentsAwardsTypesID
+ * @property integer $isTarget
+ * @property integer $isContract
+ * @property integer $isBudget
+ * @property integer $isNeedHostel
+ * @property integer $isNotCheckAttestat
+ * @property integer $isForeinghEntrantDocument
+ * @property double  $AdditionalBall
+ * @property double  $CoursedpBall
+ * @property integer $isCopyEntrantDoc
+ * @property integer $DocumentSubject1
+ * @property integer $DocumentSubject2
+ * @property integer $DocumentSubject3
+ * @property integer $Exam1ID
+ * @property integer $Exam1Ball
+ * @property integer $Exam2ID
+ * @property integer $Exam2Ball
+ * @property integer $Exam3ID
+ * @property integer $Exam3Ball
+ *
+ * The followings are the available model relations:
+ * @property Person $person
+ * @property Documentsubject $documentSubject1
+ * @property Documentsubject $documentSubject2
+ * @property Documentsubject $documentSubject3
+ * @property Subjects $exam1
+ * @property Subjects $exam2
+ * @property Subjects $exam3
+ * @property Olympiadsawards $olymp
+ * @property Specialities $sepciality
+ * @property Personeducationpaymenttypes $paymentType
+ * @property Personeducationforms $educationForm
+ * @property Qualifications $qualification
+ * @property Personenterancetypes $entranceType
+ * @property Courses $course
+ * @property Causality $causality
+ * @property integer $StatusID
+ * @property Personrequeststatustypes $status
+ * @property integer $RequestFromEB
+ * @property integer $Quota1
+ * @property integer $Quota2
+ * 
  * Параметри, що опосередковано відносяться до БД
  * @property string $NAME - ПІБ з видаленими незначущими пробілами
  * @property string $SPEC - Спеціальність (разом із спеціалізацією і формою навчання)
- * @property string $KOATUU - адреса персони КОАТУУ разом з типом
- * @property string $ZNO - дані сертифікатів ЗНО
- * @property string $EXAM - дані екзамени
- * @property string $DOCS - дані усих документів персони
- * @property string $BENEFITS - дані усих пільг персони
- * @property string $BENTYPES - усі типи пільг персони
- * @property string $DOCTYPES - усі типи документів персони
- * @property string $DIRECTION - напрям
- * @property string $PersonCase - номер справи
 
  */
 class Personspeciality extends ActiveRecord {
