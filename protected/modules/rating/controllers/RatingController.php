@@ -527,7 +527,7 @@ class RatingController extends Controller {
             if ($level == 3 && $point < 1000.0){
               break;
             }
-            if ($level > 3 && $q_id > 0 && $q_id != ($level/10)){
+            if ($level == 3 && $q_id > 0){
               $minus = 10000.0 * $q_id;
               $data[$idx] = ($point - $minus >= 0) ? ($point - $minus) : $point ;
               continue;
