@@ -61,6 +61,7 @@ class EdboData extends CActiveRecord
    */
   
   public $csv_file;
+  public $statuses;
   
   public static function model($className=__CLASS__){
     return parent::model($className);
@@ -239,5 +240,23 @@ class EdboData extends CActiveRecord
             'pageSize' => 50000
         ),
     ));
+  }
+  
+  /**
+   *  The HOPE!
+   */
+  public function search_rating(){
+    $criteria=new CDbCriteria;
+    $criteria->compare('Direction',$this->Direction,true);
+    $criteria->compare('SpecCode',$this->SpecCode,true);
+    $criteria->compare('EduForm',$this->EduForm,true);
+    $criteria->compare('Specialization',$this->Specialization,true);
+    $criteria->addCondition('Status IN ('.$this->statuses.')');
+    //параметр сортування даних для формування рейтингу
+    $rating_order = 'Benefit DESC,'//спочатку обираються ті, що поза конкурсом
+            . 'Quota DESC,'//потім - цільовики
+            . 'RatingPoints DESC,'//усі дані впорядковуються за рейтинговими балами
+            . 'PriorityEntry DESC';//якщо є відмітка першочергового вступу - що ж... нехай щастить!
+    return EdboData::model()->findAll($criteria);
   }
 }

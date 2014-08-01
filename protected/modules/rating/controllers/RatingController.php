@@ -32,7 +32,7 @@ class RatingController extends Controller {
     return array(
         array('allow', // allow all users to perform 'index' and 'view' actions
             'actions' => array("rating", "excelrating", 
-            'ratinglinks', 'ratinginfo', 'ratinginfolinks'),
+            'ratinglinks', 'ratinginfo', 'ratinginfolinks', 'edborating', 'edboratinglinks'),
             'users' => array('*'),
         ),
         array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -245,6 +245,35 @@ class RatingController extends Controller {
   }
   
   /**
+   * Формування рейтингів конкретної спеціальності на основі даних ЄДЕБО
+   */
+  public function actionEdborating(){
+    $reqDirection = Yii::app()->request->getParam('Direction',null);
+    $reqSpecCode = Yii::app()->request->getParam('SpecCode',null);
+    $reqEduForm = Yii::app()->request->getParam('EduForm',null);
+    $reqSpecialization = Yii::app()->request->getParam('Specialization','none');
+    $reqStatuses = Yii::app()->request->getParam('statuses',"\"Допущено\"");
+    $model = new EdboData();
+    if (!$reqDirection || !$reqSpecCode || !$reqEduForm || $reqSpecialization == 'none'){
+      echo 'We need params: Direction,SpecCode,EduForm,Specialization'; exit();
+    }
+    $model->Direction = $reqDirection;
+    $model->SpecCode = $reqSpecCode;
+    $model->EduForm  = $reqEduForm;
+    $model->Specialization  = $reqSpecialization;
+    $model->statuses  = $reqStatuses;
+    $models = $model->search_rating();
+    if (count($models)){
+        $_data = $this->CreateRatingEdbo($models);
+        //var_dump($_data);exit();
+        $_data['toexcel'] = 1;
+        $_data['contacts'] = 0;
+        $this->layout = '//layouts/clear';
+        $this->renderPartial('/personspeciality/excelrating',$_data);
+    }
+  }  
+  
+  /**
    * Формування рейтингів конкретної спеціальності у стилі ВступІнфо
    */
   public function actionRatinginfo(){
@@ -347,11 +376,14 @@ class RatingController extends Controller {
             if ($level == 3 && $point < 1000.0){
               break;
             }
+            if ($level > 3 && $q_id > 0 && $q_id != ($level/10)){
+              continue;
+            }
             $local_counter = $j;
             if ($level == 2){
               $local_counter += $cnt_minus_budget;
             }
-            if (($local_counter >= $lic[0]) || ($level > 3 && $q_id != ($level/10))){
+            if (($local_counter >= $lic[0]) || ($level == 3 && $q_id > 0)){
               if (!$minus){
                 $minus = $q_id * 10000.0;
               }
@@ -407,6 +439,124 @@ class RatingController extends Controller {
           $info_row['isOriginal'] = (!$models[$model_index]->isCopyEntrantDoc)? 'V': '—';
           $info_row['AnyOriginal'] = ($models[$model_index]->AnyOriginal && $models[$model_index]->isCopyEntrantDoc)? 'V': '—';
           $info_row['idPersonSpeciality'] = $models[$model_index]->idPersonSpeciality;
+          $rating_list[0][$j++] = $info_row;
+        }
+        unset($data);
+        $data = array();
+        foreach ($rating_list as $key => $ls){
+          $data[$license_info[$key][0]] = $ls;
+        }
+        unset($rating_list);
+        //var_dump($license_info);exit();
+        return array('data'=>$data,
+            'Speciality'=>$Speciality,
+            'Faculty'=>$Faculty,
+            'license_info' => $license_info,
+        );
+  }
+  
+  /**
+   * Метод формує рейтингові дані для конкретної спеціальності на основі даних ЄДЕБО.
+   * @param Personspeciality[] $models масив моделей, що повертає метод search_rel
+   * @return array
+   */
+  protected function CreateRatingEdbo($models){
+        $Speciality = $models[0]->SpecCode . ' ' .$models[0]->Direction . 
+          (($models[0]->Specialization)? ' (' . $models[0]->Specialization . ')' : '') . ', форма: ' . $models[0]->EduForm;
+        $Faculty = $models[0]->StructBranch;
+        $license = array();
+        $spec_model = Specialities::model()->find('SpecialityDirectionName LIKE "'.$models[0]->Direction.'" AND SpecialityClasifierCode LIKE "'.$models[0]->SpecCode.'"');
+        if (!$spec_model){
+          echo "No speciality for criteria SpecialityDirectionName LIKE \"".$models[0]->Direction."\"
+           AND SpecialityClasifierCode LIKE \"".$models[0]->SpecCode."\"";
+           exit();
+        }
+        $budget = intval($spec_model->SpecialityBudgetCount);
+        $license_info = array();
+        $license[4][0] = 0;
+        foreach ($spec_model->specquotes as $specquota){
+          $license[4][0] += intval($specquota->BudgetPlaces);
+          $license[4][1] = 0;
+        }
+        $license[3] = array(intval($spec_model->Quota1),1);
+        $license[2] = array($budget,1);
+        $license[1] = array(intval($spec_model->SpecialityContractCount),1);
+        $license_info[0] = array('=====================',-1);
+        $license_info[1] = array('За кошти фізичних або юридичних осіб',$license[1][0]);
+        $license_info[2] = array('За кошти державного бюджету',intval($spec_model->SpecialityBudgetCount));
+        $license_info[3] = array('Поза конкурсом',$license[3][0]);
+        $license_info[4] = array('Квота',$license[4][0]);
+        $data = array();
+        for ($i = 0; $i < count($models); $i++){
+          $data[$i] = $models[$i]->RatingPoints 
+            + 0.001*(($models[$i]->PriorityEntry)? 1:0) 
+            + 1000*(($models[$i]->Benefit)? 1:0) 
+            + ((empty($spec_model->specquotes))? 0:
+              10000.0*((isset($models[$i]->Quota))? intval($models[$i]->Quota):0));
+        }
+        $rating_list = array();
+        $cnt_minus_budget = 0;
+        foreach ($license as $level => $lic){
+          arsort($data);
+          $rating_list[$level] = array();
+          $minus = 0;
+          if ($level == 3){
+            $minus = 1000;
+          }
+          if ($level > 3){
+            $minus = 10000.0;
+          }
+          $j = 0;
+          foreach ($data as $idx => $point){
+            $q_id = intval($models[$idx]->Quota);
+            if ($level > 3 && $q_id == 0){
+              break;
+            }
+            if ($level == 3 && $point < 1000.0){
+              break;
+            }
+            if ($level > 3 && $point < 10000.0){
+              break;
+            }
+            $local_counter = $j;
+            if ($level == 2){
+              $local_counter += $cnt_minus_budget;
+            }
+            if ($local_counter >= $lic[0]){
+              $data[$idx] = ($point - $minus >= 0) ? ($point - $minus) : $point ;
+              $j++;
+              continue;
+            }
+            $rating_list[$level][$j++] = $idx;
+            unset($data[$idx]);
+            if ($level > 2){
+              $cnt_minus_budget++;
+            }
+          }
+        }
+        foreach ($rating_list as $k => $list){
+          foreach ($list as $place => $model_index){
+            $info_row['PIB'] = $models[$model_index]->PIB;
+            $info_row['Points'] = $models[$model_index]->RatingPoints;
+            $info_row['DocPoints'] = $models[$model_index]->DocPoint;
+            $info_row['isPZK'] = ($models[$model_index]->Benefit)? 'V': '—';
+            $info_row['isExtra'] = ($models[$model_index]->PriorityEntry)? 'V': '—';
+            $info_row['isQuota'] = (intval($models[$model_index]->Quota)>0)? 'V': '—';
+            $info_row['isOriginal'] = (!$models[$model_index]->OD)? 'V': '—';
+            $info_row['idPersonSpeciality'] = $models[$model_index]->ID;
+            $rating_list[$k][$place] = $info_row;
+          }
+        }
+        $j = 0;
+        foreach ($data as $model_index => $point){
+            $info_row['PIB'] = $models[$model_index]->PIB;
+            $info_row['Points'] = $models[$model_index]->RatingPoints;
+            $info_row['DocPoints'] = $models[$model_index]->DocPoint;
+            $info_row['isPZK'] = ($models[$model_index]->Benefit)? 'V': '—';
+            $info_row['isExtra'] = ($models[$model_index]->PriorityEntry)? 'V': '—';
+            $info_row['isQuota'] = (intval($models[$model_index]->Quota)>0)? 'V': '—';
+            $info_row['isOriginal'] = (!$models[$model_index]->OD)? 'V': '—';
+            $info_row['idPersonSpeciality'] = $models[$model_index]->ID;
           $rating_list[0][$j++] = $info_row;
         }
         unset($data);
@@ -731,5 +881,25 @@ class RatingController extends Controller {
       Yii::app()->end();
     }
   }
-
+  
+  /**
+   * Список рейтингів конкретної спеціальності на основі даних ЄДЕБО
+   */
+  public function actionEdboratinglinks(){
+    $criteria = new CDbCriteria();
+    
+    $criteria->order = 'StructBranch ASC, Speciality ASC,Direction ASC,SpecCode ASC';
+    $criteria->group = 'CONCAT(SpecCode," ",Direction," ",Specialization," ",EduForm)';
+    echo "<html><meta charset='utf8'><head></head><body><ul>";
+    foreach (EdboData::model()->findAll($criteria) as $spec){
+      $href1 = 'http://'.$_SERVER['SERVER_ADDR'].':'.$_SERVER['SERVER_PORT'].'/abiturient/rating/rating/edborating?&Direction='.urlencode($spec->Direction).'&SpecCode='.urlencode($spec->SpecCode).'&EduForm='.$spec->EduForm.'&statuses='.urlencode('"Допущено","Рекомендовано"').'&Specialization='.urlencode((($spec->Specialization)? ' (' . $spec->Specialization . ')' : ''));       
+      $href2 = 'http://'.$_SERVER['SERVER_ADDR'].':'.$_SERVER['SERVER_PORT'].'/abiturient/rating/rating/edborating?&Direction='.urlencode($spec->Direction).'&SpecCode='.urlencode($spec->SpecCode).'&EduForm='.$spec->EduForm.'&statuses='.urlencode('"Рекомендовано"').'&Specialization='.urlencode((($spec->Specialization)? ' (' . $spec->Specialization . ')' : '')); 
+      
+      echo "<li><a href='".$href1."' target='_blank'>".$spec->StructBranch . ': '. $spec->SpecCode . ' ' .$spec->Direction . 
+      (($spec->Specialization)? ' (' . $spec->Specialization . ')' : '') . ', форма: ' . $spec->EduForm." --- допущено і рекомендовано</a></li>"; 
+      echo "<li><a href='".$href2."' target='_blank'>".$spec->StructBranch . ': '. $spec->SpecCode . ' ' .$spec->Direction . 
+      (($spec->Specialization)? ' (' . $spec->Specialization . ')' : '') . ', форма: ' . $spec->EduForm." --- рекомендовано</a></li>";
+    }
+    echo "</ul></body></html>";
+  }
 }

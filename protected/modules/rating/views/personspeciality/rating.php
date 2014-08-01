@@ -1129,6 +1129,9 @@ echo CHtml::link('Рейтинг у стилі ВступІнфо',Yii::app()->C
 echo CHtml::link('Усі посилання',Yii::app()->CreateUrl('/rating/rating/ratinglinks'),array(
    'target' => '_blank'
 )); echo '<hr/>';
+echo CHtml::link('Рейтинги ЄДЕБО (перед формуванням - завантажити CSV-файл)',Yii::app()->CreateUrl('/rating/rating/edboratinglinks'),array(
+   'target' => '_blank'
+)); echo '<hr/>';
 echo CHtml::link('Є в ЄДЕБО, немає в БД "Абітурієнт"',Yii::app()->CreateUrl('/rating/edbodata/admin'),array(
    'target' => '_blank'
 ));

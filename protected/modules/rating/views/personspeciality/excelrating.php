@@ -88,6 +88,7 @@ if ($toexcel) {
     font-family: 'Tahoma';
     vertical-align: middle;
     border:solid 1px black;
+    text-align: center;
   }
   
   .person , .points {
