@@ -251,6 +251,7 @@ class EdboData extends CActiveRecord
     $criteria->compare('SpecCode',$this->SpecCode,true);
     $criteria->compare('EduForm',$this->EduForm,true);
     $criteria->compare('Specialization',$this->Specialization,true);
+    $criteria->compare('EduQualification',$this->EduQualification,true);
     $criteria->addCondition('Status IN ('.$this->statuses.')');
     //параметр сортування даних для формування рейтингу
     $rating_order = 'Benefit DESC,'//спочатку обираються ті, що поза конкурсом

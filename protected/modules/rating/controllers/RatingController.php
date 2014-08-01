@@ -251,22 +251,25 @@ class RatingController extends Controller {
     $reqDirection = Yii::app()->request->getParam('Direction',null);
     $reqSpecCode = Yii::app()->request->getParam('SpecCode',null);
     $reqEduForm = Yii::app()->request->getParam('EduForm',null);
+    $reqEduQualification = Yii::app()->request->getParam('EduQualification',null);
     $reqSpecialization = Yii::app()->request->getParam('Specialization','none');
     $reqStatuses = Yii::app()->request->getParam('statuses',"\"Допущено\"");
     $model = new EdboData();
-    if (!$reqDirection || !$reqSpecCode || !$reqEduForm || $reqSpecialization == 'none'){
-      echo 'We need params: Direction,SpecCode,EduForm,Specialization'; exit();
+    if (!$reqDirection || !$reqSpecCode || !$reqEduForm 
+      || $reqSpecialization == 'none' || !$reqEduQualification){
+      echo 'We need params: Direction,SpecCode,EduForm,Specialization,EduQualification'; exit();
     }
     $model->Direction = $reqDirection;
     $model->SpecCode = $reqSpecCode;
     $model->EduForm  = $reqEduForm;
     $model->Specialization  = $reqSpecialization;
     $model->statuses  = $reqStatuses;
+    $model->EduQualification  = $reqEduQualification;
     $models = $model->search_rating();
     if (count($models)){
         $_data = $this->CreateRatingEdbo($models);
         //var_dump($_data);exit();
-        $_data['toexcel'] = 1;
+        $_data['toexcel'] = 0;
         $_data['contacts'] = 0;
         $this->layout = '//layouts/clear';
         $this->renderPartial('/personspeciality/excelrating',$_data);
@@ -518,17 +521,25 @@ class RatingController extends Controller {
             if ($level > 3 && $q_id == 0){
               break;
             }
+            if ($j >= $lic[0] && $level > 3){
+              break;
+            }
             if ($level == 3 && $point < 1000.0){
               break;
             }
-            if ($level > 3 && $point < 10000.0){
-              break;
+            if ($level > 3 && $q_id > 0 && $q_id != ($level/10)){
+              $minus = 10000.0 * $q_id;
+              $data[$idx] = ($point - $minus >= 0) ? ($point - $minus) : $point ;
+              continue;
             }
             $local_counter = $j;
             if ($level == 2){
               $local_counter += $cnt_minus_budget;
             }
-            if ($local_counter >= $lic[0]){
+            if (($local_counter >= $lic[0])){
+              if (!$minus){
+                $minus = $q_id * 10000.0;
+              }
               $data[$idx] = ($point - $minus >= 0) ? ($point - $minus) : $point ;
               $j++;
               continue;
@@ -894,16 +905,22 @@ class RatingController extends Controller {
   public function actionEdboratinglinks(){
     $criteria = new CDbCriteria();
     
-    $criteria->order = 'StructBranch ASC, Speciality ASC,Direction ASC,SpecCode ASC';
-    $criteria->group = 'CONCAT(SpecCode," ",Direction," ",Specialization," ",EduForm)';
+    $criteria->order = 'EduQualification ASC, StructBranch ASC, Speciality ASC,Direction ASC,SpecCode ASC';
+    $criteria->group = 'CONCAT(EduQualification," ",SpecCode," ",Direction," ",Specialization," ",EduForm)';
     echo "<html><meta charset='utf8'><head></head><body><ul>";
     foreach (EdboData::model()->findAll($criteria) as $spec){
-      $href1 = 'http://'.$_SERVER['SERVER_ADDR'].':'.$_SERVER['SERVER_PORT'].'/abiturient/rating/rating/edborating?&Direction='.urlencode($spec->Direction).'&SpecCode='.urlencode($spec->SpecCode).'&EduForm='.$spec->EduForm.'&statuses='.urlencode('"Допущено","Рекомендовано"').'&Specialization='.urlencode((($spec->Specialization)? ' (' . $spec->Specialization . ')' : ''));       
-      $href2 = 'http://'.$_SERVER['SERVER_ADDR'].':'.$_SERVER['SERVER_PORT'].'/abiturient/rating/rating/edborating?&Direction='.urlencode($spec->Direction).'&SpecCode='.urlencode($spec->SpecCode).'&EduForm='.$spec->EduForm.'&statuses='.urlencode('"Рекомендовано"').'&Specialization='.urlencode((($spec->Specialization)? ' (' . $spec->Specialization . ')' : '')); 
+      $href1 = 'http://'.$_SERVER['SERVER_ADDR'].':'.$_SERVER['SERVER_PORT'].'/abiturient/rating/rating/edborating?&Direction='
+        .urlencode($spec->Direction).'&SpecCode='.urlencode($spec->SpecCode).'&EduForm='.$spec->EduForm.'&statuses='
+        .urlencode('"Допущено","Рекомендовано"').'&EduQualification='
+        .urlencode('Бакалавр').'&Specialization='.urlencode((($spec->Specialization)? ' (' . $spec->Specialization . ')' : ''));       
+      $href2 = 'http://'.$_SERVER['SERVER_ADDR'].':'.$_SERVER['SERVER_PORT'].'/abiturient/rating/rating/edborating?&Direction='
+        .urlencode($spec->Direction).'&SpecCode='.urlencode($spec->SpecCode).'&EduForm='.$spec->EduForm.'&statuses='
+        .urlencode('"Рекомендовано"').'&EduQualification='
+        .urlencode('Бакалавр').'&Specialization='.urlencode((($spec->Specialization)? ' (' . $spec->Specialization . ')' : ''));   
       
-      echo "<li><a href='".$href1."' target='_blank'>".$spec->StructBranch . ': '. $spec->SpecCode . ' ' .$spec->Direction . 
+      echo "<li><a href='".$href1."' target='_blank'>". $spec->EduQualification . ": " . $spec->StructBranch . ': '. $spec->SpecCode . ' ' .$spec->Direction . 
       (($spec->Specialization)? ' (' . $spec->Specialization . ')' : '') . ', форма: ' . $spec->EduForm." --- допущено і рекомендовано</a></li>"; 
-      echo "<li><a href='".$href2."' target='_blank'>".$spec->StructBranch . ': '. $spec->SpecCode . ' ' .$spec->Direction . 
+      echo "<li><a href='".$href2."' target='_blank'>". $spec->EduQualification . ": " .$spec->StructBranch . ': '. $spec->SpecCode . ' ' .$spec->Direction . 
       (($spec->Specialization)? ' (' . $spec->Specialization . ')' : '') . ', форма: ' . $spec->EduForm." --- рекомендовано</a></li>";
     }
     echo "</ul></body></html>";
