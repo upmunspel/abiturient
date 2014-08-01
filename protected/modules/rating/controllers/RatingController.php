@@ -559,7 +559,7 @@ class RatingController extends Controller {
             $info_row['isPZK'] = ($models[$model_index]->Benefit)? 'V': '—';
             $info_row['isExtra'] = ($models[$model_index]->PriorityEntry)? 'V': '—';
             $info_row['isQuota'] = (intval($models[$model_index]->Quota)>0)? 'V': '—';
-            $info_row['isOriginal'] = (!$models[$model_index]->OD)? 'V': '—';
+            $info_row['isOriginal'] = ($models[$model_index]->OD)? 'V': '—';
             $info_row['idPersonSpeciality'] = $models[$model_index]->ID;
             $rating_list[$k][$place] = $info_row;
           }
@@ -572,7 +572,7 @@ class RatingController extends Controller {
             $info_row['isPZK'] = ($models[$model_index]->Benefit)? 'V': '—';
             $info_row['isExtra'] = ($models[$model_index]->PriorityEntry)? 'V': '—';
             $info_row['isQuota'] = (intval($models[$model_index]->Quota)>0)? 'V': '—';
-            $info_row['isOriginal'] = (!$models[$model_index]->OD)? 'V': '—';
+            $info_row['isOriginal'] = ($models[$model_index]->OD)? 'V': '—';
             $info_row['idPersonSpeciality'] = $models[$model_index]->ID;
           $rating_list[0][$j++] = $info_row;
         }
