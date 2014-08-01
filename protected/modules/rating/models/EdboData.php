@@ -8,6 +8,7 @@
  * @property string $PIB
  * @property integer $EZ
  * @property string $Status
+ * @property string $Comment
  * @property string $Created
  * @property string $PersonCase
  * @property integer $Course
@@ -82,7 +83,7 @@ class EdboData extends CActiveRecord
       array('ID', 'required'),
       array('ID, EZ, Course, B, K, Benefit, PriorityEntry, Quota, OI, OD, NeedHostel', 'numerical', 'integerOnly'=>true),
       array('RatingPoints, DocPoint', 'numerical'),
-      array('PIB', 'length', 'max'=>255),
+      array('PIB, Comment', 'length', 'max'=>255),
       array('Status, Created, EduQualification, SpecCode, SpecialCode, Changed, DocNumber, Honours, Category, Gender, Citizen, TH, Tel, MobTel', 'length', 'max'=>64),
       array('PersonCase, EduForm, DocSeria', 'length', 'max'=>16),
       array('Direction, Speciality, Specialization, StructBranch, DetailPoints, DocType, EntranceType, EntranceReason, Language', 'length', 'max'=>128),
@@ -92,7 +93,7 @@ class EdboData extends CActiveRecord
           'tooLarge' => 'Перевищена межа у 200MB !', 'on' => 'upload'),
       // The following rule is used by search().
       // Please remove those attributes that should not be searched.
-      array('ID, PIB, EZ, Status, Created, PersonCase, Course, EduForm, EduQualification, B, K, RatingPoints, SpecCode, Direction, SpecialCode, Speciality, Specialization, StructBranch, Changed, DetailPoints, DocType, DocSeria, DocNumber, DocPoint, DocDate, Honours, EntranceType, EntranceReason, Benefit, PriorityEntry, Quota, Language, OI, Category, Gender, Citizen, Country, TH, Tel, MobTel, OD, NeedHostel, EntranceCodes, Priority', 'safe', 'on'=>'search'),
+      array('ID, PIB, EZ, Status, Created, PersonCase, Course, EduForm, EduQualification, B, K, RatingPoints, SpecCode, Direction, SpecialCode, Speciality, Specialization, StructBranch, Changed, DetailPoints, DocType, DocSeria, DocNumber, DocPoint, DocDate, Honours, EntranceType, EntranceReason, Benefit, PriorityEntry, Quota, Language, OI, Category, Gender, Citizen, Country, TH, Tel, MobTel, OD, NeedHostel, EntranceCodes, Priority, Comment', 'safe', 'on'=>'search'),
     );
   }
 
@@ -150,6 +151,7 @@ class EdboData extends CActiveRecord
     $criteria->compare('t.ID',$this->ID);
     $criteria->compare('t.PIB',$this->PIB,true);
     $criteria->compare('t.Status',$this->Status,true);
+    $criteria->compare('t.Comment',$this->Comment,true);
     $criteria->compare('t.Created',$this->Created,true);
     $criteria->compare('t.Course',$this->Course);
     $criteria->compare('t.EduForm',$this->EduForm);
@@ -189,6 +191,7 @@ class EdboData extends CActiveRecord
     $criteria->compare('PIB',$this->PIB,true);
     $criteria->compare('EZ',$this->EZ);
     $criteria->compare('Status',$this->Status,true);
+    $criteria->compare('Comment',$this->Comment,true);
     $criteria->compare('Created',$this->Created,true);
     $criteria->compare('PersonCase',$this->PersonCase,true);
     $criteria->compare('Course',$this->Course);

@@ -967,7 +967,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                 </span>
                 <div class="clear"></div> <?php           
               } else if ((isset($data->edbo->PriorityEntry)? 
-                  ($data->edbo->PriorityEntry == '1' && empty($data->edbo->Honours)) : false)){ ?>
+                  ($data->edbo->PriorityEntry == '1') : false)){ ?>
                 <div style="color:red;" title='У Абітурієнті відсутня'>
                   В ЄДЕБО є відмітка першочергового вступу
                 </div> <?php

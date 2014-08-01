@@ -500,10 +500,8 @@ class Personspeciality extends ActiveRecord {
       //  щоб відмітка копії/оригінала не співпадала
       //  щоб напрям або спеціальність або форма не співпадали
       //  щоб статус заяви не співпадав
-      /*
-      Вставити в умову, якщо потрібно вибрати неточності по серії
-      OR (IF(ISNULL(edbo.DocSeria),FALSE,transliterate(edbo.DocSeria) NOT LIKE transliterate(entrantdoc.Series))) 
-      */
+      //  щоб серія документа вступу не співпадала
+
       $criteria->addCondition('(
         (ROUND((
                 ROUND(
@@ -534,8 +532,8 @@ class Personspeciality extends ActiveRecord {
         OR (edbo.Benefit <> 
           if(isnull(benefit.isPZK),0,benefit.isPZK))
             
-        OR (IF((edbo.Honours IS NULL),edbo.PriorityEntry <> 
-          if(isnull(benefit.isPV),0,benefit.isPV),FALSE))
+        OR (edbo.PriorityEntry <> 
+          if(isnull(benefit.isPV),0,benefit.isPV))
 
         OR (edbo.Quota=0 AND t.QuotaID > 0)
         OR (edbo.Quota=1 AND (t.QuotaID IS NULL OR t.QuotaID = 0))
@@ -581,8 +579,8 @@ class Personspeciality extends ActiveRecord {
         (edbo.Benefit <> 
           if(isnull(benefit.isPZK),0,benefit.isPZK))
             
-        OR (IF((edbo.Honours IS NULL),edbo.PriorityEntry <> 
-          if(isnull(benefit.isPV),0,benefit.isPV),FALSE))
+        OR (edbo.PriorityEntry <> 
+          if(isnull(benefit.isPV),0,benefit.isPV))
 
         OR (edbo.Quota=0 AND t.QuotaID > 0)
         OR (edbo.Quota=1 AND (t.QuotaID IS NULL OR t.QuotaID = 0)))'
