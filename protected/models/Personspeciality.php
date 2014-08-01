@@ -259,7 +259,7 @@ class Personspeciality extends ActiveRecord {
         if ($this->isCopyEntrantDoc == 1) {
             return true;
         }
-        $count = Personspeciality::model()->count("PersonID = {$this->PersonID} and isCopyEntrantDoc = 0");
+        $count = Personspeciality::model()->count("PersonID = {$this->PersonID} and isCopyEntrantDoc = 0 and EntrantDocumentID = {$this->EntrantDocumentID} ");
         if ($this->isNewRecord) {
             if ($count > 0) {
                 $this->addError($attributes, "В іншій заявці вже вказано оригінал документу!");
