@@ -338,7 +338,8 @@ class RatingController extends Controller {
         $license = array();
         $budget = intval($models[0]->sepciality->SpecialityBudgetCount);
         $license_info = array();
-        foreach ($models[0]->sepciality->specquotes as $specquota){
+        $Specquotes = Specialityquotes::model()->findAll('SpecialityID='.$models[0]->SepcialityID.' ORDER BY QuotaID DESC');
+        foreach ($Specquotes as $specquota){
           $license[10*$specquota->QuotaID] = array(intval($specquota->BudgetPlaces),0);
           $license_info[10*$specquota->QuotaID] = array($specquota->quota->QuotaName,$license[10*$specquota->QuotaID][0]);
         }
@@ -373,17 +374,22 @@ class RatingController extends Controller {
             if ($level > 3 && $q_id == 0){
               break;
             }
+            if ($j >= $lic[0] && $level > 3){
+              break;
+            }
             if ($level == 3 && $point < 1000.0){
               break;
             }
             if ($level > 3 && $q_id > 0 && $q_id != ($level/10)){
+              $minus = 10000.0 * $q_id;
+              $data[$idx] = ($point - $minus >= 0) ? ($point - $minus) : $point ;
               continue;
             }
             $local_counter = $j;
             if ($level == 2){
               $local_counter += $cnt_minus_budget;
             }
-            if (($local_counter >= $lic[0]) || ($level == 3 && $q_id > 0)){
+            if (($local_counter >= $lic[0])){
               if (!$minus){
                 $minus = $q_id * 10000.0;
               }
