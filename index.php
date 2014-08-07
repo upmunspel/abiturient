@@ -13,6 +13,8 @@ defined('YII_DEBUG_PROFILING') or define('YII_DEBUG_PROFILING',$debug);
 //trace level
 defined('YII_TRACE_LEVEL') or define('YII_TRACE_LEVEL',2);
 
+ini_set('include_path', 'pear');
+require_once (dirname(__FILE__).'/pear/Spreadsheet/Excel/Reader.php');
 require_once($yii);
 Yii::createWebApplication($config)->run();
 

@@ -29,7 +29,7 @@ class EdbodataController extends Controller
     return array(
       array('allow', // allow users with admin privileges to perform all CRUD actions
         'actions' => array('view', 'create', 'update', 'admin', 'delete', 
-           'datauploader', 'upload', 'deletecsv'),
+           'datauploader', 'upload', 'deletecsv', 'excelreader'),
         'users' => array('@'),
       ),
       array('deny', // deny all users
@@ -191,7 +191,12 @@ class EdbodataController extends Controller
       $file = $new_filename;
       
       //завантаження даних із файлу в таблицю edbo_data
-      $ret_list = $this->LoadCsvToDB($file);
+      //для Excel-файлу є окремий метод.
+      if (mime_content_type($file) == "application/vnd.ms-office"){
+        $ret_list = $this->LoadExcelToDB($file);
+      } else{
+        $ret_list = $this->LoadCsvToDB($file);
+      }
       $message = '';
       if (!isset($ret_list[0]) || $ret_list[0]===false){
         $inserted = 'error';
@@ -456,5 +461,145 @@ class EdbodataController extends Controller
   }
   
   
-
+  /**
+   * Метод завантажує в БД дані із Excel-файлу (з використанням бібліотеки pear)
+   * @param string $file повний шлях до файлу
+   * @return array лічильники в результаті оновлення БД
+   */
+  protected function LoadExcelToDB($file){
+    /*потім дістаємо структуру таблиці edbo_data, 
+     * щоб знати кількість і атрибути полів*/
+    $SQL="SHOW FULL COLUMNS FROM edbo_data";
+    $connection = Yii::app()->db; 
+    $command = $connection->createCommand($SQL);
+    $rowCount = $command->execute(); // execute the non-query SQL
+    $row_header = $command->queryAll(); // execute a query SQL
+    /********************************************/
+    // initialize reader object
+    $excel = new Spreadsheet_Excel_Reader();
+    $excel->setOutputEncoding('UTF-8');
+    // read spreadsheet data
+    //$file = 'E:/RequestcGVAll1(1).xls';
+    $excel->read($file);    
+    $numCols = $excel->sheets[0]['numCols'];
+    $numRows = $excel->sheets[0]['numRows'];
+    
+    if ($rowCount != $numCols){
+      return array(false,'К-сть полів не співпадає : '
+        .$rowCount.' != '.$numCols);
+    }
+    $id = 0;
+    $inserted = 0;
+    $updated = 0;
+    /**********************************************************/
+    for ($j = 1; $j <= $numRows; $j++){
+      $edbo_attributes = array();
+      $id++;
+      for ($i = 1; $i <= $numCols; $i++){
+        $cell = isset($excel->sheets[0]['cells'][$j][$i]) ? 
+        ((empty($excel->sheets[0]['cells'][$j][$i]))? 
+          null : $excel->sheets[0]['cells'][$j][$i] )
+        : null;
+        $is_float = (strstr($row_header[$i-1]['Type'],'float')!==false);
+        $is_integer = (strstr($row_header[$i-1]['Type'],'int')!==false);
+        if ($is_float){
+          $data_item = round(floatval(str_replace(',','.',$cell)),2);
+        }
+        if ($is_integer){
+          $data_item = intval($cell);
+        }
+        if (!$is_float && !$is_integer){
+          /*врахування розміру поля таблиці БД*/
+          $match = array();
+          preg_match('/\(([0-9]+)\)/', $row_header[$i-1]['Type'], $match);
+          $data_size = isset($match[1]) ? $match[1]  :  1024; 
+          $data_item = (mb_strlen($cell,'utf8') > $data_size 
+                  && !$is_float && !$is_integer) ? 
+                    mb_substr($cell,0,$data_size,'utf8') 
+                    : $cell;
+        }
+        $edbo_attributes[$row_header[$i-1]['Field']] = $data_item;
+      }
+      if (!is_numeric($edbo_attributes['ID'])){
+        //якщо поле з числовим ідентифікатором не є числом, 
+        // то далі нічого робити не потрібно
+        $id--;
+        continue;
+      }
+      
+      //якщо рядок (кортеж) в таблиці БД існує, то його можна знайти по ID
+      $edbo_existing_model = EdboData::model()->findByPk($edbo_attributes['ID']);
+      $is_new = false;
+      $is_change = false;
+      if (!$edbo_existing_model){
+        //якщо ж не існує, то це новий запис у базу
+        $is_new = true;
+      }
+      //порівняння прибулих значень з існуюючими;
+      //якщо усі такі самі, то оновлювати не треба
+      for ($k = 0; ($k < $numCols && $edbo_existing_model); $k++){
+        $edbo_field_value = $edbo_existing_model->getAttribute($row_header[$k]['Field']);
+        $income_field_value = $edbo_attributes[$row_header[$k]['Field']];
+        $edbo_param = $edbo_field_value;
+        $income_param = $income_field_value;
+        $is_change = ($income_param != $edbo_param);
+        if ($is_change){ 
+          break;
+        }
+      }
+      
+      if (!$is_new & !$is_change){
+        continue;
+      }
+      /*оновлення або створення нового запису в БД з перевірками*/
+      $result_of_saving_new_model = false;
+      if ($is_new){
+        $edbo_model = new EdboData();
+        $inserted++;
+        $edbo_model->attributes = $edbo_attributes;
+        $result_of_saving_new_model = $edbo_model->save();
+      }
+      if ($is_new && !$result_of_saving_new_model && !empty($edbo_model->errors)){
+        $err_msgs = array();
+        foreach ($edbo_model->errors as $ferrors){
+          foreach ($ferrors as $err){
+            $err_msgs[] = $err;
+          }
+        }
+        $err_msg = implode(' & ',$err_msgs);
+        return array(false,'error (Row:'.$id.') '
+            .
+            $err_msg);
+      }
+      if ($is_new && $result_of_saving_new_model){
+        continue;
+      }
+      
+      $result_of_saving_existing_model = false;
+      if ($is_change){
+        $updated++;
+        $edbo_existing_model->attributes = $edbo_attributes;
+        
+        $result_of_saving_existing_model = $edbo_existing_model->save();
+        
+      }
+      if ($is_change && !$result_of_saving_existing_model && !empty($edbo_existing_model->errors)){
+        $err_msgs = array();
+        foreach ($edbo_existing_model->errors as $ferrors){
+          foreach ($ferrors as $err){
+            $err_msgs[] = $err;
+          }
+        }
+        $err_msg = implode(' & ',$err_msgs);
+        return array(false,'error (Row:'.$id.') '
+            .
+            $err_msg);
+      }
+      /**********************************************************/
+    }
+    $at_all = $id;
+    //повернення лічильників
+    return array($inserted,$updated,$at_all);
+  }
+  
 }

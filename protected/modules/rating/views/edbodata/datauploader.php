@@ -23,7 +23,7 @@
               'multiple' => true,
               'options' => array(
                 'maxFileSize' => 900000000,
-                'acceptFileTypes' => 'js:/(\.|\/)(csv)$/i',
+                'acceptFileTypes' => 'js:/(\.|\/)(csv|xls)$/i',
           )));
     ?>
   </div>

@@ -90,7 +90,7 @@ class EdboData extends CActiveRecord
       array('Direction, Speciality, Specialization, StructBranch, DetailPoints, DocType, EntranceType, EntranceReason, Language', 'length', 'max'=>128),
       array('DocDate, EntranceCodes, Priority', 'length', 'max'=>32),
       array('Country', 'length', 'max'=>192),
-      array('csv_file', 'file', 'types' => 'csv', 'maxSize' => 1024 * 1024 * 200, 
+      array('csv_file', 'file', 'types' => 'csv, xls', 'maxSize' => 1024 * 1024 * 200, 
           'tooLarge' => 'Перевищена межа у 200MB !', 'on' => 'upload'),
       // The following rule is used by search().
       // Please remove those attributes that should not be searched.
