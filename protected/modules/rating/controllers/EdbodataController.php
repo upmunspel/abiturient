@@ -192,7 +192,7 @@ class EdbodataController extends Controller
       
       //завантаження даних із файлу в таблицю edbo_data
       //для Excel-файлу є окремий метод.
-      if (mime_content_type($file) == "application/vnd.ms-office"){
+      if ($ext == "xls"){
         $ret_list = $this->LoadExcelToDB($file);
       } else{
         $ret_list = $this->LoadCsvToDB($file);
