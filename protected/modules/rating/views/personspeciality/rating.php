@@ -218,6 +218,9 @@ $(function (){
         'action' => Yii::app()->createUrl($this->route),
         'method' => 'get',
         'id' => 'rating-params-form',
+        'htmlOptions' => array(
+          'target' => "_blank",
+        )
     ));
     ?>
   <?php echo CHtml::link('Завантажити дані із ЄДЕБО --->',
