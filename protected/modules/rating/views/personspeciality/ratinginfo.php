@@ -77,6 +77,9 @@
 <td title="Бали екзаменів"><div><b>Е</b></div></td>
 <td title="Додаткові бали за диплом Всеукраїнської олімпіади або за диплом конкурсу МАН"><div><b>О</b></div></td>
 <td title="Додаткові бали для випускника підготовчого відділення"><div><b>П</b></div></td>
+<?php if (mb_substr($Speciality,0,1) == '8'){ ?>
+<td title="Додаткові бали"><div><b>ДБ</b></div></td>
+<?php } ?>
 <td title="Право на позаконкурсний вступ"><div><b>ПК</b></div></td>
 <td title="Право на першочерговий вступ"><div><b>ПЧ</b></div></td>
 <td title="Цільове направлення"><div><b>Ц</b></div></td>
@@ -113,6 +116,11 @@
         <TD>
   <?php echo $list[$i]['CoursesPoints']; ?>
         </TD>
+<?php if (mb_substr($Speciality,0,1) == '8'){ ?>
+        <TD>
+  <?php echo $list[$i]['AdditionalBall']; ?>
+        </TD>
+<?php } ?>
         <TD>
   <?php echo $list[$i]['isPZK']; ?>
         </TD>
@@ -149,6 +157,9 @@
 <tr><td>Е</td><td title="">Бали екзаменів</td></tr>
 <tr><td>О</td><td title="">Додаткові бали за диплом Всеукраїнської олімпіади або за диплом конкурсу МАН</td></tr>
 <tr><td>П</td><td title="">Додаткові бали для випускника підготовчого відділення</td></tr>
+<?php if (mb_substr($Speciality,0,1) == '8'){ ?>
+<tr><td>ДБ</td><td title="">Додаткові бали</td></tr>
+<?php } ?>
 <tr><td>ПК</td><td title="">Право на позаконкурсний вступ</td></tr>
 <tr><td>ПЧ</td><td title="">Право на першочерговий вступ</td></tr>
 <tr><td>Ц</td><td title="">Цільове направлення</td></tr>

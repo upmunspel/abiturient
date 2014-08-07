@@ -75,6 +75,9 @@ class Personspeciality extends ActiveRecord {
   public $tDocSeria;
   public $tDocSeries;
   public $ProfileSubjectValue;
+  public $excludedIDs = array();
+  public $param_quotaID;
+  public $quota_budget_places;
   
   private static $rating_counter = array();
   public static $is_rating_order = false;
@@ -693,9 +696,11 @@ class Personspeciality extends ActiveRecord {
     $criteria->group = "t.idPersonSpeciality";
     //параметр сортування даних для формування рейтингу
     $rating_order = 'isOutOfComp DESC,'//спочатку обираються ті, що поза конкурсом
-            . 'IF (t.Quota1 IS NULL, 0, t.Quota1) DESC,'//потім - цільовики
+            . 'IF (t.QuotaID IS NULL, 0, t.QuotaID) DESC,'//потім - цільовики
             . 'ComputedPoints DESC,'//усі дані впорядковуються за рейтинговими балами
-            . 'IF(SUM(benefit.isPV)>0,1,0) DESC, ProfileSubjectValue DESC';//якщо є відмітка першочергового вступу - що ж... нехай щастить!
+            . 'IF(SUM(benefit.isPV)>0,1,0) DESC, 
+            IF(ISNULL(entrantdoc.PersonDocumentsAwardsTypesID),0,10-entrantdoc.PersonDocumentsAwardsTypesID) DESC, 
+            ProfileSubjectValue DESC';//якщо є відмітка першочергового вступу - що ж... нехай щастить!
     if ($rating_order_mode > 0){
       //якщо сортувати треба для формування рейтингу
       $criteria->order = $rating_order;
@@ -741,5 +746,190 @@ class Personspeciality extends ActiveRecord {
     //$dataProvider->setTotalItemCount(count($this->findAll($criteria)));
     return $dataProvider;
   }
+  
+  
+  /**
+   * Формування рейтингових даних для цільовиків.
+   * @param integer $mode 0 - цільовики, 1 - пільговики, 2 - бюджетники, 3 - контрактники, 4 - решта
+   * @return Personspeciality[]
+   */
+  public function rating_search($mode){
+    if (!is_numeric($this->SepcialityID)){
+      return array();
+    }
+    $spec_model = Specialities::model()->findByPk($this->SepcialityID);
+    if (!$spec_model){
+      return array();
+    }
+    $criteria = new CDbCriteria();
+    //З якими відношеннями маємо справу
+    $with_rel = array();
+    array_push($with_rel, 'sepciality');
+    array_push($with_rel, 'person');
+    array_push($with_rel, 'olymp');
+    array_push($with_rel, 'entrantdoc');
+    array_push($with_rel, 'educationForm');
+    array_push($with_rel, 'edbo');
+    array_push($with_rel, 'documentSubject1');
+    array_push($with_rel, 'documentSubject2');
+    array_push($with_rel, 'documentSubject3');
+    array_push($with_rel, 'documentSubject1.subject1');
+    array_push($with_rel, 'documentSubject2.subject2');
+    array_push($with_rel, 'documentSubject3.subject3');
+    
+    $with_rel['sepciality.facultet'] = array('select' => false);
+    $with_rel['person.country'] = array('select' => false);
+    $with_rel['status'] = array('select' => false);
+    $with_rel['pbenefits'] = array('select' => false);
+    $with_rel['pbenefits.psbenefit'] = array('select' => false);
+    $with_rel['pbenefits.psbenefit.benefit'] = array('select' => false);
+    $criteria->with = $with_rel;
+    
+    //також йде вибірка ::
+    // ПІБ персон і спеціальності,
+    // формат поля спеціальності: (( код_спеціальності назва_спеціальності[ (назва_напряму)] , форма: назва_форми ))
+    // бал документу ,перерахований по шкалі ЄДЕБО,
+    // бал документу,
+    // загальна сума балів для рейтингу,
+    // бал профільного предмету,
+    // відмітка про позаконкурсний вступ або ж про те, що є відповідна пільга,
+    // відмітка про першочерговий вступ або ж про те, що є відповідна пільга,
+    // відмітка про оригінал на іншій спеціальності,
+    // сума балів ЗНО.
+    $criteria->select = array(
+      '*',
+      new CDbExpression("concat_ws(' ',trim(person.LastName),trim(person.FirstName),trim(person.MiddleName)) AS NAME"),
+      new CDbExpression("concat_ws(' ',"
+              . "sepciality.SpecialityClasifierCode,"
+              . "(case substr(sepciality.SpecialityClasifierCode,1,1) when '6' then "
+              . "sepciality.SpecialityDirectionName else sepciality.SpecialityName end),"
+              . "(case sepciality.SpecialitySpecializationName when '' then '' "
+              . " else concat('(',sepciality.SpecialitySpecializationName,')') end)"
+              . ",',',concat('форма: ',educationForm.PersonEducationFormName)) AS SPEC"),
+      new CDbExpression('ROUND(
+            IF(ISNULL(entrantdoc.AtestatValue),0.0, IF((entrantdoc.AtestatValue > 12), entrantdoc.AtestatValue ,5 * entrantdoc.AtestatValue))
+          ,2) AS ZnoDocValue'),
+      new CDbExpression('ROUND(
+            IF(ISNULL(entrantdoc.AtestatValue),0.0,entrantdoc.AtestatValue),2) AS PointDocValue'),
+      new CDbExpression('(ROUND((
+        ROUND(
+        IF(ISNULL(entrantdoc.AtestatValue),0.0, 
+          IF((entrantdoc.AtestatValue > 12), 
+            entrantdoc.AtestatValue ,5 * entrantdoc.AtestatValue)
+        ),2)+
+        IF(ISNULL(documentSubject1.SubjectValue),0.0,documentSubject1.SubjectValue)+
+        IF(ISNULL(documentSubject2.SubjectValue),0.0,documentSubject2.SubjectValue)+
+        IF(ISNULL(documentSubject3.SubjectValue),0.0,documentSubject3.SubjectValue)+
+        IF(ISNULL(t.AdditionalBall),0.0,t.AdditionalBall)+
+        IF(ISNULL(t.CoursedpBall),0.0,t.CoursedpBall)+
+        IF(ISNULL(olymp.OlympiadAwardBonus),0.0,olymp.OlympiadAwardBonus)+
+        IF(ISNULL(t.Exam1Ball),0.0,t.Exam1Ball)+
+        IF(ISNULL(t.Exam2Ball),0.0,t.Exam2Ball)+
+        IF(ISNULL(t.Exam3Ball),0.0,t.Exam3Ball)),2)) AS ComputedPoints'), 
+      new CDbExpression('IF(documentSubject1.SubjectID 
+        IN(SELECT ssj.SubjectID FROM specialitysubjects ssj WHERE ssj.isProfile=1 AND ssj.SpecialityID=t.SepcialityID),
+          documentSubject1.SubjectValue,
+          IF(documentSubject2.SubjectID 
+            IN(SELECT ssj.SubjectID FROM specialitysubjects ssj WHERE ssj.isProfile=1 AND ssj.SpecialityID=t.SepcialityID),
+            documentSubject2.SubjectValue,
+            IF(documentSubject3.SubjectID 
+              IN(SELECT ssj.SubjectID FROM specialitysubjects ssj WHERE ssj.isProfile=1 AND ssj.SpecialityID=t.SepcialityID),documentSubject3.SubjectValue, 0
+            )
+          )
+      ) AS ProfileSubjectValue'),
+      new CDbExpression('if(ISNULL((SELECT bf.idBenefit FROM personspecialitybenefits psbf '
+        . 'LEFT JOIN personbenefits pbf ON psbf.PersonBenefitID=pbf.idPersonBenefits '
+        . 'LEFT JOIN benefit bf ON pbf.BenefitID=bf.idBenefit '
+        . 'WHERE psbf.PersonSpecialityID=t.idPersonSpeciality AND bf.isPZK>0 LIMIT 1)),0,1) AS isOutOfComp'),
+      new CDbExpression('if(ISNULL((SELECT bf.idBenefit FROM personspecialitybenefits psbf '
+        . 'LEFT JOIN personbenefits pbf ON psbf.PersonBenefitID=pbf.idPersonBenefits '
+        . 'LEFT JOIN benefit bf ON pbf.BenefitID=bf.idBenefit '
+        . 'WHERE psbf.PersonSpecialityID=t.idPersonSpeciality AND bf.isPV>0 LIMIT 1)),0,1) AS isExtraEntry'),
 
+      new CDbExpression('IF((t.isCopyEntrantDoc = 0),0,(SELECT SUM(IF((ISNULL(prsp.isCopyEntrantDoc) OR prsp.isCopyEntrantDoc = 0),1,0)) 
+        FROM personspeciality prsp WHERE prsp.PersonID=t.PersonID)) AS AnyOriginal'),
+      new CDbExpression('(IF(ISNULL(documentSubject1.SubjectValue),0.0,documentSubject1.SubjectValue)+
+        IF(ISNULL(documentSubject2.SubjectValue),0.0,documentSubject2.SubjectValue)+
+        IF(ISNULL(documentSubject3.SubjectValue),0.0,documentSubject3.SubjectValue)) AS ZNOSum'),
+    );
+    //оформлення єдиного запиту на вибірку
+    $criteria->together = true;
+    //вибірка для певної спеціальності/напряму певної форми
+    $criteria->compare("t.SepcialityID",$this->SepcialityID);
+    //вибірка для обраних статусів або для нових заяв, допущених, рекомендованих, до наказу і затриманих
+    $status_in = '(';
+    $status_ids = array();
+    if ($this->status_confirmed){
+      $status_ids[] = '4';
+    }
+    if ($this->status_committed){
+      $status_ids[] = '5';
+    }
+    if ($this->status_submitted){
+      $status_ids[] = '7';
+    }
+    $status_in .= implode(',',$status_ids) . ')';
+    if ($status_in != '()'){
+      $criteria->addCondition('t.StatusID IN '.$status_in);
+    } else {
+      $criteria->addCondition('t.StatusID IN (1,4,5,7,8)');
+    }
+    
+    switch ($mode){
+      //цільовики
+      case 0:
+        $criteria->compare('t.QuotaID',$this->param_quotaID);
+        if (is_numeric($this->param_quotaID)){
+          $criteria->limit = intval($this->quota_budget_places);
+        } else {
+          return array();
+        }
+        break;
+      //пільговики
+      case 1:
+        $criteria->compare('if(isnull(benefit.isPZK),0,benefit.isPZK)',1);
+        $criteria->addCondition('t.isBudget > 0');
+        if (!empty($this->exludedIDs)){
+          $criteria->addCondition('t.idPersonSpeciality NOT IN ('.implode(',',$this->excludedIDs).')');
+        }
+        $criteria->limit = intval($spec_model->Quota1);
+        break;
+      //бюджетники
+      case 2:
+        $criteria->addCondition('t.isBudget > 0');
+        $place_num = intval($spec_model->SpecialityBudgetCount) - count($this->excludedIDs);
+        $criteria->limit = ($place_num >= 0) ? $place_num : 0;
+        break;
+      //контрактники
+      case 3:
+        $criteria->limit = intval($spec_model->SpecialityContractCount);
+        break;
+      //решта
+      case 4:
+        $criteria->limit = 100000;
+        break;
+    }
+    if (count($this->excludedIDs) > 0){
+      $criteria->addCondition('t.idPersonSpeciality NOT IN ('.implode(',',$this->excludedIDs).')');
+    }
+    
+    //дані групуються по ІД заявки
+    $criteria->group = "t.idPersonSpeciality";
+    //параметр сортування даних для формування рейтингу
+    $rating_order = 'ComputedPoints DESC,'//усі дані впорядковуються за рейтинговими балами
+            . 'IF(SUM(benefit.isPV)>0,1,0) DESC, 
+            IF(ISNULL(entrantdoc.PersonDocumentsAwardsTypesID),0,10-entrantdoc.PersonDocumentsAwardsTypesID) DESC, 
+            ProfileSubjectValue DESC, t.CreateDate ASC';//
+    $criteria->order = $rating_order;
+    $result_models = Personspeciality::model()->findAll($criteria);
+    if ($mode < 4){
+      $excl_ids = array();
+      foreach ($result_models as $res_model){
+        $excl_ids[] = $res_model->idPersonSpeciality;
+      }
+      $this->excludedIDs = array_merge($this->excludedIDs,$excl_ids);
+    }
+    return $result_models;
+  }
+  
 }
