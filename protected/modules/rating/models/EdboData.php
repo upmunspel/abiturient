@@ -46,6 +46,8 @@
  * @property string $Tel
  * @property string $MobTel
  * @property integer $OD
+ * @property integer $ODinfo
+ * @property integer $GuaranteeLetter
  * @property integer $NeedHostel
  * @property string $EntranceCodes
  * @property string $Priority
@@ -82,7 +84,8 @@ class EdboData extends CActiveRecord
     // will receive user inputs.
     return array(
       array('ID', 'required'),
-      array('ID, EZ, Course, B, K, Benefit, PriorityEntry, Quota, OI, OD, NeedHostel', 'numerical', 'integerOnly'=>true),
+      array('ID, EZ, Course, B, K, Benefit, PriorityEntry, Quota, OI, OD, NeedHostel, 
+        GuaranteeLetter, ODinfo', 'numerical', 'integerOnly'=>true),
       array('RatingPoints, DocPoint', 'numerical'),
       array('PIB, Comment', 'length', 'max'=>255),
       array('Status, Created, EduQualification, SpecCode, SpecialCode, Changed, DocNumber, Honours, Category, Gender, Citizen, TH, Tel, MobTel', 'length', 'max'=>64),
