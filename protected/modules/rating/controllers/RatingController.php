@@ -142,7 +142,7 @@ class RatingController extends Controller {
     $reqToExcel = Yii::app()->request->getParam('toexcel',1);
     $reqViewContacts = Yii::app()->request->getParam('contacts',null);
     $model = new Personspeciality();
-
+    $is_submitted = false;
     if (isset($reqPersonspeciality['status_confirmed'])){
       $model->status_confirmed = $reqPersonspeciality['status_confirmed'];
     }
@@ -151,6 +151,7 @@ class RatingController extends Controller {
     }
     if (isset($reqPersonspeciality['status_submitted'])){
       $model->status_submitted = $reqPersonspeciality['status_submitted'];
+      $is_submitted = $reqPersonspeciality['status_submitted'];
     }
     $model->SepcialityID = $reqPersonspeciality['SepcialityID'];
     $spec_quota_models = Specialityquotes::model()->findAll('SpecialityID='.$model->SepcialityID);
@@ -210,6 +211,7 @@ class RatingController extends Controller {
               empty($Speciality->SpecialitySpecializationName) ?
                 "" : '('.$Speciality->SpecialitySpecializationName.')'));
           $_data['spec_eduform'] = $Speciality->eduform->PersonEducationFormName;
+          $_data['is_submitted'] = $is_submitted;
           $this->renderPartial('/personspeciality/rating_specmag',$_data);
         }
     } else {

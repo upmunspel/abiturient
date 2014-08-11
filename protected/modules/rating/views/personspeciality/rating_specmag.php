@@ -5,6 +5,7 @@
 /* @var $license_info array */
 /* @var $toexcel integer */
 /* @var $contacts integer */
+/* @var $is_submitted boolean */
   header('Content-Type: text/html; charset=windows-1251');
   header('Cache-Control: no-store, no-cache, must-revalidate');
   header('Cache-Control: post-check=0, pre-check=0', FALSE);
@@ -183,14 +184,17 @@ if ($toexcel) {
         <TD colspan='<?php echo ((($contacts))? '7':'6'); ?>' class="target_committee">
   <?php 
   if ($key == "За кошти фізичних або юридичних осіб"){
-    echo iconv("utf-8", "windows-1251", "МІСЦЯ ЗА КОНКУРСОМ");
-    if ($counter > 1){
+    echo iconv("utf-8", "windows-1251", 
+      ($is_submitted)? "МІСЦЯ ЗА КОШТИ ФІЗИЧНИХ (ЮРИДИЧНИХ) ОСІБ":"МІСЦЯ ЗА КОНКУРСОМ");
+    if ($counter > 1 && !$is_submitted){
       echo iconv("utf-8", "windows-1251", " (ПРОДОВЖЕННЯ)");
     }
   } else if ($key == "За кошти державного бюджету"){ 
-    echo iconv("utf-8", "windows-1251", "БЮДЖЕТНІ МІСЦЯ ЗА КОНКУРСОМ");
+    echo iconv("utf-8", "windows-1251", 
+      ($is_submitted) ? "ЗАРАХОВАНО ЗА КОНКУРСОМ" : "БЮДЖЕТНІ МІСЦЯ ЗА КОНКУРСОМ");//
   } else if ($key == "Поза конкурсом"){
-    echo iconv("utf-8", "windows-1251", "БЮДЖЕТНІ МІСЦЯ ПОЗА КОНКУРСОМ");
+    echo iconv("utf-8", "windows-1251", 
+      ($is_submitted) ? "ЗАРАХОВАНО ПОЗА КОНКУРСОМ" : "БЮДЖЕТНІ МІСЦЯ ПОЗА КОНКУРСОМ");
   }
   ?>
         </TD>

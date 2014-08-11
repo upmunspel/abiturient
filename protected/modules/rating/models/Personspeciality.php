@@ -313,7 +313,7 @@ class Personspeciality extends ActiveRecord {
         "rating_order_mode" => "Сортування у режимі 'РЕЙТИНГ' (за балами)",
         "status_confirmed" => "Допущено",
         "status_committed" => "Рекомендовано",
-        "status_submitted" => "До наказу",
+        "status_submitted" => "До наказу (зараховано)",
         "ext_param" => "Додаткові умови вибірки",
         "page_size" => "Кількість рядків (елементів) для однієї сторінки у таблиці заявок",
         "SPEC" => "Ключові слова через пробіл для вибірки за спеціальністю",
