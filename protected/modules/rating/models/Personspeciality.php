@@ -759,6 +759,9 @@ class Personspeciality extends ActiveRecord {
       return array();
     }
     $spec_model = Specialities::model()->findByPk($this->SepcialityID);
+    $first_symbol = mb_substr($spec_model->SpecialityClasifierCode,0,1,'utf-8');
+    $is_spec_mag = ($first_symbol == '7' ||
+      $first_symbol == '8');
     if (!$spec_model){
       return array();
     }
@@ -887,6 +890,9 @@ class Personspeciality extends ActiveRecord {
         } else {
           return array();
         }
+        if ($sort_status){
+          $criteria->addCondition('t.StatusID IN (7'.((!$is_spec_mag)? ",5":"").')');
+        }
         break;
       //пільговики
       case 1:
@@ -896,16 +902,25 @@ class Personspeciality extends ActiveRecord {
           $criteria->addCondition('t.idPersonSpeciality NOT IN ('.implode(',',$this->excludedIDs).')');
         }
         $criteria->limit = intval($spec_model->Quota1);
+        if ($sort_status){
+          $criteria->addCondition('t.StatusID IN (7'.((!$is_spec_mag)? ",5":"").')');
+        }
         break;
       //бюджетники
       case 2:
         $criteria->addCondition('t.isBudget > 0');
         $place_num = intval($spec_model->SpecialityBudgetCount) - count($this->excludedIDs);
         $criteria->limit = ($place_num >= 0) ? $place_num : 0;
+        if ($sort_status){
+          $criteria->addCondition('t.StatusID IN (7'.((!$is_spec_mag)? ",5":"").')');
+        }
         break;
       //контрактники
       case 3:
         $criteria->limit = intval($spec_model->SpecialityContractCount);
+        if ($sort_status){
+          $criteria->addCondition('t.StatusID IN (5'.((!$is_spec_mag)? ",7,4":"").')');
+        }
         break;
       //решта
       case 4:
