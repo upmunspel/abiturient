@@ -751,9 +751,10 @@ class Personspeciality extends ActiveRecord {
   /**
    * Формування рейтингових даних для цільовиків.
    * @param integer $mode 0 - цільовики, 1 - пільговики, 2 - бюджетники, 3 - контрактники, 4 - решта
+   * @param boolean $sort_status сортувати за статусом?
    * @return Personspeciality[]
    */
-  public function rating_search($mode){
+  public function rating_search($mode,$sort_status = false){
     if (!is_numeric($this->SepcialityID)){
       return array();
     }
@@ -874,7 +875,9 @@ class Personspeciality extends ActiveRecord {
     } else {
       $criteria->addCondition('t.StatusID IN (1,4,5,7,8)');
     }
-    
+    if ($sort_status){
+      $criteria->addCondition('t.StatusID < 8');
+    }
     switch ($mode){
       //цільовики
       case 0:
@@ -916,7 +919,8 @@ class Personspeciality extends ActiveRecord {
     //дані групуються по ІД заявки
     $criteria->group = "t.idPersonSpeciality";
     //параметр сортування даних для формування рейтингу
-    $rating_order = 'ComputedPoints DESC,'//усі дані впорядковуються за рейтинговими балами
+    $rating_order = ($sort_status)? "t.StatusID DESC, ":"";
+    $rating_order .= 'ComputedPoints DESC,'//усі дані впорядковуються за рейтинговими балами
             . 'IF(SUM(benefit.isPV)>0,1,0) DESC, 
             IF(ISNULL(entrantdoc.PersonDocumentsAwardsTypesID),0,10-entrantdoc.PersonDocumentsAwardsTypesID) DESC, 
             ProfileSubjectValue DESC, t.CreateDate ASC';//

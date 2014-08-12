@@ -174,16 +174,16 @@ class RatingController extends Controller {
       $license[$sqm->QuotaID] = array($model->quota_budget_places,0);
       $license_info[$sqm->QuotaID] = array($sqm->quota->QuotaName,$license[$sqm->QuotaID][0]);
       $model->param_quotaID = $sqm->QuotaID;
-      $rating_data[$license_info[$sqm->QuotaID][0]] = $this->CreateRatingData($model->rating_search(0));
+      $rating_data[$license_info[$sqm->QuotaID][0]] = $this->CreateRatingData($model->rating_search(0,true));
       $general_count += count($rating_data[$license_info[$sqm->QuotaID][0]]);
     }
-    $rating_data[$license_info[3][0]] = $this->CreateRatingData($model->rating_search(1));
+    $rating_data[$license_info[3][0]] = $this->CreateRatingData($model->rating_search(1,true));
     $general_count += count($rating_data[$license_info[3][0]]);
-    $rating_data[$license_info[2][0]] = $this->CreateRatingData($model->rating_search(2));
+    $rating_data[$license_info[2][0]] = $this->CreateRatingData($model->rating_search(2,true));
     $general_count += count($rating_data[$license_info[2][0]]);
-    $rating_data[$license_info[1][0]] = $this->CreateRatingData($model->rating_search(3));
+    $rating_data[$license_info[1][0]] = $this->CreateRatingData($model->rating_search(3,true));
     $general_count += count($rating_data[$license_info[1][0]]);
-    $rating_data[$license_info[0][0]] = $this->CreateRatingData($model->rating_search(4));
+    $rating_data[$license_info[0][0]] = $this->CreateRatingData($model->rating_search(4,true));
     $general_count += count($rating_data[$license_info[0][0]]);
     //var_dump($rating_data);exit();
     if ($general_count > 0){
