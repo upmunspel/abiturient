@@ -934,8 +934,8 @@ class Personspeciality extends ActiveRecord {
     //дані групуються по ІД заявки
     $criteria->group = "t.idPersonSpeciality";
     //параметр сортування даних для формування рейтингу
-    $rating_order = ($sort_status)? "t.StatusID DESC, ":"";
-    $rating_order .= 'ComputedPoints DESC,'//усі дані впорядковуються за рейтинговими балами
+    //$rating_order = ($sort_status)? "t.StatusID DESC, ":"";
+    $rating_order = 'ComputedPoints DESC,'//усі дані впорядковуються за рейтинговими балами
             . 'IF(SUM(benefit.isPV)>0,1,0) DESC, 
             IF(ISNULL(entrantdoc.PersonDocumentsAwardsTypesID),0,10-entrantdoc.PersonDocumentsAwardsTypesID) DESC, 
             ProfileSubjectValue DESC, t.CreateDate ASC';//
