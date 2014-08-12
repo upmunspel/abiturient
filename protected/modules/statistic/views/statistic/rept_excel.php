@@ -27,6 +27,15 @@ foreach ($models as $model){
       ob_end_clean();
     }
   }
+  if (!$i){
+    foreach ($columns as $column){
+      ob_start();
+      $column['value']($model);
+      $out = ob_get_contents();
+      $HTML .= '<td>'.$out.'</td>';
+      ob_end_clean();
+    }
+  }
   $HTML .= '</tr>';
   $i++;
 }
