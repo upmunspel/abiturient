@@ -99,6 +99,11 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm', array(
             </div>
             
         </div>
+        <div class="row-fluid">
+          <?php
+            echo $form->textFieldRow($model,'CustomerINN',array('class'=>'span4'));
+          ?>
+        </div>
 <?php //------------------------------------------------------------------------------------------------------------------------------------//?>
     <hr>
 <div class="row-fluid">

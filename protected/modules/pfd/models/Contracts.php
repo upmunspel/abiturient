@@ -12,6 +12,7 @@
  * @property string $CustomerDoc
  * @property string $CustomerAddress
  * @property string $CustomerPaymentDetails
+ * @property string $CustomerINN
  * @property string $PaymentDate
  * @property string $Comment
  */
@@ -64,13 +65,15 @@ class Contracts extends CActiveRecord
 			array('PersonSpecialityID, ContractDate', 'required'),
 			array('PersonSpecialityID', 'numerical', 'integerOnly'=>true),
 			array('ContractNumber', 'length', 'max'=>100),
+			array('CustomerINN', 'length', 'max'=>64),
 	                array('PaymentDate', "date", 'format'=>"dd-MM-yyyy","allowEmpty"=>true ),
                         array('ContractDate', "date", 'format'=>"dd-MM-yyyy","allowEmpty"=>false ),
-                        array('Comment,CustomerPaymentDetails,CustomerName, CustomerDoc,CustomerAddress', "safe"),
+                        array('Comment,CustomerPaymentDetails,CustomerName, CustomerDoc,CustomerAddress,
+                        CustomerINN', "safe"),
                     
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('idContract, PersonSpecialityID, ContractNumber, ContractDate, CustomerName, CustomerDoc, CustomerAddress, CustomerPaymentDetails, PaymentDate, Comment, speciality, educationFormID', 'safe', 'on'=>'search'),
+			array('idContract, PersonSpecialityID, ContractNumber, ContractDate, CustomerName, CustomerDoc, CustomerAddress, CustomerPaymentDetails, PaymentDate, Comment, speciality, educationFormID, CustomerINN', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -123,6 +126,7 @@ class Contracts extends CActiveRecord
                     'CustomerDoc' => 'Документи замовника',
                     'CustomerAddress' => 'Адреса',
                     'CustomerPaymentDetails' => 'Платіжні реквізити',
+                    'CustomerINN' => 'ІНН замовника',
                     'PaymentDate' => 'Дата оплати',
                     'Comment' => 'Коментарій',
 		);
@@ -167,6 +171,7 @@ class Contracts extends CActiveRecord
 		$criteria->compare('CustomerDoc',$this->CustomerDoc,true);
 		$criteria->compare('CustomerAddress',$this->CustomerAddress,true);
 		$criteria->compare('CustomerPaymentDetails',$this->CustomerPaymentDetails,true);
+		$criteria->compare('CustomerINN',$this->CustomerINN,true);
                 if (!empty($this->PaymentDate) && ($this->PaymentDate == 0 || trim($this->PaymentDate)=="empty" || trim($this->PaymentDate)=="null") ) {
                    $criteria->compare('PaymentDate',"0000-00-00",true); 
                 } else {
