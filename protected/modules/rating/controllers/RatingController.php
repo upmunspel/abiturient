@@ -200,7 +200,7 @@ class RatingController extends Controller {
           'Faculty' => $Faculty,
           'license_info' => $license_info,
         );
-        $_data['toexcel'] = 0;//$reqToExcel;
+        $_data['toexcel'] = $reqToExcel;
         $_data['contacts'] = (in_array('Root',Yii::app()->user->getUserRoles())) ? $reqViewContacts : 0;
         $this->layout = '//layouts/clear';
         if (mb_substr($_data['Speciality'],0,1,'utf-8') == '6'){
