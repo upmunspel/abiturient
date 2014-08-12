@@ -32,7 +32,7 @@ class RatingController extends Controller {
     return array(
         array('allow', // allow all users to perform 'index' and 'view' actions
             'actions' => array("rating", "excelrating", 
-            'ratinglinks', 'ratinginfo', 'ratinginfolinks', 'edborating', 'edboratinglinks'),
+            'ratinglinks', 'ratinginfo', 'ratinginfolinks', 'edborating', 'edboratinglinks', 'ratinginfolinks6'),
             'users' => array('*'),
         ),
         array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -608,6 +608,41 @@ class RatingController extends Controller {
          echo "<ul>";
          $is_elder= true;
        }
+      $href = 'http://'.$_SERVER['SERVER_ADDR'].':'.$_SERVER['SERVER_PORT']
+        .'/abiturient/rating/rating/ratinginfo?&Personspeciality%5BSepcialityID%5D='
+        .$spec->idSpeciality.'&Personspeciality%5Brating_order_mode%5D=1'; 
+      echo "<li><a href='".$href."' target='_blank'>".$spec->tSPEC." ("
+        .Personspeciality::model()->count('(SepcialityID='.$spec->idSpeciality . ' AND StatusID IN (1,4,5,7,8))')
+        .")</a></li>";
+    }
+    echo "</ul><footer style='text-align: center;'>ЗНУ, Лабораторія ІС та КТ</footer></body></html>";
+  }
+  
+  public function actionRatinginfolinks6(){
+    $criteria = new CDbCriteria();
+    $criteria->with = array('eduform');
+    $criteria->together = true;
+    //$criteria->addCondition('eduform.idPersonEducationForm IN (1,2)');
+    $criteria->addCondition('substr(SpecialityClasifierCode,1,1) LIKE "6"');
+    $criteria->addCondition('idSpeciality NOT IN(162738)');
+    $criteria->select = array(
+       'idSpeciality',
+        new CDbExpression("concat_ws(' ',"
+                . "SpecialityClasifierCode,"
+                . "(case substr(SpecialityClasifierCode,1,1) when '6' then "
+                . "SpecialityDirectionName else SpecialityName end),"
+                . "(case SpecialitySpecializationName when '' then '' "
+                . " else concat('(',SpecialitySpecializationName,')') end)"
+                . ",',',concat('форма: ',eduform.PersonEducationFormName)) AS tSPEC"
+        ),
+    );
+    $criteria->order = 'SpecialityName ASC,SpecialityDirectionName ASC,SpecialityClasifierCode ASC, eduform.PersonEducationFormName ASC';
+    echo "<html><meta charset='utf8'><head></head><body>";
+    echo "<p style='text-align: right; font-family: \"Courier New\"; font-size: 8pt;'>Дані сформовано ".date('d.m.Y H:i')."</p>";
+    echo "<h1 style='text-align: center;'>Інформація про подані абітурієнтами заяви</h1>";
+    echo "<h3 style='text-align: center;'>Заяви на ОКР \"Бакалавр\"</h3>";
+    echo "<ul>";
+    foreach (Specialities::model()->findAll($criteria) as $spec){
       $href = 'http://'.$_SERVER['SERVER_ADDR'].':'.$_SERVER['SERVER_PORT']
         .'/abiturient/rating/rating/ratinginfo?&Personspeciality%5BSepcialityID%5D='
         .$spec->idSpeciality.'&Personspeciality%5Brating_order_mode%5D=1'; 
