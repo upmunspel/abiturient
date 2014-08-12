@@ -27,7 +27,9 @@ foreach ($models as $model){
       ob_end_clean();
     }
   }
+  $HTML .= '</tr>';
   if (!$i){
+    $HTML .= '<tr>';
     foreach ($columns as $column){
       ob_start();
       $column['value']($model);
@@ -35,8 +37,8 @@ foreach ($models as $model){
       $HTML .= '<td>'.$out.'</td>';
       ob_end_clean();
     }
+    $HTML .= '</tr>';
   }
-  $HTML .= '</tr>';
   $i++;
 }
 $HTML .= '</table></body></html>';
