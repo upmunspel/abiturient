@@ -56,7 +56,8 @@ class StatController extends Controller {
                 'languages','reqstatuses','koatuus','zno',
                 'doctypes','benefitgroups','eduforms','okr',
                 'countries','schools', 
-                "statgraduated", 'awards', 'personstatgraduated','exlanguages'),
+                "statgraduated", 'awards', 'personstatgraduated','exlanguages',
+                "SpecMagContracts"),
             'users' => array('@'),
         ),
         array('allow', 
@@ -121,7 +122,7 @@ class StatController extends Controller {
                 . 'ps.StatusID IN ('.$statuses.') AND '
                 . 'ps.CreateDate BETWEEN '
                 //. '"'.date('Y').'-07-01 00:00:00' . '" '
-                . '"2013-07-01 00:00:00' . '" '
+                . '"2014-07-01 00:00:00' . '" '
                 . 'AND "' . $date . ' 23:59:59")) AS cnt_requests'),
         new CDbExpression('((SELECT COUNT(DISTINCT ps.PersonID) FROM personspeciality ps WHERE '
                 . 'ps.QualificationID IN ' . (($reqQualificationID == 1)? '(1)' : '(2,3)') . ' AND '
@@ -134,7 +135,7 @@ class StatController extends Controller {
                 . 'ps.StatusID IN ('.$statuses.') AND '
                 . 'ps.CreateDate BETWEEN '
                 //. '"'.date('Y').'-07-01 00:00:00' . '" '
-                . '"2013-07-01 00:00:00' . '" '
+                . '"2014-07-01 00:00:00' . '" '
                 . 'AND "' . $date . ' 23:59:59")) AS cnt_persons'),
     );
     $criteria->group = 'idSpeciality';
@@ -778,40 +779,9 @@ class StatController extends Controller {
       echo CJSON::encode($result);
   }
   
-  public function actionGraduated(){
-    $model = new Graduated();
-    $reqGraduated = Yii::app()->request->getParam('Graduated',null);
-    if ($reqGraduated){
-      $model->Speciality = $reqGraduated['Speciality'];
-      $model->Year = $reqGraduated['Year'];
-      $model->Number = $reqGraduated['Number'];
-      if ($model->save()){
-         $this->redirect(Yii::app()->CreateUrl('/statistic/stat/graduated'));
-      }
-    }
-    $criteria = new CDbCriteria();
-
-    $criteria->group = 'idGraduated';
-    $data = new CActiveDataProvider($model, array(
-        'criteria' => $criteria,
-        'pagination' => array(
-            'pageSize' => 10000
-        ),
-    ));
-    $model->Year = 2014;
-    $this->render('/statistic/graduated',array(
-      'model' => $model,
-      'data' => $data,
-    ));
-  }
-  
-  public function actionDeletegraduated($id){
-    $model = Graduated::model()->findByPk($id);
-    if ($model){
-      $model->delete();
-    }
-  }
-  
+  /**
+   * Статистика заяв на старші курси.
+   */
   public function actionStatgraduated(){
     /* @var $reqQualifictionID integer */
     $reqQualificationID = Yii::app()->request->getParam('QualificationID',1);
@@ -1007,12 +977,15 @@ class StatController extends Controller {
     ));
   }
   
+  /**
+   * Метод формує статистику формату: 
+   * Факультет; К-сть випускників; К-сть заяв із ЗНУ на спеціаліста/магістра із дипломом ЗНУ, виданим цього року
+   */
   public function actionPersonstatgraduated(){
       $criteria = new CDbCriteria();
       $criteria->with = array(
         'facultet',
       );
-      
       $criteria->addCondition('t.SpecialityClasifierCode LIKE "%7.%" OR '
         . 't.SpecialityClasifierCode LIKE "%8.%"');
         $ZNU = "Запорізький національний університет";
@@ -1040,7 +1013,6 @@ class StatController extends Controller {
       $criteria->order = 'facultet.FacultetFullName';
       $criteria->together = true;
       $models = Specialities::model()->findAll($criteria);
-      
         header("Content-type: text/csv");
         header("Content-Disposition: attachment; filename=file.csv");
         header("Pragma: no-cache");
@@ -1057,6 +1029,64 @@ class StatController extends Controller {
         fclose($output);
   }
   
+  /**
+   * Метод формує статистику формату: 
+   * ЄДЕБО( ПІБ; код. спеціальності; форма; статус  ) ; Абітурієнт(дата оплати за навчання/ "НЕ СПЛАЧЕНО")
+   */
+  public function actionSpecMagContracts(){
+      $criteria = new CDbCriteria();
+      $criteria->with = array(
+        'edbo',
+      );
+      $criteria->select = array(
+        't.idPersonSpeciality',
+        't.edboID',
+        new CDbExpression('edbo.ID AS ID'),
+        new CDbExpression('edbo.PIB AS PIB'),
+        new CDbExpression('edbo.Speciality AS Speciality'),
+        new CDbExpression('edbo.Specialization AS Specialization'),
+        new CDbExpression('edbo.Status AS Status'),
+        new CDbExpression('edbo.EduForm AS EduForm'),
+        new CDbExpression("(SELECT IF(contracts.PaymentDate LIKE '0000-00-00','НЕ СПЛАЧЕНО',contracts.PaymentDate) 
+          FROM contracts 
+          WHERE contracts.PersonSpecialityID=t.idPersonSpeciality) AS _PaymentDate")
+      );
+      $criteria->addCondition("edbo.ID IS NOT NULL");
+      $criteria->addCondition("edbo.EduQualification NOT LIKE '%Бакалавр%'");
+      $criteria->group = 't.idPersonSpeciality';
+      $criteria->order = '_PaymentDate ASC, edbo.PIB ASC';
+      $criteria->together = true;
+      $models = Personspeciality::model()->findAll($criteria);
+        header("Content-type: text/csv");
+        header("Content-Disposition: attachment; filename=SpecMagContracts.csv");
+        header("Pragma: no-cache");
+        header("Expires: 0");
+        $output = fopen("php://output", "w");
+        fputcsv($output,array(
+            iconv('UTF-8','Windows-1251','Прізвище, ім`я, по-батькові') , 
+            iconv('UTF-8','Windows-1251',"Код") , 
+            iconv('UTF-8','Windows-1251',"Назва спеціальності") , 
+            iconv('UTF-8','Windows-1251',"Форма") , 
+            iconv('UTF-8','Windows-1251',"Статус заяви") , 
+            iconv('UTF-8','Windows-1251',"Дата оплати")),';');
+        foreach ($models as $model){
+            fputcsv($output,array(
+              iconv('UTF-8','Windows-1251',$model->edbo->PIB) ,
+              iconv('UTF-8','Windows-1251',$model->edbo->SpecialCode) ,
+              iconv('UTF-8','Windows-1251',$model->edbo->Speciality . 
+                ((empty($model->edbo->Specialization))? "":" ".$model->edbo->Specialization)) , 
+              iconv('UTF-8','Windows-1251',$model->edbo->EduForm) ,
+              iconv('UTF-8','Windows-1251',$model->edbo->Status) ,
+              iconv('UTF-8','Windows-1251',(empty($model->_PaymentDate)? "БЕЗ КОНТРАКТУ":$model->_PaymentDate))),';');
+        }
+        fclose($output);
+  }
+  
+ /* Далі - методи для введення і редагування деяких статистичних та системних даних. */
+  
+  /**
+   * Метод відображення і введення системних даних для формування звітів.
+   */
   public function actionSysreport(){
     $model = new SysReport();
     $reqSysReport = Yii::app()->request->getParam('SysReport',null);
@@ -1080,8 +1110,51 @@ class StatController extends Controller {
     ));
   }
   
+  /**
+   * Метод видалення запису системних даних для формування звітів.
+   */
   public function actionDeletesysreport($id){
     $model = SysReport::model()->findByPk($id);
+    if ($model){
+      $model->delete();
+    }
+  }
+  
+  /**
+   * Метод відображення і введення статистичних даних про кількість випускників бакалаврату.
+   */
+  public function actionGraduated(){
+    $model = new Graduated();
+    $reqGraduated = Yii::app()->request->getParam('Graduated',null);
+    if ($reqGraduated){
+      $model->Speciality = $reqGraduated['Speciality'];
+      $model->Year = $reqGraduated['Year'];
+      $model->Number = $reqGraduated['Number'];
+      if ($model->save()){
+         $this->redirect(Yii::app()->CreateUrl('/statistic/stat/graduated'));
+      }
+    }
+    $criteria = new CDbCriteria();
+
+    $criteria->group = 'idGraduated';
+    $data = new CActiveDataProvider($model, array(
+        'criteria' => $criteria,
+        'pagination' => array(
+            'pageSize' => 10000
+        ),
+    ));
+    $model->Year = 2014;
+    $this->render('/statistic/graduated',array(
+      'model' => $model,
+      'data' => $data,
+    ));
+  }
+  
+  /**
+   * Метод видалення запису статистичних даних про кількість випускників бакалаврату.
+   */
+  public function actionDeletegraduated($id){
+    $model = Graduated::model()->findByPk($id);
     if ($model){
       $model->delete();
     }

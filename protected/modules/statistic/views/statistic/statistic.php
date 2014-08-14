@@ -62,7 +62,7 @@ case 8: echo "Магістр";break;
 <th rowspan="2" align='center'>Факультети</th>
 <th rowspan="2" align='center'>Спеціальності</th>
 <th colspan="2" align='center' style="font-size:10pt;">За <br/><?php echo $date; ?></th>
-<th colspan="2" align='center' style="font-size:10pt;">За період з<br/>01.07.2013</th>
+<th colspan="2" align='center' style="font-size:10pt;">За період з<br/>01.07.2014</th>
 </tr>
 <tr>
 <th align='center' style="font-size:10pt;">Денна<br/>кількість</th>

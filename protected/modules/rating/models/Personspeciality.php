@@ -471,8 +471,8 @@ class Personspeciality extends ActiveRecord {
       new CDbExpression('(IF(ISNULL(documentSubject1.SubjectValue),0.0,documentSubject1.SubjectValue)+
         IF(ISNULL(documentSubject2.SubjectValue),0.0,documentSubject2.SubjectValue)+
         IF(ISNULL(documentSubject3.SubjectValue),0.0,documentSubject3.SubjectValue)) AS ZNOSum'),
-      new CDbExpression('lower(IF(ISNULL(edbo.DocSeria),"none",transliterate(edbo.DocSeria))) AS tDocSeria'),
-      new CDbExpression('lower(IF(ISNULL(entrantdoc.Series),"none",transliterate(entrantdoc.Series))) AS tDocSeries'),
+      new CDbExpression('lower(IF(ISNULL(edbo.DocSeria),"none",edbo.DocSeria)) AS tDocSeria'),
+      new CDbExpression('lower(IF(ISNULL(entrantdoc.Series),"none",entrantdoc.Series)) AS tDocSeries'),
     );
     //оформлення єдиного запиту на вибірку
     $criteria->together = true;
@@ -549,8 +549,8 @@ class Personspeciality extends ActiveRecord {
             (sepciality.SpecialitySpecializationName NOT LIKE CONCAT("%",edbo.Specialization,"%"))
             )
         OR (MID(status.PersonRequestStatusTypeName,1,6) COLLATE utf8_unicode_ci NOT LIKE MID(edbo.Status,1,6)) 
-        OR (lower(IF(ISNULL(entrantdoc.Series),"none",transliterate(entrantdoc.Series))) COLLATE utf8_unicode_ci
-          NOT LIKE lower(IF(ISNULL(edbo.DocSeria),"none",transliterate(edbo.DocSeria))) COLLATE utf8_unicode_ci)
+        OR (lower(IF(ISNULL(entrantdoc.Series),"none",entrantdoc.Series)) COLLATE utf8_unicode_ci
+          NOT LIKE lower(IF(ISNULL(edbo.DocSeria),"none",edbo.DocSeria)) COLLATE utf8_unicode_ci)
         ) AND edbo.ID IS NOT NULL'
       );
       break;

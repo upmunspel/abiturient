@@ -867,6 +867,41 @@ Yii::app()->clientScript->registerPackage('select2');
 </div>
 
 <!-- ----------------------------------------------------------------------- -->
+<!-- Статистика контрактів на старші курси -->
+<div class="row-fluid">
+<div class="well well-large span11">
+  <h3 id="elderstat">Статистика контрактів на ОКР "Спеціаліст" і "Магістр"</h3>
+  <div class="form" >
+      Повертає CSV-файл (відкривається через Excel). Поля: 
+      <ol><li>Прізвище, ім`я, по-батькові </li>
+          <li>Код спеціальності </li>
+          <li>Назва спеціальності </li>
+          <li>Форма навчання </li>
+          <li>Статус заяви </li>
+          <li>Дата оплати | "НЕ СПЛАЧЕНО" | "БЕЗ КОНТРАКТУ"</li>
+      </ol>
+    <?php
+
+    $SpecMagContracts = Yii::app()->createUrl("statistic/stat/SpecMagContracts");
+    ?>
+
+    <div class="row-fluid" style="text-align: center;">
+      <?php
+      $this->widget("bootstrap.widgets.TbButton", array(
+          'buttonType' => 'link',
+          'url' => $SpecMagContracts,
+          'type' => 'primary',
+          "size" => "large",
+          'label' => 'Сформувати файл',
+          'icon' => 'star',
+      ));
+      ?>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ----------------------------------------------------------------------- -->
 <script>
     $(document).ready(function(){
         
