@@ -52,7 +52,7 @@ class PersonbenefitsController extends Controller {
             try {
                 $link = Yii::app()->user->getEdboSearchUrl()."personbenefitsaddedbo.jsp";
 
-                $client = new EHttpClient($link, array('maxredirects' => 30, 'timeout' => 30,));
+                $client = new EHttpClient($link, array('maxredirects' => 30, 'timeout' => 120,));
 
                 $client->setParameterPost(array("personIdMySql" => $personid));
                 $response = $client->request(EHttpClient::POST);
