@@ -70,7 +70,7 @@ class DocumentsController extends Controller {
 
                     $link = Yii::app()->user->getEdboSearchUrl()."persondocumentsaddedbo.jsp";
 
-                    $client = new EHttpClient($link, array('maxredirects' => 30, 'timeout' => 30,));
+                    $client = new EHttpClient($link, array('maxredirects' => 30, 'timeout' => 120,));
 
                     $client->setParameterPost(array("personIdMySql" => $personid));
                     $response = $client->request(EHttpClient::POST);
@@ -93,7 +93,7 @@ class DocumentsController extends Controller {
 
                     $link = Yii::app()->user->getEdboSearchUrl()."editdocumentedbo.jsp";
 
-                    $client = new EHttpClient($link, array('maxredirects' => 30, 'timeout' => 30,));
+                    $client = new EHttpClient($link, array('maxredirects' => 30, 'timeout' => 120,));
 
                     $client->setParameterPost(array("documentIdMySql" => $id));
                     $response = $client->request(EHttpClient::POST);

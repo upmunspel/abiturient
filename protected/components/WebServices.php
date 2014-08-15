@@ -11,7 +11,7 @@ class WebServices {
      * Максимальная проолжительность запроса к сервису
      * @var integer 
      */
-    static private $requestTimeout = 30;
+    static private $requestTimeout = 120;
 
     /**
      * Максимальная время жизни файлового кеша в минутах
@@ -128,7 +128,7 @@ class WebServices {
 
                 throw new Exception("Відсутні параметри для пошуку!");
             }
-            $client = new EHttpClient($srv . $script, array('maxredirects' => 30, 'timeout' => 5,));
+            $client = new EHttpClient($srv . $script, array('maxredirects' => 30, 'timeout' => 120,));
             $client->setParameterPost($params);
             $response = $client->request(EHttpClient::POST);
 
