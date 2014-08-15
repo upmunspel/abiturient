@@ -1049,12 +1049,17 @@ class StatController extends Controller {
         new CDbExpression('edbo.EduForm AS EduForm'),
         new CDbExpression("(SELECT IF(contracts.PaymentDate LIKE '0000-00-00','НЕ СПЛАЧЕНО',contracts.PaymentDate) 
           FROM contracts 
-          WHERE contracts.PersonSpecialityID=t.idPersonSpeciality) AS _PaymentDate")
+          WHERE contracts.PersonSpecialityID=t.idPersonSpeciality) AS _PaymentDate"),
+        new CDbExpression("(SELECT contracts.ContractDate 
+          FROM contracts 
+          WHERE contracts.PersonSpecialityID=t.idPersonSpeciality) AS _ContractDate")
       );
       $criteria->addCondition("edbo.ID IS NOT NULL");
       $criteria->addCondition("edbo.EduQualification NOT LIKE '%Бакалавр%'");
+      $criteria->addCondition("edbo.K=1");
+      $criteria->addCondition("edbo.Status LIKE 'Рекомендовано' OR edbo.Status LIKE 'Допущено'");
       $criteria->group = 't.idPersonSpeciality';
-      $criteria->order = '_PaymentDate ASC, edbo.PIB ASC';
+      $criteria->order = '_ContractDate ASC, _PaymentDate ASC, edbo.PIB ASC';
       $criteria->together = true;
       $models = Personspeciality::model()->findAll($criteria);
         header("Content-type: text/csv");
@@ -1068,6 +1073,7 @@ class StatController extends Controller {
             iconv('UTF-8','Windows-1251',"Назва спеціальності") , 
             iconv('UTF-8','Windows-1251',"Форма") , 
             iconv('UTF-8','Windows-1251',"Статус заяви") , 
+            iconv('UTF-8','Windows-1251',"Дата контракту") , 
             iconv('UTF-8','Windows-1251',"Дата оплати")),';');
         foreach ($models as $model){
             fputcsv($output,array(
@@ -1077,7 +1083,8 @@ class StatController extends Controller {
                 ((empty($model->edbo->Specialization))? "":" ".$model->edbo->Specialization)) , 
               iconv('UTF-8','Windows-1251',$model->edbo->EduForm) ,
               iconv('UTF-8','Windows-1251',$model->edbo->Status) ,
-              iconv('UTF-8','Windows-1251',(empty($model->_PaymentDate)? "БЕЗ КОНТРАКТУ":$model->_PaymentDate))),';');
+              iconv('UTF-8','Windows-1251',(empty($model->_ContractDate)? "-/-":$model->_ContractDate)) ,
+              iconv('UTF-8','Windows-1251',(empty($model->_PaymentDate)? "-/-":$model->_PaymentDate))),';');
         }
         fclose($output);
   }

@@ -32,6 +32,7 @@ class Personspeciality extends ActiveRecord {
   public $PersonCase;
   public $ReqCase;
   public $_PaymentDate;
+  public $_ContractDate;
   
   
   /**
