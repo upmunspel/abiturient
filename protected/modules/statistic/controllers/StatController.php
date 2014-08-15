@@ -1034,6 +1034,9 @@ class StatController extends Controller {
    * ЄДЕБО( ПІБ; код. спеціальності; форма; статус  ) ; Абітурієнт(дата оплати за навчання/ "НЕ СПЛАЧЕНО")
    */
   public function actionSpecMagContracts(){
+      $ReqSelectModes = Yii::app()->request->getParam('select_modes');
+      $ReqSelectMode = Yii::app()->request->getParam('select_mode');
+      //var_dump($_GET);exit();
       $criteria = new CDbCriteria();
       $criteria->with = array(
         'edbo',
@@ -1055,11 +1058,71 @@ class StatController extends Controller {
           WHERE contracts.PersonSpecialityID=t.idPersonSpeciality) AS _ContractDate")
       );
       $criteria->addCondition("edbo.ID IS NOT NULL");
-      $criteria->addCondition("edbo.EduQualification NOT LIKE '%Бакалавр%'");
-      $criteria->addCondition("edbo.K=1");
-      $criteria->addCondition("edbo.Status LIKE 'Рекомендовано' OR edbo.Status LIKE 'Допущено'");
+      $criteria->addCondition("IF(
+        (edbo.Status LIKE 'Рекомендовано' OR edbo.Status LIKE 'До наказу'),
+        edbo.K=1,
+        TRUE)");
+      $criteria->addCondition("edbo.Status LIKE 'Рекомендовано' 
+        OR edbo.Status LIKE 'Допущено' 
+        OR edbo.Status LIKE 'До наказу'");
+      if (!isset($ReqSelectMode)){
+        $criteria->addCondition("edbo.EduQualification NOT LIKE '%бакалавр%'");
+      }
+        
+      // if (isset($ReqSelectModes[0]) && isset($ReqSelectMode)){
+        // $criteria->addCondition("LENGTH((SELECT contracts.ContractDate 
+          // FROM contracts 
+          // WHERE contracts.PersonSpecialityID=t.idPersonSpeciality LIMIT 1)) > 4");
+      // } 
+      // if (!isset($ReqSelectModes[0]) && isset($ReqSelectMode)) {
+        // $criteria->addCondition("LENGTH((SELECT contracts.ContractDate 
+          // FROM contracts 
+          // WHERE contracts.PersonSpecialityID=t.idPersonSpeciality LIMIT 1)) = 0 OR
+         // ISNULL((SELECT contracts.ContractDate 
+          // FROM contracts 
+          // WHERE contracts.PersonSpecialityID=t.idPersonSpeciality LIMIT 1))");
+      // }
+      
+      // if (isset($ReqSelectModes[1]) && isset($ReqSelectMode)){
+        // $criteria->addCondition("LENGTH((SELECT contracts.PaymentDate 
+          // FROM contracts 
+          // WHERE contracts.PersonSpecialityID=t.idPersonSpeciality LIMIT 1)) > 4");
+      // }
+      // if (!isset($ReqSelectModes[1]) && isset($ReqSelectMode)){
+        // $criteria->addCondition("LENGTH((SELECT contracts.PaymentDate 
+          // FROM contracts 
+          // WHERE contracts.PersonSpecialityID=t.idPersonSpeciality LIMIT 1)) = 0 OR
+         // ISNULL((SELECT contracts.PaymentDate 
+          // FROM contracts 
+          // WHERE contracts.PersonSpecialityID=t.idPersonSpeciality LIMIT 1))");
+      // }
+      
+      if (!isset($ReqSelectModes[2]) && isset($ReqSelectMode)){
+        $criteria->addCondition("edbo.Status NOT LIKE 'Допущено'");
+      }
+      if (!isset($ReqSelectModes[3]) && isset($ReqSelectMode)){
+        $criteria->addCondition("edbo.Status NOT LIKE 'Рекомендовано'");
+      }
+      if (!isset($ReqSelectModes[4]) && isset($ReqSelectMode)){
+        $criteria->addCondition("edbo.Status NOT LIKE 'До наказу'");
+      }
+      if (!isset($ReqSelectModes[5]) && isset($ReqSelectMode)){
+        $criteria->addCondition("edbo.EduQualification NOT LIKE '%бакалавр%'");
+      }
+      if (!isset($ReqSelectModes[6]) && isset($ReqSelectMode)){
+        $criteria->addCondition("edbo.EduQualification NOT LIKE '%спеціаліст%'");
+      }
+      if (!isset($ReqSelectModes[7]) && isset($ReqSelectMode)){
+        $criteria->addCondition("edbo.EduQualification NOT LIKE '%магістр%'");
+      }
+      if (!isset($ReqSelectModes[8]) && isset($ReqSelectMode)){
+        $criteria->addCondition("edbo.EduForm NOT LIKE 'Денна'");
+      }
+      if (!isset($ReqSelectModes[9]) && isset($ReqSelectMode)){
+        $criteria->addCondition("edbo.EduForm NOT LIKE 'Заочна'");
+      }
       $criteria->group = 't.idPersonSpeciality';
-      $criteria->order = '_ContractDate ASC, _PaymentDate ASC, edbo.PIB ASC';
+      $criteria->order = 'edbo.PIB ASC';
       $criteria->together = true;
       $models = Personspeciality::model()->findAll($criteria);
         header("Content-type: text/csv");

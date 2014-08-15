@@ -77,6 +77,10 @@ Yii::app()->clientScript->registerPackage('select2');
     height: 25px !important;
   }
   
+  #SpecMagContracts_select_modes{
+    display: none;
+  }
+  
 </style>
 <script>
   
@@ -446,6 +450,13 @@ Yii::app()->clientScript->registerPackage('select2');
       }
     });
     
+    $("#SpecMagContracts_select_mode").change(function(){
+      if ($("#SpecMagContracts_select_mode").is(':checked')){
+        $("#SpecMagContracts_select_modes").slideDown();
+      } else {
+        $("#SpecMagContracts_select_modes").slideUp();
+      }
+    });
 
   });
   
@@ -870,7 +881,17 @@ Yii::app()->clientScript->registerPackage('select2');
 <!-- Статистика контрактів на старші курси -->
 <div class="row-fluid">
 <div class="well well-large span11">
-  <h3 id="elderstat">Статистика контрактів на ОКР "Спеціаліст" і "Магістр"</h3>
+  <h3 id="elderstat">Статистика контрактників</h3>
+  <?php
+    $SpecMagContracts = Yii::app()->createUrl("statistic/stat/SpecMagContracts");
+    /* @var $SpecMagContracts_form TbActiveForm */
+    $SpecMagContracts_form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
+        'id' => 'SpecMagContracts_form',
+        'enableAjaxValidation' => false,
+        'method' => "GET",
+        'action' => $SpecMagContracts,
+    ));
+  ?>
   <div class="form" >
       Повертає CSV-файл (відкривається через Excel). Поля: 
       <ol><li>Прізвище, ім`я, по-батькові </li>
@@ -881,21 +902,55 @@ Yii::app()->clientScript->registerPackage('select2');
           <li>Дата оформлення контакту | "-/-"</li>
           <li>Дата оплати | "НЕ СПЛАЧЕНО" | "-/-"</li>
       </ol>
-    <?php
 
-    $SpecMagContracts = Yii::app()->createUrl("statistic/stat/SpecMagContracts");
-    ?>
-
+    <div class="row-fluid">
+    <?php echo CHtml::checkBox('select_mode', 
+              false, 
+              array('value' => "1", 'id' => "SpecMagContracts_select_mode")); ?>Умови вибірки:
+      <ul id="SpecMagContracts_select_modes">
+      <!--li><?php echo CHtml::checkBox('select_modes[0]', 
+              true, 
+              array('value' => "1")); ?> Є контракт</li>
+      <li><?php echo CHtml::checkBox('select_modes[1]', 
+              true, 
+              array('value' => "1")); ?> Сплачено</li-->
+      <li><?php echo CHtml::checkBox('select_modes[2]', 
+              true, 
+              array('value' => "1")); ?> Статус заяви: Допущено</li>
+      <li><?php echo CHtml::checkBox('select_modes[3]', 
+              true,
+              array('value' => "1")); ?> Статус заяви: Рекомендовано</li>
+      <li><?php echo CHtml::checkBox('select_modes[4]', 
+              true, 
+              array('value' => "1")); ?> Статус заяви: До наказу</li>
+      <!--li><?php echo CHtml::checkBox('select_modes[5]', 
+              false, 
+              array('value' => "1")); ?> ОКР: Бакалавр</li-->
+      <li><?php echo CHtml::checkBox('select_modes[6]', 
+              true, 
+              array('value' => "1")); ?> ОКР: Спеціаліст</li>
+      <li><?php echo CHtml::checkBox('select_modes[7]', 
+              true, 
+              array('value' => "1")); ?> ОКР: Магістр</li>
+      <li><?php echo CHtml::checkBox('select_modes[8]', 
+              true, 
+              array('value' => "1")); ?> Форма: Денна</li>
+      <li><?php echo CHtml::checkBox('select_modes[9]', 
+              true, 
+              array('value' => "1")); ?> Форма: Заочна</li>
+              
+      </ul>
+    </div>
     <div class="row-fluid" style="text-align: center;">
       <?php
       $this->widget("bootstrap.widgets.TbButton", array(
-          'buttonType' => 'link',
-          'url' => $SpecMagContracts,
+          'buttonType' => 'submit',
           'type' => 'primary',
           "size" => "large",
           'label' => 'Сформувати файл',
           'icon' => 'star',
       ));
+      $this->endWidget();
       ?>
     </div>
   </div>
