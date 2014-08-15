@@ -40,6 +40,7 @@
  * @property integer $tDocSeria - перероблена серія документа вступу в ЄДЕБО англійськими малими літерами для порівняння
  * @property integer $tDocSeries - перероблена серія документа вступу в Абітурієнті англійськими малими літерами для порівняння
  * @property integer $ProfileSubjectValue - бал профільного предмету ЗНО
+ * @property integer $PesronCase - № справи (наприклад, Б1-00402)
  * @property integer[] $rating_counter - статичний масив лічильників для формування рейтингу
  * @property integer $is_rating_order = $rating_order_mode (статична)
  */
@@ -75,6 +76,7 @@ class Personspeciality extends ActiveRecord {
   public $tDocSeria;
   public $tDocSeries;
   public $ProfileSubjectValue;
+  public $PersonCase;
   public $excludedIDs = array();
   public $param_quotaID;
   public $quota_budget_places;
@@ -473,6 +475,11 @@ class Personspeciality extends ActiveRecord {
         IF(ISNULL(documentSubject3.SubjectValue),0.0,documentSubject3.SubjectValue)) AS ZNOSum'),
       new CDbExpression('lower(IF(ISNULL(edbo.DocSeria),"none",edbo.DocSeria)) AS tDocSeria'),
       new CDbExpression('lower(IF(ISNULL(entrantdoc.Series),"none",entrantdoc.Series)) AS tDocSeries'),
+      new CDbExpression('CONCAT((CASE t.QualificationID 
+                WHEN 1 THEN "Б" 
+                WHEN 2 THEN "СМ" 
+                WHEN 3 THEN "СМ" 
+                WHEN 4 THEN "МС" END), t.CourseID, "-", LPAD(t.PersonRequestNumber,5,"0")) AS PersonCase'),
     );
     //оформлення єдиного запиту на вибірку
     $criteria->together = true;
@@ -503,7 +510,9 @@ class Personspeciality extends ActiveRecord {
       //  щоб відмітка копії/оригінала не співпадала
       //  щоб напрям або спеціальність або форма не співпадали
       //  щоб статус заяви не співпадав
-      //  щоб серія документа вступу не співпадала
+      //  --! щоб серія документа вступу не співпадала
+      //    OR (lower(IF(ISNULL(entrantdoc.Series),"none",entrantdoc.Series)) COLLATE utf8_unicode_ci
+      //    NOT LIKE lower(IF(ISNULL(edbo.DocSeria),"none",edbo.DocSeria)) COLLATE utf8_unicode_ci)
 
       $criteria->addCondition('(
         (ROUND((
@@ -549,8 +558,6 @@ class Personspeciality extends ActiveRecord {
             (sepciality.SpecialitySpecializationName NOT LIKE CONCAT("%",edbo.Specialization,"%"))
             )
         OR (MID(status.PersonRequestStatusTypeName,1,6) COLLATE utf8_unicode_ci NOT LIKE MID(edbo.Status,1,6)) 
-        OR (lower(IF(ISNULL(entrantdoc.Series),"none",entrantdoc.Series)) COLLATE utf8_unicode_ci
-          NOT LIKE lower(IF(ISNULL(edbo.DocSeria),"none",edbo.DocSeria)) COLLATE utf8_unicode_ci)
         ) AND edbo.ID IS NOT NULL'
       );
       break;
