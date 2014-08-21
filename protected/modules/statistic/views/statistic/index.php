@@ -958,6 +958,13 @@ Yii::app()->clientScript->registerPackage('select2');
 </div>
 
 <!-- ----------------------------------------------------------------------- -->
+<div class="row-fluid">
+    <!--h4>Формування актів</h4-->
+    <a class="btn btn-primary btn-large" href='<?php echo Yii::app()->createUrl('statistic/stat/acts'); ?>'>
+      Формування актів
+    </a>
+</div>
+
 <script>
     $(document).ready(function(){
         

@@ -15,30 +15,24 @@ $HTML .= '<html><head><meta charset="windows-1251"><title>REPORT-' . date('d.m.Y
 $HTML .= '<table border=1>';
 $i = 0;
 foreach ($models as $model){
-  $HTML .= '<tr>'; 
-  foreach ($columns as $column){
-    if (!$i){
-      $HTML .= '<th>'.$column['header'].'</th>';
-    } else {
-      ob_start();
-      $column['value']($model);
-      $out = ob_get_contents();
-      $HTML .= '<td>'.$out.'</td>';
-      ob_end_clean();
-    }
-  }
-  $HTML .= '</tr>';
   if (!$i){
-    $HTML .= '<tr>';
+    $HTML .= '<tr>'; 
     foreach ($columns as $column){
-      ob_start();
-      $column['value']($model);
-      $out = ob_get_contents();
-      $HTML .= '<td>'.$out.'</td>';
-      ob_end_clean();
+      $HTML .= '<th>'.$column['header'].'</th>';
     }
     $HTML .= '</tr>';
   }
+  $HTML .= '<tr>';
+  foreach ($columns as $column){
+    ob_start();
+    //eval('echo '.str_replace('data','model',$column['value']).';');
+    $column['value']($model);
+    $out = ob_get_contents();
+    $HTML .= '<td>'.$out.'</td>';
+    ob_end_clean();
+    //$HTML .= '<td>'.eval($column['value']).'</td>';
+  }
+  $HTML .= '</tr>';
   $i++;
 }
 $HTML .= '</table></body></html>';

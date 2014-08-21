@@ -57,7 +57,7 @@ class StatController extends Controller {
                 'doctypes','benefitgroups','eduforms','okr',
                 'countries','schools', 
                 "statgraduated", 'awards', 'personstatgraduated','exlanguages',
-                "SpecMagContracts"),
+                "SpecMagContracts","Acts","CreateActs"),
             'users' => array('@'),
         ),
         array('allow', 
@@ -1176,7 +1176,7 @@ class StatController extends Controller {
 
     $this->render('/statistic/sysreport',array(
       'model' => $model,
-      'data' => $model->search(),
+      'data' => SysReport::model()->search(),
     ));
   }
   
@@ -1228,6 +1228,17 @@ class StatController extends Controller {
     if ($model){
       $model->delete();
     }
+  }
+  
+  
+  /////////////////акти
+  public function actionActs(){
+      $this->layout='//layouts/clear';
+      $this->render('/statistic/acts/index');
+  }
+  public function actionCreateActs(){
+      $this->layout='//layouts/clear';
+      $this->render('/statistic/acts/select');
   }
   
 }
