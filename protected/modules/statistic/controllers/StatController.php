@@ -57,7 +57,7 @@ class StatController extends Controller {
                 'doctypes','benefitgroups','eduforms','okr',
                 'countries','schools', 
                 "statgraduated", 'awards', 'personstatgraduated','exlanguages',
-                "SpecMagContracts","Acts","CreateActs"),
+                "SpecMagContracts","Acts","CreateActs", "basespecs"),
             'users' => array('@'),
         ),
         array('allow', 
@@ -569,6 +569,7 @@ class StatController extends Controller {
     $fields[] = array('text' => 'Поза конкурсом', 'id' => 22);
     $fields[] = array('text' => 'Копія', 'id' => 27);
     $fields[] = array('text' => 'Відзнака', 'id' => 28);
+    $fields[] = array('text' => 'Базова спеціальність', 'id' => 31);
     
     if (!$q){
       $result = $fields;
@@ -775,6 +776,19 @@ class StatController extends Controller {
           /* @var $model Schools */
           $result[] = array('text' => str_replace('"', "'", $model->PersonDocumentsAwardsTypesName), 
               'id' => $model->idPersonDocumentsAwardsTypes);
+      }
+      echo CJSON::encode($result);
+  }
+  
+  public function actionBasespecs(){
+      $models = Personbasespeciality::model()->findAll('1 ORDER BY PersonBaseSpecialityName');
+      $result = array();
+      foreach ($models as $model){
+          /* @var $model Personbasespeciality */
+          $result[] = array('text' => str_replace('"', "'", implode(' ',
+             array($model->PersonBaseSpecialityClasifierCode, 
+                   $model->PersonBaseSpecialityName))), 
+           'id' => $model->idPersonBaseSpeciality);
       }
       echo CJSON::encode($result);
   }

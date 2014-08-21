@@ -114,7 +114,7 @@ Yii::app()->clientScript->registerPackage('select2');
     }
     //$('#selectx').html(dump);
     $('#selectx').html('<center>Умови вибірки</center>');
-    for (var i = 0; (i < 30); i++){
+    for (var i = 0; (i < 32); i++){
       var rmelem = document.getElementById('cond_remove-'+i);
       var element = document.getElementById('condition-container-' + i);
       if (window.fields.length === 1 && window.fields[0] === "" && element){
@@ -399,6 +399,13 @@ Yii::app()->clientScript->registerPackage('select2');
         '.');
       } //end if
       
+      if (fieldName === 'Базова спеціальність' && (value == 1) &&
+            (!anelement)) {
+        Textfield2Selectbox("condval-"+window.id_num,
+        '<?php echo Yii::app()->CreateUrl('/statistic/stat/basespecs'); ?>',
+        '.');
+      } //end if
+      
       if (fieldName === 'Адреса КОАТУУ' && (value == 1) &&
             (xelement)) {
         //якщо треба вибрати конкретне значення КОАТУУ,
@@ -670,7 +677,7 @@ Yii::app()->clientScript->registerPackage('select2');
         <input type='search' name="fields" id="fields" class="span11" />
       </div>
       <div id='selectx'></div>
-      <?php for ($i = 0; $i < 31; $i++){ 
+      <?php for ($i = 0; $i < 32; $i++){ 
           $is_date = ($i == 13 || $i == 1);
           $is_checkbox = (($i >= 9 && $i <= 11) || ($i >= 21 && $i <= 22) || ($i == 27));
           $is_koatuu = ($i == 2);

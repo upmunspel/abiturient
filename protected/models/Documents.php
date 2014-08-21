@@ -19,6 +19,7 @@
  * @property integer $PersonDocumentsAwardsTypesID
  * @property integer $PersonBaseSpecealityID
  * @property Persondocumentsawardstypes $docaward
+ * @property Personbasespeciality $docbasespec
  */
 class Documents extends ActiveRecord {
 
@@ -210,6 +211,7 @@ class Documents extends ActiveRecord {
             "subjects" => array(self::HAS_MANY, "Documentsubject", "DocumentID"),
             "type" => array(self::BELONGS_TO, "PersonDocumentTypes", "TypeID"),
             "docaward" => array(self::BELONGS_TO, "Persondocumentsawardstypes", "PersonDocumentsAwardsTypesID"),
+            "docbasespec" => array(self::BELONGS_TO, "Personbasespeciality", "PersonBaseSpecealityID"),
         );
     }
 

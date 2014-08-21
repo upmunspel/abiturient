@@ -77,6 +77,9 @@ class Specialities extends CActiveRecord {
         'personsepcialities' => array(self::HAS_MANY, 'Personspeciality', 'SepcialityID'),
         'facultet' => array(self::BELONGS_TO, 'Facultets', 'FacultetID'),
         'eduform' => array(self::BELONGS_TO, 'Personeducationforms', 'PersonEducationFormID'),
+        'specquotes' => array(self::HAS_MANY, 'Specialityquotes', 'SpecialityID'),
+        'quotas' => array(self::HAS_MANY, 'Quota', 'QuotaID', 'through' => 'specquotes'),
+        'basespecrel' => array(self::HAS_MANY, 'BasespecialityRelation', 'SpecialityID'),
     );
   }
 

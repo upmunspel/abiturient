@@ -79,6 +79,7 @@ class ReptController extends Controller {
     $fields[28] = array('text' => 'Відзнака',);
     $fields[29] = array('text' => 'Номер заяви',);
     $fields[30] = array('text' => 'Іноземна мова заяви',);
+    $fields[31] = array('text' => 'Базова спеціальність',);
     
     if (!is_string($reqFields)){
       throw new CHttpException(400,'Помилка. Невірний запит.');
@@ -1142,6 +1143,39 @@ class ReptController extends Controller {
             $criteria);
           ////////////////////////////////////////////
           break;
+        case 31:
+          $group = 't.idPersonSpeciality';
+          $rels = array(
+              array('name' => 'entrantdoc', 'select' => true),
+              array('name' => 'entrantdoc.docbasespec', 'select' => true),
+          );
+          $sel = array(
+              'to_select' => $to_select,
+              'db_field_id' => 'entrantdoc.PersonBaseSpecealityID',
+              'db_field' => 'docbasespec.PersonBaseSpecialityName',
+          );
+          $widget_column = array('name' => 'docbasespec.PersonBaseSpecialityName', 
+            'header' => $header,
+            'value' => 
+            function ($data){
+              if (!empty($data->entrantdoc)){
+                if (!empty($data->entrantdoc->docbasespec)){
+                  echo $data->entrantdoc->docbasespec->PersonBaseSpecialityClasifierCode 
+                    . ' '
+                    . $data->entrantdoc->docbasespec->PersonBaseSpecialityName;
+                }
+              }
+            }
+          );
+          $field_num_index = ($to_select)? $field_num_indexes[$i]:0;
+          $this->ProcessFieldTextAlternative($with_rel, $rels, 
+            $select, $sel, 
+            $widget_columns, $widget_column, $field_num_index,
+            $condition_type, $condition_value, $alternative_condition_value,
+            $criteria);
+          ////////////////////////////////////////////
+          break;
+
       }
     }
     $criteria->select = $select;

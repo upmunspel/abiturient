@@ -6,6 +6,7 @@
  * The followings are the available columns in table 'basespeciality_relation':
  * @property integer $PersonBaseSpecialityID
  * @property integer $SpecialityID
+ * @property Personbasespeciality $basespec
  */
 class BasespecialityRelation extends CActiveRecord
 {
@@ -51,6 +52,7 @@ class BasespecialityRelation extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+       'basespec' => array(self::BELONGS_TO, 'Personbasespeciality', 'PersonBaseSpecialityID'),
 		);
 	}
         
