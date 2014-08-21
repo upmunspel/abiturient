@@ -1,0 +1,36 @@
+.header {
+	width: 100%;
+	background-color: #DDDDEE;
+	font-family: Tahoma;
+	font-size: 11pt;
+}
+.input_file {
+      display:none;
+}
+#load_file {
+	background-color: #AAEECC;
+	border: solid 2px grey;
+	cursor: pointer;
+}
+#send_file {
+	background-color: #AACCEE;
+	border: solid 2px grey;
+	cursor: pointer;
+}
+.error {
+	color: red;
+	font-weight: bold;
+}
+
+TD {
+	border: solid 1px black;
+	margin: 0px;
+	padding-left: 3px;
+	padding-right: 3px;
+	height: 20px;
+}
+
+TABLE {
+	border-collapse: collapse;
+	font-size: 9pt;
+}
