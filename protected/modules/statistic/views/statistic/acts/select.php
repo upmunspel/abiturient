@@ -37,7 +37,7 @@
         echo "   ".$specialization;
 		echo $budget;
 		echo $contract;*/
-	$connection = mysql_connect('10.1.10.26','root','ehHYAuj');
+	$connection = mysql_connect('10.1.103.26','root','ehHYAuj');
 	mysql_query("use abiturient");
 	mysql_query("set names utf8");
 	mysql_query("UPDATE parametersquery SET value='".$fac."' WHERE code=16");
@@ -50,6 +50,6 @@
       //  else{
            // echo "<a href=\"http://10.1.11.57:8080/request_report-1.0/decanat_contract.jsp?Speciality=$spec&Fac=$fac&iframe=true&width=1024&height=600\">Сформувати PDF</a>";
      //   }
-         header("Location: http://10.1.23.223:8080/request_report-1.0/decanat.jsp?budgetcontract=$budgetcontract&eduform=$eduform&budget=$budget&contract=$contract&iframe=true&width=1024&height=600");
+         header("Location: http://10.1.22.26:8080/request_report-1.0/decanat.jsp?budgetcontract=$budgetcontract&eduform=$eduform&budget=$budget&contract=$contract&iframe=true&width=1024&height=600");
         ?>
  
