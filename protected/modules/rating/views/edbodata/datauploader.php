@@ -9,17 +9,17 @@
     font-weight:100;
 }
 </style>
-<h3 style="font-family: Oreos;">  CSV data uploader (<span style='color:red;'>edbo</span>)  </h3>
+<h3 style="font-family: Oreos;">  CSV OR XLS data uploader (<span style='color:red;'>edbo</span>)  </h3>
   <div class="well well-small row row-fluid" style="background-color: white;">
-    Завантаження CSV-файлу з даними ЄДЕБО.
+    Завантаження CSV- або <b>XLS</b>-файлу з даними ЄДЕБО.
     <?php
       $this->widget('bootstrap.widgets.TbFileUpload', array(
               'url' => $this->createUrl('/rating/edbodata/upload'),
               'imageProcessing' => true,
-              'name' => 'csv_file',
+              'name' => '_file',
               'multiple' => false,
               'model' => $model,
-              'attribute' => 'csv_file', // see the attribute?
+              'attribute' => '_file', // see the attribute?
               'multiple' => true,
               'options' => array(
                 'maxFileSize' => 900000000,

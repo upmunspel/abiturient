@@ -29,7 +29,7 @@ class EdbodataController extends Controller
     return array(
       array('allow', // allow users with admin privileges to perform all CRUD actions
         'actions' => array('view', 'create', 'update', 'admin', 'delete', 
-           'datauploader', 'upload', 'deletecsv', 'excelreader'),
+           'datauploader', 'upload', 'deletefile', 'excelreader'),
         'users' => array('@'),
       ),
       array('deny', // deny all users
@@ -173,16 +173,16 @@ class EdbodataController extends Controller
     $data = array();
 
     $model = new EdboData();
-    $model->csv_file = CUploadedFile::getInstance($model, 'csv_file');
+    $model->_file = CUploadedFile::getInstance($model, '_file');
     
     //якщо файл завантажено
-    if ($model->csv_file !== null && $model->validate(array('csv_file'))) {
+    if ($model->_file !== null && $model->validate(array('_file'))) {
       //формується назва файлу із його MD5-хешу
-      $md5_name = md5_file($model->csv_file->getTempName());
-      $ext = $model->csv_file->extensionName;
+      $md5_name = md5_file($model->_file->getTempName());
+      $ext = $model->_file->extensionName;
       $new_filename = Yii::app()->getBasePath().'/data/'.$md5_name.'.'.$ext;
       //спроба збереження файлу
-      if ($model->csv_file->saveAs($new_filename) !== true){
+      if ($model->_file->saveAs($new_filename) !== true){
         $data[] = array('error', $new_filename. ' не зберігся...');
         echo json_encode($data);
         return ;
@@ -209,15 +209,15 @@ class EdbodataController extends Controller
       //дані для виведення (асинхронно)
       $data[] = array(
           'name' => $message,
-          'type' => $model->csv_file->type,
-          'size' => $model->csv_file->size,
+          'type' => $model->_file->type,
+          'size' => $model->_file->size,
           'uploaded' => $message,
-          'delete_url' => Yii::app()->CreateUrl('/rating/edbodata/deletecsv',array('path' => $file)),
+          'delete_url' => Yii::app()->CreateUrl('/rating/edbodata/deletefile',array('path' => $file)),
           'delete_type' => 'GET');
     } else {
       //якщо файл не пройшов валідацію
-      if ($model->hasErrors('csv_file')) {
-        $data[] = array('error', $model->getErrors('csv_file'));
+      if ($model->hasErrors('_file')) {
+        $data[] = array('error', $model->getErrors('_file'));
       } else {
         throw new CHttpException(500, "Could not upload file " . CHtml::errorSummary($model));
       }
@@ -229,7 +229,7 @@ class EdbodataController extends Controller
   /**
    * Метод видалення CSV-файлу (асинхронно)
    */
-  public function actionDeletecsv(){
+  public function actionDeletefile(){
     //if (Yii::app()->request->isGetRequest){
       $path = Yii::app()->request->getParam('path',null);
       if ($path){
@@ -496,10 +496,12 @@ class EdbodataController extends Controller
       $edbo_attributes = array();
       $id++;
       for ($i = 1; $i <= $numCols; $i++){
+        //беремо дані окремої комірки
         $cell = isset($excel->sheets[0]['cells'][$j][$i]) ? 
         ((empty($excel->sheets[0]['cells'][$j][$i]))? 
           null : $excel->sheets[0]['cells'][$j][$i] )
         : null;
+        //далі перевірка типу атрибутів і приведення типу до відповідного
         $is_float = (strstr($row_header[$i-1]['Type'],'float')!==false);
         $is_integer = (strstr($row_header[$i-1]['Type'],'int')!==false);
         if ($is_float){
@@ -554,12 +556,14 @@ class EdbodataController extends Controller
       /*оновлення або створення нового запису в БД з перевірками*/
       $result_of_saving_new_model = false;
       if ($is_new){
+        //якщо кортежу з прибулим ID не існувало, то це новий запис (insert)
         $edbo_model = new EdboData();
         $inserted++;
         $edbo_model->attributes = $edbo_attributes;
         $result_of_saving_new_model = $edbo_model->save();
       }
       if ($is_new && !$result_of_saving_new_model && !empty($edbo_model->errors)){
+        //якщо виникла проблема при збереженні нового кортежу
         $err_msgs = array();
         foreach ($edbo_model->errors as $ferrors){
           foreach ($ferrors as $err){
@@ -577,13 +581,13 @@ class EdbodataController extends Controller
       
       $result_of_saving_existing_model = false;
       if ($is_change){
+        //якщо кортеж з прибулим ID існував, то треба оновити запис (update)
         $updated++;
         $edbo_existing_model->attributes = $edbo_attributes;
-        
         $result_of_saving_existing_model = $edbo_existing_model->save();
-        
       }
       if ($is_change && !$result_of_saving_existing_model && !empty($edbo_existing_model->errors)){
+        //якщо виникли проблеми з оновленням
         $err_msgs = array();
         foreach ($edbo_existing_model->errors as $ferrors){
           foreach ($ferrors as $err){

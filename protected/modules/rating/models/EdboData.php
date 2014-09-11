@@ -52,7 +52,7 @@
  * @property string $EntranceCodes
  * @property string $Priority
  * 
- * @property file $csv_file File for uploading edbo data
+ * @property file $_file File for uploading edbo data
  */
 class EdboData extends CActiveRecord
 {
@@ -62,7 +62,7 @@ class EdboData extends CActiveRecord
    * @return EdboData the static model class
    */
   
-  public $csv_file;
+  public $_file;
   public $statuses;
   
   public static function model($className=__CLASS__){
@@ -93,7 +93,7 @@ class EdboData extends CActiveRecord
       array('Direction, Speciality, Specialization, StructBranch, DetailPoints, DocType, EntranceType, EntranceReason, Language', 'length', 'max'=>128),
       array('DocDate, EntranceCodes, Priority', 'length', 'max'=>32),
       array('Country', 'length', 'max'=>192),
-      array('csv_file', 'file', 'types' => 'csv, xls', 'maxSize' => 1024 * 1024 * 200, 
+      array('_file', 'file', 'types' => 'csv, xls', 'maxSize' => 1024 * 1024 * 200, 
           'tooLarge' => 'Перевищена межа у 200MB !', 'on' => 'upload'),
       // The following rule is used by search().
       // Please remove those attributes that should not be searched.
