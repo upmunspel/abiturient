@@ -57,7 +57,7 @@ class StatController extends Controller {
                 'doctypes','benefitgroups','eduforms','okr',
                 'countries','schools', 
                 "statgraduated", 'awards', 'personstatgraduated','exlanguages',
-                "SpecMagContracts","Acts","CreateActs", "basespecs"),
+                "SpecMagContracts","Acts","CreateActs", "basespecs","getphotozip"),
             'users' => array('@'),
         ),
         array('allow', 
@@ -1241,6 +1241,57 @@ class StatController extends Controller {
     $model = Graduated::model()->findByPk($id);
     if ($model){
       $model->delete();
+    }
+  }
+  
+  /**
+   * Метод повертає архів із фото усіх зарахованих персон для факультету з ID = $id
+   */
+  public function actionGetphotozip(){
+    $id = Yii::app()->request->getParam('id',0);
+    if (!is_numeric($id)){
+      throw new CHttpException(400, 'Помилка: ID має бути цілим числом.');
+    }
+    $faculty = Facultets::model()->findByPk($id);
+    if (!$faculty){
+      throw new CHttpException(400, 'Факультет з ID='.$id.' не знайдено.');
+    }
+    $criteria = new CDbCriteria();
+    $criteria->with = array(
+      'person',
+      'sepciality',
+      'sepciality.facultet'
+    );
+    $criteria->compare('sepciality.FacultetID',$id);
+    $criteria->compare('StatusID',7);
+    $criteria->together = true;
+    $models = Personspeciality::model()->findAll($criteria);
+    if (count($models) == 0){
+      throw new CHttpException(400, 'Помилка: немає даних.');
+    }
+    $zipname = 
+    //iconv('utf-8','windows-1251',$models[0]->sepciality->facultet->FacultetFullName)
+    'Facultet_'.$models[0]->sepciality->FacultetID
+    .'.zip';
+    $zip = new ZipArchive;
+    $zip->open($zipname, ZipArchive::CREATE);
+    $def_path = Yii::app()->getBasePath().'/../images/Photos/';
+    $count = 0;
+    foreach ($models as $model){
+      $file_entity = $def_path . $model->person->PhotoName;
+      if (file_exists($file_entity)) {
+        $file_ext = substr(strrchr($file_entity, '.'), 1);
+        $res = $zip->addFile($file_entity, $model->PersonID.'.'.$file_ext);
+        if ($res){ 
+          $count++;
+        }
+      }
+    }
+    $zip->close();
+    if ($count > 0){
+      $this->redirect(Yii::app()->CreateUrl($zipname));
+    } else {
+      throw new CHttpException(400, 'Помилка: не знайдено жодного файлу фотографії.');
     }
   }
   

@@ -32,6 +32,41 @@ Yii::app()->clientScript->registerPackage('select2');
     cursor: pointer;
     color: blue;
   }
+  #ratingcontacts{
+    cursor: pointer;
+  }
+  #ratingcontacts:hover{
+    cursor: pointer;
+    color: blue;
+  }
+  #elderstat{
+    cursor: pointer;
+  }
+  #elderstat:hover{
+    cursor: pointer;
+    color: blue;
+  }
+  #eldernumstat{
+    cursor: pointer;
+  }
+  #eldernumstat:hover{
+    cursor: pointer;
+    color: blue;
+  }
+  #eldercontracts{
+    cursor: pointer;
+  }
+  #eldercontracts:hover{
+    cursor: pointer;
+    color: blue;
+  }
+  #photo7{
+    cursor: pointer;
+  }
+  #photo7:hover{
+    cursor: pointer;
+    color: blue;
+  }
   .select2-choices {
     min-height: 350px;
     max-height: 350px;
@@ -236,6 +271,21 @@ Yii::app()->clientScript->registerPackage('select2');
     });
     $('#reportconstructor').click(function(){
       $('#report_block').slideToggle();
+    });
+    $('#ratingcontacts').click(function(){
+      $('#ratingcontacts_block').slideToggle();
+    });
+    $('#elderstat').click(function(){
+      $('#elderstat_block').slideToggle();
+    });
+    $('#eldernumstat').click(function(){
+      $('#eldernumstat_block').slideToggle();
+    });
+    $('#eldercontracts').click(function(){
+      $('#eldercontracts_block').slideToggle();
+    });
+    $('#photo7').click(function(){
+      $('#photo7_block').slideToggle();
     });
     
     $("#fields").select2({
@@ -765,99 +815,97 @@ Yii::app()->clientScript->registerPackage('select2');
   </div>
 </div>
 <!-- ----------------------------------------------------------------------- -->
-<?php if (Yii::app()->user->checkAccess('showProperties')){ ?>
 <div class="row-fluid" >
-  <div class="well well-large span11">
-    <h3>Контактні дані абітурієнтів</h3>
-    <ul>
-    <?php 
-      foreach (Facultets::model()->findAll('1 ORDER BY FacultetFullName') as $faculty){
-        echo '<li>'.CHtml::link($faculty->FacultetFullName,
-                Yii::app()->CreateUrl("rating/rating/ratingcontacts",array('id'=>$faculty->idFacultet)));
-        echo ' ('. CHtml::link('У форматі Excel - html',
-                Yii::app()->CreateUrl("rating/rating/ratingcontacts",array('id'=>$faculty->idFacultet,'toexcel' => 1))).')';
-        echo '</li>';
+  <div class="well well-large span6">
+    <h3 id="ratingcontacts">Контактні дані абітурієнтів</h3>
+    <div class="span12" id="ratingcontacts_block" style="display:none;">
+      <ul>
+      <?php 
+      if (Yii::app()->user->checkAccess('showProperties')){
+        foreach (Facultets::model()->findAll('1 ORDER BY FacultetFullName') as $faculty){
+          echo '<li>'.CHtml::link($faculty->FacultetFullName,
+                  Yii::app()->CreateUrl("rating/rating/ratingcontacts",array('id'=>$faculty->idFacultet)));
+          echo ' ('. CHtml::link('У форматі Excel - html',
+                  Yii::app()->CreateUrl("rating/rating/ratingcontacts",array('id'=>$faculty->idFacultet,'toexcel' => 1))).')';
+          echo '</li>';
+        }
+      } else {
+        ?>
+          <h4>Недостатньо прав для перегляду</h4>
+        <?php
       }
-    ?>
-    </ul>
-  </div>
-</div>
-<?php } ?>
-<!-- ----------------------------------------------------------------------- -->
- <hr/>
-
-<!-- Статистика заяв на старші курси -->
-<div class="row-fluid">
-<div class="well well-large span11">
-  <h3 id="elderstat">Статистика заяв на старші курси</h3>
-
-  <div class="form" id="fullstat_block" >
-    <?php
-
-    $statdetail_act = Yii::app()->createUrl("statistic/stat/statgraduated");
-    /* @var $statdetail_form TbActiveForm */
-    $statdetail_form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
-        'id' => 'statgr',
-        'enableAjaxValidation' => false,
-        'method' => "GET",
-        'action' => $statdetail_act,
-    ));
-    ?>
-    <div class="row-fluid">
-      <div class="span4">
-        <?php echo Chtml::label("ОКР", 'QualificationID'); ?>
-        <?php
-        echo CHtml::dropDownList(
-                'QualificationID', 
-                "", 
-                array("3" => "Спеціаліст", "2" => "Магістр"), 
-                array('empty' => '','class'=>'span12'));
-        ?>
-      </div>
-
-      <div class='span4'>
-        <?php echo CHtml::label("Від дати", 'DateFrom'); ?>
-        <?php
-        echo CHtml::textField(
-                'DateFrom', 
-                date('d.m.Y'), 
-                array('class' => 'datepicker span12'));
-        ?>
-
-      </div>
-      <div class='span4'>
-        <?php echo CHtml::label("До дати", 'DateTo'); ?>
-        <?php
-        echo CHtml::textField(
-                'DateTo', 
-                date('d.m.Y'), 
-                array('class' => 'datepicker span12'));
-        ?>
-
-      </div>
+      ?>
+      </ul>
     </div>
-
-    <div class="row-fluid">
+  </div>
+  
+  <!-- Статистика заяв на старші курси -->
+  <div class="well well-large span5">
+    <h3 id="elderstat">Статистика заяв на старші курси</h3>
+    <div class="form" id="elderstat_block" style="display:none;">
       <?php
-      $this->widget("bootstrap.widgets.TbButton", array(
-          'buttonType' => 'submit',
-          'type' => 'primary',
-          "size" => "large",
-          'label' => 'Показати',
+      $statdetail_act = Yii::app()->createUrl("statistic/stat/statgraduated");
+      /* @var $statdetail_form TbActiveForm */
+      $statdetail_form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
+          'id' => 'statgr',
+          'enableAjaxValidation' => false,
+          'method' => "GET",
+          'action' => $statdetail_act,
       ));
       ?>
+      <div class="row-fluid">
+        <div class="span12">
+          <?php echo Chtml::label("ОКР", 'QualificationID'); ?>
+          <?php
+          echo CHtml::dropDownList(
+                  'QualificationID', 
+                  "", 
+                  array("3" => "Спеціаліст", "2" => "Магістр"), 
+                  array('empty' => '','class'=>'span12'));
+          ?>
+        </div>
+      </div>
+      <div class="row-fluid">
+        <div class='span6'>
+          <?php echo CHtml::label("Від дати", 'DateFrom'); ?>
+          <?php
+          echo CHtml::textField(
+                  'DateFrom', 
+                  date('d.m.Y'), 
+                  array('class' => 'datepicker span12'));
+          ?>
+        </div>
+        <div class='span6'>
+          <?php echo CHtml::label("До дати", 'DateTo'); ?>
+          <?php
+          echo CHtml::textField(
+                  'DateTo', 
+                  date('d.m.Y'), 
+                  array('class' => 'datepicker span12'));
+          ?>
+        </div>
+      </div>
+
+      <div class="row-fluid">
+        <?php
+        $this->widget("bootstrap.widgets.TbButton", array(
+            'buttonType' => 'submit',
+            'type' => 'primary',
+            "size" => "large",
+            'label' => 'Показати',
+        ));
+        ?>
+      </div>
+    <?php $this->endWidget(); ?>
     </div>
-  <?php $this->endWidget(); ?>
   </div>
 </div>
-</div>
-
 <!-- ----------------------------------------------------------------------- -->
 <!-- Статистика заяв окремих персон на старші курси -->
 <div class="row-fluid">
-<div class="well well-large span11">
-  <h3 id="elderstat">Статистика абітурієнтів на ОКР "Спеціаліст" і "Магістр"</h3>
-  <div class="form" >
+<div class="well well-large span6">
+  <h3 id="eldernumstat">Статистика абітурієнтів на ОКР "Спеціаліст" і "Магістр"</h3>
+  <div class="form" id="eldernumstat_block" style="display:none;">
       Повертає CSV-файл (відкривається через Excel). Поля: 
       <ol><li>факультет, </li>
           <li>к-сть випускників <?php echo date('Y'); ?> року сумарно по усім формам навчання і напрямам,</li>
@@ -882,13 +930,9 @@ Yii::app()->clientScript->registerPackage('select2');
     </div>
   </div>
 </div>
-</div>
-
-<!-- ----------------------------------------------------------------------- -->
 <!-- Статистика контрактів на старші курси -->
-<div class="row-fluid">
-<div class="well well-large span11">
-  <h3 id="elderstat">Статистика контрактників</h3>
+<div class="well well-large span5">
+  <h3 id="eldercontracts">Статистика контрактників</h3>
   <?php
     $SpecMagContracts = Yii::app()->createUrl("statistic/stat/SpecMagContracts");
     /* @var $SpecMagContracts_form TbActiveForm */
@@ -899,7 +943,7 @@ Yii::app()->clientScript->registerPackage('select2');
         'action' => $SpecMagContracts,
     ));
   ?>
-  <div class="form" >
+  <div class="form" id="eldercontracts_block" style="display:none;">
       Повертає CSV-файл (відкривається через Excel). Поля: 
       <ol><li>Прізвище, ім`я, по-батькові </li>
           <li>Код спеціальності </li>
@@ -963,6 +1007,30 @@ Yii::app()->clientScript->registerPackage('select2');
   </div>
 </div>
 </div>
+<!-- ----------------------------------------------------------------------- -->
+<div class="row-fluid">
+<div class="well well-large span6">
+  <!-- Завантаження фото у вигляді архівів -->
+    <h3 id="photo7">Фото усіх зарахованих абітурієнтів</h3>
+    <div class="span12" id="photo7_block" style="display:none;">
+      <ul>
+      <?php 
+      if (Yii::app()->user->checkAccess('showProperties')){
+        foreach (Facultets::model()->findAll('1 ORDER BY FacultetFullName') as $faculty){
+          echo '<li>'.CHtml::link($faculty->FacultetFullName . ' (zip-архів)',
+                  Yii::app()->CreateUrl("statistic/stat/getphotozip",array('id'=>$faculty->idFacultet)));
+          echo '</li>';
+        }
+      } else {
+        ?>
+          <h4>Недостатньо прав для перегляду</h4>
+        <?php
+      }
+      ?>
+      </ul>
+    </div>
+</div>
+</div>
 
 <!-- ----------------------------------------------------------------------- -->
 <div class="row-fluid">
@@ -974,7 +1042,6 @@ Yii::app()->clientScript->registerPackage('select2');
 
 <script>
     $(document).ready(function(){
-        
        $(".datepicker").datepicker({'format':"dd.mm.yyyy"});
     });
 </script>
