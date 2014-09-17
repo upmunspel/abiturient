@@ -8,7 +8,7 @@ class StatController extends Controller {
    */
   //public $layout='//layouts/column2';
   public $defaultAction = 'index';
-  public $ip = '10.1.22.26';
+  public $ip = '10.1.100.10';
   
   protected function getKoatuuComparatorQuery($token, $QualificationID, $statuses, $date_segment, $sql_as){
     $sql_str = '((SELECT COUNT(DISTINCT ps8.idPersonSpeciality) FROM personspeciality ps8 '
