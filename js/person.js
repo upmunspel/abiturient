@@ -537,6 +537,23 @@ PSN.changeSpeciality = function(obj, link) {
 
 }
 
+/**
+ * Sepciality change
+ */
+PSN.changeFacultet = function(obj, link) {
+    var facultet = $("#FacultetID").val();
+    var EducationFormID = $("#EducationFormID").val();
+    $.ajax({
+        'url': link,
+        'data': "idFacultet="+facultet+"&idEducationForm="+EducationFormID+"&QualificationID=1",
+        'type': 'GET',
+        success: function(data) {
+            $("#idPreuniGroup").html(data);
+        }
+    });
+
+}
+
 String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1).toLowerCase();
 }

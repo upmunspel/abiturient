@@ -29,3 +29,4 @@ $this->pageTitle=Yii::app()->name;
 </div>
 <div class="row-fluid"></div>
 <?php $this->endWidget(); ?>
+

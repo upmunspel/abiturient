@@ -95,6 +95,8 @@
                         'url' => '#', "icon" => "icon-book", 'items' => Directories::listMenu()),
                     array('label' => 'Звіти', 'visible' => Yii::app()->user->checkAccess('showReports'),
                         'url' => Yii::app()->createUrl('statistic'), "icon" => "icon-book",),
+                    array('label' => 'Відомісті', 'visible' => Yii::app()->user->checkAccess('showStatements'),
+                        'url' => Yii::app()->createUrl('preuniversity/statements'), "icon" => "icon-book",),
                 ),
             ),
             array(

@@ -40,12 +40,14 @@
             array(
                 'class' => 'bootstrap.widgets.TbMenu',
                 'items' => array(
-                    array('label' => 'Рейтинги', 'url' => array('/rating'), "icon"=>"icon-list"),
+                    //array('label' => 'Рейтинги', 'url' => array('/rating'), "icon"=>"icon-list"),
                     array('label' => 'Контакти', 'url' => array('/site/contact'), "icon" => "icon-envelope", 'visible' => Yii::app()->user->isGuest),
                     array('label' => 'Довідники', 'visible' => Yii::app()->user->checkAccess('showDirectiries'),
                         'url' => '#', "icon" => "icon-book", 'items' => Directories::listMenu()),
                     array('label' => 'Звіти', 'visible' => Yii::app()->user->checkAccess('showReports'),
                         'url' => Yii::app()->createUrl('statistic'), "icon" => "icon-book",),
+                    array('label' => 'Відомісті', 'visible' => Yii::app()->user->checkAccess('showStatements'),
+                        'url' => Yii::app()->createUrl('preuniversity/statements'), "icon" => "icon-book",),
                 ),
             ),
             array(
