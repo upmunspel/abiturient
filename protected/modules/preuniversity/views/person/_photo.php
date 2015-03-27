@@ -1,14 +1,14 @@
 <div class="row-fluid">
     <div class="span5" >
         <b>Існуюче</b>
+        
         <a href="#" style="width: 120px;" class="thumbnail" rel="tooltip" data-title="Фото абітурієнта">
             <?php
             $path = Yii::app()->baseUrl . Yii::app()->params['photosPath'] . $model->PhotoName;
-
-            if (!file_exists(Yii::app()->basePath . "/../.." . $path)) {
+            $rpath = realpath(DIR_ROOT.DS."images".DS."Photos").DS.$model->PhotoName;
+            if (!is_file($rpath)) {
                 $path = Yii::app()->baseUrl . Yii::app()->params['photosPath'] . Yii::app()->params['defaultPersonPhotoSmall'];
             }
-
             echo CHtml::image($path."?r=".time(), 'Фото абітурієнта', array("id" => "existing-photo"));
             ?>
 

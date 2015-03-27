@@ -1,10 +1,15 @@
 <?php
 //error_reporting(0);
+
 ini_set('memory_limit', '2048M');
 // change the following paths if necessary
 $yii=dirname(__FILE__).'/framework/yii.php';
 $config=dirname(__FILE__).'/protected/config/main.php';
 $debug = true;
+
+define('DIR_ROOT', __DIR__);
+define('DS', DIRECTORY_SEPARATOR);
+
 defined('YII_DEBUG') or define('YII_DEBUG',$debug );
 //show profiler
 defined('YII_DEBUG_SHOW_PROFILER') or define('YII_DEBUG_SHOW_PROFILER',$debug);
