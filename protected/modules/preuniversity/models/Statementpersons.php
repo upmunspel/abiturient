@@ -67,6 +67,7 @@ class Statementpersons extends CActiveRecord {
         // class name for the relations automatically generated below.
         return array(
             'person' => array(self::BELONGS_TO, 'Person', array('PersonID' => 'idPerson')),
+            'statem' => array(self::BELONGS_TO, 'Statements', array('StatementID' => 'idStatement')),
         );
     }
 

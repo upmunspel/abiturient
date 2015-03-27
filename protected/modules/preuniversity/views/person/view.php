@@ -55,6 +55,12 @@ $this->widget('bootstrap.widgets.TbDetailView',array(
                  "codeU",
                  "edboID",
                  "operatorInfo",
+              
+                array(
+                        'name'=>'statement',
+                        //'value'=>CHtml::link($model->statem->statem->number,Yii::app()->createUrl("/preuniversity/statements/view/".$model->statem->StatementID)),
+                        'type'=>"raw",
+                    ),
 	),
 )); ?>
     </div>

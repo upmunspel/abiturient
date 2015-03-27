@@ -233,18 +233,18 @@
 
 
 
-
+<!--
     <p class="help-block"><strong>Інші документи</strong></p>
     <hr>
     <div class="row-fluid" >
         <div class ="span4"  >
-<?php echo $this->renderPartial("_inndocumentform", array('model' => $model->inndoc, 'form' => $form)); ?>
+<?php //echo $this->renderPartial("_inndocumentform", array('model' => $model->inndoc, 'form' => $form)); ?>
         </div>
         <div class ="span4"  >
 <?php //echo $this->renderPartial("_hospdocumentform", array('model' => $model->hospdoc, 'form' => $form));  ?>
         </div>
     </div>
-
+-->
 
     <p class="help-block"><strong>Контактна інформація</strong></p>
     <hr>

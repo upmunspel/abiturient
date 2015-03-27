@@ -166,9 +166,9 @@ class PersonController extends Controller {
             $model->attributes = $_POST['Person'];
 
 
-            if (isset($_POST['Documents']['inndoc'])) {
+           /* if (isset($_POST['Documents']['inndoc'])) {
                 $model->inndoc->attributes = $_POST['Documents']['inndoc'];
-            }
+            }*/
 
             if (isset($_POST['PersonContacts']['homephone'])) {
                 $model->homephone->attributes = $_POST['PersonContacts']['homephone'];
@@ -178,8 +178,9 @@ class PersonController extends Controller {
             }
 
 
-            if ($model->inndoc->validate("INN") && $model->homephone->validate() && $model->mobphone->validate() && $model->save()) {
+            //if ($model->inndoc->validate("INN") && $model->homephone->validate() && $model->mobphone->validate() && $model->save()) {
 
+            if ($model->homephone->validate() && $model->mobphone->validate() && $model->save()) {
 
 
 
@@ -209,12 +210,12 @@ class PersonController extends Controller {
                 }
 
 
-                $model->inndoc->PersonID = $model->idPerson;
+                //$model->inndoc->PersonID = $model->idPerson;
                 $model->hospdoc->PersonID = $model->idPerson;
                 $model->homephone->PersonID = $model->idPerson;
                 $model->mobphone->PersonID = $model->idPerson;
 
-                $model->inndoc->save();
+                //$model->inndoc->save();
                 $model->hospdoc->save();
                 $model->homephone->save();
                 $model->mobphone->save();
@@ -250,10 +251,10 @@ class PersonController extends Controller {
             if (empty($_POST['Person']['KOATUUCodeL3ID']))
                 $model->KOATUUCodeL3ID = null;
 
-            if (isset($_POST['Documents']['inndoc'])) {
+            /*if (isset($_POST['Documents']['inndoc'])) {
                 $model->inndoc->attributes = $_POST['Documents']['inndoc'];
                 $model->inndoc->PersonID = $model->idPerson;
-            }
+            }*/
             if (isset($_POST['PersonContacts']['homephone'])) {
                 $model->homephone->attributes = $_POST['PersonContacts']['homephone'];
                 $model->homephone->PersonID = $model->idPerson;
@@ -263,8 +264,9 @@ class PersonController extends Controller {
                 $model->mobphone->PersonID = $model->idPerson;
             }
 
+            //if ($model->validate() && $model->inndoc->validate("INN") && $model->homephone->validate() && $model->mobphone->validate() && $model->save()) {
 
-            if ($model->validate() && $model->inndoc->validate("INN") && $model->homephone->validate() && $model->mobphone->validate() && $model->save()) {
+            if ($model->validate() && $model->homephone->validate() && $model->mobphone->validate() && $model->save()) {
 
 
                 $file = CUploadedFile::getInstance($model, 'image');
@@ -294,7 +296,7 @@ class PersonController extends Controller {
 
 
 
-                $model->inndoc->save();
+                //$model->inndoc->save();
 
                 $model->homephone->save();
                 $model->mobphone->save();

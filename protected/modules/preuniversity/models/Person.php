@@ -64,6 +64,14 @@ class Person extends ActiveRecord {
         $en = $this->LastNameEn . " " . $this->FirstNameEn . " " . $this->MiddleNameEn;
         return $this->LastName . " " . $this->FirstName . " " . $this->MiddleName . " / " . $en;
     }
+    public function getStatement() {
+        $res = "";
+        $model = Statementpersons::model()->find("PersonID = {$this->idPerson}");
+        if (!empty($model) && is_object($model)){
+            $res = CHtml::link($model->statem->statem->number,Yii::app()->createUrl("/preuniversity/statements/view/".$model->statem->StatementID));
+        } 
+        return $res;
+    }
 
     public function getOperatorInfo() {
         if (!empty($this->SysUserID)) {
@@ -231,6 +239,9 @@ class Person extends ActiveRecord {
             'znos' => array(self::HAS_MANY, 'Documents', 'PersonID', 'on' => 'znos.TypeID=4'),
             'specs' => array(self::HAS_MANY, 'Personspeciality', 'PersonID'),
             'docs' => array(self::HAS_MANY, 'Documents', 'PersonID'),
+            'statem' => array(self::BELONGS_TO, 'Statementpersons',  array('idPerson'=>'PersonID')),
+            
+            //'person' => array(self::BELONGS_TO, 'Person', array('PersonID' => 'idPerson')),
         );
     }
 
@@ -374,7 +385,8 @@ class Person extends ActiveRecord {
             "Housing" => "Корпус",
             "EducationFormID"=>"Форма обучения",
             "FacultetID"=>"Факультет",
-            'idPreuniGroup'=>"Напрям підготовки (група)"
+            'idPreuniGroup'=>"Напрям підготовки (група)",
+            "statement"=>"Відомість"
         );
     }
 
