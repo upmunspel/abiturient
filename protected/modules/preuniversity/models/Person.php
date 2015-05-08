@@ -56,20 +56,24 @@ class Person extends ActiveRecord {
     private $hospdoc = NULL;
     private $homephone = NULL;
     private $mobphone = NULL;
-    public  $FacultetID = 0;
-    public  $EducationFormID = 0;
-    public  $koatu;
-    public  $image;
+    public $FacultetID = 0;
+    public $EducationFormID = 0;
+    public $koatu;
+    public $image;
+
     public function getFIO() {
         $en = $this->LastNameEn . " " . $this->FirstNameEn . " " . $this->MiddleNameEn;
         return $this->LastName . " " . $this->FirstName . " " . $this->MiddleName . " / " . $en;
     }
+
     public function getStatement() {
         $res = "";
-        $model = Statementpersons::model()->find("PersonID = {$this->idPerson}");
-        if (!empty($model) && is_object($model)){
-            $res = CHtml::link($model->statem->statem->number,Yii::app()->createUrl("/preuniversity/statements/view/".$model->statem->StatementID));
-        } 
+        if (!empty($this->idPreuniGroup)) {
+            $model = Statements::model()->find(" SpecialityID = {$this->idPreuniGroup}");
+            if (!empty($model) && is_object($model)) {
+                $res = CHtml::link("№" . $model->number, Yii::app()->createUrl("/preuniversity/statements/view", array("id"=>$model->idStatement)));
+            }
+        }
         return $res;
     }
 
@@ -220,11 +224,9 @@ class Person extends ActiveRecord {
                             IsResident, PersonEducationTypeID, StreetTypeID, Address, HomeNumber, 
                             PostIndex, SchoolID, FirstNameR, MiddleNameR, LastNameR,  
                             CountryID, PersonDocumentID, EntrantDocumentID', 'safe', 'on' => 'search'),
-            
             array('LanguageID', "required", 'except' => 'EDBOREQ'),
             array('LanguageID', "safe", 'on' => 'EDBOREQ'),
-            
-            array('image', 'file', 'allowEmpty'=>true, 'types' => 'jpg, gif, png', 'maxSize' => 5048576 ),
+            array('image', 'file', 'allowEmpty' => true, 'types' => 'jpg, gif, png', 'maxSize' => 5048576),
         );
     }
 
@@ -239,9 +241,8 @@ class Person extends ActiveRecord {
             'znos' => array(self::HAS_MANY, 'Documents', 'PersonID', 'on' => 'znos.TypeID=4'),
             'specs' => array(self::HAS_MANY, 'Personspeciality', 'PersonID'),
             'docs' => array(self::HAS_MANY, 'Documents', 'PersonID'),
-            'statem' => array(self::BELONGS_TO, 'Statementpersons',  array('idPerson'=>'PersonID')),
-            
-            //'person' => array(self::BELONGS_TO, 'Person', array('PersonID' => 'idPerson')),
+            'statem' => array(self::BELONGS_TO, 'Statementpersons', array('idPerson' => 'PersonID')),
+                //'person' => array(self::BELONGS_TO, 'Person', array('PersonID' => 'idPerson')),
         );
     }
 
@@ -266,7 +267,7 @@ class Person extends ActiveRecord {
         $kk = KoatuuLevel3::model()->findByPk($this->KOATUUCodeID);
         if (!empty($kk)) {
             //$kk = new KoatuuLevel3();
-           // Yii::log($this->KOATUUCodeID);
+            // Yii::log($this->KOATUUCodeID);
             $this->KOATUUCodeL3ID = $this->KOATUUCodeID;
             $kk2 = KoatuuLevel2::model()->findByPk($kk->KOATUULevel2ID);
             $this->KOATUUCodeL2ID = $kk->KOATUULevel2ID;
@@ -274,7 +275,7 @@ class Person extends ActiveRecord {
         } else {
             $kk = KoatuuLevel2::model()->findByPk($this->KOATUUCodeID);
             if (!empty($kk)) {
-                 ///Yii::log($this->KOATUUCodeID);
+                ///Yii::log($this->KOATUUCodeID);
                 $this->KOATUUCodeL2ID = $this->KOATUUCodeID;
                 $this->KOATUUCodeL1ID = $kk->KOATUULevel1ID;
             } else {
@@ -303,7 +304,8 @@ class Person extends ActiveRecord {
                 $this->IsResident = 1;
             }
         }
-        if ($this->edboID == 0) $this->edboID = "";
+        if ($this->edboID == 0)
+            $this->edboID = "";
         parent::beforeSave();
         return true;
     }
@@ -312,7 +314,7 @@ class Person extends ActiveRecord {
         //if (empty($this->KOATUUCodeL1ID)) $this->KOATUUCodeL1ID = 105572;
         //if (empty($this->KOATUUCodeL2ID)) $this->KOATUUCodeL2ID = 105574;
         //if (empty($this->KOATUUCodeL3ID)) $this->KOATUUCodeL3ID = 105576;
-        if (!empty($this->idPreuniGroup)){
+        if (!empty($this->idPreuniGroup)) {
             $ps = Specialities::model()->findByPk($this->idPreuniGroup);
             $this->FacultetID = $ps->facultet->idFacultet;
             $this->EducationFormID = $ps->eduform->idPersonEducationForm;
@@ -383,10 +385,10 @@ class Person extends ActiveRecord {
             "Apartment" => "Квартира",
             "HomeNumber" => "Номер будинку",
             "Housing" => "Корпус",
-            "EducationFormID"=>"Форма обучения",
-            "FacultetID"=>"Факультет",
-            'idPreuniGroup'=>"Напрям підготовки (група)",
-            "statement"=>"Відомість"
+            "EducationFormID" => "Форма обучения",
+            "FacultetID" => "Факультет",
+            'idPreuniGroup' => "Напрям підготовки (група)",
+            "statement" => "Відомість"
         );
     }
 
@@ -649,7 +651,7 @@ class Person extends ActiveRecord {
                 $model->entrantdoc->ZNOPin = $val->znoPin;
                 $model->entrantdoc->Issued = $val->issued;
             }
-            if ($val->id_Type == 12 ) {
+            if ($val->id_Type == 12) {
                 $model->entrantdoc = new Documents();
                 $model->entrantdoc->TypeID = $val->id_Type;
                 $model->entrantdoc->edboID = $val->id_Document;
@@ -748,13 +750,13 @@ class Person extends ActiveRecord {
             "entrantDocumentIdMySql" => $this->getEntrantdoc()->idDocuments,
             "personalDocumentIdMySql" => $this->getPersondoc()->idDocuments
         );
-        Yii::log("ID =  ".$this->idPerson);
-        Yii::log("E = ".$this->getEntrantdoc()->idDocuments);
-        Yii::log("P = ".$this->getPersondoc()->idDocuments);
+        Yii::log("ID =  " . $this->idPerson);
+        Yii::log("E = " . $this->getEntrantdoc()->idDocuments);
+        Yii::log("P = " . $this->getPersondoc()->idDocuments);
 //            debug($this->idPerson);
 //            debug($this->entrantdoc->idDocuments);
         try {
-            $client = new EHttpClient(Yii::app()->user->getEdboSearchUrl()."personaddedbo.jsp", array('maxredirects' => 30, 'timeout' => 120,));
+            $client = new EHttpClient(Yii::app()->user->getEdboSearchUrl() . "personaddedbo.jsp", array('maxredirects' => 30, 'timeout' => 120,));
             $client->setParameterPost($params);
             $response = $client->request(EHttpClient::POST);
 

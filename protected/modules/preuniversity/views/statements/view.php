@@ -6,7 +6,7 @@ $this->breadcrumbs=array(
 	'Statements'=>array('index'),
 	$model->idStatement,
 );
-
+$url = "http://skif.znu.edu.ua:8080/request_report-1.0-1.0-SNAPSHOT/statement.jsp?filter=".$model->number."&format=6";
 $this->menu=array(
 	//array('label'=>'List Statements', 'url'=>array('index'),'icon'=>" icon-pencil" ),
 	array('label'=>'Створити', 'url'=>array('create') ,'icon'=>"icon-plus-sign"  ),
@@ -14,7 +14,7 @@ $this->menu=array(
 	//array('label'=>'Видалити','icon'=>" icon-trash",'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->idStatement),'confirm'=>'Are you sure you want to delete this item?')),
 	array('label'=>'Перелік відомостей', 'url'=>array('admin'),'icon'=>"icon-list-alt" ),
         array('label'=>'Перелік слухачів', 'url'=>array('/preuniversity/person'),'icon'=>" icon-user" ),
-       array('label'=>'Друкувати', 'url'=>array('/preuniversity/person'),'icon'=>"icon-print"),
+       array('label'=>'Друкувати', 'url'=>$url,'icon'=>"icon-print"),
     
 );
 ?>
