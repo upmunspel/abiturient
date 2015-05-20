@@ -18,12 +18,13 @@ Yii::app()->clientScript->registerScriptFile($burl."/js/bootstrap-datepicker.js"
 Yii::app()->clientScript->registerScriptFile($burl."/js/person.js");
 Yii::app()->clientScript->registerPackage('select2');
 
+$print_url = "http://skif.znu.edu.ua:8080/request_report_person-1.0-SNAPSHOT/statement.jsp?id=";
 
 $this->menu=array(
 	array('label'=>'Перелік абітурієнтів','url'=>Yii::app()->createUrl('preuniversity/person'),'icon'=>"icon-list-alt"),
 	array('label'=>'Додати  абітурієнта','url'=>array('create'),'icon'=>"icon-plus"),
 	array('label'=>'Редагувати абітурієнта','url'=>array('update','id'=>$model->idPerson),'icon'=>" icon-pencil" ),
-    
+        array('label'=>'АРКУШ РЕЗУЛЬТАТІВ','url'=>$print_url.$model->idPerson,'icon'=>" icon-print" ),
         //array('label'=>'Синхронізувати персону','url'=>array('view','id'=>$model->idPerson,'opt'=>'edboadd'),'icon'=>" icon-pencil",  "htmlOptions"=>array("onclick"=>"blockUI();") ),
 	//array('label'=>'Видалити абітурієнта','url'=>'#','icon'=>"icon-trash", 'linkOptions'=>array('submit'=>array('delete','id'=>$model->idPerson),'confirm'=>'Are you sure you want to delete this item?')),
 	//array('label'=>'Manage Person','url'=>array('admin')),

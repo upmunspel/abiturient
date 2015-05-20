@@ -31,8 +31,10 @@ class Statements extends CActiveRecord {
 
         if (!empty($this->SpecialityID)) {
             $ps = Specialities::model()->findByPk($this->SpecialityID);
-            $this->FacultetID = $ps->facultet->idFacultet;
-            $this->EducationFormID = $ps->eduform->idPersonEducationForm;
+            if ($ps) {
+                $this->FacultetID = $ps->facultet->idFacultet;
+                $this->EducationFormID = $ps->eduform->idPersonEducationForm;
+            }
         }
 
         if (isset($this->created))
@@ -47,33 +49,36 @@ class Statements extends CActiveRecord {
         if (isset($this->SubjectsDate3))
             $this->SubjectsDate3 = date("d.m.Y", strtotime($this->SubjectsDate3));
 
-       
+
 
         return parent::afterFind();
     }
 
-   
-
     protected function beforeSave() {
-        if ($this->isNewRecord)  {
+        if ($this->isNewRecord) {
             $this->created = date("Y-m-d H:i:s");
         } else {
-            $this->created = date("Y-m-d H:i:s", strtotime( $this->created));
+            $this->created = date("Y-m-d H:i:s", strtotime($this->created));
         }
         $this->updated = date("Y-m-d H:i:s");
-        
+
         if (isset($this->SubjectsDate1))
             $this->SubjectsDate1 = date("Y-m-d H:i:s", strtotime($this->SubjectsDate1));
         if (isset($this->SubjectsDate2))
             $this->SubjectsDate2 = date("Y-m-d H:i:s", strtotime($this->SubjectsDate2));
         if (isset($this->SubjectsDate3))
             $this->SubjectsDate3 = date("Y-m-d H:i:s", strtotime($this->SubjectsDate3));
-        
+
         return parent::beforeSave();
     }
 
     public function getSpecFullName() {
-        return $this->spec->specialityFullName;
+        if (!empty($this->SpecialityID)) {
+            if (empty($this->spec)) return "ERROR";
+           
+            return $this->spec->specialityFullName;
+        }
+        return "";
     }
 
     public static function model($className = __CLASS__) {
@@ -110,7 +115,7 @@ class Statements extends CActiveRecord {
             array('created, updated, SubjectsDate1, SubjectsDate2, SubjectsDate3', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-             array('SpecialityID', 'ext.uniqueMultiColumnValidator', 'message' => "Відомість для обраної спеціальності вже існує!"),
+            array('SpecialityID', 'ext.uniqueMultiColumnValidator', 'message' => "Відомість для обраної спеціальності вже існує!"),
             array('idStatement, number, created, updated, uid, SpecialityID, Subjects1ID, Subjects2ID, Subjects3ID, SubjectsDate1, SubjectsDate2, SubjectsDate3', 'safe', 'on' => 'search'),
         );
     }
