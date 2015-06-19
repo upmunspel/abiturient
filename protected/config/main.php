@@ -75,6 +75,10 @@ return array(
             'layout' => "/layouts/main",
             'defaultController' => "default",
         ),
+        "preuniversity" => array(
+            'layout' => "/layouts/column2_noblock",
+            'defaultController' => "default",
+        ),
     ),
     // application components
     'components' => array(
@@ -122,8 +126,8 @@ return array(
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
-                '<module>/<controller:\w+>/<id:\d+>' => '<module>/<controller>/view',
-                '<module>/<controller:\w+>/<action:\w+>/<id:\d+>' => '<module>/<controller>/<action>?id=<id>',
+                '<module>/<controller:\w+>/<id:\d+>' => '<module>/<controller>/view/<id>',
+                '<module>/<controller:\w+>/<action:\w+>/<id:\d+>' => '<module>/<controller>/<action>', //?id=<id>',
                 '<module>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
             ),
         ),
@@ -132,9 +136,9 @@ return array(
           ), */
         // uncomment the following to use a MySQL database
         'db' => array(
-            'connectionString' => 'mysql:host=10.1.103.26;dbname=abiturient2014',
-            'username' => '',
-            'password' => '',
+            'connectionString' => 'mysql:host=localhost;dbname=abiturient_2015',
+            'username' => 'abiuser',
+            'password' => 'creedence',
             'emulatePrepare' => true,
             'charset' => 'utf8',
             'enableParamLogging' => true,
