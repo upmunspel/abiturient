@@ -608,9 +608,10 @@ class RatingController extends Controller {
          echo "<ul>";
          $is_elder= true;
        }
-      $href = 'http://'.$_SERVER['SERVER_ADDR'].':'.$_SERVER['SERVER_PORT']
-        .'/abiturient/rating/rating/ratinginfo?&Personspeciality%5BSepcialityID%5D='
-        .$spec->idSpeciality.'&Personspeciality%5Brating_order_mode%5D=1'; 
+      $href = Yii::app()->createUrl("/rating/rating/ratinginfo",array(
+        'Personspeciality[SepcialityID]' => $spec->idSpeciality,
+        'Personspeciality[rating_order_mode]' => 1,
+      ));
       echo "<li><a href='".$href."' target='_blank'>".$spec->tSPEC." ("
         .Personspeciality::model()->count('(SepcialityID='.$spec->idSpeciality . ' AND StatusID IN (1,4,5,7,8))')
         .")</a></li>";
@@ -643,9 +644,10 @@ class RatingController extends Controller {
     echo "<h3 style='text-align: center;'>Заяви на ОКР \"Бакалавр\"</h3>";
     echo "<ul>";
     foreach (Specialities::model()->findAll($criteria) as $spec){
-      $href = 'http://'.$_SERVER['SERVER_ADDR'].':'.$_SERVER['SERVER_PORT']
-        .'/abiturient/rating/rating/ratinginfo?&Personspeciality%5BSepcialityID%5D='
-        .$spec->idSpeciality.'&Personspeciality%5Brating_order_mode%5D=1'; 
+      $href = Yii::app()->createUrl("/rating/rating/ratinginfo",array(
+        'Personspeciality[SepcialityID]' => $spec->idSpeciality,
+        'Personspeciality[rating_order_mode]' => 1,
+      )); 
       echo "<li><a href='".$href."' target='_blank'>".$spec->tSPEC." ("
         .Personspeciality::model()->count('(SepcialityID='.$spec->idSpeciality . ' AND StatusID IN (1,4,5,7,8))')
         .")</a></li>";
