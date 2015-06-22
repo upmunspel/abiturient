@@ -617,14 +617,14 @@ class RatingController extends Controller {
         .")</a></li>";
     }
     echo "</ul><footer style='text-align: center;'>ЗНУ, Лабораторія ІС та КТ</footer>"
-    .'<!--ZNUstat-->
+    .'<!--ZNUstat--><center>
 <script>
- document.writeln(\'<a href="http://sites.znu.edu.ua/counter/statistic.php?site_id=10&t=\'+Math.random()+\'"><img src="http://sites.znu.edu.ua:8000/counter/count.php?id=10&t=\'+Math.random()+\'"></a>\');
+ document.writeln(\'<a href="http://sites.znu.edu.ua/counter/statistic1.php?site_id=10&time=year&groupby=daily&t=\'+Math.random()+\'"><img src="http://sites.znu.edu.ua:8000/counter/count.php?id=10&t=\'+Math.random()+\'"></a>\');
 </script>
 <noscript>
-<a href="http://sites.znu.edu.ua/counter/statistic.php?site_id=10"><img src="http://sites.znu.edu.ua:8000/counter/count.php?id=10"></a>
+<a href="http://sites.znu.edu.ua/counter/statistic1.php?site_id=10&time=year&groupby=daily"><img src="http://sites.znu.edu.ua:8000/counter/count.php?id=10"></a>
 </noscript>
-<!--/ZNUstat-->'
+</center><!--/ZNUstat-->'
     ."</body></html>";
   }
   
@@ -662,14 +662,14 @@ class RatingController extends Controller {
         .")</a></li>";
     }
     echo "</ul><footer style='text-align: center;'>ЗНУ, Лабораторія ІС та КТ</footer>"
-    .'<!--ZNUstat-->
+    .'<!--ZNUstat--><center>
 <script>
- document.writeln(\'<a href="http://sites.znu.edu.ua/counter/statistic.php?site_id=10&t=\'+Math.random()+\'"><img src="http://sites.znu.edu.ua:8000/counter/count.php?id=10&t=\'+Math.random()+\'"></a>\');
+ document.writeln(\'<a href="http://sites.znu.edu.ua/counter/statistic1.php?site_id=10&time=year&groupby=daily&t=\'+Math.random()+\'"><img src="http://sites.znu.edu.ua:8000/counter/count.php?id=10&t=\'+Math.random()+\'"></a>\');
 </script>
 <noscript>
-<a href="http://sites.znu.edu.ua/counter/statistic.php?site_id=10"><img src="http://sites.znu.edu.ua:8000/counter/count.php?id=10"></a>
+<a href="http://sites.znu.edu.ua/counter/statistic1.php?site_id=10&time=year&groupby=daily"><img src="http://sites.znu.edu.ua:8000/counter/count.php?id=10"></a>
 </noscript>
-<!--/ZNUstat-->'
+</center><!--/ZNUstat-->'
     ."</body></html>";
   }
   

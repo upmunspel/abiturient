@@ -168,6 +168,14 @@
 </table></center>
 <footer style="font-size: 8pt;">Сторінку створено <?php echo date('d.m.Y H:i:s'); ?> в ІС "Абітурієнт". <br/>
   Дизайн : <a href="http://vstup.info/">vstup.info</a>
+    <!--ZNUstat--><center>
+    <script>
+    document.writeln('<a href="http://sites.znu.edu.ua/counter/statistic1.php?site_id=10&time=year&groupby=daily&t='+Math.random()+'"><img src="http://sites.znu.edu.ua:8000/counter/count.php?id=10&t='+Math.random()+'"></a>');
+    </script>
+    <noscript>
+    <a href="http://sites.znu.edu.ua/counter/statistic1.php?site_id=10&time=year&groupby=daily"><img src="http://sites.znu.edu.ua:8000/counter/count.php?id=10"></a>
+    </noscript>
+    </center><!--/ZNUstat-->
 </footer>
 </body>
 </html>
