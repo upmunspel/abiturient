@@ -608,7 +608,7 @@ class RatingController extends Controller {
          echo "<ul>";
          $is_elder= true;
        }
-      $href = Yii::app()->createUrl("/rating/rating/ratinginfo",array(
+      $href = Yii::app()->createAbsoluteUrl("/rating/rating/ratinginfo",array(
         'Personspeciality[SepcialityID]' => $spec->idSpeciality,
         'Personspeciality[rating_order_mode]' => 1,
       ));
@@ -644,7 +644,7 @@ class RatingController extends Controller {
     echo "<h3 style='text-align: center;'>Заяви на ОКР \"Бакалавр\"</h3>";
     echo "<ul>";
     foreach (Specialities::model()->findAll($criteria) as $spec){
-      $href = Yii::app()->createUrl("/rating/rating/ratinginfo",array(
+      $href = Yii::app()->createAbsoluteUrl("/rating/rating/ratinginfo",array(
         'Personspeciality[SepcialityID]' => $spec->idSpeciality,
         'Personspeciality[rating_order_mode]' => 1,
       )); 
