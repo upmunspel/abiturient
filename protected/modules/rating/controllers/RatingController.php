@@ -594,7 +594,7 @@ class RatingController extends Controller {
         ),
     );
     $criteria->order = 'SpecialityName ASC,SpecialityDirectionName ASC,SpecialityClasifierCode ASC, eduform.PersonEducationFormName ASC';
-    echo "<html><meta charset='utf8'><head></head><body>";
+    echo '<html><head><meta http-equiv="content-type" content="text/html; charset=UTF-8"><title>Інформація про подані абітурієнтами заяви на старші курси</title> </head><body>';
     echo "<p style='text-align: right; font-family: \"Courier New\"; font-size: 8pt;'>Дані сформовано ".date('d.m.Y H:i')."</p>";
     echo "<h1 style='text-align: center;'>Інформація про подані абітурієнтами заяви</h1>";
    // echo "<h3 style='text-align: center;'>Заяви на ОКР \"Бакалавр\"</h3>";
@@ -616,7 +616,16 @@ class RatingController extends Controller {
         .Personspeciality::model()->count('(SepcialityID='.$spec->idSpeciality . ' AND StatusID IN (1,4,5,7,8))')
         .")</a></li>";
     }
-    echo "</ul><footer style='text-align: center;'>ЗНУ, Лабораторія ІС та КТ</footer></body></html>";
+    echo "</ul><footer style='text-align: center;'>ЗНУ, Лабораторія ІС та КТ</footer>"
+    .'<!--ZNUstat-->
+<script>
+ document.writeln(\'<a href="http://sites.znu.edu.ua/counter/statistic.php?site_id=10&t=\'+Math.random()+\'"><img src="http://sites.znu.edu.ua:8000/counter/count.php?id=10&t=\'+Math.random()+\'"></a>\');
+</script>
+<noscript>
+<a href="http://sites.znu.edu.ua/counter/statistic.php?site_id=10"><img src="http://sites.znu.edu.ua:8000/counter/count.php?id=10"></a>
+</noscript>
+<!--/ZNUstat-->'
+    ."</body></html>";
   }
   
   public function actionRatinginfolinks6(){
@@ -638,7 +647,7 @@ class RatingController extends Controller {
         ),
     );
     $criteria->order = 'SpecialityName ASC,SpecialityDirectionName ASC,SpecialityClasifierCode ASC, eduform.PersonEducationFormName ASC';
-    echo "<html><meta charset='utf8'><head></head><body>";
+    echo '<html><head><meta http-equiv="content-type" content="text/html; charset=UTF-8"><title>Інформація про подані абітурієнтами заяви (ОКР "Бакалавр")</title> </head><body>';
     echo "<p style='text-align: right; font-family: \"Courier New\"; font-size: 8pt;'>Дані сформовано ".date('d.m.Y H:i')."</p>";
     echo "<h1 style='text-align: center;'>Інформація про подані абітурієнтами заяви</h1>";
     echo "<h3 style='text-align: center;'>Заяви на ОКР \"Бакалавр\"</h3>";
@@ -652,7 +661,16 @@ class RatingController extends Controller {
         .Personspeciality::model()->count('(SepcialityID='.$spec->idSpeciality . ' AND StatusID IN (1,4,5,7,8))')
         .")</a></li>";
     }
-    echo "</ul><footer style='text-align: center;'>ЗНУ, Лабораторія ІС та КТ</footer></body></html>";
+    echo "</ul><footer style='text-align: center;'>ЗНУ, Лабораторія ІС та КТ</footer>"
+    .'<!--ZNUstat-->
+<script>
+ document.writeln(\'<a href="http://sites.znu.edu.ua/counter/statistic.php?site_id=10&t=\'+Math.random()+\'"><img src="http://sites.znu.edu.ua:8000/counter/count.php?id=10&t=\'+Math.random()+\'"></a>\');
+</script>
+<noscript>
+<a href="http://sites.znu.edu.ua/counter/statistic.php?site_id=10"><img src="http://sites.znu.edu.ua:8000/counter/count.php?id=10"></a>
+</noscript>
+<!--/ZNUstat-->'
+    ."</body></html>";
   }
   
   /**
