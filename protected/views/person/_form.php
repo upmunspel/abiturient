@@ -53,21 +53,21 @@
                 </div>
             </div>
             <div class="row-fluid">
-                <?php $access = Yii::app()->user->checkAccess("editFioEn") ? "":"disabled"; ?>
-                
+                <?php $access = Yii::app()->user->checkAccess("editFioEn") ? "" : "disabled"; ?>
+
                 <div class ="span4">
                     <?php //echo $form->labelEx($model, 'LastNameEn'); //,array('class'=>'span3'));?>
-                    <?php echo $form->textField($model, 'LastNameEn', array('id' => "LastNameEn", 'disabled'=>$access,  'class' => 'span12', 'maxlength' => 50)); ?>
+                    <?php echo $form->textField($model, 'LastNameEn', array('id' => "LastNameEn", 'disabled' => $access, 'class' => 'span12', 'maxlength' => 50)); ?>
                 </div>
 
                 <div class ="span4">
                     <?php //echo $form->labelEx($model, 'FirstNameEn'); //,array('class'=>'span3'));?>
-                    <?php echo $form->textField($model, 'FirstNameEn', array('id' => "FirstNameEn", 'disabled'=>$access, 'class' => 'span12', 'maxlength' => 50)); ?>
+                    <?php echo $form->textField($model, 'FirstNameEn', array('id' => "FirstNameEn", 'disabled' => $access, 'class' => 'span12', 'maxlength' => 50)); ?>
                 </div>
 
                 <div class ="span4">
                     <?php //echo $form->labelEx($model, 'MiddleNameEn'); //,array('class'=>'span3'));?>
-                    <?php echo $form->textField($model, 'MiddleNameEn', array('id' => "MiddleNameEn", 'disabled'=>$access, 'class' => 'span12', 'maxlength' => 50)); ?>
+                    <?php echo $form->textField($model, 'MiddleNameEn', array('id' => "MiddleNameEn", 'disabled' => $access, 'class' => 'span12', 'maxlength' => 50)); ?>
                 </div>
             </div>
             <div class="row-fluid">
@@ -86,7 +86,7 @@
                     <?php echo $form->textField($model, 'MiddleNameR', array('id' => "MiddleNameR", 'class' => 'span12', 'maxlength' => 50)); ?>
                 </div>
             </div>
-            
+
             <div class="row-fluid">
                 <div class ="span4">
                     <?php echo $form->labelEx($model, 'Birthday'); ?>
@@ -100,16 +100,16 @@
 
                 </div>
                 <?php if (Yii::app()->user->checkAccess("editResident")): ?>
-                <div class ="span4">
-                    <?php echo $form->labelEx($model, 'IsResident'); ?>
-                    <?php $access = Yii::app()->user->checkAccess("editResident") ? "":"disabled"; ?>
-                   
-                    <div class="switch" data-on-label="Так" data-off-label="Ні">
-                        <?php echo $form->checkBox($model, 'IsResident', array('disabled'=>$access)); ?>
-                    </div>
-                   
+                    <div class ="span4">
+                        <?php echo $form->labelEx($model, 'IsResident'); ?>
+                        <?php $access = Yii::app()->user->checkAccess("editResident") ? "" : "disabled"; ?>
 
-                </div>
+                        <div class="switch" data-on-label="Так" data-off-label="Ні">
+                            <?php echo $form->checkBox($model, 'IsResident', array('disabled' => $access)); ?>
+                        </div>
+
+
+                    </div>
                 <?php endif; ?>
             </div>
 
@@ -171,8 +171,8 @@
             <?php echo $form->labelEx($model, 'HomeNumber'); //,array('class'=>'span3')); ?>
             <?php echo $form->textField($model, 'HomeNumber', array('class' => 'span12', 'maxlength' => 50)); ?>
         </div>
-        
-    
+
+
         <div class ="span2">
             <?php echo $form->labelEx($model, 'Apartment'); //,array('class'=>'span3')); ?>
             <?php echo $form->textField($model, 'Apartment', array('class' => 'span12', 'maxlength' => 50)); ?>
@@ -181,35 +181,37 @@
             <?php echo $form->labelEx($model, 'Housing'); //,array('class'=>'span3')); ?>
             <?php echo $form->textField($model, 'Housing', array('class' => 'span12', 'maxlength' => 50)); ?>
         </div>
-        
-        
+
+
     </div>
 
 
-    <?php $user = Yii::app()->user->getUserModel();
+    <?php
+    $user = Yii::app()->user->getUserModel();
     if (!($user->syspk->QualificationID == 2 || $user->syspk->QualificationID == 3)):
         ?>
         <p class="help-block"><strong>Школа</strong></p>
         <hr>
-        
-      
+
+
         <div class="row-fluid" style="margin-bottom: 10px;">
             <div class ="span12 school">
-            <?php //echo $form->labelEx($model, 'SchoolID'); ?>
+                <?php //echo $form->labelEx($model, 'SchoolID');  ?>
 
-            <?php echo $form->hiddenField($model, 'SchoolID',array('class' => "span12"));             ?>
-               
+    <?php echo $form->hiddenField($model, 'SchoolID', array('class' => "span12")); ?>
+
             </div>
         </div>
- <?php endif; ?>    
+    <?php endif; ?>    
 
 <?php if (Yii::app()->user->checkAccess("showPersonEntrantDocForm")): ?>
-    <p class="help-block" ><strong>Документ про освіту, на основі якого здійснюється вступ</strong></p>
-    <hr>
-    <?php echo $this->renderPartial("_entrantdocform", array('model' => $model->entrantdoc, 'form' => $form)); ?>
+        <p class="help-block" ><strong>Документ про освіту, на основі якого здійснюється вступ</strong></p>
+        <hr>
+        <?php //print_r($model->allentrantdocs); ?>
+        <?php echo $this->renderPartial("_entrantdocform", array('model' => $model->entrantdoc, 'form' => $form, 'docs' => $model->allentrantdocs)); ?>
 
 <?php endif; ?>  
-    
+
     <p class="help-block"><strong>Документ, який посвідчує особу</strong></p>
     <hr>
 
@@ -218,16 +220,16 @@
 
 
 
-    <p class="help-block"><strong>Інші документи</strong></p>
+    <!--<p class="help-block"><strong>Інші документи</strong></p>
     <hr>
     <div class="row-fluid" >
-        <div class ="span4"  >
-<?php echo $this->renderPartial("_inndocumentform", array('model' => $model->inndoc, 'form' => $form)); ?>
-        </div>
-        <div class ="span4"  >
-<?php echo $this->renderPartial("_hospdocumentform", array('model' => $model->hospdoc, 'form' => $form)); ?>
-        </div>
-    </div>
+         <div class ="span4"  >
+<?php //echo $this->renderPartial("_inndocumentform", array('model' => $model->inndoc, 'form' => $form));  ?>
+         </div>
+         <div class ="span4"  >
+<?php //echo $this->renderPartial("_hospdocumentform", array('model' => $model->hospdoc, 'form' => $form));  ?>
+         </div>
+     </div>-->
 
 
     <p class="help-block"><strong>Контактна інформація</strong></p>
@@ -245,16 +247,16 @@
     <div class="form-actions">
 
 
-<?php
+        <?php
 //if ($model->isNewRecord || empty($model->codeU) || Yii::app()->user->checkAccess("updateAllPost")) {
-$this->widget("bootstrap.widgets.TbButton", array(
-    'buttonType' => 'submit',
-    'type' => 'primary',
-    "size" => "large",
-    'label' => $model->isNewRecord ? 'Створити' : 'Зберегти',
-));
+        $this->widget("bootstrap.widgets.TbButton", array(
+            'buttonType' => 'submit',
+            'type' => 'primary',
+            "size" => "large",
+            'label' => $model->isNewRecord ? 'Створити' : 'Зберегти',
+        ));
 //}
-?>
+        ?>
         <?php /* $this->widget('bootstrap.widgets.TbButton', array(
           'buttonType'=>'button',
           'type'=>'primary',
@@ -280,19 +282,19 @@ $this->widget("bootstrap.widgets.TbButton", array(
             ajax: {// instead of writing the function to execute the request we use Select2's convenient helper
                 url: "<?php echo Yii::app()->createUrl("directory/koatu"); ?>",
                 dataType: 'json',
-                data: function(term, page) {
+                data: function (term, page) {
                     return {
                         q: term, // search term
                         page_limit: 10,
                         page: page,
                     };
                 },
-                results: function(data, page) {
-                  
+                results: function (data, page) {
+
                     return data;
                 }
             },
-            initSelection: function(element, callback) {
+            initSelection: function (element, callback) {
                 var id = $(element).val();
                 if (id !== "") {
                     $.ajax("<?php echo Yii::app()->createUrl("directory/koatur"); ?>", {
@@ -300,19 +302,18 @@ $this->widget("bootstrap.widgets.TbButton", array(
                             id: '<?php echo $model->koatu; ?>'
                         },
                         dataType: "json"
-                    }).done(function(data) {
+                    }).done(function (data) {
                         callback(data);
                     });
                 }
             },
-            
-            escapeMarkup: function(m) {
+            escapeMarkup: function (m) {
                 return m;
-            } 
+            }
         });
 
     </script>
-    
+
     <script type="text/javascript">
         $("#<?php echo CHtml::activeId($model, "SchoolID") ?>").select2({
             placeholder: "Введіть назву школи",
@@ -321,20 +322,20 @@ $this->widget("bootstrap.widgets.TbButton", array(
             ajax: {// instead of writing the function to execute the request we use Select2's convenient helper
                 url: "<?php echo Yii::app()->createUrl("directory/school"); ?>",
                 dataType: 'json',
-                data: function(term, page) {
+                data: function (term, page) {
                     return {
                         q: term, // search term
                         page_limit: 10,
                         page: page,
-                        area: $("#<?php echo CHtml::activeId($model, "koatu");?>").val()
+                        area: $("#<?php echo CHtml::activeId($model, "koatu"); ?>").val()
                     };
                 },
-                results: function(data, page) {
-                  
+                results: function (data, page) {
+
                     return data;
                 }
             },
-            initSelection: function(element, callback) {
+            initSelection: function (element, callback) {
                 var id = $(element).val();
                 if (id !== "") {
                     $.ajax("<?php echo Yii::app()->createUrl("directory/schoolr"); ?>", {
@@ -342,17 +343,16 @@ $this->widget("bootstrap.widgets.TbButton", array(
                             id: '<?php echo $model->SchoolID; ?>'
                         },
                         dataType: "json"
-                    }).done(function(data) {
+                    }).done(function (data) {
                         callback(data);
                     });
                 }
             },
-            
-            escapeMarkup: function(m) {
+            escapeMarkup: function (m) {
                 return m;
-            } 
+            }
         });
 
     </script>
-<?php $this->endWidget(); ?>
+    <?php $this->endWidget(); ?>
 </div>

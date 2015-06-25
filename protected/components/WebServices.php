@@ -78,10 +78,10 @@ class WebServices {
     public static function findPerson($series, $number) {
 
         if (!Yii::app()->user->checkAccess("wsAllowSearch")) {
-            throw new Exception(WebServices::$MSG_EDBO_SEARCH_DENY . "asdsa");
+            throw new Exception(WebServices::$MSG_EDBO_SEARCH_DENY );
         }
         $srv = Yii::app()->user->getEdboSearchUrl();
-        //Yii::log($srv);
+        Yii::log($srv);
         $series = ""; //trim($series);
         $number = trim($number);
         $script = "search.jsp?series=$series&number=$number";

@@ -2,10 +2,15 @@
     'type'=>'tabs', // 'tabs' or 'pills'
 
     'tabs'=>array(
+                array(  'label'=>'Документи', 
+                        'content'=>$this->renderPartial("tabs/_doc",array('personid'=>$model->idPerson),true), 
+                        'active'=>true, 
+                        'id'=>"docs"),
                
                 array(  'label'=>'Сертифікати ЗНО', 
                         'content'=>$this->renderPartial("tabs/_zno",array("models"=>$model->znos, 'personid'=>$model->idPerson),true), 
-                        'active'=>true, 
+                        'active'=>false, 
+                        'visible'=>Yii::app()->user->checkAccess("showZnoTab") ,
                         'id'=>"znos"),
                 array(  'label'=>'Пільги', 
                         'content'=>$this->renderPartial("tabs/_benefits",array("models"=>$model->benefits, 'personid'=>$model->idPerson),true), 
@@ -19,10 +24,7 @@
                        
                         'id'=>"specs"),
              
-                array(  'label'=>'Документи', 
-                        'content'=>$this->renderPartial("tabs/_doc",array('personid'=>$model->idPerson),true), 
-                        'active'=>false, 
-                        'id'=>"docs"),
+               
                /* array(  'label'=>'Олімпіади', 
                         'content'=>$this->renderPartial("tabs/_olimp",array('personid'=>$model->idPerson),true), 
                         'active'=>false, 

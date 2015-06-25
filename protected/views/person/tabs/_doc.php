@@ -66,6 +66,7 @@ $dataProvider=new CActiveDataProvider('Documents', array('criteria'=>array(
     array('name'=>'Series', 'header'=>'Серия',  ),
     array('name'=>'Numbers', 'header'=>'Номер',  ),
     "ZNOPin",
+    "AtestatValue",
     array('name'=>'DateGet', 'header'=>'Дата отримання', 'value' => '($data->DateGet!="01.01.1970") ? $data->DateGet :"";'  ),
     
     array(

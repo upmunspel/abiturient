@@ -20,7 +20,11 @@
  * @property integer $PersonBaseSpecealityID
  * @property Persondocumentsawardstypes $docaward
  * @property Personbasespeciality $docbasespec
+ * @property string SpecKode 
+ * @property string SpecName 
+ * @property string SpecQualification 
  */
+
 class Documents extends ActiveRecord {
 
     /**
@@ -150,7 +154,11 @@ class Documents extends ActiveRecord {
             array('Series', 'length', 'max' => 10),
             array('Numbers', 'length', 'max' => 15),
             array('Issued', 'length', 'max' => 250),
-            array('DateGet, idDocuments, Series, Numbers, PersonDocumentsAwardsTypesID, isForeinghEntrantDocument, isNotCheckAttestat, PersonBaseSpecealityID, edboID', 'safe'),
+            array('DateGet, idDocuments, Series,
+                  Numbers, PersonDocumentsAwardsTypesID, 
+                  isForeinghEntrantDocument, isNotCheckAttestat,
+                  PersonBaseSpecealityID, edboID, 
+                  SpecKode SpecName SpecQualification', 'safe'),
             //array('DateGet', 'date', "format"=>'dd.MM.yyyy', 'allowEmpty'=>true ),
             array('DateGet, Series, Numbers, Issued', 'required', "except" => "INN, HOSP, ZNO, FULLINPUT"),
             array('TypeID+Series+Numbers', 'ext.uniqueMultiColumnValidator', 'message' => "Тип, серія та номер документу не є унікальними!",
@@ -234,6 +242,9 @@ class Documents extends ActiveRecord {
             "isNotCheckAttestat" => "Не перевіряти атестат",
             'PersonDocumentsAwardsTypesID' => "Відзнаки",
             'PersonBaseSpecealityID' => 'Базовий напрям',
+            'SpecKode'=>"Шифр спеціальності" ,
+            'SpecName'=>"Назва спеціальності" ,
+            'SpecQualification'=>"Кваліфікація"
         );
     }
 
