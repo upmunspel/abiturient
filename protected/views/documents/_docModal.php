@@ -11,7 +11,8 @@
 </div>
  
 <div class="modal-body" id="doc-modal-body">
-    <?php $this->renderPartial("_formfull",array('model'=>$model)); ?>
+    <?php if (empty($formtype)) $formtype = "other"; ?>
+    <?php $this->renderPartial("_form_$formtype", array('model'=>$model)); ?>
 </div>
  
 <div class="modal-footer">

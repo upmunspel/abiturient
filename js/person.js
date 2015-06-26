@@ -316,6 +316,25 @@ PSN.edboSpecsUpdate = function(obj) {
     });
 };
 
+PSN.changeDocType = function(obj, link) {
+  
+    var fdata = $("#doc-form-modal").serialize();
+
+    $.ajax({
+        'url': link,
+        'data': fdata,
+        'type': 'POST',
+        success: function(data) {
+            var obj = jQuery.parseJSON(data);
+            //alert(obj.result);
+            if (obj.result === "success") {
+                $("#doc-modal-body").html(obj.data);
+            }
+        }
+    });
+
+};
+
 PSN.addDoc = function(obj, url) {
     var btn = $(obj);
     btn.button('loading'); // call the loading function

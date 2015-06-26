@@ -228,6 +228,7 @@ class PersonController extends Controller {
                     } else {
                         foreach ($model->allentrantdocs as $obj){
                            $obj->PersonID = $model->idPerson;
+                           $obj->scenario = "FULLINPUT";
                            $obj->save();
                         }  
                     }

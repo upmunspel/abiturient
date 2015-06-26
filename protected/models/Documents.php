@@ -23,6 +23,9 @@
  * @property string SpecKode 
  * @property string SpecName 
  * @property string SpecQualification 
+ * @property string CopyType
+ * @property integer CountryID
+ * @property string GraduatedYear
  */
 
 class Documents extends ActiveRecord {
@@ -34,6 +37,7 @@ class Documents extends ActiveRecord {
      * @return string
      */
     public $PersonBaseSpecealityID = 0;
+    public $CountryID = 804;
 
     public static function PersonEntrantDocuments($PersonID, $DiplomsOnly = 0) {
         $res = array();
@@ -154,11 +158,13 @@ class Documents extends ActiveRecord {
             array('Series', 'length', 'max' => 10),
             array('Numbers', 'length', 'max' => 15),
             array('Issued', 'length', 'max' => 250),
+            array('GraduatedYear',  'numerical', 'integerOnly' => true),
             array('DateGet, idDocuments, Series,
                   Numbers, PersonDocumentsAwardsTypesID, 
                   isForeinghEntrantDocument, isNotCheckAttestat,
                   PersonBaseSpecealityID, edboID, 
-                  SpecKode SpecName SpecQualification', 'safe'),
+                  SpecKode SpecName SpecQualification, CopyType, CountryID', 'safe'),
+            
             //array('DateGet', 'date', "format"=>'dd.MM.yyyy', 'allowEmpty'=>true ),
             array('DateGet, Series, Numbers, Issued', 'required', "except" => "INN, HOSP, ZNO, FULLINPUT"),
             array('TypeID+Series+Numbers', 'ext.uniqueMultiColumnValidator', 'message' => "Тип, серія та номер документу не є унікальними!",
@@ -179,10 +185,14 @@ class Documents extends ActiveRecord {
             array('ZNOPin', 'numerical', "on" => "ZNO"),
             array('ZNOPin', 'length', 'is' => 4, "on" => "ZNO"),
             // The following rule is used by search().
-// Please remove those attributes that should not be searched.
+            // Please remove those attributes that should not be searched.
             array('idDocuments, PersonID, TypeID, Series, Numbers, DateGet, ZNOPin, AtestatValue, Issued, isCopy', 'safe', 'on' => 'search'),
+            
+            
             array('idDocuments, PersonID, TypeID, Series, Numbers, DateGet, ZNOPin, AtestatValue, Issued, isCopy', 'safe', 'on' => 'FULLINPUT'),
             array('PersonBaseSpecealityID', 'docTypeValid', 'on' => 'FULLINPUT'),
+            
+           
         );
     }
 
@@ -244,7 +254,10 @@ class Documents extends ActiveRecord {
             'PersonBaseSpecealityID' => 'Базовий напрям',
             'SpecKode'=>"Шифр спеціальності" ,
             'SpecName'=>"Назва спеціальності" ,
-            'SpecQualification'=>"Кваліфікація"
+            'SpecQualification'=>"Кваліфікація",
+            'CopyType'=>"Вид",
+            'CountryID'=>'Країна',
+            "GraduatedYear"=>"Рік закін.",
         );
     }
 

@@ -68,7 +68,7 @@ class DocumentsController extends Controller {
                 try {
                     $personid = $_GET['personid'];
 
-                    $link = Yii::app()->user->getEdboSearchUrl()."persondocumentsaddedbo.jsp";
+                    $link = Yii::app()->user->getEdboSearchUrl() . "persondocumentsaddedbo.jsp";
 
                     $client = new EHttpClient($link, array('maxredirects' => 30, 'timeout' => 120,));
 
@@ -91,7 +91,7 @@ class DocumentsController extends Controller {
                 try {
                     $id = $_GET['docid'];
 
-                    $link = Yii::app()->user->getEdboSearchUrl()."editdocumentedbo.jsp";
+                    $link = Yii::app()->user->getEdboSearchUrl() . "editdocumentedbo.jsp";
 
                     $client = new EHttpClient($link, array('maxredirects' => 30, 'timeout' => 120,));
 
@@ -101,8 +101,8 @@ class DocumentsController extends Controller {
                     if ($response->isSuccessful()) {
                         $obj = (object) CJSON::decode($response->getBody());
                         Yii::log($response->getBody());
-                       // if ($obj->error) {
-                            Yii::app()->user->setFlash("message", $obj->message);
+                        // if ($obj->error) {
+                        Yii::app()->user->setFlash("message", $obj->message);
                         //}
                     } else {
                         Yii::app()->user->setFlash("message", "Синхронізація не виконана! Спробуйте пізніше.");
@@ -118,28 +118,48 @@ class DocumentsController extends Controller {
         echo CJSON::encode(array("result" => "success", "data" => ""));
     }
 
-    public function actionCreate($personid) {
+    public function actionCreate($personid, $type = "") {
         $model = new Documents("FULLINPUT");
         $model->PersonID = $personid;
         $valid = true;
-
+        $formtype = "other";
         if (isset($_POST["Documents"])) {
             $model->attributes = $_POST["Documents"];
-            $valid = $model->validate() && $valid;
-            if ($valid && $model->save()) {
-                //$person = Person::model()->findByPk($model->PersonID);
-                echo CJSON::encode(array("result" => "success", "data" =>
-                    $this->renderPartial("//person/tabs/_doc", array('personid' => $model->PersonID), true)
-                ));
-            } else {
-                echo CJSON::encode(array("result" => "error", "data" =>
-                    $this->renderPartial('_formfull', array('model' => $model), true)));
+
+            switch ($model->type->IsEntrantDocument) {
+                case 2: $formtype = "other";
+                    break;
+                case 1:
+                    if ($model->TypeID == 2 || $model->TypeID == 1 || $model->TypeID == 7 || $model->TypeID == 8) {
+                        $formtype = "atestat";
+                    } else {
+                        $formtype = "diplom";
+                    }
+                    break;
+                default:
+                    $formtype = "other";
             }
-            Yii::app()->end();
+            if (empty($type)) {
+                $valid = $model->validate() && $valid;
+                if ($valid && $model->save()) {
+                    //$person = Person::model()->findByPk($model->PersonID);
+                    echo CJSON::encode(array("result" => "success", "data" =>
+                        $this->renderPartial("//person/tabs/_doc", array('personid' => $model->PersonID), true)
+                    ));
+                } else {
+                    echo CJSON::encode(array("result" => "error", "data" =>
+                        $this->renderPartial("_form_$formtype", array('model' => $model), true)));
+                }
+                Yii::app()->end();
+            } else {
+                echo CJSON::encode(array("result" => "success", "data" =>
+                $this->renderPartial("_form_$formtype", array('model' => $model), true)));
+                Yii::app()->end();
+            }
         }
 
         $this->renderPartial('_docModal', array(
-            'model' => $model,
+            'model' => $model, "formtype" => $formtype,
             true, true
         ));
     }
@@ -165,9 +185,25 @@ class DocumentsController extends Controller {
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
         $model->scenario = "FULLINPUT";
+
+        $formtype = "other";
+        switch ($model->type->IsEntrantDocument) {
+            case 2: $formtype = "other";
+                break;
+            case 1:
+                if ($model->TypeID == 2 || $model->TypeID == 1 || $model->TypeID == 7 || $model->TypeID == 8) {
+                    $formtype = "atestat";
+                } else {
+                    $formtype = "diplom";
+                }
+                break;
+            default:
+                $formtype = "other";
+        }
+
+
         if (isset($_POST['Documents'])) {
             $model->attributes = $_POST['Documents'];
-
             $valid = $model->validate() && $valid;
             try {
                 if ($valid && $model->save()) {
@@ -178,7 +214,7 @@ class DocumentsController extends Controller {
                     echo CJSON::encode(array("result" => "success", "data" => $str));
                 } else {
                     echo CJSON::encode(array("result" => "error", "data" =>
-                        $this->renderPartial('_formfull', array('model' => $model), true)));
+                        $this->renderPartial("_form_$formtype", array('model' => $model), true)));
                 }
             } catch (Exception $e) {
                 echo CJSON::encode(array("result" => "error", "data" => $e->getMessage()));
@@ -187,7 +223,7 @@ class DocumentsController extends Controller {
         } else {
 
             $this->renderPartial('_docModal', array(
-                'model' => $model,
+                'model' => $model, "formtype" => $formtype,
                 true, true
             ));
         }
