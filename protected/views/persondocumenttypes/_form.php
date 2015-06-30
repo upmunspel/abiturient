@@ -40,7 +40,7 @@
 	</div>
          <hr>   
 	<div class="row-fluid buttons">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Створити' : 'Зберегти', ["class"=>"btn btn-primary btn-large"]); ?>
+		<?php echo CHtml::submitButton($model->isNewRecord ? 'Створити' : 'Зберегти', array("class"=>"btn btn-primary btn-large")); ?>
 	</div>
 
 <?php $this->endWidget(); ?>
