@@ -20,7 +20,7 @@ Yii::app()->clientScript->registerPackage('select2');
     <div class="row-fluid">
         <div class ="span6">
             <?php echo $form->labelEx($model, 'TypeID'); ?>
-            <?php echo $form->dropDownList($model, 'TypeID', CHtml::listData(PersonDocumentTypes::model()->findAll(), 'idPersonDocumentTypes', 'PersonDocumentTypesName'), array('class' => 'span12')); ?>
+            <?php echo $form->dropDownList($model, 'TypeID', CHtml::listData(PersonDocumentTypes::model()->findAll("display = 1"), 'idPersonDocumentTypes', 'PersonDocumentTypesName'), array('class' => 'span12')); ?>
         </div>    
         <div class ="span2">
             <?php echo $form->labelEx($model, 'Series'); ?>

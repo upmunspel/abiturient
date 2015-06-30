@@ -22,7 +22,7 @@ $formtype_url = Yii::app()->createUrl("documents/create", array("personid"=>$mod
     <div class="row-fluid">
         <div class ="span12">
             <?php echo $form->labelEx($model, 'TypeID'); ?>
-            <?php echo $form->dropDownList($model, 'TypeID', CHtml::listData(PersonDocumentTypes::model()->findAll(), 'idPersonDocumentTypes', 'PersonDocumentTypesName'), 
+            <?php echo $form->dropDownList($model, 'TypeID', CHtml::listData(PersonDocumentTypes::model()->findAll("display = 1"), 'idPersonDocumentTypes', 'PersonDocumentTypesName'), 
                     array('class' => 'span12',"disabled"=>$model->isNewRecord?"":"disabled",
      'onchange'=>"PSN.changeDocType(this, '$formtype_url')")); ?>
         </div> 
