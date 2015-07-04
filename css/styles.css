@@ -35,3 +35,11 @@
     float: left;
     margin: 6px 20px 5px 0px;
 }
+
+#docs .editable-empty {
+    display: none;
+}
+#docs .editable-clear-x {
+    bottom: 14.5px !important;
+    right: 8.5px !important;
+}

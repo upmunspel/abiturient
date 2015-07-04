@@ -142,6 +142,7 @@ $dataProvider = new CActiveDataProvider("Personspeciality", array('criteria' => 
                         'options' => array(
                             'class' => 'btn',
                             'title' => "Друкувати титульний лист",
+                            'rel' => "prettyPhoto",
                         ),
                     ),
                     'sinchr' => array(

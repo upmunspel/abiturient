@@ -441,6 +441,24 @@ PSN.onFacChange = function(obj, id, url) {
     data = "idFacultet=" + fid + "&idEducationForm=" + formid + "&QualificationID=" + qid+"&BaseSpecID="+base;
     $(id).load(url, data);
 };
+PSN.changeQType = function(obj, link) {
+  
+    var fdata = $("#spec-form-modal").serialize();
+
+    $.ajax({
+        'url': link,
+        'data': fdata,
+        'type': 'GET',
+        success: function(data) {
+            var obj = jQuery.parseJSON(data);
+            //alert(obj.result);
+            if (obj.result === "success") {
+                $("#spec-modal-body").html(obj.data);
+            }
+        }
+    });
+
+};
 PSN.appendSpec = function(obj, link) {
     var btn = $(obj);
     btn.button('loading'); // call the loading function

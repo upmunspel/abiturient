@@ -435,5 +435,41 @@ class WebServices {
 
         return $res;
     }
+    
+    /**
+     * 
+     * @param type $idDoc
+     * @param type $new_value
+     * @return type
+     * @throws Exception
+     */
+    public static function updateDocumentBall($idDoc) {
+
+        $script = "entrantdocvaluechange.jsp?iddoc=".$idDoc;
+        $srv = Yii::app()->user->getEdboSearchUrl();
+
+        try {
+
+            $ctx = stream_context_create(array('http' => array('timeout' => WebServices::$requestTimeout)));
+            $res = @file_get_contents($srv . $script, 0, $ctx);
+            if ($res === false) {
+                throw new Exception(WebServices::$MSG_EDBO_ERROR);
+            }
+
+            $error = CJSON::decode($res);
+
+            if (is_array($error) && isset($error['error'])) {
+                throw new Exception($error['error']);
+            }
+        } catch (Exception $ex) {
+            if (defined('YII_DEBUG')) {
+                Yii::log($ex->getMessage(), CLogger::LEVEL_INFO, 'WebServices::getRequestsByStatus');
+            }
+            throw $ex;
+        }
+
+
+        return $res;
+    }
 
 }

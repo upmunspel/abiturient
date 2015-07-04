@@ -66,20 +66,20 @@ class PersonspecialityController extends Controller {
         if (Yii::app()->user->checkAccess("wsAllowEdit")) {
             try {
 
-                $link = Yii::app()->user->getEdboSearchUrl()."request.jsp";
+                $link = Yii::app()->user->getEdboSearchUrl() . "request.jsp";
 
                 $client = new EHttpClient($link, array('maxredirects' => 30, 'timeout' => 120,));
 
                 $client->setParameterPost(array("personIdMySql" => $model->PersonID, "personSpeciality" => $id));
                 $response = $client->request(EHttpClient::POST);
-                
+
                 if ($response->isSuccessful()) {
                     $obj = (object) CJSON::decode($response->getBody());
                     //Yii::log(print_r($obj,1));
                     if ($obj->error) {
                         Yii::app()->user->setFlash("message", $obj->message);
                     } else {
-                         Yii::app()->user->setFlash("message", $obj->message);
+                        Yii::app()->user->setFlash("message", $obj->message);
                     }
                 } else {
                     Yii::app()->user->setFlash("message", "Синхронізація не виконана! Спробуйте пізніше.");
@@ -103,7 +103,7 @@ class PersonspecialityController extends Controller {
     }
 
     public function actionSpeciality($idFacultet, $idEducationForm, $QualificationID, $BaseSpecID = "") {
-           //Yii::log(print_r($BaseSpecID,1)); 
+        //Yii::log(print_r($BaseSpecID,1)); 
         $data = Specialities::DropDownMask($idFacultet, $idEducationForm, $QualificationID, $BaseSpecID);
         echo CHtml::tag('option', array('value' => ""), "", true);
         foreach ($data as $value => $name) {
@@ -137,12 +137,12 @@ class PersonspecialityController extends Controller {
 
     protected function _setDefaults($model) {
         if ($model->PersonID > 0) {
-            
+
             $lng = Languages::model()->findByPk($model->person->LanguageID);
-            if (!empty($lng)){
+            if (!empty($lng)) {
                 $id = Languagesex::model()->find("LanguageExName='{$lng->LanguagesName}'");
-                if (!empty($id)){
-                $model->LanguageExID = $id->idLanguageEx;
+                if (!empty($id)) {
+                    $model->LanguageExID = $id->idLanguageEx;
                 }
             }
         }
@@ -164,23 +164,22 @@ class PersonspecialityController extends Controller {
      * Creates a new model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      */
-    public function actionCreate($personid) {
+    public function actionCreate($personid, $reload = "") {
         $model = new Personspeciality;
         $model->PersonID = (int) $personid;
         $this->_setDefaults($model);
         $valid = true;
-        
-        if (isset($_GET['idRequest'])){
+
+        if (isset($_GET['idRequest'])) {
             try {
                 $pr = Person::model()->findByPk($personid);
                 $idReq = intval($_GET['idRequest']);
-                $res = WebServices::findRequestsByCodeU($pr->codeU, $idReq );
+                $res = WebServices::findRequestsByCodeU($pr->codeU, $idReq);
                 $sbj = WebServices::findRequestsSubjects($idReq);
-                $model->loadRequestFromJsqon($res,$sbj);
+                $model->loadRequestFromJsqon($res, $sbj);
             } catch (Exception $ex) {
                 Yii::log($ex->getMessage());
                 Yii::app()->user->setFlash("specmessage", $ex->getMessage());
-                
             }
         }
 
@@ -208,19 +207,24 @@ class PersonspecialityController extends Controller {
 //                $model->DocumentSubject2 = null;
 //                $model->DocumentSubject3 = null;
             }
-
-            $valid = $model->validate() && $valid;
-            if (!$valid) {
-                //debug ($model->PersonID);
-                echo CJSON::encode(array("result" => "error", "data" =>
-                    $this->renderPartial($renderForm, array('model' => $model), true)));
-                Yii::app()->end();
+            if (!$reload) {
+                $valid = $model->validate() && $valid;
+                if (!$valid) {
+                    //debug ($model->PersonID);
+                    echo CJSON::encode(array("result" => "error", "data" =>
+                        $this->renderPartial($renderForm, array('model' => $model), true)));
+                    Yii::app()->end();
+                } else {
+                    if ($model->save())
+                    //debug ($model->PersonID);
+                        $person = Person::model()->findByPk($model->PersonID);
+                    echo CJSON::encode(array("result" => "success", "data" =>
+                        $this->renderPartial("//person/tabs/_spec", array('models' => $person->specs, 'personid' => $model->PersonID), true)
+                    ));
+                    Yii::app()->end();
+                }
             } else {
-                if ($model->save())
-                //debug ($model->PersonID);
-                    $person = Person::model()->findByPk($model->PersonID);
-                echo CJSON::encode(array("result" => "success", "data" =>
-                    $this->renderPartial("//person/tabs/_spec", array('models' => $person->specs, 'personid' => $model->PersonID), true)
+                echo CJSON::encode(array("result" => "success", "data" => $this->renderPartial("_formShort", array('model' => $model), true)
                 ));
                 Yii::app()->end();
             }
@@ -272,7 +276,7 @@ class PersonspecialityController extends Controller {
                 Yii::app()->end();
             }
         }
-   
+
         //debug($link);
         //print "<script type=\"text/javascript\">prompt('Введдіть ЄДБО Кодi!');</script>";
         //$client = new EHttpClient($link, array('maxredirects' => 30, 'timeout'=> 30,));
@@ -373,7 +377,7 @@ class PersonspecialityController extends Controller {
                 }
                 $model->StatusID = 10;
                 if (!$model->save()) {
-                   Yii::log(print_r($model->getErrors(), true));
+                    Yii::log(print_r($model->getErrors(), true));
                 }
             } else {
                 Yii::app()->user->setFlash("message", "Заборонено видаляти заявку!");

@@ -9,7 +9,7 @@ class DocumentsController extends Controller {
         return array(
             'accessControl', // perform access control for CRUD operations
             'ajaxOnly + newZno, newZnoSubject, appendZno, delZno, delZnoSubject,
-                                    editZno, Create, Update, Delete, Edboupdate, Refresh, Refreshzno',
+                                    editZno, Create, Update, Delete, Edboupdate, Refresh, Refreshzno, Atestatvalue',
         );
     }
 
@@ -32,7 +32,7 @@ class DocumentsController extends Controller {
                     'delZnoSubject',
                     'editZno',
                     'Create',
-                    'Update', "Delete, Edboupdate, Refresh, Refreshzno"
+                    'Update', "Delete, Edboupdate, Refresh, Refreshzno, Atestatvalue"
                 ),
                 'users' => array('@'),
             ),
@@ -153,7 +153,7 @@ class DocumentsController extends Controller {
                 Yii::app()->end();
             } else {
                 echo CJSON::encode(array("result" => "success", "data" =>
-                $this->renderPartial("_form_$formtype", array('model' => $model), true)));
+                    $this->renderPartial("_form_$formtype", array('model' => $model), true)));
                 Yii::app()->end();
             }
         }
@@ -170,7 +170,6 @@ class DocumentsController extends Controller {
      * @param integer $id the ID of the model to be updated
      */
     public function actionRefresh($id) {
-
         $this->renderPartial('//person/tabs/_doc', array('personid' => $id));
     }
 
@@ -474,6 +473,40 @@ class DocumentsController extends Controller {
             'subjects' => $model->subjects,
             'personid' => $personid, true, true
         ));
+    }
+
+    public function actionAtestatvalue() {
+        $pk = $_POST["pk"];
+        $value = $_POST["value"];
+        if (!is_numeric($value)){
+             throw new CHttpException(404, "Помилковий формат!");
+        }
+        $model = $this->loadModel($pk);
+        $model->scenario = "FULLINPUT";
+
+        $old_value = $model->AtestatValue;
+        $model->AtestatValue = $value;
+        if (empty($model->edboID)) {
+            throw new CHttpException(404, "Необхідно синхронізувати документ!");
+        }
+        try {
+            if ($model->save()) {
+                try {
+                $res = WebServices::updateDocumentBall($model->idDocuments);
+                } catch(Exception $we){
+                    $model->AtestatValue =  $old_value;
+                    $model->save();
+                    throw $we;
+                }
+            } else {
+                throw new CHttpException(404, print_r($model->getErrors(), 1));
+                
+            }
+        } catch (Exception $e) {
+           
+            throw new CHttpException(404, $e->getMessage());
+        }
+        echo $res;
     }
 
 }

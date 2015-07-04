@@ -26,6 +26,7 @@
  * @property string CopyType
  * @property integer CountryID
  * @property string GraduatedYear
+ * @property string edboID
  */
 
 class Documents extends ActiveRecord {
