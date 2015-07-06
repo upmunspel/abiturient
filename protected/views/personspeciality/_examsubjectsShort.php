@@ -18,13 +18,13 @@ if (Yii::app()->user->checkAccess("SpecGosSlugba")) {
         $data1 = CHtml::listData(Subjects::model()->findAll($cr), "idSubjects", "SubjectName");
 
         $cr = new CDbCriteria();
-        $cr->addCondition("idSubjects = 3");
+        $cr->addCondition("idSubjects = 40");
         //$cr->addCondition("idSubjects = 4", "OR");
         $data2 = CHtml::listData(Subjects::model()->findAll($cr), "idSubjects", "SubjectName");
 
         $data3 = array(); //CHtml::listData(Subjects::model()->findAll(), "idSubjects", "SubjectName");  
         $model->Exam1ID = 40;
-        $model->Exam2ID = 3;
+        $model->Exam2ID = 40;
     
     }
     if (!empty($model->QualificationID) && $model->QualificationID == 3) { //spec
@@ -33,13 +33,13 @@ if (Yii::app()->user->checkAccess("SpecGosSlugba")) {
         $data1 = CHtml::listData(Subjects::model()->findAll($cr), "idSubjects", "SubjectName");
 
         $cr = new CDbCriteria();
-        $cr->addCondition("idSubjects = 3");
+        $cr->addCondition("idSubjects = 40");
         //$cr->addCondition("idSubjects = 4", "OR");
         $data2 = CHtml::listData(Subjects::model()->findAll($cr), "idSubjects", "SubjectName");
 
         $data3 = array(); //CHtml::listData(Subjects::model()->findAll(), "idSubjects", "SubjectName");
         $model->Exam1ID = 40;
-        $model->Exam2ID = 3;
+        $model->Exam2ID = 40;
     
     }
     if (!empty($model->QualificationID) && $model->QualificationID == 2) { //mag

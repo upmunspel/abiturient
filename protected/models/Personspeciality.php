@@ -144,7 +144,7 @@ class Personspeciality extends ActiveRecord {
             array("AdditionalBallComment,  CoursedpID, Quota1,Quota2, OlympiadID, isNotCheckAttestat, isForeinghEntrantDocument, PersonDocumentsAwardsTypesID, edboID, RequestFromEB, StatusID, benefits, QuotaID", 'safe'),
             // SHORTFORM
             array("Exam1ID", 'required', 'on' => "SHORTFORM"),
-            array("EntrantDocumentID", 'valididateEntrantDoc', 'on' => "SHORTFORM"),
+            //array("EntrantDocumentID", 'valididateEntrantDoc', 'on' => "SHORTFORM"),
             array("Exam2ID", 'valididateExam', 'on' => "SHORTFORM"),
             array("EntranceTypeID", "required", "except" => "SHORTFORM"),
             //array("CausalityID",  "default", "value"=>100,"except"=>"SHORTFORM"),
@@ -312,9 +312,9 @@ class Personspeciality extends ActiveRecord {
             $this->addError($attributes, "Предмет не може бути порожнім!");
             return false;
         }
-        if ($this->QualificationID == 3 && !empty($this->Exam2ID)) {
+        if ($this->QualificationID == 3 && empty($this->Exam2ID)) {
 
-            $this->addError($attributes, "Предмет повинен бути порожнім!");
+            $this->addError($attributes, "Предмет не може бути порожнім!");
             return false;
         }
         return true;
