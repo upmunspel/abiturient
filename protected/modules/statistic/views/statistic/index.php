@@ -653,9 +653,10 @@ Yii::app()->clientScript->registerPackage('select2');
         <?php
         echo CHtml::dropDownList(
                 'secname', 
-                "С.В. Іваненко", 
+                "Д.Т. Бікулов", 
                 array(
-                    "С.В. Іваненко" => "С.В. Іваненко", 
+                    "Д.Т. Бікулов" => "Д.Т. Бікулов", 
+                    // "С.В. Іваненко" => "С.В. Іваненко", 
                     "О.М. Олійник" => "О.М. Олійник"), 
                 array('empty' => '','class'=>'span12'));
         ?>
