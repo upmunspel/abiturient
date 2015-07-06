@@ -68,6 +68,23 @@ class WebUser extends CWebUser {
       $ip = $model->syspk->printIP;  
       return "http://".$ip.":8080/request_report-1.0/titul.jsp?PersonSpecialityID=".$PersonSpecialityID."&iframe=true&width=1024&height=600";
     }
+    public function getArcushUrl($personid, $specid){
+//        http://10.1.103.26:8080/request_report-1.0/magistr.jsp?PersonID=197&PersonSpecialityID=205  - магистры
+//        http://10.1.103.26:8080/request_report-1.0/bachelor.jsp?PersonID=197&PersonSpecialityID=205 - бакалавры
+        $model = $this->getUserModel();
+        if (empty($model->syspk) || empty($model->syspk->printIP) ) throw new Exception ("Необхідно визначити адресу серверу друку документів!");
+        $ip = $model->syspk->printIP;  
+        
+        $spec = Personspeciality::model()->find("idPersonSpeciality=$specid");
+        if (empty($spec)) throw new Exception ("Необхідно визначити спеціальність!");
+        $TechSecName = urlencode(User::model()->findByPk(Yii::app()->user->id)->info);
+        if ($spec->QualificationID > 1){
+            return "http://".$ip.":8080/request_report-1.0/magistr_arkysh.jsp?PersonID=$personid&PersonSpecialityID=$specid&TechSecName=".$TechSecName."&iframe=true&width=1024&height=600";
+        } else {
+            return "http://".$ip.":8080/request_report-1.0/bachelor_arkysh.jsp?PersonID=$personid&PersonSpecialityID=$specid&TechSecName=".$TechSecName."&iframe=true&width=1024&height=600";
+        }
+        return "";
+    }
     
     public function getEdboSearchUrl(){
         $model = $this->getUserModel();

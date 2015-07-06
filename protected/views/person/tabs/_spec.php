@@ -103,7 +103,7 @@ $dataProvider = new CActiveDataProvider("Personspeciality", array('criteria' => 
             ),
             array(
                 'class' => 'bootstrap.widgets.TbButtonColumn',
-                'template' => '{update} {trash} {print} {titul} {sinchr}',
+                'template' => '{update} {trash} {print} {titul} {sinchr} {arcush}',
                 'buttons' => array
                     (
                     'update' => array(
@@ -142,6 +142,16 @@ $dataProvider = new CActiveDataProvider("Personspeciality", array('criteria' => 
                         'options' => array(
                             'class' => 'btn',
                             'title' => "Друкувати титульний лист",
+                            'rel' => "prettyPhoto",
+                        ),
+                    ),
+                    'arcush' => array(
+                        'label' => 'Друкувати аркуш',
+                        'icon' => 'file',
+                        'url' => 'Yii::app()->user->getArcushUrl($data->PersonID, $data->idPersonSpeciality)',
+                        'options' => array(
+                            'class' => 'btn',
+                            'title' => "Друкувати аркуш",
                             'rel' => "prettyPhoto",
                         ),
                     ),
