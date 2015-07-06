@@ -24,6 +24,10 @@ A {
 	text-decoration: none;
 	color: black;
 }
+table td, table th{
+    padding-top:1px;
+    padding-bottom:1px;
+}
 </style>
 <style media="screen">
 TD {
