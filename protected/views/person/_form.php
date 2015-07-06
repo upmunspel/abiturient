@@ -133,13 +133,14 @@
         <div class="span3" >
             <a href="#" style="width: 180px;" class="thumbnail" rel="tooltip" data-title="Фото абітурієнта">
                 <?php
-                $path = Yii::app()->baseUrl . Yii::app()->params['photosBigPath'] . $model->PhotoName;
-               
-                if (!file_exists( "." . $path)) {
-                    $path = Yii::app()->baseUrl . Yii::app()->params['photosBigPath'] . Yii::app()->params['defaultPersonPhoto'];
+                $img_file =  Yii::app()->baseUrl.Yii::app()->params['photosBigPath'] . $model->PhotoName;
+                $real_path = Yii::app()->params['photosBigPath'] . $model->PhotoName;
+                $real_path = realpath(Yii::app()->basePath. DIRECTORY_SEPARATOR. "..".DIRECTORY_SEPARATOR. $real_path);
+                $real_path = str_replace('\\', '/', $real_path);
+                if (!file_exists($real_path)) {
+                    $img_file = Yii::app()->baseUrl . Yii::app()->params['photosBigPath'] . Yii::app()->params['defaultPersonPhoto'];
                 }
-
-                echo CHtml::image($path, 'Фото абітурієнта');
+                echo CHtml::image($img_file, 'Фото абітурієнта');
                 ?>
             </a>
         </div>
