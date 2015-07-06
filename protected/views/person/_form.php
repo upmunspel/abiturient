@@ -134,8 +134,8 @@
             <a href="#" style="width: 180px;" class="thumbnail" rel="tooltip" data-title="Фото абітурієнта">
                 <?php
                 $path = Yii::app()->baseUrl . Yii::app()->params['photosBigPath'] . $model->PhotoName;
-                Yii::log($path);
-                if (!file_exists(Yii::app()->basePath . "/../.." . $path)) {
+               
+                if (!file_exists( "." . $path)) {
                     $path = Yii::app()->baseUrl . Yii::app()->params['photosBigPath'] . Yii::app()->params['defaultPersonPhoto'];
                 }
 

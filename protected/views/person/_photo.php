@@ -5,7 +5,8 @@
             <?php
             $path = Yii::app()->baseUrl . Yii::app()->params['photosPath'] . $model->PhotoName;
 
-            if (!file_exists(Yii::app()->basePath . "/../.." . $path)) {
+            //if (!file_exists(Yii::app()->basePath . "/../.." . $path)) {
+            if (!file_exists( "." . $path)) {
                 $path = Yii::app()->baseUrl . Yii::app()->params['photosPath'] . Yii::app()->params['defaultPersonPhotoSmall'];
             }
 
