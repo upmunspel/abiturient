@@ -8,7 +8,7 @@
             $real_path = realpath(Yii::app()->basePath . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . $real_path);
             $real_path = str_replace('\\', '/', $real_path);
             if (!file_exists($real_path)) {
-                $img_file = Yii::app()->baseUrl . Yii::app()->params['photosPath'] . Yii::app()->params['defaultPersonPhoto'];
+                $img_file = Yii::app()->baseUrl . Yii::app()->params['photosPath'] . Yii::app()->params['defaultPersonPhotoSmall'];
             }
             echo CHtml::image($img_file, 'Фото абітурієнта');
             ?>

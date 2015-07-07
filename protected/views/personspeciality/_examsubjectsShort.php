@@ -18,13 +18,13 @@ if (Yii::app()->user->checkAccess("SpecGosSlugba")) {
         $data1 = CHtml::listData(Subjects::model()->findAll($cr), "idSubjects", "SubjectName");
 
         $cr = new CDbCriteria();
-        $cr->addCondition("idSubjects = 40");
+        $cr->addCondition("idSubjects in (40,3)");
         //$cr->addCondition("idSubjects = 4", "OR");
         $data2 = CHtml::listData(Subjects::model()->findAll($cr), "idSubjects", "SubjectName");
 
-        $data3 = array(); //CHtml::listData(Subjects::model()->findAll(), "idSubjects", "SubjectName");  
-        $model->Exam1ID = 40;
-        $model->Exam2ID = 40;
+        $data3 = $data2; //CHtml::listData(Subjects::model()->findAll(), "idSubjects", "SubjectName");  
+        //$model->Exam1ID = 40;
+       // $model->Exam2ID = 40;
     
     }
     if (!empty($model->QualificationID) && $model->QualificationID == 3) { //spec
@@ -33,13 +33,14 @@ if (Yii::app()->user->checkAccess("SpecGosSlugba")) {
         $data1 = CHtml::listData(Subjects::model()->findAll($cr), "idSubjects", "SubjectName");
 
         $cr = new CDbCriteria();
-        $cr->addCondition("idSubjects = 40");
+        $cr->addCondition("idSubjects in (40)");
         //$cr->addCondition("idSubjects = 4", "OR");
         $data2 = CHtml::listData(Subjects::model()->findAll($cr), "idSubjects", "SubjectName");
 
         $data3 = array(); //CHtml::listData(Subjects::model()->findAll(), "idSubjects", "SubjectName");
         $model->Exam1ID = 40;
         $model->Exam2ID = 40;
+       
     
     }
     if (!empty($model->QualificationID) && $model->QualificationID == 2) { //mag
@@ -49,24 +50,30 @@ if (Yii::app()->user->checkAccess("SpecGosSlugba")) {
         $data1 = CHtml::listData(Subjects::model()->findAll($cr), "idSubjects", "SubjectName");
 
         $cr = new CDbCriteria();
-        $cr->addCondition("idSubjects = 40");
+        
+        $cr->addCondition("idSubjects in (3,40)");
+        
 
         $data2 = CHtml::listData(Subjects::model()->findAll($cr), "idSubjects", "SubjectName");
 
         $cr = new CDbCriteria();
-        $cr->addCondition("idSubjects = 3");
+        $cr->addCondition("idSubjects in (3,40)");
 
         $data3 = CHtml::listData(Subjects::model()->findAll($cr), "idSubjects", "SubjectName");
         $model->Exam1ID = 40;
         $model->Exam2ID = 40;
         $model->Exam3ID = 3;
+        if (isset($model->SepcialityID) && in_array($model->SepcialityID, $model->specCategoryIds)){
+            $model->Exam2ID = 3;
+            $model->Exam3ID = null;
+        }
     }
 }
 ?>
 
 <div class="row-fluid">
     <div class="span6">
-        <?php echo CHtml::activeLabelEx($model, 'Exam1ID'); ?>qwererwt
+        <?php echo CHtml::activeLabelEx($model, 'Exam1ID'); ?>
 
     </div>
     <div class="span6">

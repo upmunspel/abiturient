@@ -167,8 +167,7 @@
                         'disabled' => !$model->isNewRecord,
                         'class' => "span12",
                         'id' => "QualificationID",
-                        
-                        'onchange' => "PSN.changeQType(this ,'" . CController::createUrl('personspeciality/create',array("personid"=>$personid,"reload"=>1)) . "');")
+                        'onchange' => "PSN.changeQType(this ,'" . CController::createUrl('personspeciality/create', array("personid" => $personid, "reload" => 1)) . "');")
                     );
                     ?>
                     <?php //echo $form->error($model,'QualificationID');  ?>
@@ -206,15 +205,22 @@
             echo $form->labelEx($model, 'SepcialityID');
             ?>
             <?php
-            echo $form->dropDownList($model, 'SepcialityID', Specialities::DropDown($idFacultet), array('empty' => '', 'class' => "span12",
-                'disabled' => !$model->isNewRecord,
-                    // 'onchange'=>"PSN.changeSpeciality(this, '$url')"
-            ));
+            if (!empty($model->EducationFormID) && !empty($model->QualificationID)) {
+                echo $form->dropDownList($model, 'SepcialityID', Specialities::DropDownMask($idFacultet, $model->EducationFormID, $model->QualificationID), array('empty' => '', 'class' => "span12",
+                    'disabled' => !$model->isNewRecord,
+                        // 'onchange'=>"PSN.changeSpeciality(this, '$url')"
+                ));
+            } else {
+                echo $form->dropDownList($model, 'SepcialityID', Specialities::DropDown($idFacultet), array('empty' => '', 'class' => "span12",
+                    'disabled' => !$model->isNewRecord,
+                        // 'onchange'=>"PSN.changeSpeciality(this, '$url')"
+                ));
+            }
             ?>
             <?php //echo $form->error($model,'SepcialityID');  ?>
         </div>
         <!--             <div class="span2">
-        <?php //echo $form->labelEx($model,'PaymentTypeID');  ?>
+        <?php //echo $form->labelEx($model,'PaymentTypeID');   ?>
         <?php
         //echo $form->dropDownList($model,'PaymentTypeID', CHtml::listData(Personeducationpaymenttypes::model()->findAll(), 'idEducationPaymentTypes', 'EducationPaymentTypesName'),
         //array( 'empty'=>'','class'=>"span12")); 

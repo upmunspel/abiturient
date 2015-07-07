@@ -74,6 +74,13 @@ class Personspeciality extends ActiveRecord {
     public $benefits = array();
 
     /**
+     * ID специальных категория для которых другой набор екзаменов
+     * @var array 
+     */
+    public $specCategoryIds = array(206149, 206159, 206170, 206171, 206185, 206187, 206172, 206173);
+    public $gosSlugbaIds = array(206194, 206195);
+
+    /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
      * @return Personspeciality the static model class
@@ -143,9 +150,11 @@ class Personspeciality extends ActiveRecord {
                                Exam3ID,  isHigherEducation, SkipDocumentValue', 'numerical', 'integerOnly' => true),
             array("AdditionalBallComment,  CoursedpID, Quota1,Quota2, OlympiadID, isNotCheckAttestat, isForeinghEntrantDocument, PersonDocumentsAwardsTypesID, edboID, RequestFromEB, StatusID, benefits, QuotaID", 'safe'),
             // SHORTFORM
-            array("Exam1ID", 'required', 'on' => "SHORTFORM"),
+            //array("Exam1ID, Exam2ID", 'required', 'on' => "SHORTFORM"),
             //array("EntrantDocumentID", 'valididateEntrantDoc', 'on' => "SHORTFORM"),
-            array("Exam2ID", 'valididateExam', 'on' => "SHORTFORM"),
+            array("Exam1ID", 'valididateExam1', 'on' => "SHORTFORM"),
+            array("Exam2ID", 'valididateExam2', 'on' => "SHORTFORM"),
+            array("Exam3ID", 'valididateExam3', 'on' => "SHORTFORM"),
             array("EntranceTypeID", "required", "except" => "SHORTFORM"),
             //array("CausalityID",  "default", "value"=>100,"except"=>"SHORTFORM"),
             array("Exam1Ball, Exam2Ball, Exam3Ball", 'numerical',
@@ -306,17 +315,76 @@ class Personspeciality extends ActiveRecord {
         return true;
     }
 
-    public function valididateExam($attributes) {
-        if ($this->QualificationID == 2 && empty($this->Exam2ID)) {
+    public function valididateExam1($attributes) {
 
+        if (empty($this->{$attributes})) {
             $this->addError($attributes, "Предмет не може бути порожнім!");
             return false;
         }
-        if ($this->QualificationID == 3 && empty($this->Exam2ID)) {
+        if ( $this->{$attributes} != 40) {
+            $this->addError($attributes, "Невірний предмет!");
+            return false;
+        }
 
+        return true;
+    }
+
+    public function valididateExam2($attributes) {
+
+        if (empty($this->{$attributes})) {
             $this->addError($attributes, "Предмет не може бути порожнім!");
             return false;
         }
+        if (in_array($this->SepcialityID, $this->specCategoryIds)) {
+            if ( $this->{$attributes} != 3) {
+            $this->addError($attributes, "Невірний предмет!");
+            return false;
+            }
+        } else {
+            if ( $this->{$attributes} !=40) {
+            $this->addError($attributes, "Невірний предмет!");
+            return false;
+            }
+        }
+
+        return true;
+    }
+
+    public function valididateExam3($attributes) {
+        if ($this->QualificationID == 3) { // spec 
+            if (!empty($this->Exam3ID)) {
+                $this->addError($attributes, "Предмет повинен бути порожнім!");
+                return false;
+            }
+        }
+        if ($this->QualificationID == 2) { // магістр 
+            if (in_array($this->SepcialityID, $this->specCategoryIds)) {
+                if (!empty($this->Exam3ID)) {
+                    $this->addError($attributes, "Предмет повинен бути порожнім!");
+                    return false;
+                }
+            } elseif (in_array($this->SepcialityID, $this->gosSlugbaIds)) {
+                if ( empty($this->Exam3ID)) {
+                    $this->addError($attributes, "Предмет не може бути порожнім!");
+                    return false;
+                }
+                if ($this->Exam3ID != 40) {
+                    $this->addError($attributes, "Невірний предмет!");
+                    return false;
+                }
+            } else {
+                if ( empty($this->Exam3ID)) {
+                    $this->addError($attributes, "Предмет не може бути порожнім!");
+                    return false;
+                }
+                if ($this->Exam3ID != 3) {
+                    $this->addError($attributes, "Невірний предмет!");
+                    return false;
+                }
+            }
+        }
+
+
         return true;
     }
 
@@ -542,7 +610,7 @@ class Personspeciality extends ActiveRecord {
             "benefits" => "Пільги",
             "LanguageExID" => "Іноземна мова",
             "CoursedpDocument" => "Серія номер та ким виданий документ",
-            "QuotaID"=>"Квота",
+            "QuotaID" => "Квота",
         );
     }
 
