@@ -81,7 +81,7 @@ class WebServices {
             throw new Exception(WebServices::$MSG_EDBO_SEARCH_DENY );
         }
         $srv = Yii::app()->user->getEdboSearchUrl();
-        Yii::log($srv);
+        //Yii::log($srv);
         $series = ""; //trim($series);
         $number = trim($number);
         $script = "search.jsp?series=$series&number=$number";
