@@ -37,12 +37,12 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
     <?php echo $form->errorSummary($model); ?>
     <?php //------------------------------------------------------------------------------------------------------------------------------------// ?>
     <div class="row-fluid">
-<!--        <div class ="span4">
-            <?php //echo $form->labelEx($model, 'idSpeciality'); ?>
-            <?php //echo $form->textField($model, 'idSpeciality', array('class' => 'span12')); ?>
-            <?php //echo $form->error($model, 'idSpeciality'); ?>
-        </div>-->
-        <div class ="span8">
+        <div class ="span2">
+            <?php echo $form->labelEx($model, 'idSpeciality'); ?>
+            <?php echo $form->textField($model, 'idSpeciality', array('class' => 'span12')); ?>
+            <?php echo $form->error($model, 'idSpeciality'); ?>
+        </div>
+        <div class ="span6">
             <?php echo $form->labelEx($model, 'SpecialityName'); ?>
             <?php echo $form->textField($model, 'SpecialityName', array('class' => 'span12', 'size' => 60, 'maxlength' => 100)); ?>
             <?php echo $form->error($model, 'SpecialityName'); ?>

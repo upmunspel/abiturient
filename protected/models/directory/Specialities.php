@@ -218,7 +218,7 @@ class Specialities extends CActiveRecord {
      */
     public function attributeLabels() {
         return array(
-            'idSpeciality' => 'Id Speciality',
+            'idSpeciality' => 'Код',
             'SpecialityName' => 'Спеціальність',
             'SpecialityLicenseName' => 'Спеціальність згідно ліцензії',
             'SpecialityKode' => 'Speciality Kode',

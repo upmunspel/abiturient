@@ -77,44 +77,55 @@
     </div>
     <hr>
     <div class="row-fluid">
+        <div class="span1">
+            <?php echo $form->labelEx($model, 'priority'); ?>
+            <?php
+            $priority_data = array();
+            for ($i = 1; $i <= 15; $i++)
+                $priority_data[$i] = $i;
+            echo $form->dropDownList($model, 'priority', $priority_data, array('class' => 'span12',
+                'disabled' => !empty($model->edboID)));
+            ?>
+<?php //echo $form->error($model,'CourseID');   ?>
+        </div>
         <div class="span5">
             <?php echo $form->labelEx($model, 'EntrantDocumentID'); ?>
             <?php
             echo $form->dropDownList($model, 'EntrantDocumentID', Documents::PersonEntrantDocuments($personid), array('class' => 'span12',
                 'disabled' => !$model->isNewRecord,));
             ?>
-            <?php //echo $form->error($model,'CourseID');  ?>
+<?php //echo $form->error($model,'CourseID');   ?>
         </div>
         <div class="span4">
             <div class="row-fluid">
                 <div class="span4">
-                    <?php echo $form->labelEx($model, 'isCopyEntrantDoc'); ?>
+                        <?php echo $form->labelEx($model, 'isCopyEntrantDoc'); ?>
                     <div class="switch" data-on-label="Так" data-off-label="Ні">
-                        <?php echo $form->checkBox($model, 'isCopyEntrantDoc'); ?>
+                    <?php echo $form->checkBox($model, 'isCopyEntrantDoc'); ?>
                     </div>
-                    <?php //echo $form->error($model,'isCopyEntrantDoc');  ?>
+<?php //echo $form->error($model,'isCopyEntrantDoc');   ?>
                 </div>
 
-                <?php if (Yii::app()->user->checkAccess("showSpecEmptyBall")): ?>
+                    <?php if (Yii::app()->user->checkAccess("showSpecEmptyBall")): ?>
                     <div class="span4">
-                        <?php echo $form->labelEx($model, 'SkipDocumentValue'); ?>
+                            <?php echo $form->labelEx($model, 'SkipDocumentValue'); ?>
                         <div class="switch" data-on-label="Так" data-off-label="Ні">
-                            <?php echo $form->checkBox($model, 'SkipDocumentValue'); ?>
+    <?php echo $form->checkBox($model, 'SkipDocumentValue'); ?>
                         </div>
                     </div>
                 <?php endif; ?>
 
-                <?php if (Yii::app()->user->checkAccess("showSpecEdboRequest")): ?>
+                    <?php if (Yii::app()->user->checkAccess("showSpecEdboRequest")): ?>
                     <div class="span4">
-                        <?php echo $form->labelEx($model, 'RequestFromEB'); ?>
+                            <?php echo $form->labelEx($model, 'RequestFromEB'); ?>
                         <div class="switch" data-on-label="Так" data-off-label="Ні">
-                            <?php echo $form->checkBox($model, 'RequestFromEB'); ?>
+    <?php echo $form->checkBox($model, 'RequestFromEB'); ?>
                         </div>
                     </div>
-                <?php endif; ?>
+<?php endif; ?>
             </div>
         </div>
-        <div class="span3">
+        <div class="span2">
             <?php if (Yii::app()->user->checkAccess("showSpecLanguage")): ?>
                 <?php echo $form->labelEx($model, 'LanguageExID'); ?>
                 <?php
@@ -124,7 +135,7 @@
                     'class' => 'span12')
                 );
                 ?>
-            <?php endif; ?>
+<?php endif; ?>
         </div>
 
     </div>
@@ -135,7 +146,7 @@
             echo $form->dropDownList($model, 'CourseID', CHtml::listData(Courses::model()->findAll(), 'idCourse', 'CourseName'), array('empty' => '', 'class' => 'span12',
                 'disabled' => !$model->isNewRecord || Yii::app()->user->isPkSet("CourseID")));
             ?>
-            <?php //echo $form->error($model,'CourseID');   ?>
+<?php //echo $form->error($model,'CourseID');    ?>
         </div>
         <div class="span2">
             <?php echo $form->labelEx($model, 'EducationFormID'); ?>
@@ -144,7 +155,7 @@
                 'disabled' => !$model->isNewRecord,
                 'onchange' => "PSN.onFacChange(this, '#" . CHtml::activeId($model, "SepcialityID") . "','" . CController::createUrl('personspeciality/speciality') . "');"));
             ?>
-            <?php //echo $form->error($model,'EducationFormID');    ?>
+<?php //echo $form->error($model,'EducationFormID');     ?>
         </div>
         <div class="span4">
             <?php
@@ -173,7 +184,7 @@
                 'disabled' => !$model->isNewRecord,
                 'onchange' => "PSN.changeSpeciality(this, '$url')"));
             ?>
-            <?php ?>
+<?php ?>
         </div>
 
     </div>
@@ -193,7 +204,7 @@
                 'onchange' => "PSN.onFacChange(this, '#" . CHtml::activeId($model, "SepcialityID") . "','" . CController::createUrl('personspeciality/speciality') . "');")
             );
             ?>
-            <?php //echo $form->error($model,'QualificationID');    ?>
+<?php //echo $form->error($model,'QualificationID');     ?>
         </div>
 
         <div class="span4">
@@ -206,7 +217,7 @@
             ?>
             <?php echo $form->dropDownList($model, 'EntranceTypeID', CHtml::listData(Personenterancetypes::model()->findAll(), 'idPersonEnteranceType', 'PersonEnteranceTypeName'), array('empty' => '', 'class' => "span12", 'onchange' => "PSN.changeEntranceType(this, '$url', '$url1' )",));
             ?>
-            <?php //echo $form->error($model,'EntranceTypeID');     ?>
+<?php //echo $form->error($model,'EntranceTypeID');      ?>
         </div>
 
         <div class="span6">
@@ -215,29 +226,29 @@
             echo $form->dropDownList($model, 'CausalityID', CHtml::listData(Causality::model()->findAll("PersonEnteranceTypeID = {$model->EntranceTypeID}"), 'idCausality', 'CausalityName'), array('empty' => '', 'class' => "span12 causality",
                 "disabled" => $model->EntranceTypeID == 1 ? "disabled" : ""));
             ?>
-            <?php //echo $form->error($model,'CausalityID');    ?>
+<?php //echo $form->error($model,'CausalityID');     ?>
         </div>
 
 
     </div>
     <?php if (Yii::app()->user->checkAccess("showSpecAddBall")): ?>
-        <?php $access = Yii::app()->user->checkAccess("editSpecAddBall") ? "" : "disabled"; ?>
+    <?php $access = Yii::app()->user->checkAccess("editSpecAddBall") ? "" : "disabled"; ?>
         <div class="row-fluid">
             <div class="span2">
                 <?php echo $form->labelEx($model, 'AdditionalBall'); ?>
                 <?php echo $form->textField($model, 'AdditionalBall', array('class' => "span12", "disabled" => $access)); ?>
-                <?php //echo $form->error($model,'AdditionalBall');    ?>
+    <?php //echo $form->error($model,'AdditionalBall');     ?>
             </div>
             <div class="span10">
                 <?php echo $form->labelEx($model, 'AdditionalBallComment'); ?>
                 <?php echo $form->textField($model, 'AdditionalBallComment', array('class' => "span12", "disabled" => $access)); ?>
-                <?php //echo $form->error($model,'AdditionalBall');     ?>
+    <?php //echo $form->error($model,'AdditionalBall');      ?>
             </div>
         </div>
-    <?php endif; ?>
+<?php endif; ?>
     <!-- ZNO -->	
     <div class="row-fluid" id="subjects-holder">
-        <?php $this->renderPartial("_subjects_holder", array("model" => $model, 'specialityid' => $model->SepcialityID)); ?>
+<?php $this->renderPartial("_subjects_holder", array("model" => $model, 'specialityid' => $model->SepcialityID)); ?>
     </div>
     <hr>
     <div class="row-fluid">
@@ -247,12 +258,12 @@
                 <div class="span8">
                     <?php echo $form->labelEx($model, 'CoursedpID'); ?>
                     <?php echo $form->dropDownList($model, 'CoursedpID', CHtml::listData(Coursedp::model()->findAll(), "idCourseDP", "CourseDPName"), array('empty' => "", 'class' => "span12")); ?>
-                    <?php //echo $form->error($model,'CoursedpID');     ?>
+<?php //echo $form->error($model,'CoursedpID');      ?>
                 </div>
                 <div class="span4">
                     <?php echo $form->labelEx($model, 'CoursedpBall'); ?>
                     <?php echo $form->textField($model, 'CoursedpBall', array('class' => "span12")); ?>
-                    <?php //echo $form->error($model,'AdditionalBall');    ?>
+<?php //echo $form->error($model,'AdditionalBall');     ?>
                 </div>
             </div>
 
@@ -260,17 +271,17 @@
                 <div class="span12">
                     <?php //echo $form->labelEx($model, 'CoursedpDocument'); ?>
                     <?php echo $form->textField($model, 'CoursedpDocument', array('class' => "span12", "placeholder" => $model->getAttributeLabel("CoursedpDocument"))); ?>
-                    <?php //echo $form->error($model,'AdditionalBall');    ?>
+<?php //echo $form->error($model,'AdditionalBall');     ?>
                 </div>
             </div>
 
 
             <div class="row-fluid">
-                <?php if (Yii::app()->user->checkAccess("showSpecOlimpiada")): ?>
+                    <?php if (Yii::app()->user->checkAccess("showSpecOlimpiada")): ?>
                     <div class="span12">
                         <?php echo $form->labelEx($model, 'OlympiadID'); ?>
                         <?php echo $form->dropDownList($model, 'OlympiadID', Olympiadsawards::DropDown(), array('empty' => "", 'class' => "span12")); ?>
-                        <?php //echo $form->error($model,'CoursedpID');  ?>
+                    <?php //echo $form->error($model,'CoursedpID');   ?>
                     </div>
                 <?php endif; ?>
                 <!--<div class="span3">
@@ -278,48 +289,48 @@
                      <div class="switch" data-on-label="Так" data-off-label="Ні">
                 <?php echo $form->checkBox($model, 'Quota1'); ?>
                      </div>
-                <?php //echo $form->error($model,'isContact');      ?>
+<?php //echo $form->error($model,'isContact');       ?>
                 </div>
                 <div class="span3">
                 <?php echo $form->labelEx($model, 'Quota2'); ?>
                      <div class="switch" data-on-label="Так" data-off-label="Ні">
                 <?php echo $form->checkBox($model, 'Quota2'); ?>
                      </div>
-                <?php //echo $form->error($model,'isContact');     ?>
+<?php //echo $form->error($model,'isContact');      ?>
                 </div>-->
 
             </div> 
-            <?php if (Yii::app()->user->checkAccess("showSpecQuota")): ?>
+<?php if (Yii::app()->user->checkAccess("showSpecQuota")): ?>
                 <div class="row-fluid">
                     <div class="span12">
                         <?php echo $form->labelEx($model, 'QuotaID'); ?>
-                        <?php echo $form->dropDownList($model, 'QuotaID', CHtml::listData(Quota::model()->findAll(), "idQuota", "QuotaName"), array('empty' => "", 'class' => "span12")); ?>
+    <?php echo $form->dropDownList($model, 'QuotaID', CHtml::listData(Quota::model()->findAll(), "idQuota", "QuotaName"), array('empty' => "", 'class' => "span12")); ?>
                     </div>
                 </div>
-            <?php endif; ?>
+<?php endif; ?>
 
 
         </div>
         <div class="span6">
-            <?php if (Yii::app()->user->checkAccess("showBenefits")): ?>
+                <?php if (Yii::app()->user->checkAccess("showBenefits")): ?>
                 <div class="row-fluid">
                     <?php echo $form->labelEx($model, 'benefits'); ?>
                     <?php
                     echo $form->dropDownList($model, 'benefits', CHtml::listData(Personbenefits::model()->findAll("PersonID = {$model->PersonID}"), "idPersonBenefits", "benefit.BenefitName"), array('empty' => "", 'style' => "width: 100%;", "multiple" => "multiple"));
                     ?>
                 </div>
-            <?php endif; ?>      
+<?php endif; ?>      
         </div>
 
     </div>    
     <!--
             
             <div class="row buttons">
-    <?php echo CHtml::submitButton($model->isNewRecord ? 'Створити' : 'Зберегти'); ?>
+<?php echo CHtml::submitButton($model->isNewRecord ? 'Створити' : 'Зберегти'); ?>
             </div>
     --> 
 
-    <?php $this->endWidget(); ?>
+<?php $this->endWidget(); ?>
     <script>
         $("#spec-form-modal .switch").bootstrapSwitch();
         $('#<?php echo CHtml::activeId($model, "benefits"); ?>').select2({placeholder: "Выбрать льготу", allowClear: true});
