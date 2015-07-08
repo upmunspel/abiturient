@@ -86,10 +86,20 @@ foreach ($cnt_data as $row){
       continue;
     }
     echo "<td>".$key."</td>";
-    echo "<td>".$data[1]['cnt_requests_per_day']."</td>";
-    echo "<td>".((isset($data[2]))? 
-            $data[2]['cnt_requests_per_day'] : '0') ."</td>";
-    echo "<td>".$data[1]['cnt_requests']."</td>";
+    echo "<td>".
+            ( isset($data[1])
+              ? $data[1]['cnt_requests_per_day']
+              : '0')
+         ."</td>";
+    echo "<td>"
+          .( (isset($data[2]))
+             ? $data[2]['cnt_requests_per_day']
+             : '0')
+        ."</td>";
+    echo "<td>".
+            ( isset($data[1])
+              ? $data[1]['cnt_requests']
+              : '0')."</td>";
     echo "<td>".((isset($data[2]))? 
             $data[2]['cnt_requests'] : '0') ."</td>";
     echo "</tr>";
