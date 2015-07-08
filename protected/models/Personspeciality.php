@@ -78,7 +78,7 @@ class Personspeciality extends ActiveRecord {
      * ID специальных категория для которых другой набор екзаменов
      * @var array 
      */
-    public $specCategoryIds = array(206149, 206159, 206170, 206171, 206185, 206187, 206172, 206173);
+    public $specCategoryIds = array(206149, 206159, 206169, 206170, 206171, 206185, 206187, 206172, 206173);
     public $gosSlugbaIds = array(206194, 206195);
 
     /**
