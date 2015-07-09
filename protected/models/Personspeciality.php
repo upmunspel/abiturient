@@ -64,6 +64,7 @@
  * @property integer $EntrantDocumentID
  * @property integer $QuotaID
  * @property integer $priority
+ * @property integer $isCrossEntrant
  */
 class Personspeciality extends ActiveRecord {
 
@@ -148,7 +149,7 @@ class Personspeciality extends ActiveRecord {
                                isContract, isBudget, isCopyEntrantDoc, DocumentSubject1, 
                                DocumentSubject2, DocumentSubject3, 
                                Exam1ID,  Exam2ID, 
-                               Exam3ID,  isHigherEducation, SkipDocumentValue, priority', 'numerical', 'integerOnly' => true),
+                               Exam3ID,  isHigherEducation, SkipDocumentValue, priority, isCrossEntrant', 'numerical', 'integerOnly' => true),
             array("AdditionalBallComment,  CoursedpID, Quota1,Quota2, OlympiadID, isNotCheckAttestat, isForeinghEntrantDocument, PersonDocumentsAwardsTypesID, edboID, RequestFromEB, StatusID, benefits, QuotaID", 'safe'),
             // SHORTFORM
             //array("Exam1ID, Exam2ID", 'required', 'on' => "SHORTFORM"),
@@ -164,7 +165,7 @@ class Personspeciality extends ActiveRecord {
                 "max" => 200, "min" => 0, "allowEmpty" => true),
             array('PersonID, SepcialityID,  EducationFormID, 
                                QualificationID,  CourseID, isContract, 
-                               isCopyEntrantDoc, EntrantDocumentID, isNeedHostel, LanguageExID, priority', "required"),
+                               isCopyEntrantDoc, EntrantDocumentID, isNeedHostel, LanguageExID', "required"),
             array("DocumentSubject1, DocumentSubject2, DocumentSubject3", "required", "on" => "ZNO"),
             // array("Exam1ID, Exam2ID, Exam3ID, CausalityID", "required", "on" => "EXAM"),
             // array("Exam1Ball, Exam2Ball, Exam3Ball", 'numerical', "max" => 200, "min" => 1,  /*"allowEmpty" => true,*/ "valididateZnoExam", "on" => "EXAM"),
@@ -612,7 +613,8 @@ class Personspeciality extends ActiveRecord {
             "LanguageExID" => "Іноземна мова",
             "CoursedpDocument" => "Серія номер та ким виданий документ",
             "QuotaID" => "Квота",
-            "priority"=>"Пр-тет"
+            "priority"=>"Пр-тет",
+            "isCrossEntrant"=>"Пер-й вступ"
         );
     }
 

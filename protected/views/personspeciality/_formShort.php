@@ -101,9 +101,9 @@
             ?>
             <?php //echo $form->error($model,'CourseID');  ?>
         </div>
-        <div class="span4">
+        <div class="span5">
             <div class="row-fluid">
-                <div class="span4">
+                <div class="span3">
                     <?php echo $form->labelEx($model, 'isCopyEntrantDoc'); ?>
                     <div class="switch" data-on-label="Так" data-off-label="Ні">
                         <?php echo $form->checkBox($model, 'isCopyEntrantDoc'); ?>
@@ -111,7 +111,7 @@
                     <?php //echo $form->error($model,'isCopyEntrantDoc'); ?>
                 </div>
                 <?php if (Yii::app()->user->checkAccess("showSpecEdboRequest")): ?>
-                    <div class="span4">
+                    <div class="span3">
                         <?php echo $form->labelEx($model, 'RequestFromEB'); ?>
                         <div class="switch" data-on-label="Так" data-off-label="Ні">
                             <?php echo $form->checkBox($model, 'RequestFromEB'); ?>
@@ -119,7 +119,7 @@
                     </div>
                 <?php endif; ?>
                 <?php if (Yii::app()->user->checkAccess("showSpecEmptyBall")): ?>
-                    <div class="span4">
+                    <div class="span3">
                         <?php echo $form->labelEx($model, 'SkipDocumentValue'); ?>
                         <div class="switch" data-on-label="Так" data-off-label="Ні">
                             <?php echo $form->checkBox($model, 'SkipDocumentValue'); ?>
@@ -127,11 +127,18 @@
 
                     </div>
                 <?php endif; ?>
+                  <div class="span3">
+                        <?php echo $form->labelEx($model, 'isCrossEntrant'); ?>
+                        <div class="switch" data-on-label="Так" data-off-label="Ні">
+                            <?php echo $form->checkBox($model, 'isCrossEntrant'); ?>
+                        </div>
+
+                    </div>
 
             </div>
         </div>
 
-        <div class="span3">
+        <div class="span2">
             <?php if (Yii::app()->user->checkAccess("showSpecLanguage")): ?>
                 <?php echo $form->labelEx($model, 'LanguageExID'); ?>
                 <?php
