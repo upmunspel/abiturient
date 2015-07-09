@@ -25,8 +25,8 @@ A {
 	color: black;
 }
 table td, table th{
-    padding-top:1px;
-    padding-bottom:1px;
+    padding-top:0px;
+    padding-bottom:0px;
 }
 </style>
 <style media="screen">
