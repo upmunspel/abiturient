@@ -65,9 +65,55 @@ $dataProvider = new CActiveDataProvider("Personspeciality", array('criteria' => 
                         'onclick' => "PSN.addSpec_electron(this,'$url2','$us');",
                     ),
                 ));
-                echo CHtml::textField("idRequest","",array('style'=>"margin-left:20px;","placeholder"=>"Код електронної заявки"));
+                echo CHtml::textField("idRequest", "", array('style' => "margin-left:20px;", "placeholder" => "Код електронної заявки"));
 
             endif;
+            ?>
+ &nbsp;
+ <?php
+            $pr_url = Yii::app()->createUrl("personspeciality/priorityinfo", array('idperson' => $personid));
+            $this->widget('bootstrap.widgets.TbButton', array(
+                'buttonType' => 'submit',
+                'label' => 'Переглянути приоріети',
+                'type' => 'primary', // null, 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
+                'size' => null, // null, 'large', 'small' or 'mini'
+                'loadingText' => 'Зачекайте...',
+                'htmlOptions' => array(
+                    'onclick' => "PSN.getPersonSpecInfo(this,'$pr_url')",
+                ),
+            ));
+            ?>
+ &nbsp;
+ <?php
+            $ed_url = Yii::app()->createUrl("personspeciality/educationsinfo", array('idperson' => $personid));
+            $this->widget('bootstrap.widgets.TbButton', array(
+                'buttonType' => 'submit',
+                'label' => 'Переглянути попередню освіту',
+                'type' => 'primary', // null, 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
+                'size' => null, // null, 'large', 'small' or 'mini'
+                'loadingText' => 'Зачекайте...',
+                'htmlOptions' => array(
+                    'onclick' => "PSN.getPersonSpecInfo(this,'$ed_url')",
+                ),
+            ));
+            ?>
+        </div>
+        <div class="spec-info-holder">
+            <?php
+            $this->widget('bootstrap.widgets.TbAlert', array(
+                'fade' => true,
+                'closeText' => '&times;', // false equals no close link
+                'events' => array(),
+                'htmlOptions' => array(),
+                'userComponentId' => 'user',
+                'alerts' => array(// configurations per alert type
+                    // success, info, warning, error or danger
+                    'success',// => array('closeText' => '&times;'),
+                    'info', // you don't need to specify full config
+                    'warning',// => array('closeText' => false),
+                    'error',// => array('closeText' => 'AAARGHH!!')
+                ),
+            ));
             ?>
         </div>
         <hr>
@@ -122,7 +168,7 @@ $dataProvider = new CActiveDataProvider("Personspeciality", array('criteria' => 
                         'options' => array(
                             'class' => 'btn',
                             'onclick' => "PSN.delSpec(this); return false;",
-                            "style"=>Yii::app()->user->checkAccess("denySpecDel")?"display:none;":"",
+                            "style" => Yii::app()->user->checkAccess("denySpecDel") ? "display:none;" : "",
                         ),
                     ),
                     'print' => array(

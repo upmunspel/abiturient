@@ -78,7 +78,7 @@ class WebServices {
     public static function findPerson($series, $number) {
 
         if (!Yii::app()->user->checkAccess("wsAllowSearch")) {
-            throw new Exception(WebServices::$MSG_EDBO_SEARCH_DENY );
+            throw new Exception(WebServices::$MSG_EDBO_SEARCH_DENY);
         }
         $srv = Yii::app()->user->getEdboSearchUrl();
         //Yii::log($srv);
@@ -435,7 +435,7 @@ class WebServices {
 
         return $res;
     }
-    
+
     /**
      * 
      * @param type $idDoc
@@ -445,7 +445,7 @@ class WebServices {
      */
     public static function updateDocumentBall($idDoc) {
 
-        $script = "entrantdocvaluechange.jsp?iddoc=".$idDoc;
+        $script = "entrantdocvaluechange.jsp?iddoc=" . $idDoc;
         $srv = Yii::app()->user->getEdboSearchUrl();
 
         try {
@@ -469,6 +469,71 @@ class WebServices {
         }
 
 
+        return $res;
+    }
+    /**
+     * Получить список занятых приоритетов
+     * @param type $codeU
+     * @return json
+     * @throws Exception
+     */
+    public static function getPersonAllPriority($codeU) {
+        if (!Yii::app()->user->checkAccess("wsAllowSearch")) {
+            Yii::app()->user->setFlash("photomessage", WebServices::$MSG_EDBO_SEARCH_DENY);
+        }
+        $script = "requestsallpriorityget.jsp?personCodeU=" . $codeU;
+        //Yii::log( $script );
+        $srv = Yii::app()->user->getEdboSearchUrl();
+        try {
+
+            $ctx = stream_context_create(array('http' => array('timeout' => WebServices::$requestTimeout)));
+            $res = @file_get_contents($srv . $script, 0, $ctx);
+            if ($res === false) {
+                throw new Exception(WebServices::$MSG_EDBO_ERROR);
+            }
+
+            $error = CJSON::decode($res);
+
+            if (is_array($error) && isset($error['error'])) {
+                throw new Exception($error['error']);
+            }
+        } catch (Exception $ex) {
+            if (defined('YII_DEBUG')) {
+                Yii::log($ex->getMessage(), CLogger::LEVEL_INFO, 'WebServices::getRequestsByStatus');
+            }
+            throw $ex;
+        }
+        //Yii::log( $res );
+        return $res;
+    }
+    
+    public static function getPersonBaseEducations($codeU) {
+        if (!Yii::app()->user->checkAccess("wsAllowSearch")) {
+            Yii::app()->user->setFlash("photomessage", WebServices::$MSG_EDBO_SEARCH_DENY);
+        }
+        $script = "personeducationsget.jsp?personCodeU=" . $codeU;
+        //Yii::log( $script );
+        $srv = Yii::app()->user->getEdboSearchUrl();
+        try {
+
+            $ctx = stream_context_create(array('http' => array('timeout' => WebServices::$requestTimeout)));
+            $res = @file_get_contents($srv . $script, 0, $ctx);
+            if ($res === false) {
+                throw new Exception(WebServices::$MSG_EDBO_ERROR);
+            }
+
+            $error = CJSON::decode($res);
+
+            if (is_array($error) && isset($error['error'])) {
+                throw new Exception($error['error']);
+            }
+        } catch (Exception $ex) {
+            if (defined('YII_DEBUG')) {
+                Yii::log($ex->getMessage(), CLogger::LEVEL_INFO, 'WebServices::getRequestsByStatus');
+            }
+            throw $ex;
+        }
+        //Yii::log( $res );
         return $res;
     }
 

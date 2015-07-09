@@ -576,7 +576,7 @@ class Personspeciality extends ActiveRecord {
             'isTarget' => 'Цільовий вступ',
             'isContract' => 'Контракт',
             'isBudget' => 'Бюджет',
-            'isNeedHostel' => 'Потрібен гуртожиток',
+            'isNeedHostel' => 'Пот-н гурт-ок',
             'AdditionalBall' => 'Додатковий бал',
             'EntrantDocumentID' => 'Документ-основа вступу',
             'isCopyEntrantDoc' => 'Копія',

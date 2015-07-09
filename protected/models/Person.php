@@ -41,6 +41,7 @@
  * @property string $CreateDate
  * @property integer $KOATUUCodeID
  * @property string $KOATUUCode
+ * @property string $codeU
  */
 class Person extends ActiveRecord {
 

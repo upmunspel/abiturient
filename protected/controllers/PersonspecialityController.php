@@ -19,7 +19,7 @@ class PersonspecialityController extends Controller {
 //		);
         return array(
             'accessControl', // perform access control for CRUD operations
-            'ajaxOnly + Refresh, Edboupdate, Studupdate, Entrance',
+            'ajaxOnly + Refresh, Edboupdate, Studupdate, Entrance, Priorityinfo, Educationsinfo',
         );
     }
 
@@ -47,7 +47,9 @@ class PersonspecialityController extends Controller {
                     'admin', "Edboupdate",
                     'Studupdate',
                     "Create_electron",
-                    "Entrance"
+                    "Entrance",
+                    "Priorityinfo",
+                    "Educationsinfo",
                 ),
                 'users' => array('@'),
             ),
@@ -468,6 +470,111 @@ class PersonspecialityController extends Controller {
         foreach ($data as $value => $name) {
             echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
         }
+    }
+
+    public function actionPriorityinfo($idperson) {
+        /*
+         * {
+          "requestPriority":1,
+          "idPersonRequest":6927303,
+          "personEducationFormName":"Денна",
+          "qualificationName":"Бакалавр (4 р. 00 м.)",
+          "universityFacultetFullName":"Математичний",
+          "specClasifierCode":"6.040201",
+          "specSpecialityClasifierCode":"",
+          "specIndastryName":"Фізико-математичні науки",
+          "specDirectionName":"математика",
+          "specSpecialityName":"",
+          "specScecializationName":""
+          },
+         */
+
+        $msg = "";
+        $priority = "Доступні пріорітети: ";
+        $type = "success";
+        $count = 0;
+        $model = Person::model()->findByPk($idperson);
+        if (!empty($model) && !empty($model->codeU)) {
+            try {
+                $res = WebServices::getPersonAllPriority($model->codeU);
+                $res = CJSON::decode($res);
+                if (is_array($res)) {
+                    foreach ($res as $item) {
+                        $item = (object) $item;
+                        if ($item->idPersonRequest > 0) {
+                            $type = "info";
+                            $msg.= "<div>";
+                            $msg.= $item->requestPriority . " : " . $item->qualificationName . ", " . $item->specClasifierCode . " - " . $item->specDirectionName;
+                            $msg.= "</div>";
+                            $count++;
+                        } else {
+                            $priority.=$item->requestPriority . " | ";
+                        }
+                    }
+                }
+                if ($count == 0) {
+                    $msg = "Всі пріорітети вільні!";
+                    $type = "success";
+                }
+                $msg.= "<div>" . $priority . "</div>";
+            } catch (Exception $e) {
+                $msg = $e->getMessage();
+                $type = "error";
+            }
+        } else {
+            $msg.= "Необхідно синхронізувати персону!";
+            $type = "warning";
+        }
+        Yii::app()->user->setFlash($type, $msg);
+    }
+    
+    public function actionEducationsinfo($idperson) {
+        
+
+        $msg = "";
+       
+        $type = "info";
+        $count = 0;
+        $model = Person::model()->findByPk($idperson);
+        if (!empty($model) && !empty($model->codeU)) {
+            try {
+                $res = WebServices::getPersonBaseEducations($model->codeU);
+                $res = CJSON::decode($res);
+                if (is_array($res)) {
+                    $msg.="<ul>";
+                    foreach ($res as $item) {
+                        $item = (object) $item;
+                        
+                            $type = "info";
+                            $msg.= "<li>";
+                            $msg.= $item->personEducationFormName . 
+                                     " : " . $item->personEducationPaymentTypeName . 
+                                    " : " . $item->universityFullName . 
+                                    ", " . $item->specDirectionName .
+                                    " - " . $item->specSpecialityName;
+                            $msg.= "</li>";
+                            $count++;
+                        
+                    }
+                     $msg.="</ul>";
+                }
+                if ($count == 0) {
+                    $msg = "Попередня освіта відсутня або не зареестровано у базі ЄДБО";
+                    $type = "success";
+                } else {
+                    $type = "warning";
+                    $msg.="<h3>Заявки даної персони може приймати тільки оператор 116 аудиторії!</h3>";
+                }
+               
+            } catch (Exception $e) {
+                $msg = $e->getMessage();
+                $type = "error";
+            }
+        } else {
+            $msg.= "Необхідно синхронізувати персону!";
+            $type = "warning";
+        }
+        Yii::app()->user->setFlash($type, $msg);
     }
 
     /**

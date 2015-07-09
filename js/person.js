@@ -615,6 +615,21 @@ PSN.changeFIO = function() {
         $("#MiddleNameR").val(MiddleName);
     });
 }
+
+PSN.getPersonSpecInfo = function(obj, link){
+    //var link = $(obj).attr("href");
+    var btn = $(obj);
+    btn.button('loading');
+     $.ajax({
+        'url': link,
+        'type': 'POST',
+        success: function(data) {
+            refreshSpecs();
+        }
+    });
+}
+
+
 $(document).ready(function() {
     PSN.Init();
     PSN.changeFIO();

@@ -22,7 +22,7 @@
     //debug($model->attributeLabels("isBudget"));
     ?>
     <div class="row-fluid">
-        <div class="span5">
+        <div class="span4">
             <div class="row-fluid">
                 <div class="span4">
                     <?php echo $form->labelEx($model, 'isBudget'); ?>
