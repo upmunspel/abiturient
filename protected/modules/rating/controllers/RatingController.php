@@ -567,10 +567,15 @@ class RatingController extends Controller {
     $criteria->order = 'SpecialityName ASC,SpecialityDirectionName ASC,SpecialityClasifierCode ASC';
     echo "<html><meta charset='utf8'><head></head><body><ul>";
     foreach (Specialities::model()->findAll($criteria) as $spec){
-      $href = 'http://'.$_SERVER['SERVER_ADDR'].':'.$_SERVER['SERVER_PORT']
-        .'/abiturient/rating/rating/excelrating?&Personspeciality%5BSepcialityID%5D='.$spec->idSpeciality
-        .'&Personspeciality%5Brating_order_mode%5D=1&toexcel=0'; 
-      echo "<li><a href='".$href."' target='_blank'>".$spec->tSPEC."</a></li>";
+        $href = Yii::app()->createAbsoluteUrl("/rating/rating/excelrating",array(
+            'Personspeciality[SepcialityID]' => $spec->idSpeciality,
+            'Personspeciality[rating_order_mode]' => 1,
+            'toexcel'=>0
+        ));
+        //$href = 'http://'.$_SERVER['SERVER_ADDR'].':'.$_SERVER['SERVER_PORT']
+        //       .'/abiturient/rating/rating/excelrating?&Personspeciality%5BSepcialityID%5D='.$spec->idSpeciality
+        //       .'&Personspeciality%5Brating_order_mode%5D=1&toexcel=0'; 
+        echo "<li><a href='".$href."' target='_blank'>".$spec->tSPEC."</a></li>";
     }
     echo "</ul></body></html>";
   }
