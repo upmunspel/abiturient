@@ -94,6 +94,7 @@
     <hr>
     <div class="row-fluid">
         <div class="span1">
+            <?php echo $form->hiddenField($model,'priority')?>
             <?php echo $form->labelEx($model, 'priority'); ?>
             <?php
             $priority_data = array();
