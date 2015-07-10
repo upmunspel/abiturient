@@ -567,7 +567,6 @@ class RatingController extends Controller {
     $criteria->order = 'SpecialityName ASC,SpecialityDirectionName ASC,SpecialityClasifierCode ASC';
     echo "<html><meta charset='utf8'><head></head><body><ul>";
     foreach (Specialities::model()->findAll($criteria) as $spec){
-        
         $href = Yii::app()->createAbsoluteUrl("/rating/rating/excelrating",array(
             'Personspeciality[SepcialityID]' => $spec->idSpeciality,
             'Personspeciality[rating_order_mode]' => 1,
