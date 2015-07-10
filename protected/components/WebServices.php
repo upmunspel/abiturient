@@ -533,7 +533,7 @@ class WebServices {
             }
             throw $ex;
         }
-        //Yii::log( $res );
+        Yii::log( $res );
         return $res;
     }
 
