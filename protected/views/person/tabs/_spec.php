@@ -69,12 +69,12 @@ $dataProvider = new CActiveDataProvider("Personspeciality", array('criteria' => 
 
             endif;
             ?>
- &nbsp;
- <?php
+            &nbsp;
+            <?php
             $pr_url = Yii::app()->createUrl("personspeciality/priorityinfo", array('idperson' => $personid));
             $this->widget('bootstrap.widgets.TbButton', array(
                 'buttonType' => 'submit',
-                'label' => 'Переглянути приоріети',
+                'label' => 'Переглянути пріорітети',
                 'type' => 'primary', // null, 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
                 'size' => null, // null, 'large', 'small' or 'mini'
                 'loadingText' => 'Зачекайте...',
@@ -83,17 +83,18 @@ $dataProvider = new CActiveDataProvider("Personspeciality", array('criteria' => 
                 ),
             ));
             ?>
- &nbsp;
- <?php
+            &nbsp;
+            <?php
             $ed_url = Yii::app()->createUrl("personspeciality/educationsinfo", array('idperson' => $personid));
             $this->widget('bootstrap.widgets.TbButton', array(
                 'buttonType' => 'submit',
                 'label' => 'Переглянути попередню освіту',
-                'type' => 'primary', // null, 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
+                'type' => 'danger', // null, 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
                 'size' => null, // null, 'large', 'small' or 'mini'
                 'loadingText' => 'Зачекайте...',
                 'htmlOptions' => array(
                     'onclick' => "PSN.getPersonSpecInfo(this,'$ed_url')",
+                    'class'=>"",
                 ),
             ));
             ?>
@@ -108,10 +109,10 @@ $dataProvider = new CActiveDataProvider("Personspeciality", array('criteria' => 
                 'userComponentId' => 'user',
                 'alerts' => array(// configurations per alert type
                     // success, info, warning, error or danger
-                    'success',// => array('closeText' => '&times;'),
+                    'success', // => array('closeText' => '&times;'),
                     'info', // you don't need to specify full config
-                    'warning',// => array('closeText' => false),
-                    'error',// => array('closeText' => 'AAARGHH!!')
+                    'warning', // => array('closeText' => false),
+                    'error', // => array('closeText' => 'AAARGHH!!')
                 ),
             ));
             ?>

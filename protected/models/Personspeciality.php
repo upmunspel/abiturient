@@ -65,6 +65,8 @@
  * @property integer $QuotaID
  * @property integer $priority
  * @property integer $isCrossEntrant
+ * @property integer $BasePaymentTypeID
+ * @property integer $BaseEducationFormID
  */
 class Personspeciality extends ActiveRecord {
 
@@ -149,8 +151,12 @@ class Personspeciality extends ActiveRecord {
                                isContract, isBudget, isCopyEntrantDoc, DocumentSubject1, 
                                DocumentSubject2, DocumentSubject3, 
                                Exam1ID,  Exam2ID, 
-                               Exam3ID,  isHigherEducation, SkipDocumentValue, priority, isCrossEntrant', 'numerical', 'integerOnly' => true),
-            array("AdditionalBallComment,  CoursedpID, Quota1,Quota2, OlympiadID, isNotCheckAttestat, isForeinghEntrantDocument, PersonDocumentsAwardsTypesID, edboID, RequestFromEB, StatusID, benefits, QuotaID", 'safe'),
+                               Exam3ID,  isHigherEducation, SkipDocumentValue, 
+                               priority, isCrossEntrant,
+                               BasePaymentTypeID, BaseEducationFormID', 'numerical', 'integerOnly' => true),
+            array("AdditionalBallComment,  CoursedpID, Quota1,Quota2, "
+                . "OlympiadID, isNotCheckAttestat, isForeinghEntrantDocument, "
+                . "PersonDocumentsAwardsTypesID, edboID, RequestFromEB, StatusID, benefits, QuotaID", 'safe'),
             // SHORTFORM
             //array("Exam1ID, Exam2ID", 'required', 'on' => "SHORTFORM"),
             //array("EntrantDocumentID", 'valididateEntrantDoc', 'on' => "SHORTFORM"),
@@ -589,7 +595,7 @@ class Personspeciality extends ActiveRecord {
             'Exam2Ball' => 'Бал',
             'Exam3ID' => 'Екзамен',
             'Exam3Ball' => 'Бал',
-            'isHigherEducation' => 'Освіта аналогічного кваліфікаційного рівня',
+            'isHigherEducation' => 'Освіта анал-ного кваліф-ого рівня',
             'SkipDocumentValue' => 'Бал не врах-ся',
             'AdditionalBallComment' => 'Коментар до додаткового балу',
             'CoursedpID' => 'Курси довузівської підготовки',
@@ -614,7 +620,9 @@ class Personspeciality extends ActiveRecord {
             "CoursedpDocument" => "Серія номер та ким виданий документ",
             "QuotaID" => "Квота",
             "priority"=>"Пр-тет",
-            "isCrossEntrant"=>"Пер-й вступ"
+            "isCrossEntrant"=>"Пер-й вступ",
+            "BasePaymentTypeID"=>"Оплата",
+            "BaseEducationFormID"=>"Форма",
         );
     }
 
