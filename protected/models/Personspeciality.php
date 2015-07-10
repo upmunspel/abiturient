@@ -729,6 +729,7 @@ class Personspeciality extends ActiveRecord {
         $this->EntranceTypeID = $data->idPersonEnteranceTypes;
         $this->CausalityID = $data->idPersonRequestExaminationCause;
         $this->SkipDocumentValue = $data->skipDocumentValue;
+        $this->priority = $data->requestPriority;
 
         // Load subjects
         $sdata = CJSON::decode($sbj);
