@@ -330,7 +330,7 @@ class Documents extends ActiveRecord {
 
                         if (empty($exdoc)) {
                             $doc = new Documents();
-                            //$doc->scenario = "FULLINPUT";
+                            $doc->scenario = "FULLINPUT";
                             $doc->PersonID = $personid;
                             $doc->TypeID = $val->id_Type;
                             $doc->edboID = $val->id_Document;

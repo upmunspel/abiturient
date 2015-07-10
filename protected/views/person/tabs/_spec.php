@@ -130,6 +130,8 @@ $dataProvider = new CActiveDataProvider("Personspeciality", array('criteria' => 
         'rowCssClassExpression' => '$data->getRowClass()',
         'columns' => array(
             //"idPersonSpeciality",
+            array('name' => 'priority','header' => 'П', "htmlOptions" => array("style" => "width: 20px; font-weight: bold; color: blue; text-align: center;")),
+            
             array('name' => 'PersonRequestNumber', "htmlOptions" => array("style" => "width: 120px"), 'value' => '$data->RequestPrefix.str_pad($data->PersonRequestNumber, 5, "0", STR_PAD_LEFT)'),
             array('name' => 'RequestNumber', "htmlOptions" => array("style" => "width: 120px"), 'value' => 'str_pad($data->RequestNumber, 5, "0", STR_PAD_LEFT)'),
             //array('name'=>'typename', 'header'=>'typename',  ),

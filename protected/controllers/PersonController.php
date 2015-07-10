@@ -168,7 +168,7 @@ class PersonController extends Controller {
             $model->attributes = $_POST['Person'];
             if (isset($_POST['Documents']['persondoc'])) {
                 $model->persondoc->attributes = $_POST['Documents']['persondoc'];
-                $model->validate();
+                //$model->validate();
             }
 
             if (!empty($model->codeU)) {
@@ -176,6 +176,8 @@ class PersonController extends Controller {
                     $model->loadDocumentsFromJSON(Yii::app()->session[$model->codeU . "-tmp_documents"]);
                 }
             }
+            Yii::log(print_r($model->persondoc, 1));
+
 
             if (isset($_POST['Documents']['entrantdoc'])) {
                 $model->entrantdoc->attributes = $_POST['Documents']['entrantdoc'];
@@ -218,6 +220,9 @@ class PersonController extends Controller {
                 }
             } else {
                 // Обробка обычной заявки
+                if (!empty($model->persondoc->edboID)){
+                    $model->persondoc->scenario = "FULLINPUT";
+                }
                 if ($entrant_valid && $model->persondoc->validate() && $model->homephone->validate() && $model->mobphone->validate() && $model->save()) {
                     $model->persondoc->PersonID = $model->idPerson;
                     $model->homephone->PersonID = $model->idPerson;
@@ -226,11 +231,11 @@ class PersonController extends Controller {
                         $model->entrantdoc->PersonID = $model->idPerson;
                         $model->entrantdoc->save();
                     } else {
-                        foreach ($model->allentrantdocs as $obj){
-                           $obj->PersonID = $model->idPerson;
-                           $obj->scenario = "FULLINPUT";
-                           $obj->save();
-                        }  
+                        foreach ($model->allentrantdocs as $obj) {
+                            $obj->PersonID = $model->idPerson;
+                            $obj->scenario = "FULLINPUT";
+                            $obj->save();
+                        }
                     }
                     $model->persondoc->save();
                     $model->homephone->save();
@@ -277,18 +282,18 @@ class PersonController extends Controller {
                 $model->persondoc->attributes = $_POST['Documents']['persondoc'];
                 $model->persondoc->PersonID = $model->idPerson;
             }
-            /*if (isset($_POST['Documents']['entrantdoc'])) {
-                $model->entrantdoc->attributes = $_POST['Documents']['entrantdoc'];
-                $model->entrantdoc->PersonID = $model->idPerson;
-            }*/
-            /*if (isset($_POST['Documents']['inndoc'])) {
-                $model->inndoc->attributes = $_POST['Documents']['inndoc'];
-                $model->inndoc->PersonID = $model->idPerson;
-            }
-            if (isset($_POST['Documents']['hospdoc'])) {
-                $model->hospdoc->attributes = $_POST['Documents']['hospdoc'];
-                $model->hospdoc->PersonID = $model->idPerson;
-            }*/
+            /* if (isset($_POST['Documents']['entrantdoc'])) {
+              $model->entrantdoc->attributes = $_POST['Documents']['entrantdoc'];
+              $model->entrantdoc->PersonID = $model->idPerson;
+              } */
+            /* if (isset($_POST['Documents']['inndoc'])) {
+              $model->inndoc->attributes = $_POST['Documents']['inndoc'];
+              $model->inndoc->PersonID = $model->idPerson;
+              }
+              if (isset($_POST['Documents']['hospdoc'])) {
+              $model->hospdoc->attributes = $_POST['Documents']['hospdoc'];
+              $model->hospdoc->PersonID = $model->idPerson;
+              } */
             if (isset($_POST['PersonContacts']['homephone'])) {
                 $model->homephone->attributes = $_POST['PersonContacts']['homephone'];
                 $model->homephone->PersonID = $model->idPerson;
@@ -298,20 +303,17 @@ class PersonController extends Controller {
                 $model->mobphone->PersonID = $model->idPerson;
             }
             $entrant_valid = true;
-           /* $showPersonEntrantDocForm = Yii::app()->user->checkAccess("showPersonEntrantDocForm");
-            if ($showPersonEntrantDocForm) {
-                $entrant_valid = $model->entrantdoc->validate("ENTRANT");
-            }*/
-            if ($model->validate() 
-                    && $model->persondoc->validate() 
-                    && $entrant_valid 
-                    && $model->homephone->validate() && $model->mobphone->validate()) {
+            /* $showPersonEntrantDocForm = Yii::app()->user->checkAccess("showPersonEntrantDocForm");
+              if ($showPersonEntrantDocForm) {
+              $entrant_valid = $model->entrantdoc->validate("ENTRANT");
+              } */
+            if ($model->validate() && $model->persondoc->validate() && $entrant_valid && $model->homephone->validate() && $model->mobphone->validate()) {
                 if ($model->save()) {
 
                     $model->persondoc->save();
-                    /*if ($showPersonEntrantDocForm) {
-                        $model->entrantdoc->save();
-                    }*/
+                    /* if ($showPersonEntrantDocForm) {
+                      $model->entrantdoc->save();
+                      } */
                     //$model->inndoc->save();
                     //$model->hospdoc->save();
                     $model->homephone->save();
