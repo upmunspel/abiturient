@@ -176,8 +176,6 @@ class PersonController extends Controller {
                     $model->loadDocumentsFromJSON(Yii::app()->session[$model->codeU . "-tmp_documents"]);
                 }
             }
-            Yii::log(print_r($model->persondoc, 1));
-
 
             if (isset($_POST['Documents']['entrantdoc'])) {
                 $model->entrantdoc->attributes = $_POST['Documents']['entrantdoc'];
@@ -220,33 +218,36 @@ class PersonController extends Controller {
                 }
             } else {
                 // Обробка обычной заявки
-                if (!empty($model->persondoc->edboID)){
+                if (!empty($model->persondoc->edboID) && $model->persondoc->TypeID == 1) {
                     $model->persondoc->scenario = "FULLINPUT";
                 }
                 if ($entrant_valid && $model->persondoc->validate() && $model->homephone->validate() && $model->mobphone->validate() && $model->save()) {
                     $model->persondoc->PersonID = $model->idPerson;
                     $model->homephone->PersonID = $model->idPerson;
                     $model->mobphone->PersonID = $model->idPerson;
+                    $model->persondoc->save();
                     if ($showPersonEntrantDocForm && isset($_POST['Documents']['entrantdoc'])) {
                         $model->entrantdoc->PersonID = $model->idPerson;
                         $model->entrantdoc->save();
                     } else {
                         foreach ($model->allentrantdocs as $obj) {
-                            $obj->PersonID = $model->idPerson;
-                            $obj->scenario = "FULLINPUT";
-                            $obj->save();
+                            if ($obj->TypeID != $model->entrantdoc->TypeID) {
+                                $obj->PersonID = $model->idPerson;
+                                $obj->scenario = "FULLINPUT";
+                                $obj->save();
+                            }
                         }
                     }
-                    $model->persondoc->save();
+
                     $model->homephone->save();
                     $model->mobphone->save();
 
 
 
 
-                    if (isset(Yii::app()->session[$model->codeU . "-documents"])) {
-                        Documents::loadAndSave($model->idPerson, unserialize(Yii::app()->session[$model->codeU . "-documents"]));
-                    }
+                     if (isset(Yii::app()->session[$model->codeU . "-documents"])) {
+                      Documents::loadAndSave($model->idPerson, unserialize(Yii::app()->session[$model->codeU . "-documents"]));
+                      } 
 
                     $this->redirect(array('view', 'id' => $model->idPerson));
                 }
