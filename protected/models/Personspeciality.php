@@ -595,7 +595,7 @@ class Personspeciality extends ActiveRecord {
             'Exam2Ball' => 'Бал',
             'Exam3ID' => 'Екзамен',
             'Exam3Ball' => 'Бал',
-            'isHigherEducation' => 'Освіта анал-ного кваліф-ого рівня',
+            'isHigherEducation' => 'Освіта аналог-го кваліф-ого рівня',
             'SkipDocumentValue' => 'Бал не врах-ся',
             'AdditionalBallComment' => 'Коментар до додаткового балу',
             'CoursedpID' => 'Курси довузівської підготовки',
