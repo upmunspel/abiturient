@@ -1,8 +1,8 @@
 var PSN = PSN || {};
 
-PSN.Init = function() {
+PSN.Init = function () {
     $(".datepicker").datepicker({'format': "dd.mm.yyyy"});
-    $('#toggle_sameschool').on('switch-change', function(e, data) {
+    $('#toggle_sameschool').on('switch-change', function (e, data) {
         var status = data.value;
         if (status) {
             $("#scholladdr").hide()
@@ -12,22 +12,22 @@ PSN.Init = function() {
             PSN.updateSchools(PSN.KOATUUSchoolCode, 2);
         }
     });
-    $('#personSave').click(function() {
+    $('#personSave').click(function () {
         var btn = $(this);
         btn.button('loading'); // call the loading function
         $.ajax(
 
 
                 );
-        setTimeout(function() {
+        setTimeout(function () {
             btn.button('reset'); // call the reset function
         }, 3000);
     });
-    $('#myModal').on('show', function() {
+    $('#myModal').on('show', function () {
 
     });
 
-    $(".series").keyup(function() {
+    $(".series").keyup(function () {
         var val = $(this).val();
         val = val.toUpperCase();
         $(this).val(val);
@@ -36,25 +36,25 @@ PSN.Init = function() {
 
 
 }
-PSN.copySchool = function() {
+PSN.copySchool = function () {
     var key = parseInt($("#Person_SchoolID").val());
     if (key > 0) {
         $("#Documents_entrantdoc_Issued").val($("#s2id_Person_SchoolID .select2-chosen").text());
     }
 }
-PSN.printSpec = function(obj) {
+PSN.printSpec = function (obj) {
 //    var url = $(obj).attr("href");
 //    //alert(parseInt(url));
 //    if (!isNaN(parseInt(url))) {
 //        $(obj).attr("href",url+"&iframe=true&width=1024&height=450");
 //    }
 }
-PSN.updatePersonPhote = function(obj, link) {
+PSN.updatePersonPhote = function (obj, link) {
     var btn = $(obj);
     $.ajax({
         'url': link,
         'type': 'POST',
-        success: function(data) {
+        success: function (data) {
             $("#person-photo").html(data);
             btn.button('reset');
 
@@ -63,12 +63,12 @@ PSN.updatePersonPhote = function(obj, link) {
     });
 }
 
-PSN.reloadPersonPhote = function(obj, link) {
+PSN.reloadPersonPhote = function (obj, link) {
     var btn = $(obj);
     $.ajax({
         'url': link,
         'type': 'POST',
-        success: function(data) {
+        success: function (data) {
             var obj = jQuery.parseJSON(data);
 
             if (obj.result === "SUCCESS") {
@@ -88,17 +88,17 @@ PSN.reloadPersonPhote = function(obj, link) {
 /**
  * BENEFITS CODE
  */
-PSN.addBenefit = function(obj, url) {
+PSN.addBenefit = function (obj, url) {
     var btn = $(obj);
     btn.button('loading'); // call the loading function
     //var data = $("#benefit-form").serialize(); 
-    $("#benefit-modal-holder").load(url, function() {
+    $("#benefit-modal-holder").load(url, function () {
         //alert("ok");//
         btn.button('reset');
         $("#benefitModal").modal("show");
     });
 };
-PSN.appendBenefit = function(obj, link) {
+PSN.appendBenefit = function (obj, link) {
     var btn = $(obj);
     btn.button('loading'); // call the loading function
     var fdata = $("#benefit-form-modal").serialize();
@@ -106,7 +106,7 @@ PSN.appendBenefit = function(obj, link) {
         'url': link,
         'data': fdata,
         'type': 'POST',
-        success: function(data) {
+        success: function (data) {
             //alert(data);
             var obj = jQuery.parseJSON(data);
 
@@ -124,21 +124,21 @@ PSN.appendBenefit = function(obj, link) {
     });
 
 };
-PSN.editBenefit = function(obj) {
+PSN.editBenefit = function (obj) {
     var btn = $(obj);
     //btn.button('loading');
 
-    $("#benefit-modal-holder").load($(obj).attr("href"), function() {
+    $("#benefit-modal-holder").load($(obj).attr("href"), function () {
         //btn.button('reset');
         $("#benefitModal").modal("show");
     });
     return false;
 };
-PSN.delBenefit = function(obj, link) {
+PSN.delBenefit = function (obj, link) {
     if (confirm("Ви впевнені, що бажаєте видалити документ?")) {
         $.ajax({
             'url': link,
-            success: function(data) {
+            success: function (data) {
                 var obj = jQuery.parseJSON(data);
 
                 if (obj.result === "success") {
@@ -158,11 +158,11 @@ PSN.delBenefit = function(obj, link) {
 /**
  * ZNO CODE
  */
-PSN.addZno = function(obj, url) {
+PSN.addZno = function (obj, url) {
     var btn = $(obj);
     btn.button('loading'); // call the loading function
     //var data = $("#benefit-form").serialize(); 
-    $("#new-zno").load(url, function() {
+    $("#new-zno").load(url, function () {
         btn.button('reset');
         $("#znoModal").modal("show");
 
@@ -170,7 +170,7 @@ PSN.addZno = function(obj, url) {
     });
 };
 
-PSN.appendZno = function(obj, link) {
+PSN.appendZno = function (obj, link) {
     var btn = $(obj);
     btn.button('loading'); // call the loading function
     var fdata = $("#zno-form-modal").serialize();
@@ -181,7 +181,7 @@ PSN.appendZno = function(obj, link) {
     $.ajax({
         'url': link,
         'data': fdata,
-        success: function(data) {
+        success: function (data) {
             var obj = jQuery.parseJSON(data);
             if (obj.result === "success") {
 
@@ -197,11 +197,11 @@ PSN.appendZno = function(obj, link) {
     });
 
 };
-PSN.deleteZno = function(obj, url) {
+PSN.deleteZno = function (obj, url) {
     if (confirm("Ви впевнені, що бажаєте видалити сертивікат ЗНО?")) {
         $.ajax({
             'url': url,
-            success: function(data) {
+            success: function (data) {
                 var obj = jQuery.parseJSON(data);
 
                 if (obj.result === "success") {
@@ -215,22 +215,22 @@ PSN.deleteZno = function(obj, url) {
 
     }
 };
-PSN.addZnoSubject = function(obj, url) {
+PSN.addZnoSubject = function (obj, url) {
     var btn = $(obj);
     btn.button('loading'); // call the loading function
     var data = $("#zno-form-modal").serialize();
-    $("#zno-modal-body").load(url, data, function() {
+    $("#zno-modal-body").load(url, data, function () {
         btn.button('reset');
     });
 };
-PSN.delZnoSubject = function(obj, url) {
+PSN.delZnoSubject = function (obj, url) {
     //var data = $("#zno-form-modal").serialize(); 
     //$("#new-zno").load(url,data,function(){});
     $(obj).parent().parent().parent().hide().find(".deleted").val(1);
 };
-PSN.editZno = function(obj, url) {
+PSN.editZno = function (obj, url) {
     var btn = $(obj);
-    $("#new-zno").load(url, function() {
+    $("#new-zno").load(url, function () {
         // btn.button('reset');
         $("#znoModal").modal("show");
 
@@ -240,7 +240,7 @@ PSN.editZno = function(obj, url) {
  *  Doc code
  */
 
-PSN.edboZnoUpdate = function(obj, link) {
+PSN.edboZnoUpdate = function (obj, link) {
     var btn = $(obj);
     btn.button('loading'); // call the loading function
 
@@ -248,7 +248,7 @@ PSN.edboZnoUpdate = function(obj, link) {
         'url': link,
         'async': false,
         'type': 'POST',
-        success: function(data) {
+        success: function (data) {
 
             btn.button('reset');
             refreshZnos();
@@ -257,19 +257,19 @@ PSN.edboZnoUpdate = function(obj, link) {
         }
     });
 };
-PSN.edboAnDocUpdate = function(obj) {
+PSN.edboAnDocUpdate = function (obj) {
     var link = $(obj).attr("href");
     $.ajax({
         'url': link,
         'async': "false",
         'type': 'POST',
-        success: function(data) {
+        success: function (data) {
             refreshDocuments();
             refreshZnos();
         }
     });
 };
-PSN.edboDocUpdate = function(obj, link) {
+PSN.edboDocUpdate = function (obj, link) {
     var btn = $(obj);
     btn.button('loading'); // call the loading function
 
@@ -277,7 +277,7 @@ PSN.edboDocUpdate = function(obj, link) {
         'url': link,
         'async': "false",
         'type': 'POST',
-        success: function(data) {
+        success: function (data) {
 
             btn.button('reset');
             refreshDocuments();
@@ -286,14 +286,14 @@ PSN.edboDocUpdate = function(obj, link) {
     });
 };
 
-PSN.edboBenefitsUpdate = function(obj, link) {
+PSN.edboBenefitsUpdate = function (obj, link) {
     var btn = $(obj);
     btn.button('loading'); // call the loading function
     $.ajax({
         'url': link,
         'async': "false",
         'type': 'POST',
-        success: function(data) {
+        success: function (data) {
 
 
             btn.button('reset');
@@ -302,13 +302,13 @@ PSN.edboBenefitsUpdate = function(obj, link) {
         }
     });
 };
-PSN.edboSpecsUpdate = function(obj) {
+PSN.edboSpecsUpdate = function (obj) {
     var link = $(obj).attr("href");
     $.ajax({
         'url': link,
         'async': "false",
         'type': 'POST',
-        success: function(data) {
+        success: function (data) {
 
             refreshSpecs();
 
@@ -316,15 +316,15 @@ PSN.edboSpecsUpdate = function(obj) {
     });
 };
 
-PSN.changeDocType = function(obj, link) {
-  
+PSN.changeDocType = function (obj, link) {
+
     var fdata = $("#doc-form-modal").serialize();
 
     $.ajax({
         'url': link,
         'data': fdata,
         'type': 'POST',
-        success: function(data) {
+        success: function (data) {
             var obj = jQuery.parseJSON(data);
             //alert(obj.result);
             if (obj.result === "success") {
@@ -335,17 +335,17 @@ PSN.changeDocType = function(obj, link) {
 
 };
 
-PSN.addDoc = function(obj, url) {
+PSN.addDoc = function (obj, url) {
     var btn = $(obj);
     btn.button('loading'); // call the loading function
     //var data = $("#benefit-form").serialize(); 
-    $("#doc-modal-holder").load(url, function() {
+    $("#doc-modal-holder").load(url, function () {
         //alert("ok");//
         btn.button('reset');
         $("#docModal").modal("show");
     });
 };
-PSN.appendDoc = function(obj, link) {
+PSN.appendDoc = function (obj, link) {
     var btn = $(obj);
     btn.button('loading'); // call the loading function
     var fdata = $("#doc-form-modal").serialize();
@@ -358,7 +358,7 @@ PSN.appendDoc = function(obj, link) {
         'url': link,
         'data': fdata,
         'type': 'POST',
-        success: function(data) {
+        success: function (data) {
             //alert(data);
             var obj = jQuery.parseJSON(data);
             //alert(obj.result);
@@ -373,21 +373,21 @@ PSN.appendDoc = function(obj, link) {
     });
 
 };
-PSN.editDoc = function(obj) {
+PSN.editDoc = function (obj) {
     var btn = $(obj);
     //btn.button('loading');
 
-    $("#doc-modal-holder").load($(obj).attr("href"), function() {
+    $("#doc-modal-holder").load($(obj).attr("href"), function () {
         //btn.button('reset');
         $("#docModal").modal("show");
     });
     return false;
 };
-PSN.delDoc = function(obj) {
+PSN.delDoc = function (obj) {
     if (confirm("Ви впевнені, що бажаєте видалити документ?")) {
         $.ajax({
             'url': $(obj).attr("href"),
-            success: function(data) {
+            success: function (data) {
                 var obj = jQuery.parseJSON(data);
 
                 if (obj.result === "success") {
@@ -405,51 +405,51 @@ PSN.delDoc = function(obj) {
 /**
  * SPEC CODE
  */
-PSN.addSpec = function(obj, url) {
+PSN.addSpec = function (obj, url) {
     var btn = $(obj);
     btn.button('loading'); // call the loading function
     //var data = $("#benefit-form").serialize(); 
-    $("#spec-modal-holder").load(url, function() {
+    $("#spec-modal-holder").load(url, function () {
         //alert("ok");//
         btn.button('reset');
         $("#specModal").modal("show");
     });
 };
-PSN.addSpec_electron = function(obj, url) {
+PSN.addSpec_electron = function (obj, url) {
     var btn = $(obj);
     btn.button('loading'); // call the loading function
-    var data = $("#idRequest").val(); 
+    var data = $("#idRequest").val();
     if (data === "") {
         alert("Вкажіть ідентифікатор заявки!");
         btn.button('reset');
         return false;
     }
-    url=url+"&idRequest="+data;
-    $("#spec-modal-holder").load(url, function() {
+    url = url + "&idRequest=" + data;
+    $("#spec-modal-holder").load(url, function () {
         //alert("ok");//
         btn.button('reset');
         $("#specModal").modal("show");
     });
-    
-    
+
+
 };
-PSN.onFacChange = function(obj, id, url) {
+PSN.onFacChange = function (obj, id, url) {
     var fid = $("#idFacultet :selected").val();
     var formid = $("#Personspeciality_EducationFormID :selected").val();
     var qid = $("#QualificationID :selected").val();
     var base = $("#Personspeciality_EntrantDocumentID :selected").val();
-    data = "idFacultet=" + fid + "&idEducationForm=" + formid + "&QualificationID=" + qid+"&BaseSpecID="+base;
+    data = "idFacultet=" + fid + "&idEducationForm=" + formid + "&QualificationID=" + qid + "&BaseSpecID=" + base;
     $(id).load(url, data);
 };
-PSN.changeQType = function(obj, link) {
-  
+PSN.changeQType = function (obj, link) {
+
     var fdata = $("#spec-form-modal").serialize();
 
     $.ajax({
         'url': link,
         'data': fdata,
         'type': 'GET',
-        success: function(data) {
+        success: function (data) {
             var obj = jQuery.parseJSON(data);
             //alert(obj.result);
             if (obj.result === "success") {
@@ -459,34 +459,38 @@ PSN.changeQType = function(obj, link) {
     });
 
 };
-PSN.appendSpec = function(obj, link) {
-    var btn = $(obj);
-    btn.button('loading'); // call the loading function
-    var fdata = $("#spec-form-modal").serialize();
-    $.ajax({
-        'url': link,
-        'data': fdata,
-        success: function(data) {
-            //alert(data);
-            var obj = jQuery.parseJSON(data);
-            //alert(obj.result);
-            if (obj.result === "success") {
-                $("#specModal").modal("hide");
-                $("#specs").html(obj.data);
-            } else {
-                $("#spec-modal-body").html(obj.data);
+PSN.appendSpec = function (obj, link) {
+    if (!$(obj).hasClass("disabled")) {
+        
+        var btn = $(obj);
+        btn.button('loading'); // call the loading function
+        var fdata = $("#spec-form-modal").serialize();
+        $.ajax({
+            'url': link,
+            'data': fdata,
+            success: function (data) {
+                //alert(data);
+                var obj = jQuery.parseJSON(data);
+                //alert(obj.result);
+                if (obj.result === "success") {
+                    $("#specModal").modal("hide");
+                    $("#specs").html(obj.data);
+                } else {
+                    $("#spec-modal-body").html(obj.data);
+                }
+                btn.button('reset');
+                
             }
-            btn.button('reset');
-        }
-    });
+        });
+    }
 
 };
-PSN.delSpec = function(obj) {
+PSN.delSpec = function (obj) {
     var link = $(obj).attr("href");
     if (confirm("Ви впевнені, що бажаєте видалити спеціальність?")) {
         $.ajax({
             'url': link,
-            success: function(data) {
+            success: function (data) {
                 var obj = jQuery.parseJSON(data);
 
                 if (obj.result === "success") {
@@ -500,11 +504,11 @@ PSN.delSpec = function(obj) {
 
     }
 };
-PSN.editSpec = function(obj) {
+PSN.editSpec = function (obj) {
     var link = $(obj).attr("href");
     var btn = $(obj);
     //btn.button('loading');
-    $("#spec-modal-holder").load(link, function() {
+    $("#spec-modal-holder").load(link, function () {
         //btn.button('reset');
         $("#specModal").modal("show");
     });
@@ -512,13 +516,13 @@ PSN.editSpec = function(obj) {
 /**
  * EntranceType Change
  */
-PSN.changeEntranceType = function(obj, link, link1) {
+PSN.changeEntranceType = function (obj, link, link1) {
     var EntranceType = parseInt($(obj, ":selected").val());
     $.ajax({
         'url': link1,
         'data': 'id=' + EntranceType,
         'type': 'GET',
-        success: function(data) {
+        success: function (data) {
             $("#Personspeciality_CausalityID").html(data);
         }
     });
@@ -560,14 +564,14 @@ PSN.changeEntranceType = function(obj, link, link1) {
 /**
  * Sepciality change
  */
-PSN.changeSpeciality = function(obj, link) {
+PSN.changeSpeciality = function (obj, link) {
 
     var fdata = $("#spec-form-modal").serialize();
     $.ajax({
         'url': link,
         'data': fdata,
         'type': 'POST',
-        success: function(data) {
+        success: function (data) {
             $("#subjects-holder").html(data);
         }
     });
@@ -577,38 +581,38 @@ PSN.changeSpeciality = function(obj, link) {
 /**
  * Sepciality change
  */
-PSN.changeFacultet = function(obj, link) {
+PSN.changeFacultet = function (obj, link) {
     var facultet = $("#FacultetID").val();
     var EducationFormID = $("#EducationFormID").val();
     $.ajax({
         'url': link,
-        'data': "idFacultet="+facultet+"&idEducationForm="+EducationFormID+"&QualificationID=1",
+        'data': "idFacultet=" + facultet + "&idEducationForm=" + EducationFormID + "&QualificationID=1",
         'type': 'GET',
-        success: function(data) {
+        success: function (data) {
             $("#idPreuniGroup").html(data);
         }
     });
 
 }
 
-String.prototype.capitalize = function() {
+String.prototype.capitalize = function () {
     return this.charAt(0).toUpperCase() + this.slice(1).toLowerCase();
 }
-PSN.changeFIO = function() {
+PSN.changeFIO = function () {
 
-    $("#FirstName").keyup(function() {
+    $("#FirstName").keyup(function () {
         var FirstName = $("#FirstName").val();
         //FirstName = FirstName.capitalize();
         $("#FirstName").val(FirstName);
         $("#FirstNameR").val(FirstName);
     });
-    $("#LastName").keyup(function() {
+    $("#LastName").keyup(function () {
         var LastName = $("#LastName").val();
         //LastName = LastName.capitalize();
         $("#LastName").val(LastName);
         $("#LastNameR").val(LastName);
     });
-    $("#MiddleName").keyup(function() {
+    $("#MiddleName").keyup(function () {
         var MiddleName = $("#MiddleName").val();
         //MiddleName = MiddleName.capitalize();
         $("#MiddleName").val(MiddleName);
@@ -616,21 +620,21 @@ PSN.changeFIO = function() {
     });
 }
 
-PSN.getPersonSpecInfo = function(obj, link){
+PSN.getPersonSpecInfo = function (obj, link) {
     //var link = $(obj).attr("href");
     var btn = $(obj);
     btn.button('loading');
-     $.ajax({
+    $.ajax({
         'url': link,
         'type': 'POST',
-        success: function(data) {
+        success: function (data) {
             refreshSpecs();
         }
     });
 }
 
 
-$(document).ready(function() {
+$(document).ready(function () {
     PSN.Init();
     PSN.changeFIO();
 });
