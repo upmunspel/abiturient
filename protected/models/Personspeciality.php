@@ -160,6 +160,7 @@ class Personspeciality extends ActiveRecord {
             // SHORTFORM
             //array("Exam1ID, Exam2ID", 'required', 'on' => "SHORTFORM"),
             //array("EntrantDocumentID", 'valididateEntrantDoc', 'on' => "SHORTFORM"),
+           
             array("Exam1ID", 'valididateExam1', 'on' => "SHORTFORM"),
             array("Exam2ID", 'valididateExam2', 'on' => "SHORTFORM"),
             array("Exam3ID", 'valididateExam3', 'on' => "SHORTFORM"),
@@ -192,6 +193,7 @@ class Personspeciality extends ActiveRecord {
             array('CoursedpID', 'valididateCoursedpID'),
             array('EntranceTypeID', 'valididateEntranceTypeID'),
             array("DocumentSubject1", "valididateDocumentSubject"),
+             array("priority", 'valididatePriority'),
         );
     }
 
@@ -232,12 +234,20 @@ class Personspeciality extends ActiveRecord {
                         $this->addError($attributes, "Профільний предмет не може бути нижчім за 140 балів!");
                         return false;
                     }
-                    /*if (($profball >= 140 && $profball < 170) && ($nprof1 < 124 || $nprof2 < 124 )) {
-                        $this->addError($attributes, "Недопустимі для вступу бали непрофільних предметів!");
-                        return false;
-                    }*/
+                    /* if (($profball >= 140 && $profball < 170) && ($nprof1 < 124 || $nprof2 < 124 )) {
+                      $this->addError($attributes, "Недопустимі для вступу бали непрофільних предметів!");
+                      return false;
+                      } */
                 }
             }
+        }
+        return true;
+    }
+
+    public function valididatePriority($attributes) {
+        if ($this->EntranceTypeID == 1 && $this->QualificationID == 1 && $this->priority < 1) {
+            $this->addError($attributes, "Необхідно вказати пріоритет!");
+            return false;
         }
         return true;
     }
@@ -329,7 +339,7 @@ class Personspeciality extends ActiveRecord {
             $this->addError($attributes, "Предмет не може бути порожнім!");
             return false;
         }
-        if ( $this->{$attributes} != 40) {
+        if ($this->{$attributes} != 40) {
             $this->addError($attributes, "Невірний предмет!");
             return false;
         }
@@ -344,14 +354,14 @@ class Personspeciality extends ActiveRecord {
             return false;
         }
         if (in_array($this->SepcialityID, $this->specCategoryIds)) {
-            if ( $this->{$attributes} != 3) {
-            $this->addError($attributes, "Невірний предмет!");
-            return false;
+            if ($this->{$attributes} != 3) {
+                $this->addError($attributes, "Невірний предмет!");
+                return false;
             }
         } else {
-            if ( $this->{$attributes} !=40) {
-            $this->addError($attributes, "Невірний предмет!");
-            return false;
+            if ($this->{$attributes} != 40) {
+                $this->addError($attributes, "Невірний предмет!");
+                return false;
             }
         }
 
@@ -372,7 +382,7 @@ class Personspeciality extends ActiveRecord {
                     return false;
                 }
             } elseif (in_array($this->SepcialityID, $this->gosSlugbaIds)) {
-                if ( empty($this->Exam3ID)) {
+                if (empty($this->Exam3ID)) {
                     $this->addError($attributes, "Предмет не може бути порожнім!");
                     return false;
                 }
@@ -381,7 +391,7 @@ class Personspeciality extends ActiveRecord {
                     return false;
                 }
             } else {
-                if ( empty($this->Exam3ID)) {
+                if (empty($this->Exam3ID)) {
                     $this->addError($attributes, "Предмет не може бути порожнім!");
                     return false;
                 }
@@ -619,10 +629,10 @@ class Personspeciality extends ActiveRecord {
             "LanguageExID" => "Іноземна мова",
             "CoursedpDocument" => "Серія номер та ким виданий документ",
             "QuotaID" => "Квота",
-            "priority"=>"Пр-тет",
-            "isCrossEntrant"=>"Пер-й вступ",
-            "BasePaymentTypeID"=>"Оплата",
-            "BaseEducationFormID"=>"Форма",
+            "priority" => "Пр-тет",
+            "isCrossEntrant" => "Пер-й вступ",
+            "BasePaymentTypeID" => "Оплата",
+            "BaseEducationFormID" => "Форма",
         );
     }
 

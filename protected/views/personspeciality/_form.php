@@ -98,8 +98,13 @@
             <?php echo $form->labelEx($model, 'priority'); ?>
             <?php
             $priority_data = array();
-            for ($i = 0; $i <= 15; $i++)
-                $priority_data[$i] = $i;
+            for ($i = 0; $i <= 15; $i++){
+                if ($i==0){
+                    $priority_data[$i] = "";
+                } else {
+                    $priority_data[$i] = $i;
+                }
+            }
             echo $form->dropDownList($model, 'priority', $priority_data, array('class' => 'span12', "id"=>"priority-select",
                 'disabled' => !empty($model->edboID)));
             ?>
