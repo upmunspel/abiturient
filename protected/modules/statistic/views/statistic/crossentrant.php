@@ -44,10 +44,10 @@
 <table class="report" cellspacing="0">
     <tr>
         <th>Прізвище, ім'я, по батькові</th>
-        <th>Факультет</th>
-        <th>Форма<br>навчання</th>
-        <th>OKP</th>
         <th>Спеціальність / напрям</th>
+        <th>OKP</th>
+        <th>Форма<br>навчання</th>
+        <th>Факультет</th>
     </tr>
 <?php
 $FacultetFullName='';
@@ -55,39 +55,43 @@ $PersonEducationFormName='';
 $QualificationName='';
 $SpecialityTitle='';
 foreach($list as $row){
+    if($FacultetFullName != $row['FacultetFullName']){
+        $viewFacultetFullName =$row['FacultetFullName'];
+        $FacultetFullName = $row['FacultetFullName'];
+        $PersonEducationFormName='';
+        $QualificationName='';
+        $SpecialityTitle='';
+    }else{
+        $viewFacultetFullName='';
+    }
+    if($PersonEducationFormName != $row['PersonEducationFormName']){
+        $viewPersonEducationFormName = $row['PersonEducationFormName'];
+        $PersonEducationFormName = $row['PersonEducationFormName'];
+        $QualificationName='';
+        $SpecialityTitle='';
+    }else{
+        $viewPersonEducationFormName='';
+    }
+    if($QualificationName != $row['QualificationName']){
+        $viewQualificationName =  $row['QualificationName'];
+        $QualificationName = $row['QualificationName'];
+        $SpecialityTitle='';
+    }else{
+        $viewQualificationName = '';
+    }
+    if($SpecialityTitle != $row['SpecialityTitle']){
+            $viewSpeciality = $row['SpecialityClasifierCode'].' '.$row['SpecialityTitle'];
+            $SpecialityTitle = $row['SpecialityTitle'];
+    }else{
+        $viewSpeciality ='';
+    }
     ?>
     <tr>
         <td class="start"><?php echo $row['LastName']; ?> <?php echo $row['FirstName']; ?> <?php echo $row['MiddleName']; ?></td>
-        <td class="<?php echo ($FacultetFullName == $row['FacultetFullName'])?'repeat':'start'; ?>"><?php 
-        if($FacultetFullName != $row['FacultetFullName']){
-            echo $row['FacultetFullName'];
-            $FacultetFullName = $row['FacultetFullName'];
-            $PersonEducationFormName='';
-            $QualificationName='';
-            $SpecialityTitle='';
-        }
-        ?></td>
-        <td class="<?php echo ($PersonEducationFormName == $row['PersonEducationFormName'])?'repeat':'start'; ?>"><?php 
-        if($PersonEducationFormName != $row['PersonEducationFormName']){
-            echo $row['PersonEducationFormName'];
-            $PersonEducationFormName = $row['PersonEducationFormName'];
-            $QualificationName='';
-            $SpecialityTitle='';
-        }
-        ?></td>
-        <td class="<?php echo ($QualificationName == $row['QualificationName'])?'repeat':'start'; ?>"><?php 
-        if($QualificationName != $row['QualificationName']){
-            echo $row['QualificationName'];
-            $QualificationName = $row['QualificationName'];
-            $SpecialityTitle='';
-        }
-        ?></td>
-        <td class="<?php echo ($SpecialityTitle == $row['SpecialityTitle'])?'repeat':'start'; ?>"><?php 
-        if($SpecialityTitle != $row['SpecialityTitle']){
-            echo $row['SpecialityClasifierCode'].' '.$row['SpecialityTitle'];
-            $SpecialityTitle = $row['SpecialityTitle'];
-        }
-        ?></td>
+        <td class="<?php echo $viewSpeciality?'start':'repeat'; ?>"><?php echo $viewSpeciality; ?></td>
+        <td class="<?php echo $viewQualificationName ?'start':'repeat'; ?>"><?php echo $viewQualificationName; ?></td>
+        <td class="<?php echo $viewPersonEducationFormName?'start':'repeat'; ?>"><?php echo $viewPersonEducationFormName; ?></td>
+        <td class="<?php echo $viewFacultetFullName?'start':'repeat'; ?>"><?php echo $viewFacultetFullName; ?></td>
     </tr>
     <?php
 }
