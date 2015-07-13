@@ -98,7 +98,7 @@ foreach($list as $row){
 ?>
 </table>
 <hr>
-&copy; Запорізький національний університет, 2015 р.
+&copy; Запорізький національний університет, <?php echo date('d.m.Y H:i');?>
 </div>
 </body>
 </html>
