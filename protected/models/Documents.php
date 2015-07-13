@@ -311,6 +311,10 @@ class Documents extends ActiveRecord {
                 $doc->DateGet = date("d.m.Y", mktime(0, 0, 0, $val->dateGet['month'] + 1, $val->dateGet['dayOfMonth'], $val->dateGet['year']));
                 $doc->ZNOPin = $val->znoPin;
                 $doc->Issued = $val->issued;
+                if ($val->dateGet['year']<  date("Y")){
+                    Yii::log("Пропущено сертификат {$doc->Numbers} ".$val->dateGet['year']." года!");
+                    continue;
+                }
                 if ($doc->save() && !empty($val->subjects)) {
                     foreach ($val->subjects as $valstr) {
                         $item = (object) $valstr;

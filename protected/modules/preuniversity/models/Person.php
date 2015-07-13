@@ -668,6 +668,7 @@ class Person extends ActiveRecord {
 
                 $model->persondoc = new Documents();
                 $model->persondoc->TypeID = $val->id_Type;
+                $model->persondoc->scenario = "FULLINPUT";
                 $model->persondoc->edboID = $val->id_Document;
                 $model->persondoc->AtestatValue = $val->attestatValue;
                 $model->persondoc->Numbers = $val->number;

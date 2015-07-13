@@ -549,9 +549,9 @@ class PersonspecialityController extends Controller {
                             $msg.= "<li>";
                             $msg.= $item->personEducationFormName . 
                                      " : " . $item->personEducationPaymentTypeName . 
-                                    " : " . $item->universityFullName . 
-                                    ", " . $item->specDirectionName .
-                                    " - " . $item->specSpecialityName;
+                                      " : " . $item->qualificationName . 
+                                     " : " . $item->specDirectionName .
+                                    " : " . $item->universityFullName ;
                             $msg.= "</li>";
                             $count++;
                         

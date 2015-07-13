@@ -228,14 +228,14 @@ class Personspeciality extends ActiveRecord {
                         $nprof1 = $s1->SubjectValue;
                         $nprof2 = $s2->SubjectValue;
                     }
-                    if ($profball < 140) {
+                    if ($profball < 100) {
                         $this->addError($attributes, "Профільний предмет не може бути нижчім за 140 балів!");
                         return false;
                     }
-                    if (($profball >= 140 && $profball < 170) && ($nprof1 < 124 || $nprof2 < 124 )) {
+                    /*if (($profball >= 140 && $profball < 170) && ($nprof1 < 124 || $nprof2 < 124 )) {
                         $this->addError($attributes, "Недопустимі для вступу бали непрофільних предметів!");
                         return false;
-                    }
+                    }*/
                 }
             }
         }
@@ -729,6 +729,7 @@ class Personspeciality extends ActiveRecord {
         $this->EntranceTypeID = $data->idPersonEnteranceTypes;
         $this->CausalityID = $data->idPersonRequestExaminationCause;
         $this->SkipDocumentValue = $data->skipDocumentValue;
+        $this->priority = $data->requestPriority;
 
         // Load subjects
         $sdata = CJSON::decode($sbj);
