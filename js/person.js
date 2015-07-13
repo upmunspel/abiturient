@@ -246,7 +246,7 @@ PSN.edboZnoUpdate = function (obj, link) {
 
     $.ajax({
         'url': link,
-        'async': false,
+        'async': true,
         'type': 'POST',
         success: function (data) {
 
