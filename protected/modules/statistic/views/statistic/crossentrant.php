@@ -57,7 +57,7 @@ $SpecialityTitle='';
 foreach($list as $row){
     ?>
     <tr>
-        <td class="<?=($FacultetFullName == $row['FacultetFullName'])?'repeat':'start'?>"><?php 
+        <td class="<?php echo ($FacultetFullName == $row['FacultetFullName'])?'repeat':'start'; ?>"><?php 
         if($FacultetFullName != $row['FacultetFullName']){
             echo $row['FacultetFullName'];
             $FacultetFullName = $row['FacultetFullName'];
@@ -66,7 +66,7 @@ foreach($list as $row){
             $SpecialityTitle='';
         }
         ?></td>
-        <td class="<?=($PersonEducationFormName == $row['PersonEducationFormName'])?'repeat':'start'?>"><?php 
+        <td class="<?php echo ($PersonEducationFormName == $row['PersonEducationFormName'])?'repeat':'start'; ?>"><?php 
         if($PersonEducationFormName != $row['PersonEducationFormName']){
             echo $row['PersonEducationFormName'];
             $PersonEducationFormName = $row['PersonEducationFormName'];
@@ -74,20 +74,20 @@ foreach($list as $row){
             $SpecialityTitle='';
         }
         ?></td>
-        <td class="<?=($QualificationName == $row['QualificationName'])?'repeat':'start'?>"><?php 
+        <td class="<?php echo ($QualificationName == $row['QualificationName'])?'repeat':'start'; ?>"><?php 
         if($QualificationName != $row['QualificationName']){
             echo $row['QualificationName'];
             $QualificationName = $row['QualificationName'];
             $SpecialityTitle='';
         }
         ?></td>
-        <td class="<?=($SpecialityTitle == $row['SpecialityTitle'])?'repeat':'start'?>"><?php 
+        <td class="<?php echo ($SpecialityTitle == $row['SpecialityTitle'])?'repeat':'start'; ?>"><?php 
         if($SpecialityTitle != $row['SpecialityTitle']){
             echo $row['SpecialityClasifierCode'].' '.$row['SpecialityTitle'];
             $SpecialityTitle = $row['SpecialityTitle'];
         }
         ?></td>
-        <td class="start"><?=$row['LastName']?> <?=$row['FirstName']?> <?=$row['MiddleName']?></td>
+        <td class="start"><?php echo $row['LastName']; ?> <?php echo $row['FirstName']; ?> <?php echo $row['MiddleName']; ?></td>
     </tr>
     <?php
 }
