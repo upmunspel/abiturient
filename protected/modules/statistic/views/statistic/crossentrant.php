@@ -43,11 +43,11 @@
 <div class="container">
 <table class="report" cellspacing="0">
     <tr>
+        <th>Прізвище, ім'я, по батькові</th>
         <th>Факультет</th>
         <th>Форма<br>навчання</th>
         <th>OKP</th>
         <th>Спеціальність / напрям</th>
-        <th>Прізвище, ім'я, по батькові</th>
     </tr>
 <?php
 $FacultetFullName='';
@@ -57,6 +57,7 @@ $SpecialityTitle='';
 foreach($list as $row){
     ?>
     <tr>
+        <td class="start"><?php echo $row['LastName']; ?> <?php echo $row['FirstName']; ?> <?php echo $row['MiddleName']; ?></td>
         <td class="<?php echo ($FacultetFullName == $row['FacultetFullName'])?'repeat':'start'; ?>"><?php 
         if($FacultetFullName != $row['FacultetFullName']){
             echo $row['FacultetFullName'];
@@ -87,7 +88,6 @@ foreach($list as $row){
             $SpecialityTitle = $row['SpecialityTitle'];
         }
         ?></td>
-        <td class="start"><?php echo $row['LastName']; ?> <?php echo $row['FirstName']; ?> <?php echo $row['MiddleName']; ?></td>
     </tr>
     <?php
 }
