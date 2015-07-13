@@ -440,6 +440,14 @@ PSN.onFacChange = function (obj, id, url) {
     var base = $("#Personspeciality_EntrantDocumentID :selected").val();
     data = "idFacultet=" + fid + "&idEducationForm=" + formid + "&QualificationID=" + qid + "&BaseSpecID=" + base;
     $(id).load(url, data);
+    if (formid != 1) {
+        console.log("!!!!");
+        $("#priority-select").prop("disabled","disabled");
+        $("#Personspeciality_priority").val(0);
+        $("#priority-select").val(0);
+    } else {
+        $("#priority-select").prop("disabled",false);
+    }
 };
 PSN.changeQType = function (obj, link) {
 
