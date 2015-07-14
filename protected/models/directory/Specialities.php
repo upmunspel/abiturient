@@ -247,6 +247,16 @@ class Specialities extends CActiveRecord {
         );
     }
 
+    public function getSpecName($id){
+        $criteria = new CDbCriteria;
+        $criteria->with = array('eduform');
+        $criteria->select = array('*',
+          new CDbExpression("concat_ws(' ',SpecialityClasifierCode,(case substr(SpecialityClasifierCode,1,1) when '6' then SpecialityDirectionName else SpecialityName end), (case SpecialitySpecializationName when '' then '' else concat('(',SpecialitySpecializationName,')') end),',',concat('форма: ',eduform.PersonEducationFormName)) AS SPEC"),);
+        $criteria->together = true;
+        $criteria->compare('idSpeciality', $id, true);
+        $res = $this->find($criteria);
+        return $res->SPEC;
+    }                
     /**
      * Retrieves a list of models based on the current search/filter conditions.
      * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
@@ -258,14 +268,7 @@ class Specialities extends CActiveRecord {
         $criteria = new CDbCriteria;
         $criteria->with = array('eduform');
         $criteria->select = array('*',
-          new CDbExpression("concat_ws(' ',"
-                    . "SpecialityClasifierCode,"
-                    . "(case substr(SpecialityClasifierCode,1,1) when '6' then "
-                    . "SpecialityDirectionName else SpecialityName end),"
-                    . "(case SpecialitySpecializationName when '' then '' "
-                    . " else concat('(',SpecialitySpecializationName,')') end)"
-                    . ",',',concat('форма: ',eduform.PersonEducationFormName)) AS SPEC"),
-        );
+          new CDbExpression("concat_ws(' ',SpecialityClasifierCode,(case substr(SpecialityClasifierCode,1,1) when '6' then SpecialityDirectionName else SpecialityName end), (case SpecialitySpecializationName when '' then '' else concat('(',SpecialitySpecializationName,')') end),',',concat('форма: ',eduform.PersonEducationFormName)) AS SPEC"),);
         $criteria->together = true;
         $criteria->compare("concat_ws(' ',"
                     . "SpecialityClasifierCode,"
