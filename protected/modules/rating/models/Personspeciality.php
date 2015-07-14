@@ -807,6 +807,8 @@ class Personspeciality extends ActiveRecord {
     // відмітка про першочерговий вступ або ж про те, що є відповідна пільга,
     // відмітка про оригінал на іншій спеціальності,
     // сума балів ЗНО.
+    
+    // МЫ ТУТ МЕНЯЛИ УМНОЖЕНИЕ НА 5
     $criteria->select = array(
       '*',
       new CDbExpression("concat_ws(' ',trim(person.LastName),trim(person.FirstName),trim(person.MiddleName)) AS NAME"),
@@ -818,7 +820,7 @@ class Personspeciality extends ActiveRecord {
               . " else concat('(',sepciality.SpecialitySpecializationName,')') end)"
               . ",',',concat('форма: ',educationForm.PersonEducationFormName)) AS SPEC"),
       new CDbExpression('ROUND(
-            IF(ISNULL(entrantdoc.AtestatValue),0.0, IF((entrantdoc.AtestatValue > 12), entrantdoc.AtestatValue ,5 * entrantdoc.AtestatValue))
+            IF(ISNULL(entrantdoc.AtestatValue),0.0, IF((entrantdoc.AtestatValue > 12), entrantdoc.AtestatValue ,entrantdoc.AtestatValue))
           ,2) AS ZnoDocValue'),
       new CDbExpression('ROUND(
             IF(ISNULL(entrantdoc.AtestatValue),0.0,entrantdoc.AtestatValue),2) AS PointDocValue'),
@@ -826,7 +828,7 @@ class Personspeciality extends ActiveRecord {
         ROUND(
         IF(ISNULL(entrantdoc.AtestatValue),0.0, 
           IF((entrantdoc.AtestatValue > 12), 
-            entrantdoc.AtestatValue ,5 * entrantdoc.AtestatValue)
+            entrantdoc.AtestatValue ,entrantdoc.AtestatValue)
         ),2)+
         IF(ISNULL(documentSubject1.SubjectValue),0.0,documentSubject1.SubjectValue)+
         IF(ISNULL(documentSubject2.SubjectValue),0.0,documentSubject2.SubjectValue)+

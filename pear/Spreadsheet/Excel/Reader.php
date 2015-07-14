@@ -1079,6 +1079,5 @@ class Spreadsheet_Excel_Reader
  * c-basic-offset: 4
  * c-hanging-comment-ender-p: nil
  * End:
- */
-
-?>
+ */
+?>
