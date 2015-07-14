@@ -105,6 +105,24 @@ $this->widget('bootstrap.widgets.TbGridView', array(
           'htmlOptions' => array('class' => 'span1'),
         ),
         array(
+            'name' => 'ZnoKoef1',
+            'header' => 'Коефіцієнт',
+            'value' => '$data->ZnoKoef1',
+            'htmlOptions' => array('class' => 'span1'),
+        ),  
+        array(
+            'name' => 'ZnoKoef2',
+            'header' => 'Коефіцієнт',
+            'value' => '$data->ZnoKoef2',
+            'htmlOptions' => array('class' => 'span1'),
+        ),
+        array(
+            'name' => 'ZnoKoef3',
+            'header' => 'Коефіцієнт',
+            'value' => '$data->ZnoKoef3',
+            'htmlOptions' => array('class' => 'span1'),
+        ),
+        array(
           'class' => 'bootstrap.widgets.TbButtonColumn',
           'template' => '{view} {update} {delete}',
           'buttons' => array(

@@ -93,14 +93,14 @@
     </div>
     <hr>
     <div class="row-fluid">
-        <div class="span1 priority-holder">
+        <div class="span1">
             <?php echo $form->hiddenField($model,'priority'); ?>
             <?php echo $form->labelEx($model, 'priority'); ?>
             <?php
             $priority_data = array();
-            for ($i = 0; $i <= 15; $i++)
+            for ($i = 1; $i <= 15; $i++)
                 $priority_data[$i] = $i;
-            echo $form->dropDownList($model, 'priority', $priority_data, array('class' => 'span12', "id"=>"priority-select",
+            echo $form->dropDownList($model, 'priority', $priority_data, array('class' => 'span12',
                 'disabled' => !empty($model->edboID)));
             ?>
             <?php //echo $form->error($model,'CourseID');   ?>
