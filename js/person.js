@@ -441,7 +441,7 @@ PSN.onFacChange = function (obj, id, url) {
     data = "idFacultet=" + fid + "&idEducationForm=" + formid + "&QualificationID=" + qid + "&BaseSpecID=" + base;
     $(id).load(url, data);
     if (formid != 1) {
-        console.log("!!!!");
+        
         $("#priority-select").prop("disabled","disabled");
         $("#Personspeciality_priority").val(0);
         $("#priority-select").val(0);

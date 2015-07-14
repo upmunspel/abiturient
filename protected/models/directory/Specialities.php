@@ -22,12 +22,18 @@
  * @property string $WordPrice
  * @property integer $StudyPeriodID
  * @property integer $isArtExam
+ * @property integer $ZnoKoef1
+ * @property integer $ZnoKoef2
+ * @property integer $ZnoKoef3
  * @property string $SpecialityDirectionName
  * The followings are the available model relations:
  * @property Personsepciality[] $personsepcialities
  * @property Facultets $facultet
  * @property Quota $quotas
  * @property Specialityquotes $specquotes
+
+ * 
+ * 
  */
 class Specialities extends CActiveRecord {
 
@@ -189,12 +195,12 @@ class Specialities extends CActiveRecord {
             array('SpecialityClasifierCode', 'length', 'max' => 12),
             array("WordPrice, StudyPeriodID, basespecialitys", "safe"),
             array("YearPrice, SemPrice", 'numerical', 'integerOnly' => false),
-            array("Quota1, Quota2, PersonEducationFormID", 'numerical', 'integerOnly' => false),
+            array("Quota1, Quota2, PersonEducationFormID, ZnoKoef1, ZnoKoef2, ZnoKoef3", 'numerical', 'integerOnly' => false),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('idSpeciality, SpecialityName, SpecialityKode, 
                             FacultetID, SpecialityClasifierCode, SpecialityBudgetCount, SpecialityContractCount, isZaoch, isPublishIn, Quota1, Quota2,
-                            WordPrice, YearPrice, SpecialityLicenseName', 'safe', 'on' => 'search'),
+                            WordPrice, YearPrice, SpecialityLicenseName,  ZnoKoef1, ZnoKoef2, ZnoKoef3', 'safe', 'on' => 'search'),
         );
     }
 
@@ -241,6 +247,16 @@ class Specialities extends CActiveRecord {
         );
     }
 
+    public function getSpecName($id){
+        $criteria = new CDbCriteria;
+        $criteria->with = array('eduform');
+        $criteria->select = array('*',
+          new CDbExpression("concat_ws(' ',SpecialityClasifierCode,(case substr(SpecialityClasifierCode,1,1) when '6' then SpecialityDirectionName else SpecialityName end), (case SpecialitySpecializationName when '' then '' else concat('(',SpecialitySpecializationName,')') end),',',concat('форма: ',eduform.PersonEducationFormName)) AS SPEC"),);
+        $criteria->together = true;
+        $criteria->compare('idSpeciality', $id, true);
+        $res = $this->find($criteria);
+        return $res->SPEC;
+    }                
     /**
      * Retrieves a list of models based on the current search/filter conditions.
      * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
@@ -252,14 +268,7 @@ class Specialities extends CActiveRecord {
         $criteria = new CDbCriteria;
         $criteria->with = array('eduform');
         $criteria->select = array('*',
-          new CDbExpression("concat_ws(' ',"
-                    . "SpecialityClasifierCode,"
-                    . "(case substr(SpecialityClasifierCode,1,1) when '6' then "
-                    . "SpecialityDirectionName else SpecialityName end),"
-                    . "(case SpecialitySpecializationName when '' then '' "
-                    . " else concat('(',SpecialitySpecializationName,')') end)"
-                    . ",',',concat('форма: ',eduform.PersonEducationFormName)) AS SPEC"),
-        );
+          new CDbExpression("concat_ws(' ',SpecialityClasifierCode,(case substr(SpecialityClasifierCode,1,1) when '6' then SpecialityDirectionName else SpecialityName end), (case SpecialitySpecializationName when '' then '' else concat('(',SpecialitySpecializationName,')') end),',',concat('форма: ',eduform.PersonEducationFormName)) AS SPEC"),);
         $criteria->together = true;
         $criteria->compare("concat_ws(' ',"
                     . "SpecialityClasifierCode,"
@@ -280,6 +289,7 @@ class Specialities extends CActiveRecord {
         $criteria->compare('isZaoch', $this->isZaoch);
         $criteria->compare('PersonEducationFormID', $this->PersonEducationFormID);
         $criteria->compare('isPublishIn', $this->isPublishIn);
+        
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
