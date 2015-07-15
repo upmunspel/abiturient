@@ -70,7 +70,7 @@ $formtype_url = Yii::app()->createUrl("documents/create", array("personid"=>$mod
             <?php echo $form->labelEx($model, 'AtestatValue'); ?>
 
             <?php
-            if ($model->isNewRecord) {
+            if ($model->isNewRecord || Yii::app()->user->checkAccess("editAtestatValue") ) {
                 echo $form->textField($model, 'AtestatValue', array('class' => 'span12'));
             } else {
                 echo $form->textField($model, 'AtestatValue', array('class' => 'span12', 'readonly' => 'readonly'));

@@ -245,8 +245,12 @@ class Personspeciality extends ActiveRecord {
     }
 
     public function valididatePriority($attributes) {
-        if ($this->EntranceTypeID == 1 && $this->QualificationID == 1 && $this->priority < 1 && $this->StatusID !=3 ) {
+        if ($this->EducationFormID == 1 && $this->QualificationID == 1 && $this->priority < 1 && $this->StatusID !=3 ) {
             $this->addError($attributes, "Необхідно вказати пріоритет!");
+            return false;
+        }
+        if ($this->EducationFormID == 2 && $this->QualificationID == 1 && $this->priority != 0 && $this->StatusID !=3 ) {
+            $this->addError($attributes, "Необхідно обрати пустий пріоритет!");
             return false;
         }
         return true;

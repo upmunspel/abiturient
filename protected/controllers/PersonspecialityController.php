@@ -527,12 +527,12 @@ class PersonspecialityController extends Controller {
         }
         Yii::app()->user->setFlash($type, $msg);
     }
-    
+
     public function actionEducationsinfo($idperson) {
-        
+
 
         $msg = "";
-       
+
         $type = "info";
         $count = 0;
         $model = Person::model()->findByPk($idperson);
@@ -544,19 +544,28 @@ class PersonspecialityController extends Controller {
                     $msg.="<ul>";
                     foreach ($res as $item) {
                         $item = (object) $item;
-                        
+                        if (strpos("акалавр", $item->specDirectionName)>0) {
                             $type = "info";
                             $msg.= "<li>";
-                            $msg.= $item->personEducationFormName . 
-                                     " : " . $item->personEducationPaymentTypeName . 
-                                      " : " . $item->qualificationName . 
-                                     " : " . $item->specDirectionName .
-                                    " : " . $item->universityFullName ;
+                            $msg.= $item->personEducationFormName .
+                                    " : " . $item->personEducationPaymentTypeName .
+                                    " : " . $item->qualificationName .
+                                    " : " . $item->specDirectionName .
+                                    " : " . $item->universityFullName;
                             $msg.= "</li>";
                             $count++;
-                        
+                        } else {
+                            $tmp = "<li>";
+                            $tmp.= $item->personEducationFormName .
+                                    " : " . $item->personEducationPaymentTypeName .
+                                    " : " . $item->qualificationName .
+                                    " : " . $item->specDirectionName .
+                                    " : " . $item->universityFullName;
+                            $tmp.= "</li>";
+                            Yii::log($tmp);
+                        }
                     }
-                     $msg.="</ul>";
+                    $msg.="</ul>";
                 }
                 if ($count == 0) {
                     $msg = "Попередня освіта відсутня або не зареестровано у базі ЄДБО";
@@ -565,7 +574,6 @@ class PersonspecialityController extends Controller {
                     $type = "warning";
                     $msg.="<h3>Заявки даної персони може приймати тільки оператор 116 аудиторії!</h3>";
                 }
-               
             } catch (Exception $e) {
                 $msg = $e->getMessage();
                 $type = "error";
