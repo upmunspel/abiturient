@@ -49,7 +49,7 @@ class Specialities extends CActiveRecord {
         // Please remove those attributes that should not be searched.
         array('idSpeciality, SpecialityName, SpecialityKode, 
                             FacultetID, SpecialityClasifierCode, SpecialityBudgetCount, SpecialityContractCount, isZaoch, isPublishIn, 
-                            WordPrice, YearPrice', 'safe', 'on' => 'search'),
+                            WordPrice, YearPrice', 'safe', 'on', 'ZnoKoef1', 'ZnoKoef2', 'ZnoKoef3' => 'search'),
     );
   }
 
@@ -86,7 +86,10 @@ class Specialities extends CActiveRecord {
         'YearPrice' => "Загальна вартість",
         'SemPrice' => "Ціна за семестр",
         "PersonEducationFormID" => "Форма освіти",
-        "StudyPeriodID" => "Період"
+        "StudyPeriodID" => "Період",
+        "ZnoKoef1" => "Коофіцієнт 1 предмету ЗНО",
+        "ZnoKoef2" => "Коофіцієнт 2 предмету ЗНО",
+        "ZnoKoef3" => "Коофіцієнт 3 предмету ЗНО"
     );
   }
 
@@ -109,7 +112,10 @@ class Specialities extends CActiveRecord {
     $criteria->compare('SpecialityContractCount', $this->SpecialityContractCount);
     $criteria->compare('isZaoch', $this->isZaoch);
     $criteria->compare('isPublishIn', $this->isPublishIn);
-
+    $criteria->compare('ZnoKoef1', $this->ZnoKoef1);
+    $criteria->compare('ZnoKoef2', $this->ZnoKoef2);
+    $criteria->compare('ZnoKoef3', $this->ZnoKoef3);
+    
     return new CActiveDataProvider($this, array(
         'criteria' => $criteria,
     ));

@@ -2,6 +2,7 @@
 
 /* @var $model Personspeciality */
 /* @var $data CActiveDataProvider */
+/* @var $model ConvertAttestat*/
 Yii::app()->clientScript->registerCoreScript('jquery.ui');
 Yii::app()->clientScript->registerCssFile(Yii::app()->clientScript->getCoreScriptUrl().'/jui/css/base/jquery-ui.css');
 
@@ -903,14 +904,24 @@ $this->widget('bootstrap.widgets.TbGridView', array(
               if (!$data->edbo && $data->edboID){
                 $data->edbo = EdboData::model()->findByPk($data->edboID);
               }
+              // 123
+              $ConverAttestat = new ConvertAttestat;
               $doc_val = round($data->PointDocValue,2);
+              //var_dump($doc_val);
+              $post = ConvertAttestat::model()->findall('twelve_p=:twelve_p', array(':twelve_p'=> $doc_val));
+              $doc_val = $post[0]['two_hundred_p'];
+              /*$post=ConvertAttestat::model()->find(array(
+                    'select'=>'two_hundred_p',
+                    'condition'=>'twelve_p=:twelve_p',
+                    'params'=>array(':twelve_p'=>'9.4'),
+                ));*/
               $doc_val_zno = round($data->ZnoDocValue,2);
               $doc_name = 'Документ';
               $doc_desc = ($data->entrantdoc)? $data->entrantdoc->type->PersonDocumentTypesName : "Відсутній";
-              $Total += $doc_val_zno;
-              $Total += (($data->documentSubject1)? (float)$data->documentSubject1->SubjectValue : 0.0);
-              $Total += (($data->documentSubject2)? (float)$data->documentSubject2->SubjectValue : 0.0);
-              $Total += (($data->documentSubject3)? (float)$data->documentSubject3->SubjectValue : 0.0);
+              $Total += (float)$doc_val*0.1;
+              $Total += (($data->documentSubject1)? (float)$data->documentSubject1->SubjectValue* $data->sepciality->ZnoKoef1 : 0.0);
+              $Total += (($data->documentSubject2)? (float)$data->documentSubject2->SubjectValue* $data->sepciality->ZnoKoef2 : 0.0);
+              $Total += (($data->documentSubject3)? (float)$data->documentSubject3->SubjectValue* $data->sepciality->ZnoKoef3 : 0.0);
               $Total += (float)$data->AdditionalBall;
               $Total += (float)$data->CoursedpBall;
               $Total += ($data->olymp? (float)$data->olymp->OlympiadAwardBonus : 0.0);
@@ -986,11 +997,11 @@ $this->widget('bootstrap.widgets.TbGridView', array(
               $span_class = 'label-info';
               $add_string = '';
               if ($data->edbo){
-                $span_class = ((float)$data->edbo->RatingPoints == (float)$Total)? 
-                        'label-success' : 'label-important';
-                $add_string = ' (в даних ЄДЕБО: '. $data->edbo->RatingPoints .')';
+                $span_class = (sprintf("%.3f", $data->edbo->RatingPoints) == sprintf("%.3f", $Total))? 
+                    'label-success' : 'label-important';
+                $add_string = ' В даних ЄДЕБО: '. $data->edbo->RatingPoints;
               }
-              $add_string .= ' | computed: '.$data->ComputedPoints; ?>
+              $add_string .= ' Сomputed: '. $Total; /* $data->ComputedPoints */?>
               <div style='width: 70px !important;float:left;'>Разом : </div>
               <a href='#'
                 style='margin-left: 5px;'
@@ -1009,11 +1020,14 @@ $this->widget('bootstrap.widgets.TbGridView', array(
               $country_span_class = 'label-info';
               $docnum_span_class = 'label-info';
               $docseria_span_class = 'label-info';
+              $priority_span_class = 'label-info';
               $add_string = '';
               if ($data->edbo){
-                $span_class = ((float)$data->edbo->DocPoint == (float)$doc_val)?
+                $span_class = (sprintf("%.2f",$data->edbo->DocPoint) == sprintf("%.2f",(float)$doc_val*0.1))?
                         'label-success' : 'label-important';
                 $country_span_class = ($data->edbo->Country == $data->person->country->CountryName)?
+                        'label-success' : 'label-important';
+                $priority_span_class = ($data->edbo->Priority == $data->priority)?
                         'label-success' : 'label-important';
                 if (!empty($data->entrantdoc)){
                   $docnum_span_class = ($data->edbo->DocNumber == $data->entrantdoc->Numbers)?
@@ -1025,17 +1039,17 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                 // $docseria_span_class = ($data->tDocSeria == $data->tDocSeries)?
                         // 'label-success' : 'label-important';
                 $add_string = '<span class=\'label label-info\' 
-                  title="В даних ЄДЕБО"
+                  title="'.(($data->edbo)? 'В даних ЄДЕБО:'.$data->edbo->DocPoint : '').'"
                   style=\'margin-bottom: 3px; font-size: 8pt; margin-left: 2px;\'>' 
                   . $data->edbo->DocPoint . '</span>';
                 $c = preg_match('/ЗНО:([0-9\.]+)\+/',$data->edbo->DetailPoints,$matches);
                 $edboZNO = (isset($matches[1]))? $matches[1] : 0.0;
               }
-              
-              echo '<div style=\'width: 70px !important;float:left;\' title=\''.$doc_desc.'\'>'.$doc_name.' : </div>' . (($doc_val_zno)? 
-                      '<span class=\'label '.$span_class.'\' style=\'margin-bottom: 3px;font-size: 8pt;\''
-                      . ' title="Значення в документі : '.$doc_val . '">'.
-                      $doc_val_zno . '</span>' . (($data->edbo)? $add_string : '') . '<div class="clear"></div>' : 
+              $ZNOSum_local=$data->documentSubject1->SubjectValue*$data->sepciality->ZnoKoef1+$data->documentSubject2->SubjectValue*$data->sepciality->ZnoKoef2+$data->documentSubject3->SubjectValue *  $data->sepciality->ZnoKoef3;
+              echo '<div style=\'width: 70px !important;float:left;\' title=\''.$doc_desc.'\'>'.$doc_name.' : </div>' . (($doc_val*0.1)? 
+                      '<span class=\'label label-info\' style=\'margin-bottom: 3px;font-size: 8pt;\''
+                      . ' title="Значення в документі : '.$doc_val*0.1.'">'.
+                      $doc_val*0.1 . '</span>' . (($data->edbo)? $add_string : '') . '<div class="clear"></div>' : 
                 
                       '<span class=\'label label-red\' style=\'margin-bottom: 3px;font-size: 8pt;\'>'.
                       'н/з' . '</span><div class="clear"></div>');
@@ -1051,12 +1065,14 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                 . '<div class="clear"></div>';
               
               echo '<div style=\'width: 70px !important;float:left;color:'.(($data->edbo)? 
-                (($data->ZNOSum != $edboZNO)? 'red': 'green') :'black')
-              .'\' title="Сума: '.$data->ZNOSum.(($data->edbo)? ', у ЄДЕБО : '.$edboZNO : '').'">ЗНО : </div>' . (($data->documentSubject1)? 
+                ((
+                $ZNOSum_local!= $edboZNO)? 'red': 'green') :'black')
+              .'\' title="Сума: '.$ZNOSum_local.(($data->edbo)? ', у ЄДЕБО : '.$edboZNO : '').'">ЗНО : </div>' . (($data->documentSubject1)? 
                       '<span class=\'label label-info\' '
                       . 'style=\'margin-bottom: 3px; font-size: 8pt; font-family: Tahoma;\' '
                       . 'title=\''.(($data->documentSubject1->subject1) ? $data->documentSubject1->subject1->SubjectName : '').'\'>'.
-                      $data->documentSubject1->SubjectValue . '</span>' : 
+                      // Бал ЗНО с учетом коофициента
+                      $data->documentSubject1->SubjectValue *  $data->sepciality->ZnoKoef1 . '</span>' : 
                 
                       '<span class=\'label label-red\' style=\'margin-bottom: 3px; font-size: 8pt; font-family: Tahoma;\'>'.
                       'н/з' . '</span>');
@@ -1065,7 +1081,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                       '<span class=\'label label-info\' '
                       . 'style=\'margin-bottom: 3px;margin-right: 2px;margin-left:2px; font-size: 8pt; font-family: Tahoma;\' '
                       . 'title=\''.(($data->documentSubject2->subject2) ? $data->documentSubject2->subject2->SubjectName : '').'\'>'.
-                      $data->documentSubject2->SubjectValue . '</span>' : 
+                      $data->documentSubject2->SubjectValue * $data->sepciality->ZnoKoef2 . '</span>' : 
                 
                       '<span class=\'label label-red\' style=\'margin-bottom: 3px;margin-right: 2px;margin-left:2px; font-size: 8pt; font-family: Tahoma;\'>'.
                       'н/з' . '</span>');
@@ -1074,10 +1090,18 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                       '<span class=\'label label-info\' '
                       . 'style=\'margin-bottom: 3px; font-size: 8pt; font-family: Tahoma;\' '
                       . 'title=\''.(($data->documentSubject3->subject3) ? $data->documentSubject3->subject3->SubjectName : '').'\'>'.
-                      $data->documentSubject3->SubjectValue . '</span><div class="clear"></div>' : 
+                      $data->documentSubject3->SubjectValue *  $data->sepciality->ZnoKoef3. '</span><div class="clear"></div>' : 
                 
                       '<span class=\'label label-red\' style=\'margin-bottom: 3px; font-size: 8pt; font-family: Tahoma;\'>'.
                       'н/з' . '</span><div class="clear"></div>');
+              // Пріорітети
+              //echo $data->priority;
+              //echo $data->edbo->Priority;
+              echo '<div style=\'width: 70px !important;float:left;\'>Пріорітет : </div>' .
+                      '<span class=\'label '.$priority_span_class.'\' style=\'margin-bottom: 3px;font-size: 8pt;\''
+                      . ' title="'.(($data->edbo)? 'Значення в ЄДЕБО: '. $data->edbo->Priority : '').'">'.
+                      $data->priority . '</span>' . '<div class="clear"></div>';
+              
               
               echo '<div style=\'width: 70px !important;float:left;\'>Додатково : </div>' . (($data->AdditionalBall)? 
                       '<span class=\'label label-info\' style=\'margin-bottom: 3px; font-size: 8pt; font-family: Tahoma;\'>'.

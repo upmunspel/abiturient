@@ -103,16 +103,29 @@ $this->widget('bootstrap.widgets.TbGridView', array(
             'htmlOptions' => array('class' => 'span1'),
         ),
         array(
-            'class' => 'bootstrap.widgets.TbEditableColumn',
-            'name' => 'ZnoKoef3',
-            'header' => 'K3',
-            'editable' => array(
-                'url' => $this->createUrl('specialities/xedit'),
-                'placement' => 'right',
-                'inputclass' => 'span3',
-            ),
-            'headerHtmlOptions' => array('title' => 'Квота для тих, хто поступає поза конкурсом'),
+            'name' => 'ZnoKoef1',
+            'header' => 'Коефіцієнт',
+            'value' => '$data->ZnoKoef1',
             'htmlOptions' => array('class' => 'span1'),
+        ),  
+        array(
+            'name' => 'ZnoKoef2',
+            'header' => 'Коефіцієнт',
+            'value' => '$data->ZnoKoef2',
+            'htmlOptions' => array('class' => 'span1'),
+        ),
+        array(
+            'name' => 'ZnoKoef3',
+            'header' => 'Коефіцієнт',
+            'value' => '$data->ZnoKoef3',
+            'htmlOptions' => array('class' => 'span1'),
+        ),
+        array(
+          'class' => 'bootstrap.widgets.TbButtonColumn',
+          'template' => '{view} {update} {delete}',
+          'buttons' => array(
+          ),
+          'htmlOptions' => array('class' => 'span1'),
         ),
         array(
             'header' => 'ЦН',
