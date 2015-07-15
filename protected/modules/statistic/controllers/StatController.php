@@ -982,7 +982,8 @@ class StatController extends Controller {
           'cnt_requests_from_us' => $cnt_requests_from_us,
           'cnt_requests_from_aliens' => $cnt_requests_from_aliens,
           'graduated' => $ngrauated,
-          'cnt_req_budget' => $spec->SpecialityBudgetCount,
+          // 'cnt_req_budget' => $spec->SpecialityBudgetCount,
+          'cnt_req_budget' => $spec->SpecialityBudgetCount + $spec->Quota1,
           'cnt_req_originals' => $spec->cnt_req_original,
       );
       $i++;
