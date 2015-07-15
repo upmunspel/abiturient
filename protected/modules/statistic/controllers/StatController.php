@@ -62,7 +62,8 @@ class StatController extends Controller {
                 'doctypes','benefitgroups','eduforms','okr',
                 'countries','schools', 
                 "statgraduated", 'awards', 'personstatgraduated','exlanguages',
-                "SpecMagContracts","Acts","CreateActs", "basespecs","getphotozip"),
+                "SpecMagContracts","Acts","CreateActs", "basespecs","getphotozip",
+                'crossentrant'),
             'users' => array('@'),
         ),
         array('allow', 
@@ -1300,12 +1301,59 @@ class StatController extends Controller {
     }
   }
   
-  
-  /////////////////акти
+  /////////////////акти  
   public function actionActs(){
       $this->layout='//layouts/clear';
       $this->render('/statistic/acts/index');
   }
+  
+  
+// Перехресний вступ
+    public function actionCrossentrant() {
+        //      SELECT 
+        //person.idPerson, person.LastName, person.FirstName, person.MiddleName,
+        //personeducationforms.PersonEducationFormName, qualifications.QualificationName,
+        //facultets.FacultetFullName,
+        //specialities.SpecialityClasifierCode,
+        //TRIM( CONCAT_WS(' ', specialities.SpecialityDirectionName, specialities.SpecialitySpecializationName,specialities.SpecialityName))  SpecialityTitle
+        //FROM personspeciality
+        //     INNER JOIN person ON personspeciality.PersonID=person.idPerson
+        //     INNER JOIN personeducationforms ON personspeciality.EducationFormID=personeducationforms.idPersonEducationForm
+        //     INNER JOIN specialities ON specialities.idSpeciality=personspeciality.SepcialityID
+        //     INNER JOIN facultets ON facultets.idFacultet=specialities.FacultetID
+        //     INNER JOIN qualifications ON personspeciality.QualificationID=qualifications.idQualification
+        //WHERE personspeciality.isCrossEntrant
+        //ORDER BY FacultetFullName ASC, QualificationName ASC , SpecialityTitle
+
+        $list = Yii::app()->db->createCommand()
+                ->select("
+                        person.idPerson, person.LastName, person.FirstName, person.MiddleName,
+                        personeducationforms.PersonEducationFormName, qualifications.QualificationName,
+                        facultets.FacultetFullName,
+                        specialities.SpecialityClasifierCode,
+                        TRIM( CONCAT_WS(' ', specialities.SpecialityDirectionName, specialities.SpecialitySpecializationName,specialities.SpecialityName))  SpecialityTitle")
+                ->from('personspeciality')
+                ->join('person', 'personspeciality.PersonID=person.idPerson')
+                ->join('personeducationforms', 'personspeciality.EducationFormID=personeducationforms.idPersonEducationForm')
+                ->join('specialities', 'specialities.idSpeciality=personspeciality.SepcialityID')
+                ->join('facultets', 'facultets.idFacultet=specialities.FacultetID')
+                ->join('qualifications', 'personspeciality.QualificationID=qualifications.idQualification')
+                ->where('personspeciality.isCrossEntrant', array())
+                ->order('FacultetFullName ASC, QualificationName ASC , SpecialityTitle')
+                ->queryAll();
+        // print_r($list);
+
+        $this->layout = '//layouts/clear';
+
+        $this->render('/statistic/crossentrant', array(
+            'list'=>$list
+            //        'cnt_data' => $cnt_data,
+            //        'summary' => $counts_atall,
+            //        'spec_ident' => $spec_ident,
+            //        'date' => $reqDate
+        ));
+    }
+
   public function actionCreateActs(){
       $this->layout='//layouts/clear';
       $this->render('/statistic/acts/select');
