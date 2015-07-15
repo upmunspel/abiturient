@@ -17,6 +17,7 @@ class Specialities extends CActiveRecord {
   public $cnt_requests;
   public $cnt_persons_per_day;
   public $cnt_persons;
+ 
 
   public static function model($className = __CLASS__) {
     return parent::model($className);
