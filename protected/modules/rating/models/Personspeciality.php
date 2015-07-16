@@ -190,7 +190,7 @@ class Personspeciality extends ActiveRecord {
         array("Exam1ID, Exam2ID, Exam3ID, CausalityID", "required", "on" => "EXAM"),
         array("Exam1Ball, Exam2Ball, Exam3Ball", 'numerical', "max" => 200, "min" => 1, "allowEmpty" => true, "on" => "EXAM"),
         array("CausalityID", "required", "on" => "ZNOEXAM"),
-        array("Exam1ID, Exam2ID, Exam3ID, DocumentSubject1, DocumentSubject2, DocumentSubject3", "valididateZnoExam", "on" => "ZNOEXAM"),
+        array("Exam1ID, Exam2ID, Exam3ID, DocumentSubject1, DocumentSubject2, DocumentSubject3", "valididateZnoExam","on" => "ZNOEXAM"),
         array("Exam1Ball, Exam2Ball, Exam3Ball", 'numerical', "max" => 200, "min" => 1, "allowEmpty" => true, "on" => "ZNOEXAM"),
         // DocumentSubject1, DocumentSubject2, DocumentSubject3, 
         //  Exam1ID, Exam1Ball, Exam2ID, Exam2Ball, Exam3ID, Exam3Ball', 'numerical', 'integerOnly'=>true),
@@ -258,6 +258,9 @@ class Personspeciality extends ActiveRecord {
         'status' => array(self::BELONGS_TO, 'Personrequeststatustypes', 'StatusID'),
         'edbo' => array(self::BELONGS_TO, 'EdboData', 'edboID'),
         'pbenefits' => array(self::HAS_MANY, 'Personspecialitybenefits', 'PersonSpecialityID'),
+        //'ZnoKoef1' => array(self::BELONGS_TO, 'Documentsubject', 'ZnoKoef1'),
+        //'ZnoKoef2' => array(self::BELONGS_TO, 'Documentsubject', 'ZnoKoef2'),
+        //'ZnoKoef3' => array(self::BELONGS_TO, 'Documentsubject', 'ZnoKoef3'),
 //                     
     );
   }
@@ -336,7 +339,10 @@ class Personspeciality extends ActiveRecord {
     // should not be searched.
 
     $criteria = new CDbCriteria;
-
+    
+    //$criteria->compare('ZnoKoef1', $this->ZnoKoef1);
+    //$criteria->compare('ZnoKoef2', $this->ZnoKoef2);
+    //$criteria->compare('ZnoKoef3', $this->ZnoKoef3);
     $criteria->compare('idPersonSpeciality', $this->idPersonSpeciality);
     $criteria->compare('PersonID', $this->PersonID);
     $criteria->compare('SepcialityID', $this->SepcialityID);
@@ -395,6 +401,9 @@ class Personspeciality extends ActiveRecord {
     array_push($with_rel, 'documentSubject1.subject1');
     array_push($with_rel, 'documentSubject2.subject2');
     array_push($with_rel, 'documentSubject3.subject3');
+    //array_push($with_rel, 'ZnoKoef1');
+    //array_push($with_rel, 'ZnoKoef2');
+    //array_push($with_rel, 'ZnoKoef3');
     
     $with_rel['sepciality.facultet'] = array('select' => false);
     $with_rel['person.country'] = array('select' => false);
@@ -417,6 +426,7 @@ class Personspeciality extends ActiveRecord {
     // відмітка про першочерговий вступ або ж про те, що є відповідна пільга,
     // список відміток про позаконкурсний вступ (до відповідних пільг),
     // список відміток про першочерговий вступ (до відповідних пільг).
+    // Остання редакція: Жиленко О.С. ЕПК
     $criteria->select = array('*',
       new CDbExpression("concat_ws(' ',trim(person.LastName),trim(person.FirstName),trim(person.MiddleName)) AS NAME"),
       new CDbExpression("concat_ws(' ',"
@@ -427,7 +437,7 @@ class Personspeciality extends ActiveRecord {
               . " else concat('(',sepciality.SpecialitySpecializationName,')') end)"
               . ",',',concat('форма: ',educationForm.PersonEducationFormName)) AS SPEC"),
       new CDbExpression('ROUND(
-            IF(ISNULL(entrantdoc.AtestatValue),0.0, IF((entrantdoc.AtestatValue > 12), entrantdoc.AtestatValue ,5 * entrantdoc.AtestatValue))
+            IF(ISNULL(entrantdoc.AtestatValue),0.0, IF((entrantdoc.AtestatValue > 12), entrantdoc.AtestatValue ,entrantdoc.AtestatValue))
           ,2) AS ZnoDocValue'),
       new CDbExpression('ROUND(
             IF(ISNULL(entrantdoc.AtestatValue),0.0,entrantdoc.AtestatValue),2) AS PointDocValue'),
@@ -435,13 +445,13 @@ class Personspeciality extends ActiveRecord {
         ROUND(
         IF(ISNULL(entrantdoc.AtestatValue),0.0, 
           IF((entrantdoc.AtestatValue > 12), 
-            entrantdoc.AtestatValue ,5 * entrantdoc.AtestatValue)
+            entrantdoc.AtestatValue ,entrantdoc.AtestatValue)
         ),2)+
-        IF(ISNULL(documentSubject1.SubjectValue),0.0,documentSubject1.SubjectValue)+
-        IF(ISNULL(documentSubject2.SubjectValue),0.0,documentSubject2.SubjectValue)+
-        IF(ISNULL(documentSubject3.SubjectValue),0.0,documentSubject3.SubjectValue)+
+        IF(ISNULL(documentSubject1.SubjectValue),0.0,documentSubject1.SubjectValue*sepciality.ZnoKoef1)+
+        IF(ISNULL(documentSubject2.SubjectValue),0.0,documentSubject2.SubjectValue*sepciality.ZnoKoef1)+
+        IF(ISNULL(documentSubject3.SubjectValue),0.0,documentSubject3.SubjectValue*sepciality.ZnoKoef1)+
         IF(ISNULL(t.AdditionalBall),0.0,t.AdditionalBall)+
-        IF(ISNULL(t.CoursedpBall),0.0,t.CoursedpBall)+
+        IF(ISNULL(t.CoursedpBall),0.0,t.CoursedpBall*0.05)+
         IF(ISNULL(olymp.OlympiadAwardBonus),0.0,olymp.OlympiadAwardBonus)+
         IF(ISNULL(t.Exam1Ball),0.0,t.Exam1Ball)+
         IF(ISNULL(t.Exam2Ball),0.0,t.Exam2Ball)+
@@ -519,11 +529,11 @@ class Personspeciality extends ActiveRecord {
                 ROUND(
                 IF(ISNULL(entrantdoc.AtestatValue),0.0, 
                   IF((entrantdoc.AtestatValue > 12), 
-                    entrantdoc.AtestatValue ,5 * entrantdoc.AtestatValue)
+                    set_bal(entrantdoc.AtestatValue) , set_bal(entrantdoc.AtestatValue))
                 ),2)+
-                IF(ISNULL(documentSubject1.SubjectValue),0.0,documentSubject1.SubjectValue)+
-                IF(ISNULL(documentSubject2.SubjectValue),0.0,documentSubject2.SubjectValue)+
-                IF(ISNULL(documentSubject3.SubjectValue),0.0,documentSubject3.SubjectValue)+
+                IF(ISNULL(documentSubject1.SubjectValue),0.0,documentSubject1.SubjectValue*sepciality.ZnoKoef1)+
+                IF(ISNULL(documentSubject2.SubjectValue),0.0,documentSubject2.SubjectValue*sepciality.ZnoKoef2)+
+                IF(ISNULL(documentSubject3.SubjectValue),0.0,documentSubject3.SubjectValue*sepciality.ZnoKoef3)+
                 IF(ISNULL(t.AdditionalBall),0.0,t.AdditionalBall)+
                 IF(ISNULL(t.CoursedpBall),0.0,t.CoursedpBall)+
                 IF(ISNULL(olymp.OlympiadAwardBonus),0.0,olymp.OlympiadAwardBonus)+
@@ -537,7 +547,7 @@ class Personspeciality extends ActiveRecord {
         OR (edbo.Country NOT LIKE country.CountryName) 
             
         OR (ROUND(edbo.DocPoint,2) <> ROUND(
-            IF(ISNULL(entrantdoc.AtestatValue),0.0,entrantdoc.AtestatValue),2)) 
+            IF(ISNULL(entrantdoc.AtestatValue),0.0,set_bal(entrantdoc.AtestatValue)),2)) 
             
         OR (edbo.DocNumber NOT LIKE entrantdoc.Numbers) 
         
@@ -601,10 +611,18 @@ class Personspeciality extends ActiveRecord {
       // тоді додаткові умови ::
       // 
       $criteria->addCondition('(
-        edbo.DetailPoints NOT LIKE CONCAT("%ЗНО:",
-        (IF(ISNULL(documentSubject1.SubjectValue),0.0,documentSubject1.SubjectValue)+
-        IF(ISNULL(documentSubject2.SubjectValue),0.0,documentSubject2.SubjectValue)+
-        IF(ISNULL(documentSubject3.SubjectValue),0.0,documentSubject3.SubjectValue)),"%"))'
+               ABS(
+                  - SUBSTRING(LEFT(edbo.DetailPoints,LOCATE("+Е:",edbo.DetailPoints)-1),LOCATE("+ЗНО:",edbo.DetailPoints)+5)
+                  + 
+                  (
+                     IF(ISNULL(documentSubject1.SubjectValue),0.0,documentSubject1.SubjectValue*sepciality.ZnoKoef1)
+                     +
+                     IF(ISNULL(documentSubject2.SubjectValue),0.0,documentSubject2.SubjectValue*sepciality.ZnoKoef2)
+                     +
+                     IF(ISNULL(documentSubject3.SubjectValue),0.0,documentSubject3.SubjectValue*sepciality.ZnoKoef3)
+                  )
+               ) > 0.001
+      )'
       );
       break;
       case 8: 
@@ -834,7 +852,7 @@ class Personspeciality extends ActiveRecord {
         IF(ISNULL(documentSubject2.SubjectValue),0.0,documentSubject2.SubjectValue)+
         IF(ISNULL(documentSubject3.SubjectValue),0.0,documentSubject3.SubjectValue)+
         IF(ISNULL(t.AdditionalBall),0.0,t.AdditionalBall)+
-        IF(ISNULL(t.CoursedpBall),0.0,t.CoursedpBall)+
+        IF(ISNULL(t.CoursedpBall),0.0,t.CoursedpBall*0.05)+
         IF(ISNULL(olymp.OlympiadAwardBonus),0.0,olymp.OlympiadAwardBonus)+
         IF(ISNULL(t.Exam1Ball),0.0,t.Exam1Ball)+
         IF(ISNULL(t.Exam2Ball),0.0,t.Exam2Ball)+

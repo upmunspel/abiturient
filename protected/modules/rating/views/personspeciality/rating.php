@@ -1090,18 +1090,17 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                       '<span class=\'label label-info\' '
                       . 'style=\'margin-bottom: 3px; font-size: 8pt; font-family: Tahoma;\' '
                       . 'title=\''.(($data->documentSubject3->subject3) ? $data->documentSubject3->subject3->SubjectName : '').'\'>'.
-                      $data->documentSubject3->SubjectValue *  $data->sepciality->koef3. '</span><div class="clear"></div>' : 
+                      $data->documentSubject3->SubjectValue *  $data->sepciality->ZnoKoef3. '</span><div class="clear"></div>' : 
                 
                       '<span class=\'label label-red\' style=\'margin-bottom: 3px; font-size: 8pt; font-family: Tahoma;\'>'.
                       'н/з' . '</span><div class="clear"></div>');
-              // Пріорітети
-              //echo $data->priority;
-              //echo $data->edbo->Priority;
+              // Пріорітети для денної форми навчання
+              if($data->EducationFormID != 2){
               echo '<div style=\'width: 70px !important;float:left;\'>Пріорітет : </div>' .
                       '<span class=\'label '.$priority_span_class.'\' style=\'margin-bottom: 3px;font-size: 8pt;\''
                       . ' title="'.(($data->edbo)? 'Значення в ЄДЕБО: '. $data->edbo->Priority : '').'">'.
                       $data->priority . '</span>' . '<div class="clear"></div>';
-              
+              } 
               
               echo '<div style=\'width: 70px !important;float:left;\'>Додатково : </div>' . (($data->AdditionalBall)? 
                       '<span class=\'label label-info\' style=\'margin-bottom: 3px; font-size: 8pt; font-family: Tahoma;\'>'.
