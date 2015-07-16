@@ -1032,6 +1032,17 @@ Yii::app()->clientScript->registerPackage('select2');
             </ul>
         </div>
     </div>
+
+</div>
+    
+    
+    
+<div class="well well-large span5">
+    <h3 id="crossentrant"><a href="<?php echo Yii::app()->createUrl('statistic/stat/crossentrant');?>">Особи з ознакою "Перехресний вступ"</a></h3>
+</div>
+
+    
+
 </div>
 
 <!-- ----------------------------------------------------------------------- -->
