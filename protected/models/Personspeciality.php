@@ -270,7 +270,9 @@ class Personspeciality extends ActiveRecord {
     }
 
     public function valididateCoursedpID($attributes) {
-
+        
+        /*//$this->EntrantDocumentID;
+        $doc = Documents::model()->findByPk($this->EntrantDocumentID);
         if (!$this->CoursedpID > 0) {
 
             $ben = Personbenefits::model()->find("PersonID = {$this->PersonID} and BenefitID = 41");
@@ -280,7 +282,7 @@ class Personspeciality extends ActiveRecord {
                 }
             }
         }
-
+*/
 
         return true;
     }

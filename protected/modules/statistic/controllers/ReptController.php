@@ -80,6 +80,8 @@ class ReptController extends Controller {
     $fields[29] = array('text' => 'Номер заяви',);
     $fields[30] = array('text' => 'Іноземна мова заяви',);
     $fields[31] = array('text' => 'Базова спеціальність',);
+    $fields[32] = array('text' => 'Додатковий балл',);
+    $fields[33] = array('text' => 'Приорітет',);
     
     if (!is_string($reqFields)){
       throw new CHttpException(400,'Помилка. Невірний запит.');
@@ -1173,6 +1175,59 @@ class ReptController extends Controller {
             $widget_columns, $widget_column, $field_num_index,
             $condition_type, $condition_value, $alternative_condition_value,
             $criteria);
+          ////////////////////////////////////////////
+          break;
+        
+         case 32:
+          $rels = array(
+          );
+          $sel = array(
+              'to_select' => $to_select,
+              'sql_as' => 'PersonCase',
+              'sql_expr' => "CONCAT((CASE t.QualificationID 
+                WHEN 1 THEN 'Б' 
+                WHEN 2 THEN 'СМ' 
+                WHEN 3 THEN 'СМ' 
+                WHEN 4 THEN 'МС' END), t.CourseID, '-', LPAD(t.PersonRequestNumber,5,'0'))",
+          );
+          $widget_column = array('name' => 'PersonCase', 
+            'header' => $header,
+            'value' => 
+            function ($data){
+              echo $data->PersonCase;
+            }
+          );
+          $field_num_index = ($to_select)? $field_num_indexes[$i]:0;
+          $this->ProcessFieldTextOnly($with_rel, $rels, 
+            $select, $sel, 
+            $widget_columns, $widget_column, $field_num_index,
+            $condition_type, $condition_value,
+            $criteria
+          );
+          ////////////////////////////////////////////
+          break;
+        case 33:
+          $group = 't.idPersonSpeciality';
+          $rels = array(
+          );
+          $sel = array(
+              'to_select' => $to_select,
+              'db_field' => 't.priority',
+          );
+          $widget_column = array('name' => 't.priority', 
+            'header' => $header,
+            'value' => 
+            function ($data){
+              echo $data->priority;
+            }
+          );
+          $field_num_index = ($to_select)? $field_num_indexes[$i]:0;
+          $this->ProcessFieldTextOnly($with_rel, $rels, 
+            $select, $sel, 
+            $widget_columns, $widget_column, $field_num_index,
+            $condition_type, $condition_value,
+            $criteria
+          );
           ////////////////////////////////////////////
           break;
 
