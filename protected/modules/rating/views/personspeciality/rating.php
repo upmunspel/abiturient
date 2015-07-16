@@ -919,9 +919,9 @@ $this->widget('bootstrap.widgets.TbGridView', array(
               $doc_name = 'Документ';
               $doc_desc = ($data->entrantdoc)? $data->entrantdoc->type->PersonDocumentTypesName : "Відсутній";
               $Total += (float)$doc_val*0.1;
-              $Total += (($data->documentSubject1)? (float)$data->documentSubject1->SubjectValue* $data->sepciality->koef1 : 0.0);
-              $Total += (($data->documentSubject2)? (float)$data->documentSubject2->SubjectValue* $data->sepciality->koef2 : 0.0);
-              $Total += (($data->documentSubject3)? (float)$data->documentSubject3->SubjectValue* $data->sepciality->koef3 : 0.0);
+              $Total += (($data->documentSubject1)? (float)$data->documentSubject1->SubjectValue* $data->sepciality->ZnoKoef1 : 0.0);
+              $Total += (($data->documentSubject2)? (float)$data->documentSubject2->SubjectValue* $data->sepciality->ZnoKoef2 : 0.0);
+              $Total += (($data->documentSubject3)? (float)$data->documentSubject3->SubjectValue* $data->sepciality->ZnoKoef3 : 0.0);
               $Total += (float)$data->AdditionalBall;
               $Total += (float)$data->CoursedpBall;
               $Total += ($data->olymp? (float)$data->olymp->OlympiadAwardBonus : 0.0);
@@ -1045,7 +1045,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                 $c = preg_match('/ЗНО:([0-9\.]+)\+/',$data->edbo->DetailPoints,$matches);
                 $edboZNO = (isset($matches[1]))? $matches[1] : 0.0;
               }
-              $ZNOSum_local=$data->documentSubject1->SubjectValue*$data->sepciality->koef1+$data->documentSubject2->SubjectValue*$data->sepciality->koef2+$data->documentSubject3->SubjectValue *  $data->sepciality->koef3;
+              $ZNOSum_local=$data->documentSubject1->SubjectValue*$data->sepciality->ZnoKoef1+$data->documentSubject2->SubjectValue*$data->sepciality->ZnoKoef2+$data->documentSubject3->SubjectValue *  $data->sepciality->ZnoKoef3;
               echo '<div style=\'width: 70px !important;float:left;\' title=\''.$doc_desc.'\'>'.$doc_name.' : </div>' . (($doc_val*0.1)? 
                       '<span class=\'label label-info\' style=\'margin-bottom: 3px;font-size: 8pt;\''
                       . ' title="Значення в документі : '.$doc_val*0.1.'">'.
@@ -1072,7 +1072,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                       . 'style=\'margin-bottom: 3px; font-size: 8pt; font-family: Tahoma;\' '
                       . 'title=\''.(($data->documentSubject1->subject1) ? $data->documentSubject1->subject1->SubjectName : '').'\'>'.
                       // Бал ЗНО с учетом коофициента
-                      $data->documentSubject1->SubjectValue *  $data->sepciality->koef1 . '</span>' : 
+                      $data->documentSubject1->SubjectValue *  $data->sepciality->ZnoKoef1 . '</span>' : 
                 
                       '<span class=\'label label-red\' style=\'margin-bottom: 3px; font-size: 8pt; font-family: Tahoma;\'>'.
                       'н/з' . '</span>');
@@ -1081,7 +1081,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                       '<span class=\'label label-info\' '
                       . 'style=\'margin-bottom: 3px;margin-right: 2px;margin-left:2px; font-size: 8pt; font-family: Tahoma;\' '
                       . 'title=\''.(($data->documentSubject2->subject2) ? $data->documentSubject2->subject2->SubjectName : '').'\'>'.
-                      $data->documentSubject2->SubjectValue * $data->sepciality->koef2 . '</span>' : 
+                      $data->documentSubject2->SubjectValue * $data->sepciality->ZnoKoef2 . '</span>' : 
                 
                       '<span class=\'label label-red\' style=\'margin-bottom: 3px;margin-right: 2px;margin-left:2px; font-size: 8pt; font-family: Tahoma;\'>'.
                       'н/з' . '</span>');

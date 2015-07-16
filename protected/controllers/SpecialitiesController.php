@@ -48,7 +48,7 @@ class SpecialitiesController extends Controller
         'roles'=>array('Admins'),
       ),*/
       array('allow', // allow admin user to perform 'admin' and 'delete' actions
-        'actions'=>array('index','view','admin','delete','create','update', "ajaxcreate","ajaxupdate",'xedit'),
+        'actions'=>array('index','view','admin','delete','create','update', "ajaxcreate","ajaxupdate",'xedit', "Rename"),
         'roles'=>array("Root","Admins"),
       ),
       array('allow', 
@@ -61,7 +61,31 @@ class SpecialitiesController extends Controller
       ),
     );
   }
-
+ /**
+  * Переименовывает поле  SpecialitySpecializationName
+  */
+  public function actionRename()
+  {
+    echo "<h1>Переоменование  SpecialitySpecializationName</h1>"  ;
+ 
+    $model = Specialities::model()->findAll();
+    foreach ($model as $item) {
+        $name = $item->getSpecName($item->idSpeciality);
+        echo "pos =".strpos(" ,", $name);
+        
+        $search  = array('  ','  ,',' ,');
+        $replace = array(' ', ',',',');
+        $name = str_replace($search, $replace, $name); 
+        
+        $item->SpecialityLicenseName = $name;
+        
+        if ($item->save()) {
+            echo "<div>".$item->idSpeciality." - OK!: $name</div>";
+        } else {
+            echo "<div>".$item->idSpeciality." - ERROR! </div>";
+        }
+    }
+  }
   /**
    * Displays a particular model.
    * @param integer $id the ID of the model to be displayed
