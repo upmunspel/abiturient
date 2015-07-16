@@ -575,6 +575,8 @@ class StatController extends Controller {
     $fields[] = array('text' => 'Копія', 'id' => 27);
     $fields[] = array('text' => 'Відзнака', 'id' => 28);
     $fields[] = array('text' => 'Базова спеціальність', 'id' => 31);
+    $fields[] = array('text' => 'Додатковий балл', 'id' => 32);
+    $fields[] = array('text' => 'Приорітет', 'id' => 33);
     
     if (!$q){
       $result = $fields;
