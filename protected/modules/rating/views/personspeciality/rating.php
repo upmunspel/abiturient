@@ -337,7 +337,7 @@ echo $form->hiddenField($model, 'SepcialityID', array(
     <?php
       echo $form->dropDownListRow($model,'ext_param',
         array('0'=>"",
-          '1'=>"МАЙЖЕ усі неспівпадання з даними ЄДЕБО",
+          '1'=>"Хоча б одне неспівпадання з даними ЄДЕБО",
           '2'=>"Немає в даних ЄДЕБО, але є в даних 'Абітурієнта'",
           '3'=>"Є в даних 'Абітурієнта' і є в даних ЄДЕБО",
           '4'=>"Неспівпадання з даними ЄДЕБО : лише копія/оригінал",
@@ -906,10 +906,14 @@ $this->widget('bootstrap.widgets.TbGridView', array(
               }
               // 123
               $ConverAttestat = new ConvertAttestat;
-              $doc_val = round($data->PointDocValue,2);
-              //var_dump($doc_val);
-              $post = ConvertAttestat::model()->findall('twelve_p=:twelve_p', array(':twelve_p'=> $doc_val));
-              $doc_val = $post[0]['two_hundred_p'];
+              if ($data->QualificationID == 1){
+                $doc_val = round($data->PointDocValue,2);
+                $post = ConvertAttestat::model()->findall('twelve_p=:twelve_p', array(':twelve_p'=> $doc_val));
+                $doc_val = (float)$post[0]['two_hundred_p'] * 0.1;
+              }
+              else{
+                $doc_val = $data->PointDocValue;
+              }
               /*$post=ConvertAttestat::model()->find(array(
                     'select'=>'two_hundred_p',
                     'condition'=>'twelve_p=:twelve_p',
@@ -918,12 +922,12 @@ $this->widget('bootstrap.widgets.TbGridView', array(
               $doc_val_zno = round($data->ZnoDocValue,2);
               $doc_name = 'Документ';
               $doc_desc = ($data->entrantdoc)? $data->entrantdoc->type->PersonDocumentTypesName : "Відсутній";
-              $Total += (float)$doc_val*0.1;
+              $Total += $doc_val;
               $Total += (($data->documentSubject1)? (float)$data->documentSubject1->SubjectValue* $data->sepciality->ZnoKoef1 : 0.0);
               $Total += (($data->documentSubject2)? (float)$data->documentSubject2->SubjectValue* $data->sepciality->ZnoKoef2 : 0.0);
               $Total += (($data->documentSubject3)? (float)$data->documentSubject3->SubjectValue* $data->sepciality->ZnoKoef3 : 0.0);
               $Total += (float)$data->AdditionalBall;
-              $Total += (float)$data->CoursedpBall;
+              $Total += (float)$data->CoursedpBall*0.05;
               $Total += ($data->olymp? (float)$data->olymp->OlympiadAwardBonus : 0.0);
               $Total += (float)$data->Exam1Ball;
               $Total += (float)$data->Exam2Ball;
@@ -1049,7 +1053,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
               echo '<div style=\'width: 70px !important;float:left;\' title=\''.$doc_desc.'\'>'.$doc_name.' : </div>' . (($doc_val*0.1)? 
                       '<span class=\'label label-info\' style=\'margin-bottom: 3px;font-size: 8pt;\''
                       . ' title="Значення в документі : '.$doc_val*0.1.'">'.
-                      $doc_val*0.1 . '</span>' . (($data->edbo)? $add_string : '') . '<div class="clear"></div>' : 
+                      $doc_val . '</span>' . (($data->edbo)? $add_string : '') . '<div class="clear"></div>' : 
                 
                       '<span class=\'label label-red\' style=\'margin-bottom: 3px;font-size: 8pt;\'>'.
                       'н/з' . '</span><div class="clear"></div>');
@@ -1095,7 +1099,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                       '<span class=\'label label-red\' style=\'margin-bottom: 3px; font-size: 8pt; font-family: Tahoma;\'>'.
                       'н/з' . '</span><div class="clear"></div>');
               // Пріорітети для денної форми навчання
-              if($data->EducationFormID != 2){
+              if($data->EducationFormID == 1 && $data->QualificationID == 1){
               echo '<div style=\'width: 70px !important;float:left;\'>Пріорітет : </div>' .
                       '<span class=\'label '.$priority_span_class.'\' style=\'margin-bottom: 3px;font-size: 8pt;\''
                       . ' title="'.(($data->edbo)? 'Значення в ЄДЕБО: '. $data->edbo->Priority : '').'">'.
@@ -1111,7 +1115,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
               
               echo '<div style=\'width: 70px !important;float:left;\'>Курси : </div>' . (($data->CoursedpBall)? 
                       '<span class=\'label label-info\' style=\'margin-bottom: 3px; font-size: 8pt; font-family: Tahoma;\'>'.
-                      $data->CoursedpBall . '</span><div class="clear"></div>' : 
+                      $data->CoursedpBall*0.05. '</span><div class="clear"></div>' : 
                 
                       '<span class=\'label label-red\' style=\'margin-bottom: 3px; font-size: 8pt; font-family: Tahoma;\'>'.
                       'н/з' . '</span><div class="clear"></div>');
