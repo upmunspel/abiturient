@@ -340,9 +340,9 @@ class Personspeciality extends ActiveRecord {
 
     $criteria = new CDbCriteria;
     
-    //$criteria->compare('ZnoKoef1', $this->ZnoKoef1);
-    //$criteria->compare('ZnoKoef2', $this->ZnoKoef2);
-    //$criteria->compare('ZnoKoef3', $this->ZnoKoef3);
+    $criteria->compare('ZnoKoef1', $this->ZnoKoef1);
+    $criteria->compare('ZnoKoef2', $this->ZnoKoef2);
+    $criteria->compare('ZnoKoef3', $this->ZnoKoef3);
     $criteria->compare('idPersonSpeciality', $this->idPersonSpeciality);
     $criteria->compare('PersonID', $this->PersonID);
     $criteria->compare('SepcialityID', $this->SepcialityID);
@@ -378,6 +378,10 @@ class Personspeciality extends ActiveRecord {
    * @return \CActiveDataProvider
    */
   public function search_rel($return_array_of_models = false){
+      
+      
+    Yii::import('application.models.Qualifications');
+      
     $rating_order_mode = 0;
     $page_size = 3;
     if (is_numeric($this->rating_order_mode)){
@@ -437,19 +441,28 @@ class Personspeciality extends ActiveRecord {
               . " else concat('(',sepciality.SpecialitySpecializationName,')') end)"
               . ",',',concat('форма: ',educationForm.PersonEducationFormName)) AS SPEC"),
       new CDbExpression('ROUND(
-            IF(ISNULL(entrantdoc.AtestatValue),0.0, IF((entrantdoc.AtestatValue > 12), entrantdoc.AtestatValue ,entrantdoc.AtestatValue))
+            IF( ISNULL(entrantdoc.AtestatValue),
+                0.0, 
+                IF( t.QualificationID = '.Qualifications::$bakalavr.', 
+                    set_bal(entrantdoc.AtestatValue)* 0.1 , 
+                    entrantdoc.AtestatValue
+                )
+            )
           ,2) AS ZnoDocValue'),
       new CDbExpression('ROUND(
             IF(ISNULL(entrantdoc.AtestatValue),0.0,entrantdoc.AtestatValue),2) AS PointDocValue'),
       new CDbExpression('(ROUND((
         ROUND(
-        IF(ISNULL(entrantdoc.AtestatValue),0.0, 
-          IF((entrantdoc.AtestatValue > 12), 
-            entrantdoc.AtestatValue ,entrantdoc.AtestatValue)
+        IF( ISNULL(entrantdoc.AtestatValue),
+                        0.0, 
+                        IF( t.QualificationID = '.Qualifications::$bakalavr.', 
+                            set_bal(entrantdoc.AtestatValue)* 0.1 , 
+                            entrantdoc.AtestatValue
+                        )
         ),2)+
         IF(ISNULL(documentSubject1.SubjectValue),0.0,documentSubject1.SubjectValue*sepciality.ZnoKoef1)+
-        IF(ISNULL(documentSubject2.SubjectValue),0.0,documentSubject2.SubjectValue*sepciality.ZnoKoef1)+
-        IF(ISNULL(documentSubject3.SubjectValue),0.0,documentSubject3.SubjectValue*sepciality.ZnoKoef1)+
+        IF(ISNULL(documentSubject2.SubjectValue),0.0,documentSubject2.SubjectValue*sepciality.ZnoKoef2)+
+        IF(ISNULL(documentSubject3.SubjectValue),0.0,documentSubject3.SubjectValue*sepciality.ZnoKoef3)+
         IF(ISNULL(t.AdditionalBall),0.0,t.AdditionalBall)+
         IF(ISNULL(t.CoursedpBall),0.0,t.CoursedpBall*0.05)+
         IF(ISNULL(olymp.OlympiadAwardBonus),0.0,olymp.OlympiadAwardBonus)+
@@ -504,7 +517,8 @@ class Personspeciality extends ActiveRecord {
     }
     //пошук факультету з використанням частини рядка його назви
     $criteria->compare('facultet.FacultetFullName', $this->searchFaculty->FacultetFullName,true);
-    
+
+    // Yii::log("abit-ext-param:".$this->ext_param, CLogger::LEVEL_INFO, 'system.db.x');
     switch ($this->ext_param){
       case 1: 
       //якщо встановлений прапорець, щоб шукати лише неточності (неспівпадання у нас і даними ЄДЕБО)
@@ -523,51 +537,88 @@ class Personspeciality extends ActiveRecord {
       //  --! щоб серія документа вступу не співпадала
       //    OR (lower(IF(ISNULL(entrantdoc.Series),"none",entrantdoc.Series)) COLLATE utf8_unicode_ci
       //    NOT LIKE lower(IF(ISNULL(edbo.DocSeria),"none",edbo.DocSeria)) COLLATE utf8_unicode_ci)
+      //    Qualifications::$bakalavr
+      // Yii::log(" Qualifications::bakalavr:", CLogger::LEVEL_INFO, 'system.db.x');
+      // Yii::log(" Qualifications::bakalavr:". Qualifications::$bakalavr, CLogger::LEVEL_INFO, 'system.db.x');
+      $criteria->addCondition('
+        (
+            ABS(
 
-      $criteria->addCondition('(
-        (ROUND((
-                ROUND(
-                IF(ISNULL(entrantdoc.AtestatValue),0.0, 
-                  IF((entrantdoc.AtestatValue > 12), 
-                    set_bal(entrantdoc.AtestatValue) , set_bal(entrantdoc.AtestatValue))
-                ),2)+
-                IF(ISNULL(documentSubject1.SubjectValue),0.0,documentSubject1.SubjectValue*sepciality.ZnoKoef1)+
-                IF(ISNULL(documentSubject2.SubjectValue),0.0,documentSubject2.SubjectValue*sepciality.ZnoKoef2)+
-                IF(ISNULL(documentSubject3.SubjectValue),0.0,documentSubject3.SubjectValue*sepciality.ZnoKoef3)+
-                IF(ISNULL(t.AdditionalBall),0.0,t.AdditionalBall)+
-                IF(ISNULL(t.CoursedpBall),0.0,t.CoursedpBall)+
-                IF(ISNULL(olymp.OlympiadAwardBonus),0.0,olymp.OlympiadAwardBonus)+
-                IF(ISNULL(t.Exam1Ball),0.0,t.Exam1Ball)+
-                IF(ISNULL(t.Exam2Ball),0.0,t.Exam2Ball)+
-                IF(ISNULL(t.Exam3Ball),0.0,t.Exam3Ball)),2)) <> edbo.RatingPoints
-            
-        OR (REPLACE( REPLACE( REPLACE( concat_ws(\' \',trim(person.LastName),trim(person.FirstName),trim(person.MiddleName)), "  ", " " ), "  ", " " ), "  ", " " ) 
-        NOT LIKE REPLACE( REPLACE( REPLACE( edbo.PIB, "  ", " " ), "  ", " " ), "  ", " " ))
-        
-        OR (edbo.Country NOT LIKE country.CountryName) 
-            
-        OR (ROUND(edbo.DocPoint,2) <> ROUND(
-            IF(ISNULL(entrantdoc.AtestatValue),0.0,set_bal(entrantdoc.AtestatValue)),2)) 
-            
-        OR (edbo.DocNumber NOT LIKE entrantdoc.Numbers) 
-        
-        OR (edbo.Benefit <> 
-          if(isnull(benefit.isPZK),0,benefit.isPZK))
-            
-        OR (edbo.PriorityEntry <> 
-          if(isnull(benefit.isPV),0,benefit.isPV))
+                (
+                    IF( ISNULL(entrantdoc.AtestatValue),
+                        0.0, 
+                        IF( t.QualificationID = '.Qualifications::$bakalavr.', 
+                            set_bal(entrantdoc.AtestatValue)* 0.1 , 
+                            entrantdoc.AtestatValue
+                        )
+                    )
+                    +
 
-        OR (edbo.Quota=0 AND t.QuotaID > 0)
-        OR (edbo.Quota=1 AND (t.QuotaID IS NULL OR t.QuotaID = 0))
-        
-        OR (edbo.OD=1 AND t.isCopyEntrantDoc=1)
-        OR (edbo.OD=0 AND (t.isCopyEntrantDoc IS NULL OR t.isCopyEntrantDoc = 0))
-        OR ((edbo.EduForm NOT LIKE educationForm.PersonEducationFormName) OR 
-            (edbo.Direction NOT LIKE sepciality.SpecialityDirectionName AND t.QualificationID = 1) OR
-            (edbo.Speciality NOT LIKE sepciality.SpecialityName AND t.QualificationID > 1) OR
-            (sepciality.SpecialitySpecializationName NOT LIKE CONCAT("%",edbo.Specialization,"%"))
+                    IF(ISNULL(documentSubject1.SubjectValue),0.0,documentSubject1.SubjectValue*sepciality.ZnoKoef1)+
+                    IF(ISNULL(documentSubject2.SubjectValue),0.0,documentSubject2.SubjectValue*sepciality.ZnoKoef2)+
+                    IF(ISNULL(documentSubject3.SubjectValue),0.0,documentSubject3.SubjectValue*sepciality.ZnoKoef3)+
+                    IF(ISNULL(t.AdditionalBall),0.0,t.AdditionalBall)+
+                    IF(ISNULL(t.CoursedpBall),0.0,t.CoursedpBall*0.05)+
+                    IF(ISNULL(olymp.OlympiadAwardBonus),0.0,olymp.OlympiadAwardBonus)+
+                    IF(ISNULL(t.Exam1Ball),0.0,t.Exam1Ball)+
+                    IF(ISNULL(t.Exam2Ball),0.0,t.Exam2Ball)+
+                    IF( ISNULL(t.Exam3Ball),0.0,t.Exam3Ball )
+                )
+                - edbo.RatingPoints
+            ) > 0.001
+            
+            OR
+            
+            (
+                REPLACE(
+                    REPLACE(
+                        REPLACE( 
+                            concat_ws(\' \',trim(person.LastName),trim(person.FirstName),trim(person.MiddleName)), 
+                            "  ", " "
+                        ),
+                        "  ", " "
+                    ), 
+                    "  ", " "
+                ) 
+                NOT LIKE 
+                REPLACE( 
+                    REPLACE( 
+                        REPLACE( 
+                            edbo.PIB, "  ", " "
+                        ), 
+                        "  ", " " 
+                     ), "  ", " " 
+                )
             )
-        OR (MID(status.PersonRequestStatusTypeName,1,6) COLLATE utf8_unicode_ci NOT LIKE MID(edbo.Status,1,6)) 
+        
+            OR (edbo.Country NOT LIKE country.CountryName) 
+            
+            OR (ROUND(edbo.DocPoint,2) <> ROUND(
+                IF(ISNULL(entrantdoc.AtestatValue),0.0,entrantdoc.AtestatValue),2)) 
+            
+            OR (edbo.DocNumber NOT LIKE entrantdoc.Numbers) 
+        
+            OR (edbo.Benefit <> 
+              if(isnull(benefit.isPZK),0,benefit.isPZK))
+            
+            OR (edbo.PriorityEntry <> 
+              if(isnull(benefit.isPV),0,benefit.isPV))
+
+            OR (edbo.Quota=0 AND t.QuotaID > 0)
+            OR (edbo.Quota=1 AND (t.QuotaID IS NULL OR t.QuotaID = 0))
+        
+            OR (edbo.OD=1 AND t.isCopyEntrantDoc=1)
+            OR (edbo.OD=0 AND (t.isCopyEntrantDoc IS NULL OR t.isCopyEntrantDoc = 0))
+            
+            OR (
+                (edbo.EduForm NOT LIKE educationForm.PersonEducationFormName) 
+                OR (edbo.Direction NOT LIKE sepciality.SpecialityDirectionName AND t.QualificationID = 1) 
+                OR (edbo.Speciality NOT LIKE sepciality.SpecialityName AND t.QualificationID > 1) 
+                OR (sepciality.SpecialitySpecializationName NOT LIKE CONCAT("%",edbo.Specialization,"%"))
+            )
+            OR (
+                MID(status.PersonRequestStatusTypeName,1,6) COLLATE utf8_unicode_ci NOT LIKE MID(edbo.Status,1,6)
+            ) 
         ) AND edbo.ID IS NOT NULL'
       );
       break;

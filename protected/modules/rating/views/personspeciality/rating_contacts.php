@@ -62,6 +62,9 @@ if (!$count_q){
       <TD class="points_header">
 <?php echo iconv("utf-8", "windows-1251", 'Бал'); ?>
       </TD>
+       <TD class="pzk_header">
+<?php echo iconv("utf-8", "windows-1251", 'Пріорітет'); ?>
+      </TD>
       <TD class="pzk_header">
 <?php echo iconv("utf-8", "windows-1251", 'Поза конкурс.'); ?>
       </TD>
@@ -84,7 +87,9 @@ if (!$count_q){
     </TR>
 
 
-<?php $counter = 1; foreach ($data as $key => $list) { if (!count($list)){continue;} ?>
+<?php $counter = 1; foreach ($data as $key => $list) { if (!count($list)){continue;} 
+?>
+    
       <TR>
         <TD colspan='7' class="target_committee">
   <?php echo iconv("utf-8", "windows-1251", $key); ?>
@@ -100,6 +105,9 @@ if (!$count_q){
         </TD>
         <TD class="points">
   <?php echo $list[$i]['Points']; ?>
+        </TD>
+        <TD class="pzk">
+  <?php echo iconv("utf-8", "windows-1251",$list[$i]['priority']); ?>
         </TD>
         <TD class="pzk">
   <?php echo iconv("utf-8", "windows-1251",$list[$i]['isPZK']); ?>

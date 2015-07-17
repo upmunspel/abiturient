@@ -12,7 +12,12 @@
  */
 class Qualifications extends CActiveRecord
 {
-	/**
+    
+    public static $bakalavr = 1;
+    public static $magistr = 2;
+    public static $specialist = 3;
+    public static $ml_specialist = 4;
+    /**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
 	 * @return Qualifications the static model class
