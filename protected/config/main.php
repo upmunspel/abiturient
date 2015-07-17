@@ -156,7 +156,7 @@ return array(
                  //'class' => 'CProfileLogRoute',
                  //'levels' => 'profile',
                  //'enabled' => true,
-                        ),
+                        ), 
                 ),
             ),
     ),
@@ -174,5 +174,8 @@ return array(
         'photosBigPath' => "/images/Photos/big/",
         'defaultPersonPhoto' => "180x240.gif",
         'defaultPersonPhotoSmall' => "120x150.gif",
+        
+        'scoreweight_CoursedpBall'=> 0.05,
+        'scoreweight_AtestatValue'=> 0.1,
     ),
 );
