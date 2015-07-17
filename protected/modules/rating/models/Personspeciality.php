@@ -444,7 +444,7 @@ class Personspeciality extends ActiveRecord {
             IF( ISNULL(entrantdoc.AtestatValue),
                 0.0, 
                 IF( t.QualificationID = '.Qualifications::$bakalavr.', 
-                    set_bal(entrantdoc.AtestatValue)* 0.1 , 
+                    set_bal(entrantdoc.AtestatValue)* '.Yii::app()->params['scoreweight_AtestatValue'].' , 
                     entrantdoc.AtestatValue
                 )
             )
@@ -456,7 +456,7 @@ class Personspeciality extends ActiveRecord {
         IF( ISNULL(entrantdoc.AtestatValue),
                         0.0, 
                         IF( t.QualificationID = '.Qualifications::$bakalavr.', 
-                            set_bal(entrantdoc.AtestatValue)* 0.1 , 
+                            set_bal(entrantdoc.AtestatValue)* '.Yii::app()->params['scoreweight_AtestatValue'].' , 
                             entrantdoc.AtestatValue
                         )
         ),2)+
@@ -464,7 +464,7 @@ class Personspeciality extends ActiveRecord {
         IF(ISNULL(documentSubject2.SubjectValue),0.0,documentSubject2.SubjectValue*sepciality.ZnoKoef2)+
         IF(ISNULL(documentSubject3.SubjectValue),0.0,documentSubject3.SubjectValue*sepciality.ZnoKoef3)+
         IF(ISNULL(t.AdditionalBall),0.0,t.AdditionalBall)+
-        IF(ISNULL(t.CoursedpBall),0.0,t.CoursedpBall*0.05)+
+        IF(ISNULL(t.CoursedpBall),0.0,t.CoursedpBall* '.Yii::app()->params['scoreweight_CoursedpBall'].')+
         IF(ISNULL(olymp.OlympiadAwardBonus),0.0,olymp.OlympiadAwardBonus)+
         IF(ISNULL(t.Exam1Ball),0.0,t.Exam1Ball)+
         IF(ISNULL(t.Exam2Ball),0.0,t.Exam2Ball)+
@@ -548,7 +548,7 @@ class Personspeciality extends ActiveRecord {
                     IF( ISNULL(entrantdoc.AtestatValue),
                         0.0, 
                         IF( t.QualificationID = '.Qualifications::$bakalavr.', 
-                            set_bal(entrantdoc.AtestatValue)* 0.1 , 
+                            set_bal(entrantdoc.AtestatValue)* '.Yii::app()->params['scoreweight_AtestatValue'].' , 
                             entrantdoc.AtestatValue
                         )
                     )
@@ -558,7 +558,7 @@ class Personspeciality extends ActiveRecord {
                     IF(ISNULL(documentSubject2.SubjectValue),0.0,documentSubject2.SubjectValue*sepciality.ZnoKoef2)+
                     IF(ISNULL(documentSubject3.SubjectValue),0.0,documentSubject3.SubjectValue*sepciality.ZnoKoef3)+
                     IF(ISNULL(t.AdditionalBall),0.0,t.AdditionalBall)+
-                    IF(ISNULL(t.CoursedpBall),0.0,t.CoursedpBall*0.05)+
+                    IF(ISNULL(t.CoursedpBall),0.0,t.CoursedpBall*'.Yii::app()->params['scoreweight_CoursedpBall'].')+
                     IF(ISNULL(olymp.OlympiadAwardBonus),0.0,olymp.OlympiadAwardBonus)+
                     IF(ISNULL(t.Exam1Ball),0.0,t.Exam1Ball)+
                     IF(ISNULL(t.Exam2Ball),0.0,t.Exam2Ball)+
@@ -834,6 +834,7 @@ class Personspeciality extends ActiveRecord {
     if (!is_numeric($this->SepcialityID)){
       return array();
     }
+    Yii::import('application.models.Qualifications');
     $spec_model = Specialities::model()->findByPk($this->SepcialityID);
     $first_symbol = mb_substr($spec_model->SpecialityClasifierCode,0,1,'utf-8');
     $is_spec_mag = ($first_symbol == '7' ||
@@ -895,15 +896,18 @@ class Personspeciality extends ActiveRecord {
             IF(ISNULL(entrantdoc.AtestatValue),0.0,entrantdoc.AtestatValue),2) AS PointDocValue'),
       new CDbExpression('(ROUND((
         ROUND(
-        IF(ISNULL(entrantdoc.AtestatValue),0.0, 
-          IF((entrantdoc.AtestatValue > 12), 
-            entrantdoc.AtestatValue ,entrantdoc.AtestatValue)
-        ),2)+
-        IF(ISNULL(documentSubject1.SubjectValue),0.0,documentSubject1.SubjectValue)+
-        IF(ISNULL(documentSubject2.SubjectValue),0.0,documentSubject2.SubjectValue)+
-        IF(ISNULL(documentSubject3.SubjectValue),0.0,documentSubject3.SubjectValue)+
+            IF( ISNULL(entrantdoc.AtestatValue),
+                0.0, 
+                IF( t.QualificationID = '.Qualifications::$bakalavr.', 
+                    set_bal(entrantdoc.AtestatValue)* '.Yii::app()->params['scoreweight_AtestatValue'].' , 
+                    entrantdoc.AtestatValue
+                )
+            ),2)+
+        IF(ISNULL(documentSubject1.SubjectValue),0.0,documentSubject1.SubjectValue*sepciality.ZnoKoef1)+
+        IF(ISNULL(documentSubject2.SubjectValue),0.0,documentSubject2.SubjectValue*sepciality.ZnoKoef2)+
+        IF(ISNULL(documentSubject3.SubjectValue),0.0,documentSubject3.SubjectValue*sepciality.ZnoKoef3)+
         IF(ISNULL(t.AdditionalBall),0.0,t.AdditionalBall)+
-        IF(ISNULL(t.CoursedpBall),0.0,t.CoursedpBall*0.05)+
+        IF(ISNULL(t.CoursedpBall),0.0,t.CoursedpBall*'.Yii::app()->params['scoreweight_CoursedpBall'].')+
         IF(ISNULL(olymp.OlympiadAwardBonus),0.0,olymp.OlympiadAwardBonus)+
         IF(ISNULL(t.Exam1Ball),0.0,t.Exam1Ball)+
         IF(ISNULL(t.Exam2Ball),0.0,t.Exam2Ball)+

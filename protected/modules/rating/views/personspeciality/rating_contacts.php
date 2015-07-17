@@ -9,13 +9,13 @@ $k = 1;
 ?>
 
     <TR>
-      <TD colspan='7' class="faculty">
+      <TD colspan='8' class="faculty">
         <?php echo iconv("utf-8", "windows-1251", 'Факультет:'); ?> 
         <?php echo iconv("utf-8", "windows-1251",$Faculty); ?>
       </TD>
     </TR>
     <TR>
-      <TD colspan='7' class="direction">
+      <TD colspan='8' class="direction">
         <?php echo iconv("utf-8", "windows-1251", 'Напрям підготовки: '); ?>
         <?php
         echo iconv("utf-8", "windows-1251",$Speciality);
@@ -23,20 +23,20 @@ $k = 1;
       </TD>
     </TR>
     <TR>
-      <TD colspan='7' class="license_count">
+      <TD colspan='8' class="license_count">
         <?php echo iconv("utf-8", "windows-1251", 'Ліцензійний обсяг: ');
         echo ($license_info[2][1] + $license_info[1][1]);
         ?>
       </TD>
     </TR>
     <TR>
-      <TD colspan='7' class="budget_count">
+      <TD colspan='8' class="budget_count">
         <?php echo iconv("utf-8", "windows-1251", 'Обсяг державного замовлення: ');
         echo $license_info[2][1]; ?>
       </TD>
     </TR>
     <TR>
-      <TD colspan='7' class="quota_count">
+      <TD colspan='8' class="quota_count">
         <?php echo iconv("utf-8", "windows-1251", 'з них квота пільговиків: '); ?>
         <?php echo $license_info[3][1]; ?>
         <?php echo iconv("utf-8", "windows-1251", ', квота цільовиків: '); ?>
@@ -91,7 +91,7 @@ if (!$count_q){
 ?>
     
       <TR>
-        <TD colspan='7' class="target_committee">
+        <TD colspan='8' class="target_committee">
   <?php echo iconv("utf-8", "windows-1251", $key); ?>
         </TD>
       </TR>
@@ -123,9 +123,9 @@ if (!$count_q){
             $model = Personspeciality::model()->findByPk($list[$i]['idPersonSpeciality']);
             $array_contacts = array();
             foreach ($model->person->contacts as $mcontact){
-              $array_contacts[] = iconv("utf-8", "windows-1251", 'т:'.$mcontact->Value);
+              $array_contacts[] = iconv("utf-8", "windows-1251", ''.$mcontact->Value);
             }
-            echo implode(';<br/>',$array_contacts);
+            echo implode(';<br/>',$array_contacts).';';
           } 
           ?>
         </TD>
@@ -134,14 +134,14 @@ if (!$count_q){
 <?php } // end foreach $data ?>
 
   <TR>
-  <TD colspan='7' class="fatal_line">
+  <TD colspan='8' class="fatal_line">
   <center>
     ###
   </center>
   </TD>
   </TR>
   <TR>
-  <TD colspan='7' class="fatal_line">
+  <TD colspan='8' class="fatal_line">
   <center>
     ###
   </center>

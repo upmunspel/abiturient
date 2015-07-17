@@ -415,7 +415,7 @@ class RatingController extends Controller {
           $info_row['ExamsPoints'] = $ExamsPoints;
           $info_row['OlympsPoints'] = 0+((!empty($models[$i]->olymp))? 
             $models[$i]->olymp->OlympiadAwardBonus : 0);
-          $info_row['CoursesPoints'] = 0+$models[$i]->CoursedpBall*0.05;
+          $info_row['CoursesPoints'] = 0+$models[$i]->CoursedpBall*Yii::app()->params['scoreweight_CoursedpBall'];
           $info_row['isPZK'] = ($isOutOfComp)? 'V': '—';
           $info_row['isExtra'] = ($models[$i]->isExtraEntry)? 'V': '—';
           $info_row['isQuota'] = ($quotaID>0)? 'V': '—';

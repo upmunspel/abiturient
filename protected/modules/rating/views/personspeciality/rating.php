@@ -909,7 +909,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
               if ($data->QualificationID == 1){
                 $doc_val = round($data->PointDocValue,2);
                 $post = ConvertAttestat::model()->findall('twelve_p=:twelve_p', array(':twelve_p'=> $doc_val));
-                $doc_val = (float)$post[0]['two_hundred_p'] * 0.1;
+                $doc_val = (float)$post[0]['two_hundred_p'] * Yii::app()->params['scoreweight_AtestatValue'];
               }
               else{
                 $doc_val = $data->PointDocValue;
@@ -927,7 +927,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
               $Total += (($data->documentSubject2)? (float)$data->documentSubject2->SubjectValue* $data->sepciality->ZnoKoef2 : 0.0);
               $Total += (($data->documentSubject3)? (float)$data->documentSubject3->SubjectValue* $data->sepciality->ZnoKoef3 : 0.0);
               $Total += (float)$data->AdditionalBall;
-              $Total += (float)$data->CoursedpBall*0.05;
+              $Total += (float)$data->CoursedpBall*Yii::app()->params['scoreweight_CoursedpBall'];
               $Total += ($data->olymp? (float)$data->olymp->OlympiadAwardBonus : 0.0);
               $Total += (float)$data->Exam1Ball;
               $Total += (float)$data->Exam2Ball;
@@ -1027,7 +1027,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
               $priority_span_class = 'label-info';
               $add_string = '';
               if ($data->edbo){
-                $span_class = (sprintf("%.2f",$data->edbo->DocPoint) == sprintf("%.2f",(float)$doc_val*0.1))?
+                $span_class = (sprintf("%.2f",$data->edbo->DocPoint) == sprintf("%.2f",(float)$doc_val*Yii::app()->params['scoreweight_AtestatValue']))?
                         'label-success' : 'label-important';
                 $country_span_class = ($data->edbo->Country == $data->person->country->CountryName)?
                         'label-success' : 'label-important';
@@ -1050,9 +1050,9 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                 $edboZNO = (isset($matches[1]))? $matches[1] : 0.0;
               }
               $ZNOSum_local=$data->documentSubject1->SubjectValue*$data->sepciality->ZnoKoef1+$data->documentSubject2->SubjectValue*$data->sepciality->ZnoKoef2+$data->documentSubject3->SubjectValue *  $data->sepciality->ZnoKoef3;
-              echo '<div style=\'width: 70px !important;float:left;\' title=\''.$doc_desc.'\'>'.$doc_name.' : </div>' . (($doc_val*0.1)? 
+              echo '<div style=\'width: 70px !important;float:left;\' title=\''.$doc_desc.'\'>'.$doc_name.' : </div>' . (($doc_val)? 
                       '<span class=\'label label-info\' style=\'margin-bottom: 3px;font-size: 8pt;\''
-                      . ' title="Значення в документі : '.$doc_val*0.1.'">'.
+                      . ' title="Значення в документі : '.$doc_val.'">'.
                       $doc_val . '</span>' . (($data->edbo)? $add_string : '') . '<div class="clear"></div>' : 
                 
                       '<span class=\'label label-red\' style=\'margin-bottom: 3px;font-size: 8pt;\'>'.
@@ -1115,7 +1115,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
               
               echo '<div style=\'width: 70px !important;float:left;\'>Курси : </div>' . (($data->CoursedpBall)? 
                       '<span class=\'label label-info\' style=\'margin-bottom: 3px; font-size: 8pt; font-family: Tahoma;\'>'.
-                      $data->CoursedpBall*0.05. '</span><div class="clear"></div>' : 
+                      ($data->CoursedpBall*Yii::app()->params['scoreweight_CoursedpBall']). '</span><div class="clear"></div>' : 
                 
                       '<span class=\'label label-red\' style=\'margin-bottom: 3px; font-size: 8pt; font-family: Tahoma;\'>'.
                       'н/з' . '</span><div class="clear"></div>');
