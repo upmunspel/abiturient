@@ -1179,22 +1179,18 @@ class ReptController extends Controller {
           break;
         
          case 32:
+           $group = 't.idPersonSpeciality';
           $rels = array(
           );
           $sel = array(
               'to_select' => $to_select,
-              'sql_as' => 'PersonCase',
-              'sql_expr' => "CONCAT((CASE t.QualificationID 
-                WHEN 1 THEN 'Б' 
-                WHEN 2 THEN 'СМ' 
-                WHEN 3 THEN 'СМ' 
-                WHEN 4 THEN 'МС' END), t.CourseID, '-', LPAD(t.PersonRequestNumber,5,'0'))",
+              'db_field' => 't.CoursedpBall',
           );
-          $widget_column = array('name' => 'PersonCase', 
+          $widget_column = array('name' => 't.CoursedpBall', 
             'header' => $header,
             'value' => 
             function ($data){
-              echo $data->PersonCase;
+              echo $data->CoursedpBall;
             }
           );
           $field_num_index = ($to_select)? $field_num_indexes[$i]:0;
@@ -1302,6 +1298,14 @@ class ReptController extends Controller {
                 't.CreateDate' => array(
                     'asc' => 't.CreateDate',
                     'desc' => 't.CreateDate DESC',
+                ),
+                't.priority' => array(
+                    'asc' => 't.priority',
+                    'desc' => 't.priority DESC',
+                ),
+                't.CoursedpBall' => array(
+                    'asc' => 't.CoursedpBall',
+                    'desc' => 't.CoursedpBall DESC',
                 ),
                 '*',
             ),
