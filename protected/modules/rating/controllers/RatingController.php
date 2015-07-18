@@ -407,17 +407,22 @@ class RatingController extends Controller {
           $info_row['ZNO'] = $ZNO;
           $info_row['AdditionalBall'] = ($models[$i]->AdditionalBall > 0.0) ? 
             0.0+$models[$i]->AdditionalBall : 0.0;
-          $info_row['DocPoints'] = $models[$i]->ZnoDocValue;
+          // Змінено для бакалаврів (вираховується по 200бальній 
+          $info_row['DocPoints'] = ($models->QualificationID == 1) 
+                  ? $models[$i]->ZnoDocValue = ConvertAttestat::model()->findall('twelve_p=:twelve_p', array(':twelve_p'=> $models[$i]->ZnoDocValue)) 
+                  : $models[$i]->ZnoDocValue ;
+          //$info_row['DocPoints'] = $models[$i]->ZnoDocValue;
           $info_row['ExamsPoints'] = $ExamsPoints;
           $info_row['OlympsPoints'] = 0+((!empty($models[$i]->olymp))? 
             $models[$i]->olymp->OlympiadAwardBonus : 0);
-          $info_row['CoursesPoints'] = 0+$models[$i]->CoursedpBall;
+          $info_row['CoursesPoints'] = 0+$models[$i]->CoursedpBall*Yii::app()->params['scoreweight_CoursedpBall'];
           $info_row['isPZK'] = ($isOutOfComp)? 'V': '—';
           $info_row['isExtra'] = ($models[$i]->isExtraEntry)? 'V': '—';
           $info_row['isQuota'] = ($quotaID>0)? 'V': '—';
           $info_row['isOriginal'] = (!$models[$i]->isCopyEntrantDoc)? 'V': '—';
           $info_row['AnyOriginal'] = ($models[$i]->AnyOriginal && $models[$i]->isCopyEntrantDoc)? 'V': '—';
           $info_row['idPersonSpeciality'] = $models[$i]->idPersonSpeciality;
+          $info_row['priority'] = $models[$i]->priority;
           $data[$i] = $info_row;          
         }
         return $data;
