@@ -135,15 +135,7 @@ return array(
           'connectionString' => 'sqlite:'.dirname(__FILE__).'/../data/testdrive.db',
           ), */
         // uncomment the following to use a MySQL database
-        'db' => array(
-            'connectionString' => 'mysql:host=localhost;dbname=abiturient_2015',
-            'username' => 'abiuser',
-            'password' => 'creedence',
-            'emulatePrepare' => true,
-            'charset' => 'utf8',
-            'enableParamLogging' => true,
-            'enableProfiling' =>YII_DEBUG_PROFILING,
-        ),
+        'db' => require(__DIR__ . '/dp.php'),
         'errorHandler' => array(
             // use 'site/error' action to display errors
             'errorAction' => 'site/error',
@@ -174,5 +166,8 @@ return array(
         'photosBigPath' => "/images/Photos/big/",
         'defaultPersonPhoto' => "180x240.gif",
         'defaultPersonPhotoSmall' => "120x150.gif",
+        
+        'scoreweight_CoursedpBall'=> 0.05,
+        'scoreweight_AtestatValue'=> 0.1,
     ),
 );
