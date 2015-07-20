@@ -168,7 +168,7 @@ class StatController extends Controller {
       if (!isset($cnt_data[$spec->FacultetID]['name'])){
         $cnt_data[$spec->FacultetID]['name'] = $spec->facultet->FacultetFullName;
       }
-
+      
       $lspec_ident = mb_substr($spec->SpecialityClasifierCode,0,1,'utf-8');
       $idOKR = 1;
       if ($lspec_ident == '7') $idOKR = 3;
@@ -178,9 +178,20 @@ class StatController extends Controller {
                     $spec->SpecialityDirectionName : $spec->SpecialityName )
             . (($spec->SpecialitySpecializationName == '')? 
                     '' : ' ('.$spec->SpecialitySpecializationName. ')');
+      
+      $sql_cnt_requests_per_day = Yii::app()->db->createCommand('(SELECT COUNT(ps.idPersonSpeciality)AS coun FROM personspeciality ps WHERE '
+                . 'ps.SepcialityID= '. $spec->idSpeciality .' AND '
+                . 'ps.EducationFormID= '. $spec->PersonEducationFormID .' AND '
+                . 'ps.QualificationID = ' . $idOKR . ' AND '
+              //  . 'ps.StatusID IN ('.$statuses.') AND '
+                . 'ps.CreateDate BETWEEN '
+                . '"' . $date . ' 00:00:00' . '" '
+                . 'AND "' . $date . ' 23:59:59")')->queryRow();
       $cnt_data[$spec->FacultetID][$spec_name][$spec->PersonEducationFormID] = array(
           'eduform' => ($spec->PersonEducationFormID == 1)? 'денна':"заочна",
-          'cnt_requests_per_day' => ($spec->cnt_requests_per_day)? '<a href="http://'.$this->ip.':8080/request_report-1.0/journal.jsp?'
+         // 'cnt_requests_per_day' => ($spec->cnt_requests_per_day)? 
+          'cnt_requests_per_day' => ($sql_cnt_requests_per_day['coun']>0)? 
+          '<a href="http://'.$this->ip.':8080/request_report-1.0/journal.jsp?'
             .'SpecialityID='.$spec->idSpeciality
             .'&idOKR='.(($idOKR))
             .'&eduFormID='.$spec->PersonEducationFormID

@@ -10,6 +10,7 @@ class Specialities extends CActiveRecord {
 
   public $tSPEC;
   public $cnt_requests_per_day;
+  public $cnt_requests_per_day_one;
   public $cnt_requests;
   public $cnt_persons_per_day;
   public $cnt_persons;
