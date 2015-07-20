@@ -1027,9 +1027,7 @@ class StatController extends Controller {
         $ZNUshort = "ЗНУ";
         $statuses = '1,4,5,7,8,9';
       $criteria->select = array('*',
-        new CDbExpression('(SELECT SUM(gr.Number) FROM graduated gr WHERE gr.FacultyID = '
-          . ' t.FacultetID '
-          . ') AS cnt_grad'),
+        new CDbExpression('(SELECT SUM(gr.Number) FROM graduated gr WHERE `year`='.date('Y').' AND  gr.FacultyID = t.FacultetID ) AS cnt_grad'),
         new CDbExpression('0+((SELECT COUNT(DISTINCT ps4.PersonID)'
                 .' FROM personspeciality ps4'
                 .' LEFT OUTER JOIN documents docs4 ON ps4.EntrantDocumentID = docs4.idDocuments WHERE '
