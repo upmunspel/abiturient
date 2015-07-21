@@ -12,7 +12,9 @@ class StatController extends Controller {
 
     public function init() {
         parent::init();
-        $this->ip = Yii::app()->user->userModel->syspk->printIP;
+        if (!Yii::app()->user->isGuest) {
+            $this->ip = Yii::app()->user->userModel->syspk->printIP;
+        }
     }
 
     protected function getKoatuuComparatorQuery($token, $QualificationID, $statuses, $date_segment, $sql_as) {
@@ -56,13 +58,14 @@ class StatController extends Controller {
     public function accessRules() {
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('index', 'view',
+                'actions' =>
+                array('index', 'view',
                     "viewall", "queryconstructor", "qdata",
                     'languages', 'reqstatuses', 'koatuus', 'zno',
                     'doctypes', 'benefitgroups', 'eduforms', 'okr',
                     'countries', 'schools',
                     "statgraduated", 'awards', 'personstatgraduated', 'exlanguages',
-                    "SpecMagContracts", "Acts", "CreateActs", "basespecs", "getphotozip","Operators",
+                    "SpecMagContracts", "Acts", "CreateActs", "basespecs", "getphotozip", "Operators",
                     'crossentrant'),
                 'users' => array('@'),
             ),
@@ -1380,7 +1383,7 @@ class StatController extends Controller {
         $model->unsetAttributes();  // clear any default values
         if (isset($_GET['User']))
             $model->attributes = $_GET['User'];
-
+        
         $this->render('/statistic/operators', array(
             'model' => $model,
         ));

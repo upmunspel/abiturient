@@ -1,7 +1,7 @@
 <?php
-$this->breadcrumbs=array(
-	'Users'=>array('index'),
-	'Manage',
+$this->breadcrumbs = array(
+    'Users' => array('index'),
+    'Manage',
 );
 ?>
 
@@ -13,27 +13,25 @@ $this->breadcrumbs=array(
 
 
 
-<?php 
-$pk = Chtml::listData(SysPk::model()->findAll(), "idPk", "PkName");
+<?php
 
-$this->widget('bootstrap.widgets.TbGridView',array(
-	'id'=>'user-grid',
-        'type'=>'striped bordered condensed',
-	'dataProvider'=>$model->search(),
-	'filter'=>$model,
-	'columns'=>array(
-		array("header"=>"Код", 'name'=>'id','htmlOptions'=>array("style"=>"width: 50px;")),
-		'username',
-                array("header"=>"ПІБ оператора", 'name'=>'info'),
-               
-                //"syspk.PkName", 
-                array("header"=>"Приймальна коміссія", "name"=>'pkname', 'filter'=>$pk),
-                //array("header"=>"Прийнято заяв", "name"=>'my_count'),
-                array("header"=>"Прийнято заяв", 'name'=>'speccount'),
-		//'email',
-		//,
-		/*array(
-			'class'=>'bootstrap.widgets.TbButtonColumn',
-		),*/
-	),
-)); ?>
+$pk = CHtml::listData(SysPk::model()->findAll("idPk in (2,5) "), "idPk", "PkName");
+
+$this->widget('bootstrap.widgets.TbGridView', array(
+    'id' => 'user-grid',
+    'type' => 'striped bordered condensed',
+    'dataProvider' => $model->search(),
+    'filter' => $model,
+    'columns' => array(
+        array("header" => "Код", 'name' => 'id', 'htmlOptions' => array("style" => "width: 50px;")),
+        'username',
+        array("header" => "ПІБ оператора", 'name' => 'info'),
+        array("header" => "Приймальна коміссія", "name" => 'pkname', 'filter' => $pk),
+        array("header" => "Прийнято заяв", 'name' => 'speccount'),
+    /* array(
+      'class'=>'bootstrap.widgets.TbButtonColumn',
+      ), */
+    ),
+));
+
+?>
