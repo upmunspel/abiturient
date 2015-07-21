@@ -345,6 +345,7 @@ echo $form->hiddenField($model, 'SepcialityID', array(
           '6'=>"Неспівпадання з даними ЄДЕБО : лише відмітки пільгового вступу",
           '7'=>"Неспівпадання з даними ЄДЕБО : лише сума балів ЗНО",
           '8'=>"Неспівпадання з даними ЄДЕБО : лише країна громадянства",
+          '9'=>"Неспівпадання з даними ЄДЕБО : лише паспорт та аттестат"
         ),
         array('class' => 'span11'));
     ?>
@@ -1048,6 +1049,8 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                   . $data->edbo->DocPoint . '</span>';
                 $c = preg_match('/ЗНО:([0-9\.]+)\+/',$data->edbo->DetailPoints,$matches);
                 $edboZNO = (isset($matches[1]))? $matches[1] : 0.0;
+                $docseria_span_class = ( strtolower ($data->edbo->DocSeria) == $data->tDocSeries)?
+                        'label-success' : 'label-important';
               }
               $ZNOSum_local=$data->documentSubject1->SubjectValue*$data->sepciality->ZnoKoef1+$data->documentSubject2->SubjectValue*$data->sepciality->ZnoKoef2+$data->documentSubject3->SubjectValue *  $data->sepciality->ZnoKoef3;
               echo '<div style=\'width: 70px !important;float:left;\' title=\''.$doc_desc.'\'>'.$doc_name.' : </div>' . (($doc_val)? 
@@ -1060,7 +1063,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
               
               echo '<div style=\'width: 70px !important;float:left;\' title=\''.$doc_desc.'\'>серія,№ : </div>' .
                 '<span class=\'label '.$docseria_span_class.'\' style=\'margin-bottom: 3px;font-size: 8pt;\''
-                . ' title="'.(($data->edbo)? 'Значення в ЄДЕБО: '.$data->edbo->DocSeria . "; $data->tDocSeries <=> $data->tDocSeria" : '').'">'.
+                . ' title="'.(($data->edbo)? 'Значення в ЄДЕБО: '.$data->edbo->DocSeria . "; $data->tDocSeries <=> $data->tDocSeria" : '').'">'.  /* Жиленко О.С.*/
                 (($data->entrantdoc) ? $data->entrantdoc->Series : 'н/з') . '</span>' 
                 .'<span class=\'label '.$docnum_span_class.'\' style=\'margin-left: 4px; '
                     . ' margin-bottom: 3px;font-size: 8pt;\''
@@ -1100,10 +1103,10 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                       'н/з' . '</span><div class="clear"></div>');
               // Пріорітети для денної форми навчання
               if($data->EducationFormID == 1 && $data->QualificationID == 1){
-              echo '<div style=\'width: 70px !important;float:left;\'>Пріорітет : </div>' .
-                      '<span class=\'label '.$priority_span_class.'\' style=\'margin-bottom: 3px;font-size: 8pt;\''
-                      . ' title="'.(($data->edbo)? 'Значення в ЄДЕБО: '. $data->edbo->Priority : '').'">'.
-                      $data->priority . '</span>' . '<div class="clear"></div>';
+                echo '<div style=\'width: 70px !important;float:left;\'>Пріорітет : </div>' .
+                        '<span class=\'label '.$priority_span_class.'\' style=\'margin-bottom: 3px;font-size: 8pt;\''
+                        . ' title="'.(($data->edbo)? 'Значення в ЄДЕБО: '. $data->edbo->Priority : '').'">'.
+                        $data->priority . '</span>' . '<div class="clear"></div>';
               } 
               
               echo '<div style=\'width: 70px !important;float:left;\'>Додатково : </div>' . (($data->AdditionalBall)? 
