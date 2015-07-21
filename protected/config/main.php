@@ -172,3 +172,4 @@ return array(
         'scoreweight_AtestatValue'=> 0.1,
     ),
 );
+ 
