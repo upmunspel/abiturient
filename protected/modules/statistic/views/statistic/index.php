@@ -289,6 +289,9 @@ Yii::app()->clientScript->registerPackage('select2');
         $('#photo7').click(function () {
             $('#photo7_block').slideToggle();
         });
+        $('.slide-title').click(function () {
+            $(this).parent().find(".slide-block").slideToggle();
+        });
 
         $("#fields").select2({
             placeholder: "Починайте вводити",
@@ -496,13 +499,13 @@ Yii::app()->clientScript->registerPackage('select2');
 
             /*if (fieldName === 'Додатковий балл' && (value == 1) && (!anelement)) {
              Textfield2Selectbox("condval-" + window.id_num,
-             '<?php //echo Yii::app()->CreateUrl('/statistic/stat/awards');  ?>',
+             '<?php //echo Yii::app()->CreateUrl('/statistic/stat/awards');    ?>',
              '.');
              } //end if
              
              if (fieldName === 'Приорітет' && (value == 1) && (!anelement)) {
              Textfield2Selectbox("condval-" + window.id_num,
-             '<?php //echo Yii::app()->CreateUrl('/statistic/stat/awards');  ?>',
+             '<?php //echo Yii::app()->CreateUrl('/statistic/stat/awards');    ?>',
              '.');
              } //end if*/
 
@@ -770,22 +773,22 @@ Yii::app()->clientScript->registerPackage('select2');
                                    }
                                    ?> "
                                    disabled="disabled" />
-        <?php if ($is_date) { ?>
+                                   <?php if ($is_date) { ?>
                                 <input type="text" 
                                        id="xcondval-<?php echo $i; ?>" 
                                        name="acondval[<?php echo $i; ?>]" 
                                        class="span6 datepicker"
                                        style="display:none;"
                                        />
-        <?php } ?>
-        <?php if ($is_koatuu) { ?>
+                                   <?php } ?>
+                                   <?php if ($is_koatuu) { ?>
                                 <input type="text" 
                                        id="xcondval-<?php echo $i; ?>" 
                                        name="acondval[<?php echo $i; ?>]" 
                                        class="span12"
                                        style="display:none;"
                                        />
-                            <?php } ?>
+                                   <?php } ?>
 
                         <?php } else { ?>
                             <!-- Якщо поле має лише відмічатись як "так\ні" -->
@@ -794,10 +797,10 @@ Yii::app()->clientScript->registerPackage('select2');
                                 'value' => "1"));
                             ?>
 
-                <?php } ?>
+                        <?php } ?>
                     </div>
                 </div>
-                <?php } ?>
+            <?php } ?>
             <div class="span12">
                 <hr class="span11" style="margin:5px 0px;min-height: 10px;"/>
                 <?php
@@ -822,7 +825,7 @@ Yii::app()->clientScript->registerPackage('select2');
                     ),
                 ));
                 ?>
-<?php $this->endWidget(); ?>
+                <?php $this->endWidget(); ?>
             </div>
         </div>
     </div>
@@ -900,7 +903,7 @@ Yii::app()->clientScript->registerPackage('select2');
                 ));
                 ?>
             </div>
-<?php $this->endWidget(); ?>
+            <?php $this->endWidget(); ?>
         </div>
     </div>
 </div>
@@ -963,35 +966,35 @@ Yii::app()->clientScript->registerPackage('select2');
                 ?>Умови вибірки:
                 <ul id="SpecMagContracts_select_modes">
                     <!--li><?php
-                echo CHtml::checkBox('select_modes[0]', true, array('value' => "1"));
-                ?> Є контракт</li>
+                    echo CHtml::checkBox('select_modes[0]', true, array('value' => "1"));
+                    ?> Є контракт</li>
                     <li><?php
                     echo CHtml::checkBox('select_modes[1]', true, array('value' => "1"));
-                ?> Сплачено</li-->
+                    ?> Сплачено</li-->
                     <li><?php
                         echo CHtml::checkBox('select_modes[2]', true, array('value' => "1"));
-                ?> Статус заяви: Допущено</li>
+                        ?> Статус заяви: Допущено</li>
                     <li><?php
                         echo CHtml::checkBox('select_modes[3]', true, array('value' => "1"));
-                ?> Статус заяви: Рекомендовано</li>
+                        ?> Статус заяви: Рекомендовано</li>
                     <li><?php
                         echo CHtml::checkBox('select_modes[4]', true, array('value' => "1"));
-                ?> Статус заяви: До наказу</li>
+                        ?> Статус заяви: До наказу</li>
                     <!--li><?php
                     echo CHtml::checkBox('select_modes[5]', false, array('value' => "1"));
-                ?> ОКР: Бакалавр</li-->
+                    ?> ОКР: Бакалавр</li-->
                     <li><?php
                         echo CHtml::checkBox('select_modes[6]', true, array('value' => "1"));
-                ?> ОКР: Спеціаліст</li>
+                        ?> ОКР: Спеціаліст</li>
                     <li><?php
                         echo CHtml::checkBox('select_modes[7]', true, array('value' => "1"));
-                ?> ОКР: Магістр</li>
+                        ?> ОКР: Магістр</li>
                     <li><?php
                         echo CHtml::checkBox('select_modes[8]', true, array('value' => "1"));
-                ?> Форма: Денна</li>
+                        ?> Форма: Денна</li>
                     <li><?php
                         echo CHtml::checkBox('select_modes[9]', true, array('value' => "1"));
-                ?> Форма: Заочна</li>
+                        ?> Форма: Заочна</li>
 
                 </ul>
             </div>
@@ -1033,22 +1036,26 @@ Yii::app()->clientScript->registerPackage('select2');
         </div>
     </div>
     <div class="well well-large span5">
-        <h3 id="crossentrant"><a href="<?php echo Yii::app()->createUrl('statistic/stat/crossentrant');?>">Особи з ознакою "Перехресний вступ"</a></h3>
+        <h3 id="crossentrant"><a href="<?php echo Yii::app()->createUrl('statistic/stat/crossentrant'); ?>">Особи з ознакою "Перехресний вступ"</a></h3>
     </div>
 </div>
-    
-
-    
-    
-</div>
-
 <!-- ----------------------------------------------------------------------- -->
-<div class="row-fluid">
-    <!--h4>Формування актів</h4-->
-    <a class="btn btn-primary btn-large" href='<?php echo Yii::app()->createUrl('statistic/stat/acts'); ?>'>
-        Формування актів
-    </a>
+<div class="row-fluid">    
+    <div class="well well-large span6">
+        <h3 class="slide-title">Стиатистика роботи операторів</h3>
+        <div class="span12 slide-block"  style="display:none;">
+            <?php echo CHtml::link("Сформувати звіт", Yii::app()->CreateUrl("statistic/stat/operators")); ?>
+            </ul>
+        </div>
+    </div>
+    <div class="well well-large span5">
+        <a class="btn btn-primary btn-large" href='<?php echo Yii::app()->createUrl('statistic/stat/acts'); ?>'>
+            Формування актів
+        </a>
+    </div>
 </div>
+
+
 
 <script>
     $(document).ready(function () {
