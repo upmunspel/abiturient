@@ -851,6 +851,7 @@ class StatController extends Controller {
         'facultet',
         'eduform'
     );
+    
     $criteria->addCondition('t.PersonEducationFormID IN(1,2)');
     $criteria->addCondition('SUBSTR(t.SpecialityClasifierCode,1,1) LIKE '
             . '"'.$spec_ident.'"');
