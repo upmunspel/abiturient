@@ -683,6 +683,16 @@ class Personspeciality extends ActiveRecord {
       $criteria->addCondition('(edbo.Country NOT LIKE country.CountryName)'
       );
       break;
+      //якщо встановлений прапорець, щоб шукати лише неточності для аттестату
+      // Жиленко О.С.
+      case 9:
+      $criteria->addCondition('(entrantdoc.TypeID = 2)  AND '
+                            . '('
+                            . '(lower(edbo.DocSeria) NOT LIKE "AP")' // NONONO
+                            . 'OR (edbo.DocNumber <> entrantdoc.numbers)'
+                            . ')'
+              );   
+      break;
     }
     
     if ($rating_order_mode){
