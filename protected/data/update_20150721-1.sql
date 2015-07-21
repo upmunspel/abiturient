@@ -16,7 +16,7 @@ BEGIN
     SET letter   = SUBSTRING(original, pos, 1);
 
     CASE TRUE
-    
+
       WHEN letter = 'А' THEN SET letter = 'A';
       WHEN letter = 'а' THEN SET letter = 'a';
       WHEN letter = 'Е' THEN SET letter = 'E';
@@ -37,6 +37,7 @@ BEGIN
       WHEN letter = 'Н' THEN SET letter = 'H';
       WHEN letter = 'Т' THEN SET letter = 'T';
       WHEN letter = 'В' THEN SET letter = 'B';
+      WHEN letter = 'М' THEN SET letter = 'M';
       ELSE
         SET letter = letter;
     END CASE;
