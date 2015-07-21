@@ -1049,7 +1049,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                   . $data->edbo->DocPoint . '</span>';
                 $c = preg_match('/ЗНО:([0-9\.]+)\+/',$data->edbo->DetailPoints,$matches);
                 $edboZNO = (isset($matches[1]))? $matches[1] : 0.0;
-                $docseria_span_class = ( strtolower ($data->edbo->DocSeria) == $data->tDocSeries)?
+                $docseria_span_class = ( $data->tDocSeria == $data->tDocSeries)?
                         'label-success' : 'label-important';
               }
               $ZNOSum_local=$data->documentSubject1->SubjectValue*$data->sepciality->ZnoKoef1+$data->documentSubject2->SubjectValue*$data->sepciality->ZnoKoef2+$data->documentSubject3->SubjectValue *  $data->sepciality->ZnoKoef3;

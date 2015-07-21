@@ -370,16 +370,25 @@ class RatingController extends Controller {
     $general_count += count($rating_data[$license_info[1][0]]);
     $rating_data[$license_info[0][0]] = $this->CreateRatingData($model->rating_search(4));
     $general_count += count($rating_data[$license_info[0][0]]);
-    //var_dump($rating_data);exit();
+    // var_dump($rating_data);exit();
+    // var_dump($Speciality);exit();
+    // var_dump($model->qualification->QualificationID);exit();
+    // var_dump($model);exit();
+    
         $_data = array(
           'data' => ($general_count > 0)? $rating_data : array(),
+          'specialitymodel'=>$Speciality,
           'Speciality' => implode(' ',array(
               $Speciality->SpecialityClasifierCode,
-              (mb_substr($Speciality->SpecialityClasifierCode,0,1) == '6')? 
-                $Speciality->SpecialityDirectionName : $Speciality->SpecialityName,
-              empty($Speciality->SpecialitySpecializationName) ?
-                "" : '('.$Speciality->SpecialitySpecializationName.')',
-              ', форма: '.$Speciality->eduform->PersonEducationFormName,
+              (mb_substr($Speciality->SpecialityClasifierCode,0,1) == '6')
+               ? $Speciality->SpecialityDirectionName
+               : $Speciality->SpecialityName,
+              
+               empty($Speciality->SpecialitySpecializationName)
+               ? ""
+               : '('.$Speciality->SpecialitySpecializationName.')',
+
+               ', форма: '.$Speciality->eduform->PersonEducationFormName,
           )),
           'Faculty' => $Faculty,
           'license_info' => $license_info,

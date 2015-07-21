@@ -15,6 +15,9 @@
 
   </head>
 <?php
+
+
+
 ?>
 <body>
 
@@ -83,8 +86,20 @@
 <td title="Право на позаконкурсний вступ"><div><b>ПК</b></div></td>
 <td title="Право на першочерговий вступ"><div><b>ПЧ</b></div></td>
 <td title="Цільове направлення"><div><b>Ц</b></div></td>
-<td title="Оригінали документів на цю спеціальність"><div><b>Д</b></div></td>
-<td title="Оригінали документів на іншій спеціальності"><div><b>ІД</b></div></td>
+<?php 
+    switch(substr($specialitymodel->SpecialityClasifierCode,0,2)){
+        case "7.":
+        case "8.":
+            echo '
+            <td title="Оригінали документів на цю спеціальність"><div><b>Д</b></div></td>
+            <td title="Оригінали документів на іншій спеціальності"><div><b>ІД</b></div></td>
+            ';
+           break;
+
+        case "6.":
+           break;
+    }
+ ?>
 </tr></thead>
   <tbody>
   <?php if (!empty($data)){ ?>
@@ -130,12 +145,20 @@
         <TD>
   <?php echo $list[$i]['isQuota']; ?>
         </TD>
-        <TD>
-  <?php echo $list[$i]['isOriginal']; ?>
-        </TD>
-        <TD>
-  <?php echo $list[$i]['AnyOriginal']; ?>
-        </TD>
+        
+<?php 
+    switch(substr($specialitymodel->SpecialityClasifierCode,0,2)){
+        case "7.":
+        case "8.":
+            echo "<TD>".$list[$i]['isOriginal'].'</TD>';
+            echo "<TD>".$list[$i]['AnyOriginal']."</TD>";
+            break;
+
+        case "6.":
+            break;
+    }
+ ?>
+        
       </TR>
 <?php } // end for $list ?>
 <?php } // end foreach $data  ?>

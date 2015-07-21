@@ -497,7 +497,7 @@ class Personspeciality extends ActiveRecord {
         IF(ISNULL(documentSubject2.SubjectValue),0.0,documentSubject2.SubjectValue)+
         IF(ISNULL(documentSubject3.SubjectValue),0.0,documentSubject3.SubjectValue)) AS ZNOSum'),
       new CDbExpression('lower(IF(ISNULL(edbo.DocSeria),"none",edbo.DocSeria)) AS tDocSeria'),
-      new CDbExpression('lower(IF(ISNULL(entrantdoc.Series),"none",entrantdoc.Series)) AS tDocSeries'),
+      new CDbExpression('lower(IF(ISNULL(entrantdoc.Series),"none",transliterate(entrantdoc.Series))) AS tDocSeries'),
       new CDbExpression('CONCAT((CASE t.QualificationID 
                 WHEN 1 THEN "Б" 
                 WHEN 2 THEN "СМ" 
@@ -688,7 +688,7 @@ class Personspeciality extends ActiveRecord {
       case 9:
       $criteria->addCondition('(entrantdoc.TypeID = 2)  AND '
                             . '('
-                            . '(lower(edbo.DocSeria) NOT LIKE "AP")' // NONONO
+                            . '(  lower(transliterate(edbo.DocSeria)) <> lower(transliterate(entrantdoc.Series)))' 
                             . 'OR (edbo.DocNumber <> entrantdoc.numbers)'
                             . ')'
               );   
