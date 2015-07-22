@@ -1055,12 +1055,12 @@ class StatController extends Controller {
         $criteria->together = true;
         $models = Specialities::model()->findAll($criteria);
         
-        echo "<pre>";
-        foreach ($models as $model) {
-            echo $model->facultet->FacultetFullName."\t".$model->cnt_grad."\t".$model->cnt_requests_from_us."<br>";
-        }
-        echo "</pre>";
-        return;
+        //        echo "<pre>";
+        //        foreach ($models as $model) {
+        //            echo $model->facultet->FacultetFullName."\t".$model->cnt_grad."\t".$model->cnt_requests_from_us."<br>";
+        //        }
+        //        echo "</pre>";
+        //        return;
         
         header("Content-type: text/csv");
         header("Content-Disposition: attachment; filename=file.csv");
