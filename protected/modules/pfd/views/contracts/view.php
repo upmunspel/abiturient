@@ -42,6 +42,7 @@ $model->PersonSpecialityID = $specmodel->SpecCodeName;
     'ContractDate',
     'CustomerName',
     'CustomerDoc',
+    'CustomerPhone',
     'CustomerAddress',
     'CustomerPaymentDetails',
     'PaymentDate',

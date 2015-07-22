@@ -15,6 +15,7 @@
  * @property string $CustomerINN
  * @property string $PaymentDate
  * @property string $Comment
+ * @property string $CustomerPhone
  */
 class Contracts extends CActiveRecord
 {
@@ -69,7 +70,7 @@ class Contracts extends CActiveRecord
 	                array('PaymentDate', "date", 'format'=>"dd-MM-yyyy","allowEmpty"=>true ),
                         array('ContractDate', "date", 'format'=>"dd-MM-yyyy","allowEmpty"=>false ),
                         array('Comment,CustomerPaymentDetails,CustomerName, CustomerDoc,CustomerAddress,
-                        CustomerINN', "safe"),
+                        CustomerINN, CustomerPhone', "safe"),
                     
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
@@ -129,6 +130,7 @@ class Contracts extends CActiveRecord
                     'CustomerINN' => 'ІНН замовника',
                     'PaymentDate' => 'Дата оплати',
                     'Comment' => 'Коментарій',
+                    "CustomerPhone"=>"Телефон замовника"
 		);
 	}
 

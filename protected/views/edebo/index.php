@@ -19,7 +19,7 @@ $this->beginWidget('bootstrap.widgets.TbHeroUnit', array(
     $count = CJSON::decode($res);
 
     if ($count > 0):
-    ?>
+        ?>
         <div class="row-fluid" >
             <div class="span12">
                 <b>Результати пошуку заявок </b>
@@ -63,25 +63,77 @@ $this->beginWidget('bootstrap.widgets.TbHeroUnit', array(
         </div>
     <?php endif; ?>
 </div>
+<div class="well">
+
+    <b>Завантажети результати іспитів з ЄДЕБО:</b>
+    <hr />
+    <div class="row-fluid">
+        <div class="span2">
+            <?php
+            
+            $url = Yii::app()->user->getEdboSearchUrl().'request_examinetions_gxt.jsp?idQualification=';
+            $this->widget("bootstrap.widgets.TbButton", array(
+               
+                'type' => 'primary',
+                "size" => "large",
+                'label' => 'Бакалавр',
+                'url' => $url."1",
+                'htmlOptions'=>array("target"=>"_blank"),
+            ));
+            ?>
+        </div>
+         <div class="span2">
+            <?php
+            
+            $url = Yii::app()->user->getEdboSearchUrl().'request_examinetions_gxt.jsp?idQualification=';
+            $this->widget("bootstrap.widgets.TbButton", array(
+               
+                'type' => 'primary',
+                "size" => "large",
+                'label' => 'Магистр',
+                'url' => $url."2",
+                'htmlOptions'=>array("target"=>"_blank"),
+            ));
+            ?>
+        </div>
+        
+         <div class="span2">
+            <?php
+            
+            $url = Yii::app()->user->getEdboSearchUrl().'request_examinetions_gxt.jsp?idQualification=';
+            $this->widget("bootstrap.widgets.TbButton", array(
+               
+                'type' => 'primary',
+                "size" => "large",
+                'label' => 'Специалист',
+                'url' => $url."3",
+                'htmlOptions'=>array("target"=>"_blank"),
+            ));
+            ?>
+        </div>
+
+    </div>
+
+</div>
 <script>
     var EDBO = EDBO || {};
-    EDBO.data = "<?php  echo "idStatus={$model->NewStatusID}&numberProtocol={$model->Protocol}&dateProtocol=".date("d.m.Y", strtotime($model->ProtocolData))." 17:40:00"; ?>";
+    EDBO.data = "<?php echo "idStatus={$model->NewStatusID}&numberProtocol={$model->Protocol}&dateProtocol=" . date("d.m.Y", strtotime($model->ProtocolData)) . " 17:40:00"; ?>";
     EDBO.url = '<?php echo Yii::app()->createUrl("edebo/changestatus"); ?>';
     EDBO.requests = <?php echo empty($res) ? "[]" : $res; ?>;
-    EDBO.showInfo = function(i, data) {
+    EDBO.showInfo = function (i, data) {
         $("#results").append("<div>" + (i + 1) + ". Заявка " + EDBO.requests[i] + " оброблено з результатом:" + data + " </div><hr style='margin:0px;'/>");
         var y = (i + 1) * 100 / EDBO.requests.length;
         $("#status .bar").width(y + "%");
         $("#status-info .current").html(i + 1);
     }
-    EDBO.sendRequest = function(i) {
+    EDBO.sendRequest = function (i) {
         if (i < EDBO.requests.length) {
             $.ajax({
                 'url': EDBO.url,
-                'data': EDBO.data+"&idPersonRequest="+EDBO.requests[i],
+                'data': EDBO.data + "&idPersonRequest=" + EDBO.requests[i],
                 'type': 'GET',
                 //'async': false,
-                success: function(data) {
+                success: function (data) {
                     EDBO.showInfo(i, data);
                     EDBO.sendRequest(i + 1);
 
@@ -91,7 +143,7 @@ $this->beginWidget('bootstrap.widgets.TbHeroUnit', array(
             $("#status").hide();
         }
     }
-    EDBO.run = function() {
+    EDBO.run = function () {
         if (EDBO.requests.length > 0) {
             $("#status-info .current").html("1");
             $("#results").html("");
