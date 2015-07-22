@@ -688,8 +688,10 @@ class Personspeciality extends ActiveRecord {
       case 9:
       $criteria->addCondition('(entrantdoc.TypeID = 2)  AND '
                             . '('
-                            . '(  lower(transliterate(edbo.DocSeria)) <> lower(transliterate(entrantdoc.Series)))' 
+                            . '(lower(transliterate(edbo.DocSeria)) <> lower(transliterate(entrantdoc.Series)))' 
                             . 'OR (edbo.DocNumber <> entrantdoc.numbers)'
+                            . 'OR (ROUND(edbo.DocPoint,2) <> ROUND(IF(ISNULL(entrantdoc.AtestatValue),0.0,entrantdoc.AtestatValue),2))'
+                            . 'OR (edbo.DocDate <> STR_TO_DATE(entrantdoc.DateGet, \'%Y/%m/%d\'))'
                             . ')'
               );   
       break;
@@ -921,7 +923,7 @@ class Personspeciality extends ActiveRecord {
         IF(ISNULL(olymp.OlympiadAwardBonus),0.0,olymp.OlympiadAwardBonus)+
         IF(ISNULL(t.Exam1Ball),0.0,t.Exam1Ball)+
         IF(ISNULL(t.Exam2Ball),0.0,t.Exam2Ball)+
-        IF(ISNULL(t.Exam3Ball),0.0,t.Exam3Ball)),2)) AS ComputedPoints'), 
+        IF(ISNULL(t.Exam3Ball),0.0,t.Exam3Ball*sepciality.ZnoKoef3)),2)) AS ComputedPoints'), 
       new CDbExpression('IF(documentSubject1.SubjectID 
         IN(SELECT ssj.SubjectID FROM specialitysubjects ssj WHERE ssj.isProfile=1 AND ssj.SpecialityID=t.SepcialityID),
           documentSubject1.SubjectValue,
