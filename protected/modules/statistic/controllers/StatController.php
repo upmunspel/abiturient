@@ -1023,6 +1023,8 @@ class StatController extends Controller {
      * Факультет; К-сть випускників; К-сть заяв із ЗНУ на спеціаліста/магістра із дипломом ЗНУ, виданим цього року
      */
     public function actionPersonstatgraduated() {
+        Yii::import('application.models.Qualifications');
+
         $criteria = new CDbCriteria();
         $criteria->with = array(
             'facultet',
@@ -1036,22 +1038,30 @@ class StatController extends Controller {
         $statuses = '1,4,5,7,8,9';
         $criteria->select = array('*',
             new CDbExpression('(SELECT SUM(gr.Number) FROM graduated gr WHERE `year`=' . date('Y') . ' AND  gr.FacultyID = t.FacultetID ) AS cnt_grad'),
-            new CDbExpression('0+((SELECT COUNT(DISTINCT ps4.PersonID)'
-                    . ' FROM personspeciality ps4'
-                    . ' LEFT OUTER JOIN documents docs4 ON ps4.EntrantDocumentID = docs4.idDocuments WHERE '
-                    . 'ps4.SepcialityID IN (SELECT spc.idSpeciality FROM specialities spc WHERE '
-                    . 't.FacultetID = spc.FacultetID) AND '
-                    . 'ps4.StatusID IN (' . $statuses . ') AND '
-                    . '(docs4.Issued LIKE "%' . $ZNU . '%" OR '
-                    . 'docs4.Issued LIKE "%' . $ZNU1 . '%" OR '
-                    . 'docs4.Issued LIKE "%' . $ZNU2 . '%" OR '
-                    . 'docs4.Issued LIKE "%' . $ZNUshort . '%") AND (docs4.DateGet LIKE "' . date('Y') . '-%") '
-                    . ' )) AS cnt_requests_from_us'),
+            new CDbExpression('0+(('
+                    . 'SELECT COUNT(DISTINCT ps4.PersonID) '
+                    . 'FROM personspeciality ps4 '
+                    . '     INNER JOIN documents docs4 ON ps4.EntrantDocumentID = docs4.idDocuments '
+                    . 'WHERE ps4.SepcialityID IN (SELECT spc.idSpeciality FROM specialities spc WHERE t.FacultetID = spc.FacultetID) '
+                    . ' AND  ps4.StatusID IN (' . $statuses . ') ' // враховуємо тільки не відкликані заяви
+                    . ' AND  ps4.QualificationID IN ('.Qualifications::$specialist.','.Qualifications::$magistr.') ' // враховуємо лише вступників на спеціалістів, магістрів
+                    . ' AND (docs4.Issued LIKE "%' . $ZNU . '%" OR docs4.Issued LIKE "%' . $ZNU1 . '%" OR  docs4.Issued LIKE "%' . $ZNU2 . '%" OR  docs4.Issued LIKE "%' . $ZNUshort . '%") '
+                    . ' AND docs4.TypeID IN(11,12,13) '  // враховуємо дипломи бакалаврів, спеціалістів, магістрів
+                    . ' AND (year(docs4.DateGet) =' . date('Y') . ') '
+                    . ')) AS cnt_requests_from_us'),
         );
         $criteria->group = 't.FacultetID';
         $criteria->order = 'facultet.FacultetFullName';
         $criteria->together = true;
         $models = Specialities::model()->findAll($criteria);
+        
+        echo "<pre>";
+        foreach ($models as $model) {
+            echo $model->facultet->FacultetFullName."\t".$model->cnt_grad."\t".$model->cnt_requests_from_us."<br>";
+        }
+        echo "</pre>";
+        return;
+        
         header("Content-type: text/csv");
         header("Content-Disposition: attachment; filename=file.csv");
         header("Pragma: no-cache");
