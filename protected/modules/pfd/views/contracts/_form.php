@@ -92,6 +92,7 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 		<?php echo $form->textField($model,'PaymentDate',array("class"=>"span12 datepicker")); ?>
 		<?php echo $form->error($model,'PaymentDate'); ?>
             </div>
+          
             <div class="span6">
               <?php echo $form->labelEx($model,'Comment'); ?>
 		<?php echo $form->textArea($model,'Comment',array('rows'=>3, 'cols'=>50, "class"=>"span12")); ?>
@@ -100,9 +101,17 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm', array(
             
         </div>
         <div class="row-fluid">
-          <?php
-            echo $form->textFieldRow($model,'CustomerINN',array('class'=>'span4'));
-          ?>
+            <div class="span3">
+                <?php echo $form->labelEx($model,'CustomerINN'); ?>
+		<?php echo $form->textField($model,'CustomerINN',array("class"=>"span12")); ?>
+		<?php echo $form->error($model,'CustomerINN'); ?>
+            </div>
+         
+            <div class="span3">
+                <?php echo $form->labelEx($model,'CustomerPhone'); ?>
+		<?php echo $form->textField($model,'CustomerPhone',array("class"=>"span12")); ?>
+		<?php echo $form->error($model,'CustomerPhone'); ?>
+            </div>
         </div>
 <?php //------------------------------------------------------------------------------------------------------------------------------------//?>
     <hr>

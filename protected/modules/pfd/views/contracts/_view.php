@@ -32,7 +32,9 @@
 	<b><?php echo CHtml::encode($data->getAttributeLabel('CustomerAddress')); ?>:</b>
 	<?php echo CHtml::encode($data->CustomerAddress); ?>
 	<br />
-
+        <b><?php echo CHtml::encode($data->getAttributeLabel('CustomerPhone')); ?>:</b>
+	<?php echo CHtml::encode($data->CustomerAddress); ?>
+	<br />
 	<?php /*
 	<b><?php echo CHtml::encode($data->getAttributeLabel('CustomerPaymentDetails')); ?>:</b>
 	<?php echo CHtml::encode($data->CustomerPaymentDetails); ?>
