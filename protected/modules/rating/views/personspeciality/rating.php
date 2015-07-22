@@ -932,7 +932,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
               $Total += ($data->olymp? (float)$data->olymp->OlympiadAwardBonus : 0.0);
               $Total += (float)$data->Exam1Ball;
               $Total += (float)$data->Exam2Ball;
-              $Total += (float)$data->Exam3Ball;
+              $Total += (($data->Exam3Ball)? (float)$data->Exam3Ball * $data->sepciality->ZnoKoef3 : 0.0);
               //виведення відмітки цільового вступу
               if ($data->QuotaID){
                 $span_class = 'label-info';
@@ -1144,7 +1144,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                       'н/з' . '</span>');
               echo (($data->Exam3Ball)? 
                       '<span class=\'label label-info\' style=\'margin-bottom: 3px; font-size: 8pt; font-family: Tahoma;\'>'.
-                      $data->Exam3Ball . '</span><div class="clear"></div>' : 
+                      $data->Exam3Ball* $data->sepciality->ZnoKoef3 . '</span><div class="clear"></div>' : 
                 
                       '<span class=\'label label-red\' style=\'margin-bottom: 3px; font-size: 8pt; font-family: Tahoma;\'>'.
                       'н/з' . '</span><div class="clear"></div>');
