@@ -562,7 +562,7 @@ class Personspeciality extends ActiveRecord {
                     IF(ISNULL(olymp.OlympiadAwardBonus),0.0,olymp.OlympiadAwardBonus)+
                     IF(ISNULL(t.Exam1Ball),0.0,t.Exam1Ball)+
                     IF(ISNULL(t.Exam2Ball),0.0,t.Exam2Ball)+
-                    IF( ISNULL(t.Exam3Ball),0.0,t.Exam3Ball )
+                    IF( ISNULL(t.Exam3Ball),0.0,t.Exam3Ball*sepciality.ZnoKoef3)
                 )
                 - edbo.RatingPoints
             ) > 0.001
@@ -646,16 +646,19 @@ class Personspeciality extends ActiveRecord {
       //  ??????щоб відмітка першочерговості не співпадала
       //  щоб відмітка позаконкурсного вступу не співпадала
       //  щоб відмітка вступу за цільовим направленням не співпадала
-      $criteria->addCondition('(
-        (edbo.Benefit <> 
-          if(isnull(benefit.isPZK),0,benefit.isPZK))
-            
-        OR (edbo.PriorityEntry <> 
-          if(isnull(benefit.isPV),0,benefit.isPV))
+
+        $conditionPart='(
+           ( edbo.Benefit <> BIT_OR(IFNULL(benefit.isPZK,0))   )
+    
+        OR (edbo.PriorityEntry <> BIT_OR(IFNULL(benefit.isPV,0)) )
 
         OR (edbo.Quota=0 AND t.QuotaID > 0)
-        OR (edbo.Quota=1 AND (t.QuotaID IS NULL OR t.QuotaID = 0)))'
-      );
+        OR (edbo.Quota=1 AND (t.QuotaID IS NULL OR t.QuotaID = 0)))';
+        if(strlen($criteria->having)>0){
+            $criteria->having.=' AND '.$conditionPart;
+        }else{
+            $criteria->having=$conditionPart;
+        }
       break;
       case 7: 
       //якщо встановлений прапорець, щоб шукати лише неточності в сумі балів ЗНО
