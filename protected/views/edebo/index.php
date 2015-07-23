@@ -71,7 +71,7 @@ $this->beginWidget('bootstrap.widgets.TbHeroUnit', array(
         <div class="span2">
             <?php
             
-            $url = Yii::app()->user->getEdboSearchUrl().'request_examinetions_gxt.jsp?idQualification=';
+            $url = Yii::app()->user->getEdboSearchUrl().'request_examinations_get.jsp?idQualification=';
             $this->widget("bootstrap.widgets.TbButton", array(
                
                 'type' => 'primary',
