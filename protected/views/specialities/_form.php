@@ -79,37 +79,46 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
             <?php echo $form->error($model, 'SpecialityContractCount'); ?>
         </div>
     </div>
+     <div class="row-fluid">
+        <div class ="span12"></div>
+    </div>
     <?php //------------------------------------------------------------------------------------------------------------------------------------// ?>
     <div class="row-fluid">
-        <div class="span12">
+        <div class="span4">
             <?php echo $form->labelEx($model, 'isArtExam'); ?>
             <div class="switch" data-on-label="Так" data-off-label="Ні">
                 <?php echo $form->checkBox($model, 'isArtExam'); ?>
             </div> 
         </div>   
-    </div>
-    
-    <?php //------------------------------------------------------------------------------------------------------------------------------------// ?>
-    <div class="row-fluid">
-        <div class="span12">
+   
+        <div class="span4">
             <?php echo $form->labelEx($model, 'isZaoch'); ?>
             <div class="switch" data-on-label="Так" data-off-label="Ні">
                 <?php echo $form->checkBox($model, 'isZaoch'); ?>
             </div> 
         </div>   
-    </div>
-    <?php //------------------------------------------------------------------------------------------------------------------------------------// ?>
-    <div class="row-fluid">
-        <div class="span12">
+   
+        <div class="span4">
             <?php echo $form->labelEx($model, 'isPublishIn'); ?>
             <div class="switch" data-on-label="Так" data-off-label="Ні">
                 <?php echo $form->checkBox($model, 'isPublishIn'); ?>
             </div> 
         </div>   
     </div>
+      <hr/>
     <div class="row-fluid">
         <?php echo $form->labelEx($model, 'basespecialitys'); ?>
         <?php echo $form->dropDownList($model, 'basespecialitys', Personbasespeciality::DropDown(), array('empty' => "", 'style' => "width: 100%;", "multiple" => "multiple")); ?>
+    </div>
+     <?php //------------------------------------------------------------------------------------------------------------------------------------// ?>
+    <hr/>
+    <div class="row-fluid">   	
+        <div class ="span4">
+            <?php echo $form->labelEx($model, 'Quota2'); ?>
+            <?php echo $form->textField($model, 'Quota2', array('class' => 'span12', 'size' => 12)); ?>
+            <?php echo $form->error($model, 'Quota2'); ?>
+        </div>
+        
     </div>
 
     <?php //------------------------------------------------------------------------------------------------------------------------------------// ?>
