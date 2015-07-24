@@ -77,7 +77,6 @@ $this->widget('bootstrap.widgets.TbGridView', array(
             'headerHtmlOptions' => array('title' => 'Квота для тих, хто поступає поза конкурсом'),
             'htmlOptions' => array('class' => 'span1'),
         ),
-        
         array(
             'class' => 'bootstrap.widgets.TbEditableColumn',
             'name' => 'ZnoKoef1',
@@ -114,13 +113,13 @@ $this->widget('bootstrap.widgets.TbGridView', array(
             'headerHtmlOptions' => array('title' => 'Квота для тих, хто поступає поза конкурсом'),
             'htmlOptions' => array('class' => 'span1'),
         ),
-        array(
-          'class' => 'bootstrap.widgets.TbButtonColumn',
-          'template' => '{view} {update} {delete}',
-          'buttons' => array(
-          ),
-          'htmlOptions' => array('class' => 'span1'),
-        ),
+        /*array(
+            'class' => 'bootstrap.widgets.TbButtonColumn',
+            'template' => '{view} {update} {delete}',
+            'buttons' => array(
+            ),
+            'htmlOptions' => array('class' => 'span1'),
+        ),*/
         array(
             'header' => 'ЦН',
             'value' => function ($data) use ($controller) {
@@ -151,7 +150,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
                     'template' => '{view} {update} {delete}',
                     'buttons' => array(
                     ),
-                    'htmlOptions' => array('class' => 'span1'),
+                    'htmlOptions' => array('class' => 'span2'),
                 ),
             ),
         ));
