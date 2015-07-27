@@ -986,7 +986,7 @@ class StatController extends Controller {
             }
             $cnt_requests_from_us = $spec->cnt_requests_from_us;
             $cnt_requests_from_aliens = $spec->cnt_requests_from_aliens - $spec->cnt_requests_from_us;
-            $ngrauated = $graduated_num;
+            $ngraduated = $graduated_num;
             $cnt_atall[$spec->PersonEducationFormID][0] += $cnt_requests_from_us;
             $cnt_atall[$spec->PersonEducationFormID][1] += $cnt_requests_from_aliens;
             $cnt_atall[$spec->PersonEducationFormID][2] += $spec->cnt_requests_from_aliens;
@@ -1002,7 +1002,8 @@ class StatController extends Controller {
                 'idSpec' => $spec->idSpeciality,
                 'cnt_requests_from_us' => $cnt_requests_from_us,
                 'cnt_requests_from_aliens' => $cnt_requests_from_aliens,
-                'graduated' => $ngrauated,
+                'graduated' => $ngraduated,
+                'licensedPlaces'=> ($spec->SpecialityBudgetCount+$spec->SpecialityContractCount),
                 'cnt_req_budget' => $spec->SpecialityBudgetCount,
                 'cnt_req_originals' => $spec->cnt_req_original,
             );

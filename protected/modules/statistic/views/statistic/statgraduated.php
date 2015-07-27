@@ -61,13 +61,13 @@ H1 {
   <th colspan="6" align='center' style="font-size:10pt;">Заочна<br/>кількість</th>
   </tr>
   <tr>
-  <th align='center' style="font-size:10pt;">Вип. 2015</th> <!-- 3 -->
+  <th align='center' style="font-size:10pt;">Ліцензія, місць</th> <!-- 3 -->
   <th align='center' style="font-size:10pt;">ЗНУ</th>       <!-- 4 -->
   <th align='center' style="font-size:10pt;">Інші</th>      <!-- 5 -->
   <th align='center' style="font-size:10pt;">Всього</th>    <!-- 6 -->
   <th align='center' style="font-size:10pt;">Бюдж. місця</th><!-- 7 -->
   <th align='center' style="font-size:10pt;">Оригінали</th><!-- 8 -->
-  <th align='center' style="font-size:10pt;">Вип. 2015</th><!-- 9 -->
+  <th align='center' style="font-size:10pt;">Ліцензія, місць</th><!-- 9 -->
   <th align='center' style="font-size:10pt;">ЗНУ</th><!-- 10 -->
   <th align='center' style="font-size:10pt;">Інші</th><!-- 11 -->
   <th align='center' style="font-size:10pt;">Всього</th><!-- 12 -->
@@ -90,8 +90,8 @@ foreach ($cnt_data as $row){
     echo "<td style='font-size: 10pt;'>".$key."</td>";
     
     // col3
-    echo "<td style='color: grey;'>".((isset($data[1]))? 
-            $data[1]['graduated'] : '0') ."</td>";
+    // echo "<td style='color: grey;'>".((isset($data[1]))? $data[1]['graduated'] : '0') ."</td>";
+    echo "<td style='color: grey;'>".((isset($data[1]))? $data[1]['licensedPlaces'] : '0') ."</td>";
 
     // col4
     echo "<td>".((isset($data[1]))? 
@@ -114,8 +114,8 @@ foreach ($cnt_data as $row){
             $data[1]['cnt_req_originals'] : '0') ."</td>";
 
     // col9
-    echo "<td style='color: grey;'>".((isset($data[2]))? 
-            $data[2]['graduated'] : '0') ."</td>";
+    // echo "<td style='color: grey;'>".((isset($data[2]))? $data[2]['graduated'] : '0') ."</td>";
+    echo "<td style='color: grey;'>".((isset($data[2]))? $data[2]['licensedPlaces'] : '0') ."</td>";
 
     // col10
     echo "<td>".((isset($data[2]))? 
