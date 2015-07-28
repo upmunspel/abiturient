@@ -65,7 +65,7 @@ $this->beginWidget('bootstrap.widgets.TbHeroUnit', array(
 </div>
 <div class="well">
 
-    <b>Завантажети результати іспитів з ЄДЕБО:</b>
+    <b>Завантажети результати іспитів з ЄДЕБО (за напрямом пыдготовки):</b>
     <hr />
     <div class="row-fluid">
         <div class="span2">
@@ -113,6 +113,20 @@ $this->beginWidget('bootstrap.widgets.TbHeroUnit', array(
         </div>
 
     </div>
+    <hr>
+     <b>Завантажети результати іспитів з ЄДЕБО (за спецыальныстю):</b>
+    <hr />
+    <?php $furl = Yii::app()->user->getEdboSearchUrl().'request_examinations_get.jsp'; ?>
+    <form action="<?php echo  $furl; ?>" >
+         <div class="row-fluid">
+             <div class="span12">
+                 <?php echo CHtml::label("Спеціальність", "idSpeciality"); ?>
+                 <?php echo CHtml::dropDownList("idSpeciality", "", Specialities::DropDown(),array("class"=>"span12")); ?>
+             </div>
+        <?php
+            echo CHtml::submitButton('Отримати', array("class"=>"btn btn-primary btn-large"));
+        ?>
+    </form>
 
 </div>
 <script>
