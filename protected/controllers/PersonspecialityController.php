@@ -544,7 +544,7 @@ class PersonspecialityController extends Controller {
                     $msg.="<ul>";
                     foreach ($res as $item) {
                         $item = (object) $item;
-                        if (strpos("акалавр", $item->specDirectionName)>0) {
+                        if ($item->qualificationName == "Бакалавр") {
                             $type = "info";
                             $msg.= "<li>";
                             $msg.= $item->personEducationFormName .
@@ -563,6 +563,7 @@ class PersonspecialityController extends Controller {
                                     " : " . $item->universityFullName;
                             $tmp.= "</li>";
                             Yii::log($tmp);
+                            Yii::log(print_r($item,1));
                         }
                     }
                     $msg.="</ul>";
