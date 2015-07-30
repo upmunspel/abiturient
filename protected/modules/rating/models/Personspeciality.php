@@ -466,9 +466,9 @@ class Personspeciality extends ActiveRecord {
         IF(ISNULL(t.AdditionalBall),0.0,t.AdditionalBall)+
         IF(ISNULL(t.CoursedpBall),0.0,t.CoursedpBall* '.Yii::app()->params['scoreweight_CoursedpBall'].')+
         IF(ISNULL(olymp.OlympiadAwardBonus),0.0,olymp.OlympiadAwardBonus)+
-        IF(ISNULL(t.Exam1Ball),0.0,t.Exam1Ball)+
-        IF(ISNULL(t.Exam2Ball),0.0,t.Exam2Ball)+
-        IF(ISNULL(t.Exam3Ball),0.0,t.Exam3Ball)),2)) AS ComputedPoints'), 
+        IF(ISNULL(t.Exam1Ball),0.0,t.Exam1Ball*sepciality.ZnoKoef1)+
+        IF(ISNULL(t.Exam2Ball),0.0,t.Exam2Ball*sepciality.ZnoKoef2)+
+        IF(ISNULL(t.Exam3Ball),0.0,t.Exam3Ball*sepciality.ZnoKoef3)),2)) AS ComputedPoints'), 
       new CDbExpression('COUNT(DISTINCT benefit.idBenefit) AS cntBenefit'),
       new CDbExpression('IF(documentSubject1.SubjectID 
         IN(SELECT ssj.SubjectID FROM specialitysubjects ssj WHERE ssj.isProfile=1 AND ssj.SpecialityID=t.SepcialityID),
@@ -560,8 +560,8 @@ class Personspeciality extends ActiveRecord {
                     IF(ISNULL(t.AdditionalBall),0.0,t.AdditionalBall)+
                     IF(ISNULL(t.CoursedpBall),0.0,t.CoursedpBall*'.Yii::app()->params['scoreweight_CoursedpBall'].')+
                     IF(ISNULL(olymp.OlympiadAwardBonus),0.0,olymp.OlympiadAwardBonus)+
-                    IF(ISNULL(t.Exam1Ball),0.0,t.Exam1Ball)+
-                    IF(ISNULL(t.Exam2Ball),0.0,t.Exam2Ball)+
+                    IF(ISNULL(t.Exam1Ball),0.0,t.Exam1Ball*sepciality.ZnoKoef1)+
+                    IF(ISNULL(t.Exam2Ball),0.0,t.Exam2Ball*sepciality.ZnoKoef2)+
                     IF( ISNULL(t.Exam3Ball),0.0,t.Exam3Ball*sepciality.ZnoKoef3)
                 )
                 - edbo.RatingPoints
@@ -924,8 +924,8 @@ class Personspeciality extends ActiveRecord {
         IF(ISNULL(t.AdditionalBall),0.0,t.AdditionalBall)+
         IF(ISNULL(t.CoursedpBall),0.0,t.CoursedpBall*'.Yii::app()->params['scoreweight_CoursedpBall'].')+
         IF(ISNULL(olymp.OlympiadAwardBonus),0.0,olymp.OlympiadAwardBonus)+
-        IF(ISNULL(t.Exam1Ball),0.0,t.Exam1Ball)+
-        IF(ISNULL(t.Exam2Ball),0.0,t.Exam2Ball)+
+        IF(ISNULL(t.Exam1Ball),0.0,t.Exam1Ball*sepciality.ZnoKoef1)+
+        IF(ISNULL(t.Exam2Ball),0.0,t.Exam2Ball*sepciality.ZnoKoef2)+
         IF(ISNULL(t.Exam3Ball),0.0,t.Exam3Ball*sepciality.ZnoKoef3)),2)) AS ComputedPoints'), 
       new CDbExpression('IF(documentSubject1.SubjectID 
         IN(SELECT ssj.SubjectID FROM specialitysubjects ssj WHERE ssj.isProfile=1 AND ssj.SpecialityID=t.SepcialityID),

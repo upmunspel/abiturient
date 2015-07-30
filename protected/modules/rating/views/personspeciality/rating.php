@@ -930,8 +930,8 @@ $this->widget('bootstrap.widgets.TbGridView', array(
               $Total += (float)$data->AdditionalBall;
               $Total += (float)$data->CoursedpBall*Yii::app()->params['scoreweight_CoursedpBall'];
               $Total += ($data->olymp? (float)$data->olymp->OlympiadAwardBonus : 0.0);
-              $Total += (float)$data->Exam1Ball;
-              $Total += (float)$data->Exam2Ball;
+              $Total += (($data->Exam1Ball)? (float)$data->Exam1Ball * $data->sepciality->ZnoKoef1 : 0.0);
+              $Total += (($data->Exam2Ball)? (float)$data->Exam2Ball * $data->sepciality->ZnoKoef2 : 0.0);
               $Total += (($data->Exam3Ball)? (float)$data->Exam3Ball * $data->sepciality->ZnoKoef3 : 0.0);
               //виведення відмітки цільового вступу
               if ($data->QuotaID){
@@ -1132,13 +1132,13 @@ $this->widget('bootstrap.widgets.TbGridView', array(
 
               echo '<div style=\'width: 70px !important;float:left;\'>Вступні ісп. : </div>' . (($data->Exam1Ball)? 
                       '<span class=\'label label-info\' style=\'margin-bottom: 3px; font-size: 8pt; font-family: Tahoma;\'>'.
-                      $data->Exam1Ball . '</span>' : 
+                      $data->Exam1Ball* $data->sepciality->ZnoKoef1 . '</span>' : 
                 
                       '<span class=\'label label-red\' style=\'margin-bottom: 3px; font-size: 8pt; font-family: Tahoma;\'>'.
                       'н/з' . '</span>');
               echo (($data->Exam2Ball)? 
                       '<span class=\'label label-info\' style=\'margin-bottom: 3px;margin-right: 2px;margin-left:2px; font-size: 8pt; font-family: Tahoma;\'>'.
-                      $data->Exam2Ball . '</span>' : 
+                      $data->Exam2Ball* $data->sepciality->ZnoKoef2 . '</span>' : 
                 
                       '<span class=\'label label-red\' style=\'margin-bottom: 3px;margin-right: 2px;margin-left:2px; font-size: 8pt; font-family: Tahoma;\'>'.
                       'н/з' . '</span>');
