@@ -22,7 +22,7 @@ class EdeboController extends Controller {
                 'users' => array('*'),
             ),
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('index', "Changestatus"),
+                'actions' => array('index', "Changestatus", "Changedoc"),
                 'users' => array('@'),
             ),
             /* array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -46,7 +46,10 @@ class EdeboController extends Controller {
     public function actionIndex() {
         $model = new EdeboStatusChange();
         $res = "";
+        $request_list = array();
+        $idRequestSpeciality = "";
         if (isset($_POST['EdeboStatusChange'])) {
+            
             $model->attributes = $_POST['EdeboStatusChange'];
             if ($model->validate()) {
 
@@ -57,8 +60,23 @@ class EdeboController extends Controller {
                 }
             }
         }
+        if (isset($_REQUEST["idRequestSpeciality"])){
+            $idRequestSpeciality = $_REQUEST["idRequestSpeciality"];
+            $models = Personspeciality::model()->findAll("SepcialityID = :id", array("id"=>$_REQUEST["idRequestSpeciality"]));
+            foreach($models as $item){
+                //$item = new Personspeciality();
+                if (!empty($item->edboID)){
+                    $request_list[]=$item->edboID;
+                }
+            }
+            //$request_list = CJSON::encode($request_list);
+        }
+        
+        
         //$res =  CJSON::encode(array(1,2,3,4,5,6,7,8,9,10));
-        $this->render('index', array('model' => $model, 'res' => $res));
+        
+        $this->render('index', array('model' => $model, 'res' => $res, "request_list"=>$request_list, "idRequestSpeciality"=>$idRequestSpeciality  ));
+        
     }
 
     public function actionChangestatus($idPersonRequest, $idStatus, $numberProtocol, $dateProtocol) {
@@ -69,6 +87,19 @@ class EdeboController extends Controller {
                 throw new Exception(" Помилка - " . $res["message"]);
             } else {
                 echo "<span style='color: green;'> " . $res["message"] . "</span>";
+            }
+        } catch (Exception $exc) {
+            echo "<span style='color: red;'> " . $exc->getMessage() . "</span>";
+        }
+    }
+     public function actionChangedoc($edboID) {
+        try {
+            $res = WebServices::RequestDocStatusChange($edboID);
+            $res = CJSON::decode($res);
+            if ($res["error"]) {
+                throw new Exception(" Помилка - " . $res["message"]);
+            } else {
+                echo "<span style='color: green;'>  ok!  </span>";
             }
         } catch (Exception $exc) {
             echo "<span style='color: red;'> " . $exc->getMessage() . "</span>";

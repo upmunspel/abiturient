@@ -498,6 +498,7 @@ class PersonspecialityController extends Controller {
             try {
                 $res = WebServices::getPersonAllPriority($model->codeU);
                 $res = CJSON::decode($res);
+                Yii::log(print_r($res,1));
                 if (is_array($res)) {
                     foreach ($res as $item) {
                         $item = (object) $item;
@@ -540,6 +541,7 @@ class PersonspecialityController extends Controller {
             try {
                 $res = WebServices::getPersonBaseEducations($model->codeU);
                 $res = CJSON::decode($res);
+                
                 if (is_array($res)) {
                     $msg.="<ul>";
                     foreach ($res as $item) {

@@ -435,6 +435,29 @@ class WebServices {
 
         return $res;
     }
+    public static function RequestDocStatusChange($edboID) {
+
+        $script = "request_original_document_change.jsp?edboId=".$edboID;
+        $srv = Yii::app()->user->getEdboSearchUrl();
+        //Yii::log($srv.$script);
+        try {
+
+            $ctx = stream_context_create(array('http' => array('timeout' => WebServices::$requestTimeout)));
+            $res = file_get_contents($srv . $script, 0, $ctx);
+            // Yii::log($res);
+            if ($res === false) {
+                throw new Exception(WebServices::$MSG_EDBO_ERROR);
+            }
+        } catch (Exception $ex) {
+            if (defined('YII_DEBUG')) {
+                Yii::log($ex->getMessage(), CLogger::LEVEL_INFO, 'WebServices::RequestDocStatusChange');
+            }
+            throw $ex;
+        }
+
+
+        return $res;
+    }
 
     /**
      * 
