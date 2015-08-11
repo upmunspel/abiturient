@@ -65,7 +65,7 @@ $this->beginWidget('bootstrap.widgets.TbHeroUnit', array(
 </div>
 <div class="well">
 
-    <b>Завантажети результати іспитів з ЄДЕБО (за напрямом підготовки):</b>
+    <h3>Завантажити результати іспитів з ЄДЕБО (за напрямом підготовки):</h3>
     <hr />
     <div class="row-fluid">
         <div class="span2">
@@ -108,7 +108,7 @@ $this->beginWidget('bootstrap.widgets.TbHeroUnit', array(
 
     </div>
     <hr>
-    <b>Завантажети результати іспитів з ЄДЕБО (за спецыальныстю):</b>
+    <h3>Завантажити результати іспитів з ЄДЕБО (за спецыальныстю):</h3>
     <hr />
     <?php $furl = Yii::app()->user->getEdboSearchUrl() . 'request_examinations_get.jsp'; ?>
     <form action="<?php echo $furl; ?>" >
@@ -127,7 +127,69 @@ $this->beginWidget('bootstrap.widgets.TbHeroUnit', array(
 
 <div class="well">
 
-    <b>Оновлення (у ЄДЕБО) копій та оригіналів документів: </b>
+    <h3>Завантажити статуси заяв (за напрямом підготовки):</h3>
+    <hr />
+    <div class="row-fluid">
+        <div class="span2">
+            <?php
+            $url = Yii::app()->user->getEdboSearchUrl() . 'all_requests_statuses_get.jsp?idQualification=';
+            $this->widget("bootstrap.widgets.TbButton", array(
+                'type' => 'primary',
+                "size" => "large",
+                'label' => 'Бакалавр',
+                'url' => $url . "1",
+                'htmlOptions' => array("target" => "_blank"),
+            ));
+            ?>
+        </div>
+        <div class="span2">
+            <?php
+            $url = Yii::app()->user->getEdboSearchUrl() . 'all_requests_statuses_get.jsp?idQualification=';
+            $this->widget("bootstrap.widgets.TbButton", array(
+                'type' => 'primary',
+                "size" => "large",
+                'label' => 'Магистр',
+                'url' => $url . "2",
+                'htmlOptions' => array("target" => "_blank"),
+            ));
+            ?>
+        </div>
+
+        <div class="span2">
+            <?php
+            $url = Yii::app()->user->getEdboSearchUrl() . 'all_requests_statuses_get.jsp?idQualification=';
+            $this->widget("bootstrap.widgets.TbButton", array(
+                'type' => 'primary',
+                "size" => "large",
+                'label' => 'Специалист',
+                'url' => $url . "3",
+                'htmlOptions' => array("target" => "_blank"),
+            ));
+            ?>
+        </div>
+
+    </div>
+    <hr>
+    <h3>Завантажити статуси заяв з ЄДЕБО (за спеціальністю):</h3>
+    <hr />
+    <?php $furl = Yii::app()->user->getEdboSearchUrl() . 'all_requests_statuses_get.jsp'; ?>
+    <form action="<?php echo $furl; ?>" >
+        <div class="row-fluid">
+            <div class="span12">
+                <?php echo CHtml::label("Спеціальність", "idSpeciality"); ?>
+                <?php echo CHtml::dropDownList("idSpeciality", "", Specialities::DropDown(), array("class" => "span12")); ?>
+            </div>
+            <?php
+            echo CHtml::submitButton('Отримати', array("class" => "btn btn-primary btn-large"));
+            ?>
+        </div>
+    </form>
+
+</div>
+
+<div class="well">
+
+    <h3>Оновлення (у ЄДЕБО) копій та оригіналів документів: </h3>
     <hr />
     <div class="row-fluid">
 
