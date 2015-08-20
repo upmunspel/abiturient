@@ -22,7 +22,7 @@ class EdeboController extends Controller {
                 'users' => array('*'),
             ),
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('index', "Changestatus", "Changedoc"),
+                'actions' => array('index', "Changestatus", "Changedoc", "educationsinfo"),
                 'users' => array('@'),
             ),
             /* array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -92,7 +92,7 @@ class EdeboController extends Controller {
             echo "<span style='color: red;'> " . $exc->getMessage() . "</span>";
         }
     }
-     public function actionChangedoc($edboID) {
+    public function actionChangedoc($edboID) {
         try {
             $res = WebServices::RequestDocStatusChange($edboID);
             $res = CJSON::decode($res);
@@ -105,7 +105,11 @@ class EdeboController extends Controller {
             echo "<span style='color: red;'> " . $exc->getMessage() . "</span>";
         }
     }
-
+    public function actionEducationsinfo($idSpeciality) {
+      
+        $this->render("educationsinfo", array("specid"=>$idSpeciality));
+    }
+    
     public function actionConvert() {
         /*
           $spec = Personspeciality::model()->findAll("CoursedpID > 0");

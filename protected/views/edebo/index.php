@@ -235,6 +235,25 @@ $this->beginWidget('bootstrap.widgets.TbHeroUnit', array(
     </div>
 
 </div>
+
+<div class="well">
+
+    <h3>Перевірка попередньої освіти персони (за напрямом підготовки):</h3>
+    <hr />
+     <?php $url = Yii::app()->createUrl("edebo/educationsinfo"); ?>
+    <form action="<?php echo $url; ?>" method="GET">
+        <div class="row-fluid">
+            <div class="span12">
+                <?php echo CHtml::label("Спеціальність", "idSpeciality"); ?>
+                <?php echo CHtml::dropDownList("idSpeciality", "", Specialities::DropDown(), array("class" => "span12")); ?>
+            </div>
+            <?php
+            echo CHtml::submitButton('Отримати', array("class" => "btn btn-primary btn-large"));
+            ?>
+        </div>
+    </form>
+
+</div>
 <script>
     var EDBO = EDBO || {};
     EDBO.data = "<?php echo "idStatus={$model->NewStatusID}&numberProtocol={$model->Protocol}&dateProtocol=" . date("d.m.Y", strtotime($model->ProtocolData)) . " 17:40:00"; ?>";
