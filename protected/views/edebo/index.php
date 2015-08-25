@@ -179,12 +179,34 @@ $this->beginWidget('bootstrap.widgets.TbHeroUnit', array(
                 <?php echo CHtml::label("Спеціальність", "idSpeciality"); ?>
                 <?php echo CHtml::dropDownList("idSpeciality", "", Specialities::DropDown(), array("class" => "span12")); ?>
             </div>
+
             <?php
             echo CHtml::submitButton('Отримати', array("class" => "btn btn-primary btn-large"));
             ?>
         </div>
     </form>
 
+    <h3>Завантажити статуси заяв з ЄДЕБО (за напрямком, починаючи з дати):</h3>
+    <hr />
+    <?php $furl = Yii::app()->user->getEdboSearchUrl() . 'all_requests_statuses_get.jsp'; ?>
+    <form action="<?php echo $furl; ?>" >
+        <div class="row-fluid">
+            <div class="span12">
+                <?php echo CHtml::label("Дата створення ( у формаі 2015-06-25 )", "createDate"); ?>
+                <?php echo CHtml::textField("createDate", "", array("class" => "span4")); ?>
+            </div>
+        </div>
+        <div class="row-fluid">
+            <div class="span12">
+                <?php echo CHtml::dropDownList("idQualification", "1", array("1" => "Бакалавр", "2" => "Магистр", "3" => "Специалист"), array("class" => "span4")); ?>
+            </div>
+        </div>
+        <div class="row-fluid">
+            <div class="span12">
+                <?php echo CHtml::submitButton('Отправить', array("class" => "btn btn-primary btn-large")); ?>
+            </div>
+        </div>
+    </form>
 </div>
 
 <div class="well">
@@ -198,15 +220,17 @@ $this->beginWidget('bootstrap.widgets.TbHeroUnit', array(
                 <?php echo CHtml::label("Спеціальність", "idSpeciality"); ?>
                 <?php echo CHtml::dropDownList("idRequestSpeciality", $idRequestSpeciality, Specialities::DropDown(), array("class" => "span12")); ?>
             </div>
-            <?php //if (count($request_list) == 0) 
-                echo CHtml::submitButton('Отримати', array("class" => "btn btn-primary btn-large")); ?>
+            <?php
+            //if (count($request_list) == 0) 
+            echo CHtml::submitButton('Отримати', array("class" => "btn btn-primary btn-large"));
+            ?>
 
         </form> 
         <?php if (count($request_list) > 0): ?>
             <p>Буде змінено <?php echo count($request_list); ?> заявок! </p>
             <?php echo CHtml::button('Змінити заявки', array('onclick' => 'EDBO_DOC.run()', "class" => "btn btn-primary btn-large")); ?>
 
-        <?php endif; ?>
+<?php endif; ?>
 
     </div>
 
@@ -240,12 +264,12 @@ $this->beginWidget('bootstrap.widgets.TbHeroUnit', array(
 
     <h3>Перевірка попередньої освіти персони (за напрямом підготовки):</h3>
     <hr />
-     <?php $url = Yii::app()->createUrl("edebo/educationsinfo"); ?>
+<?php $url = Yii::app()->createUrl("edebo/educationsinfo"); ?>
     <form action="<?php echo $url; ?>" method="GET">
         <div class="row-fluid">
             <div class="span12">
                 <?php echo CHtml::label("Спеціальність", "idSpeciality"); ?>
-                <?php echo CHtml::dropDownList("idSpeciality", "", Specialities::DropDown(), array("class" => "span12")); ?>
+            <?php echo CHtml::dropDownList("idSpeciality", "", Specialities::DropDown(), array("class" => "span12")); ?>
             </div>
             <?php
             echo CHtml::submitButton('Отримати', array("class" => "btn btn-primary btn-large"));
