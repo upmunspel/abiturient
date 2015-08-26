@@ -181,8 +181,8 @@ class EdeboController extends Controller {
 
                 $path = Yii::app()->basePath . "/.." . Yii::app()->params['photosBigPath'];
                 $id = $model->idPerson;
-                $tfio = Transliteration::text($model->FirstName) . "_" . Transliteration::text($model->LastName) . "_" . Transliteration::text($model->MiddleName);
-                $file = $path . "person_$id" . "_$tfio.jpg";
+                $tfio = $model->PhotoName;
+                $file = $path .$tfio;
                 if (file_exists($file)) {
                     // $data = file_get_contents($file);
                     //$type = pathinfo($file, PATHINFO_EXTENSION);
@@ -201,12 +201,12 @@ class EdeboController extends Controller {
                         unlink($tmp_name);
                     }
                     if ($res == 1) {
-                        echo $id . " : ok!";
+                        echo $model->codeU . " : ok!";
                     } else {
-                        echo $id . " : error!";
+                        echo $model->codeU . " : error!";
                     }
                 } else {
-                    echo "Фото відсутне!";
+                    echo "Фото відсутне! ($file)";
                 }
             } catch (Exception $ex) {
                 if (file_exists($tmp_name)) {

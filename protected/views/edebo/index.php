@@ -332,7 +332,7 @@ $this->beginWidget('bootstrap.widgets.TbHeroUnit', array(
     EDBO.url = '<?php echo Yii::app()->createUrl("edebo/changestatus"); ?>';
     EDBO.requests = <?php echo empty($res) ? "[]" : $res; ?>;
     EDBO.showInfo = function (i, data) {
-        $("#results").append("<div>" + (i + 1) + ". Заявка " + EDBO.requests[i] + " оброблено з результатом:" + data + " </div><hr style='margin:0px;'/>");
+        $("#results").append("<div>" + (i + 1) + ". Персону  (ID=" + EDBO.requests[i] + ") оброблено з результатом:" + data + " </div><hr style='margin:0px;'/>");
         var y = (i + 1) * 100 / EDBO.requests.length;
         $("#status .bar").width(y + "%");
         $("#status-info .current").html(i + 1);
