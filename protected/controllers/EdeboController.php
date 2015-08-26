@@ -160,11 +160,12 @@ class EdeboController extends Controller {
     }
 
     public function actionPhotosend() {
-        if (isset($_REQUEST["idSpeciality"])){
-            $model = Personspeciality::model()->findAll("SepcialityID = ".$_REQUEST["idSpeciality"]." and StatusID in (7)");
-        }
-        if (isset($_REQUEST["idQualification"])){
-            $model = Personspeciality::model()->findAll("QualificationID = ".$_REQUEST["idQualification"]." and StatusID in (7)");
+        if (isset($_REQUEST["idSpeciality"])) {
+            $model = Personspeciality::model()->findAll("SepcialityID = " . $_REQUEST["idSpeciality"] . " and StatusID in (7)");
+        } elseif (isset($_REQUEST["idQualification"])) {
+            $model = Personspeciality::model()->findAll("QualificationID = " . $_REQUEST["idQualification"] . " and StatusID in (7)");
+        } else {
+            $model = Personspeciality::model()->findAll("StatusID = 7");
         }
         $res = array();
         foreach ($model as $item) {
@@ -183,16 +184,22 @@ class EdeboController extends Controller {
                 $tfio = Transliteration::text($model->FirstName) . "_" . Transliteration::text($model->LastName) . "_" . Transliteration::text($model->MiddleName);
                 $file = $path . "person_$id" . "_$tfio.jpg";
                 if (file_exists($file)) {
-                   // $data = file_get_contents($file);
+                    // $data = file_get_contents($file);
                     //$type = pathinfo($file, PATHINFO_EXTENSION);
                     //$base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
                     $img = EWideImage::loadFromFile($file);
-                    $img->resize(255, null)->saveToFile( $path."_tmp.jpg");
-                    $data = file_get_contents($path . "_tmp.jpg");
-                    
+                    $tmp_name = $path . md5(time()) . ".jpg";
+
+                    $img->resize(255, null)->saveToFile($tmp_name);
+                    $data = file_get_contents($tmp_name);
+
                     $base64 = base64_encode($data);
-                    
+
                     $res = WebServices::updatePersonPhoto($model->codeU, $base64);
+
+                    if (file_exists($tmp_name)) {
+                        unlink($tmp_name);
+                    }
                     if ($res == 1) {
                         echo $id . " : ok!";
                     } else {
@@ -202,6 +209,9 @@ class EdeboController extends Controller {
                     echo "Фото відсутне!";
                 }
             } catch (Exception $ex) {
+                if (file_exists($tmp_name)) {
+                    unlink($tmp_name);
+                }
                 echo $ex->getMessage();
             }
         } else {

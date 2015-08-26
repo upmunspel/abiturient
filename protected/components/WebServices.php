@@ -574,8 +574,8 @@ class WebServices {
             if ($response->isSuccessful()) {
 
                 $res = $response->getBody();
-                Yii::log(print_r($client,1));
-                Yii::log($res);
+               // Yii::log(print_r($client,1));
+               // Yii::log($res);
                 
             } else {
                 throw new Exception(WebServices::$MSG_EDBO_ERROR);

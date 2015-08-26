@@ -230,7 +230,7 @@ $this->beginWidget('bootstrap.widgets.TbHeroUnit', array(
             <p>Буде змінено <?php echo count($request_list); ?> заявок! </p>
             <?php echo CHtml::button('Змінити заявки', array('onclick' => 'EDBO_DOC.run()', "class" => "btn btn-primary btn-large")); ?>
 
-<?php endif; ?>
+        <?php endif; ?>
 
     </div>
 
@@ -264,12 +264,12 @@ $this->beginWidget('bootstrap.widgets.TbHeroUnit', array(
 
     <h3>Перевірка попередньої освіти персони (за напрямом підготовки):</h3>
     <hr />
-<?php $url = Yii::app()->createUrl("edebo/educationsinfo"); ?>
+    <?php $url = Yii::app()->createUrl("edebo/educationsinfo"); ?>
     <form action="<?php echo $url; ?>" method="GET">
         <div class="row-fluid">
             <div class="span12">
                 <?php echo CHtml::label("Спеціальність", "idSpeciality"); ?>
-            <?php echo CHtml::dropDownList("idSpeciality", "", Specialities::DropDown(), array("class" => "span12")); ?>
+                <?php echo CHtml::dropDownList("idSpeciality", "", Specialities::DropDown(), array("class" => "span12")); ?>
             </div>
             <?php
             echo CHtml::submitButton('Отримати', array("class" => "btn btn-primary btn-large"));
@@ -283,19 +283,19 @@ $this->beginWidget('bootstrap.widgets.TbHeroUnit', array(
 
     <h3>Відправка фото до бази ЕДЕБО (за напрямом підготовки):</h3>
     <hr />
-<?php $url = Yii::app()->createUrl("edebo/photosend"); ?>
+    <?php $url = Yii::app()->createUrl("edebo/photosend"); ?>
     <form action="<?php echo $url; ?>" method="GET">
         <div class="row-fluid">
             <div class="span12">
                 <?php echo CHtml::label("Спеціальність", "idSpeciality"); ?>
-            <?php echo CHtml::dropDownList("idSpeciality", "", Specialities::DropDown(), array("class" => "span12")); ?>
+                <?php echo CHtml::dropDownList("idSpeciality", "", Specialities::DropDown(), array("class" => "span12")); ?>
             </div>
             <?php
             echo CHtml::submitButton('Отримати', array("class" => "btn btn-primary btn-large"));
             ?>
         </div>
     </form>
-     <h3>Завантажити статуси заяв (за напрямом підготовки):</h3>
+    <h3>Завантажити статуси заяв (за напрямом підготовки):</h3>
     <hr />
     <div class="row-fluid">
         <div class="span2">
@@ -310,6 +310,19 @@ $this->beginWidget('bootstrap.widgets.TbHeroUnit', array(
             ));
             ?>
         </div>
+
+        <div class="span5">
+            <?php
+            //$url = Yii::app()->user->getEdboSearchUrl() . 'all_requests_statuses_get.jsp?idQualification=';
+            $this->widget("bootstrap.widgets.TbButton", array(
+                'type' => 'primary',
+                "size" => "large",
+                'label' => 'Всі, що до наказу',
+                'url' => $url,
+                'htmlOptions' => array("target" => "_blank"),
+            ));
+            ?>
+        </div
     </div>
 
 </div>
