@@ -65,6 +65,7 @@ class WebServices {
                 return null;
             }
         }
+        Yii::log($res);
         return $res;
     }
 
@@ -557,6 +558,48 @@ class WebServices {
             throw $ex;
         }
         //Yii::log( $res );
+        return $res;
+    }
+    
+    public static function updatePersonPhoto($codeU, $base64) {
+
+        $script = "person_edbo_photo_add.jsp"; //?edboId=" . $edboId . "&base64=".$base64;
+        $srv = Yii::app()->user->getEdboSearchUrl();
+
+        try {
+            $client = new EHttpClient($srv . $script, array('maxredirects' => 30, 'timeout' => 120,));
+            $client->setParameterPost(array("codeU"=> $codeU ,"base64"=>$base64 ));
+            $response = $client->request(EHttpClient::POST);
+
+            if ($response->isSuccessful()) {
+
+                $res = $response->getBody();
+                Yii::log(print_r($client,1));
+                Yii::log($res);
+                
+            } else {
+                throw new Exception(WebServices::$MSG_EDBO_ERROR);
+            }
+
+
+            if ($res === false) {
+                throw new Exception(WebServices::$MSG_EDBO_ERROR);
+            }
+
+            $error = CJSON::decode($res);
+           
+            if ( is_array($error) && isset( $error['error']) ) {
+                throw new Exception($error['error']);
+            }
+            
+        } catch (Exception $ex) {
+            if (defined('YII_DEBUG')) {
+                Yii::log($ex->getMessage(), CLogger::LEVEL_INFO, 'WebServices::updatePersonPhoto');
+            }
+            throw $ex;
+        }
+
+
         return $res;
     }
 

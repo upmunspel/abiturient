@@ -22,7 +22,7 @@ class EdeboController extends Controller {
                 'users' => array('*'),
             ),
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('index', "Changestatus", "Changedoc", "educationsinfo"),
+                'actions' => array('index', "Changestatus", "Changedoc", "educationsinfo", "Photosend", "Photosendproc"),
                 'users' => array('@'),
             ),
             /* array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -49,7 +49,7 @@ class EdeboController extends Controller {
         $request_list = array();
         $idRequestSpeciality = "";
         if (isset($_POST['EdeboStatusChange'])) {
-            
+
             $model->attributes = $_POST['EdeboStatusChange'];
             if ($model->validate()) {
 
@@ -60,23 +60,22 @@ class EdeboController extends Controller {
                 }
             }
         }
-        if (isset($_REQUEST["idRequestSpeciality"])){
+        if (isset($_REQUEST["idRequestSpeciality"])) {
             $idRequestSpeciality = $_REQUEST["idRequestSpeciality"];
-            $models = Personspeciality::model()->findAll("SepcialityID = :id", array("id"=>$_REQUEST["idRequestSpeciality"]));
-            foreach($models as $item){
+            $models = Personspeciality::model()->findAll("SepcialityID = :id", array("id" => $_REQUEST["idRequestSpeciality"]));
+            foreach ($models as $item) {
                 //$item = new Personspeciality();
-                if (!empty($item->edboID)){
-                    $request_list[]=$item->edboID;
+                if (!empty($item->edboID)) {
+                    $request_list[] = $item->edboID;
                 }
             }
             //$request_list = CJSON::encode($request_list);
         }
-        
-        
+
+
         //$res =  CJSON::encode(array(1,2,3,4,5,6,7,8,9,10));
-        
-        $this->render('index', array('model' => $model, 'res' => $res, "request_list"=>$request_list, "idRequestSpeciality"=>$idRequestSpeciality  ));
-        
+
+        $this->render('index', array('model' => $model, 'res' => $res, "request_list" => $request_list, "idRequestSpeciality" => $idRequestSpeciality));
     }
 
     public function actionChangestatus($idPersonRequest, $idStatus, $numberProtocol, $dateProtocol) {
@@ -92,6 +91,7 @@ class EdeboController extends Controller {
             echo "<span style='color: red;'> " . $exc->getMessage() . "</span>";
         }
     }
+
     public function actionChangedoc($edboID) {
         try {
             $res = WebServices::RequestDocStatusChange($edboID);
@@ -105,11 +105,12 @@ class EdeboController extends Controller {
             echo "<span style='color: red;'> " . $exc->getMessage() . "</span>";
         }
     }
+
     public function actionEducationsinfo($idSpeciality) {
-      
-        $this->render("educationsinfo", array("specid"=>$idSpeciality));
+
+        $this->render("educationsinfo", array("specid" => $idSpeciality));
     }
-    
+
     public function actionConvert() {
         /*
           $spec = Personspeciality::model()->findAll("CoursedpID > 0");
@@ -156,6 +157,56 @@ class EdeboController extends Controller {
 
           }
          */
+    }
+
+    public function actionPhotosend() {
+        if (isset($_REQUEST["idSpeciality"])){
+            $model = Personspeciality::model()->findAll("SepcialityID = ".$_REQUEST["idSpeciality"]." and StatusID in (7)");
+        }
+        if (isset($_REQUEST["idQualification"])){
+            $model = Personspeciality::model()->findAll("QualificationID = ".$_REQUEST["idQualification"]." and StatusID in (7)");
+        }
+        $res = array();
+        foreach ($model as $item) {
+            $res[] = $item->person->idPerson;
+        }
+        $this->render("proces/photo", array("res" => json_encode($res)));
+    }
+
+    public function actionPhotosendproc() {
+        if (isset($_REQUEST["idPerson"])) {
+            try {
+                $model = Person::model()->find("idPerson = " . $_REQUEST["idPerson"]);
+
+                $path = Yii::app()->basePath . "/.." . Yii::app()->params['photosBigPath'];
+                $id = $model->idPerson;
+                $tfio = Transliteration::text($model->FirstName) . "_" . Transliteration::text($model->LastName) . "_" . Transliteration::text($model->MiddleName);
+                $file = $path . "person_$id" . "_$tfio.jpg";
+                if (file_exists($file)) {
+                   // $data = file_get_contents($file);
+                    //$type = pathinfo($file, PATHINFO_EXTENSION);
+                    //$base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+                    $img = EWideImage::loadFromFile($file);
+                    $img->resize(255, null)->saveToFile( $path."_tmp.jpg");
+                    $data = file_get_contents($path . "_tmp.jpg");
+                    
+                    $base64 = base64_encode($data);
+                    
+                    $res = WebServices::updatePersonPhoto($model->codeU, $base64);
+                    if ($res == 1) {
+                        echo $id . " : ok!";
+                    } else {
+                        echo $id . " : error!";
+                    }
+                } else {
+                    echo "Фото відсутне!";
+                }
+            } catch (Exception $ex) {
+                echo $ex->getMessage();
+            }
+        } else {
+            echo "Необхыдно вказати ідентифікатор персони.";
+        }
     }
 
 }
