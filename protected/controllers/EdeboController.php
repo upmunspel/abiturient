@@ -22,7 +22,8 @@ class EdeboController extends Controller {
                 'users' => array('*'),
             ),
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('index', "Changestatus", "Changedoc", "educationsinfo", "Photosend", "Photosendproc"),
+                'actions' => array('index', "Changestatus", "Changedoc", "educationsinfo", 
+                    "Photosend", "Photosendproc",  "docsend", "docsendproc"),
                 'users' => array('@'),
             ),
             /* array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -164,12 +165,19 @@ class EdeboController extends Controller {
             $model = Personspeciality::model()->findAll("SepcialityID = " . $_REQUEST["idSpeciality"] . " and StatusID in (7)");
         } elseif (isset($_REQUEST["idQualification"])) {
             $model = Personspeciality::model()->findAll("QualificationID = " . $_REQUEST["idQualification"] . " and StatusID in (7)");
-        } else {
+        } elseif (!isset($_REQUEST["idPersons"])|| trim($_REQUEST["idPersons"]) == "") {
             $model = Personspeciality::model()->findAll("StatusID = 7");
         }
         $res = array();
-        foreach ($model as $item) {
-            $res[] = $item->person->idPerson;
+        if (!isset($_REQUEST["idPersons"]) || trim($_REQUEST["idPersons"]) == "") {
+            foreach ($model as $item) {
+                $res[] = $item->person->idPerson;
+            }
+        } else {
+            $model = Person::model()->findAll("idPerson in (" . $_REQUEST["idPersons"] . ")");
+            foreach ($model as $item) {
+                $res[] = $item->idPerson;
+            }
         }
         $this->render("proces/photo", array("res" => json_encode($res)));
     }
@@ -182,7 +190,7 @@ class EdeboController extends Controller {
                 $path = Yii::app()->basePath . "/.." . Yii::app()->params['photosBigPath'];
                 $id = $model->idPerson;
                 $tfio = $model->PhotoName;
-                $file = $path .$tfio;
+                $file = $path . $tfio;
                 if (file_exists($file)) {
                     // $data = file_get_contents($file);
                     //$type = pathinfo($file, PATHINFO_EXTENSION);
@@ -212,6 +220,56 @@ class EdeboController extends Controller {
                 if (file_exists($tmp_name)) {
                     unlink($tmp_name);
                 }
+                echo $ex->getMessage();
+            }
+        } else {
+            echo "Необхыдно вказати ідентифікатор персони.";
+        }
+    }
+    
+    public function actionDocsend() {
+        if (isset($_REQUEST["idSpeciality"])) {
+            $model = Personspeciality::model()->findAll("SepcialityID = " . $_REQUEST["idSpeciality"] . " and StatusID in (7)");
+        } elseif (isset($_REQUEST["idQualification"])) {
+            $model = Personspeciality::model()->findAll("QualificationID = " . $_REQUEST["idQualification"] . " and StatusID in (7)");
+        } elseif (!isset($_REQUEST["idPersons"])|| trim($_REQUEST["idPersons"]) == "") {
+            $model = Personspeciality::model()->findAll("StatusID = 7");
+        }
+        $res = array();
+        if (!isset($_REQUEST["idPersons"]) || trim($_REQUEST["idPersons"]) == "") {
+            foreach ($model as $item) {
+                $res[] = $item->person->idPerson;
+            }
+        } else {
+            $model = Person::model()->findAll("idPerson in (" . $_REQUEST["idPersons"] . ")");
+            foreach ($model as $item) {
+                $res[] = $item->idPerson;
+            }
+        }
+        $this->render("proces/doc", array("res" => json_encode($res)));
+    }
+
+    public function actionDocsendproc() {
+        if (isset($_REQUEST["idPerson"])) {
+            try {
+                $res = WebServices::updatePersonDoc($_REQUEST["idPerson"]);
+                $msg = "<ul>";
+                $res = CJSON::decode($res);
+                
+                foreach($res as $item){
+                    $item = (object)$item;
+                    $doc = PersonDocumentTypes::model()->find("idPersonDocumentTypes = ".$item->idType);
+                    $msg.= "<li>".$doc->PersonDocumentTypesName." - ";
+                    if ($item->editStatus == 1){
+                      $msg.= "ок!";
+                    } else {
+                       $msg.= "error! - ".$item->message; 
+                    }
+                    $msg.="</li>";
+                }
+                $msg.= "</ul>";
+                echo $msg;
+            } catch (Exception $ex) {
                 echo $ex->getMessage();
             }
         } else {
