@@ -89,7 +89,7 @@
             array(
                 'class' => 'bootstrap.widgets.TbMenu',
                 'items' => array(
-                    array('label' => 'Рейтинги', 'url' => array('/rating'), "icon"=>"icon-list"),
+                    array('label' => 'Рейтинги', 'url' => array('/rating'), "icon"=>"icon-list", 'visible' => !Yii::app()->user->checkAccess('showStatements')),
                     array('label' => 'Контакти', 'url' => array('/site/contact'), "icon" => "icon-envelope", 'visible' => Yii::app()->user->isGuest),
                     array('label' => 'Довідники', 'visible' => Yii::app()->user->checkAccess('showDirectiries'),
                         'url' => '#', "icon" => "icon-book", 'items' => Directories::listMenu()),
